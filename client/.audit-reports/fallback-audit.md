@@ -6,453 +6,435 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ## Summary
 
-- Files scanned: **589**
-- Files with issues: **158**
-- Issues found: **492**
+- Files scanned: **599**
+- Files with issues: **159**
+- Issues found: **496**
 - Critical: 0
-- Warnings: 492
+- Warnings: 496
 
 ## Issues by File (sorted by priority)
 
 ### `client/src/utils/transformers/appointmentToWizardTransformer.ts` [P0] (score: 39)
 
-- **WARNING** (line 92): Found "Legacy code" keyword: legacy
+- **WARNING** (line 87): Found "Legacy code" keyword: legacy
   ```
   differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 100): Found "Legacy code" keyword: legacy
+- **WARNING** (line 95): Found "Legacy code" keyword: legacy
   ```
   onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 101): Found "Legacy code" keyword: legacy
+- **WARNING** (line 96): Found "Legacy code" keyword: legacy
   ```
   clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 137): Found Type suppression
+- **WARNING** (line 132): Found Type suppression
   ```
   // @ts-expect-error - Unused function kept for future migration support
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 219): Found Logical OR with default string
+- **WARNING** (line 208): Found Logical OR with default string
   ```
   name: pi.name || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 227): Found Optional chaining with default value
+- **WARNING** (line 214): Found Optional chaining with default value
   ```
   active: currentPart?.active ?? true,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 228): Found Optional chaining with default value
+- **WARNING** (line 215): Found Optional chaining with default value
   ```
   orderIndex: currentPart?.orderIndex ?? 0,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 229): Found Logical OR with default string
+- **WARNING** (line 216): Found Logical OR with default string
   ```
   partShape: currentPart?.partShape || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 231): Found Optional chaining with default value
+- **WARNING** (line 218): Found Optional chaining with default value
   ```
   zeroOutPart: currentPart?.zeroOutPart ?? false, // BookingPartInstance requires zeroOutPart field
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 240): Found Logical OR with default string
+- **WARNING** (line 226): Found Logical OR with default string
   ```
   icon: version.icon || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 278): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 263): Found "Fallback patterns" keyword: fallback
   ```
   const fallback = findBlockInstanceById(bookingData, userTypeId)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 279): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 264): Found "Fallback patterns" keyword: fallback
   ```
   if (fallback) {
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 479): Found Nullish coalescing with default string
+- **WARNING** (line 423): Found Nullish coalescing with default string
   ```
   address: address?.address ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 479): Found Optional chaining with default value
+- **WARNING** (line 423): Found Optional chaining with default value
   ```
   address: address?.address ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 480): Found Nullish coalescing with default string
+- **WARNING** (line 424): Found Nullish coalescing with default string
   ```
   unit: address?.unit ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 480): Found Optional chaining with default value
+- **WARNING** (line 424): Found Optional chaining with default value
   ```
   unit: address?.unit ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 481): Found Nullish coalescing with default string
+- **WARNING** (line 425): Found Nullish coalescing with default string
   ```
   city: address?.city ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 481): Found Optional chaining with default value
+- **WARNING** (line 425): Found Optional chaining with default value
   ```
   city: address?.city ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 482): Found Nullish coalescing with default string
+- **WARNING** (line 426): Found Nullish coalescing with default string
   ```
   state: address?.state ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 482): Found Optional chaining with default value
+- **WARNING** (line 426): Found Optional chaining with default value
   ```
   state: address?.state ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 483): Found Nullish coalescing with default string
+- **WARNING** (line 427): Found Nullish coalescing with default string
   ```
   zipCode: address?.zipCode ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 483): Found Optional chaining with default value
+- **WARNING** (line 427): Found Optional chaining with default value
   ```
   zipCode: address?.zipCode ?? '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 486): Found Optional chaining with default value
+- **WARNING** (line 429): Found Optional chaining with default value
   ```
   propertySize: propertyDetailsRecord?.squareFootage ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 487): Found Optional chaining with default value
+- **WARNING** (line 430): Found Optional chaining with default value
   ```
   numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 489): Found Optional chaining with default value
+- **WARNING** (line 432): Found Optional chaining with default value
   ```
   squareFootage: propertyDetailsRecord?.squareFootage ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 490): Found Optional chaining with default value
+- **WARNING** (line 433): Found Optional chaining with default value
   ```
   bedrooms: propertyDetailsRecord?.bedrooms ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 491): Found Optional chaining with default value
+- **WARNING** (line 434): Found Optional chaining with default value
   ```
   bathrooms: propertyDetailsRecord?.bathrooms ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 493): Found Optional chaining with default value
+- **WARNING** (line 436): Found Optional chaining with default value
   ```
   additionalUnits: propertyDetailsRecord?.additionalUnits ?? null,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 504): Found Logical OR with default string
+- **WARNING** (line 456): Found Logical OR with default string
   ```
-  const role = (contact.role as string) || 'anotherClient'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 506): Found Logical OR with default string
-  ```
-  firstName: (contact.firstName as string) || '',
+  const role = attendee.userTypeBlockInstance?.name?.toLowerCase() || 'anotherClient'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 507): Found Logical OR with default string
+- **WARNING** (line 458): Found Logical OR with default string
   ```
-  lastName: (contact.lastName as string) || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 508): Found Logical OR with default string
-  ```
-  email: (contact.email as string) || '',
+  firstName: user?.firstName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 515): Found Logical OR with default string
+- **WARNING** (line 459): Found Logical OR with default string
   ```
-  firstName: client?.firstName || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 516): Found Logical OR with default string
-  ```
-  lastName: client?.lastName || '',
+  lastName: user?.lastName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 517): Found Logical OR with default string
+- **WARNING** (line 460): Found Logical OR with default string
   ```
-  email: client?.email || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 520): Found Logical OR with default string
-  ```
-  firstName: agent?.firstName || '',
+  email: user?.email || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 521): Found Logical OR with default string
+- **WARNING** (line 467): Found Logical OR with default string
   ```
-  lastName: agent?.lastName || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 522): Found Logical OR with default string
-  ```
-  email: agent?.email || '',
+  firstName: clientAttendee?.user?.firstName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 538): Found Logical OR with default string
+- **WARNING** (line 468): Found Logical OR with default string
+  ```
+  lastName: clientAttendee?.user?.lastName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 469): Found Logical OR with default string
+  ```
+  email: clientAttendee?.user?.email || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 472): Found Logical OR with default string
+  ```
+  firstName: agentAttendee?.user?.firstName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 473): Found Logical OR with default string
+  ```
+  lastName: agentAttendee?.user?.lastName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 474): Found Logical OR with default string
+  ```
+  email: agentAttendee?.user?.email || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 488): Found Logical OR with default string
   ```
   time: (slot.startTime as RFC3339DateTime) || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/types/appointment.ts` [P0] (score: 19)
+### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P0] (score: 16)
 
-- **WARNING** (line 220): Found "Legacy code" keyword: legacy
+- **WARNING** (line 99): Found Logical OR with default string
   ```
-  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
+  title: bi.name || `Block ${bi.id}`,
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 221): Found "Legacy code" keyword: legacy
+- **WARNING** (line 127): Found Logical OR with default string
   ```
-  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
+  get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 222): Found "Legacy code" keyword: legacy
+- **WARNING** (line 138): Found Logical OR with default string
   ```
-  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
+  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 276): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 149): Found Logical OR with default string
   ```
-  propertyId?: string | null; // Deprecated, kept for migration compatibility
+  get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time...
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 280): Found "Deprecated code" keyword: deprecated
-  ```
-  selectedPropertyTypeBlockIds?: string[] | null; // JSONB array - replaces propertyTypeBlockId (depre...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 283): Found "Deprecated code" keyword: deprecated
-  ```
-  selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 286): Found "Deprecated code" keyword: deprecated
-  ```
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of sele...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 287): Found "Deprecated code" keyword: deprecated
-  ```
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of sel...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 288): Found "Deprecated code" keyword: deprecated
-  ```
-  optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSn...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 289): Found "Deprecated code" keyword: deprecated
-  ```
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selec...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 357): Found "Deprecated code" keyword: deprecated
-  ```
-  propertyId?: string | null; // Deprecated, kept for migration compatibility
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 359): Found "Deprecated code" keyword: deprecated
-  ```
-  userTypeBlockId?: string | null; // Deprecated, kept for backward compatibility
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 372): Found "Deprecated code" keyword: deprecated
-  ```
-  selectedPropertyTypeBlockIds?: string[] | null; // JSONB array - replaces propertyTypeBlockId (depre...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 375): Found "Deprecated code" keyword: deprecated
-  ```
-  selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 378): Found "Deprecated code" keyword: deprecated
-  ```
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of sele...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 379): Found "Deprecated code" keyword: deprecated
-  ```
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of sel...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 380): Found "Deprecated code" keyword: deprecated
-  ```
-  optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSn...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 381): Found "Deprecated code" keyword: deprecated
-  ```
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selec...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 407): Found "Deprecated code" keyword: deprecated
-  ```
-  property?: PropertyResponse; // Deprecated, kept for migration compatibility
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `client/src/composables/booking/useContactsStepData.ts` [P0] (score: 15)
+  💡 Review for removal - prefer explicit error handling or type safety
 
 - **WARNING** (line 160): Found Logical OR with default string
   ```
-  firstName: contacts.client.firstName || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 161): Found Logical OR with default string
-  ```
-  lastName: contacts.client.lastName || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 162): Found Logical OR with default string
-  ```
-  email: contacts.client.email || ''
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 169): Found Logical OR with default string
-  ```
-  firstName: contacts.agent.firstName || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 170): Found Logical OR with default string
-  ```
-  lastName: contacts.agent.lastName || '',
+  get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
 - **WARNING** (line 171): Found Logical OR with default string
   ```
+  get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 394): Found "Default values" keyword: default
+  ```
+  minutes: 60 // Default 1 hour
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 407): Found "Default values" keyword: default
+  ```
+  getDefault: () => 60, // Default 1 hour
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 466): Found Optional chaining with default value
+  ```
+  get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 478): Found Optional chaining with default value
+  ```
+  get: () => formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider,
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 490): Found Nullish coalescing with default string
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.primary ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 490): Found Optional chaining with default value
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.primary ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 502): Found Nullish coalescing with default string
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.work ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 502): Found Optional chaining with default value
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.work ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 514): Found Nullish coalescing with default string
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.personal ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 514): Found Optional chaining with default value
+  ```
+  get: () => formData.value?.calendarConfig?.calendars?.personal ?? '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `client/src/composables/booking/useContactsStepData.ts` [P0] (score: 15)
+
+- **WARNING** (line 141): Found Logical OR with default string
+  ```
+  firstName: contacts.client.firstName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 142): Found Logical OR with default string
+  ```
+  lastName: contacts.client.lastName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 143): Found Logical OR with default string
+  ```
+  email: contacts.client.email || ''
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 149): Found Logical OR with default string
+  ```
+  firstName: contacts.agent.firstName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 150): Found Logical OR with default string
+  ```
+  lastName: contacts.agent.lastName || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 151): Found Logical OR with default string
+  ```
   email: contacts.agent.email || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 183): Found Logical OR with default string
+- **WARNING** (line 161): Found Logical OR with default string
   ```
   firstName: anotherClientContact.firstName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 184): Found Logical OR with default string
+- **WARNING** (line 162): Found Logical OR with default string
   ```
   lastName: anotherClientContact.lastName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 185): Found Logical OR with default string
+- **WARNING** (line 163): Found Logical OR with default string
   ```
   email: anotherClientContact.email || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 193): Found Logical OR with default string
+- **WARNING** (line 171): Found Logical OR with default string
   ```
   firstName: transactionManagerContact.firstName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 194): Found Logical OR with default string
+- **WARNING** (line 172): Found Logical OR with default string
   ```
   lastName: transactionManagerContact.lastName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 195): Found Logical OR with default string
+- **WARNING** (line 173): Found Logical OR with default string
   ```
   email: transactionManagerContact.email || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 203): Found Logical OR with default string
+- **WARNING** (line 181): Found Logical OR with default string
   ```
   firstName: sellerContact.firstName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 204): Found Logical OR with default string
+- **WARNING** (line 182): Found Logical OR with default string
   ```
   lastName: sellerContact.lastName || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 205): Found Logical OR with default string
+- **WARNING** (line 183): Found Logical OR with default string
   ```
   email: sellerContact.email || ''
   ```
@@ -538,125 +520,63 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/types/admin/AdminEntity.ts` [P0] (score: 10)
-
-- **WARNING** (line 91): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 141): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 172): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 185): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 195): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 209): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 221): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 231): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 245): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 266): Found Type suppression
-  ```
-  // @ts-expect-error - Method signature doesn't match index signature, but methods are accessed direc...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
 ### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P0] (score: 10)
 
-- **WARNING** (line 88): Found Nullish coalescing with default string
+- **WARNING** (line 80): Found Nullish coalescing with default string
   ```
   const parentKind = config?.parentEntity ?? ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 88): Found Optional chaining with default value
+- **WARNING** (line 80): Found Optional chaining with default value
   ```
   const parentKind = config?.parentEntity ?? ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 89): Found Nullish coalescing with default string
+- **WARNING** (line 81): Found Nullish coalescing with default string
   ```
   const childKind = config?.childEntity ?? ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 89): Found Optional chaining with default value
+- **WARNING** (line 81): Found Optional chaining with default value
   ```
   const childKind = config?.childEntity ?? ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 129): Found Nullish coalescing with default string
+- **WARNING** (line 108): Found Nullish coalescing with default string
   ```
   id: (raw.id ?? '') as GlobalEntityId,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 133): Found Nullish coalescing with default string
+- **WARNING** (line 112): Found Nullish coalescing with default string
   ```
   parent_id: (parentId ?? '') as GlobalEntityId,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 134): Found Nullish coalescing with default string
+- **WARNING** (line 113): Found Nullish coalescing with default string
   ```
   child_id: (childId ?? '') as GlobalEntityId,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 512): Found "Default values" keyword: default
+- **WARNING** (line 433): Found "Default values" keyword: default
   ```
   return [frontendKey, false] // Required booleans default to false
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 514): Found "Default values" keyword: default
+- **WARNING** (line 435): Found "Default values" keyword: default
   ```
   return [frontendKey, 0] // Required numbers default to 0
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 516): Found "Default values" keyword: default
+- **WARNING** (line 437): Found "Default values" keyword: default
   ```
   return [frontendKey, ''] // Required strings default to empty string
   ```
@@ -664,61 +584,61 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/scripts/importCalendarData.ts` [P0] (score: 10)
 
-- **WARNING** (line 134): Found Logical OR with default string
+- **WARNING** (line 97): Found Logical OR with default string
   ```
   city: parts[1] || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 135): Found Logical OR with default string
+- **WARNING** (line 98): Found Logical OR with default string
   ```
   state: parts[2]?.substring(0, 2).toUpperCase() || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 136): Found Logical OR with default string
+- **WARNING** (line 99): Found Logical OR with default string
   ```
   zipCode: parts[parts.length - 1]?.match(/\d{5}/)?.[0] || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 177): Found Logical OR with default string
+- **WARNING** (line 138): Found Logical OR with default string
   ```
   city: city || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 178): Found Logical OR with default string
+- **WARNING** (line 139): Found Logical OR with default string
   ```
   state: state?.toUpperCase() || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 179): Found Logical OR with default string
+- **WARNING** (line 140): Found Logical OR with default string
   ```
   zipCode: zipCode || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 220): Found Logical OR with default string
+- **WARNING** (line 174): Found Logical OR with default string
   ```
   firstName: firstName || 'Unknown',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 221): Found Logical OR with default string
+- **WARNING** (line 175): Found Logical OR with default string
   ```
   lastName: lastName || 'Client',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 236): Found Logical OR with default string
+- **WARNING** (line 185): Found Logical OR with default string
   ```
   const addressSource = event.location || event.description || event.summary || '';
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 380): Found Logical OR with default string
+- **WARNING** (line 407): Found Logical OR with default string
   ```
   const organizerEmail = process.env.ORGANIZER_EMAIL || 'will@districthomepro.com';
   ```
@@ -782,57 +702,113 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/fieldContext/useFieldContextState.ts` [P0] (score: 9)
 
-- **WARNING** (line 148): Found Nullish coalescing with default string
+- **WARNING** (line 136): Found Nullish coalescing with default string
   ```
   return (propValue as ValidAdminValue | undefined) ?? ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 218): Found Nullish coalescing with default string
+- **WARNING** (line 199): Found Nullish coalescing with default string
   ```
   initialValue: (initialValue ?? '') as ValidAdminValue,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 252): Found "Default values" keyword: default
+- **WARNING** (line 229): Found "Default values" keyword: default
   ```
   const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 256): Found "Default values" keyword: default
+- **WARNING** (line 233): Found "Default values" keyword: default
   ```
   placeholder: providedDisplayConfig.placeholder ?? undefined, // No default - undefined if not provid...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 257): Found "Default values" keyword: default
+- **WARNING** (line 234): Found "Default values" keyword: default
   ```
   helpText: providedDisplayConfig.helpText ?? undefined, // No default - undefined if not provided
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 258): Found "Default values" keyword: default
+- **WARNING** (line 235): Found "Default values" keyword: default
   ```
   required: providedDisplayConfig.required === true, // Explicit boolean, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 259): Found "Default values" keyword: default
+- **WARNING** (line 236): Found "Default values" keyword: default
   ```
   disabled: providedDisplayConfig.disabled === true, // Explicit boolean, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 260): Found "Default values" keyword: default
+- **WARNING** (line 237): Found "Default values" keyword: default
   ```
   readOnly: providedDisplayConfig.readOnly === true, // Explicit boolean, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 262): Found "Default values" keyword: default
+- **WARNING** (line 239): Found "Default values" keyword: default
   ```
   displayOrder: providedDisplayConfig.displayOrder, // No default - undefined if not provided
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+### `client/src/vite-env.d.ts` [P0] (score: 9)
+
+- **WARNING** (line 33): Found "Default values" keyword: default
+  ```
+  export default component
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 44): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 55): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 66): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 71): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 76): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 81): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 86): Found "Default values" keyword: default
+  ```
+  export default content
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 104): Found "Default values" keyword: default
+  ```
+  export default ShepherdClass
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
@@ -894,103 +870,53 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/differentialScheduling.ts` [P0] (score: 8)
 
-- **WARNING** (line 162): Found Optional chaining with default value
+- **WARNING** (line 143): Found Optional chaining with default value
   ```
-  const majorDuration = majorEventFinal?.duration ?? 0
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 163): Found Optional chaining with default value
-  ```
-  const minorDuration = minorEventFinal?.duration ?? 0
+  const majorDuration = majorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 178): Found Nullish coalescing with default string
+- **WARNING** (line 144): Found Optional chaining with default value
+  ```
+  const minorDuration = minorEventFinal?.roundedDuration ?? 0
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 154): Found Nullish coalescing with default string
   ```
   const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 179): Found Nullish coalescing with default string
+- **WARNING** (line 155): Found Nullish coalescing with default string
   ```
   const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 268): Found Optional chaining with default value
+- **WARNING** (line 236): Found Optional chaining with default value
   ```
-  const majorTotal = majorEventFinal?.duration ?? 0
+  const majorTotal = majorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 283): Found Nullish coalescing with default string
+- **WARNING** (line 246): Found Nullish coalescing with default string
   ```
   const majorEventName = majorEventFinal?.eventShape.name ?? 'Major'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 284): Found Nullish coalescing with default string
+- **WARNING** (line 247): Found Nullish coalescing with default string
   ```
   const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 287): Found Optional chaining with default value
+- **WARNING** (line 250): Found Optional chaining with default value
   ```
-  const minorDuration = minorEventFinal?.duration ?? 0
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P0] (score: 8)
-
-- **WARNING** (line 122): Found Logical OR with default string
-  ```
-  title: bi.name || `Block ${bi.id}`,
+  const minorDuration = minorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 153): Found Logical OR with default string
-  ```
-  get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 164): Found Logical OR with default string
-  ```
-  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 175): Found Logical OR with default string
-  ```
-  get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time...
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 186): Found Logical OR with default string
-  ```
-  get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 197): Found Logical OR with default string
-  ```
-  get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 445): Found "Default values" keyword: default
-  ```
-  minutes: 60 // Default 1 hour
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 461): Found "Default values" keyword: default
-  ```
-  getDefault: () => 60, // Default 1 hour
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
 ### `server/src/scripts/manual-migrate-fieldmetadata.mjs` [P0] (score: 8)
 
@@ -1044,43 +970,43 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/views/admin/tabs/BusinessRulesTab.vue` [P0] (score: 7)
 
-- **WARNING** (line 42): Found Logical OR with default string
+- **WARNING** (line 37): Found Logical OR with default string
   ```
   title: bi.name || `Block ${bi.id}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 61): Found Logical OR with default string
+- **WARNING** (line 47): Found Logical OR with default string
   ```
   title: ai.name || `Annotation ${ai.id}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 119): Found Logical OR with default string
+- **WARNING** (line 102): Found Logical OR with default string
   ```
   blockInstanceId: selectedBlockId.value || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 154): Found Logical OR with default string
+- **WARNING** (line 137): Found Logical OR with default string
   ```
   blockInstanceId: selectedBlockId.value || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 222): Found "Default values" keyword: default
+- **WARNING** (line 183): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 236): Found Logical OR with default string
+- **WARNING** (line 197): Found Logical OR with default string
   ```
   return config.fields?.join(', ') || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 253): Found Logical OR with default string
+- **WARNING** (line 214): Found Logical OR with default string
   ```
   return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition || ''
   ```
@@ -1132,117 +1058,155 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts` [P0] (score: 6)
 
-- **WARNING** (line 33): Found "Legacy code" keyword: legacy
+- **WARNING** (line 29): Found "Legacy code" keyword: legacy
   ```
   major: TimeBlock  // Major perspective (legacy name)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 34): Found "Legacy code" keyword: legacy
+- **WARNING** (line 30): Found "Legacy code" keyword: legacy
   ```
   minor: TimeBlock | null  // Minor perspective (legacy name)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 91): Found Logical OR with default string
+- **WARNING** (line 72): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 94): Found Logical OR with default string
+- **WARNING** (line 75): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 110): Found Optional chaining with default value
+- **WARNING** (line 91): Found Optional chaining with default value
   ```
-  const unroundedTotal = majorEventFinal?.duration ?? 0
+  return majorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 130): Found Optional chaining with default value
+- **WARNING** (line 107): Found Optional chaining with default value
   ```
-  return minorEventFinal?.duration ?? 0
+  return minorEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/composables/formFields/useFormFieldsContext.ts` [P0] (score: 6)
 
-- **WARNING** (line 251): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 211): Found "Fallback patterns" keyword: fallback
   ```
   label: meta.label || fieldKey, // Fallback to fieldKey if label missing
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 252): Found "Default values" keyword: default
+- **WARNING** (line 212): Found "Default values" keyword: default
   ```
   placeholder: (meta as { placeholder?: string }).placeholder ?? undefined, // No default - undefined ...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 254): Found "Default values" keyword: default
+- **WARNING** (line 214): Found "Default values" keyword: default
   ```
   required: meta.isRequired === true, // Explicit boolean check, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 255): Found "Default values" keyword: default
+- **WARNING** (line 215): Found "Default values" keyword: default
   ```
   disabled: (meta as { disabled?: boolean }).disabled === true, // Explicit boolean check, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 256): Found "Default values" keyword: default
+- **WARNING** (line 216): Found "Default values" keyword: default
   ```
   readOnly: (meta as { readOnly?: boolean }).readOnly === true, // Explicit boolean check, no default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 257): Found "Default values" keyword: default
+- **WARNING** (line 217): Found "Default values" keyword: default
   ```
   helpText: (meta as { helpText?: string }).helpText, // No default - undefined if not in metadata
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-### `server/src/config/app.ts` [P0] (score: 6)
+### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 6)
 
-- **WARNING** (line 8): Found Logical OR with default string
+- **WARNING** (line 124): Found Logical OR with default string
   ```
-  // console.log(`🟡 Loading .env from: ./env.${process.env.NODE_ENV || "development"}`);
+  message: error.message || 'An unexpected error occurred'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 13): Found Logical OR with default string
+- **WARNING** (line 226): Found Logical OR with default string
   ```
-  const envFile = `./.env.${process.env.NODE_ENV || "development"}`;
+  message: error.message || 'An unexpected error occurred'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 26): Found "Default values" keyword: default
+- **WARNING** (line 434): Found Logical OR with default string
   ```
-  NODE_ENV: Joi.string().valid("development", "test", "production").default("development"),
+  message: error.message || 'An unexpected error occurred'
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 27): Found "Default values" keyword: default
+- **WARNING** (line 482): Found Logical OR with default string
   ```
-  PORT: Joi.number().default(3000),
+  message: error.message || 'An unexpected error occurred'
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 32): Found "Default values" keyword: default
+- **WARNING** (line 523): Found Logical OR with default string
   ```
-  DB_PORT: Joi.number().default(5432),
+  message: error.message || 'An unexpected error occurred'
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 88): Found "Default values" keyword: default
+- **WARNING** (line 548): Found Logical OR with default string
   ```
-  export default {
+  message: error.message || 'An unexpected error occurred'
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `server/src/routes/internal/users/userRouter.ts` [P0] (score: 6)
+
+- **WARNING** (line 80): Found Logical OR with default string
+  ```
+  const fieldName = err.path || 'field';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 81): Found Logical OR with default string
+  ```
+  const message = err.message || 'Validation error';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 139): Found Logical OR with default string
+  ```
+  const fieldName = err.path || 'field';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 140): Found Logical OR with default string
+  ```
+  const message = err.message || 'Validation error';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 197): Found Logical OR with default string
+  ```
+  const fieldName = err.path || 'field';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 198): Found Logical OR with default string
+  ```
+  const message = err.message || 'Validation error';
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `server/src/scripts/check-layout-configs.mjs` [P0] (score: 6)
 
@@ -1358,33 +1322,65 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
+### `client/src/components/admin/dev/ApiDevPanel.vue` [P0] (score: 5)
+
+- **WARNING** (line 48): Found Logical OR with default string
+  ```
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 60): Found Logical OR with default string
+  ```
+  errors.value.oauth = error.response?.data?.message || error.message || 'Failed to fetch OAuth status...
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 77): Found Logical OR with default string
+  ```
+  errors.value.freebusy = error.response?.data?.message || error.message || 'Failed to fetch free-busy...
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 94): Found Logical OR with default string
+  ```
+  errors.value.events = error.response?.data?.message || error.message || 'Failed to fetch events cach...
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 111): Found Logical OR with default string
+  ```
+  errors.value.ratelimit = error.response?.data?.message || error.message || 'Failed to fetch rate lim...
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
 ### `client/src/components/booking/DifferentialGraph.vue` [P0] (score: 5)
 
-- **WARNING** (line 44): Found Logical OR with default string
+- **WARNING** (line 42): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 47): Found Logical OR with default string
+- **WARNING** (line 45): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 53): Found Logical OR with default string
+- **WARNING** (line 49): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 59): Found Logical OR with default string
+- **WARNING** (line 54): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.majorStateLabel || `Showing ${majorLabel.value...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 62): Found Logical OR with default string
+- **WARNING** (line 57): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.minorStateLabel || `Showing ${minorLabel.value...
   ```
@@ -1424,31 +1420,31 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAppointmentSlots.ts` [P0] (score: 5)
 
-- **WARNING** (line 48): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 42): Found "Fallback patterns" keyword: fallback
   ```
   timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fall...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 313): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 235): Found "Fallback patterns" keyword: fallback
   ```
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 326): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 244): Found "Fallback patterns" keyword: fallback
   ```
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 356): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 264): Found "Fallback patterns" keyword: fallback
   ```
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 363): Found Optional chaining with default value
+- **WARNING** (line 269): Found Optional chaining with default value
   ```
   const minorEventName = minorEventShape?.name ?? null
   ```
@@ -1456,65 +1452,65 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/booking/timeAvailabilityManager.ts` [P0] (score: 5)
 
-- **WARNING** (line 729): Found Logical OR with default string
+- **WARNING** (line 651): Found Logical OR with default string
   ```
   direction: constraint.type === 'rollingWeek' ? (constraint.direction || 'past') : undefined
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 1107): Found Logical OR with default string
+- **WARNING** (line 998): Found Logical OR with default string
   ```
   keyParts.direction || 'past'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 1237): Found Logical OR with default string
+- **WARNING** (line 1116): Found Logical OR with default string
   ```
   `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 1252): Found Logical OR with default string
+- **WARNING** (line 1131): Found Logical OR with default string
   ```
   `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 1267): Found Logical OR with default string
+- **WARNING** (line 1146): Found Logical OR with default string
   ```
   `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/utils/entityDefaults.ts` [P0] (score: 5)
+### `server/src/config/app.ts` [P0] (score: 5)
 
-- **WARNING** (line 157): Found Type suppression
+- **WARNING** (line 8): Found Logical OR with default string
   ```
-  // @ts-expect-error - Deprecated constant kept for reference only
+  const envFile = `./.env.${process.env.NODE_ENV || "development"}`;
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 161): Found "Default values" keyword: default
+- **WARNING** (line 19): Found "Default values" keyword: default
   ```
-  composable: false, // Boolean field must have explicit default
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 162): Found "Default values" keyword: default
-  ```
-  canHaveParts: false, // Boolean field must have explicit default
+  NODE_ENV: Joi.string().valid("development", "test", "production").default("development"),
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 163): Found "Default values" keyword: default
+- **WARNING** (line 20): Found "Default values" keyword: default
   ```
-  isStateControl: false, // Boolean field must have explicit default
+  PORT: Joi.number().default(3000),
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 169): Found "Default values" keyword: default
+- **WARNING** (line 25): Found "Default values" keyword: default
   ```
-  composite: false, // Boolean field must have explicit default
+  DB_PORT: Joi.number().default(5432),
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 76): Found "Default values" keyword: default
+  ```
+  export default {
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
@@ -1616,31 +1612,31 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/test/setup/testDb.ts` [P0] (score: 5)
 
-- **WARNING** (line 17): Found Logical OR with default string
+- **WARNING** (line 8): Found Logical OR with default string
   ```
   const dbName = process.env.TEST_DB_NAME || 'scheduler_test'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 18): Found Logical OR with default string
+- **WARNING** (line 9): Found Logical OR with default string
   ```
   const dbUser = process.env.DB_USER || 'postgres'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 19): Found Logical OR with default string
+- **WARNING** (line 10): Found Logical OR with default string
   ```
   const dbPassword = process.env.DB_PASSWORD || 'postgres'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 20): Found Logical OR with default string
+- **WARNING** (line 11): Found Logical OR with default string
   ```
   const dbHost = process.env.DB_HOST || 'localhost'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 21): Found Logical OR with default string
+- **WARNING** (line 12): Found Logical OR with default string
   ```
   const dbPort = parseInt(process.env.DB_PORT || '5432')
   ```
@@ -1648,25 +1644,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useEntityDisplay.ts` [P1] (score: 4)
 
-- **WARNING** (line 58): Found Logical OR with default string
+- **WARNING** (line 54): Found Logical OR with default string
   ```
   return String(value || '')
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 62): Found Logical OR with default string
+- **WARNING** (line 57): Found Logical OR with default string
   ```
   return entity.name || `${entityKey} ${entity.id}`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 64): Found Logical OR with default string
+- **WARNING** (line 59): Found Logical OR with default string
   ```
   return entity.name || `${entityKey} ${entity.id}`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 77): Found Logical OR with default string
+- **WARNING** (line 72): Found Logical OR with default string
   ```
   return entity.name || `${entityKey} ${entity.id}`
   ```
@@ -1674,25 +1670,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useDependentInstances.ts` [P1] (score: 4)
 
-- **WARNING** (line 136): Found Logical OR with default string
+- **WARNING** (line 111): Found Logical OR with default string
   ```
   icon: (entity as unknown as Record<string, unknown>).icon as string || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 138): Found Nullish coalescing with default string
+- **WARNING** (line 113): Found Nullish coalescing with default string
   ```
   bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bo...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 143): Found Logical OR with default string
+- **WARNING** (line 117): Found Logical OR with default string
   ```
   blockShape: (entity as unknown as Record<string, unknown>).blockShape as string || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 144): Found Logical OR with default string
+- **WARNING** (line 118): Found Logical OR with default string
   ```
   blockShapeRef: (entity as unknown as Record<string, unknown>).blockShapeRef as string || '',
   ```
@@ -1700,25 +1696,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useFormValidation.ts` [P1] (score: 4)
 
-- **WARNING** (line 104): Found Logical OR with default string
+- **WARNING** (line 86): Found Logical OR with default string
   ```
   const errorMessage = message || `Must be at least ${min} characters`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 119): Found Logical OR with default string
+- **WARNING** (line 101): Found Logical OR with default string
   ```
   const errorMessage = message || `Must be no more than ${max} characters`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 135): Found Logical OR with default string
+- **WARNING** (line 117): Found Logical OR with default string
   ```
   const errorMessage = message || `Must be at least ${minValue}`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 151): Found Logical OR with default string
+- **WARNING** (line 133): Found Logical OR with default string
   ```
   const errorMessage = message || `Must be no more than ${maxValue}`
   ```
@@ -1726,25 +1722,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/transformers/componentAggregator.ts` [P1] (score: 4)
 
-- **WARNING** (line 51): Found "Default values" keyword: default
+- **WARNING** (line 46): Found "Default values" keyword: default
   ```
   orderIndex: 0, // Default orderIndex (not available in GlobalRelationship)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 52): Found "Default values" keyword: default
+- **WARNING** (line 47): Found "Default values" keyword: default
   ```
   disabled: false, // Default disabled (not available in GlobalRelationship)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 53): Found "Default values" keyword: default
+- **WARNING** (line 48): Found "Default values" keyword: default
   ```
   createdAt: new Date(), // Default date
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 54): Found "Default values" keyword: default
+- **WARNING** (line 49): Found "Default values" keyword: default
   ```
   updatedAt: new Date(), // Default date
   ```
@@ -1752,25 +1748,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/transformers/globalToBookingTransformer.ts` [P1] (score: 4)
 
-- **WARNING** (line 161): Found Nullish coalescing with default string
+- **WARNING** (line 128): Found Nullish coalescing with default string
   ```
   const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 186): Found Nullish coalescing with default string
+- **WARNING** (line 152): Found Nullish coalescing with default string
   ```
   const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 374): Found Logical OR with default string
+- **WARNING** (line 317): Found Logical OR with default string
   ```
   icon: blockInstanceWithProps.icon || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 375): Found Nullish coalescing with default string
+- **WARNING** (line 318): Found Nullish coalescing with default string
   ```
   bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities')....
   ```
@@ -1906,21 +1902,47 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
+### `server/src/services/googleCalendarService.ts` [P1] (score: 4)
+
+- **WARNING** (line 203): Found Logical OR with default string
+  ```
+  id: event.id || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 316): Found "Default values" keyword: default
+  ```
+  sendUpdates = 'all'  // Default to sending invitation emails
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 411): Found Logical OR with default string
+  ```
+  htmlLink: createdEvent.htmlLink || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 426): Found Logical OR with default string
+  ```
+  responseStatus: a.responseStatus || 'needsAction'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
 ### `client/src/composables/_archived/useFieldMetadata.ts` [P1] (score: 3)
 
-- **WARNING** (line 126): Found "Default values" keyword: default
+- **WARNING** (line 96): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 186): Found "Default values" keyword: default
+- **WARNING** (line 142): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 267): Found Logical OR with default string
+- **WARNING** (line 210): Found Logical OR with default string
   ```
   placeholder: displayProps.placeholder || `Enter ${String(fieldKey)}`,
   ```
@@ -1928,19 +1950,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useBlockInstanceForm.ts` [P1] (score: 3)
 
-- **WARNING** (line 152): Found Logical OR with default string
+- **WARNING** (line 143): Found Logical OR with default string
   ```
   name: bt.name || `Block Type ${bt.id}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 193): Found Logical OR with default string
+- **WARNING** (line 184): Found Logical OR with default string
   ```
   name: entity.name || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 194): Found Logical OR with default string
+- **WARNING** (line 185): Found Logical OR with default string
   ```
   blockShapeRef: entity.blockShapeRef || '',
   ```
@@ -1948,19 +1970,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useMetadataFieldOrdering.ts` [P1] (score: 3)
 
-- **WARNING** (line 59): Found Optional chaining with default value
+- **WARNING** (line 49): Found Optional chaining with default value
   ```
   const orderA = metaA?.displayOrder ?? 999
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 60): Found Optional chaining with default value
+- **WARNING** (line 50): Found Optional chaining with default value
   ```
   const orderB = metaB?.displayOrder ?? 999
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 90): Found Optional chaining with default value
+- **WARNING** (line 72): Found Optional chaining with default value
   ```
   const currentOrder = currentMeta?.displayOrder ?? 999
   ```
@@ -1968,19 +1990,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/usePartInstanceForm.ts` [P1] (score: 3)
 
-- **WARNING** (line 152): Found Logical OR with default string
+- **WARNING** (line 143): Found Logical OR with default string
   ```
   name: pt.name || `Part Type ${pt.id}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 193): Found Logical OR with default string
+- **WARNING** (line 184): Found Logical OR with default string
   ```
   name: entity.name || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 194): Found Logical OR with default string
+- **WARNING** (line 185): Found Logical OR with default string
   ```
   partShapeRef: entity.partShapeRef || '',
   ```
@@ -1988,19 +2010,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useConfirmationStepData.ts` [P1] (score: 3)
 
-- **WARNING** (line 116): Found Optional chaining with default value
+- **WARNING** (line 106): Found Optional chaining with default value
   ```
   propertyDetailsStepData?.value ?? null
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 136): Found Optional chaining with default value
+- **WARNING** (line 125): Found Optional chaining with default value
   ```
   const aduCount = stepDataValue?.additionalUnits ?? null
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 141): Found Optional chaining with default value
+- **WARNING** (line 129): Found Optional chaining with default value
   ```
   const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
   ```
@@ -2008,19 +2030,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useMoveablePartsScheduling.ts` [P1] (score: 3)
 
-- **WARNING** (line 113): Found Optional chaining with default value
+- **WARNING** (line 104): Found Optional chaining with default value
   ```
-  const moveableDuration = moveableEventFinal?.duration ?? 0
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 123): Found Optional chaining with default value
-  ```
-  return moveableEventFinal?.duration ?? 0
+  const moveableDuration = moveableEventFinal?.roundedDuration ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 157): Found Optional chaining with default value
+- **WARNING** (line 112): Found Optional chaining with default value
+  ```
+  return moveableEventFinal?.roundedDuration ?? 0
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 139): Found Optional chaining with default value
   ```
   const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime
   ```
@@ -2028,19 +2050,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useAdmin.ts` [P1] (score: 3)
 
-- **WARNING** (line 33): Found Logical OR with default string
+- **WARNING** (line 28): Found Logical OR with default string
   ```
   const stack = new Error().stack || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 37): Found Logical OR with default string
+- **WARNING** (line 30): Found Logical OR with default string
   ```
   const callerLine = lines[3] || lines[4] || 'unknown'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 74): Found Optional chaining with default value
+- **WARNING** (line 60): Found Optional chaining with default value
   ```
   const data = globalData?.value ?? null
   ```
@@ -2060,47 +2082,67 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 328): Found "Default values" keyword: default
+- **WARNING** (line 372): Found "Default values" keyword: default
   ```
   : DEFAULT_CACHE_TTL_MINUTES * 60 * 1000  // Default: 5 minutes
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-### `client/src/types/entities.ts` [P1] (score: 3)
+### `client/src/services/calendarApiService.ts` [P1] (score: 3)
 
-- **WARNING** (line 40): Found "Legacy code" keyword: legacy
+- **WARNING** (line 19): Found Logical OR with default string
   ```
-  description?: string; // Derived description from annotations (for legacy support)
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 118): Found Logical OR with default string
+  ```
+  authUrl: response.data.authUrl || '/api/v1/external/oauth'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 265): Found Logical OR with default string
+  ```
+  axiosError.response?.data?.error || 'Invalid response from server'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `client/src/types/appointment.ts` [P1] (score: 3)
+
+- **WARNING** (line 196): Found "Legacy code" keyword: legacy
+  ```
+  majorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Major']
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 98): Found "Default values" keyword: default
+- **WARNING** (line 197): Found "Legacy code" keyword: legacy
   ```
-  ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail grac...
+  minorTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Minor']
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 117): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 198): Found "Legacy code" keyword: legacy
   ```
-  userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.us...
+  moveableTimeRange?: TimeRange | null  // Legacy: Maps to eventTimeRanges['Moveable']
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
 ### `client/src/utils/booking/appointmentSlotBuilder.ts` [P1] (score: 3)
 
-- **WARNING** (line 516): Found Optional chaining with default value
+- **WARNING** (line 414): Found Optional chaining with default value
   ```
   const minorEventName = minorEventShape?.name ?? null
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 530): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 423): Found "Fallback patterns" keyword: fallback
   ```
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'C...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 545): Found "Default values" keyword: default
+- **WARNING** (line 434): Found "Default values" keyword: default
   ```
   default:
   ```
@@ -2108,19 +2150,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts` [P1] (score: 3)
 
-- **WARNING** (line 80): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 68): Found "Deprecated code" keyword: deprecated
   ```
   _fieldsConfig: Record<string, FieldMetadata> | undefined, // DEPRECATED: Not used, kept for API comp...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 144): Found "Default values" keyword: default
+- **WARNING** (line 121): Found "Default values" keyword: default
   ```
   color: meta.statusButtonColor || 'default',
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 144): Found Logical OR with default string
+- **WARNING** (line 121): Found Logical OR with default string
   ```
   color: meta.statusButtonColor || 'default',
   ```
@@ -2128,19 +2170,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/forms/formElementPatching.ts` [P1] (score: 3)
 
-- **WARNING** (line 61): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 54): Found "Fallback patterns" keyword: fallback
   ```
   const fallback = getFormElementBySelector(formSelector)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 62): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 55): Found "Fallback patterns" keyword: fallback
   ```
   if (fallback) {
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 63): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 56): Found "Fallback patterns" keyword: fallback
   ```
   patchFormElements(fallback)
   ```
@@ -2154,67 +2196,67 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 37): Found "Silent failures" keyword: silent
+- **WARNING** (line 36): Found "Silent failures" keyword: silent
   ```
   normalized === 'silent'
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 54): Found "Silent failures" keyword: silent
+- **WARNING** (line 53): Found "Silent failures" keyword: silent
   ```
   case 'silent':
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-### `server/src/db/models/booking/appointment.ts` [P1] (score: 3)
+### `server/src/app.ts` [P1] (score: 3)
 
-- **WARNING** (line 46): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 50): Found Logical OR with default string
   ```
-  declare serviceSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots ...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 47): Found "Deprecated code" keyword: deprecated
-  ```
-  declare propertySnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-- **WARNING** (line 48): Found "Deprecated code" keyword: deprecated
-  ```
-  declare optionSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots o...
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `server/src/scripts/fixUserRolesAndEmails.ts` [P1] (score: 3)
-
-- **WARNING** (line 192): Found Logical OR with default string
-  ```
-  ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
+  console.log('[OAuthCallback] Raw query string:', req.url.split('?')[1] || 'none');
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 195): Found Logical OR with default string
+- **WARNING** (line 108): Found Logical OR with default string
   ```
-  ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
+  message: error.message || 'An unexpected error occurred during authentication'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 198): Found Logical OR with default string
+- **WARNING** (line 128): Found "Default values" keyword: default
   ```
-  ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
+  export default app;
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+### `server/src/services/rateLimiter.ts` [P1] (score: 3)
+
+- **WARNING** (line 28): Found Logical OR with default string
+  ```
+  requestsPerMinute: parseInt(process.env.GOOGLE_CALENDAR_RATE_LIMIT_PER_MINUTE || '60', 10)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 31): Found "Default values" keyword: default
+  ```
+  requestsPerMinute: 60 // Default, can be configured via env var later
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 34): Found "Default values" keyword: default
+  ```
+  requestsPerMinute: 60 // Default, can be configured via env var later
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
 ### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 2)
 
-- **WARNING** (line 65): Found Logical OR with default string
+- **WARNING** (line 54): Found Logical OR with default string
   ```
   return firstInstance?.partShapeRef || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 116): Found Logical OR with default string
+- **WARNING** (line 102): Found Logical OR with default string
   ```
   partShapeRef: partShapeRef.value || '',
   ```
@@ -2236,13 +2278,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue` [P1] (score: 2)
 
-- **WARNING** (line 64): Found "Default values" keyword: default
+- **WARNING** (line 52): Found "Default values" keyword: default
   ```
   return 'parts' // default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 133): Found Optional chaining with default value
+- **WARNING** (line 114): Found Optional chaining with default value
   ```
   return bulkEditMode?.value ?? false
   ```
@@ -2250,13 +2292,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/generic/fields/BooleanInput.vue` [P1] (score: 2)
 
-- **WARNING** (line 96): Found "Default values" keyword: default
+- **WARNING** (line 75): Found "Default values" keyword: default
   ```
   return meta?.statusButtonColor || 'default'
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 96): Found Logical OR with default string
+- **WARNING** (line 75): Found Logical OR with default string
   ```
   return meta?.statusButtonColor || 'default'
   ```
@@ -2264,19 +2306,33 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/generic/fields/FieldRenderer.vue` [P1] (score: 2)
 
-- **WARNING** (line 182): Found "Default values" keyword: default
+- **WARNING** (line 142): Found "Default values" keyword: default
   ```
   return 'parts' // default
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 258): Found Logical OR with default string
+- **WARNING** (line 204): Found Logical OR with default string
   ```
   ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multi...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/components/booking/TimeBasisButtonGrid.vue` [P1] (score: 2)
+
+- **WARNING** (line 34): Found Logical OR with default string
+  ```
+  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 37): Found Logical OR with default string
+  ```
+  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `client/src/components/booking/TimeBasisSelector.vue` [P1] (score: 2)
 
 - **WARNING** (line 36): Found Logical OR with default string
   ```
@@ -2286,33 +2342,19 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 - **WARNING** (line 39): Found Logical OR with default string
   ```
-  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-### `client/src/components/booking/TimeBasisSelector.vue` [P1] (score: 2)
-
-- **WARNING** (line 38): Found Logical OR with default string
-  ```
-  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 41): Found Logical OR with default string
-  ```
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/components/booking/dev/DevPanelsContainer.vue` [P1] (score: 2)
 
-- **WARNING** (line 131): Found Optional chaining with default value
+- **WARNING** (line 115): Found Optional chaining with default value
   ```
   const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 460): Found Optional chaining with default value
+- **WARNING** (line 422): Found Optional chaining with default value
   ```
   return devPanelButtons.value?.wizard ?? null
   ```
@@ -2320,13 +2362,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/booking/steps/AvailabilityStep.vue` [P1] (score: 2)
 
-- **WARNING** (line 117): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 91): Found "Deprecated code" keyword: deprecated
   ```
   const serviceHasOverride = false // Removed: differentialOverride check deprecated
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 118): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 92): Found "Deprecated code" keyword: deprecated
   ```
   const optionHasOverride = false // Removed: differentialOverride check deprecated
   ```
@@ -2334,13 +2376,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useEntityList.ts` [P1] (score: 2)
 
-- **WARNING** (line 119): Found Logical OR with default string
+- **WARNING** (line 113): Found Logical OR with default string
   ```
   const createRouteName = routes.create || `${entityKey}-create`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 126): Found Logical OR with default string
+- **WARNING** (line 120): Found Logical OR with default string
   ```
   const editRouteName = routes.edit || `${entityKey}-edit`
   ```
@@ -2348,13 +2390,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useFieldComponent.ts` [P1] (score: 2)
 
-- **WARNING** (line 163): Found "Default values" keyword: default
+- **WARNING** (line 134): Found "Default values" keyword: default
   ```
   entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 163): Found Nullish coalescing with default string
+- **WARNING** (line 134): Found Nullish coalescing with default string
   ```
   entityKeyRef.value ?? 'blockInstance', // Default to blockInstance if undefined
   ```
@@ -2376,13 +2418,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/usePartInstanceCollection.ts` [P1] (score: 2)
 
-- **WARNING** (line 138): Found Logical OR with default string
+- **WARNING** (line 124): Found Logical OR with default string
   ```
   const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 140): Found Logical OR with default string
+- **WARNING** (line 126): Found Logical OR with default string
   ```
   const partShapeName = partShape?.name || 'PartShape'
   ```
@@ -2390,13 +2432,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useRelationshipCollection.ts` [P1] (score: 2)
 
-- **WARNING** (line 232): Found Logical OR with default string
+- **WARNING** (line 193): Found Logical OR with default string
   ```
   const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 248): Found Logical OR with default string
+- **WARNING** (line 208): Found Logical OR with default string
   ```
   const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
   ```
@@ -2404,13 +2446,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useSelectConfig.ts` [P1] (score: 2)
 
-- **WARNING** (line 192): Found Nullish coalescing with default string
+- **WARNING** (line 155): Found Nullish coalescing with default string
   ```
   value: option.value === null ? null : String(option.value ?? ''),
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 193): Found Nullish coalescing with default string
+- **WARNING** (line 156): Found Nullish coalescing with default string
   ```
   label: String(option.label ?? '')
   ```
@@ -2418,13 +2460,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useSelectLabelResolution.ts` [P1] (score: 2)
 
-- **WARNING** (line 53): Found Logical OR with default string
+- **WARNING** (line 44): Found Logical OR with default string
   ```
   const rawLabel = fieldContext.displayConfig.label || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 70): Found Logical OR with default string
+- **WARNING** (line 57): Found Logical OR with default string
   ```
   const shapeName = blockShape?.name as string || 'Instance'
   ```
@@ -2432,13 +2474,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAppointmentDropdown.ts` [P1] (score: 2)
 
-- **WARNING** (line 44): Found Logical OR with default string
+- **WARNING** (line 38): Found Logical OR with default string
   ```
   ? `${address.address || ''}${address.unit ? ` ${address.unit}` : ''}, ${address.city || ''}, ${addre...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 47): Found Logical OR with default string
+- **WARNING** (line 41): Found Logical OR with default string
   ```
   text: addressText || `Appointment ${appointment.id.slice(0, 8)}`,
   ```
@@ -2446,13 +2488,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAppointmentTimes.ts` [P1] (score: 2)
 
-- **WARNING** (line 152): Found Logical OR with default string
+- **WARNING** (line 131): Found Logical OR with default string
   ```
   const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 206): Found Logical OR with default string
+- **WARNING** (line 179): Found Logical OR with default string
   ```
   const minorEventName = transformed.eventTimeRanges?.['Minor'] ? 'Minor' : Object.keys(transformed.ev...
   ```
@@ -2460,13 +2502,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAvailabilityEmptyState.ts` [P1] (score: 2)
 
-- **WARNING** (line 60): Found Logical OR with default string
+- **WARNING** (line 43): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 63): Found Logical OR with default string
+- **WARNING** (line 46): Found Logical OR with default string
   ```
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor'
   ```
@@ -2474,13 +2516,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useDurationRounding.ts` [P1] (score: 2)
 
-- **WARNING** (line 70): Found Logical OR with default string
+- **WARNING** (line 56): Found Logical OR with default string
   ```
   method: config.method || 'roundUp'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 80): Found Optional chaining with default value
+- **WARNING** (line 66): Found Optional chaining with default value
   ```
   return roundingConfig.value?.enabled ?? false
   ```
@@ -2488,13 +2530,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useAdminConfig.ts` [P1] (score: 2)
 
-- **WARNING** (line 106): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 99): Found "Deprecated code" keyword: deprecated
   ```
   `[useAdminConfig] DEPRECATED: getFormFieldConfig(${String(entityKey)}, ${String(fieldKey)}) called. ...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 121): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 114): Found "Deprecated code" keyword: deprecated
   ```
   `[useAdminConfig] DEPRECATED: getEntityFormFieldConfig(${String(entityKey)}) called. ` +
   ```
@@ -2502,13 +2544,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useBooking.ts` [P1] (score: 2)
 
-- **WARNING** (line 29): Found Logical OR with default string
+- **WARNING** (line 23): Found Logical OR with default string
   ```
   const stack = new Error().stack || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 33): Found Logical OR with default string
+- **WARNING** (line 25): Found Logical OR with default string
   ```
   const callerLine = lines[3] || lines[4] || 'unknown'
   ```
@@ -2516,13 +2558,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useGlobal.ts` [P1] (score: 2)
 
-- **WARNING** (line 32): Found Logical OR with default string
+- **WARNING** (line 26): Found Logical OR with default string
   ```
   const stack = new Error().stack || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 36): Found Logical OR with default string
+- **WARNING** (line 28): Found Logical OR with default string
   ```
   const callerLine = lines[3] || lines[4] || 'unknown'
   ```
@@ -2542,15 +2584,29 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
+### `client/src/types/entities.ts` [P1] (score: 2)
+
+- **WARNING** (line 24): Found "Legacy code" keyword: legacy
+  ```
+  description?: string; // Derived description from annotations (for legacy support)
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 60): Found "Default values" keyword: default
+  ```
+  ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail grac...
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
 ### `client/src/utils/api.ts` [P1] (score: 2)
 
-- **WARNING** (line 19): Found Logical OR with default string
+- **WARNING** (line 18): Found Logical OR with default string
   ```
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1/internal'
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 74): Found "Default values" keyword: default
+- **WARNING** (line 57): Found "Default values" keyword: default
   ```
   export default apiClient
   ```
@@ -2558,13 +2614,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/blockInstanceUtils.ts` [P1] (score: 2)
 
-- **WARNING** (line 129): Found Optional chaining with default value
+- **WARNING** (line 82): Found Optional chaining with default value
   ```
   return blockShape?.id ?? null
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 154): Found Optional chaining with default value
+- **WARNING** (line 94): Found Optional chaining with default value
   ```
   return blockShape?.id ?? null
   ```
@@ -2578,7 +2634,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 128): Found Logical OR with default string
+- **WARNING** (line 116): Found Logical OR with default string
   ```
   method: settings.durationRounding.method || 'roundUp'
   ```
@@ -2586,13 +2642,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/colors/complementaryColors.ts` [P1] (score: 2)
 
-- **WARNING** (line 35): Found "Default values" keyword: default
+- **WARNING** (line 33): Found "Default values" keyword: default
   ```
   'default': 'grey',
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 47): Found "Default values" keyword: default
+- **WARNING** (line 37): Found "Default values" keyword: default
   ```
   return COMPLEMENTARY_COLOR_MAP[color] || COMPLEMENTARY_COLOR_MAP['default']
   ```
@@ -2600,13 +2656,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/dependencyCleanup.ts` [P1] (score: 2)
 
-- **WARNING** (line 45): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 42): Found "Deprecated code" keyword: deprecated
   ```
   `[cleanupInvalidActiveRelationships] DEPRECATED: This function uses formFieldConfig which has been r...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 50): Found ESLint suppression
+- **WARNING** (line 47): Found ESLint suppression
   ```
   /* eslint-disable @typescript-eslint/no-unused-vars */
   ```
@@ -2614,13 +2670,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/forms/fieldLocationDispatcher.ts` [P1] (score: 2)
 
-- **WARNING** (line 189): Found "Default values" keyword: default
+- **WARNING** (line 154): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 242): Found "Default values" keyword: default
+- **WARNING** (line 203): Found "Default values" keyword: default
   ```
   default:
   ```
@@ -2628,41 +2684,27 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/forms/fieldSorting.ts` [P1] (score: 2)
 
-- **WARNING** (line 45): Found Optional chaining with default value
+- **WARNING** (line 42): Found Optional chaining with default value
   ```
   const orderA = metaA?.displayOrder ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 46): Found Optional chaining with default value
+- **WARNING** (line 43): Found Optional chaining with default value
   ```
   const orderB = metaB?.displayOrder ?? 0
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/utils/optimistic/annotationAssignmentsOptimistic.ts` [P1] (score: 2)
-
-- **WARNING** (line 77): Found Nullish coalescing with default string
-  ```
-  return selected?.text ?? ''
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-- **WARNING** (line 77): Found Optional chaining with default value
-  ```
-  return selected?.text ?? ''
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
 ### `client/src/utils/transformers/annotationTransformers.ts` [P1] (score: 2)
 
-- **WARNING** (line 87): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 79): Found "Fallback patterns" keyword: fallback
   ```
   ?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape /...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 93): Found Nullish coalescing with default string
+- **WARNING** (line 83): Found Nullish coalescing with default string
   ```
   const name = rawAnnotation.name ?? rawAnnotation.Name ?? rawAnnotation.text ?? rawAnnotation.Text ??...
   ```
@@ -2698,13 +2740,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/external/googleFetchRoutes.ts` [P1] (score: 2)
 
-- **WARNING** (line 20): Found Logical OR with default string
+- **WARNING** (line 18): Found Logical OR with default string
   ```
   const cacheKey = `${origin}-${busyStart}-${busyEnd || "none"}`;
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 83): Found "Default values" keyword: default
+- **WARNING** (line 76): Found "Default values" keyword: default
   ```
   DriveTimeTo: 0, // Default values in case of an error
   ```
@@ -2712,13 +2754,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/businessSettingsRouter.ts` [P1] (score: 2)
 
-- **WARNING** (line 58): Found "Default values" keyword: default
+- **WARNING** (line 53): Found "Default values" keyword: default
   ```
   enabled: false, // Default disabled for testing
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 86): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 76): Found "Deprecated code" keyword: deprecated
   ```
   return false; // buffers.leadTime deprecated - must use rangeConstraints.leadTime
   ```
@@ -2726,13 +2768,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/entities/entityRouter.ts` [P1] (score: 2)
 
-- **WARNING** (line 239): Found Logical OR with default string
+- **WARNING** (line 180): Found Logical OR with default string
   ```
   const fieldName = err.path || 'field';
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 240): Found Logical OR with default string
+- **WARNING** (line 181): Found Logical OR with default string
   ```
   const message = err.message || 'Validation error';
   ```
@@ -2740,13 +2782,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/properties/propertyRouter.ts` [P1] (score: 2)
 
-- **WARNING** (line 127): Found "Default values" keyword: default
+- **WARNING** (line 116): Found "Default values" keyword: default
   ```
   source = 'client', // Default to 'client' for booking wizard
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 437): Found Logical OR with default string
+- **WARNING** (line 391): Found Logical OR with default string
   ```
   actualBlockShape: blockShape?.name || 'NULL',
   ```
@@ -2754,13 +2796,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts` [P1] (score: 2)
 
-- **WARNING** (line 181): Found "Default values" keyword: default
+- **WARNING** (line 175): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 719): Found Logical OR with default string
+- **WARNING** (line 642): Found Logical OR with default string
   ```
   details: error.message || 'One of the referenced entities does not exist',
   ```
@@ -2768,13 +2810,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/scripts/createAppointmentsFromCalendar.ts` [P1] (score: 2)
 
-- **WARNING** (line 97): Found Logical OR with default string
+- **WARNING** (line 74): Found Logical OR with default string
   ```
   const city = parts[1] || '';
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 99): Found Logical OR with default string
+- **WARNING** (line 75): Found Logical OR with default string
   ```
   const lastPart = parts[parts.length - 1] || '';
   ```
@@ -2782,13 +2824,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/scripts/importFromMCPEvents.ts` [P1] (score: 2)
 
-- **WARNING** (line 73): Found Logical OR with default string
+- **WARNING** (line 61): Found Logical OR with default string
   ```
   const clientName = extractClientNameFromSummary(event.summary || '');
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 83): Found Logical OR with default string
+- **WARNING** (line 70): Found Logical OR with default string
   ```
   responseStatus: attendee.responseStatus || 'needsAction'
   ```
@@ -2796,7 +2838,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue` [P2] (score: 1)
 
-- **WARNING** (line 62): Found Logical OR with default string
+- **WARNING** (line 53): Found Logical OR with default string
   ```
   props.sourceEntity.name || '',
   ```
@@ -2804,7 +2846,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/InstanceBulkEditModal.vue` [P2] (score: 1)
 
-- **WARNING** (line 80): Found Logical OR with default string
+- **WARNING** (line 77): Found Logical OR with default string
   ```
   blockShapeRef: props.blockShapeId || '',
   ```
@@ -2812,7 +2854,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue` [P2] (score: 1)
 
-- **WARNING** (line 69): Found Logical OR with default string
+- **WARNING** (line 60): Found Logical OR with default string
   ```
   return blockShape?.name || 'Block'
   ```
@@ -2820,7 +2862,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` [P2] (score: 1)
 
-- **WARNING** (line 56): Found Optional chaining with default value
+- **WARNING** (line 50): Found Optional chaining with default value
   ```
   return metadataEditorEntity.value?.id ?? null
   ```
@@ -2834,9 +2876,17 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
+### `client/src/composables/admin/tables/useAppointmentsTableModel.ts` [P2] (score: 1)
+
+- **WARNING** (line 112): Found "Legacy code" keyword: legacy
+  ```
+  endTime: slot.time, // NOTE: endTime not available in legacy format, using startTime
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
 ### `client/src/composables/admin/useAvailabilitySettings.ts` [P2] (score: 1)
 
-- **WARNING** (line 297): Found Logical OR with default string
+- **WARNING** (line 294): Found Logical OR with default string
   ```
   error.value = err.response?.data?.error || 'Failed to save settings. Please try again.'
   ```
@@ -2844,23 +2894,15 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useEntityStatus.ts` [P2] (score: 1)
 
-- **WARNING** (line 157): Found Logical OR with default string
+- **WARNING** (line 124): Found Logical OR with default string
   ```
   return composer?.name || `BlockInstance ${composerId.slice(0, 8)}`
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/composables/admin/useEntityTabState.ts` [P2] (score: 1)
-
-- **WARNING** (line 37): Found ESLint suppression
-  ```
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
 ### `client/src/composables/admin/useIconPickerState.ts` [P2] (score: 1)
 
-- **WARNING** (line 73): Found Optional chaining with default value
+- **WARNING** (line 52): Found Optional chaining with default value
   ```
   : currentIcon?.value ?? null
   ```
@@ -2868,7 +2910,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts` [P2] (score: 1)
 
-- **WARNING** (line 215): Found Logical OR with default string
+- **WARNING** (line 185): Found Logical OR with default string
   ```
   return shape?.name || `${shapeEntityKey.value} ${shapeId.slice(0, 8)}`
   ```
@@ -2876,7 +2918,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts` [P2] (score: 1)
 
-- **WARNING** (line 138): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 136): Found "Fallback patterns" keyword: fallback
   ```
   const propertyVersionId = createdProperty.propertyVersionId || createdProperty.id // Use propertyVer...
   ```
@@ -2884,7 +2926,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAvailabilityStepData.ts` [P2] (score: 1)
 
-- **WARNING** (line 74): Found Optional chaining with default value
+- **WARNING** (line 77): Found Optional chaining with default value
   ```
   moveableScheduling: moveableScheduling?.value ?? null,
   ```
@@ -2892,7 +2934,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useAvailabilityUI.ts` [P2] (score: 1)
 
-- **WARNING** (line 71): Found "Default values" keyword: default
+- **WARNING** (line 64): Found "Default values" keyword: default
   ```
   const COLUMN_GAP = 16 // Vuetify default gap
   ```
@@ -2900,23 +2942,23 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/booking/useElementDimensions.ts` [P2] (score: 1)
 
-- **WARNING** (line 131): Found Optional chaining with default value
+- **WARNING** (line 114): Found Optional chaining with default value
   ```
   const borderBoxWidth = entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/composables/booking/usePropertyFormWatchers.ts` [P2] (score: 1)
+### `client/src/composables/booking/useFreeBusyDataSource.ts` [P2] (score: 1)
 
-- **WARNING** (line 27): Found ESLint suppression
+- **WARNING** (line 132): Found Optional chaining with default value
   ```
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  return sharedCalendarConfig.value?.enabled ?? false
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/composables/booking/useResponsiveGrid.ts` [P2] (score: 1)
 
-- **WARNING** (line 102): Found "Default values" keyword: default
+- **WARNING** (line 96): Found "Default values" keyword: default
   ```
   minColumns = 1, // LEARNING: Default to 1 column minimum to allow single-column layout when space is...
   ```
@@ -2932,7 +2974,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)
 
-- **WARNING** (line 47): Found Logical OR with default string
+- **WARNING** (line 45): Found Logical OR with default string
   ```
   const errorMessage = axiosError.response?.data?.error || 'Entity not found'
   ```
@@ -2940,7 +2982,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useApiErrorMessage.ts` [P2] (score: 1)
 
-- **WARNING** (line 25): Found Default function parameter with string literal
+- **WARNING** (line 14): Found Default function parameter with string literal
   ```
   export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): s...
   ```
@@ -2948,7 +2990,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useComponentDistribution.ts` [P2] (score: 1)
 
-- **WARNING** (line 116): Found Optional chaining with default value
+- **WARNING** (line 103): Found Optional chaining with default value
   ```
   return component?.name ?? componentId
   ```
@@ -2956,7 +2998,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useFieldValue.ts` [P2] (score: 1)
 
-- **WARNING** (line 64): Found Nullish coalescing with default string
+- **WARNING** (line 56): Found Nullish coalescing with default string
   ```
   return (actualValue ?? '') as ValidAdminValue
   ```
@@ -2972,7 +3014,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/usePartInstanceData.ts` [P2] (score: 1)
 
-- **WARNING** (line 144): Found Logical OR with default string
+- **WARNING** (line 130): Found Logical OR with default string
   ```
   return partShape?.name || `PartShape ${partShapeId.slice(0, 8)}`
   ```
@@ -2980,7 +3022,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useSelectOptions.ts` [P2] (score: 1)
 
-- **WARNING** (line 149): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 124): Found "Fallback patterns" keyword: fallback
   ```
   : groupKeyString // Fallback to group key if parent not found
   ```
@@ -2988,7 +3030,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/composables/useThemeMode.ts` [P2] (score: 1)
 
-- **WARNING** (line 97): Found "Fallback patterns" keyword: fallback
+- **WARNING** (line 87): Found "Fallback patterns" keyword: fallback
   ```
   return '0, 0, 0' // Fallback to black
   ```
@@ -3002,17 +3044,9 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-### `client/src/layouts/components/NavSearchBar.vue` [P2] (score: 1)
-
-- **WARNING** (line 3): Found Type suppression
-  ```
-  // @ts-expect-error - shepherd.js types may not be available, but module works at runtime
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
 ### `client/src/navigation/horizontal/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 5): Found "Default values" keyword: default
+- **WARNING** (line 1): Found "Default values" keyword: default
   ```
   export default []
   ```
@@ -3020,27 +3054,11 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/navigation/vertical/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 5): Found "Default values" keyword: default
+- **WARNING** (line 1): Found "Default values" keyword: default
   ```
   export default []
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `client/src/plugins/1.router/additional-routes.ts` [P2] (score: 1)
-
-- **WARNING** (line 12): Found Type suppression
-  ```
-  // @ts-expect-error - Vue Router redirect function type is complex, this works at runtime
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
-
-### `client/src/plugins/1.router/guards.ts` [P2] (score: 1)
-
-- **WARNING** (line 1): Found Type suppression
-  ```
-  // @ts-expect-error - unplugin-vue-router types may not be available, but module works at runtime
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `client/src/plugins/1.router/index.ts` [P2] (score: 1)
 
@@ -3052,7 +3070,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/plugins/2.pinia.ts` [P2] (score: 1)
 
-- **WARNING** (line 20): Found "Default values" keyword: default
+- **WARNING** (line 19): Found "Default values" keyword: default
   ```
   export default function (app: App) {
   ```
@@ -3060,7 +3078,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/plugins/3.vue-query.ts` [P2] (score: 1)
 
-- **WARNING** (line 25): Found "Default values" keyword: default
+- **WARNING** (line 24): Found "Default values" keyword: default
   ```
   export default function (app: App) {
   ```
@@ -3068,7 +3086,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/plugins/4.layouts/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 22): Found "Default values" keyword: default
+- **WARNING** (line 21): Found "Default values" keyword: default
   ```
   export default function (app: App) {
   ```
@@ -3076,7 +3094,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/plugins/5.vuetify/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 28): Found "Default values" keyword: default
+- **WARNING** (line 27): Found "Default values" keyword: default
   ```
   export default function (app: App) {
   ```
@@ -3084,7 +3102,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/plugins/5.vuetify/theme.ts` [P2] (score: 1)
 
-- **WARNING** (line 213): Found "Default values" keyword: default
+- **WARNING** (line 200): Found "Default values" keyword: default
   ```
   export default themes
   ```
@@ -3092,7 +3110,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/router/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 95): Found "Default values" keyword: default
+- **WARNING** (line 76): Found "Default values" keyword: default
   ```
   export default router
   ```
@@ -3100,7 +3118,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/appointmentFieldFormatters.ts` [P2] (score: 1)
 
-- **WARNING** (line 125): Found Logical OR with default string
+- **WARNING** (line 139): Found Logical OR with default string
   ```
   status: (_appointment, value) => String(value || 'started'),
   ```
@@ -3108,7 +3126,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/booking/constraintExtractors.ts` [P2] (score: 1)
 
-- **WARNING** (line 62): Found "Legacy code" keyword: legacy
+- **WARNING** (line 51): Found "Legacy code" keyword: legacy
   ```
   throw new Error(`Legacy top-level businessHours field detected. Use rangeConstraints.${RANGE_CONSTRA...
   ```
@@ -3124,7 +3142,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/booking/partShapeAggregator.ts` [P2] (score: 1)
 
-- **WARNING** (line 27): Found Logical OR with default string
+- **WARNING** (line 28): Found Logical OR with default string
   ```
   const partShape = part.partShape || ''
   ```
@@ -3164,7 +3182,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/instanceComponentUtils.ts` [P2] (score: 1)
 
-- **WARNING** (line 57): Found Logical OR with default string
+- **WARNING** (line 46): Found Logical OR with default string
   ```
   const iconValue = componentWithIcon.icon || ''
   ```
@@ -3172,7 +3190,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/ternary/ternaryUtils.ts` [P2] (score: 1)
 
-- **WARNING** (line 59): Found Default function parameter with string literal
+- **WARNING** (line 56): Found Default function parameter with string literal
   ```
   export function toBoolean(value: TernaryBoolean, mode: 'strict' | 'inclusive' = 'strict'): boolean {
   ```
@@ -3180,7 +3198,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/transformers/composePropertyValue.ts` [P2] (score: 1)
 
-- **WARNING** (line 72): Found "Default values" keyword: default
+- **WARNING** (line 67): Found "Default values" keyword: default
   ```
   default:
   ```
@@ -3188,7 +3206,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/views/admin/entities/BlockShapeForm.vue` [P2] (score: 1)
 
-- **WARNING** (line 39): Found Logical OR with default string
+- **WARNING** (line 38): Found Logical OR with default string
   ```
   name: entity.name || '',
   ```
@@ -3202,25 +3220,17 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-### `client/src/vite-env.d.ts` [P2] (score: 1)
+### `server/src/routes/external/googleOauthRoutes.ts` [P2] (score: 1)
 
-- **WARNING** (line 32): Found "Default values" keyword: default
+- **WARNING** (line 90): Found Logical OR with default string
   ```
-  export default component
+  message: error.message || 'An unexpected error occurred during authentication'
   ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `server/src/app.ts` [P2] (score: 1)
-
-- **WARNING** (line 52): Found "Default values" keyword: default
-  ```
-  export default app;
-  ```
-  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `server/src/routes/index.ts` [P2] (score: 1)
 
-- **WARNING** (line 17): Found "Default values" keyword: default
+- **WARNING** (line 15): Found "Default values" keyword: default
   ```
   export default router;
   ```
@@ -3228,7 +3238,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` [P2] (score: 1)
 
-- **WARNING** (line 430): Found "Default values" keyword: default
+- **WARNING** (line 365): Found "Default values" keyword: default
   ```
   export default router;
   ```
@@ -3236,7 +3246,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` [P2] (score: 1)
 
-- **WARNING** (line 291): Found "Default values" keyword: default
+- **WARNING** (line 263): Found "Default values" keyword: default
   ```
   export default router;
   ```
@@ -3244,7 +3254,7 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` [P2] (score: 1)
 
-- **WARNING** (line 227): Found "Default values" keyword: default
+- **WARNING** (line 205): Found "Default values" keyword: default
   ```
   export default router;
   ```
@@ -3252,19 +3262,11 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/businessRulesRouter.ts` [P2] (score: 1)
 
-- **WARNING** (line 269): Found "Default values" keyword: default
+- **WARNING** (line 225): Found "Default values" keyword: default
   ```
   export default router;
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
-
-### `server/src/routes/internal/participantRoutes/login-routes.ts` [P2] (score: 1)
-
-- **WARNING** (line 28): Found Logical OR with default string
-  ```
-  //   const secretKey = process.env.JWT_SECRET_KEY || '';
-  ```
-  💡 Review for removal - prefer explicit error handling or type safety
 
 ### `server/src/scripts/backfill-input-config-from-selectable.mjs` [P2] (score: 1)
 
@@ -3274,9 +3276,33 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
+### `server/src/scripts/fixUserRolesAndEmails.ts` [P2] (score: 1)
+
+- **WARNING** (line 150): Found Logical OR with default string
+  ```
+  ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `server/src/services/calendarEventsCache.ts` [P2] (score: 1)
+
+- **WARNING** (line 48): Found Logical OR with default string
+  ```
+  const CACHE_TTL_MINUTES = parseInt(process.env.GOOGLE_CALENDAR_CACHE_TTL_MINUTES || '5', 10);
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `server/src/services/freeBusyCache.ts` [P2] (score: 1)
+
+- **WARNING** (line 35): Found Logical OR with default string
+  ```
+  const CACHE_TTL_MINUTES = parseInt(process.env.GOOGLE_CALENDAR_CACHE_TTL_MINUTES || '5', 10);
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts` [P2] (score: 1)
 
-- **WARNING** (line 321): Found "Default values" keyword: default
+- **WARNING** (line 283): Found "Default values" keyword: default
   ```
   default:
   ```

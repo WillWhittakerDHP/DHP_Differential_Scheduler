@@ -108,7 +108,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 | 2.1.1 | Infrastructure Setup & Free-Busy API | ✅ Complete |
 | 2.1.2 | Calendar Availability Integration | ✅ Complete |
 | 2.1.3 | Appointment Attendees & Calendar Integration | ✅ Complete |
-| 2.1.4 | Full Event Fetching & Location Cache | ⏳ Not Started |
+| 2.1.4 | Full Event Fetching & Location Cache | ✅ Complete |
 | 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
 | 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
 
@@ -215,14 +215,23 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - `client/src/types/appointment.ts`
 - `client/src/composables/booking/useAppointmentDataCollection.ts`
 
-### Session 2.1.4: Full Event Fetching & Location Cache
-- Fetch full calendar events using `calendar.events.list()` (not just free-busy)
-- Extract event locations for drive time calculations
-- Create `calendarEventsCache.ts` service following `freeBusyCache.ts` pattern
-- Add `getCalendarEvents()` function to `googleCalendarService.ts`
-- Add `GET /api/v1/external/calendar/events` endpoint
-- Cache events with TTL (5 min near-term, 15 min future)
-- Integrate rate limiting and caching
+### Session 2.1.4: Full Event Fetching & Location Cache ✅ Complete
+- ✅ Fetch full calendar events using `calendar.events.list()` (not just free-busy)
+- ✅ Extract event locations for drive time calculations
+- ✅ `calendarEventsCache.ts` service created following `freeBusyCache.ts` pattern
+  - `CachedCalendarEvent` interface with id, start, end, location, summary
+  - TTL-based caching (5 min near-term, 15 min future)
+  - Cache invalidation on calendar changes
+  - Debug statistics for dev panel
+- ✅ `getCalendarEvents()` function in `googleCalendarService.ts`
+  - Uses `calendar.events.list()` with singleEvents and orderBy
+  - Rate limiting integration
+  - Cache check before API call
+- ✅ `GET /api/v1/external/calendar/events` endpoint
+  - Query params: calendarEmail, timeMin, timeMax
+  - Full validation and error handling
+- ✅ Debug endpoint: `GET /api/v1/external/calendar/debug/events-cache`
+- ✅ **Verified**: Events with location data returned successfully
 - **CRITICAL**: Provides location data needed for Phase 2.2 (Google Maps API)
 
 ### Session 2.1.5: Error Handling & Fallbacks
@@ -246,13 +255,13 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 
 ## Key Files
 
-### Server Files (Sessions 2.1.1 & 2.1.3 - Complete)
+### Server Files (Sessions 2.1.1, 2.1.3, 2.1.4 - Complete)
 - ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration (updated with calendar.events scope)
 - ✅ `server/src/services/rateLimiter.ts` - Rate limiting service
 - ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service (with invalidation)
-- ✅ `server/src/services/calendarEventsCache.ts` - Events caching service (with invalidation)
-- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service (added createEvent function)
-- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints (added POST /events)
+- ✅ `server/src/services/calendarEventsCache.ts` - Events caching service (with invalidation, location support)
+- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service (getFreeBusy, getCalendarEvents, createEvent)
+- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints (GET/POST /events, POST /freebusy, debug endpoints)
 - ✅ `server/src/routes/external/googleOauthRoutes.ts` - OAuth endpoints
 - ✅ `server/.env.development` - Environment config (updated scopes)
 
@@ -315,13 +324,17 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ OAuth token persistence for development
 - ✅ Explicit error handling (no silent fallbacks)
 
+### Session 2.1.4 Complete
+- ✅ `calendarEventsCache.ts` service created (TTL-based, following freeBusyCache pattern)
+- ✅ `getCalendarEvents()` function with rate limiting and caching
+- ✅ `GET /api/v1/external/calendar/events` endpoint
+- ✅ Debug endpoint for events cache inspection
+- ✅ Verified with real calendar - returns events with location data
+
 ### Next Steps
-1. **Session 2.1.4:** Full Event Fetching & Location Cache
-   - Fetch full calendar events (not just free-busy)
-   - Extract locations for drive time calculations
-   - Create `calendarEventsCache.ts` service
-2. **Session 2.1.5:** Error Handling & Fallbacks
-3. **Session 2.1.6:** Admin API Dev Panel
+1. **Session 2.1.5:** Error Handling & Fallbacks
+2. **Session 2.1.6:** Admin API Dev Panel
+3. **Phase 2.2:** Google Maps API Integration (now unblocked by location data)
 
 ---
 
@@ -411,7 +424,7 @@ Dev panel toggle in "Free/Busy" section:
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Session 2.1.3 Complete - Next: Session 2.1.4  
+**Current Session:** Session 2.1.4 Complete - Next: Session 2.1.5  
 **Last Updated:** 2026-02-01
 
 ---

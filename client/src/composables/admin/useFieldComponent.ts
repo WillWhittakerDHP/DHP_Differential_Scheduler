@@ -51,8 +51,10 @@ export interface UseFieldComponentOptions {
 export interface UseFieldComponentReturn {
   /**
    * LEARNING: Component type determined by dispatcher
-   * WHY: Single source of truth for component type - use this instead of boolean flags
+   * WHY: Single source of truth for component type - use componentType.type for all type checks
    * PATTERN: Discriminated union type from fieldComponentDispatcher
+   * 
+   * COMPARISON: Before we had separate isIcon, isPrimitive, etc. booleans - now unified in componentType
    */
   componentType: ComputedRef<FieldComponent>
   
@@ -62,26 +64,6 @@ export interface UseFieldComponentReturn {
    * PATTERN: Exposed to avoid duplicate computation in components
    */
   fieldMetadataEntry: ComputedRef<FieldMetadataEntry | undefined>
-  
-  /**
-   * @deprecated Use componentType instead
-   */
-  isIcon: ComputedRef<boolean>
-  
-  /**
-   * @deprecated Use componentType instead
-   */
-  isPrimitive: ComputedRef<boolean>
-  
-  /**
-   * @deprecated Use componentType instead
-   */
-  isPartsCollection: ComputedRef<boolean>
-  
-  /**
-   * @deprecated Use componentType instead
-   */
-  isRelationshipCollection: ComputedRef<boolean>
 }
 
 /**
@@ -197,49 +179,8 @@ export function useFieldComponent(
     return result
   })
   
-  /**
-   * LEARNING: Whether field is icon type
-   * WHY: Icon fields need special IconInput component
-   * PATTERN: Determined from dispatcher: component.type === 'icon'
-   */
-  const isIcon = computed(() => {
-    return componentType.value.type === 'icon'
-  })
-  
-  /**
-   * LEARNING: Whether field is primitive type
-   * WHY: Primitive fields use PrimitiveInputs component
-   * PATTERN: Determined from dispatcher: component.type === 'primitive'
-   */
-  const isPrimitive = computed(() => {
-    return componentType.value.type === 'primitive'
-  })
-  
-  /**
-   * LEARNING: Whether field is relationshipCollection type
-   * WHY: RelationshipCollection fields use RelationshipCollection component
-   * PATTERN: Determined from dispatcher: component.type === 'relationshipCollection'
-   */
-  const isPartsCollection = computed(() => {
-    return componentType.value.type === 'relationshipCollection'
-  })
-  
-  /**
-   * LEARNING: Whether field is relationshipCollection type (alias for clarity)
-   * WHY: Alias for isPartsCollection for clarity
-   * PATTERN: Use computed directly - TypeScript accepts ComputedRef<boolean> as Ref<boolean> for interface compatibility
-   */
-  const isRelationshipCollection = computed<boolean>(() => {
-    return isPartsCollection.value
-  })
-  
   return {
     componentType,
-    fieldMetadataEntry,
-    // Deprecated: Keep for backward compatibility
-    isIcon,
-    isPrimitive,
-    isPartsCollection,
-    isRelationshipCollection
+    fieldMetadataEntry
   }
 }

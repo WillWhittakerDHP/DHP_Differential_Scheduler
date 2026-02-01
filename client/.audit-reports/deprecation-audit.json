@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-02-01T19:22:08.574Z",
+  "generatedAt": "2026-02-01T20:48:36.622Z",
   "check": "Deprecation",
   "status": "warning",
   "summary": {
-    "totalFiles": 600,
+    "totalFiles": 599,
     "clientFiles": 483,
-    "serverFiles": 117,
-    "totalDeprecations": 57,
-    "withReplacement": 1,
+    "serverFiles": 116,
+    "totalDeprecations": 56,
+    "withReplacement": 0,
     "withoutReplacement": 56
   },
   "issues": [
@@ -47,16 +47,6 @@
       "file": "client/src/components/booking/types/selectionCardTypes.ts",
       "line": 66,
       "code": "* PATTERN: Comprehensive config object with defaults for backward compatibility",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Deprecated comment",
-      "file": "client/src/composables/admin/useFieldComponent.ts",
-      "line": 219,
-      "code": "// Deprecated: Keep for backward compatibility",
       "deprecatedItem": null,
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
@@ -125,7 +115,7 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 51,
+      "line": 52,
       "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
       "deprecatedItem": "selectedServices",
       "replacement": null,
@@ -135,7 +125,7 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/composables/booking/useAppointmentDuration.ts",
-      "line": 77,
+      "line": 75,
       "code": "// NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
       "deprecatedItem": null,
       "replacement": null,
@@ -412,6 +402,36 @@
       "suggestion": "Review and remove deprecated code when safe"
     },
     {
+      "severity": "warning",
+      "message": "Found Deprecated comment",
+      "file": "client/src/utils/appointmentFieldFormatters.ts",
+      "line": 132,
+      "code": "// Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead",
+      "deprecatedItem": "clientId",
+      "replacement": null,
+      "suggestion": "Review and remove deprecated code when safe"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Deprecated comment",
+      "file": "client/src/utils/appointmentFieldFormatters.ts",
+      "line": 143,
+      "code": "// Deprecated: selectedOptionTypeBlocks - kept for backward compatibility",
+      "deprecatedItem": "selectedOptionTypeBlocks",
+      "replacement": null,
+      "suggestion": "Review and remove deprecated code when safe"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Deprecated comment",
+      "file": "client/src/utils/appointmentFieldFormatters.ts",
+      "line": 146,
+      "code": "// Deprecated: additionalContacts - kept for backward compatibility",
+      "deprecatedItem": "additionalContacts",
+      "replacement": null,
+      "suggestion": "Review and remove deprecated code when safe"
+    },
+    {
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
@@ -465,7 +485,7 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 70,
+      "line": 69,
       "code": "// Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility",
       "deprecatedItem": "userTypeBlock",
       "replacement": null,
@@ -475,7 +495,7 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 80,
+      "line": 79,
       "code": "?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backw...",
       "deprecatedItem": "transformedAnnotationShape",
       "replacement": null,
@@ -495,7 +515,7 @@
       "severity": "info",
       "message": "Found Migration compatibility",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 241,
+      "line": 238,
       "code": "// Attach instanceComponents arrays to entities (for backward compatibility)",
       "deprecatedItem": null,
       "replacement": null,
@@ -538,36 +558,6 @@
       "line": 31,
       "code": "* NOTE: The userType field on this model is kept for backward compatibility but is being",
       "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found JSDoc @deprecated",
-      "file": "server/src/db/models/booking/property.ts",
-      "line": 2,
-      "code": "* @deprecated This model is deprecated. Use the normalized structure instead:",
-      "deprecatedItem": null,
-      "replacement": null,
-      "suggestion": "Review and remove deprecated code when safe"
-    },
-    {
-      "severity": "warning",
-      "message": "Found JSDoc @deprecated",
-      "file": "server/src/db/models/booking/property.ts",
-      "line": 20,
-      "code": "* @deprecated Use Address, PropertyVersion, and PropertyDetails models instead",
-      "deprecatedItem": null,
-      "replacement": "Address",
-      "suggestion": "Replace with `Address` and remove deprecated code"
-    },
-    {
-      "severity": "warning",
-      "message": "Found Parenthetical deprecation note",
-      "file": "server/src/db/models/index.ts",
-      "line": 69,
-      "code": "// Property: Property information (deprecated, kept for migration reference)",
-      "deprecatedItem": "Property",
       "replacement": null,
       "suggestion": "Review and remove deprecated code when safe"
     },
@@ -642,23 +632,6 @@
         }
       ],
       "score": 1,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/composables/admin/useFieldComponent.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Deprecated comment",
-          "file": "client/src/composables/admin/useFieldComponent.ts",
-          "line": 219,
-          "code": "// Deprecated: Keep for backward compatibility",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 2,
       "priority": "P2"
     },
     {
@@ -763,7 +736,7 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-          "line": 51,
+          "line": 52,
           "code": "selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...",
           "deprecatedItem": "selectedServices",
           "replacement": null,
@@ -780,7 +753,7 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/composables/booking/useAppointmentDuration.ts",
-          "line": 77,
+          "line": 75,
           "code": "// NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
           "deprecatedItem": null,
           "replacement": null,
@@ -1152,6 +1125,43 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Deprecated comment",
+          "file": "client/src/utils/appointmentFieldFormatters.ts",
+          "line": 132,
+          "code": "// Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead",
+          "deprecatedItem": "clientId",
+          "replacement": null,
+          "suggestion": "Review and remove deprecated code when safe"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Deprecated comment",
+          "file": "client/src/utils/appointmentFieldFormatters.ts",
+          "line": 143,
+          "code": "// Deprecated: selectedOptionTypeBlocks - kept for backward compatibility",
+          "deprecatedItem": "selectedOptionTypeBlocks",
+          "replacement": null,
+          "suggestion": "Review and remove deprecated code when safe"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Deprecated comment",
+          "file": "client/src/utils/appointmentFieldFormatters.ts",
+          "line": 146,
+          "code": "// Deprecated: additionalContacts - kept for backward compatibility",
+          "deprecatedItem": "additionalContacts",
+          "replacement": null,
+          "suggestion": "Review and remove deprecated code when safe"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
       "issues": [
         {
@@ -1236,7 +1246,7 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 70,
+          "line": 69,
           "code": "// Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility",
           "deprecatedItem": "userTypeBlock",
           "replacement": null,
@@ -1246,7 +1256,7 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 80,
+          "line": 79,
           "code": "?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backw...",
           "deprecatedItem": "transformedAnnotationShape",
           "replacement": null,
@@ -1280,7 +1290,7 @@
           "severity": "info",
           "message": "Found Migration compatibility",
           "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 241,
+          "line": 238,
           "code": "// Attach instanceComponents arrays to entities (for backward compatibility)",
           "deprecatedItem": null,
           "replacement": null,
@@ -1345,50 +1355,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/db/models/booking/property.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found JSDoc @deprecated",
-          "file": "server/src/db/models/booking/property.ts",
-          "line": 2,
-          "code": "* @deprecated This model is deprecated. Use the normalized structure instead:",
-          "deprecatedItem": null,
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        },
-        {
-          "severity": "warning",
-          "message": "Found JSDoc @deprecated",
-          "file": "server/src/db/models/booking/property.ts",
-          "line": 20,
-          "code": "* @deprecated Use Address, PropertyVersion, and PropertyDetails models instead",
-          "deprecatedItem": null,
-          "replacement": "Address",
-          "suggestion": "Replace with `Address` and remove deprecated code"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/db/models/index.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "message": "Found Parenthetical deprecation note",
-          "file": "server/src/db/models/index.ts",
-          "line": 69,
-          "code": "// Property: Property information (deprecated, kept for migration reference)",
-          "deprecatedItem": "Property",
-          "replacement": null,
-          "suggestion": "Review and remove deprecated code when safe"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "repoPath": "server/src/routes/internal/index.ts",
       "issues": [
         {
@@ -1407,7 +1373,6 @@
     }
   ],
   "recommendations": [
-    "Found 1 deprecation(s) with replacement suggestions - these are ready for cleanup",
     "Found 56 deprecation(s) without replacement - review before removing"
   ]
 }

@@ -4,62 +4,40 @@ Generated from `.audit-reports/deprecation-audit.json`.
 
 ## Summary
 
-- Files scanned: **600**
-- Files with deprecations: **44**
-- Total deprecation markers: **83**
-- With replacement suggestion: **18**
-- Without replacement: **65**
+- Files scanned: **599**
+- Files with deprecations: **35**
+- Total deprecation markers: **61**
+- With replacement suggestion: **4**
+- Without replacement: **57**
 
 ## Quick Wins (ready for cleanup)
 
 | Deprecated | Replace With | File | Line |
 | --- | --- | --- | ---: |
-| `(unknown)` | `componentType` | `client/src/composables/admin/useFieldComponent.ts` | 233 |
-| `(unknown)` | `FieldMetadataConfig` | `client/src/composables/admin/useFieldMetadataUpdate.ts` | 18 |
-| `(unknown)` | `AppointmentSlotsPerDay` | `client/src/composables/booking/useAvailabilityLogic.ts` | 417 |
-| `(unknown)` | `useBusyTimes` | `client/src/composables/booking/useBusyTimes.ts` | 184 |
-| `selectedPropertyTypeBlockIds` | `selectedPropertyIds` | `client/src/types/appointment.ts` | 344 |
-| `selectedOptionTypeBlocks` | `selectedOptionIds` | `client/src/types/appointment.ts` | 347 |
-| `serviceSnapshots` | `serviceSnapshotIds` | `client/src/types/appointment.ts` | 350 |
-| `propertySnapshots` | `propertySnapshotIds` | `client/src/types/appointment.ts` | 351 |
-| `optionTypeBlockSnapshots` | `optionSnapshots` | `client/src/types/appointment.ts` | 352 |
-| `optionSnapshots` | `optionSnapshotIds` | `client/src/types/appointment.ts` | 353 |
-| `userTypeBlock` | `annotation_assignments` | `client/src/types/entities.ts` | 76 |
-| `(unknown)` | `getStateControlBlockInstanceOptions` | `client/src/utils/annotationUtils.ts` | 108 |
-| `(unknown)` | `getDynamicEntityDefaults` | `client/src/utils/entityDefaults.ts` | 127 |
-| `(unknown)` | `getCalendarAvailability` | `client/src/utils/timeSlotCalculations.ts` | 286 |
-| `(unknown)` | `serviceSnapshotIds` | `server/src/db/models/booking/appointment.ts` | 41 |
-
-*... and 3 more. See full report.*
+| `(unknown)` | `componentType` | `client/src/composables/admin/useFieldComponent.ts` | 67 |
+| `(unknown)` | `componentType` | `client/src/composables/admin/useFieldComponent.ts` | 72 |
+| `(unknown)` | `componentType` | `client/src/composables/admin/useFieldComponent.ts` | 77 |
+| `(unknown)` | `componentType` | `client/src/composables/admin/useFieldComponent.ts` | 82 |
 
 ## Files by Priority
 
 | File | Priority | Score | Deprecations | Ready |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/types/appointment.ts` | P0 | 26 | 15 | 6 |
-| `server/src/db/models/booking/appointment.ts` | P1 | 6 | 3 | 3 |
-| `client/src/composables/admin/useFieldComponent.ts` | P1 | 4 | 2 | 1 |
+| `client/src/composables/admin/useFieldComponent.ts` | P0 | 10 | 5 | 4 |
+| `client/src/utils/appointmentFieldFormatters.ts` | P1 | 6 | 3 | 0 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | P1 | 4 | 4 | 0 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 4 | 4 | 0 |
 | `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 4 | 2 | 0 |
-| `client/src/utils/timeSlotCalculations.ts` | P1 | 4 | 3 | 1 |
-| `server/src/db/models/booking/property.ts` | P1 | 4 | 2 | 1 |
-| `client/src/composables/admin/useFieldMetadataUpdate.ts` | P2 | 3 | 2 | 1 |
-| `client/src/composables/booking/useBusyTimes.ts` | P2 | 3 | 2 | 1 |
+| `client/src/types/appointment.ts` | P1 | 4 | 4 | 0 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 3 | 3 | 0 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P2 | 3 | 3 | 0 |
 | `client/src/components/booking/TimeSlotGrid.vue` | P2 | 2 | 2 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 2 | 2 | 0 |
-| `client/src/composables/booking/useAvailabilityLogic.ts` | P2 | 2 | 1 | 1 |
 | `client/src/composables/useAdmin.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useRelationship.ts` | P2 | 2 | 2 | 0 |
-| `client/src/types/entities.ts` | P2 | 2 | 1 | 1 |
-| `client/src/utils/annotationUtils.ts` | P2 | 2 | 1 | 1 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 2 | 2 | 0 |
-| `client/src/utils/entityDefaults.ts` | P2 | 2 | 1 | 1 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | P2 | 2 | 1 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P2 | 2 | 2 | 0 |
-| `server/src/db/models/index.ts` | P2 | 2 | 1 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 1 | 1 | 0 |
 | `client/src/components/booking/types/selectionCardTypes.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/admin/useShapeEditModal.ts` | P2 | 1 | 1 | 0 |

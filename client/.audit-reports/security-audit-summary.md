@@ -4,59 +4,62 @@ Generated from `.audit-reports/security-audit.json`.
 
 ## Summary
 
-- Total errors: **46**
-- Total warnings: **256**
-- Files with issues: **72**
+- Total errors: **48**
+- Total warnings: **263**
+- Files with issues: **74**
 
 ## Categories (sorted by priority)
 
 | Category | Priority | Score | Errors | Warnings |
 | --- | --- | ---: | ---: | ---: |
-| Exposed Secrets | P0 | 1220 | 0 | 244 |
-| CSRF Protection | P0 | 504 | 42 | 0 |
-| Authentication Patterns | P0 | 60 | 0 | 12 |
+| Exposed Secrets | P0 | 1315 | 0 | 263 |
+| CSRF Protection | P0 | 528 | 44 | 0 |
 | IDOR Vulnerabilities | P0 | 48 | 4 | 0 |
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
 | Security Configuration | P2 | 0 | 0 | 0 |
+| Authentication Patterns | P2 | 0 | 0 | 0 |
 
 ## Files with Issues (sorted by priority)
 
 | File | Priority | Score | Categories | Issues |
 | --- | --- | ---: | --- | ---: |
-| `server/src/routes/internal/properties/propertyRouter.ts` | P0 | 186 | csrf, auth, idor | 20 |
-| `server/src/routes/internal/entities/entityRouter.ts` | P0 | 146 | csrf, auth, idor | 16 |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | P0 | 106 | csrf, auth, idor | 12 |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 106 | csrf, auth | 12 |
-| `server/src/routes/internal/users/userRouter.ts` | P0 | 106 | csrf, auth, idor | 12 |
+| `server/src/routes/internal/properties/propertyRouter.ts` | P0 | 180 | csrf, idor | 18 |
+| `server/src/routes/internal/entities/entityRouter.ts` | P0 | 140 | csrf, idor | 14 |
+| `server/src/routes/internal/appointments/appointmentRouter.ts` | P0 | 100 | csrf, idor | 10 |
+| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 100 | csrf | 10 |
+| `server/src/routes/internal/users/userRouter.ts` | P0 | 100 | csrf, idor | 10 |
 | `server/src/db/migrations/20250130_rename_type_to_shape.mjs` | P0 | 96 | secrets | 32 |
-| `server/src/routes/internal/businessSettingsRouter.ts` | P0 | 86 | csrf, auth | 10 |
+| `server/src/routes/internal/businessRulesRouter.ts` | P0 | 80 | csrf | 8 |
+| `server/src/routes/internal/businessSettingsRouter.ts` | P0 | 80 | csrf | 8 |
 | `server/src/db/migrations/20250130_rename_profile_to_instance.js` | P0 | 72 | secrets | 24 |
 | `server/src/db/migrations/20250130_rename_profile_to_instance.mjs` | P0 | 72 | secrets | 24 |
 | `server/src/scripts/fix-missing-layout-configs.mjs` | P0 | 72 | secrets | 24 |
 | `server/src/db/migrations/20260130_ensure_relationship_keys_removed_from_primitive_metadata.mjs` | P0 | 66 | secrets | 22 |
 | `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | P0 | 66 | secrets | 22 |
-| `server/src/routes/internal/participantRoutes/user-routes.ts` | P0 | 66 | csrf, auth | 8 |
 | `server/src/db/migrations/20260115_remove_activeparts_from_primitive_metadata.mjs` | P0 | 60 | secrets | 20 |
 | `server/src/db/migrations/20260131_force_delete_relationship_keys_from_primitive_metadata.mjs` | P0 | 60 | secrets | 20 |
-| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | P0 | 58 | secrets, csrf, auth | 10 |
+| `server/src/config/googleOAuth.ts` | P0 | 54 | secrets | 18 |
 | `server/src/db/migrations/20260129_remove_relationship_keys_from_primitive_metadata.mjs` | P0 | 54 | secrets | 18 |
 | `server/src/db/migrations/20260130_173500_fix_all_activeparts_references.mjs` | P0 | 54 | secrets | 18 |
 | `server/src/scripts/fix-primitive-metadata-cleanup.mjs` | P0 | 54 | secrets | 18 |
+| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | P0 | 52 | secrets, csrf | 8 |
 | `server/src/db/migrations/20260115_migrate_field_metadata_to_new_tables.mjs` | P0 | 48 | secrets | 16 |
 | `server/src/db/migrations/20260201_update_constituents_to_parts_in_relationship_metadata.mjs` | P0 | 48 | secrets | 16 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | P0 | 46 | csrf, auth | 6 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` | P0 | 46 | csrf, auth | 6 |
+| `server/src/routes/external/calendarRoutes.ts` | P0 | 40 | csrf | 4 |
+| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | P0 | 40 | csrf | 4 |
+| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` | P0 | 40 | csrf | 4 |
 | `server/src/db/migrations/20251202_rename_annotation_tables_to_shape_instance_pattern.mjs` | P0 | 36 | secrets | 12 |
 | `server/src/db/migrations/20260204_000015_remove_shape_columns_from_event_assignments.mjs` | P0 | 36 | secrets | 12 |
 | `server/src/scripts/manual-migrate-fieldmetadata.mjs` | P0 | 36 | secrets | 12 |
 | `server/src/db/migrations/20260130_ensure_partassignments_in_input_config.mjs` | P0 | 30 | secrets | 10 |
+| `server/src/app.ts` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20251128_rename_relationship_tables.js` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20260130_fix_activeparts_in_input_config.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20260131154000_force_insert_event_shape_metadata.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20260131160000_fix_event_shape_metadata_final.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20260204_000016_standardize_event_assignments_to_parent_child.mjs` | P0 | 24 | secrets | 8 |
+| `server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/api/api.routes.ts` | P0 | 20 | csrf | 2 |
-| `server/src/routes/internal/participantRoutes/login-routes.ts` | P0 | 20 | csrf | 2 |
 | `server/src/db/migrations/20260108_rename_relationships_to_domain_terms.mjs` | P0 | 18 | secrets | 6 |
 | `server/src/db/migrations/20260130_fix_all_active_assignments_in_metadata.mjs` | P0 | 18 | secrets | 6 |
 | `server/src/db/migrations/20260130_fix_dependent_instance_naming.mjs` | P0 | 18 | secrets | 6 |
@@ -76,6 +79,7 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/db/migrations/20260131155000_direct_insert_event_shape_metadata.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/db/migrations/20260204_000000_fix_event_assignments_selecttype.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/db/migrations/20260204_000017_create_event_shape_attendees.mjs` | P1 | 12 | secrets | 4 |
+| `server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/scripts/fix-validConstituents.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/db/migrations/20250127_02_add_type_to_annotations.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/db/migrations/20250127_add_type_to_annotations.mjs` | P2 | 6 | secrets | 2 |
@@ -90,11 +94,9 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/db/migrations/20260201_drop_deprecated_field_metadata_table.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/db/migrations/20260204_000006_fix_valid_events_render_as.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/db/migrations/20260204_000007_force_fix_valid_events_render_as.mjs` | P2 | 6 | secrets | 2 |
-| `server/src/routes/external/googleOauthRoutes.ts` | P2 | 6 | secrets | 2 |
+| `server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/scripts/check-layout-configs.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/scripts/fix-valid-events-render-as.mjs` | P2 | 6 | secrets | 2 |
-| `server/src/routes/external/googleFetchRoutes.ts` | P2 | 6 | auth | 2 |
-| `server/src/routes/internal/availabilityRouter.ts` | P2 | 6 | auth | 2 |
 
 ## Notes
 

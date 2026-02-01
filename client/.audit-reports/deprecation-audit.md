@@ -14,22 +14,11 @@ Identifies deprecated code that should be cleaned up, including:
 
 ## Summary
 
-- Files scanned: **600**
-- Files with deprecations: **36**
-- Deprecation markers found: **57**
-- With replacement suggestion: 1
+- Files scanned: **599**
+- Files with deprecations: **34**
+- Deprecation markers found: **56**
+- With replacement suggestion: 0
 - Without replacement: 56
-
-## Ready to Remove (have replacement suggestions)
-
-These deprecations specify what to use instead - good candidates for cleanup:
-
-### `server/src/db/models/booking/property.ts`
-
-- **Line 20**: item → use `Address`
-  ```
-  * @deprecated Use Address, PropertyVersion, and PropertyDetails models instead
-  ```
 
 ## Needs Review (no replacement specified)
 
@@ -59,13 +48,6 @@ These deprecations need investigation to determine if they can be removed:
 - **Line 66** (info): Found Migration compatibility
   ```
   * PATTERN: Comprehensive config object with defaults for backward compatibility
-  ```
-
-### `client/src/composables/admin/useFieldComponent.ts`
-
-- **Line 219** (warning): Found Deprecated comment
-  ```
-  // Deprecated: Keep for backward compatibility
   ```
 
 ### `client/src/composables/admin/useShapeEditModal.ts`
@@ -110,14 +92,14 @@ These deprecations need investigation to determine if they can be removed:
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
-- **Line 51** (info): Found Migration compatibility
+- **Line 52** (info): Found Migration compatibility
   ```
   selectedServices: Ref<BookingBlockInstance[]> // Note: This param name kept for backward compatibility, but receives sel...
   ```
 
 ### `client/src/composables/booking/useAppointmentDuration.ts`
 
-- **Line 77** (info): Found Migration compatibility
+- **Line 75** (info): Found Migration compatibility
   ```
   // NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
   ```
@@ -283,6 +265,23 @@ These deprecations need investigation to determine if they can be removed:
   id: string; // PropertyVersion ID (for backward compatibility)
   ```
 
+### `client/src/utils/appointmentFieldFormatters.ts`
+
+- **Line 132** (warning): Found Deprecated comment
+  ```
+  // Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead
+  ```
+
+- **Line 143** (warning): Found Deprecated comment
+  ```
+  // Deprecated: selectedOptionTypeBlocks - kept for backward compatibility
+  ```
+
+- **Line 146** (warning): Found Deprecated comment
+  ```
+  // Deprecated: additionalContacts - kept for backward compatibility
+  ```
+
 ### `client/src/utils/booking/appointmentSlotBuilder.ts`
 
 - **Line 111** (info): Found Migration compatibility
@@ -318,12 +317,12 @@ These deprecations need investigation to determine if they can be removed:
 
 ### `client/src/utils/transformers/annotationTransformers.ts`
 
-- **Line 70** (info): Found Migration compatibility
+- **Line 69** (info): Found Migration compatibility
   ```
   // Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility
   ```
 
-- **Line 80** (info): Found Migration compatibility
+- **Line 79** (info): Found Migration compatibility
   ```
   ?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backw...
   ```
@@ -337,7 +336,7 @@ These deprecations need investigation to determine if they can be removed:
 
 ### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
 
-- **Line 241** (info): Found Migration compatibility
+- **Line 238** (info): Found Migration compatibility
   ```
   // Attach instanceComponents arrays to entities (for backward compatibility)
   ```
@@ -366,20 +365,6 @@ These deprecations need investigation to determine if they can be removed:
   * NOTE: The userType field on this model is kept for backward compatibility but is being
   ```
 
-### `server/src/db/models/booking/property.ts`
-
-- **Line 2** (warning): Found JSDoc @deprecated
-  ```
-  * @deprecated This model is deprecated. Use the normalized structure instead:
-  ```
-
-### `server/src/db/models/index.ts`
-
-- **Line 69** (warning): Found Parenthetical deprecation note
-  ```
-  // Property: Property information (deprecated, kept for migration reference)
-  ```
-
 ### `server/src/routes/internal/index.ts`
 
 - **Line 30** (info): Found Migration compatibility
@@ -391,22 +376,20 @@ These deprecations need investigation to determine if they can be removed:
 
 | File | Priority | Score | Deprecations | With Replacement |
 | --- | --- | ---: | ---: | ---: |
+| `client/src/utils/appointmentFieldFormatters.ts` | P1 | 6 | 3 | 0 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | P1 | 4 | 4 | 0 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 4 | 4 | 0 |
 | `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 4 | 2 | 0 |
 | `client/src/types/appointment.ts` | P1 | 4 | 4 | 0 |
-| `server/src/db/models/booking/property.ts` | P1 | 4 | 2 | 1 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 3 | 3 | 0 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P2 | 3 | 3 | 0 |
 | `client/src/components/booking/TimeSlotGrid.vue` | P2 | 2 | 2 | 0 |
-| `client/src/composables/admin/useFieldComponent.ts` | P2 | 2 | 1 | 0 |
 | `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useAdmin.ts` | P2 | 2 | 2 | 0 |
 | `client/src/composables/useRelationship.ts` | P2 | 2 | 2 | 0 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 2 | 2 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | P2 | 2 | 1 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P2 | 2 | 2 | 0 |
-| `server/src/db/models/index.ts` | P2 | 2 | 1 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 1 | 1 | 0 |
 | `client/src/components/booking/types/selectionCardTypes.ts` | P2 | 1 | 1 | 0 |
 | `client/src/composables/admin/useShapeEditModal.ts` | P2 | 1 | 1 | 0 |

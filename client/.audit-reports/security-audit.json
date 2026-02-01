@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T00:31:05.246Z",
+  "generatedAt": "2026-02-01T20:46:51.108Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -13,8 +13,8 @@
     ]
   },
   "summary": {
-    "totalErrors": 50,
-    "totalWarnings": 257,
+    "totalErrors": 48,
+    "totalWarnings": 263,
     "byCategory": {
       "dependencies": {
         "errors": 0,
@@ -22,19 +22,19 @@
       },
       "secrets": {
         "errors": 0,
-        "warnings": 244
+        "warnings": 263
       },
       "config": {
         "errors": 0,
         "warnings": 0
       },
       "csrf": {
-        "errors": 46,
+        "errors": 44,
         "warnings": 0
       },
       "auth": {
         "errors": 0,
-        "warnings": 13
+        "warnings": 0
       },
       "idor": {
         "errors": 4,
@@ -57,6 +57,97 @@
       "errors": [],
       "warnings": [
         {
+          "file": "server/src/app.ts",
+          "line": 70,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 79,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 92,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 93,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 161,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 163,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 192,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 197,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 198,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 199,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 203,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 208,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
           "file": "server/src/db/migrations/20250127_02_add_type_to_annotations.mjs",
           "line": 173,
           "pattern": "Console.log with secret",
@@ -72,84 +163,84 @@
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 64,
+          "line": 61,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 66,
+          "line": 63,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 103,
+          "line": 100,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 105,
+          "line": 102,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 130,
+          "line": 126,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 132,
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 157,
+          "line": 152,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 159,
+          "line": 154,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 212,
+          "line": 206,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 247,
+          "line": 241,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 268,
+          "line": 262,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 289,
+          "line": 283,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -352,28 +443,28 @@
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 55,
+          "line": 53,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 99,
+          "line": 95,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 143,
+          "line": 137,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 187,
+          "line": 179,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -1408,22 +1499,64 @@
           "severity": "warning"
         },
         {
-          "file": "server/src/routes/external/googleOauthRoutes.ts",
-          "line": 19,
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+          "line": 84,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
-          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
           "line": 122,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 43,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 45,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 59,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 61,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+          "line": 36,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 168,
+          "line": 92,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -1765,8 +1898,103 @@
           "severity": "warning"
         }
       ],
-      "score": 1220,
+      "score": 1315,
       "fileIssues": {
+        "server/src/app.ts": [
+          {
+            "file": "server/src/app.ts",
+            "line": 70,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/app.ts",
+            "line": 79,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/app.ts",
+            "line": 92,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/app.ts",
+            "line": 93,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
+        ],
+        "server/src/config/googleOAuth.ts": [
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 161,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 163,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 179,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 192,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 197,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 198,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 199,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 203,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/config/googleOAuth.ts",
+            "line": 208,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
+        ],
         "server/src/db/migrations/20250127_02_add_type_to_annotations.mjs": [
           {
             "file": "server/src/db/migrations/20250127_02_add_type_to_annotations.mjs",
@@ -1788,84 +2016,84 @@
         "server/src/db/migrations/20250130_rename_profile_to_instance.js": [
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 64,
+            "line": 61,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 66,
+            "line": 63,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 103,
+            "line": 100,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 105,
+            "line": 102,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 130,
+            "line": 126,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 132,
+            "line": 128,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 157,
+            "line": 152,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 159,
+            "line": 154,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 212,
+            "line": 206,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 247,
+            "line": 241,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 268,
+            "line": 262,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-            "line": 289,
+            "line": 283,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
@@ -2074,28 +2302,28 @@
         "server/src/db/migrations/20251128_rename_relationship_tables.js": [
           {
             "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-            "line": 55,
+            "line": 53,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-            "line": 99,
+            "line": 95,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-            "line": 143,
+            "line": 137,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-            "line": 187,
+            "line": 179,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
@@ -3214,10 +3442,56 @@
             "severity": "warning"
           }
         ],
-        "server/src/routes/external/googleOauthRoutes.ts": [
+        "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs": [
           {
-            "file": "server/src/routes/external/googleOauthRoutes.ts",
-            "line": 19,
+            "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+            "line": 84,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+            "line": 122,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
+        ],
+        "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs": [
+          {
+            "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+            "line": 43,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+            "line": 45,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+            "line": 59,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+            "line": 61,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
+        ],
+        "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs": [
+          {
+            "file": "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+            "line": 36,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
@@ -3226,14 +3500,14 @@
         "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts": [
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-            "line": 122,
+            "line": 92,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           },
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-            "line": 168,
+            "line": 128,
             "pattern": "Console.log with secret",
             "issue": "Potential console.log with secret found",
             "severity": "warning"
@@ -3617,8 +3891,24 @@
           "severity": "error"
         },
         {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 45,
+          "route": "/freebusy",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 262,
+          "route": "/events",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 189,
+          "line": 149,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3626,7 +3916,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 360,
+          "line": 299,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3634,7 +3924,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 123,
+          "line": 105,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3642,7 +3932,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 248,
+          "line": 220,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3650,7 +3940,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 72,
+          "line": 59,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3658,7 +3948,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 184,
+          "line": 162,
           "route": "/:entityType/:entityId/:relationshipKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3666,7 +3956,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 131,
+          "line": 139,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3674,7 +3964,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 189,
+          "line": 237,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3682,7 +3972,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 230,
+          "line": 263,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3690,7 +3980,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 271,
+          "line": 289,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3698,7 +3988,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 114,
+          "line": 86,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3706,7 +3996,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 161,
+          "line": 127,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3714,7 +4004,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 208,
+          "line": 169,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3722,7 +4012,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 240,
+          "line": 196,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3730,7 +4020,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 377,
+          "line": 344,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3738,7 +4028,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 436,
+          "line": 396,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3746,7 +4036,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 496,
+          "line": 449,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3754,7 +4044,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 554,
+          "line": 500,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3762,7 +4052,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 182,
+          "line": 135,
           "route": "/:entityType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3770,7 +4060,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 276,
+          "line": 208,
           "route": "/:entityType/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3778,7 +4068,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 415,
+          "line": 327,
           "route": "/:entityType/order_index",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3786,7 +4076,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 454,
+          "line": 364,
           "route": "/:entityType/bulk",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3794,7 +4084,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 521,
+          "line": 422,
           "route": "/:entityType/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3802,47 +4092,15 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 687,
+          "line": 563,
           "route": "/:entityType/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
         },
         {
-          "file": "server/src/routes/internal/participantRoutes/login-routes.ts",
-          "line": 39,
-          "route": "/login",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 19,
-          "route": "/",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 22,
-          "route": "/:id",
-          "method": "PUT",
-          "issue": "Missing CSRF protection on PUT route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 25,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        },
-        {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 113,
+          "line": 102,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3850,7 +4108,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 195,
+          "line": 174,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3858,7 +4116,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 266,
+          "line": 237,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3866,7 +4124,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 321,
+          "line": 282,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3874,7 +4132,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 394,
+          "line": 350,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3882,7 +4140,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 485,
+          "line": 432,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3890,7 +4148,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 523,
+          "line": 465,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3898,7 +4156,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 560,
+          "line": 502,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3906,7 +4164,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 435,
+          "line": 384,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3914,7 +4172,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 742,
+          "line": 659,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3922,7 +4180,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 783,
+          "line": 694,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3930,7 +4188,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 843,
+          "line": 749,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3938,7 +4196,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 889,
+          "line": 787,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3946,7 +4204,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 61,
+          "line": 49,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3954,7 +4212,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 78,
+          "line": 101,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3962,7 +4220,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 105,
+          "line": 159,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3970,7 +4228,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 132,
+          "line": 217,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3978,7 +4236,7 @@
         }
       ],
       "warnings": [],
-      "score": 552,
+      "score": 528,
       "fileIssues": {
         "server/src/api/api.routes.ts": [
           {
@@ -3990,10 +4248,28 @@
             "severity": "error"
           }
         ],
+        "server/src/routes/external/calendarRoutes.ts": [
+          {
+            "file": "server/src/routes/external/calendarRoutes.ts",
+            "line": 45,
+            "route": "/freebusy",
+            "method": "POST",
+            "issue": "Missing CSRF protection on POST route",
+            "severity": "error"
+          },
+          {
+            "file": "server/src/routes/external/calendarRoutes.ts",
+            "line": 262,
+            "route": "/events",
+            "method": "POST",
+            "issue": "Missing CSRF protection on POST route",
+            "severity": "error"
+          }
+        ],
         "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts": [
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-            "line": 189,
+            "line": 149,
             "route": "/:entityType/:entityId",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4001,7 +4277,7 @@
           },
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-            "line": 360,
+            "line": 299,
             "route": "/:entityType/:entityId/:fieldKey",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4011,7 +4287,7 @@
         "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts": [
           {
             "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-            "line": 123,
+            "line": 105,
             "route": "/:entityType/:entityId",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4019,7 +4295,7 @@
           },
           {
             "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-            "line": 248,
+            "line": 220,
             "route": "/:entityType/:entityId/:fieldKey",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4029,7 +4305,7 @@
         "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts": [
           {
             "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-            "line": 72,
+            "line": 59,
             "route": "/:entityType/:entityId",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4037,7 +4313,7 @@
           },
           {
             "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-            "line": 184,
+            "line": 162,
             "route": "/:entityType/:entityId/:relationshipKey",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4047,7 +4323,7 @@
         "server/src/routes/internal/appointments/appointmentRouter.ts": [
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 131,
+            "line": 139,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4055,7 +4331,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 189,
+            "line": 237,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4063,7 +4339,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 230,
+            "line": 263,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4071,7 +4347,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 271,
+            "line": 289,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4081,7 +4357,7 @@
         "server/src/routes/internal/businessRulesRouter.ts": [
           {
             "file": "server/src/routes/internal/businessRulesRouter.ts",
-            "line": 114,
+            "line": 86,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4089,7 +4365,7 @@
           },
           {
             "file": "server/src/routes/internal/businessRulesRouter.ts",
-            "line": 161,
+            "line": 127,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4097,7 +4373,7 @@
           },
           {
             "file": "server/src/routes/internal/businessRulesRouter.ts",
-            "line": 208,
+            "line": 169,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4105,7 +4381,7 @@
           },
           {
             "file": "server/src/routes/internal/businessRulesRouter.ts",
-            "line": 240,
+            "line": 196,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4115,7 +4391,7 @@
         "server/src/routes/internal/businessSettingsRouter.ts": [
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 377,
+            "line": 344,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4123,7 +4399,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 436,
+            "line": 396,
             "route": "/:key",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4131,7 +4407,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 496,
+            "line": 449,
             "route": "/:key",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4139,7 +4415,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 554,
+            "line": 500,
             "route": "/:key",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4149,7 +4425,7 @@
         "server/src/routes/internal/entities/entityRouter.ts": [
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 182,
+            "line": 135,
             "route": "/:entityType",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4157,7 +4433,7 @@
           },
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 276,
+            "line": 208,
             "route": "/:entityType/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4165,7 +4441,7 @@
           },
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 415,
+            "line": 327,
             "route": "/:entityType/order_index",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4173,7 +4449,7 @@
           },
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 454,
+            "line": 364,
             "route": "/:entityType/bulk",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4181,7 +4457,7 @@
           },
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 521,
+            "line": 422,
             "route": "/:entityType/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4189,44 +4465,8 @@
           },
           {
             "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 687,
+            "line": 563,
             "route": "/:entityType/:id",
-            "method": "DELETE",
-            "issue": "Missing CSRF protection on DELETE route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/participantRoutes/login-routes.ts": [
-          {
-            "file": "server/src/routes/internal/participantRoutes/login-routes.ts",
-            "line": 39,
-            "route": "/login",
-            "method": "POST",
-            "issue": "Missing CSRF protection on POST route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/participantRoutes/user-routes.ts": [
-          {
-            "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-            "line": 19,
-            "route": "/",
-            "method": "POST",
-            "issue": "Missing CSRF protection on POST route",
-            "severity": "error"
-          },
-          {
-            "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-            "line": 22,
-            "route": "/:id",
-            "method": "PUT",
-            "issue": "Missing CSRF protection on PUT route",
-            "severity": "error"
-          },
-          {
-            "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-            "line": 25,
-            "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
             "severity": "error"
@@ -4235,7 +4475,7 @@
         "server/src/routes/internal/properties/propertyRouter.ts": [
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 113,
+            "line": 102,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4243,7 +4483,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 195,
+            "line": 174,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4251,7 +4491,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 266,
+            "line": 237,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4259,7 +4499,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 321,
+            "line": 282,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4267,7 +4507,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 394,
+            "line": 350,
             "route": "/:id/types",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4275,7 +4515,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 485,
+            "line": 432,
             "route": "/:id/types/:typeId",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4283,7 +4523,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 523,
+            "line": 465,
             "route": "/:id/types/:typeId",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4291,7 +4531,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 560,
+            "line": 502,
             "route": "/:id/types",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4301,7 +4541,7 @@
         "server/src/routes/internal/relationships/relationshipRouter.ts": [
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 435,
+            "line": 384,
             "route": "/:relationshipType",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4309,7 +4549,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 742,
+            "line": 659,
             "route": "/instanceComponents/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4317,7 +4557,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 783,
+            "line": 694,
             "route": "/instanceComponents/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4325,7 +4565,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 843,
+            "line": 749,
             "route": "/annotationAssignments/:blockInstanceId/:annotationId",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4333,7 +4573,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 889,
+            "line": 787,
             "route": "/:relationshipType/:parentId/:childId",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4343,7 +4583,7 @@
         "server/src/routes/internal/users/userRouter.ts": [
           {
             "file": "server/src/routes/internal/users/userRouter.ts",
-            "line": 61,
+            "line": 49,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4351,7 +4591,7 @@
           },
           {
             "file": "server/src/routes/internal/users/userRouter.ts",
-            "line": 78,
+            "line": 101,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4359,7 +4599,7 @@
           },
           {
             "file": "server/src/routes/internal/users/userRouter.ts",
-            "line": 105,
+            "line": 159,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4367,7 +4607,7 @@
           },
           {
             "file": "server/src/routes/internal/users/userRouter.ts",
-            "line": 132,
+            "line": 217,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4381,246 +4621,10 @@
       "id": "auth",
       "name": "Authentication Patterns",
       "errors": [],
-      "warnings": [
-        {
-          "file": "server/src/routes/external/googleFetchRoutes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        }
-      ],
-      "score": 65,
-      "fileIssues": {
-        "server/src/routes/external/googleFetchRoutes.ts": [
-          {
-            "file": "server/src/routes/external/googleFetchRoutes.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts": [
-          {
-            "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts": [
-          {
-            "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts": [
-          {
-            "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/appointments/appointmentRouter.ts": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/availabilityRouter.ts": [
-          {
-            "file": "server/src/routes/internal/availabilityRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/businessRulesRouter.ts": [
-          {
-            "file": "server/src/routes/internal/businessRulesRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/businessSettingsRouter.ts": [
-          {
-            "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/entities/entityRouter.ts": [
-          {
-            "file": "server/src/routes/internal/entities/entityRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/participantRoutes/user-routes.ts": [
-          {
-            "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/properties/propertyRouter.ts": [
-          {
-            "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/relationships/relationshipRouter.ts": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ],
-        "server/src/routes/internal/users/userRouter.ts": [
-          {
-            "file": "server/src/routes/internal/users/userRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "Sensitive routes detected without authentication",
-            "severity": "warning"
-          }
-        ]
-      },
-      "priority": "P0"
+      "warnings": [],
+      "score": 0,
+      "fileIssues": {},
+      "priority": "P2"
     },
     {
       "id": "idor",
@@ -4708,6 +4712,210 @@
   ],
   "files": [
     {
+      "id": "server__src__app.ts",
+      "repoPath": "server/src/app.ts",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/app.ts",
+          "line": 70,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 79,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 92,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 93,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 70,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 79,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 92,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/app.ts",
+          "line": 93,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 24,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__config__googleOAuth.ts",
+      "repoPath": "server/src/config/googleOAuth.ts",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 161,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 163,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 192,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 197,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 198,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 199,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 203,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 208,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 161,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 163,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 192,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 197,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 198,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 199,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 203,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/config/googleOAuth.ts",
+          "line": 208,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 54,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__db__migrations__20250127_02_add_type_to_annotations.mjs",
       "repoPath": "server/src/db/migrations/20250127_02_add_type_to_annotations.mjs",
       "categories": [
@@ -4766,168 +4974,168 @@
       "issues": [
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 64,
+          "line": 61,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 66,
+          "line": 63,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 103,
+          "line": 100,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 105,
+          "line": 102,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 130,
+          "line": 126,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 132,
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 157,
+          "line": 152,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 159,
+          "line": 154,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 212,
+          "line": 206,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 247,
+          "line": 241,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 268,
+          "line": 262,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 289,
+          "line": 283,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 64,
+          "line": 61,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 66,
+          "line": 63,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 103,
+          "line": 100,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 105,
+          "line": 102,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 130,
+          "line": 126,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 132,
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 157,
+          "line": 152,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 159,
+          "line": 154,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 212,
+          "line": 206,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 247,
+          "line": 241,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 268,
+          "line": 262,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-          "line": 289,
+          "line": 283,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -5359,56 +5567,56 @@
       "issues": [
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 55,
+          "line": 53,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 99,
+          "line": 95,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 143,
+          "line": 137,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 187,
+          "line": 179,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 55,
+          "line": 53,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 99,
+          "line": 95,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 143,
+          "line": 137,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/db/migrations/20251128_rename_relationship_tables.js",
-          "line": 187,
+          "line": 179,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -7938,22 +8146,128 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__routes__external__googleOauthRoutes.ts",
-      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "id": "server__src__db__migrations__20260204_000018_create_appointment_attendees.mjs",
+      "repoPath": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
       "categories": [
         "secrets"
       ],
       "issues": [
         {
-          "file": "server/src/routes/external/googleOauthRoutes.ts",
-          "line": 19,
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+          "line": 84,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
-          "file": "server/src/routes/external/googleOauthRoutes.ts",
-          "line": 19,
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+          "line": 122,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+          "line": 84,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs",
+          "line": 122,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__db__migrations__20260204_000020_remove_legacy_attendee_columns.mjs",
+      "repoPath": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 43,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 45,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 59,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 61,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 43,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 45,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 59,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs",
+          "line": 61,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 24,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__db__migrations__20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+      "repoPath": "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+          "line": 36,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs",
+          "line": 36,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
@@ -7967,41 +8281,40 @@
       "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
       "categories": [
         "secrets",
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 122,
+          "line": 92,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 168,
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 122,
+          "line": 92,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 168,
+          "line": 128,
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 189,
+          "line": 149,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8009,7 +8322,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 360,
+          "line": 299,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -8017,7 +8330,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 189,
+          "line": 149,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8025,30 +8338,14 @@
         },
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 360,
+          "line": 299,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 58,
+      "score": 52,
       "priority": "P0"
     },
     {
@@ -8850,16 +9147,58 @@
       "priority": "P0"
     },
     {
+      "id": "server__src__routes__external__calendarRoutes.ts",
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "categories": [
+        "csrf"
+      ],
+      "issues": [
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 45,
+          "route": "/freebusy",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 262,
+          "route": "/events",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 45,
+          "route": "/freebusy",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "line": 262,
+          "route": "/events",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        }
+      ],
+      "score": 40,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataRouter.ts",
       "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
       "categories": [
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 123,
+          "line": 105,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8867,7 +9206,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 248,
+          "line": 220,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -8875,7 +9214,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 123,
+          "line": 105,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8883,43 +9222,26 @@
         },
         {
           "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 248,
+          "line": 220,
           "route": "/:entityType/:entityId/:fieldKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 46,
+      "score": 40,
       "priority": "P0"
     },
     {
       "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataRouter.ts",
       "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
       "categories": [
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 72,
+          "line": 59,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8927,7 +9249,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 184,
+          "line": 162,
           "route": "/:entityType/:entityId/:relationshipKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -8935,7 +9257,7 @@
         },
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 72,
+          "line": 59,
           "route": "/:entityType/:entityId",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8943,30 +9265,14 @@
         },
         {
           "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 184,
+          "line": 162,
           "route": "/:entityType/:entityId/:relationshipKey",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 46,
+      "score": 40,
       "priority": "P0"
     },
     {
@@ -8974,13 +9280,12 @@
       "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
       "categories": [
         "csrf",
-        "auth",
         "idor"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 131,
+          "line": 139,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -8988,7 +9293,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 189,
+          "line": 237,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -8996,7 +9301,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 230,
+          "line": 263,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9004,7 +9309,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 271,
+          "line": 289,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9012,7 +9317,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 131,
+          "line": 139,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9020,7 +9325,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 189,
+          "line": 237,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9028,7 +9333,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 230,
+          "line": 263,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9036,27 +9341,11 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 271,
+          "line": 289,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
@@ -9075,20 +9364,19 @@
           "severity": "error"
         }
       ],
-      "score": 106,
+      "score": 100,
       "priority": "P0"
     },
     {
       "id": "server__src__routes__internal__businessRulesRouter.ts",
       "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
       "categories": [
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 114,
+          "line": 86,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9096,7 +9384,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 161,
+          "line": 127,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9104,7 +9392,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 208,
+          "line": 169,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9112,7 +9400,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 240,
+          "line": 196,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9120,7 +9408,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 114,
+          "line": 86,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9128,7 +9416,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 161,
+          "line": 127,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9136,7 +9424,7 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 208,
+          "line": 169,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9144,43 +9432,26 @@
         },
         {
           "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 240,
+          "line": 196,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/businessRulesRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 86,
+      "score": 80,
       "priority": "P0"
     },
     {
       "id": "server__src__routes__internal__businessSettingsRouter.ts",
       "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
       "categories": [
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 377,
+          "line": 344,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9188,7 +9459,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 436,
+          "line": 396,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9196,7 +9467,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 496,
+          "line": 449,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9204,7 +9475,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 554,
+          "line": 500,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9212,7 +9483,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 377,
+          "line": 344,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9220,7 +9491,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 436,
+          "line": 396,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9228,7 +9499,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 496,
+          "line": 449,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9236,30 +9507,14 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 554,
+          "line": 500,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 86,
+      "score": 80,
       "priority": "P0"
     },
     {
@@ -9267,13 +9522,12 @@
       "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
       "categories": [
         "csrf",
-        "auth",
         "idor"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 182,
+          "line": 135,
           "route": "/:entityType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9281,7 +9535,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 276,
+          "line": 208,
           "route": "/:entityType/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9289,7 +9543,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 415,
+          "line": 327,
           "route": "/:entityType/order_index",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9297,7 +9551,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 454,
+          "line": 364,
           "route": "/:entityType/bulk",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9305,7 +9559,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 521,
+          "line": 422,
           "route": "/:entityType/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9313,7 +9567,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 687,
+          "line": 563,
           "route": "/:entityType/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9321,7 +9575,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 182,
+          "line": 135,
           "route": "/:entityType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9329,7 +9583,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 276,
+          "line": 208,
           "route": "/:entityType/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9337,7 +9591,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 415,
+          "line": 327,
           "route": "/:entityType/order_index",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9345,7 +9599,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 454,
+          "line": 364,
           "route": "/:entityType/bulk",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9353,7 +9607,7 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 521,
+          "line": 422,
           "route": "/:entityType/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9361,27 +9615,11 @@
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 687,
+          "line": 563,
           "route": "/:entityType/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/entities/entityRouter.ts",
@@ -9400,110 +9638,7 @@
           "severity": "error"
         }
       ],
-      "score": 146,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__participantRoutes__login-routes.ts",
-      "repoPath": "server/src/routes/internal/participantRoutes/login-routes.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/participantRoutes/login-routes.ts",
-          "line": 39,
-          "route": "/login",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/login-routes.ts",
-          "line": 39,
-          "route": "/login",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__participantRoutes__user-routes.ts",
-      "repoPath": "server/src/routes/internal/participantRoutes/user-routes.ts",
-      "categories": [
-        "csrf",
-        "auth"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 19,
-          "route": "/",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 22,
-          "route": "/:id",
-          "method": "PUT",
-          "issue": "Missing CSRF protection on PUT route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 25,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 19,
-          "route": "/",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 22,
-          "route": "/:id",
-          "method": "PUT",
-          "issue": "Missing CSRF protection on PUT route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 25,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/participantRoutes/user-routes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        }
-      ],
-      "score": 66,
+      "score": 140,
       "priority": "P0"
     },
     {
@@ -9511,13 +9646,12 @@
       "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
       "categories": [
         "csrf",
-        "auth",
         "idor"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 113,
+          "line": 102,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9525,7 +9659,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 195,
+          "line": 174,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9533,7 +9667,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 266,
+          "line": 237,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9541,7 +9675,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 321,
+          "line": 282,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9549,7 +9683,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 394,
+          "line": 350,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9557,7 +9691,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 485,
+          "line": 432,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9565,7 +9699,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 523,
+          "line": 465,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9573,7 +9707,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 560,
+          "line": 502,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9581,7 +9715,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 113,
+          "line": 102,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9589,7 +9723,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 195,
+          "line": 174,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9597,7 +9731,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 266,
+          "line": 237,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9605,7 +9739,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 321,
+          "line": 282,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9613,7 +9747,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 394,
+          "line": 350,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9621,7 +9755,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 485,
+          "line": 432,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9629,7 +9763,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 523,
+          "line": 465,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9637,27 +9771,11 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 560,
+          "line": 502,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
@@ -9676,20 +9794,19 @@
           "severity": "error"
         }
       ],
-      "score": 186,
+      "score": 180,
       "priority": "P0"
     },
     {
       "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
       "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
       "categories": [
-        "csrf",
-        "auth"
+        "csrf"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 435,
+          "line": 384,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9697,7 +9814,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 742,
+          "line": 659,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9705,7 +9822,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 783,
+          "line": 694,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9713,7 +9830,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 843,
+          "line": 749,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9721,7 +9838,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 889,
+          "line": 787,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9729,7 +9846,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 435,
+          "line": 384,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9737,7 +9854,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 742,
+          "line": 659,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9745,7 +9862,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 783,
+          "line": 694,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9753,7 +9870,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 843,
+          "line": 749,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9761,30 +9878,14 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 889,
+          "line": 787,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         }
       ],
-      "score": 106,
+      "score": 100,
       "priority": "P0"
     },
     {
@@ -9792,13 +9893,12 @@
       "repoPath": "server/src/routes/internal/users/userRouter.ts",
       "categories": [
         "csrf",
-        "auth",
         "idor"
       ],
       "issues": [
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 61,
+          "line": 49,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9806,7 +9906,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 78,
+          "line": 101,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9814,7 +9914,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 105,
+          "line": 159,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9822,7 +9922,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 132,
+          "line": 217,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9830,7 +9930,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 61,
+          "line": 49,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9838,7 +9938,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 78,
+          "line": 101,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9846,7 +9946,7 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 105,
+          "line": 159,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9854,27 +9954,11 @@
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 132,
+          "line": 217,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
           "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/users/userRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
         },
         {
           "file": "server/src/routes/internal/users/userRouter.ts",
@@ -9893,62 +9977,8 @@
           "severity": "error"
         }
       ],
-      "score": 106,
+      "score": 100,
       "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__external__googleFetchRoutes.ts",
-      "repoPath": "server/src/routes/external/googleFetchRoutes.ts",
-      "categories": [
-        "auth"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/external/googleFetchRoutes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/external/googleFetchRoutes.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        }
-      ],
-      "score": 6,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__availabilityRouter.ts",
-      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
-      "categories": [
-        "auth"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        },
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "Sensitive routes detected without authentication",
-          "severity": "warning"
-        }
-      ],
-      "score": 6,
-      "priority": "P2"
     }
   ]
 }
