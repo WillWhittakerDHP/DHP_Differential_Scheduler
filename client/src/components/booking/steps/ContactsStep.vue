@@ -22,10 +22,10 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 // PATTERN: Inject provided loadedWizardState and pass to composable
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
-// LEARNING: Inject wizard instance to access selected service blocks
-// WHY: Some services require agent contact info (e.g., Buyers Inspection), others don't
-// PATTERN: Inject wizard provided by parent BookingWizard component
-// SESSION 1.5.3: Use database-driven requires_agent flag instead of hardcoded always-required
+/**
+ * WHY: Check selected services for database-driven requires_agent flag (not hardcoded)
+ * PATTERN: Inject wizard from parent BookingWizard component
+ */
 const wizard = inject<UseBookingWizardReturn>('wizard')
 
 if (!wizard) {
@@ -33,10 +33,8 @@ if (!wizard) {
 }
 
 /**
- * LEARNING: Check if any selected services require agent contact information
- * WHY: Replaces hardcoded "agent always required" with service-specific business rule
- * PATTERN: Database flag (requires_agent) on block_instances
- * SESSION 1.5.3: Database-driven agent requirement
+ * WHY: Database-driven agent requirement (not hardcoded always-required)
+ * PATTERN: Check requires_agent flag on selected service block_instances
  */
 const requiresAgent = computed(() => {
   return wizard.selectedServiceTypeBlocks.value.some(
@@ -64,10 +62,10 @@ const {
   toggleSection
 } = contactsStepData
 
-// LEARNING: Use contacts validation composable for validation logic
-// WHY: Extracts validation logic from component to composable
-// PATTERN: Composable handles all validation rules, error state, and validation functions
-// SESSION 1.5.3: Now passes requiresAgent to conditionally require agent fields
+/**
+ * WHY: Conditionally require agent fields based on selected services (requiresAgent flag)
+ * PATTERN: Composable handles validation rules, error state, and validation functions
+ */
 const {
   validationRules,
   fieldErrors,

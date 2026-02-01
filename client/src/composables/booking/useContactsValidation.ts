@@ -63,7 +63,7 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     clientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
-    // Agent fields: conditionally required based on selected services (Session 1.5.3)
+    // Agent fields: conditionally required based on selected services
     agentFirstName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.firstName.required)] : [],
     agentLastName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.lastName.required)] : [],
     agentEmail: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.email.required), email()] : [email()],
