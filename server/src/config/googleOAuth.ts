@@ -12,9 +12,17 @@ import type { OAuth2Client } from 'google-auth-library';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+/**
+ * LEARNING: Google Calendar API scopes determine what operations are allowed
+ * WHY: Different scopes for read-only vs write operations
+ * - calendar.readonly: Read calendar data (events, free-busy)
+ * - calendar.freebusy: Read free-busy information
+ * - calendar.events: Create, update, delete events (required for booking)
+ */
 const GOOGLE_SCOPES = process.env.GOOGLE_SCOPES?.split(',') || [
   'https://www.googleapis.com/auth/calendar.readonly',
-  'https://www.googleapis.com/auth/calendar.freebusy'
+  'https://www.googleapis.com/auth/calendar.freebusy',
+  'https://www.googleapis.com/auth/calendar.events'
 ];
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REDIRECT_URI) {

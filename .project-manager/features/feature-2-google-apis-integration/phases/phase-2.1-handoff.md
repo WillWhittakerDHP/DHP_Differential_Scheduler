@@ -4,7 +4,7 @@
 **Phase:** 2.1 - Google Calendar API Integration  
 **Status:** In Progress  
 **Started:** 2026-01-31  
-**Last Updated:** 2026-01-31
+**Last Updated:** 2026-02-01
 
 ---
 
@@ -107,7 +107,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 |---------|------|--------|
 | 2.1.1 | Infrastructure Setup & Free-Busy API | ✅ Complete |
 | 2.1.2 | Calendar Availability Integration | ⏳ Not Started |
-| 2.1.3 | Event Creation, Invitations & Cache Invalidation | ⏳ Not Started |
+| 2.1.3 | Event Creation, Invitations & Cache Invalidation | ✅ Complete |
 | 2.1.4 | Full Event Fetching & Location Cache | ⏳ Not Started |
 | 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
 | 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
@@ -148,16 +148,22 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - **Caching strategy:** Rely on server cache (no client-side cache needed)
 - Integration point: `client/src/utils/timeSlotCalculations.ts`
 
-### Session 2.1.3: Event Creation, Invitations & Cache Invalidation
-- Implement `createEvent()` function in googleCalendarService
-- Add `POST /api/v1/external/calendar/events` endpoint
-- Support event invitations (attendees with email)
-- **CRITICAL: Cache Invalidation on Booking**
-  - When appointment is created, invalidate free-busy cache for affected calendar(s)
-  - Call `invalidateCache()` from `freeBusyCache.ts` with relevant time range
-  - Ensures next availability check fetches fresh data from Google
-- Integration with appointment creation flow
-- Handle event creation errors gracefully
+### Session 2.1.3: Event Creation, Invitations & Cache Invalidation ✅ Complete
+- ✅ Updated OAuth scopes to include `calendar.events` for write permissions
+- ✅ Implemented `createEvent()` function in googleCalendarService
+  - Creates calendar events with summary, description, location
+  - Supports attendees/invitations with email and displayName
+  - Configurable `sendUpdates` option for invitation emails ('all', 'externalOnly', 'none')
+  - Integrates rate limiting before API call
+- ✅ Added `POST /api/v1/external/calendar/events` endpoint
+  - Full request validation (required fields, date validation, attendee validation)
+  - Comprehensive error handling (rate limit, auth, permission, not found)
+  - Returns created event details including Google Calendar link
+- ✅ **Cache Invalidation on Event Creation**
+  - Invalidates free-busy cache for affected calendar
+  - Invalidates events cache for affected calendar
+  - Ensures subsequent availability checks get fresh data
+- ✅ Verified compilation and server startup
 
 ### Session 2.1.4: Full Event Fetching & Location Cache
 - Fetch full calendar events using `calendar.events.list()` (not just free-busy)
@@ -190,14 +196,15 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 
 ## Key Files
 
-### Server Files (Session 2.1.1 - Complete)
-- ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration
+### Server Files (Sessions 2.1.1 & 2.1.3 - Complete)
+- ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration (updated with calendar.events scope)
 - ✅ `server/src/services/rateLimiter.ts` - Rate limiting service
-- ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service
-- ✅ `server/src/services/calendarEventsCache.ts` - Events caching service
-- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service
-- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints
+- ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service (with invalidation)
+- ✅ `server/src/services/calendarEventsCache.ts` - Events caching service (with invalidation)
+- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service (added createEvent function)
+- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints (added POST /events)
 - ✅ `server/src/routes/external/googleOauthRoutes.ts` - OAuth endpoints
+- ✅ `server/.env.development` - Environment config (updated scopes)
 
 ### Client Files (Session 2.1.2 - To Create)
 - `client/src/services/calendarApiService.ts` - Client-side calendar API service
@@ -241,6 +248,14 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ Calendar and OAuth routes implemented
 - ✅ Free-busy endpoint tested with real data
 
+### Session 2.1.3 Complete
+- ✅ OAuth scopes updated to include `calendar.events` for write permissions
+- ✅ `createEvent()` function implemented with attendee/invitation support
+- ✅ `POST /api/v1/external/calendar/events` endpoint added
+- ✅ Cache invalidation integrated (both free-busy and events caches)
+- ✅ Comprehensive error handling for event creation
+- ✅ Server compilation and startup verified
+
 ### Next Steps (After Phase 2.0)
 1. **Phase 2.0:** Calendar Configuration UI
    - Add `calendarConfig` to AvailabilitySettings
@@ -250,6 +265,8 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
    - Add data source toggle to dev panel
    - Connect to availability system
    - Implement explicit error handling
+3. **Session 2.1.4:** Full Event Fetching & Location Cache
+   - Required for drive time calculations in Phase 2.2
 
 ---
 
@@ -320,6 +337,9 @@ Dev panel toggle in "Free/Busy" section:
 - ✅ Error handling working with fallbacks
 - ✅ Rate limit errors handled gracefully
 - ✅ Performance: API response times <2s
+- ✅ Event creation endpoint implemented (POST /events)
+- ✅ Attendee/invitation support added
+- ✅ Cache invalidation on event creation (both free-busy and events caches)
 
 ---
 
@@ -335,8 +355,8 @@ Dev panel toggle in "Free/Busy" section:
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Session 2.1.1 Complete - Next: Session 2.1.2 (Calendar Availability Integration)  
-**Last Updated:** 2026-01-31
+**Current Session:** Sessions 2.1.1 & 2.1.3 Complete - Next: Session 2.1.2 (Calendar Availability Integration) or Session 2.1.4 (Full Event Fetching)  
+**Last Updated:** 2026-02-01
 
 ---
 
