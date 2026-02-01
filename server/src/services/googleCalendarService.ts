@@ -2,6 +2,7 @@ import { google } from 'googleapis';
 import { oauth2Client, setCredentials } from '../config/googleOAuth.js';
 import { checkRateLimit, recordRequest, waitForRateLimit, RateLimitStatus } from './rateLimiter.js';
 import { getCachedFreeBusy, cacheFreeBusy } from './freeBusyCache.js';
+import { getCachedEvents, cacheEvents, type CachedCalendarEvent } from './calendarEventsCache.js';
 
 /**
  * Google Calendar Service
@@ -112,6 +113,111 @@ export async function getFreeBusy(
     
   } catch (error: any) {
     console.error('[GoogleCalendarService] Error fetching free-busy:', error);
+    
+    // Handle rate limit errors
+    if (error.code === 429 || error.code === 403) {
+      console.error('[GoogleCalendarService] Rate limit error from API');
+      throw new Error('Rate limit exceeded. Please try again later.');
+    }
+    
+    // Handle authentication errors
+    if (error.code === 401) {
+      console.error('[GoogleCalendarService] Authentication error');
+      throw new Error('Authentication failed. Please re-authenticate.');
+    }
+    
+    // Re-throw other errors
+    throw error;
+  }
+}
+
+/**
+ * Get full calendar events with locations
+ * LEARNING: Fetches full event details (not just free-busy) to extract locations
+ * WHY: Required for drive time calculations between appointments
+ * @param calendarEmail Calendar email address
+ * @param timeMin Start time for event query
+ * @param timeMax End time for event query
+ * @returns Array of cached calendar events with locations
+ */
+export async function getCalendarEvents(
+  calendarEmail: string,
+  timeMin: Date | string,
+  timeMax: Date | string
+): Promise<CachedCalendarEvent[]> {
+  // Normalize time inputs
+  const timeMinDate = typeof timeMin === 'string' ? new Date(timeMin) : timeMin;
+  const timeMaxDate = typeof timeMax === 'string' ? new Date(timeMax) : timeMax;
+  
+  // Check cache first
+  const cachedData = getCachedEvents(calendarEmail, timeMinDate, timeMaxDate);
+  if (cachedData) {
+    console.log(`[GoogleCalendarService] Events cache hit for ${calendarEmail}`);
+    return cachedData;
+  }
+  
+  // Check rate limit
+  const rateLimitResult = checkRateLimit('google-calendar');
+  
+  if (rateLimitResult.status === 'exceeded') {
+    console.warn(`[GoogleCalendarService] Rate limit exceeded, waiting...`);
+    await waitForRateLimit('google-calendar');
+  }
+  
+  // Record request for rate limiting
+  recordRequest('google-calendar');
+  
+  try {
+    // Create calendar client
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    console.log(`[GoogleCalendarService] Fetching events for ${calendarEmail}`);
+    
+    // Make API call to get full events
+    const response = await calendar.events.list({
+      calendarId: calendarEmail,
+      timeMin: timeMinDate.toISOString(),
+      timeMax: timeMaxDate.toISOString(),
+      singleEvents: true,
+      orderBy: 'startTime',
+      maxResults: 2500 // Google Calendar API limit
+    });
+    
+    if (!response.data.items) {
+      throw new Error('Invalid response from Google Calendar API');
+    }
+    
+    // Transform response to our cached format
+    const cachedEvents: CachedCalendarEvent[] = response.data.items
+      .filter(event => event.start && event.end) // Filter out events without start/end
+      .map(event => {
+        // Extract start time (handle both dateTime and date formats)
+        const startTime = event.start?.dateTime || event.start?.date;
+        const endTime = event.end?.dateTime || event.end?.date;
+        
+        if (!startTime || !endTime) {
+          return null;
+        }
+        
+        return {
+          id: event.id || '',
+          start: startTime,
+          end: endTime,
+          location: event.location || null,
+          summary: event.summary || null
+        };
+      })
+      .filter((event): event is CachedCalendarEvent => event !== null);
+    
+    // Cache the response
+    cacheEvents(calendarEmail, timeMinDate, timeMaxDate, cachedEvents);
+    
+    console.log(`[GoogleCalendarService] Successfully fetched ${cachedEvents.length} events`);
+    
+    return cachedEvents;
+    
+  } catch (error: any) {
+    console.error('[GoogleCalendarService] Error fetching events:', error);
     
     // Handle rate limit errors
     if (error.code === 429 || error.code === 403) {

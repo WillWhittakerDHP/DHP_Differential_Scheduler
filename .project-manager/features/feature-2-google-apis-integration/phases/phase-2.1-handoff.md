@@ -105,55 +105,170 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 
 | Session | Name | Status |
 |---------|------|--------|
-| 2.1.1 | Infrastructure Setup & Free-Busy API | 🔄 In Progress |
+| 2.1.1 | Infrastructure Setup & Free-Busy API | ✅ Complete |
 | 2.1.2 | Calendar Availability Integration | ⏳ Not Started |
-| 2.1.3 | Event Creation & Invitations | ⏳ Not Started |
-| 2.1.4 | Error Handling & Fallbacks | ⏳ Not Started |
+| 2.1.3 | Event Creation, Invitations & Cache Invalidation | ⏳ Not Started |
+| 2.1.4 | Full Event Fetching & Location Cache | ⏳ Not Started |
+| 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
+| 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
+
+---
+
+## Session Details
+
+### Session 2.1.1: Infrastructure Setup & Free-Busy API ✅ Complete
+- OAuth 2.0 client configuration
+- Rate limiting service (sliding window algorithm)
+- Free-busy cache service (TTL-based)
+- Calendar service with getFreeBusy function
+- OAuth and calendar routes
+- Tested and verified with real calendar events
+
+### Session 2.1.2: Calendar Availability Integration
+- **Prerequisite:** Phase 2.0 complete (calendar configuration available)
+- **Create client-side service:** `client/src/services/calendarApiService.ts`
+  - `checkOAuthStatus()` - Verify authentication before API calls
+  - `fetchFreeBusy()` - Call server endpoint, transform response
+- **Add data source toggle to dev panel:**
+  - Rename "Mocks" section to "Free/Busy"
+  - Options: Real API, Mock Data, Both (merged), None
+  - Add "Force Refresh" button (sends `?skipCache=true`)
+- **Modify `getCalendarAvailability()`:**
+  - Make async, accept `dataSource` parameter
+  - Support all four data source modes
+  - Read calendar emails from settings
+- **Update `useBusyTimes` composable:**
+  - Add `error` and `isLoading` states
+  - Accept `dataSource` and `calendarEmails` params
+- **Error handling (explicit, never silent):**
+  - OAuth not authenticated → Show "Connect Google Calendar" prompt
+  - API rate limit → Show "Too many requests" message
+  - Network error → Show "Could not reach calendar service"
+  - Invalid response → Log error, show "Calendar data unavailable"
+- **Caching strategy:** Rely on server cache (no client-side cache needed)
+- Integration point: `client/src/utils/timeSlotCalculations.ts`
+
+### Session 2.1.3: Event Creation, Invitations & Cache Invalidation
+- Implement `createEvent()` function in googleCalendarService
+- Add `POST /api/v1/external/calendar/events` endpoint
+- Support event invitations (attendees with email)
+- **CRITICAL: Cache Invalidation on Booking**
+  - When appointment is created, invalidate free-busy cache for affected calendar(s)
+  - Call `invalidateCache()` from `freeBusyCache.ts` with relevant time range
+  - Ensures next availability check fetches fresh data from Google
+- Integration with appointment creation flow
+- Handle event creation errors gracefully
+
+### Session 2.1.4: Full Event Fetching & Location Cache
+- Fetch full calendar events using `calendar.events.list()` (not just free-busy)
+- Extract event locations for drive time calculations
+- Create `calendarEventsCache.ts` service following `freeBusyCache.ts` pattern
+- Add `getCalendarEvents()` function to `googleCalendarService.ts`
+- Add `GET /api/v1/external/calendar/events` endpoint
+- Cache events with TTL (5 min near-term, 15 min future)
+- Integrate rate limiting and caching
+- **CRITICAL**: Provides location data needed for Phase 2.2 (Google Maps API)
+
+### Session 2.1.5: Error Handling & Fallbacks
+- Handle API authentication errors (401/403)
+- Handle rate limiting (429/403 errors) with exponential backoff
+- Handle network errors
+- Return cached data if available during errors
+- Implement fallback strategies for when Google API is unavailable
+
+### Session 2.1.6: Admin API Dev Panel
+- Create admin dev panel component (`ApiDevPanel.vue`)
+- Display OAuth status (authenticated, token expiry, scopes)
+- Display free-busy cache contents and statistics
+- Display events cache contents with locations
+- Display rate limiter statistics
+- Add debug endpoints for cache inspection (dev mode only)
+- Integrate into admin panel (visible when `isDevModeEnabled()`)
+- **WHY**: Provides visibility into API state for debugging and validation
 
 ---
 
 ## Key Files
 
-### New Files to Create
-- `server/src/config/googleOAuth.ts` - OAuth client configuration
-- `server/src/services/rateLimiter.ts` - Rate limiting service (**CRITICAL**)
-- `server/src/services/freeBusyCache.ts` - Caching service (**CRITICAL**)
-- `server/src/services/googleCalendarService.ts` - Calendar API service
+### Server Files (Session 2.1.1 - Complete)
+- ✅ `server/src/config/googleOAuth.ts` - OAuth client configuration
+- ✅ `server/src/services/rateLimiter.ts` - Rate limiting service
+- ✅ `server/src/services/freeBusyCache.ts` - Free-busy caching service
+- ✅ `server/src/services/calendarEventsCache.ts` - Events caching service
+- ✅ `server/src/services/googleCalendarService.ts` - Calendar API service
+- ✅ `server/src/routes/external/calendarRoutes.ts` - Calendar endpoints
+- ✅ `server/src/routes/external/googleOauthRoutes.ts` - OAuth endpoints
 
-### Files to Modify
-- `server/.env.development` - Add `GOOGLE_SCOPES` and rate limit config
-- `server/src/config/app.ts` - Optional: Add env var validation
-- `server/src/routes/external/calendarRoutes.ts` - Uncomment and implement
-- `server/src/routes/external/googleOauthRoutes.ts` - Uncomment and implement
-- `server/src/routes/external/index.ts` - Enable calendar and OAuth routes
+### Client Files (Session 2.1.2 - To Create)
+- `client/src/services/calendarApiService.ts` - Client-side calendar API service
+- `client/src/composables/booking/useFreeBusyDataSource.ts` - Data source state management
+
+### Client Files (Session 2.1.2 - To Modify)
+- `client/src/utils/timeSlotCalculations.ts` - Update `getCalendarAvailability()`
+- `client/src/composables/booking/useBusyTimes.ts` - Add error/loading states
+- `client/src/components/booking/dev/DevPanelsContainer.vue` - Add data source toggle
+
+---
+
+## Error Handling Strategy
+
+**Philosophy: Explicit errors, never silent**
+
+| Scenario | Detection | User Message |
+|----------|-----------|--------------|
+| OAuth not authenticated | `checkOAuthStatus().authenticated === false` | Show "Connect Google Calendar" prompt |
+| API rate limit | 429 status response | "Too many requests. Try again in a moment." |
+| Network error | Axios network error | "Could not reach calendar service." |
+| Invalid response | Response validation fails | "Calendar data unavailable." |
+| Calendar not found | 404 or permission error | "Calendar [email] is not accessible." |
+
+**Key principles:**
+- Every error is surfaced to the user
+- Errors are logged with full details
+- No fallback that hides problems
+- User always knows when something is wrong
 
 ---
 
 ## Current State
 
-### Prerequisites Status
+### Session 2.1.1 Complete
 - ✅ `googleapis` package installed (v144.0.0)
 - ✅ OAuth credentials configured in `.env.development`
-- ✅ Commented-out OAuth routes exist
-- ✅ External routes structure exists
-- ✅ Availability settings infrastructure exists (Feature 1)
-- ✅ Business Controls tab exists (Feature 1)
+- ✅ OAuth flow working (tested with real calendar)
+- ✅ Rate limiting service implemented
+- ✅ Free-busy cache service implemented
+- ✅ Calendar and OAuth routes implemented
+- ✅ Free-busy endpoint tested with real data
 
-### Next Steps
-1. Verify Google Cloud Console setup (Phase 1)
-2. Add environment variables (Phase 2)
-3. Create OAuth configuration module (Phase 3)
-4. **CRITICAL**: Implement rate limiting and caching (Phase 4) - Must be done before API calls
-5. Create calendar service and routes (Phase 5)
-6. Integrate with availability system (Phase 6)
+### Next Steps (After Phase 2.0)
+1. **Phase 2.0:** Calendar Configuration UI
+   - Add `calendarConfig` to AvailabilitySettings
+   - Create UI for Primary/Work/Personal calendar emails
+2. **Session 2.1.2:** Calendar Availability Integration
+   - Create client-side API service
+   - Add data source toggle to dev panel
+   - Connect to availability system
+   - Implement explicit error handling
 
 ---
 
 ## Architecture Notes
 
+### Data Source Modes (Session 2.1.2)
+
+Dev panel toggle in "Free/Busy" section:
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| `real` | Only fetch from Google Calendar API | Production, real testing |
+| `mock` | Only use generated mock data | Offline development |
+| `both` | Merge real API + mock data | Test edge cases |
+| `none` | Return empty array | Test "no conflicts" scenario |
+
 ### Rate Limiting Strategy
 - **CRITICAL**: Google Calendar API has per-minute quotas (sliding window)
-- Implement rate limiting service BEFORE making API calls
+- Rate limiting implemented on server side
 - Default: 60 requests/minute (conservative, adjust based on quotas)
 - Use sliding window calculation to match Google's quota system
 
@@ -161,7 +276,12 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - **CRITICAL**: Cache free-busy responses to reduce API calls
 - TTL-based caching: 5 min for near-term dates, 15 min for future dates
 - Cache key: `calendarEmails:timeMin:timeMax` (normalized)
-- Invalidate cache when new appointments created
+- **Server handles all caching** - client always calls server, server returns cached or fresh
+- **Force Refresh**: Dev panel button sends `?skipCache=true`
+- **Cache Invalidation on Booking** → Session 2.1.3
+  - When appointment created, invalidate relevant cache entries
+  - Uses `invalidateCache()` from `freeBusyCache.ts`
+  - Ensures fresh data for subsequent availability checks
 
 ### OAuth Token Storage
 - **Initial**: Session storage (simpler, less persistent)
@@ -191,6 +311,7 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 
 - **Feature Plan**: `../feature-plan.md`
 - **Google Calendar Free-Busy Setup Plan**: `/Users/districthomepro/.cursor/plans/google_calendar_free-busy_api_setup_cbbaba01.plan.md` ⭐ **DETAILED IMPLEMENTATION GUIDE**
+- **Drive Time Buffer Plan**: `/Users/districthomepro/.cursor/plans/drive_time_buffer_implementation_d7bfd3a0.plan.md` (context for Session 2.1.4 - event locations needed for drive time calculations)
 - **React Calendar Calls Reference**: `client/src/scheduler/externalAPI/calendarCalls.ts`
 - **Google Calendar API Documentation**: [Free-Busy API](https://developers.google.com/calendar/api/v3/reference/freebusy/query)
 - **Google OAuth 2.0 Setup Guide**: [OAuth 2.0 Guide](https://developers.google.com/identity/protocols/oauth2)
@@ -198,5 +319,26 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Session 2.1.1 - Infrastructure Setup & Free-Busy API (In Progress)  
+**Current Session:** Session 2.1.1 Complete - Next: Session 2.1.2 (Calendar Availability Integration)  
 **Last Updated:** 2026-01-31
+
+---
+
+## Session Dependencies
+
+**Critical Dependency Chain:**
+```
+Session 2.1.4 (Full Event Fetching)
+    ↓
+    Events with locations cached on server
+    ↓
+Phase 2.2 (Google Maps API)
+    ↓
+    Drive time calculations using event locations
+    ↓
+Feature 3 (Drive Time Buffer)
+    ↓
+    Apply buffers based on drive times
+```
+
+**Note:** Session 2.1.4 must complete before Phase 2.2 (Google Maps API) can begin, as drive time calculations require event locations from the cache.

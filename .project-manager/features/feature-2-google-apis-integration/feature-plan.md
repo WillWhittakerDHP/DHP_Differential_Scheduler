@@ -24,63 +24,80 @@ Integrate Google Calendar API (availability fetching, event creation), Google Ma
 ### Objectives
 
 - Extend AvailabilitySettings interface with calendar configuration
-- Create calendar management UI in Business Controls tab
-- Implement email list input and validation
+- Create calendar management UI in Business Controls tab with labeled calendar fields
+- Match calendar structure to existing mock data (`primary`, `work`, `personal`)
 - Prepare plugin architecture for multiple calendar providers
 - Document integration points for OAuth flow (future)
 
 ### Key Files
 
-- `client-vue/src/configs/availabilitySettings.ts` (extend interface)
-- `client-vue/src/views/admin/tabs/BusinessControlsTab.vue` (add calendar section)
-- `client-vue/src/utils/timeSlotCalculations.ts` (update to read from settings)
+- `client/src/configs/availabilitySettings.ts` (extend interface)
+- `client/src/views/admin/tabs/BusinessControlsTab.vue` (add calendar section)
+- `client/src/utils/timeSlotCalculations.ts` (update to read from settings)
 - `server/src/routes/internal/businessSettings/` (settings storage)
 
 ### Sessions
 
 **Session 2.0.1: Calendar Configuration Data Structure**
 - Extend AvailabilitySettings interface with CalendarConfig
-- Define CalendarConfig type (provider, enabled, calendarEmails)
+- Define CalendarConfig type with labeled calendar fields matching mock structure:
+  ```typescript
+  interface CalendarConfig {
+    enabled: boolean
+    provider: 'google' | 'outlook' | 'none'
+    calendars: {
+      primary: string    // e.g., "will@districthomepro.com"
+      work: string       // Optional, empty if not used
+      personal: string   // Optional, empty if not used
+    }
+  }
+  ```
 - Add calendarConfig to default settings
 - Update API types for settings persistence
 - Add validation for calendar email format
 
 **Session 2.0.2: Calendar Management UI**
 - Add calendar configuration section to BusinessControlsTab
-- Implement email list input (textarea with validation)
+- Implement three labeled email input fields:
+  - **Primary Calendar:** (auto-filled from OAuth user email when connected)
+  - **Work Calendar:** (optional)
+  - **Personal Calendar:** (optional)
 - Add provider selection dropdown (Google, Outlook, None)
 - Add enable/disable toggle for calendar integration
-- Display connected calendars as removable chips
 - Add informational alert for upcoming OAuth feature
+- Email validation on blur
 
 **Session 2.0.3: Integration Preparation**
 - Update getCalendarAvailability to read calendar emails from settings
-- Create calendar provider plugin interface structure
-- Add placeholder for calendar service factory pattern
-- Document plugin interface for future provider implementations
+- Create helper to extract non-empty calendar emails as array
 - Add logging for calendar configuration usage
+- Document integration points for Session 2.1.2
 
 ### Success Criteria
 
-- [ ] CalendarConfig type defined with provider, enabled, calendarEmails fields
+- [ ] CalendarConfig type defined with provider, enabled, calendars (primary/work/personal)
 - [ ] AvailabilitySettings interface extended with calendarConfig
 - [ ] Default settings include empty calendar configuration
-- [ ] Admin can add/remove calendar emails via Business Controls tab
+- [ ] Admin can configure calendar emails via labeled fields
 - [ ] Settings persist to database via business-settings API
 - [ ] Settings load correctly on page load
 - [ ] Email validation working (format check)
 - [ ] Provider dropdown functional (Google, Outlook, None)
 - [ ] Enable/disable toggle functional
+- [ ] Calendar field labels match mock data IDs for consistency
 - [ ] Structure ready for OAuth integration in Phase 2.1
 
 ### Architecture Notes
 
-**Plugin Architecture:**
+**Calendar Config Structure (matches mock data IDs):**
 ```
 CalendarConfig
 ├── provider: 'google' | 'outlook' | 'none'
 ├── enabled: boolean
-└── calendarEmails: string[]
+└── calendars:
+    ├── primary: string   // Maps to 'primary' in mock
+    ├── work: string      // Maps to 'work' in mock
+    └── personal: string  // Maps to 'personal' in mock
 
 Future Plugin Interface:
 ├── CalendarProvider (abstract)
@@ -132,14 +149,14 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 ### Key Files
 
 - `client/src/scheduler/externalAPI/calendarCalls.ts` (React - reference)
-- `client-vue/src/api/external/googleCalendar.ts` (new)
-- `client-vue/src/composables/useGoogleCalendar.ts` (new)
-- `server/src/config/googleOAuth.ts` (new - OAuth configuration)
-- `server/src/services/rateLimiter.ts` (new - **CRITICAL**)
-- `server/src/services/freeBusyCache.ts` (new - **CRITICAL**)
-- `server/src/services/googleCalendarService.ts` (new - Calendar service)
-- `server/src/routes/external/calendarRoutes.ts` (uncomment and implement)
-- `server/src/routes/external/googleOauthRoutes.ts` (uncomment and implement)
+- `server/src/config/googleOAuth.ts` (OAuth configuration)
+- `server/src/services/rateLimiter.ts` (**CRITICAL**)
+- `server/src/services/freeBusyCache.ts` (**CRITICAL**)
+- `server/src/services/googleCalendarService.ts` (Calendar service)
+- `server/src/services/calendarEventsCache.ts` (Events cache - Session 2.1.4)
+- `server/src/routes/external/calendarRoutes.ts` (Calendar routes)
+- `server/src/routes/external/googleOauthRoutes.ts` (OAuth routes)
+- `client/src/components/admin/dev/ApiDevPanel.vue` (Admin dev panel - Session 2.1.6)
 
 ### Implementation Phases (from detailed plan)
 
@@ -234,15 +251,19 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Test OAuth flow and free-busy endpoint (Phase 6)
 
 **Session 2.1.2: Calendar Availability Integration**
-- Read calendar emails from AvailabilitySettings.calendarConfig (when Phase 2.0 complete)
-- Integrate free-busy data with existing availability checking
-- Implement date range logic (1st-21st vs 22nd-end of month)
-- Extract unavailable time slots from free-busy data
-- Extract event addresses for drive time calculations
-- Extract home address from events
-- Handle on-demand month fetching
+- **Prerequisite:** Phase 2.0 complete (calendar configuration available)
+- Create client-side calendar API service (`client/src/services/calendarApiService.ts`)
+- Add data source toggle to booking dev panel (Real API / Mock Data / Both / None)
+- Modify `getCalendarAvailability()` to support multiple data sources
+- Read calendar emails from `AvailabilitySettings.calendarConfig.calendars`
+- Transform server response to `BusyTimeRange[]` format
+- Handle OAuth authentication state (check before API calls)
+- Implement explicit error handling (no silent fallbacks)
+- Update `useBusyTimes` composable with loading/error states
+- Rely on server-side caching (no client cache needed)
+- Add "Force Refresh" button in dev panel to bypass server cache
 
-**Session 2.1.3: Event Creation & Invitations**
+**Session 2.1.3: Event Creation, Invitations & Cache Invalidation**
 - Create event creation function
 - Map appointment data to calendar event format
 - Add participant emails
@@ -250,35 +271,41 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Configure event permissions
 - Send calendar invitations
 - Handle multiple user types (Buyer, Agent, Owner, Inspector)
+- **CRITICAL: Cache Invalidation on Booking**
+  - When appointment is created, invalidate free-busy cache for affected calendar(s)
+  - Call `invalidateCache()` from `freeBusyCache.ts` with relevant time range
+  - Ensures next availability check fetches fresh data from Google
 
-**Session 2.1.4: Error Handling & Fallbacks**
-- Handle API authentication errors
+**Session 2.1.4: Full Event Fetching & Location Cache**
+- Fetch full calendar events using `calendar.events.list()` (not just free-busy)
+- Extract event locations for drive time calculations
+- Create `calendarEventsCache.ts` service following `freeBusyCache.ts` pattern
+- Add `getCalendarEvents()` function to `googleCalendarService.ts`
+- Add `GET /api/v1/external/calendar/events` endpoint
+- Cache events with TTL (5 min near-term, 15 min future)
+- Integrate rate limiting and caching
+- **CRITICAL**: Provides location data needed for Phase 2.2 (Google Maps API)
+
+**Session 2.1.5: Error Handling & Fallbacks**
+- Handle API authentication errors (401/403)
 - Handle rate limiting (429/403 errors) with exponential backoff
 - Handle network errors
-- Implement fallback to manual availability entry
-- Log errors for debugging
-- Display user-friendly error messages
-- Return cached data if available during rate limit
+- Return cached data if available during errors
+- Implement fallback strategies for when Google API is unavailable
 
-**Session 2.1.2: Event Creation & Invitations**
-- Create event creation function
-- Map appointment data to calendar event format
-- Add participant emails
-- Set event titles based on service type
-- Configure event permissions
-- Send calendar invitations
-- Handle multiple user types (Buyer, Agent, Owner, Inspector)
-
-**Session 2.1.3: Error Handling & Fallbacks**
-- Handle API authentication errors
-- Handle rate limiting
-- Handle network errors
-- Implement fallback to manual availability entry
-- Log errors for debugging
-- Display user-friendly error messages
+**Session 2.1.6: Admin API Dev Panel**
+- Create admin dev panel component (`ApiDevPanel.vue`)
+- Display OAuth status (authenticated, token expiry, scopes)
+- Display free-busy cache contents and statistics
+- Display events cache contents with locations
+- Display rate limiter statistics
+- Add debug endpoints for cache inspection (dev mode only)
+- Integrate into admin panel (visible when `isDevModeEnabled()`)
+- **WHY**: Provides visibility into API state for debugging and validation
 
 ### Success Criteria
 
+**Session 2.1.1 (Complete):**
 - ✅ Google Cloud Console setup verified
 - ✅ Environment variables configured
 - ✅ OAuth client configured and functional
@@ -288,9 +315,21 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - ✅ Calendar and OAuth routes implemented and enabled
 - ✅ OAuth flow functional (auth and callback)
 - ✅ Free-busy endpoint returns correct data
-- ✅ Calendar availability fetched correctly
-- ✅ Date ranges handled correctly (1st-21st vs 22nd-end)
-- ✅ Events created correctly with invitations
+
+**Session 2.1.2:**
+- [ ] Client-side calendar API service created
+- [ ] Data source toggle in dev panel (Real/Mock/Both/None)
+- [ ] `getCalendarAvailability()` supports all data source modes
+- [ ] Calendar emails read from settings
+- [ ] Explicit error handling (no silent fallbacks)
+- [ ] useBusyTimes exposes error/loading states
+
+**Session 2.1.3+:**
+- [ ] Events created correctly with invitations
+- [ ] Cache invalidation on booking working
+- ✅ Full events fetched with locations (Session 2.1.4)
+- ✅ Events cache implemented and working (Session 2.1.4)
+- ✅ Admin dev panel functional (Session 2.1.6)
 - ✅ Error handling working with fallbacks
 - ✅ Rate limit errors handled gracefully
 - ✅ Performance: API response times <2s
@@ -452,6 +491,7 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 ### Internal Phase Dependencies
 
 - Phase 2.0 → Phase 2.1 (Calendar config required before API integration)
+- Phase 2.1 Session 2.1.4 → Phase 2.2 (**CRITICAL**: Event locations needed for drive time calculations)
 - Phase 2.0 → Phase 2.2 (Calendar config may inform Maps integration)
 - Phase 2.1 → Phase 2.3 (Calendar integration before MLS, though MLS is independent)
 

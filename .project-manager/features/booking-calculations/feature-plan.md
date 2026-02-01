@@ -1,17 +1,77 @@
 # Feature 3: Booking Calculations
 
 **Feature:** Booking Calculations  
-**Status:** Planning  
+**Status:** Planning - Needs Audit  
 **Created:** 2025-02-01  
 **Branch:** `feature/booking-calculations`
 
 ---
 
+## ⚠️ PRE-PLANNING AUDIT REQUIRED
+
+**Before starting Feature 3, conduct an audit to determine:**
+
+1. **What calculation logic already exists in Vue.js?**
+   - Check `client/src/utils/booking/` for existing calculation utilities
+   - Check `client/src/composables/booking/` for existing composables
+   - Review what was migrated from React vs. what needs to be added
+
+2. **What can be simplified or improved?**
+   - Moveable scheduling calendar pass logic (known issue)
+   - Time slot calculation complexity
+   - Fee calculation edge cases
+
+3. **What new features should be added?**
+   - Soft hold warning system (show warnings when someone else is considering a time slot)
+   - Appointment status-based availability (use `started`/`held` statuses)
+   - Real-time availability updates (WebSocket consideration for future)
+
+4. **File path corrections:**
+   - Vue codebase is now at `client/` (not `client-vue/`)
+   - React codebase was archived
+
+**Action:** Run Phase 3.0 (Audit) before proceeding with Phase 3.1.
+
+---
+
 ## Overview
 
-Extract and implement fee and time calculation logic from React codebase. Create shared calculation composable for booking wizard and admin preview. This feature extracts the calculation logic that exists in the React codebase and implements it in Vue.js.
+Extract and implement fee and time calculation logic. Create shared calculation composable for booking wizard and admin preview. This feature may involve extracting logic from React codebase OR improving/fixing existing Vue.js implementations.
 
 **Target:** Shared calculation composable that can be used by both booking wizard and admin preview panel.
+
+---
+
+## Phase 3.0: Calculation & Availability Audit (NEW)
+
+**Status:** Not Started  
+**Description:** Audit existing calculation and availability logic before implementing changes.
+
+### Objectives
+
+- Review existing Vue.js calculation utilities in `client/src/utils/booking/`
+- Review existing composables in `client/src/composables/booking/`
+- Identify what's working, what's broken, what's missing
+- Document moveable scheduling issues
+- Identify simplification opportunities
+- Determine scope of remaining work
+
+### Key Files to Audit
+
+- `client/src/utils/booking/appointmentTimeCalculations.ts`
+- `client/src/utils/booking/partFinalizer.ts`
+- `client/src/utils/booking/timeSlotMatching.ts`
+- `client/src/utils/booking/timeAvailabilityManager.ts`
+- `client/src/composables/booking/useMoveablePartsScheduling.ts`
+- `client/src/composables/booking/useAppointmentSlots.ts`
+- `client/src/composables/booking/useAppointmentTimes.ts`
+
+### Success Criteria
+
+- Audit document created with findings
+- Scope of Feature 3 refined based on audit
+- Known issues documented (moveable scheduling, etc.)
+- Decision on what to fix vs. simplify vs. add
 
 ---
 
@@ -57,7 +117,7 @@ Extract and implement fee and time calculation logic from React codebase. Create
 
 ### Key Files
 
-- `client-vue/src/composables/useBookingCalculator.ts` (new)
+- `client/src/composables/booking/useBookingCalculator.ts` (new or existing)
 
 ### Calculation Functions
 
@@ -92,10 +152,10 @@ Extract and implement fee and time calculation logic from React codebase. Create
 
 ### Key Files
 
-- `client-vue/src/components/booking/steps/ServiceSelectionStep.vue`
-- `client-vue/src/components/booking/steps/PropertyDetailsStep.vue`
-- `client-vue/src/components/booking/steps/ConfirmationStep.vue`
-- `client-vue/src/composables/useBookingWizard.ts`
+- `client/src/components/booking/steps/ServiceSelectionStep.vue`
+- `client/src/components/booking/steps/PropertyDetailsStep.vue`
+- `client/src/components/booking/steps/ConfirmationStep.vue`
+- `client/src/composables/booking/useBookingWizard.ts`
 
 ### Success Criteria
 
@@ -122,7 +182,7 @@ Extract and implement fee and time calculation logic from React codebase. Create
 
 ### Key Files
 
-- `client-vue/src/composables/__tests__/useBookingCalculator.test.ts` (new)
+- `client/src/composables/booking/__tests__/useBookingCalculator.test.ts` (new)
 
 ### Success Criteria
 
@@ -134,32 +194,116 @@ Extract and implement fee and time calculation logic from React codebase. Create
 
 ---
 
+## Phase 3.5: Moveable Scheduling Fix (POTENTIAL)
+
+**Status:** Pending Audit  
+**Description:** Fix known issues with moveable scheduling calendar pass logic.
+
+### Known Issues
+
+- Moveable scheduling calendar pass logic needs review
+- Time slot allocation complexity
+- Edge cases in part scheduling
+
+### Objectives (to be refined after audit)
+
+- Review `useMoveablePartsScheduling.ts` logic
+- Identify and document issues
+- Simplify or fix calendar pass logic
+- Ensure moveable parts schedule correctly
+
+### Key Files
+
+- `client/src/composables/booking/useMoveablePartsScheduling.ts`
+- `client/src/utils/booking/partFinalizer.ts`
+- `client/src/utils/booking/timeSlotMatching.ts`
+
+### Success Criteria
+
+- Moveable scheduling works correctly
+- Calendar pass logic is simplified (if possible)
+- Edge cases handled
+
+---
+
+## Phase 3.6: Soft Hold Warning System (POTENTIAL)
+
+**Status:** Pending Audit  
+**Description:** Implement warnings when someone else is considering the same time slot.
+
+### Overview
+
+When User A is actively booking a time slot (status: `started` or `held`), User B should see a warning that someone else is considering that time. This prevents frustration when a slot becomes unavailable during booking.
+
+### Approach Options
+
+**Option A: Soft Hold (Simpler, No Real-Time)**
+- Include `started`/`held` appointments in availability checks
+- Return them separately so UI can show warnings
+- Add timeout logic (e.g., `started` expires after 15 min inactivity)
+- Limitation: User B sees warning only after refresh
+
+**Option B: Real-Time Warnings (More Complex)**
+- WebSocket server for real-time communication
+- Session tracking for who's viewing which slots
+- Broadcast events when slots are being considered
+- Heartbeat/timeout for releasing soft holds
+
+### Objectives (if implemented)
+
+- Modify `availabiltiesDbUtils.ts` to query `started`/`held` appointments
+- Return soft holds separately from hard blocks
+- Add UI indicators for "Someone is considering this time"
+- Implement timeout logic for stale `started` appointments
+- (Future) Add WebSocket for real-time updates
+
+### Key Files
+
+- `server/src/utils/availabilities/availabiltiesDbUtils.ts`
+- `client/src/types/appointment.ts` (status definitions)
+- `client/src/composables/booking/useAvailabilityLogic.ts`
+- `client/src/components/booking/steps/AvailabilityStep.vue`
+
+### Success Criteria
+
+- Soft holds visible in availability UI
+- Clear distinction between "unavailable" and "being considered"
+- Timeout logic prevents stale holds
+- User experience improved (fewer "slot just taken" surprises)
+
+---
+
 ## Reference Documents
 
 - **Admin UI Overhaul**: `project-manager/features/admin-ui-overhaul/feature-plan.md` (Phase 2.1: Booking Calculation Engine)
-- **React Calculation Utils**: `client/src/scheduler/utils/ProfileToFinalTimeUtils.ts`
-- **React Fee Calculations**: `client/src/scheduler/dataTransformation/appointmentTransformer.ts`
+- **React Calculation Utils**: `client/src/scheduler/utils/ProfileToFinalTimeUtils.ts` (archived)
+- **React Fee Calculations**: `client/src/scheduler/dataTransformation/appointmentTransformer.ts` (archived)
+- **Appointment Status Types**: `client/src/types/appointment.ts`
+- **Availability DB Utils**: `server/src/utils/availabilities/availabiltiesDbUtils.ts`
 
 ---
 
 ## Dependencies
 
-- Feature 0: Vue.js Migration (Core Complete)
-- Feature 1: Data Flow Alignment (recommended for proper data flow)
+- Feature 0: Vue.js Migration (Core Complete) ✅
+- Feature 1: Data Flow Alignment (recommended for proper data flow) ✅ (mostly complete)
+- Feature 2: Google APIs Integration (for real calendar data) 🔄 In Progress
 
 ---
 
 ## Success Metrics
 
-- Calculation logic extracted and documented
+- Audit complete with clear scope definition
+- Calculation logic working correctly (extracted or improved)
 - Shared calculation composable created and working
 - Calculations integrated into booking wizard
 - Comprehensive test coverage
 - Performance: < 50ms per calculation
-- Calculations match React version exactly
+- (If applicable) Moveable scheduling fixed
+- (If applicable) Soft hold warnings implemented
 
 ---
 
-**Last Updated:** 2025-02-01  
-**Status:** Planning - Ready for Implementation
+**Last Updated:** 2026-01-31  
+**Status:** Planning - Needs Audit (Phase 3.0) Before Implementation
 

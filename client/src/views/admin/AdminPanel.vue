@@ -12,6 +12,8 @@ import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
+import { isDevModeEnabled } from '@/utils/env/devMode'
+import ApiDevPanel from '@/components/admin/dev/ApiDevPanel.vue'
 
 /**
  * LEARNING: Initialize admin data context when admin panel mounts
@@ -28,10 +30,38 @@ useAdmin()
  * PATTERN: Use ref for reactive primitive values in Vue 3 Composition API
  */
 const currentTab = ref('instances')
+
+/**
+ * LEARNING: Dev panel visibility state
+ * WHY: Controls visibility of API dev panel for debugging
+ * PATTERN: Only visible in dev mode
+ */
+const isDevMode = isDevModeEnabled()
+const apiDevPanelVisible = ref(false)
 </script>
 
 <template>
   <div class="admin-panel">
+    <!-- Dev Panel Toggle (dev mode only) -->
+    <div v-if="isDevMode" class="d-flex justify-end mb-2">
+      <VBtn
+        icon="mdi-bug"
+        variant="text"
+        size="small"
+        @click="apiDevPanelVisible = !apiDevPanelVisible"
+      >
+        <VIcon>mdi-bug</VIcon>
+        <VTooltip activator="parent">API Dev Panel</VTooltip>
+      </VBtn>
+    </div>
+
+    <!-- API Dev Panel -->
+    <ApiDevPanel
+      v-if="isDevMode"
+      :visible="apiDevPanelVisible"
+      @close="apiDevPanelVisible = false"
+    />
+
     <!--
       LEARNING: VTabs component for tab navigation
       WHY: Provides tabbed interface with Vuexy styling

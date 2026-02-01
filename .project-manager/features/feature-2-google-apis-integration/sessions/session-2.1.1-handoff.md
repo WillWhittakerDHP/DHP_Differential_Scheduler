@@ -192,7 +192,7 @@
 - **CRITICAL**: Cache free-busy responses to reduce API calls
 - TTL-based caching: 5 min for near-term dates, 15 min for future dates
 - Cache key: `calendarEmails:timeMin:timeMax` (normalized)
-- Invalidate cache when new appointments created (future enhancement)
+- Invalidate cache when new appointments created → **Session 2.1.3**
 
 ### OAuth Token Storage
 - **Initial**: Session storage (simpler, less persistent)

@@ -31,12 +31,14 @@ export default [
         module: 'readonly',
         require: 'readonly',
         exports: 'readonly',
+        NodeJS: 'readonly',
       },
     },
     plugins: {
       '@typescript-eslint': tseslintPlugin,
     },
     rules: {
+      'no-unused-vars': 'off', // Turn off base rule in favor of @typescript-eslint version
       '@typescript-eslint/no-explicit-any': [
         'error',
         {
@@ -68,6 +70,7 @@ export default [
         module: 'readonly',
         require: 'readonly',
         exports: 'readonly',
+        NodeJS: 'readonly',
       },
     },
   },
@@ -87,9 +90,15 @@ export default [
         module: 'readonly',
         require: 'readonly',
         exports: 'readonly',
+        NodeJS: 'readonly',
       },
     },
   },
   
   {
     ignores: [
+      'node_modules/**',
+      'dist/**',
+    ],
+  },
+]

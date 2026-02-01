@@ -149,6 +149,53 @@ export interface BufferConfig {
 }
 
 /**
+ * Calendar provider type
+ * LEARNING: Identifies the calendar service provider
+ * WHY: Supports multiple calendar providers (Google, Outlook)
+ * PATTERN: Enum-like string literal union type
+ * Session 2.0.1: Added for calendar configuration
+ */
+export type CalendarProvider = 'google' | 'outlook' | 'none'
+
+/**
+ * Calendar configuration
+ * LEARNING: Configuration for which calendars to check for free-busy data
+ * WHY: Allows admin to configure multiple calendar sources for availability checking
+ * PATTERN: Labeled fields matching mock data IDs for consistency
+ * Session 2.0.1: Added for Google Calendar API integration
+ * 
+ * Calendar labels match mock data IDs (client/src/utils/booking/mockGoogleCalendar.ts):
+ * - primary: Main calendar (user's primary Google/Outlook calendar)
+ * - work: Work calendar (optional)
+ * - personal: Personal calendar (optional)
+ */
+export interface CalendarConfig {
+  enabled: boolean
+  provider: CalendarProvider
+  calendars: {
+    primary: string    // e.g., "will@districthomepro.com"
+    work: string       // Optional, empty if not used
+    personal: string   // Optional, empty if not used
+  }
+}
+
+/**
+ * Default calendar configuration
+ * LEARNING: Default values when no calendar config is set
+ * WHY: Provides sensible defaults (disabled, no provider, empty emails)
+ * Session 2.0.1: Added for calendar configuration
+ */
+export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
+  enabled: false,
+  provider: 'none',
+  calendars: {
+    primary: '',
+    work: '',
+    personal: ''
+  }
+}
+
+/**
  * Availability settings interface
  * LEARNING: Complete configuration for time slot generation
  * WHY: Type-safe settings structure for availability calculations
@@ -241,6 +288,15 @@ export interface AvailabilitySettings {
     minorStateLabel?: string  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
     selectTimeSlotLabel?: string  // Label for time slot selection (e.g., "Select a Time Slot")
   }
+  
+  /**
+   * Calendar configuration (optional)
+   * LEARNING: Configuration for which calendars to check for free-busy data
+   * WHY: Allows admin to configure calendar integration for availability checking
+   * PATTERN: Optional nested object with enabled flag, provider, and calendar emails
+   * Session 2.0.1: Added for Google Calendar API integration
+   */
+  calendarConfig?: CalendarConfig
 }
 
 /**
@@ -281,6 +337,7 @@ export interface RawAvailabilitySettings {
     minorStateLabel?: string
     selectTimeSlotLabel?: string
   }
+  calendarConfig?: CalendarConfig
 }
 
 /**
@@ -408,6 +465,56 @@ export function invalidateAvailabilitySettingsCache(): void {
     logger.info('Cache invalidated manually')
     cachedSettings = null
   }
+}
+
+/**
+ * Validate email format for calendar configuration
+ * LEARNING: Basic email format validation
+ * WHY: Ensures calendar emails are valid before saving
+ * PATTERN: Returns true if valid or empty (optional fields)
+ * Session 2.0.1: Added for calendar configuration validation
+ * 
+ * @param email - Email address to validate
+ * @returns true if email is valid format or empty string (optional)
+ */
+export function isValidCalendarEmail(email: string): boolean {
+  if (!email || email.trim() === '') {
+    return true  // Empty is valid (optional field)
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email.trim())
+}
+
+/**
+ * Extract non-empty calendar emails as array
+ * LEARNING: Converts CalendarConfig.calendars object to string array
+ * WHY: API calls need array of email strings, not labeled object
+ * PATTERN: Filter out empty strings, return array
+ * Session 2.0.1: Added for Google Calendar API integration
+ * 
+ * @param config - CalendarConfig object (optional)
+ * @returns Array of non-empty calendar email strings
+ * 
+ * @example
+ * const config: CalendarConfig = {
+ *   enabled: true,
+ *   provider: 'google',
+ *   calendars: { primary: 'a@b.com', work: '', personal: 'c@d.com' }
+ * }
+ * getCalendarEmailsArray(config) // Returns ['a@b.com', 'c@d.com']
+ */
+export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
+  if (!config || !config.enabled) {
+    return []
+  }
+  
+  const emails = [
+    config.calendars.primary,
+    config.calendars.work,
+    config.calendars.personal
+  ]
+  
+  return emails.filter(email => email && email.trim() !== '')
 }
 
 
