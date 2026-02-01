@@ -1,6 +1,6 @@
 
 import 'dotenv/config';
-import { Property, User, sequelize, initializeDatabase } from '../config/app.js';
+import { Address, PropertyVersion, PropertyDetails, User, sequelize, initializeDatabase } from '../config/app.js';
 
 interface CalendarEvent {
   id?: string;
@@ -217,25 +217,120 @@ async function upsertUser(client: ParsedClient): Promise<string> {
   return user.id;
 }
 
-async function upsertProperty(property: ParsedProperty): Promise<string> {
-  const [dbProperty, created] = await Property.findOrCreate({
+/**
+ * Find or create Address (reused pattern from propertyRouter.ts)
+ * LEARNING: Addresses are normalized separately from property details
+ * WHY: Allows reuse of addresses across multiple property versions
+ */
+async function findOrCreateAddress(addressData: {
+  address: string;
+  unit?: string | null;
+  city: string;
+  state: string;
+  zipCode: string;
+}) {
+  const existingAddress = await Address.findOne({
     where: {
+      address: addressData.address,
+      city: addressData.city,
+      state: addressData.state,
+      zipCode: addressData.zipCode,
+      unit: addressData.unit || null,
+    },
+  });
+
+  if (existingAddress) {
+    // Update unit if provided and different
+    if (addressData.unit && existingAddress.unit !== addressData.unit) {
+      await existingAddress.update({ unit: addressData.unit });
+    }
+    return existingAddress;
+  }
+
+  return await Address.create({
+    address: addressData.address,
+    unit: addressData.unit || null,
+    city: addressData.city,
+    state: addressData.state,
+    zipCode: addressData.zipCode,
+  });
+}
+
+/**
+ * Upsert property using normalized structure (Address → PropertyVersion → PropertyDetails)
+ * LEARNING: Uses three-table structure instead of deprecated Property model
+ * WHY: Separates stable address from versioned property details
+ * PATTERN: Find or create Address, find or create PropertyVersion, find or create PropertyDetails
+ * Returns propertyVersionId (used by appointments)
+ */
+async function upsertProperty(property: ParsedProperty): Promise<string> {
+  return await PropertyVersion.sequelize!.transaction(async (transaction) => {
+    // Step 1: Find or create Address
+    const addressRecord = await findOrCreateAddress({
       address: property.address,
+      unit: property.unit,
       city: property.city,
       state: property.state,
-    },
-    defaults: property,
-  });
-  
-  if (!created) {
-    await dbProperty.update({
-      unit: property.unit || dbProperty.unit,
-      zipCode: property.zipCode || dbProperty.zipCode,
-      mlsNumber: property.mlsNumber || dbProperty.mlsNumber,
+      zipCode: property.zipCode,
     });
-  }
-  
-  return dbProperty.id;
+
+    // Step 2: Find or create PropertyVersion for this Address
+    let propertyVersion = await PropertyVersion.findOne({
+      where: {
+        addressId: addressRecord.id,
+      },
+      transaction,
+    });
+    
+    if (!propertyVersion) {
+      propertyVersion = await PropertyVersion.create({
+        addressId: addressRecord.id,
+      }, { transaction });
+    }
+
+    // Step 3: Find or create PropertyDetails for this PropertyVersion
+    const [propertyDetails, detailsCreated] = await PropertyDetails.findOrCreate({
+      where: {
+        propertyVersionId: propertyVersion.id,
+      },
+      defaults: {
+        propertyVersionId: propertyVersion.id,
+        source: 'client' as const, // Calendar imports are from client input
+        mlsNumber: property.mlsNumber,
+        squareFootage: property.squareFootage,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        foundationAccess: property.foundationAccess,
+        additionalUnits: property.additionalUnits,
+      },
+      transaction,
+    });
+
+    // Update existing PropertyDetails if any new data is provided
+    if (!detailsCreated) {
+      const updates: Partial<{
+        mlsNumber: string | null;
+        squareFootage: number | null;
+        bedrooms: number | null;
+        bathrooms: number | null;
+        foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
+        additionalUnits: number | null;
+      }> = {};
+
+      if (property.mlsNumber !== null) updates.mlsNumber = property.mlsNumber;
+      if (property.squareFootage !== null) updates.squareFootage = property.squareFootage;
+      if (property.bedrooms !== null) updates.bedrooms = property.bedrooms;
+      if (property.bathrooms !== null) updates.bathrooms = property.bathrooms;
+      if (property.foundationAccess !== null) updates.foundationAccess = property.foundationAccess;
+      if (property.additionalUnits !== null) updates.additionalUnits = property.additionalUnits;
+
+      if (Object.keys(updates).length > 0) {
+        await propertyDetails.update(updates, { transaction });
+      }
+    }
+
+    return propertyVersion.id;
+  });
 }
 
 async function processEvents(events: CalendarEvent[], organizerEmail: string): Promise<{
@@ -274,17 +369,23 @@ async function processEvents(events: CalendarEvent[], organizerEmail: string): P
     if (property) {
       const propertyKey = `${property.address}|${property.city}|${property.state}`;
       if (!processedProperties.has(propertyKey)) {
-        const existingProperty = await Property.findOne({
+        // Check for existing PropertyVersion by looking up Address first
+        const existingAddress = await Address.findOne({
           where: {
             address: property.address,
             city: property.city,
             state: property.state,
           },
+          include: [
+            { model: PropertyVersion, as: 'propertyVersions', required: false },
+          ],
         });
+        
+        const existingPropertyVersion = existingAddress && (existingAddress as any).propertyVersions?.[0];
         
         await upsertProperty(property);
         
-        if (existingProperty) {
+        if (existingPropertyVersion) {
           stats.propertiesUpdated++;
         } else {
           stats.propertiesImported++;

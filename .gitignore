@@ -4,6 +4,9 @@ dist
 *.log
 coverage
 
+# Google OAuth tokens (contains sensitive credentials)
+.google-tokens.json
+
 # Comment audit reports (regenerate as needed)
 COMMENT_AUDIT_REPORT.md
 comment-audit-data.json

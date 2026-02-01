@@ -1,6 +1,6 @@
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-export function getFilteredServiceDescription(service: BookingBlockInstance, userTypeBlockName: string | null): string {
+export function getFilteredServiceDescription(_service: BookingBlockInstance, _userTypeBlockName: string | null): string {
   // WHY: Return empty string since descriptions property doesn't exist on BookingBlockInstance
   return ''
 }

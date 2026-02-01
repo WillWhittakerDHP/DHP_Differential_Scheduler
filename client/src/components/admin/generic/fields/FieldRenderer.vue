@@ -57,7 +57,6 @@
 import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
-import PartsCollection from '../collections/PartsCollection.vue'
 import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
 import type { GlobalEntityKey } from '../../../../constants/entities'

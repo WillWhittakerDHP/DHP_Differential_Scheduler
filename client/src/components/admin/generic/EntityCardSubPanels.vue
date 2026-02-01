@@ -8,7 +8,6 @@
  */
 import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
-import PartsCollection from './collections/PartsCollection.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

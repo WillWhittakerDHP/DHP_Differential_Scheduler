@@ -29,19 +29,9 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   isSelected?: boolean
   
   // PATTERN: Index signature enables type-safe property access while allowing dynamic keys
-  [key: string]:
-    | ValidAdminValue
-    | AdminEntity<GE>['displayConfig']
-    | Record<GlobalFieldKey<GE>, string>
-    | boolean
-    | number
-    | undefined
-    | (((...args: unknown[]) => unknown))
-    | GlobalEntity<GE>
-    | void
-    | { orderIndex: number; canReorder: boolean }
-    | GlobalFieldKey<GE>[]
-    | string[]
+  // Note: Methods are implemented separately and TypeScript should exclude them, but we use 'any' for the function type
+  // to avoid conflicts with specific method signatures
+  [key: string]: any
   
   constructor(admin: GlobalEntity<GE>, displayConfig: AdminEntity<GE>['displayConfig']) {
     this.id = admin.id

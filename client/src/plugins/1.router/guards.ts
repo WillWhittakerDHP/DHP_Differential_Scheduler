@@ -1,11 +1,10 @@
-import type { RouteNamedMap, _RouterTyped } from 'unplugin-vue-router'
-import type { RouteLocationNormalized } from 'vue-router'
+import type { Router, RouteLocationNormalized } from 'vue-router'
 import { canNavigate } from '@layouts/plugins/casl'
 import { getQueryClient } from '@/plugins/3.vue-query'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { MetadataCache } from '@/composables/admin/useMetadataCache'
 
-export const setupGuards = (router: _RouterTyped<RouteNamedMap & { [key: string]: unknown }>) => {
+export const setupGuards = (router: Router) => {
   router.beforeEach(async (to: RouteLocationNormalized) => {
     // WHY: Ensures metadata is in cache before components render (same pattern as globalData)
     // PATTERN: Prefetch in route guard, components read from cache synchronously

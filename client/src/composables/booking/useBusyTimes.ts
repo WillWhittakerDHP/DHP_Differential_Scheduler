@@ -9,7 +9,7 @@
  */
 
 import { ref, watch, type ComputedRef, type Ref } from 'vue'
-import { getCalendarAvailability, getCalendarAvailabilitySync } from '@/utils/timeSlotCalculations'
+import { getCalendarAvailability } from '@/utils/timeSlotCalculations'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
@@ -179,38 +179,3 @@ export function useBusyTimes(
   }
 }
 
-/**
- * Synchronous version for backward compatibility
- * @deprecated Use useBusyTimes with data source params instead
- */
-export interface UseBusyTimesSyncParams {
-  dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
-  mockRefreshKey: Ref<number>
-}
-
-export interface UseBusyTimesSyncReturn {
-  busyTimes: ComputedRef<BusyTimeRange[]>
-}
-
-import { computed } from 'vue'
-
-export function useBusyTimesSync(
-  params: UseBusyTimesSyncParams
-): UseBusyTimesSyncReturn {
-  const { dateRangeForApi, mockRefreshKey } = params
-
-  const busyTimes = computed<BusyTimeRange[]>(() => {
-    if (!dateRangeForApi.value) {
-      return []
-    }
-    
-    void mockRefreshKey.value // Force dependency tracking
-    
-    return getCalendarAvailabilitySync({
-      start: dateRangeForApi.value.start,
-      end: dateRangeForApi.value.end
-    })
-  })
-
-  return { busyTimes }
-}

@@ -282,15 +282,14 @@ function mergeOverlappingBusyTimes(busyTimes: BusyTimeRange[]): BusyTimeRange[] 
 }
 
 /**
- * Synchronous version for backward compatibility
- * @deprecated Use getCalendarAvailability with options instead
- * Session 2.1.2: Kept for backward compatibility during migration
- * NOTE: Uses default calendar IDs since settings require async fetch
+ * Get mock busy times for development/testing
+ * LEARNING: Exported wrapper for getMockBusyTimes for use in dev panels and tests
+ * WHY: Provides mock data without async overhead
+ * PATTERN: Simple wrapper around private getMockBusyTimes function
  */
-export function getCalendarAvailabilitySync(
+export function getMockBusyTimesSync(
   dateRange: { start: RFC3339DateTime; end: RFC3339DateTime }
 ): BusyTimeRange[] {
-  // Use default IDs since we can't access async settings synchronously
   return getMockBusyTimes(dateRange, ['primary', 'work', 'personal'])
 }
 

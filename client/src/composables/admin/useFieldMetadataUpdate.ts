@@ -14,14 +14,8 @@ export interface FieldMetadataConfig {
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
-/**
- * @deprecated Use FieldMetadataConfig instead
- * Kept for backward compatibility during migration
- */
-export type FieldVisibilityConfig = FieldMetadataConfig
-
 export function useFieldMetadataUpdate(
-  fieldVisibilityConfig: Ref<FieldVisibilityConfig>,
+  fieldVisibilityConfig: Ref<FieldMetadataConfig>,
   field: string
 ) {
   const updateFieldMetadata = (updates: Partial<FieldMetadataEntry>): void => {

@@ -98,25 +98,32 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
       scheduledById: null,
     } as AppointmentRequest),
     validateCreate: (payload) => {
-      if (!payload.propertyVersionId && !payload.propertyId) return 'Property is required'
+      if (!payload.propertyVersionId) return 'Property is required'
       return null
     },
     mapItemToEditPayload: (appointment) => ({
-      propertyVersionId: appointment.propertyVersionId || appointment.propertyId || null,
-      userTypeBlockId: appointment.userTypeBlockId || null,
-      selectedOptionTypeBlocks: appointment.selectedOptionTypeBlocks || null,
+      propertyVersionId: appointment.propertyVersionId || null,
+      userTypeBlockId: appointment.userTypeId || null,
+      selectedOptionIds: appointment.selectedOptionIds || null,
       selectedDate: appointment.selectedDate || null,
       selectedDateRangeEnd: appointment.selectedDateRangeEnd || null,
-      selectedTimeSlots: (appointment.selectedTimeSlots as { time: string; duration: number; }[] | null | undefined) || null,
+      selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
+        startTime: slot.time,
+        endTime: slot.time, // NOTE: endTime not available in legacy format, using startTime
+        duration: slot.duration
+      })) : null,
       isQuoteMode: appointment.isQuoteMode,
       quotePdfUrl: appointment.quotePdfUrl || null,
       status: appointment.status,
-      clientId: appointment.clientId || null,
-      agentId: appointment.agentId || null,
       /** scheduledById: Tracks which user engaged/interacted with the scheduler */
       scheduledById: appointment.scheduledById || null,
-      additionalContacts: appointment.additionalContacts || null,
       propertyDetails: appointment.propertyDetails || null,
+      /** Attendees array replaces legacy clientId/agentId/additionalContacts */
+      attendees: appointment.attendees?.map(attendee => ({
+        userId: attendee.userId,
+        userTypeBlockInstanceId: attendee.userTypeBlockInstanceId || null,
+        shouldReceiveInvitation: attendee.shouldReceiveInvitation ?? true,
+      })) || null,
     }),
   })
 

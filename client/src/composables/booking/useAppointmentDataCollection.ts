@@ -7,12 +7,22 @@
  */
 
 import type { Ref } from 'vue'
-import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
+import type { AppointmentRequest, AppointmentStatus, AttendeeRequest } from '@/types/appointment'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 import type { PropertyDetailsData } from '@/types/propertyForm'
+
+/**
+ * Helper type for building attendees
+ * LEARNING: Internal type for collecting attendee data before API submission
+ */
+interface AttendeeCollectionItem {
+  userId: string;
+  role: 'client' | 'agent' | 'transaction_manager' | 'seller';
+  shouldReceiveInvitation: boolean;
+}
 
 /**
  * Property details step data structure
@@ -31,10 +41,11 @@ export interface ContactsStepData {
   showSeller: boolean
 }
 
-export interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: Array<{ time: string; duration: number }> | null
-}
+// LEARNING: Import AvailabilityStepData from canonical source
+// WHY: Single source of truth prevents format mismatches
+// SESSION: 2.1.3b - Fixed timezone issue caused by duplicate interface
+import type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
+export type { AvailabilityStepData }
 
 export interface UseAppointmentDataCollectionParams {
   wizard: {
@@ -126,6 +137,12 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
 
       const contacts = contactsStepData.value
       
+      // LEARNING: Build attendees array for calendar invitations
+      // WHY: New flexible attendee system replaces legacy clientId/agentId
+      // SESSION: 2.1.3b - Appointment Attendees Architecture
+      const attendeesCollection: AttendeeCollectionItem[] = []
+      
+      // Create primary client user
       const clientUserData: UserRequest = {
         firstName: contacts.clientInfo.firstName,
         lastName: contacts.clientInfo.lastName,
@@ -134,8 +151,13 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         userRole: 'client'
       }
       const createdClient = await createUser.mutateAsync(clientUserData)
-      const clientId = createdClient.id
+      attendeesCollection.push({
+        userId: createdClient.id,
+        role: 'client',
+        shouldReceiveInvitation: true
+      })
 
+      // Create agent user
       const agentUserData: UserRequest = {
         firstName: contacts.agentInfo.firstName,
         lastName: contacts.agentInfo.lastName,
@@ -144,10 +166,13 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         userRole: 'agent'
       }
       const createdAgent = await createUser.mutateAsync(agentUserData)
-      const agentId = createdAgent.id
+      attendeesCollection.push({
+        userId: createdAgent.id,
+        role: 'agent',
+        shouldReceiveInvitation: true
+      })
 
-      const additionalContactIds: Array<{ id: string; role: string }> = []
-
+      // Create another client if provided
       if (contacts.showAnotherClient && contacts.anotherClientInfo.firstName) {
         const anotherClientData: UserRequest = {
           firstName: contacts.anotherClientInfo.firstName,
@@ -157,9 +182,14 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           userRole: 'client'
         }
         const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
-        additionalContactIds.push({ id: createdAnotherClient.id, role: 'anotherClient' })
+        attendeesCollection.push({
+          userId: createdAnotherClient.id,
+          role: 'client',
+          shouldReceiveInvitation: true
+        })
       }
 
+      // Create transaction manager if provided
       if (contacts.showTransactionManager && contacts.transactionManagerInfo.firstName) {
         const transactionManagerData: UserRequest = {
           firstName: contacts.transactionManagerInfo.firstName,
@@ -169,9 +199,14 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           userRole: 'transaction_manager'
         }
         const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
-        additionalContactIds.push({ id: createdTransactionManager.id, role: 'transactionManager' })
+        attendeesCollection.push({
+          userId: createdTransactionManager.id,
+          role: 'transaction_manager',
+          shouldReceiveInvitation: true
+        })
       }
 
+      // Create seller if provided
       if (contacts.showSeller && contacts.sellerInfo.firstName) {
         const sellerData: UserRequest = {
           firstName: contacts.sellerInfo.firstName,
@@ -181,13 +216,32 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           userRole: 'seller'
         }
         const createdSeller = await createUser.mutateAsync(sellerData)
-        additionalContactIds.push({ id: createdSeller.id, role: 'seller' })
+        attendeesCollection.push({
+          userId: createdSeller.id,
+          role: 'seller',
+          shouldReceiveInvitation: true
+        })
       }
+      
+      // Transform to AttendeeRequest format
+      // SESSION: 2.1.3b - Appointment Attendees Architecture
+      const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
+        userId: item.userId,
+        role: item.role,
+        shouldReceiveInvitation: item.shouldReceiveInvitation
+      }))
 
       const availability = availabilityStepData.value
       const selectedDate = availability.selectedDate.start
       const selectedDateRangeEnd = availability.selectedDate.end
-      const selectedTimeSlots = availability.selectedTimeSlots
+      // Transform selectedTimeSlots from SelectedTimeSlot format to AppointmentRequest format
+      const selectedTimeSlots = availability.selectedTimeSlots 
+        ? availability.selectedTimeSlots.map(slot => ({
+            startTime: slot.startTime,
+            endTime: slot.endTime,
+            duration: slot.duration
+          }))
+        : null
 
       const propertyDetails = {
         address: propertyDetailsStepData.value.address,
@@ -204,13 +258,6 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         foundationAccess: propertyDetailsStepData.value.foundationAccess,
         additionalUnits: propertyDetailsStepData.value.additionalUnits
       }
-
-      const additionalContacts = additionalContactIds.length > 0
-        ? additionalContactIds.map(({ id, role }) => ({
-            userId: id,
-            role
-          }))
-        : null
 
       const isQuoteMode = wizard.isQuoteMode.value
 
@@ -256,10 +303,13 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         selectedDateRangeEnd,
         selectedTimeSlots,
         isQuoteMode,
-        status: isQuoteMode ? 'quoted' : 'started' as AppointmentStatus,
-        clientId,
-        agentId,
-        additionalContacts,
+        // LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode
+        // WHY: Calendar events should only be created when user commits to booking
+        // SESSION: 2.1.3b - Appointment Attendees Architecture
+        status: isQuoteMode ? 'quoted' : 'submitted' as AppointmentStatus,
+        // Attendees for calendar invitations
+        // SESSION: 2.1.3b - Appointment Attendees Architecture
+        attendees: attendees.length > 0 ? attendees : null,
         propertyDetails
       }
 

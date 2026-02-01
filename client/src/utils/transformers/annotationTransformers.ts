@@ -9,7 +9,6 @@
 import type { AnnotationInstance, AnnotationWithMetadata, AnnotationShape } from '@/types/annotations'
 import type { UserTypeBlock } from '@/types/userTypes'
 import type { GlobalEntityId } from '@/types/entities'
-import type { FetchedRelationship } from '@/types/relationships'
 
 /**
  * Transform API annotation type to AnnotationShape

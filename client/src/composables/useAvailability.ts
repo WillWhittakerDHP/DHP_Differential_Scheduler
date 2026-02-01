@@ -10,7 +10,8 @@
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { calculateDurationFromBlockInstances, getCalendarAvailabilitySync } from '@/utils/timeSlotCalculations'
+import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
+import type { FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import { preprocessBusyPeriods } from '@/utils/booking/timeAvailabilityManager'
@@ -108,11 +109,18 @@ export function useAvailability(
         if (signal.aborted) return
 
         // WHY: Mark slots that conflict with existing appointments as unavailable
-        // PATTERN: Use sync version for immediate mock data (async version used in useBusyTimes)
-        const rawBusyTimes = getCalendarAvailabilitySync({
-          start: validatedDateRange.start,
-          end: validatedDateRange.end
-        })
+        // PATTERN: Use async getCalendarAvailability with mock data source for consistency
+        const rawBusyTimes = await getCalendarAvailability(
+          {
+            start: validatedDateRange.start,
+            end: validatedDateRange.end
+          },
+          {
+            dataSource: 'mock' as FreeBusyDataSource,
+            calendarEmails: ['primary', 'work', 'personal'],
+            skipCache: false
+          }
+        )
         // PATTERN: Use preprocessBusyPeriods to validate, sort, and merge
         const busyTimes = preprocessBusyPeriods(rawBusyTimes as BusyTimeRange[])
         if (signal.aborted) return

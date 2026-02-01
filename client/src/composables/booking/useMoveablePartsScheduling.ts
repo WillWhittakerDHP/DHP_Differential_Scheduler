@@ -101,7 +101,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const shape = appointmentShape.value
     if (!shape) return false
     const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-    const moveableDuration = moveableEventFinal?.duration ?? 0
+    const moveableDuration = moveableEventFinal?.roundedDuration ?? 0
     return moveableDuration > 0
   })
   
@@ -109,7 +109,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const shape = appointmentShape.value
     if (!shape) return 0
     const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-    return moveableEventFinal?.duration ?? 0
+    return moveableEventFinal?.roundedDuration ?? 0
   })
   
   // PATTERN: Watch dependencies and update ref when they change

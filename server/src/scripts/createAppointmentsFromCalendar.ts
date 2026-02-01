@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { Appointment, PropertyVersion, Address, User, sequelize, initializeDatabase } from '../config/app.js';
+import { Appointment, PropertyVersion, Address, User, AppointmentAttendee, sequelize, initializeDatabase } from '../config/app.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -279,7 +279,7 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         }
       }
       
-      await Appointment.create({
+      const appointment = await Appointment.create({
         propertyVersionId,
         userTypeId: null, // Would need to determine from event
         selectedServiceIds: null, // Would need to determine from event
@@ -291,12 +291,20 @@ async function createAppointmentsFromEvents(events: CalendarEvent[]): Promise<{
         isQuoteMode: status === 'quoted',
         quotePdfUrl: null,
         status,
-        clientId: null, // Actual client not known from calendar data
-        agentId, // Agent extracted from event summary
         scheduledById, // Randomly assigned for testing
-        additionalContacts: null,
         propertyDetails: null,
       });
+      
+      // Create attendee record for agent if found
+      if (agentId) {
+        await AppointmentAttendee.create({
+          appointmentId: appointment.id,
+          userId: agentId,
+          userTypeBlockInstanceId: null, // Would need to look up Agent UserTypeBlock
+          shouldReceiveInvitation: true,
+          invitationStatus: 'pending',
+        });
+      }
       
       console.log(`✅ Created appointment: "${event.summary}" (agent: ${agentId ? 'found' : 'none'}, scheduledBy: ${scheduledById ? 'assigned' : 'none'})`);
       stats.created++;

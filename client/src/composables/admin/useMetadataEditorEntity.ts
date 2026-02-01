@@ -29,7 +29,7 @@ export function useMetadataEditorEntity<
   GlobalEntityTypeKey extends GlobalEntityKey
 >(
   entityKey: GlobalEntityTypeKey,
-  entity: GlobalEntity<GlobalEntityTypeKey> | null | undefined,
+  _entity: GlobalEntity<GlobalEntityTypeKey> | null | undefined,
   blockShapeRef?: string | null
 ): ComputedRef<GlobalEntity<GlobalEntityTypeKey> | null> {
   return computed(() => {

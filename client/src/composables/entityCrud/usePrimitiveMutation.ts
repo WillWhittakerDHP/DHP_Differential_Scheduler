@@ -151,7 +151,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
 
       return { previousData }
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       // PATTERN: Check if error is 404 before rolling back
       const axiosError = error as AxiosError<{ error?: string; id?: string }>
       const is404 = axiosError.response?.status === 404

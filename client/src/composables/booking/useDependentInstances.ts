@@ -123,6 +123,8 @@ export function useDependentInstances(
             (entity as unknown as { requiresUnitNumber?: boolean | null }).requiresUnitNumber === true
               ? true
               : null,
+          is_multi_family: (entity as unknown as { is_multi_family?: boolean }).is_multi_family ?? false,
+          requires_agent: (entity as unknown as { requires_agent?: boolean }).requires_agent ?? false,
         }
         instances.push(instance)
       }

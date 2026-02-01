@@ -412,8 +412,3 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     matchLoadedTimeSlots
   }
 }
-
-/**
- * @deprecated Use AppointmentSlotsPerDay instead
- * NOTE: Removed - deprecated and unused
- */

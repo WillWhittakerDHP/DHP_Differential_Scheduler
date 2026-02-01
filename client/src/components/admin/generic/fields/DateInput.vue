@@ -9,7 +9,7 @@
     <AppDateTimePicker
       :id="`field-${String(fieldContext.fieldKey)}`"
       :name="String(fieldContext.fieldKey)"
-      :model-value="fieldValue"
+      :model-value="typeof fieldValue === 'string' ? fieldValue : undefined"
       :label="fieldContext.displayConfig.label"
       :placeholder="fieldContext.displayConfig.placeholder"
       :disabled="fieldContext.displayConfig.disabled"

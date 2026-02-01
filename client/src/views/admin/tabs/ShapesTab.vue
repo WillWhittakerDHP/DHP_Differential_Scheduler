@@ -21,7 +21,6 @@ import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, ANNOTATION_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { useNotification } from '@/composables/useNotification'
-import type { EventShape } from '@/types/events'
 
 
 /**

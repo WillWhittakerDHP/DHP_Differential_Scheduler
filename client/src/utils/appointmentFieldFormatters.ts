@@ -35,7 +35,7 @@ function formatPropertyField(
 ): string {
   if (!value) return formatNullValue(value)
   
-  const propertyVersionId = appointment.propertyVersionId || appointment.propertyId
+  const propertyVersionId = appointment.propertyVersionId
   if (propertyVersionId) {
     const property = properties.find(p => p.propertyVersionId === propertyVersionId || p.id === propertyVersionId)
     if (property) return `${property.address}, ${property.city}, ${property.state}`
@@ -83,6 +83,44 @@ function formatArrayCountField(value: unknown, label: string): string {
   return Array.isArray(value) ? `${value.length} ${label}` : formatNullValue(value)
 }
 
+function formatClientField(
+  appointment: AppointmentResponse,
+  _value: unknown,
+  _properties: PropertyResponse[],
+  users: UserResponse[]
+): string {
+  const clientAttendee = appointment.attendees?.find(a => 
+    a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
+  )
+  if (clientAttendee?.user) {
+    return `${clientAttendee.user.firstName} ${clientAttendee.user.lastName}`
+  }
+  if (clientAttendee?.userId) {
+    const user = users.find(u => u.id === clientAttendee.userId)
+    return user ? `${user.firstName} ${user.lastName}` : '—'
+  }
+  return '—'
+}
+
+function formatAgentField(
+  appointment: AppointmentResponse,
+  _value: unknown,
+  _properties: PropertyResponse[],
+  users: UserResponse[]
+): string {
+  const agentAttendee = appointment.attendees?.find(a => 
+    a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
+  )
+  if (agentAttendee?.user) {
+    return `${agentAttendee.user.firstName} ${agentAttendee.user.lastName}`
+  }
+  if (agentAttendee?.userId) {
+    const user = users.find(u => u.id === agentAttendee.userId)
+    return user ? `${user.firstName} ${user.lastName}` : '—'
+  }
+  return '—'
+}
+
 /**
  * LEARNING: Config-driven field formatter map
  * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
@@ -91,14 +129,21 @@ function formatArrayCountField(value: unknown, label: string): string {
 export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
+  // Deprecated: clientId/agentId - kept for backward compatibility, use client/agent formatters instead
   clientId: (_appointment, value, _properties, users) => formatUserField(value, users),
   agentId: (_appointment, value, _properties, users) => formatUserField(value, users),
+  // New: Extract from attendees array
+  client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
+  agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),
   status: (_appointment, value) => String(value || 'started'),
   selectedDate: (_appointment, value) => formatDateField(value),
   selectedTimeSlots: (_appointment, value) => formatArrayCountField(value, 'slot(s)'),
+  selectedOptionIds: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
+  // Deprecated: selectedOptionTypeBlocks - kept for backward compatibility
   selectedOptionTypeBlocks: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
   propertyDetails: (_appointment, value) => formatNullValue(value),
+  // Deprecated: additionalContacts - kept for backward compatibility
   additionalContacts: (_appointment, value) => formatNullValue(value),
 }
 

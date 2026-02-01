@@ -11,8 +11,6 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { TernaryBoolean } from '@/types/ternary'
 import type { AppointmentShape, SlotShape, AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
-import type { RFC3339DateTime } from '@/types/datetime'
-import { useLocalTime } from '@/composables/useLocalTime'
 import { useBooking } from '@/composables/useBooking'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'

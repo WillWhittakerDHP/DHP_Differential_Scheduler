@@ -1,6 +1,15 @@
 import { Router, Request, Response } from 'express';
 import { Op } from 'sequelize';
-import { Appointment, PropertyVersion, Address, PropertyDetails, User, BlockInstanceVersion } from '../../../config/app.js';
+import { 
+  Appointment, 
+  PropertyVersion, 
+  Address, 
+  PropertyDetails, 
+  User, 
+  BlockInstanceVersion,
+  AppointmentAttendee,
+  BlockInstance
+} from '../../../config/app.js';
 import { 
   fetchAll, 
   fetchById, 
@@ -11,24 +20,54 @@ import {
 } from '../../helpers/dataController.js';
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js';
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js';
+import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js';
+import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js';
+
+/**
+ * Type for attendee data in request body
+ * LEARNING: Flexible attendee structure for calendar invitations
+ * WHY: Enables N attendees per appointment with proper role tracking
+ * SESSION: 2.1.3b - Appointment Attendees Architecture
+ */
+interface AttendeeRequest {
+  userId: string;
+  userTypeBlockInstanceId?: string | null;
+  shouldReceiveInvitation?: boolean;
+  role?: string; // If provided, server will look up the UserTypeBlock
+}
 
 const router = Router();
+
+/**
+ * Standard includes for appointment queries
+ * LEARNING: Centralized include definition for consistency
+ * WHY: Includes attendees relationship for calendar invitations
+ * SESSION: 2.1.3b - Appointment Attendees Architecture
+ */
+const appointmentIncludes = [
+  { 
+    model: PropertyVersion, 
+    as: 'propertyVersion',
+    include: [
+      { model: Address, as: 'address' },
+      { model: PropertyDetails, as: 'propertyDetails' },
+    ],
+  },
+  // Attendees relationship (replaces legacy clientId/agentId)
+  { 
+    model: AppointmentAttendee, 
+    as: 'attendees',
+    include: [
+      { model: User, as: 'user' },
+      { model: BlockInstance, as: 'userTypeBlockInstance' },
+    ],
+  },
+];
 
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointments = await fetchAll(Appointment, {
-      includes: [
-        { 
-          model: PropertyVersion, 
-          as: 'propertyVersion',
-          include: [
-            { model: Address, as: 'address' },
-            { model: PropertyDetails, as: 'propertyDetails' },
-          ],
-        },
-        { model: User, as: 'client' },
-        { model: User, as: 'agent' },
-      ]
+      includes: appointmentIncludes
     });
     res.json(appointments);
   } catch (error) {
@@ -43,18 +82,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointment = await Appointment.findByPk(req.params.id, {
-      include: [
-        { 
-          model: PropertyVersion, 
-          as: 'propertyVersion',
-          include: [
-            { model: Address, as: 'address' },
-            { model: PropertyDetails, as: 'propertyDetails' },
-          ],
-        },
-        { model: User, as: 'client' },
-        { model: User, as: 'agent' },
-      ],
+      include: appointmentIncludes,
     });
     
     if (!appointment) {
@@ -111,42 +139,89 @@ async function validateSnapshotIds(snapshotIds: string[]): Promise<void> {
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const appointmentData = req.body;
+    const attendeesData: AttendeeRequest[] = appointmentData.attendees || [];
+    
+    // Remove attendees from appointmentData before creating appointment
+    // (attendees are stored in separate table)
+    const { attendees: _, ...appointmentFields } = appointmentData;
     
     const serviceSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedServiceIds || []
+      appointmentFields.selectedServiceIds || []
     );
     const propertySnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedPropertyIds || []
+      appointmentFields.selectedPropertyIds || []
     );
     const optionSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedOptionIds || []
+      appointmentFields.selectedOptionIds || []
     );
     
-    // 2. Validate snapshot IDs (redundant but defensive)
+    // Validate snapshot IDs (redundant but defensive)
     await validateSnapshotIds(serviceSnapshotIds);
     await validateSnapshotIds(propertySnapshotIds);
     await validateSnapshotIds(optionSnapshotIds);
     
+    // Create the appointment
     const appointment = await createRecord(Appointment, {
-      ...appointmentData,
+      ...appointmentFields,
       serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
       propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
       optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
     });
     
+    // Create attendee records
+    // LEARNING: Attendees are created after appointment to have the appointmentId
+    // WHY: Junction table requires appointment to exist first
+    // SESSION: 2.1.3b - Appointment Attendees Architecture
+    if (attendeesData.length > 0) {
+      console.log(`[AppointmentRouter] Creating ${attendeesData.length} attendee records`);
+      
+      await Promise.all(attendeesData.map(async (attendee) => {
+        // If role is provided but not userTypeBlockInstanceId, look it up
+        let userTypeBlockInstanceId = attendee.userTypeBlockInstanceId;
+        if (!userTypeBlockInstanceId && attendee.role) {
+          userTypeBlockInstanceId = await getUserTypeBlockIdForRole(attendee.role);
+        }
+        
+        return AppointmentAttendee.create({
+          appointmentId: appointment.id,
+          userId: attendee.userId,
+          userTypeBlockInstanceId: userTypeBlockInstanceId || null,
+          shouldReceiveInvitation: attendee.shouldReceiveInvitation ?? true,
+          invitationStatus: 'pending',
+        });
+      }));
+      
+      console.log(`[AppointmentRouter] Created attendee records for appointment ${appointment.id}`);
+    } else {
+      console.log(`[AppointmentRouter] No attendees provided for appointment ${appointment.id}`);
+    }
+    
+    // LEARNING: Trigger calendar event creation when appointment is submitted or confirmed
+    // WHY: Sends Google Calendar invitations to all attendees
+    // SESSION: 2.1.3b - Appointment Attendees Architecture
+    if (appointment.status === 'submitted' || appointment.status === 'confirmed') {
+      try {
+        console.log(`[AppointmentRouter] Creating calendar event for appointment ${appointment.id}`);
+        const calendarResult = await createCalendarEventForAppointment(
+          appointment.id,
+          'scheduling@districthomepro.com' // TODO: Make configurable via business settings
+        );
+        
+        if (calendarResult.success) {
+          console.log(`[AppointmentRouter] Calendar event created: ${calendarResult.eventId}, ${calendarResult.attendeesUpdated} attendees updated`);
+        } else {
+          console.error(`[AppointmentRouter] Calendar event creation failed: ${calendarResult.error}`);
+        }
+      } catch (calendarError) {
+        // Don't fail the appointment creation if calendar fails
+        console.error(`[AppointmentRouter] Calendar event creation error:`, calendarError);
+      }
+    } else {
+      console.log(`[AppointmentRouter] Skipping calendar event - status is '${appointment.status}' (not submitted/confirmed)`);
+    }
+    
     const appointmentWithRelations = await Appointment.findByPk(appointment.id, {
-      include: [
-        { 
-          model: PropertyVersion, 
-          as: 'propertyVersion',
-          include: [
-            { model: Address, as: 'address' },
-            { model: PropertyDetails, as: 'propertyDetails' },
-          ],
-        },
-        { model: User, as: 'client' },
-        { model: User, as: 'agent' },
-      ],
+      include: appointmentIncludes,
     });
     
     res.status(201).json(appointmentWithRelations);
@@ -172,18 +247,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
     }
     
     const appointment = await Appointment.findByPk(req.params.id, {
-      include: [
-        { 
-          model: PropertyVersion, 
-          as: 'propertyVersion',
-          include: [
-            { model: Address, as: 'address' },
-            { model: PropertyDetails, as: 'propertyDetails' },
-          ],
-        },
-        { model: User, as: 'client' },
-        { model: User, as: 'agent' },
-      ],
+      include: appointmentIncludes,
     });
     
     res.json(appointment);
@@ -209,18 +273,7 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
     }
     
     const appointment = await Appointment.findByPk(req.params.id, {
-      include: [
-        { 
-          model: PropertyVersion, 
-          as: 'propertyVersion',
-          include: [
-            { model: Address, as: 'address' },
-            { model: PropertyDetails, as: 'propertyDetails' },
-          ],
-        },
-        { model: User, as: 'client' },
-        { model: User, as: 'agent' },
-      ],
+      include: appointmentIncludes,
     });
     
     res.json(appointment);

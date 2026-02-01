@@ -5,7 +5,7 @@ import morgan from "morgan";
 import routes from "./routes/index.js";
 import { notFound, errorHandler } from "./middlewares/index.js";
 import { initializeDatabase } from "./config/app.js";
-import { getTokens, setCredentials } from "./config/googleOAuth.js";
+import { getTokens, setCredentials, saveTokensToFile, loadTokensFromFile } from "./config/googleOAuth.js";
 
 const app = express();
 
@@ -14,6 +14,10 @@ const startServer = async () => {
   try {
     await initializeDatabase();
     console.log("✅ Database initialized successfully");
+    
+    // Load saved OAuth tokens from file (if they exist)
+    // SESSION: 2.1.3b - Persist tokens across server restarts
+    loadTokensFromFile();
   } catch (error) {
     console.error("❌ Failed to initialize database:", error);
     process.exit(1);
@@ -77,8 +81,12 @@ app.get("/oauth2callback", async (req, res) => {
     // Exchange code for tokens
     const tokens = await getTokens(code);
     
-    // Set credentials on OAuth client (stored in-memory for now)
+    // Set credentials on OAuth client
     setCredentials(tokens);
+    
+    // Save tokens to file for persistence across restarts
+    // SESSION: 2.1.3b - Persist tokens across server restarts
+    saveTokensToFile(tokens);
     
     console.log('[OAuthCallback] OAuth authentication successful');
     console.log('[OAuthCallback] Has access token:', !!tokens.access_token);
@@ -87,7 +95,7 @@ app.get("/oauth2callback", async (req, res) => {
     // Return success response
     res.json({
       success: true,
-      message: 'Authentication successful',
+      message: 'Authentication successful - tokens saved for future sessions',
       hasAccessToken: !!tokens.access_token,
       hasRefreshToken: !!tokens.refresh_token
     });

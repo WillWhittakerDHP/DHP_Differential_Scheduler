@@ -106,9 +106,8 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 | Session | Name | Status |
 |---------|------|--------|
 | 2.1.1 | Infrastructure Setup & Free-Busy API | ✅ Complete |
-| 2.1.2 | Calendar Availability Integration | ⏳ Not Started |
-| 2.1.3a | Event Creation API & Cache Invalidation | ✅ Complete |
-| 2.1.3b | Appointment Attendees Architecture & Integration | ⏳ In Progress |
+| 2.1.2 | Calendar Availability Integration | ✅ Complete |
+| 2.1.3 | Appointment Attendees & Calendar Integration | ✅ Complete |
 | 2.1.4 | Full Event Fetching & Location Cache | ⏳ Not Started |
 | 2.1.5 | Error Handling & Fallbacks | ⏳ Not Started |
 | 2.1.6 | Admin API Dev Panel | ⏳ Not Started |
@@ -308,20 +307,21 @@ This phase follows the detailed Google Calendar Free-Busy API Setup plan with 6 
 - ✅ Server compilation and startup verified
 - ✅ Tested with real Google Calendar
 
-### Session 2.1.3b In Progress
-- ⏳ Appointment Attendees Architecture planned
-- ⏳ Ready to implement database migration
-- **Plan file:** `~/.cursor/plans/appointment_attendees_architecture_64ca4ea1.plan.md`
+### Session 2.1.3 Complete
+- ✅ Appointment attendees junction table created
+- ✅ Legacy `clientId`/`agentId` columns removed (data migrated)
+- ✅ `appointmentCalendarService.ts` creates calendar events on submission
+- ✅ Fixed time slot bug (dynamic event name lookup)
+- ✅ OAuth token persistence for development
+- ✅ Explicit error handling (no silent fallbacks)
 
 ### Next Steps
-1. **Session 2.1.3b (CURRENT):** Appointment Attendees Architecture
-   - Create `appointment_attendees` table
-   - Build server model and relationships
-   - Update appointment creation to handle attendees
-   - Integrate calendar event creation on submission
-2. **Phase 2.0:** Calendar Configuration UI (can be parallel)
-3. **Session 2.1.2:** Calendar Availability Integration (after Phase 2.0)
-4. **Session 2.1.4:** Full Event Fetching & Location Cache
+1. **Session 2.1.4:** Full Event Fetching & Location Cache
+   - Fetch full calendar events (not just free-busy)
+   - Extract locations for drive time calculations
+   - Create `calendarEventsCache.ts` service
+2. **Session 2.1.5:** Error Handling & Fallbacks
+3. **Session 2.1.6:** Admin API Dev Panel
 
 ---
 
@@ -411,7 +411,7 @@ Dev panel toggle in "Free/Busy" section:
 ---
 
 **Phase Status:** In Progress  
-**Current Session:** Session 2.1.3b - Appointment Attendees Architecture & Integration  
+**Current Session:** Session 2.1.3 Complete - Next: Session 2.1.4  
 **Last Updated:** 2026-02-01
 
 ---

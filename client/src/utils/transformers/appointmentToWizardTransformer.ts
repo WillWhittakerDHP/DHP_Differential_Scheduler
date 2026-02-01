@@ -436,30 +436,42 @@ export async function transformAppointmentToWizard(
     additionalUnits: propertyDetailsRecord?.additionalUnits ?? null,
   }
   
-  const client = appointment.client
-  const agent = appointment.agent
-  const additionalContacts = appointment.additionalContacts || []
+  // Extract client and agent from attendees array
+  const clientAttendee = appointment.attendees?.find(a => 
+    a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
+  )
+  const agentAttendee = appointment.attendees?.find(a => 
+    a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
+  )
   
-  const mappedAdditionalContacts = additionalContacts.map((contact: Record<string, unknown>) => {
-    const role = (contact.role as string) || 'anotherClient'
+  const otherAttendees = appointment.attendees?.filter(a => 
+    a.userTypeBlockInstance?.name !== 'Client' && 
+    a.userTypeBlockInstance?.name !== 'Agent' &&
+    a.user?.userRole !== 'client' &&
+    a.user?.userRole !== 'agent'
+  ) || []
+  
+  const mappedAdditionalContacts = otherAttendees.map((attendee) => {
+    const user = attendee.user
+    const role = attendee.userTypeBlockInstance?.name?.toLowerCase() || 'anotherClient'
     return {
-      firstName: (contact.firstName as string) || '',
-      lastName: (contact.lastName as string) || '',
-      email: (contact.email as string) || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
       role: role as 'anotherClient' | 'transactionManager' | 'seller'
     }
   })
   
   const contacts = {
     client: {
-      firstName: client?.firstName || '',
-      lastName: client?.lastName || '',
-      email: client?.email || '',
+      firstName: clientAttendee?.user?.firstName || '',
+      lastName: clientAttendee?.user?.lastName || '',
+      email: clientAttendee?.user?.email || '',
     },
     agent: {
-      firstName: agent?.firstName || '',
-      lastName: agent?.lastName || '',
-      email: agent?.email || '',
+      firstName: agentAttendee?.user?.firstName || '',
+      lastName: agentAttendee?.user?.lastName || '',
+      email: agentAttendee?.user?.email || '',
     },
     additionalContacts: mappedAdditionalContacts,
   }

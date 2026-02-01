@@ -226,38 +226,47 @@ export interface BlockInstanceSnapshot {
   partInstances: PartInstanceSnapshot[]
 }
 
+/**
+ * Attendee request for calendar invitations
+ * LEARNING: Flexible attendee structure for appointment creation
+ * WHY: Supports both new attendees array and legacy clientId/agentId
+ * SESSION: 2.1.3b - Appointment Attendees Architecture
+ */
+export interface AttendeeRequest {
+  userId: string;
+  userTypeBlockInstanceId?: string | null;
+  shouldReceiveInvitation?: boolean;
+  /** For legacy support - if role is provided, server will look up the UserTypeBlock */
+  role?: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector';
+}
+
+/**
+ * AppointmentRequest - Data sent when creating/updating an appointment
+ * SESSION: 2.1.3b - Cleaned up deprecated fields
+ */
 export interface AppointmentRequest {
-  propertyVersionId?: string | null; // New field (PropertyVersion ID)
-  propertyId?: string | null; // Deprecated, kept for migration compatibility
+  propertyVersionId?: string | null;
   userTypeBlockId?: string | null;
-  selectedServiceIds?: string[] | null; // JSONB array - replaces baseServiceId
-  serviceQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for services
-  selectedPropertyTypeBlockIds?: string[] | null; // JSONB array - replaces propertyTypeBlockId (deprecated, use selectedPropertyIds)
-  selectedPropertyIds?: string[] | null; // JSONB array - replaces selectedPropertyTypeBlockIds (Property block shape)
-  propertyQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for property type blocks
-  selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
-  selectedOptionIds?: string[] | null; // JSONB array - replaces selectedOptionTypeBlocks (Option block shape)
-  optionQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time (deprecated - use serviceSnapshotIds)
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time (deprecated - use propertySnapshotIds)
-  optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSnapshots
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time (deprecated - use optionSnapshotIds)
-  serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
-  propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
-  optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
-  selectedDate?: ISO8601Date | null; // ISO 8601 date format (YYYY-MM-DD)
-  selectedDateRangeEnd?: ISO8601Date | null; // ISO 8601 date format (YYYY-MM-DD)
-  selectedTimeSlots?: Array<{ time: string; duration: number }> | null;
+  selectedServiceIds?: string[] | null;
+  serviceQuantities?: Record<string, number> | null;
+  selectedPropertyIds?: string[] | null;
+  propertyQuantities?: Record<string, number> | null;
+  selectedOptionIds?: string[] | null;
+  optionQuantities?: Record<string, number> | null;
+  serviceSnapshotIds?: string[] | null;
+  propertySnapshotIds?: string[] | null;
+  optionSnapshotIds?: string[] | null;
+  selectedDate?: ISO8601Date | null;
+  selectedDateRangeEnd?: ISO8601Date | null;
+  selectedTimeSlots?: Array<{ startTime: string; endTime: string; duration?: number }> | null;
   isQuoteMode?: boolean;
   quotePdfUrl?: string | null;
   status?: AppointmentStatus;
-  clientId?: string | null;
-  agentId?: string | null;
-  /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   scheduledById?: string | null;
-  additionalContacts?: Array<Record<string, unknown>> | null;
   propertyDetails?: Record<string, unknown> | null;
   moveableScheduling?: MoveableSchedulingOptions | null;
+  /** Attendees for calendar invitations */
+  attendees?: AttendeeRequest[] | null;
 }
 
 export interface PropertyResponse {
@@ -283,54 +292,61 @@ export interface UserResponse {
   lastName: string;
   email: string;
   phone?: string | null;
-  userRole: 'client' | 'agent' | 'transaction_manager' | 'seller';
+  userRole: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector';
   loginId?: string | null;
   createdAt: string;
   updatedAt: string;
 }
 
+/**
+ * Attendee response from API
+ * LEARNING: Includes user details and invitation status
+ * WHY: Frontend needs full context for displaying attendee information
+ * SESSION: 2.1.3b - Appointment Attendees Architecture
+ */
+export interface AttendeeResponse {
+  id: string;
+  appointmentId: string;
+  userId: string;
+  userTypeBlockInstanceId?: string | null;
+  shouldReceiveInvitation: boolean;
+  invitationStatus: 'pending' | 'sent' | 'accepted' | 'declined' | 'failed';
+  googleEventId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  /** The actual user with contact information */
+  user?: UserResponse;
+  /** The user type (role) BlockInstance */
+  userTypeBlockInstance?: {
+    id: string;
+    name: string;
+  };
+}
+
+/**
+ * AppointmentResponse - Data returned from appointment API
+ * SESSION: 2.1.3b - Cleaned up deprecated fields
+ */
 export interface AppointmentResponse {
   id: string;
-  propertyVersionId?: string | null; // New field (PropertyVersion ID)
-  propertyId?: string | null; // Deprecated, kept for migration compatibility
-  userTypeId?: string | null; // Actual field from API (maps to user_type_id in database)
-  userTypeBlockId?: string | null; // Deprecated, kept for backward compatibility
-  /**
-   * Deprecated: legacy single-service field.
-   * Replaced by `selectedServiceIds` (JSONB array).
-   */
-  baseServiceId?: string | null;
-  selectedServiceIds?: string[] | null; // JSONB array - replaces baseServiceId
-  serviceQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for services
-  /**
-   * Deprecated: legacy single property-adjustment field.
-   * Replaced by `selectedPropertyTypeBlockIds` (JSONB array).
-   */
-  propertyTypeBlockId?: string | null;
-  selectedPropertyTypeBlockIds?: string[] | null; // JSONB array - replaces propertyTypeBlockId (deprecated, use selectedPropertyIds)
-  selectedPropertyIds?: string[] | null; // JSONB array - replaces selectedPropertyTypeBlockIds (Property block shape)
-  propertyQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for property type blocks
-  selectedOptionTypeBlocks?: string[] | null; // Deprecated, use selectedOptionIds
-  selectedOptionIds?: string[] | null; // JSONB array - replaces selectedOptionTypeBlocks (Option block shape)
-  optionQuantities?: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
-  serviceSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time (deprecated - use serviceSnapshotIds)
-  propertySnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time (deprecated - use propertySnapshotIds)
-  optionTypeBlockSnapshots?: Record<string, BlockInstanceSnapshot> | null; // Deprecated, use optionSnapshots
-  optionSnapshots?: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time (deprecated - use optionSnapshotIds)
-  serviceSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected services
-  propertySnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
-  optionSnapshotIds?: string[] | null; // UUID array - references block_instance_versions for selected availability options
+  propertyVersionId?: string | null;
+  userTypeId?: string | null;
+  selectedServiceIds?: string[] | null;
+  serviceQuantities?: Record<string, number> | null;
+  selectedPropertyIds?: string[] | null;
+  propertyQuantities?: Record<string, number> | null;
+  selectedOptionIds?: string[] | null;
+  optionQuantities?: Record<string, number> | null;
+  serviceSnapshotIds?: string[] | null;
+  propertySnapshotIds?: string[] | null;
+  optionSnapshotIds?: string[] | null;
   selectedDate?: ISO8601Date | null;
   selectedDateRangeEnd?: ISO8601Date | null;
   selectedTimeSlots?: Array<Record<string, unknown>> | null;
   isQuoteMode: boolean;
   quotePdfUrl?: string | null;
   status: AppointmentStatus;
-  clientId?: string | null;
-  agentId?: string | null;
-  /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   scheduledById?: string | null;
-  additionalContacts?: Array<Record<string, unknown>> | null;
   propertyDetails?: Record<string, unknown> | null;
   moveableScheduling?: MoveableSchedulingOptions | null;
   createdAt: string;
@@ -341,10 +357,7 @@ export interface AppointmentResponse {
     address?: PropertyResponse;
     propertyDetails?: Array<PropertyResponse>;
   };
-  property?: PropertyResponse; // Deprecated, kept for migration compatibility
-  client?: UserResponse;
-  agent?: UserResponse;
-  /** User who engaged/interacted with the scheduler (relationship) */
   scheduledBy?: UserResponse;
+  attendees?: AttendeeResponse[];
 }
 

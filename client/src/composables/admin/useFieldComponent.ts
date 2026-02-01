@@ -8,7 +8,6 @@
  * This composable handles:
  * - Reactive metadata fetching/access
  * - Component type determination via dispatcher
- * - Backward-compatible boolean flags (isIcon, isPrimitive, etc.)
  */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
@@ -64,17 +63,25 @@ export interface UseFieldComponentReturn {
    */
   fieldMetadataEntry: ComputedRef<FieldMetadataEntry | undefined>
   
-  isIcon: Ref<boolean>
+  /**
+   * @deprecated Use componentType instead
+   */
+  isIcon: ComputedRef<boolean>
   
-  isPrimitive: Ref<boolean>
+  /**
+   * @deprecated Use componentType instead
+   */
+  isPrimitive: ComputedRef<boolean>
   
-  isPartsCollection: Ref<boolean>
+  /**
+   * @deprecated Use componentType instead
+   */
+  isPartsCollection: ComputedRef<boolean>
   
-  isAnnotations: Ref<boolean>
-  
-  isSelect: Ref<boolean>
-  
-  isRelationshipCollection: Ref<boolean>
+  /**
+   * @deprecated Use componentType instead
+   */
+  isRelationshipCollection: ComputedRef<boolean>
 }
 
 /**
@@ -226,26 +233,6 @@ export function useFieldComponent(
     return isPartsCollection.value
   })
   
-  /**
-   * LEARNING: Annotations field removed - now uses relationshipCollection type
-   * WHY: Annotations are now core entities, use generic RelationshipCollection component
-   * PATTERN: Annotations fields use relationshipCollection component type
-   * @deprecated Use componentType.value.type === 'relationshipCollection' instead
-   */
-  const isAnnotations = computed<boolean>(() => {
-    // PATTERN: Always return boolean, not boolean | undefined
-    return componentType.value.type === 'relationshipCollection' && !!fieldKeyRef.value && String(fieldKeyRef.value) === 'annotations'
-  })
-  
-  /**
-   * LEARNING: Whether field is select type
-   * WHY: Select fields use SelectInputs component
-   * PATTERN: Determined from dispatcher: component.type === 'select'
-   */
-  const isSelect = computed(() => {
-    return componentType.value.type === 'select'
-  })
-  
   return {
     componentType,
     fieldMetadataEntry,
@@ -253,8 +240,6 @@ export function useFieldComponent(
     isIcon,
     isPrimitive,
     isPartsCollection,
-    isRelationshipCollection,
-    isAnnotations,
-    isSelect
+    isRelationshipCollection
   }
 }

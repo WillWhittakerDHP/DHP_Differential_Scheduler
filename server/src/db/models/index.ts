@@ -21,7 +21,6 @@ import { EventInstanceFactory } from "./booking/event_instance.js";
 import { EventAssignmentFactory } from "./booking/event_assignment.js";
 import { EventShapeAttendeeFactory } from "./booking/event_shape_attendee.js";
 import { AppointmentAttendeeFactory } from "./booking/appointment_attendee.js";
-import { PropertyFactory } from "./booking/property.js";
 import { AddressFactory } from "./booking/address.js";
 import { PropertyVersionFactory } from "./booking/property_version.js";
 import { PropertyDetailsFactory } from "./booking/property_details.js";
@@ -66,8 +65,6 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyVersion = PropertyVersionFactory(sequelize);
   const PropertyDetails = PropertyDetailsFactory(sequelize);
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
-  // Property: Property information (deprecated, kept for migration reference)
-  const Property = PropertyFactory(sequelize);
   const User = UserFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
 
@@ -224,12 +221,8 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(PropertyVersionType, { foreignKey: 'block_instance_id', as: 'propertyVersionTypes' });
   PropertyVersionType.belongsTo(BlockInstance, { foreignKey: 'block_instance_id', as: 'blockInstance' });
   
-  // NOTE: Property table and appointments.property_id column have been removed (Phase 2 migration)
-
-  User.hasMany(Appointment, { foreignKey: 'client_id', as: 'clientAppointments' });
-  User.hasMany(Appointment, { foreignKey: 'agent_id', as: 'agentAppointments' });
-  Appointment.belongsTo(User, { foreignKey: 'client_id', as: 'client' });
-  Appointment.belongsTo(User, { foreignKey: 'agent_id', as: 'agent' });
+  // NOTE: Property model and table have been removed - use Address, PropertyVersion, PropertyDetails instead
+  // NOTE: client_id, agent_id, additional_contacts columns removed - use appointment_attendees table (Session 2.1.3b)
 
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });
@@ -281,7 +274,7 @@ export function initializeModels(sequelize: Sequelize) {
     BookingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
-    Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
+    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
     AppointmentAttendee,
     BusinessSettings, BusinessRule,
     AdminMetadata

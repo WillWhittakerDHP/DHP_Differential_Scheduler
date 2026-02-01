@@ -1,18 +1,20 @@
 # Feature 2: Google APIs Integration
 
 **Feature:** Google APIs Integration  
-**Status:** Planning  
+**Status:** In Progress  
 **Created:** 2025-02-01  
-**Last Updated:** 2025-01-07  
+**Last Updated:** 2026-02-01  
 **Branch:** `feature/google-apis-integration`
 
 ---
 
 ## Overview
 
-Integrate Google Calendar API (availability fetching, event creation), Google Maps API (address autocomplete, drive time), and MLS API (property data - deferrable). This feature provides the external API integration layer for the scheduling application.
+Integrate Google Calendar API (availability fetching, event creation), Google Maps API (address autocomplete, drive time), and MLS API (Bright MLS - property data with feature detection). This feature provides the external API integration layer for the scheduling application.
 
-**Target:** Functional API clients for Google Calendar, Google Maps, and MLS APIs with proper error handling and fallback strategies.
+**Target:** Functional API clients for Google Calendar, Google Maps, and Bright MLS APIs with proper error handling, caching, rate limiting, and fallback strategies.
+
+**MLS Enhancement:** Phase 2.3 includes an advanced MLS feature detection system that can automatically suggest property block instances (Pool, Deck, ADU, etc.) based on MLS property features, with an admin interface for configuring feature-to-block mappings.
 
 ---
 
@@ -394,34 +396,132 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ---
 
-## Phase 2.3: MLS API Integration
+## Phase 2.3: MLS API Integration (Bright MLS)
 
 **Status:** Not Started (Deferrable)  
-**Description:** Integrate MLS API to retrieve property data and auto-populate property details form.
+**Description:** Integrate Bright MLS API (RESO Web API) to retrieve property data and auto-populate property details form, with optional auto-triggering of property block instances based on MLS features.
+
+**MLS Provider:** Bright MLS (covers MD, DC, VA, DE, PA, NJ)  
+**API Standard:** RESO Web API (OData 4.0)  
+**Contact:** contentlicensing@brightmls.com  
 
 **Prerequisites:**
 - ✅ Property and Address table separation migration (Session 1.3.8) - Database structure must support versioned property details before MLS API integration. See: `../data-flow-alignment/sessions/session-1.3.8-guide.md`
+- Bright MLS API access approved and credentials received
 
 ### Objectives
 
-- Research MLS API provider and documentation
-- Set up MLS API client
-- Implement property data retrieval
-- Map MLS data to application data model (using PropertyDetails table)
-- Implement versioning logic for property details
+- Set up Bright MLS API client with OAuth 2.0 authentication
+- Create MLS response types and field mapping configuration
+- Implement data transformation layer (RESO → App data model)
+- Map MLS data to PropertyDetails table
 - Auto-populate property details form
+- **NEW:** Create admin interface for MLS feature → Block Instance mapping
+- **NEW:** Auto-suggest property block instances based on MLS features (Pool, Deck, ADU, etc.)
+- Implement versioning logic for property details
 - Handle error cases and fallbacks
 
 ### Key Files
 
-- `client-vue/src/api/external/mls.ts` (new)
-- `client-vue/src/composables/useMLS.ts` (new)
+**Server - Types & Config:**
+- `server/src/types/mls.ts` (new - Bright MLS response types)
+- `server/src/config/mlsFieldMapping.ts` (new - RESO → App field mapping config)
+- `server/src/config/mlsFoundationMapping.ts` (new - Foundation type mapping)
+
+**Server - Services:**
+- `server/src/services/mlsApiClient.ts` (new - Bright MLS API client)
+- `server/src/services/mlsTransformer.ts` (new - Data transformation logic)
+- `server/src/services/mlsFeatureMatcher.ts` (new - Feature → Block Instance matching)
 - `server/src/services/propertyVersionService.ts` (new - version selection logic)
 - `server/src/services/propertyDetailsService.ts` (new - version management)
+- `server/src/services/mlsCache.ts` (new - MLS response caching)
+
+**Server - Database:**
+- `server/src/db/models/admin/mls_feature_mapping.ts` (new - Feature mapping model)
+- `server/src/db/migrations/XXXXXX-create-mls-feature-mappings.mjs` (new)
+
+**Server - Routes:**
+- `server/src/routes/external/mlsRoutes.ts` (new - MLS API endpoints)
+- `server/src/routes/internal/admin/mlsFeatureMappingRouter.ts` (new - Admin endpoints)
+
+**Client:**
+- `client/src/api/external/mls.ts` (new - MLS API service)
+- `client/src/composables/useMLS.ts` (new - MLS composable)
+- `client/src/views/admin/MLSFeatureMappings.vue` (new - Admin interface)
+
+### MLS Field Mapping Reference
+
+**RESO → App Field Mapping:**
+
+| RESO Field | App Field | Transformation |
+|------------|-----------|----------------|
+| `ListingId` or `ListingKey` | `mlsNumber` | Strip MLS prefix (e.g., "BRT123456" → "123456") |
+| `LivingArea` | `squareFootage` | Direct |
+| `AboveGradeFinishedArea` + `BelowGradeFinishedArea` | `squareFootage` | Sum (fallback if LivingArea missing) |
+| `BedroomsTotal` | `bedrooms` | Direct |
+| `BathroomsFull` + (`BathroomsHalf` × 0.5) | `bathrooms` | Calculate total |
+| `FoundationDetails` | `foundationAccess` | Map via foundation mapping config |
+| `UnitTypes` array length or ADU detection | `additionalUnits` | Count additional dwelling units |
+| `PropertySubType` | → PropertyVersionType | Map to property block instance |
+
+**Foundation Mapping (RESO → App):**
+
+```typescript
+// server/src/config/mlsFoundationMapping.ts
+export const FOUNDATION_MAPPING: Record<string, 'basement' | 'crawlspace' | 'slab' | null> = {
+  // Basement variants → 'basement'
+  'Basement': 'basement',
+  'Full Basement': 'basement',
+  'Partial Basement': 'basement',
+  'Walk-Out Basement': 'basement',
+  'Finished Basement': 'basement',
+  'Unfinished Basement': 'basement',
+  'Daylight Basement': 'basement',
+  'English Basement': 'basement',
+  
+  // Crawlspace variants → 'crawlspace'
+  'Crawl Space': 'crawlspace',
+  'Crawlspace': 'crawlspace',
+  'Raised': 'crawlspace',
+  
+  // Slab variants → 'slab'
+  'Slab': 'slab',
+  'Concrete Perimeter': 'slab',
+  'Post': 'slab',
+  'Pier': 'slab',
+  'Pillar/Post/Pier': 'slab',
+  'Block': 'slab',
+  
+  // Unknown/Other → null (requires manual entry)
+  'Other': null,
+  'None': null,
+};
+
+// Helper to find first matching foundation type from array
+export function mapFoundationType(foundationDetails: string[]): 'basement' | 'crawlspace' | 'slab' | null {
+  for (const detail of foundationDetails) {
+    const mapped = FOUNDATION_MAPPING[detail];
+    if (mapped) return mapped;
+  }
+  return null; // Will prompt user for manual entry
+}
+```
+
+**Property Type Mapping (RESO PropertySubType → Block Instance):**
+
+| RESO PropertySubType | Block Instance Name | Notes |
+|---------------------|---------------------|-------|
+| `Single Family Residence` | Single-Family | Primary dwelling |
+| `Townhouse` | Townhouse | |
+| `Condominium` | Condo | |
+| `Multi-Family` | Multi-Family | |
+| `Manufactured Home` | Manufactured | |
+| `Mobile Home` | Mobile Home | |
+| (has ADU/guest house in OtherStructures) | ADU | Add as additional type |
 
 ### Sessions
 
-**Session 2.3.0: Database Migration (Prerequisite)**
+**Session 2.3.0: Database Migration (Prerequisite) ✅**
 - Complete Property and Address table separation migration
 - See: `../data-flow-alignment/sessions/session-1.3.8-guide.md`
 - Migrate existing Property data to Address + PropertyVersion + PropertyDetails structure
@@ -429,57 +529,373 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 - Verify all relationships working correctly
 
 **Session 2.3.1: MLS API Client Setup**
-- Research MLS API provider and documentation
-- Set up API client
-- Implement authentication
-- Create API request/response types
-- Test API connection
+- Set up Bright MLS API client with OAuth 2.0 Bearer token authentication
+- Add environment variables:
+  ```env
+  BRIGHT_MLS_API_URL=https://api.brightmls.com/v2
+  BRIGHT_MLS_ACCESS_TOKEN=your_bearer_token
+  BRIGHT_MLS_RATE_LIMIT_PER_SECOND=2
+  BRIGHT_MLS_RATE_LIMIT_PER_DAY=40000
+  BRIGHT_MLS_CACHE_TTL_MINUTES=60
+  ```
+- Create `server/src/services/mlsApiClient.ts`:
+  - Initialize HTTP client with Bearer token auth
+  - Export `searchPropertyByAddress(address, city, state, zip)`
+  - Export `getPropertyByListingId(listingId)`
+  - Integrate rate limiting (max 2 req/sec, 40,000/day)
+  - Integrate caching (TTL 60 min - MLS data changes infrequently)
+- Create MLS routes: `GET /api/v1/external/mls/search?address=...`
+- Test API connection and response parsing
 
-**Session 2.3.2: Property Data Retrieval & Versioning**
+**Session 2.3.1a: MLS Response Types & Field Mapping Config**
+- Create `server/src/types/mls.ts` with Bright MLS/RESO response types:
+  ```typescript
+  export interface BrightMLSPropertyResponse {
+    ListingKey: string;
+    ListingId: string;
+    PropertyType: string;
+    PropertySubType: string;
+    LivingArea: number | null;
+    AboveGradeFinishedArea: number | null;
+    BelowGradeFinishedArea: number | null;
+    BedroomsTotal: number | null;
+    BathroomsFull: number | null;
+    BathroomsHalf: number | null;
+    BathroomsTotalInteger: number | null;
+    FoundationDetails: string[];
+    YearBuilt: number | null;
+    // Address fields
+    StreetNumber: string;
+    StreetName: string;
+    StreetSuffix: string;
+    City: string;
+    StateOrProvince: string;
+    PostalCode: string;
+    // Feature arrays for block instance triggering
+    PoolFeatures: string[];
+    SpaFeatures: string[];
+    PatioAndPorchFeatures: string[];
+    OtherStructures: string[];
+    GarageSpaces: number | null;
+    FireplaceFeatures: string[];
+    WaterfrontFeatures: string[];
+    GreenBuildingVerificationType: string[];
+    // ... additional fields as needed
+  }
+  ```
+- Create `server/src/config/mlsFieldMapping.ts` with field mapping configuration
+- Create `server/src/config/mlsFoundationMapping.ts` with foundation type mapping
+- Document all RESO fields we're interested in
+
+**Session 2.3.2: MLS Transformer Service**
+- Create `server/src/services/mlsTransformer.ts`:
+  ```typescript
+  export interface MLSTransformResult {
+    propertyDetails: {
+      mlsNumber: string;
+      squareFootage: number | null;
+      bedrooms: number | null;
+      bathrooms: number | null;
+      foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
+      additionalUnits: number | null;
+      source: 'api';
+    };
+    suggestedPropertyType: string | null; // Block instance name
+    detectedFeatures: MLSDetectedFeature[]; // For block instance suggestions
+    requiresManualInput: string[]; // Fields that couldn't be mapped
+  }
+  
+  export interface MLSDetectedFeature {
+    resoField: string;
+    resoValue: string | string[];
+    confidence: 'high' | 'medium' | 'low';
+  }
+  
+  export function transformMLSResponse(response: BrightMLSPropertyResponse): MLSTransformResult;
+  ```
+- Implement square footage calculation (LivingArea OR Above + Below grade)
+- Implement bathroom calculation (Full + Half × 0.5)
+- Implement foundation mapping with fallback to null
+- Detect ADU/additional units from OtherStructures array
+- Extract detected features for block instance suggestions
+- Return list of fields requiring manual input
+
+**Session 2.3.3: Property Data Retrieval & Versioning**
 - Create property lookup function (by address)
-- Map MLS dwelling type to application property type
-- Extract total square footage (above + below grade)
-- Extract foundation type
-- Extract ADU information (presence and number)
-- Implement versioning logic (create new PropertyDetails version when API data changes)
-- Implement version selection logic (select active PropertyDetails)
-- Auto-populate property details form
-- Handle partial data scenarios
+- Integrate MLS transformer into property lookup flow
+- Implement versioning logic:
+  - Check if PropertyDetails with source='api' exists for this address
+  - Compare MLS data with existing data
+  - Create new PropertyDetails version if data has changed
+  - Track `mlsNumber` to detect same property returning different data
+- Implement version selection logic (select most recent active PropertyDetails)
+- Auto-populate property details form with transformed data
+- Handle partial data scenarios (show what we have, prompt for rest)
 
-**Session 2.3.3: Error Handling & Fallbacks**
-- Handle API errors gracefully
-- Handle property not found scenarios
-- Prompt user to input required information manually
-- Handle version conflicts (API vs manual data)
-- Log errors for debugging
+**Session 2.3.4: MLS Feature Mapping Table & Admin Interface**
+
+**Database Schema:**
+```sql
+CREATE TABLE mls_feature_mappings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reso_field VARCHAR(100) NOT NULL,           -- e.g., "PoolFeatures", "GarageSpaces"
+  match_type VARCHAR(20) NOT NULL,            -- 'exists', 'contains', 'equals', 'greater_than'
+  match_value VARCHAR(255),                   -- null for 'exists', value for others
+  block_instance_id UUID NOT NULL REFERENCES block_instances(id),
+  active BOOLEAN DEFAULT true,
+  priority INTEGER DEFAULT 0,                 -- Higher priority = checked first
+  notes VARCHAR(500),                         -- Admin notes about this mapping
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_mls_feature_mappings_active ON mls_feature_mappings(active);
+CREATE INDEX idx_mls_feature_mappings_reso_field ON mls_feature_mappings(reso_field);
+```
+
+**Match Types:**
+- `exists` - Feature array is non-empty (match_value = null)
+- `contains` - Feature array contains match_value
+- `equals` - Field equals match_value exactly
+- `greater_than` - Numeric field > match_value
+
+**Example Seed Data:**
+```sql
+INSERT INTO mls_feature_mappings (reso_field, match_type, match_value, block_instance_id, notes) VALUES
+('PoolFeatures', 'exists', NULL, 'pool-block-id', 'Any pool feature triggers Pool block'),
+('PoolFeatures', 'contains', 'In Ground', 'inground-pool-block-id', 'In-ground pool specific'),
+('GarageSpaces', 'greater_than', '0', 'garage-block-id', 'Any garage'),
+('GarageSpaces', 'greater_than', '2', 'large-garage-block-id', '3+ car garage'),
+('OtherStructures', 'contains', 'Guest House', 'adu-block-id', 'Guest house = ADU'),
+('OtherStructures', 'contains', 'Accessory Dwelling Unit', 'adu-block-id', 'Explicit ADU'),
+('PatioAndPorchFeatures', 'contains', 'Deck', 'deck-block-id', 'Has deck'),
+('PatioAndPorchFeatures', 'contains', 'Screened Porch', 'porch-block-id', 'Has screened porch'),
+('FireplaceFeatures', 'exists', NULL, 'fireplace-block-id', 'Any fireplace');
+```
+
+**Admin Interface:**
+- Create `client/src/views/admin/MLSFeatureMappings.vue`:
+  - Data table showing all mappings (active/inactive)
+  - Add/Edit/Delete mappings
+  - Dropdown for RESO field selection (from known fields list)
+  - Dropdown for match type
+  - Input for match value (conditional on match type)
+  - Block instance selector (filtered to property-type blocks)
+  - Priority input
+  - Notes field
+  - Active toggle
+  - Test button: "Test with sample MLS data" to preview matches
+- Create router for admin interface
+- Add navigation link in admin panel
+
+**Session 2.3.5: MLS Feature Matcher Service**
+- Create `server/src/services/mlsFeatureMatcher.ts`:
+  ```typescript
+  export interface FeatureMatchResult {
+    blockInstanceId: string;
+    blockInstanceName: string;
+    matchedFeature: {
+      resoField: string;
+      matchType: string;
+      matchValue: string | null;
+      actualValue: string | string[] | number;
+    };
+    confidence: 'high' | 'medium';
+  }
+  
+  export async function matchMLSFeaturesToBlocks(
+    mlsResponse: BrightMLSPropertyResponse
+  ): Promise<FeatureMatchResult[]>;
+  ```
+- Load active mappings from database (cache with short TTL)
+- Apply match logic based on match_type
+- Return matched block instances with confidence scores
+- Handle priority ordering (higher priority mappings override lower)
+- Log matches for debugging
+
+**Session 2.3.6: Auto-Population with Block Instance Suggestions**
+- Update property details form to show MLS-suggested block instances:
+  ```
+  ┌─────────────────────────────────────────────────────────────┐
+  │ MLS Data Found for 123 Main St                              │
+  ├─────────────────────────────────────────────────────────────┤
+  │ Property Details (auto-filled):                             │
+  │   Square Footage: 2,400 sq ft                               │
+  │   Bedrooms: 4                                               │
+  │   Bathrooms: 3.5                                            │
+  │   Foundation: Basement                                      │
+  ├─────────────────────────────────────────────────────────────┤
+  │ ⚠️ Requires Manual Input:                                   │
+  │   [ ] Additional Units (not detected)                       │
+  ├─────────────────────────────────────────────────────────────┤
+  │ 🏠 Detected Property Features:                              │
+  │   ☑️ Single-Family (from PropertySubType)                   │
+  │   ☑️ In-Ground Pool (from PoolFeatures)                     │
+  │   ☑️ Deck (from PatioAndPorchFeatures)                      │
+  │   ☑️ 2-Car Garage (from GarageSpaces)                       │
+  │   ☐ ADU (uncheck if not applicable)                         │
+  │                                                             │
+  │   [Confirm Selections]  [Edit Manually]                     │
+  └─────────────────────────────────────────────────────────────┘
+  ```
+- Show detected features as pre-selected checkboxes
+- Allow user to confirm, modify, or override selections
+- On confirm:
+  - Save PropertyDetails with source='api'
+  - Create PropertyVersionType records for selected block instances
+- Handle conflicts (existing manual data vs. new MLS data)
+
+**Session 2.3.7: Error Handling & Fallbacks**
+- Handle API authentication errors (401/403) - prompt to re-authenticate
+- Handle rate limiting (429) - queue request, show "checking MLS..." status
+- Handle property not found (404) - fall back to manual entry with message
+- Handle network errors - show cached data if available, else manual entry
+- Handle partial MLS data - populate what we have, prompt for rest
+- Handle version conflicts (API vs manual data):
+  - If user has manual data, show comparison dialog
+  - "MLS shows 2,400 sq ft, you entered 2,200 sq ft. Which is correct?"
+  - Allow user to choose or enter different value
+- Log all errors for debugging
 - Display user-friendly error messages
+
+**Session 2.3.8: MLS Integration Testing & Documentation**
+- Create integration tests for MLS transformer
+- Create integration tests for feature matcher
+- Test with sample Bright MLS responses
+- Document MLS field usage and mapping rationale
+- Update README with MLS integration instructions
+- Add MLS status to admin dev panel (connection status, cache stats, rate limit status)
 
 ### Success Criteria
 
-- Database migration completed successfully (Session 2.3.0)
-- MLS API client functional
-- Property data retrieved and mapped correctly
-- Versioning logic implemented and working
-- Version selection logic working correctly
-- Property details form auto-populated
-- Error handling working with fallbacks
-- User prompted for manual input on failure
-- Version conflicts handled gracefully
+**Session 2.3.0 (Database Migration):**
+- ✅ Property/Address table separation complete
+- ✅ PropertyVersion + PropertyDetails structure working
+- ✅ PropertyVersionType junction table working
+
+**Session 2.3.1 (API Client):**
+- [ ] Bright MLS API client functional
+- [ ] OAuth authentication working
+- [ ] Rate limiting implemented (2 req/sec, 40,000/day)
+- [ ] Caching implemented (60 min TTL)
+- [ ] API endpoint returns property data
+
+**Session 2.3.1a (Types & Config):**
+- [ ] BrightMLSPropertyResponse type defined
+- [ ] Field mapping configuration complete
+- [ ] Foundation mapping configuration complete
+
+**Session 2.3.2 (Transformer):**
+- [ ] MLS response transforms correctly to PropertyDetails
+- [ ] Square footage calculation working (LivingArea OR Above+Below)
+- [ ] Bathroom calculation working (Full + Half×0.5)
+- [ ] Foundation mapping working with fallback
+- [ ] Detected features extracted correctly
+- [ ] Manual input requirements identified
+
+**Session 2.3.3 (Versioning):**
+- [ ] Property lookup by address working
+- [ ] Versioning logic creates new version when data changes
+- [ ] Version selection returns most recent active version
+- [ ] Form auto-populated with transformed data
+
+**Session 2.3.4 (Admin Interface):**
+- [ ] mls_feature_mappings table created
+- [ ] CRUD operations for feature mappings
+- [ ] Admin UI functional
+- [ ] Seed data loaded
+
+**Session 2.3.5 (Feature Matcher):**
+- [ ] Feature matcher loads mappings from database
+- [ ] Match logic works for all match types
+- [ ] Priority ordering respected
+- [ ] Matched block instances returned correctly
+
+**Session 2.3.6 (Auto-Population):**
+- [ ] Property details form shows MLS data
+- [ ] Detected features shown as suggestions
+- [ ] User can confirm/modify selections
+- [ ] PropertyVersionType records created on confirm
+
+**Session 2.3.7 (Error Handling):**
+- [ ] All error scenarios handled gracefully
+- [ ] User prompted for manual input on failure
+- [ ] Version conflicts handled with comparison dialog
+- [ ] User-friendly error messages displayed
+
+**Session 2.3.8 (Testing):**
+- [ ] Integration tests passing
+- [ ] Documentation complete
+- [ ] Admin dev panel shows MLS status
+
+### Architecture Notes
+
+**Data Flow:**
+```
+User enters address
+        ↓
+Client calls: GET /api/v1/external/mls/search?address=...
+        ↓
+Server: mlsApiClient.searchPropertyByAddress()
+        ↓ (rate limited, cached)
+Bright MLS API: Property search
+        ↓
+Server: mlsTransformer.transformMLSResponse()
+        ↓
+Server: mlsFeatureMatcher.matchMLSFeaturesToBlocks()
+        ↓
+Response: { propertyDetails, suggestedBlockInstances, requiresManualInput }
+        ↓
+Client: Show pre-filled form with suggestions
+        ↓
+User confirms/modifies
+        ↓
+Client: POST /api/v1/internal/properties (with block instance IDs)
+        ↓
+Server: Create PropertyVersion + PropertyDetails + PropertyVersionTypes
+```
+
+**MLS Feature Mapping Logic:**
+```
+mls_feature_mappings table
+        ↓
+Load active mappings (cached 5 min)
+        ↓
+For each mapping:
+  - Extract resoField value from MLS response
+  - Apply match_type logic
+  - If match, add block_instance_id to results
+        ↓
+Sort by priority (higher first)
+        ↓
+Return unique block instances
+```
 
 ### Note
 
-This phase is **deferrable** - MLS API integration can be deferred with manual entry fallback. It's not critical for MVP.
+This phase is **deferrable** - MLS API integration can be deferred with manual entry fallback. It's not critical for MVP. However, the feature mapping system provides significant UX improvement for property data entry and can reduce errors in property type selection.
 
 ---
 
 ## Reference Documents
 
+### Google APIs
 - **Google Calendar Free-Busy Setup Plan**: `/Users/districthomepro/.cursor/plans/google_calendar_free-busy_api_setup_cbbaba01.plan.md` ⭐ **DETAILED IMPLEMENTATION GUIDE**
-- **Old Project Plan**: `project-manager/archive/project-plan.md.old` (Feature 4: API Integration Layer)
 - **React Calendar Calls**: `client/src/scheduler/externalAPI/calendarCalls.ts` (reference)
-- **USER_STORY.md**: Address autocomplete and MLS auto-population requirements
 - **Google Calendar API Documentation**: [Free-Busy API](https://developers.google.com/calendar/api/v3/reference/freebusy/query)
 - **Google OAuth 2.0 Setup Guide**: [OAuth 2.0 Guide](https://developers.google.com/identity/protocols/oauth2)
+
+### MLS API (Bright MLS)
+- **Bright MLS Developer Resources**: [brightmls.com/benefits/developers](https://www.brightmls.com/benefits/developers)
+- **Bright MLS Support**: [support.brightmls.com](https://support.brightmls.com)
+- **Bright MLS Content Licensing Contact**: contentlicensing@brightmls.com
+- **RESO Web API Specification**: [reso.org/reso-web-api](https://www.reso.org/reso-web-api/)
+- **RESO Data Dictionary 2.0**: [ddwiki.reso.org](https://ddwiki.reso.org/display/DDW20/Property+Resource)
+- **RESO Data Dictionary Property Fields**: [Property Resource](https://ddwiki.reso.org/display/DDW20/Property+Resource)
+
+### Project Documents
+- **Old Project Plan**: `project-manager/archive/project-plan.md.old` (Feature 4: API Integration Layer)
+- **USER_STORY.md**: Address autocomplete and MLS auto-population requirements
 
 ---
 
@@ -499,26 +915,70 @@ This phase is **deferrable** - MLS API integration can be deferred with manual e
 
 ## Success Metrics
 
-- Google Calendar API integrated and working
-- Google Maps API integrated and working
-- MLS API integrated (if implemented)
-- Error handling working with fallbacks
-- API response times <2s
+### Google Calendar API
+- OAuth authentication flow functional
+- Free-busy endpoint returns correct data
+- Event creation with invitations working
+- Rate limiting prevents quota exhaustion
+- Caching reduces API calls by >50%
+
+### Google Maps API
+- Address autocomplete working correctly
+- Drive time calculations accurate within 5 minutes
+- Drive times integrated into availability calculations
+
+### MLS API (Bright MLS)
+- Property search by address returns results
+- Field mapping transforms data correctly
+- Foundation type mapping covers >90% of cases
+- Feature → Block Instance matching working
+- Admin interface for feature mappings functional
+- Auto-population reduces manual entry time by >70%
+
+### General
+- Error handling working with fallbacks for all APIs
+- API response times <2s for all endpoints
+- User-friendly error messages displayed
 - Fallback mechanisms working correctly
 
 ---
 
 ## Fallback Plans
 
-- **Google Calendar API fails** → Manual availability entry mode
-- **Google Maps API fails** → Manual address entry (no autocomplete)
-- **MLS API fails** → Manual property details entry
-- All fallbacks documented and implemented
+### Google Calendar API
+- **OAuth fails** → Show "Connect Calendar" button, allow manual availability entry
+- **Free-busy API fails** → Return cached data if available, else assume available
+- **Rate limit exceeded** → Queue requests, show loading indicator, return cached data
+- **Network error** → Return cached data if available, else show error with retry option
+
+### Google Maps API
+- **Autocomplete fails** → Fall back to manual address entry fields
+- **Drive time API fails** → Use configurable default drive time (e.g., 30 minutes)
+- **Address not found** → Allow manual coordinate entry or use zip code center
+
+### MLS API (Bright MLS)
+- **API not configured** → Show manual entry form (current behavior)
+- **Property not found** → Show "Property not in MLS" message, use manual entry
+- **Rate limit exceeded** → Queue request, show "Checking MLS..." with spinner
+- **Partial data returned** → Auto-fill available fields, highlight missing fields for manual entry
+- **Foundation type unknown** → Show dropdown with "Select foundation type" prompt
+- **Feature matching fails** → Skip suggestions, allow manual block selection
+- **Network error** → Show cached data if same address searched recently, else manual entry
+
+### General Principles
+- Never block user progress due to API failure
+- Always provide manual entry as fallback
+- Show clear status messages about what's happening
+- Log errors for debugging but don't expose technical details to user
+- Cache data aggressively to reduce API dependency
 
 ---
 
-**Last Updated:** 2026-01-31  
+**Last Updated:** 2026-02-01  
 **Status:** In Progress - Feature Started, Phase 2.1 Ready for Implementation
 
-**Note:** Phase 2.1 incorporates detailed Google Calendar Free-Busy API Setup plan. Rate limiting and caching infrastructure (Phase 4) is **CRITICAL** and must be implemented before making API calls to prevent quota exhaustion.
+**Notes:**
+- Phase 2.1 incorporates detailed Google Calendar Free-Busy API Setup plan. Rate limiting and caching infrastructure is **CRITICAL** and must be implemented before making API calls to prevent quota exhaustion.
+- Phase 2.3 (MLS API) significantly expanded with Bright MLS integration details, field mapping configuration, feature-to-block-instance matching, and admin interface for mapping management. MLS integration is **deferrable** but provides significant UX improvement.
+- Bright MLS API access requires contacting contentlicensing@brightmls.com with GCAAR affiliate credentials.
 

@@ -160,7 +160,6 @@ function lookupEventsForPartShape(
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
-  validPartsRelationships: GlobalRelationship[],
   blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
   const partShapeEntity = Array.from(partShapeById.values()).find(
@@ -220,7 +219,6 @@ export function buildAppointmentShape(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
-  validPartsRelationships?: GlobalRelationship[],
   globalData?: GlobalData
 ): AppointmentShape {
   // PATTERN: Functional approach - flatMap instead of forEach with push mutations
@@ -247,7 +245,6 @@ export function buildAppointmentShape(
         partShapeById,
         eventAssignmentsRelationships || [],
         eventInstances,
-        validPartsRelationships || [],
         blockInstances
       )
       if (events.length > 0) {
@@ -292,11 +289,11 @@ export function applyShapeToTime(
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
-  const effectiveSlotShape = shape.slotShape.totalDuration > 0
+  const effectiveSlotShape = shape.slotShape.roundedDuration > 0
     ? shape.slotShape
     : {
         ...shape.slotShape,
-        totalDuration: fallbackDuration || 0
+        roundedDuration: fallbackDuration || 0
       }
   
   // PATTERN: Use utility function to create all TimeRanges at once
@@ -338,10 +335,10 @@ export function applyShapeToTime(
   
   // DUAL-TRACK: Use roundedDifferentialOffset for display logic
   if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.roundedDifferentialOffset >= 0) {
-    const minorDuration = majorTimeRange.duration - effectiveSlotShape.differentialOffset
+    const minorDuration = majorTimeRange.duration - effectiveSlotShape.roundedDifferentialOffset
     if (minorDuration > 0) {
       adjustedMinorTimeRange = createTimeRange(
-        addMinutes(startTime, effectiveSlotShape.differentialOffset),
+        addMinutes(startTime, effectiveSlotShape.roundedDifferentialOffset),
         minorDuration
       )
       adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange

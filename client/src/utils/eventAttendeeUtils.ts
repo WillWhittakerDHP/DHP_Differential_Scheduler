@@ -10,7 +10,7 @@
  */
 
 import type { EventShapeEntity } from '@/types/entities'
-import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@/types/entities'
 import type { BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 

@@ -81,7 +81,6 @@ const timeSlotsForLogic = computed(() => {
 // NOTE: This is calculated early because useAvailabilityDefaults needs it before useAvailabilityLogic is called
 const isEffectivelyDifferentialForDefaults = computed(() => {
   const selectedServices = wizard.selectedServiceTypeBlocks.value
-  const selectedOptions = wizard.selectedOptionTypeBlocks.value
   
   // PATTERN: Use equals() helper from ternaryUtils for proper comparison
   const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
@@ -170,11 +169,7 @@ const {
 // PATTERN: Composable provides computed property for busy times with loading/error states
 // Session 2.1.2: Updated to support data source modes
 const { 
-  busyTimes: busyTimesForStartTimes,
-  error: busyTimesError,
-  errorMessage: busyTimesErrorMessage,
-  isLoading: busyTimesLoading,
-  authUrl: busyTimesAuthUrl
+  busyTimes: busyTimesForStartTimes
 } = useBusyTimes({
   dateRangeForApi,
   dataSource: freeBusyDataSource,

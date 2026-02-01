@@ -360,7 +360,6 @@ const selectInputsAsync = useSelectInputsAsync({
   handleChange
 })
 const {
-  validOptionIds,
   handleQuickSelectMajor,
   handleQuickSelectMinor,
   handleQuickSelectAll,

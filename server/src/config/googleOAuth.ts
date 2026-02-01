@@ -1,5 +1,7 @@
 import { google } from 'googleapis';
 import type { OAuth2Client } from 'google-auth-library';
+import fs from 'fs';
+import path from 'path';
 
 /**
  * Google OAuth Configuration
@@ -7,7 +9,18 @@ import type { OAuth2Client } from 'google-auth-library';
  * LEARNING: OAuth2Client setup for Google Calendar API authentication
  * WHY: Provides secure authentication flow for accessing Google Calendar API
  * PATTERN: Centralized OAuth configuration module for Google APIs
+ * 
+ * SESSION: 2.1.3b - Added file-based token persistence for development
+ * WHY: Tokens survive server restarts, no need to re-authenticate repeatedly
  */
+
+/**
+ * Token file path for persisting OAuth tokens across server restarts
+ * LEARNING: Store tokens in a file for development convenience
+ * WHY: Avoids re-authentication on every server restart
+ * PATTERN: File stored in server root, gitignored for security
+ */
+const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json');
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -127,4 +140,85 @@ export function setCredentials(tokens: {
  */
 export function getCredentials() {
   return oauth2Client.credentials;
+}
+
+// =============================================================================
+// TOKEN PERSISTENCE (Development)
+// =============================================================================
+
+/**
+ * Save tokens to file for persistence across server restarts
+ * 
+ * LEARNING: File-based persistence for development convenience
+ * WHY: Avoids re-authentication every time server restarts
+ * PATTERN: JSON file storage, gitignored for security
+ * 
+ * @param tokens Token object from OAuth flow (Google Credentials type)
+ */
+export function saveTokensToFile(tokens: object): void {
+  try {
+    fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokens, null, 2));
+    console.log('[GoogleOAuth] Tokens saved to file:', TOKEN_FILE);
+  } catch (error) {
+    console.error('[GoogleOAuth] Failed to save tokens to file:', error);
+  }
+}
+
+/**
+ * Load tokens from file on server startup
+ * 
+ * LEARNING: Restores authentication state from previous session
+ * WHY: No need to re-authenticate after server restart
+ * PATTERN: Check file exists, load and set credentials
+ * 
+ * @returns true if tokens were loaded, false otherwise
+ */
+export function loadTokensFromFile(): boolean {
+  try {
+    if (!fs.existsSync(TOKEN_FILE)) {
+      console.log('[GoogleOAuth] No saved tokens found - authentication required');
+      console.log('[GoogleOAuth] Visit http://localhost:3001/api/v1/external/oauth to authenticate');
+      return false;
+    }
+
+    const fileContent = fs.readFileSync(TOKEN_FILE, 'utf-8');
+    const tokens = JSON.parse(fileContent) as {
+      access_token?: string | null;
+      refresh_token?: string | null;
+      expiry_date?: number | null;
+    };
+
+    if (!tokens.refresh_token) {
+      console.warn('[GoogleOAuth] Saved tokens missing refresh_token - re-authentication required');
+      return false;
+    }
+
+    oauth2Client.setCredentials(tokens);
+    console.log('[GoogleOAuth] Tokens loaded from file');
+    console.log('[GoogleOAuth] Has access token:', !!tokens.access_token);
+    console.log('[GoogleOAuth] Has refresh token:', !!tokens.refresh_token);
+    
+    // Check if access token is expired
+    if (tokens.expiry_date && tokens.expiry_date < Date.now()) {
+      console.log('[GoogleOAuth] Access token expired - will auto-refresh on next API call');
+    }
+
+    return true;
+  } catch (error) {
+    console.error('[GoogleOAuth] Failed to load tokens from file:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if we have valid credentials (either in memory or on file)
+ * 
+ * LEARNING: Convenience check for authentication status
+ * WHY: Allows code to check if re-authentication is needed
+ * 
+ * @returns true if credentials are available
+ */
+export function hasCredentials(): boolean {
+  const creds = oauth2Client.credentials;
+  return !!(creds.access_token || creds.refresh_token);
 }

@@ -47,7 +47,7 @@ export const {
   BookingCascade, PartAssignment, InstanceComponent,
   AnnotationShape, AnnotationInstance, AnnotationAssignment,
   EventShape, EventInstance, EventAssignment, EventShapeAttendee,
-  Address, PropertyVersion, PropertyDetails, PropertyVersionType, Property, User, Appointment,
+  Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
   AppointmentAttendee,
   BusinessSettings, BusinessRule,
   AdminMetadata
@@ -99,7 +99,6 @@ export default {
   PropertyVersion,
   PropertyDetails,
   PropertyVersionType,
-  Property,
   User,
   Appointment,
   AppointmentAttendee,

@@ -9,7 +9,6 @@
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { BookingMode } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
@@ -120,40 +119,6 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
   return defaults
 }
 
-/**
- * Default values for required NOT NULL fields per entity type
- * Based on database schema requirements (allowNull: false)
- * 
- * @deprecated Use getDynamicEntityDefaults() instead - this is kept for reference only
- */
-// @ts-expect-error - Deprecated constant kept for reference only
-const ENTITY_REQUIRED_DEFAULTS: Record<GlobalEntityKey, Partial<GlobalEntity<GlobalEntityKey>>> = {
-  blockShape: {
-    orderIndex: 0, // Required NOT NULL field
-    composable: false, // Boolean field must have explicit default
-    canHaveParts: false, // Boolean field must have explicit default
-    isStateControl: false, // Boolean field must have explicit default
-  },
-  blockInstance: {
-    orderIndex: 0, // Required NOT NULL field
-    active: true,
-    bookingMode: 'standalone' as BookingMode,
-    composite: false, // Boolean field must have explicit default
-    differential: 'false' as const, // Ternary field defaults to 'false'
-    baseSqFt: 0,
-  },
-  partInstance: {
-    orderIndex: 0, // Required NOT NULL field
-    baseFee: 0,
-    rateOverBaseFee: 0,
-    baseTime: 0,
-    rateOverBaseTime: 0,
-    active: true,
-  },
-  partShape: {
-    orderIndex: 0, // Required NOT NULL field
-  },
-}
 
 /**
  * Merge provided entity data with required defaults

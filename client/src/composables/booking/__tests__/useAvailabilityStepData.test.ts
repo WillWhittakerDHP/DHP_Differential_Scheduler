@@ -9,6 +9,22 @@ vi.mock('@/utils/booking/availabilityStepData', () => ({
   buildAvailabilityStepData: vi.fn(),
 }))
 
+// Mock useAvailabilitySettings - SESSION: 2.1.3b
+vi.mock('@/composables/booking/useAvailabilitySettings', () => ({
+  useAvailabilitySettings: vi.fn(() => ({
+    settings: computed(() => ({
+      differentialPerspectives: {
+        majorAttendees: ['mock-major-id'],
+        minorAttendees: ['mock-minor-id'],
+      },
+    })),
+    isLoading: ref(false),
+    error: ref(null),
+    hasError: computed(() => false),
+    refresh: vi.fn(),
+  })),
+}))
+
 import { buildSelectedTimeSlots, buildAvailabilityStepData } from '@/utils/booking/availabilityStepData'
 
 describe('useAvailabilityStepData', () => {

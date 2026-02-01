@@ -130,22 +130,13 @@ async function fixUserRolesAndEmails(): Promise<void> {
     
     const allUsers = await User.findAll({ transaction });
     
+    // NOTE: clientId/agentId columns have been removed from appointments table
+    // Attendees are now stored in the appointment_attendees junction table
+    // This section is deprecated - use appointment_attendees table instead
     for (const appointment of appointments) {
       const updates: Partial<{
-        agentId: string | null;
-        clientId: string | null;
         scheduledById: string | null;
       }> = {};
-      
-      // Move clientId to agentId (since the "client" was actually the agent)
-      if (appointment.clientId && !appointment.agentId) {
-        updates.agentId = appointment.clientId;
-      }
-      
-      if (createdClients.length > 0) {
-        const randomClient = getRandomElement(createdClients);
-        updates.clientId = randomClient.id;
-      }
       
       if (allUsers.length > 0) {
         const randomScheduler = getRandomElement(allUsers);
@@ -155,17 +146,11 @@ async function fixUserRolesAndEmails(): Promise<void> {
       if (Object.keys(updates).length > 0) {
         await appointment.update(updates, { transaction });
         
-        const agentName = updates.agentId 
-          ? agentUsers.find(u => u.id === updates.agentId)?.firstName || 'Unknown'
-          : 'None';
-        const clientName = updates.clientId
-          ? createdClients.find(c => c.id === updates.clientId)?.firstName || 'Unknown'
-          : 'None';
         const schedulerName = updates.scheduledById
           ? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'
           : 'None';
           
-        console.log(`   ✅ Updated appointment ${appointment.id.substring(0, 8)}...: agent=${agentName}, client=${clientName}, scheduledBy=${schedulerName}`);
+        console.log(`   ✅ Updated appointment ${appointment.id.substring(0, 8)}...: scheduledBy=${schedulerName}`);
       }
     }
 

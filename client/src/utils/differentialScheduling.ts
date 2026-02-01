@@ -10,7 +10,6 @@
  * Defaults to major and minor for backward compatibility
  */
 
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { createTimeRange, createTimeRangesFromSlotShape, findEventFinalByName } from './booking/appointmentSlotBuilder'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { 
@@ -141,8 +140,8 @@ export function transformToMajorPerspective(
     minorEventFinal = findEventFinalByName(slotShape, 'Minor')
   }
   
-  const majorDuration = majorEventFinal?.duration ?? 0
-  const minorDuration = minorEventFinal?.duration ?? 0
+  const majorDuration = majorEventFinal?.roundedDuration ?? 0
+  const minorDuration = minorEventFinal?.roundedDuration ?? 0
   
   // PATTERN: Add majorDuration to major start time
   const minorStartTime = calculateMinorStartTimeFromMajor(majorStartTime, majorDuration)
@@ -158,8 +157,8 @@ export function transformToMajorPerspective(
   const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
   let minorTimeRange = timeRanges.eventTimeRanges?.[minorEventName]
   
-  if (majorTimeRange && minorDuration > 0 && slotShape.differentialOffset >= 0) {
-    const minorDurationAdjusted = majorTimeRange.duration - slotShape.differentialOffset
+  if (majorTimeRange && minorDuration > 0 && slotShape.roundedDifferentialOffset >= 0) {
+    const minorDurationAdjusted = majorTimeRange.duration - slotShape.roundedDifferentialOffset
     if (minorDurationAdjusted > 0) {
       minorTimeRange = createTimeRange(minorStartTime, minorDurationAdjusted)
     } else {
@@ -234,7 +233,7 @@ export function transformToMinorPerspective(
     minorEventFinal = findEventFinalByName(slotShape, 'Minor')
   }
   
-  const majorTotal = majorEventFinal?.duration ?? 0
+  const majorTotal = majorEventFinal?.roundedDuration ?? 0
   
   // PATTERN: Subtract majorTotal from minor start time
   const majorStartTime = calculateMajorStartTime(minorStartTime, majorTotal)
@@ -248,11 +247,11 @@ export function transformToMinorPerspective(
   const minorEventName = minorEventFinal?.eventShape.name ?? 'Minor'
   
   const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
-  const minorDuration = minorEventFinal?.duration ?? 0
+  const minorDuration = minorEventFinal?.roundedDuration ?? 0
   
   let minorTimeRange = null
-  if (majorTimeRange && minorDuration > 0 && slotShape.differentialOffset >= 0) {
-    const minorDurationAdjusted = majorTimeRange.duration - slotShape.differentialOffset
+  if (majorTimeRange && minorDuration > 0 && slotShape.roundedDifferentialOffset >= 0) {
+    const minorDurationAdjusted = majorTimeRange.duration - slotShape.roundedDifferentialOffset
     if (minorDurationAdjusted > 0) {
       minorTimeRange = createTimeRange(minorStartTime, minorDurationAdjusted)
     }

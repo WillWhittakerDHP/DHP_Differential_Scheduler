@@ -17,14 +17,13 @@ import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { getCalendarAvailabilitySync } from '@/utils/timeSlotCalculations'
+import { getMockBusyTimesSync } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
 import type { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
-import { equals } from '@/utils/ternary/ternaryUtils'
 import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
 import { useFreeBusyDataSource, type FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 import { checkOAuthStatus, getOAuthUrl } from '@/services/calendarApiService'
@@ -298,7 +297,6 @@ const {
   dataSource: freeBusyDataSource, 
   calendarEmails: configuredCalendarEmails,
   forceRefresh: triggerForceRefresh,
-  isCalendarEnabled,
   settingsLoaded: calendarSettingsLoaded
 } = useFreeBusyDataSource()
 
@@ -353,9 +351,9 @@ const busyPeriods = computed(() => {
   // PATTERN: Reference refreshKey in computed to trigger recalculation
   void calendarData.value.refreshKey // Force dependency tracking
   
-  // Session 2.1.2: Use sync version for dev panel display
+  // Session 2.1.2: Use mock sync version for dev panel display
   // The actual async fetch happens in useBusyTimes which updates devPanelData.busyPeriods
-  const result = getCalendarAvailabilitySync(calendarData.value.dateRange)
+  const result = getMockBusyTimesSync(calendarData.value.dateRange)
   
   return result
 })
@@ -466,9 +464,11 @@ const isSelectedServiceDifferential = computed(() => {
     return false
   }
   // Unwrap ComputedRef to get the actual boolean value
-  return typeof isEffectivelyDifferentialRef === 'object' && 'value' in isEffectivelyDifferentialRef
-    ? isEffectivelyDifferentialRef.value
-    : false
+  // LEARNING: Type guard to check if it's a ComputedRef
+  if (typeof isEffectivelyDifferentialRef === 'object' && 'value' in isEffectivelyDifferentialRef) {
+    return (isEffectivelyDifferentialRef as { value: boolean }).value
+  }
+  return false
 })
 
 const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {

@@ -161,7 +161,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { EntityMetadataType } from '@/types/entityMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
-import { FIELD_VISIBILITY, FIELD_RENDER_AS, FIELD_LAYOUT } from '@/constants/fieldMetadata'
+import { FIELD_RENDER_AS, FIELD_LAYOUT } from '@/constants/fieldMetadata'
 
 const logger = createLogger('AdminPrimitiveMetadataEditor')
 
@@ -201,7 +201,7 @@ const { fieldMetadata, isLoading } = useEntityMetadata(
 )
 
 // WHY: Backend determines metadataType by checking RELATIONSHIP_KEYS - matches entity pattern
-const { saveFieldMetadata, deleteFieldMetadata, isSaving } = useAdminMetadataMutations()
+const { saveFieldMetadata, isSaving } = useAdminMetadataMutations()
 
 const queryClient = useQueryClient()
 

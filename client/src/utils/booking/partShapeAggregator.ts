@@ -91,8 +91,10 @@ export function filterZeroedParts(
 export function calculateSlotShape(
   finalizedParts: PartFinal[]
 ): import('@/types/appointment').SlotShape {
-  let totalDuration = 0
-  let differentialOffset = 0
+  let rawDuration = 0
+  let roundedDuration = 0
+  let rawDifferentialOffset = 0
+  let roundedDifferentialOffset = 0
   
   const eventDurations: Record<string, number> = {}
   
@@ -106,7 +108,9 @@ export function calculateSlotShape(
   
   for (const part of finalizedParts) {
     const baseTime = part.baseTime
-    totalDuration += baseTime
+    const roundedTime = part.roundedTime
+    rawDuration += baseTime
+    roundedDuration += roundedTime
     
     const isMajor = toBoolean(part.major, 'strict')
     const isMinor = toBoolean(part.minor, 'strict')
@@ -118,7 +122,8 @@ export function calculateSlotShape(
       const eventName = eventMappings['major']
       eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
       if (!isMinor) {
-        differentialOffset += baseTime
+        rawDifferentialOffset += baseTime
+        roundedDifferentialOffset += roundedTime
       }
     }
     
@@ -135,9 +140,11 @@ export function calculateSlotShape(
   
   // PATTERN: Convert eventDurations Record to eventFinals array format
   return { 
-    totalDuration, 
+    rawDuration,
+    roundedDuration,
     eventFinals: [], // TODO: Convert eventDurations to eventFinals array format
-    differentialOffset
+    rawDifferentialOffset,
+    roundedDifferentialOffset
   }
 }
 

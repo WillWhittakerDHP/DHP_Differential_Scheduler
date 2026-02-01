@@ -145,6 +145,7 @@ declare global {
   const getInspectorEventShape: typeof import('./src/utils/eventAttendeeUtils').getInspectorEventShape
   const getMajorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMajorEventShape
   const getMinorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMinorEventShape
+  const getMockBusyTimesSync: typeof import('./src/utils/timeSlotCalculations').getMockBusyTimesSync
   const getOrderIndexEndpoint: typeof import('./src/utils/api').getOrderIndexEndpoint
   const getPartShapeEventEndpoint: typeof import('./src/utils/api').getPartShapeEventEndpoint
   const getPartShapeEventsEndpoint: typeof import('./src/utils/api').getPartShapeEventsEndpoint
@@ -677,7 +678,6 @@ declare module 'vue' {
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
-    readonly getCalendarAvailabilitySync: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailabilitySync']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
@@ -688,6 +688,7 @@ declare module 'vue' {
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
+    readonly getMockBusyTimesSync: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getMockBusyTimesSync']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>

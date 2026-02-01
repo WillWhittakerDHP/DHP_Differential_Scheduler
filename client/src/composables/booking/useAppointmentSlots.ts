@@ -98,7 +98,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
       let eventShapes = getGlobalEntities('eventShape') as EventShape[]
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
-      const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
       const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
       
       fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
@@ -147,7 +146,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         eventShapes,
         eventAssignmentsRelationships,
         partShapeById,
-        validPartsRelationships,
         globalData || undefined
       )
       

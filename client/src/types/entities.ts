@@ -73,7 +73,6 @@ export interface AnnotationShapeEntity extends BaseGlobalEntity<"annotationShape
 
 export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id
-  userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.user_type_block_instance_id)
 }
 
 export type GlobalEntity<GE extends GlobalEntityKey> = 

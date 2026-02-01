@@ -14,7 +14,6 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useQueryClient } from '@tanstack/vue-query'
-import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
 import { useRelationshipCollectionData } from './useRelationshipCollectionData'
@@ -94,7 +93,6 @@ export function useRelationshipCollection(
 ): RelationshipCollectionModel {
   const { fieldContext, nameGenerator, enableBulkEdit = false, bulkEditComposable } = options
   
-  const { getGlobalEntityById } = useGlobal()
   const queryClient = useQueryClient()
   const { error: notifyError } = useNotification()
   
@@ -105,8 +103,7 @@ export function useRelationshipCollection(
     optionsFieldKey,
     parentEntity: parentEntityFromField,
     parentTypeEntityKey,
-    parentTypeRef,
-    parentTypeEntity
+    parentTypeRef
     // LEARNING: shapeRefProperty removed - not used in this composable
   } = fieldConfig
   

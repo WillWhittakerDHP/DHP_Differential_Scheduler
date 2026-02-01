@@ -147,7 +147,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
-const { parentEntity, childEntityKey, relationshipKey, optionsFieldKey } = fieldConfig
+const { parentEntity, childEntityKey, relationshipKey } = fieldConfig
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
@@ -168,7 +168,6 @@ const {
   existingChildren,
   getChildForShape,
   getShapeName,
-  parentEntity: parentEntityFromModel,
   shouldShow,
   expandedPlaceholders,
   getNewChildEntity,

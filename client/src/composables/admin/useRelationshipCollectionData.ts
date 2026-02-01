@@ -52,7 +52,6 @@ export function useRelationshipCollectionData(
 ): UseRelationshipCollectionDataReturn {
   const {
     parentEntityId,
-    parentEntityKey: parentEntityKeyInput,
     childEntityKey: childEntityKeyInput,
     shapeEntityKey: shapeEntityKeyInput,
     relationshipKey: relationshipKeyInput,
@@ -67,12 +66,6 @@ export function useRelationshipCollectionData(
     : typeof parentEntityId === 'object' && 'value' in parentEntityId
     ? computed(() => parentEntityId.value)
     : parentEntityId as ComputedRef<string>
-  
-  const parentEntityKey = typeof parentEntityKeyInput === 'string'
-    ? computed(() => parentEntityKeyInput as GlobalEntityKey)
-    : typeof parentEntityKeyInput === 'object' && 'value' in parentEntityKeyInput
-    ? computed(() => parentEntityKeyInput.value as GlobalEntityKey)
-    : parentEntityKeyInput as ComputedRef<GlobalEntityKey>
   
   const childEntityKey = typeof childEntityKeyInput === 'string'
     ? computed(() => childEntityKeyInput as GlobalEntityKey)
@@ -114,14 +107,6 @@ export function useRelationshipCollectionData(
   const adminComp = useAdmin()
   const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
   
-  /**
-   * LEARNING: Get parent entity
-   * WHY: Need parent entity to check relationships
-   * PATTERN: Get entity by ID from global entities
-   */
-  const parentEntity = computed(() => {
-    return getGlobalEntityById(parentEntityKey.value, parentEntityIdRef.value)
-  })
   
   /**
    * LEARNING: Get parent type entity

@@ -8,33 +8,7 @@
 
 import type { AnnotationWithMetadata, AnnotationMetadata } from '@/types/annotations'
 import type { UserTypeBlock } from '@/types/userTypes'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { getStateControlBlockInstanceOptions } from '@/utils/blockInstanceUtils'
 
-/**
- * LEARNING: Check if a user type is already used by another annotation
- * WHY: Only one annotation per user type is allowed per block instance (enforced by unique constraint)
- * PATTERN: Check if any other annotation (excluding current) has the same userTypeBlock
- * 
- * LEARNING: Function not exported - unused in codebase
- * WHY: This function is not currently used, kept for potential future use
- * NOTE: If needed in future, uncomment export
- * 
- * @param currentAnnotation - The annotation being validated
- * @param allAnnotations - All annotations for the block instance
- * @returns true if user type is already used by another annotation
- * 
- * NOTE: null userTypeBlock (generic) can have multiple instances, so this returns false for null
- */
-function hasDuplicateUserTypeBlock(
-  currentAnnotation: AnnotationWithMetadata,
-  allAnnotations: AnnotationWithMetadata[]
-): boolean {
-  if (!currentAnnotation.userTypeBlock) return false // null userTypeBlock (generic) can have multiple
-  
-  const otherAnnotations = allAnnotations.filter(a => a.id !== currentAnnotation.id)
-  return otherAnnotations.some(a => a.userTypeBlock === currentAnnotation.userTypeBlock)
-}
 
 export function getAvailableUserTypeBlocksForAnnotation(
   currentAnnotation: AnnotationWithMetadata,
@@ -50,32 +24,6 @@ export function getAvailableUserTypeBlocksForAnnotation(
   }))
 }
 
-function formatAnnotationForDisplay(annotation: AnnotationWithMetadata): string {
-  return annotation.text
-}
-
-/**
- * LEARNING: Filter annotations by user type
- * WHY: Show only relevant annotations based on selected user type
- * PATTERN: Filter array by userTypeBlock property
- * 
- * LEARNING: Function not exported - unused in codebase
- * WHY: This function is not currently used, kept for potential future use
- * NOTE: If needed in future, uncomment export
- * 
- * @param annotations - Annotations to filter
- * @param userTypeBlock - User type to filter by (null for generic)
- * @returns Filtered annotations
- */
-function getAnnotationsForUserTypeBlock(
-  annotations: AnnotationWithMetadata[],
-  userTypeBlock: UserTypeBlock | null
-): AnnotationWithMetadata[] {
-  if (userTypeBlock === null) {
-    return annotations.filter(a => a.userTypeBlock === null)
-  }
-  return annotations.filter(a => a.userTypeBlock === userTypeBlock)
-}
 
 /**
  * LEARNING: Validate annotation metadata
@@ -94,20 +42,4 @@ export function validateAnnotationMetadata(metadata: AnnotationMetadata): boolea
   )
 }
 
-/**
- * LEARNING: User type options derived from GlobalData
- * WHY: User types are fetched dynamically from BlockInstances using property-based filtering
- * PATTERN: Function that accepts GlobalData and returns options array
- * 
- * NOTE: Uses property-based filtering (isStateControl: true) instead of hardcoded names
- * 
- * LEARNING: Function not exported - deprecated and unused
- * WHY: Deprecated in favor of getStateControlBlockInstanceOptions
- * NOTE: If needed in future, use getStateControlBlockInstanceOptions instead
- * 
- * @deprecated Use getStateControlBlockInstanceOptions from @/utils/blockInstanceUtils instead
- */
-function getUserTypeBlockOptionsFromGlobalData(globalData: GlobalData): Array<{ title: string; value: UserTypeBlock }> {
-  return getStateControlBlockInstanceOptions(globalData) as Array<{ title: string; value: UserTypeBlock }>
-}
 

@@ -75,7 +75,7 @@ const generatePartInstanceName = (
   return `${baseName}-${number}`
 }
 
-const collectionModel = useRelationshipCollection({
+useRelationshipCollection({
   fieldContext: props.fieldContext,
   nameGenerator: generatePartInstanceName,
   enableBulkEdit: true,

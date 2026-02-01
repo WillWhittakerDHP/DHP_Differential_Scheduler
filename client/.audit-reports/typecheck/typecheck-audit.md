@@ -8,43 +8,43 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-01T00:52:03.287Z**
+- Generated at: **2026-02-01T19:49:07.637Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 92**
+- **Errors requiring review: 82**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **85**
+- Pools: **64**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2339-ts2339-prop-dev-importmetaenv` | 48 | 4 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-agentid-appointmentresponse` | 79 | 7 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-clientid-appointmentresponse` | 79 | 7 | 1 | 0 | 0 |
 | P0 | `TS2307-ts2307-cannot-find-module-images-avatars-avatar-0-png-or-its-corresponding-type-declarations` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-vite-availability-cache-ttl-importmetaenv` | 24 | 2 | 1 | 0 | 0 |
-| P1 | `TS2304-ts2304-cannot-find-name-allactiveservicetypes` | 13 | 1 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-default-promise` | 35 | 3 | 1 | 0 | 0 |
+| P1 | `TS2551-ts2551-property-differentialoffset-does-not-exist-on-type-slotshape-did-you-mean-rawdifferentialoffset` | 16 | 2 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-images-cards-paypal-rounded-png-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-border-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-collapsed-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-compact-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-default-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-horizontal-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-ltr-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-rtl-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-customizer-icons-wide-light-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-images-logo-svg-raw-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-svg-checkbox-checked-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-svg-checkbox-indeterminate-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-svg-checkbox-unchecked-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-svg-radio-checked-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-images-svg-radio-unchecked-svg-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-shepherd-js-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-shiki-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2307-ts2307-cannot-find-module-unplugin-vue-router-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-vuetify-lib-components-vfield-vfield-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-vuetify-lib-components-vinput-vinput-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2307-ts2307-cannot-find-module-vuetify-lib-util-helpers-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-agentid-appointmentrequest` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-agentid-partial` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-clientid-appointmentrequest` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-clientid-partial` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-totalduration-slotshape` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-value-never` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P2 | `TS2558-ts2558-expected-0-type-arguments-but-got-0` | 9 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-bookingmode-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-busytimesauthurl-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -56,36 +56,29 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/types/admin/AdminEntity.ts`
+### `src/views/admin/tabs/components/AppointmentsTable.vue`
 
-- errors: 10, unsafeCasts: 0, suppressions: 0
-
-```
-TS2411@78:3 Property 'toPlainObject' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => GlobalEntity<GE>' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@113:3 Property 'setOrderIndex' of type '(index: number) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@134:3 Property 'getField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@140:3 Property 'setField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@145:3 Property 'getValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@152:3 Property 'setValidAdminValue' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey, value: ValidAdminValue) => void' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@163:11 Property 'getDefaultValue' of type '<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey) => ValidAdminValue' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@167:3 Property 'hasField' of type '<FieldKey extends GlobalFieldKey<GE>>(fieldKey: FieldKey) => boolean' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@180:3 Property 'getFieldNames' of type '(formFieldConfig?: Record<string, ValidAdminValue> | undefined) => GlobalFieldKey<GE>[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-TS2411@196:3 Property 'getRelationshipNames' of type '(formFieldConfig?: Record<string, unknown> | FormFieldConfigMap[GE] | undefined) => string[]' is not assignable to 'string' index type 'void | ValidAdminValue | { primitives: Record<GlobalFieldKey<GE>, DisplayFieldType<GE, GlobalFieldKey<GE>>>; relationships: Record<...>; layout: Record<...>; } | ... 4 more ... | GlobalFieldKey<...>[]'.
-```
-
-### `src/@core/components/TheCustomizer.vue`
-
-- errors: 8, unsafeCasts: 0, suppressions: 0
+- errors: 18, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2307@9:29 Cannot find module '@images/customizer-icons/horizontal-light.svg' or its corresponding type declarations.
-TS2307@14:24 Cannot find module '@images/customizer-icons/border-light.svg' or its corresponding type declarations.
-TS2307@15:23 Cannot find module '@images/customizer-icons/collapsed-light.svg' or its corresponding type declarations.
-TS2307@16:21 Cannot find module '@images/customizer-icons/compact-light.svg' or its corresponding type declarations.
-TS2307@17:25 Cannot find module '@images/customizer-icons/default-light.svg' or its corresponding type declarations.
-TS2307@18:20 Cannot find module '@images/customizer-icons/ltr-light.svg' or its corresponding type declarations.
-TS2307@19:20 Cannot find module '@images/customizer-icons/rtl-light.svg' or its corresponding type declarations.
-TS2307@20:21 Cannot find module '@images/customizer-icons/wide-light.svg' or its corresponding type declarations.
+TS2339@154:39 Property 'clientId' does not exist on type 'AppointmentRequest'.
+TS2339@173:39 Property 'agentId' does not exist on type 'AppointmentRequest'.
+TS2339@373:50 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@377:41 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@378:41 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@380:68 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@381:47 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@382:65 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@384:67 Property 'clientId' does not exist on type 'AppointmentResponse'.
+TS2339@395:33 Property 'clientId' does not exist on type 'Partial<Partial<AppointmentRequest>>'.
+TS2339@435:50 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@439:41 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@440:41 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@442:68 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@443:47 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@444:65 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@446:67 Property 'agentId' does not exist on type 'AppointmentResponse'.
+TS2339@457:33 Property 'agentId' does not exist on type 'Partial<Partial<AppointmentRequest>>'.
 ```
 
 ### `src/utils/optimistic/annotationAssignmentsOptimistic.ts`
@@ -102,29 +95,39 @@ TS6133@79:10 'toAnnotationWithMetadata' is declared but its value is never read.
 TS6133@92:10 'updateBlockInstanceEntityInGlobalData' is declared but its value is never read.
 ```
 
-### `src/components/booking/dev/DevPanelsContainer.vue`
-
-- errors: 6, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@23:15 'EventInstance' is declared but never used.
-TS6133@28:1 'useDevPanelsComputed' is declared but its value is never read.
-TS2304@389:27 Cannot find name 'allActiveServiceTypes'.
-TS7006@389:60 Parameter 's' implicitly has an 'any' type.
-TS6133@395:9 'getGlobalData' is declared but its value is never read.
-TS2339@647:27 Property 'serviceTypeOptions' does not exist on type '{ isDevMode: boolean; activeTab: "services" | "finalizedParts" | "slotShape" | "constraints" | "calendar"; panelRef: HTMLElement | null; appointmentData: AppointmentData; ... 473 more ...; whenever: <T$1>(source: WatchSource<...>, cb: WatchCallback<...>, options?: WheneverOptions | undefined) => WatchHandle; }'.
-```
-
-### `src/plugins/5.vuetify/icons.ts`
+### `src/components/booking/steps/AvailabilityStep.vue`
 
 - errors: 5, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2307@3:29 Cannot find module '@images/svg/checkbox-checked.svg' or its corresponding type declarations.
-TS2307@4:35 Cannot find module '@images/svg/checkbox-indeterminate.svg' or its corresponding type declarations.
-TS2307@5:31 Cannot find module '@images/svg/checkbox-unchecked.svg' or its corresponding type declarations.
-TS2307@6:26 Cannot find module '@images/svg/radio-checked.svg' or its corresponding type declarations.
-TS2307@7:28 Cannot find module '@images/svg/radio-unchecked.svg' or its corresponding type declarations.
+TS6133@84:9 'selectedOptions' is declared but its value is never read.
+TS6133@174:10 'busyTimesError' is declared but its value is never read.
+TS6133@175:17 'busyTimesErrorMessage' is declared but its value is never read.
+TS6133@176:14 'busyTimesLoading' is declared but its value is never read.
+TS6133@177:12 'busyTimesAuthUrl' is declared but its value is never read.
+```
+
+### `src/utils/annotationUtils.ts`
+
+- errors: 5, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@11:1 'GlobalData' is declared but its value is never read.
+TS6133@12:1 'getStateControlBlockInstanceOptions' is declared but its value is never read.
+TS6133@29:10 'hasDuplicateUserTypeBlock' is declared but its value is never read.
+TS6133@53:10 'formatAnnotationForDisplay' is declared but its value is never read.
+TS6133@70:10 'getAnnotationsForUserTypeBlock' is declared but its value is never read.
+```
+
+### `src/@core/utils/plugins.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS2558@5:36 Expected 0 type arguments, but got 1.
+TS2339@13:31 Property 'default' does not exist on type '() => Promise<unknown>'.
+TS2339@13:68 Property 'default' does not exist on type '() => Promise<unknown>'.
+TS2339@14:28 Property 'default' does not exist on type '() => Promise<unknown>'.
 ```
 
 ### `src/layouts/components/NavBarNotifications.vue`
@@ -138,17 +141,6 @@ TS2307@6:21 Cannot find module '@images/avatars/avatar-5.png' or its correspondi
 TS2307@7:20 Cannot find module '@images/cards/paypal-rounded.png' or its corresponding type declarations.
 ```
 
-### `src/utils/annotationUtils.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@29:10 'hasDuplicateUserTypeBlock' is declared but its value is never read.
-TS6133@53:10 'formatAnnotationForDisplay' is declared but its value is never read.
-TS6133@70:10 'getAnnotationsForUserTypeBlock' is declared but its value is never read.
-TS6133@110:10 'getUserTypeBlockOptionsFromGlobalData' is declared but its value is never read.
-```
-
 ### `src/@core/components/app-form-elements/AppDateTimePicker.vue`
 
 - errors: 3, unsafeCasts: 0, suppressions: 0
@@ -159,14 +151,24 @@ TS2307@7:41 Cannot find module 'vuetify/lib/components/VInput/VInput' or its cor
 TS2307@9:34 Cannot find module 'vuetify/lib/util/helpers' or its corresponding type declarations.
 ```
 
-### `src/utils/logger.ts`
+### `src/components/booking/dev/DevPanelsContainer.vue`
 
 - errors: 3, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2339@69:24 Property 'DEV' does not exist on type 'ImportMetaEnv'.
-TS2339@82:24 Property 'DEV' does not exist on type 'ImportMetaEnv'.
-TS2339@92:26 Property 'DEV' does not exist on type 'ImportMetaEnv'.
+TS6133@27:1 'equals' is declared but its value is never read.
+TS6133@301:3 'isCalendarEnabled' is declared but its value is never read.
+TS2339@470:36 Property 'value' does not exist on type 'never'.
+```
+
+### `src/utils/differentialScheduling.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@13:1 'BookingBlockInstance' is declared but its value is never read.
+TS2551@161:56 Property 'differentialOffset' does not exist on type 'SlotShape'. Did you mean 'rawDifferentialOffset'?
+TS2551@162:71 Property 'differentialOffset' does not exist on type 'SlotShape'. Did you mean 'rawDifferentialOffset'?
 ```
 
 ### `src/utils/transformers/fetchToGlobalTransformer.ts`
@@ -197,31 +199,22 @@ TS6133@164:10 'FIELD_VISIBILITY' is declared but its value is never read.
 TS6133@204:28 'deleteFieldMetadata' is declared but its value is never read.
 ```
 
-### `src/composables/admin/useRelationshipCollection.ts`
+### `src/plugins/1.router/additional-routes.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@97:9 'getGlobalEntityById' is declared but its value is never read.
-TS6133@109:5 'parentTypeEntity' is declared but its value is never read.
+TS6196@1:31 'RouteLocationNormalized' is declared but never used.
+TS6196@1:56 'RouteLocationNormalizedLoaded' is declared but never used.
 ```
 
-### `src/composables/booking/useDevPanelsComputed.ts`
+### `src/utils/booking/appointmentSlotBuilder.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@14:1 'RFC3339DateTime' is declared but its value is never read.
-TS6133@15:1 'useLocalTime' is declared but its value is never read.
-```
-
-### `src/configs/availabilitySettings.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS2339@313:38 Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.
-TS2339@314:28 Property 'VITE_AVAILABILITY_CACHE_TTL' does not exist on type 'ImportMetaEnv'.
+TS6133@163:3 'validPartsRelationships' is declared but its value is never read.
+TS2339@295:46 Property 'totalDuration' does not exist on type 'SlotShape'.
 ```
 
 ### `src/utils/booking/serviceDescriptions.ts`
@@ -248,14 +241,6 @@ TS2353@276:9 Object literal may only specify known properties, and 'values' does
 
 ```
 TS2307@2:41 Cannot find module 'shiki' or its corresponding type declarations.
-```
-
-### `src/@core/utils/plugins.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2339@5:31 Property 'glob' does not exist on type 'ImportMeta'.
 ```
 
 ### `src/components/admin/generic/collections/PartsCollection.vue`
@@ -290,52 +275,12 @@ TS6133@60:1 'PartsCollection' is declared but its value is never read.
 TS6133@363:3 'validOptionIds' is declared but its value is never read.
 ```
 
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@83:9 'selectedOptions' is declared but its value is never read.
-```
-
-### `src/composables/admin/useMetadataEditorEntity.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@32:3 'entity' is declared but its value is never read.
-```
-
 ### `src/composables/admin/useRelationshipCollectionData.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@122:9 'parentEntity' is declared but its value is never read.
-```
-
-### `src/composables/booking/useDependentInstances.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2739@106:15 Type '{ id: string; entityKey: "blockInstance"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: "both" | "standalone" | "addOn"; differential: "false" | "true"; orderIndex: number; ... 5 more ...; requiresUnitNumber: true | null; }' is missing the following properties from type 'BookingBlockInstance': is_multi_family, requires_agent
-```
-
-### `src/composables/entityCrud/usePrimitiveMutation.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@154:22 'variables' is declared but its value is never read.
-```
-
-### `src/configs/field/form/appliedForm/annotationInstanceFields.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:1 'PrimitiveFormField' is declared but its value is never read.
+TS6133@71:9 'parentEntityKey' is declared but its value is never read.
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -344,22 +289,6 @@ TS6133@9:1 'PrimitiveFormField' is declared but its value is never read.
 
 ```
 TS2307@3:22 Cannot find module 'shepherd.js' or its corresponding type declarations.
-```
-
-### `src/plugins/1.router/additional-routes.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@9:15 Type '(to: RouteLocationNormalized) => { name: string; query?: undefined; } | { name: string; query: LocationQuery; }' is not assignable to type 'RouteRecordRedirectOption | undefined'.
-```
-
-### `src/plugins/1.router/guards.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2307@1:50 Cannot find module 'unplugin-vue-router' or its corresponding type declarations.
 ```
 
 ### `src/utils/admin/buildMetadataEntry.ts`
@@ -378,14 +307,6 @@ TS6133@24:47 'isRelationship' is declared but its value is never read.
 TS6133@11:1 'GlobalEntityKey' is declared but its value is never read.
 ```
 
-### `src/utils/booking/appointmentSlotBuilder.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@162:3 'validPartsRelationships' is declared but its value is never read.
-```
-
 ### `src/utils/booking/timeSlotMatching.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
@@ -394,20 +315,12 @@ TS6133@162:3 'validPartsRelationships' is declared but its value is never read.
 TS6133@229:10 'matchLoadedTimeSlotsToAppointmentSlots' is declared but its value is never read.
 ```
 
-### `src/utils/differentialScheduling.ts`
+### `src/utils/entityDefaults.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@13:1 'BookingBlockInstance' is declared but its value is never read.
-```
-
-### `src/utils/env/devMode.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2339@24:26 Property 'DEV' does not exist on type 'ImportMetaEnv'.
+TS6133@12:1 'BookingMode' is declared but its value is never read.
 ```
 
 ### `src/utils/eventAttendeeUtils.ts`

@@ -28,8 +28,8 @@ import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapp
 import { useNotification } from '@/composables/useNotification'
 import type { EventInstance } from '@/types/events'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
-import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
-import { dragAndDrop, animations } from '@formkit/drag-and-drop'
+import { animations } from '@formkit/drag-and-drop'
+import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 
 /**
  * LEARNING: Reactive active tab state

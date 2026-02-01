@@ -6,7 +6,6 @@
  */
 
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
-import type { PrimitiveFormField } from '../../../../types/entity/formFields'
 
 export const annotationInstanceFields = {
   id: {

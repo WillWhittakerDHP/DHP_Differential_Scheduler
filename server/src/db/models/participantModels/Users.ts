@@ -45,7 +45,9 @@ export function UserFactory(sequelize: Sequelize) {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        // LEARNING: Allow duplicate emails in development for testing
+        // WHY: Makes it easier to create test users without worrying about unique emails
+        unique: process.env.NODE_ENV !== 'development',
       },
       phone: {
         type: DataTypes.STRING,

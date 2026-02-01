@@ -16,7 +16,6 @@ import type { FetchedRelationship } from '@/types/relationships'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
-import { transformApiAnnotation } from './annotationTransformers'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 
@@ -103,8 +102,6 @@ function transformApiRelationship(
   }
   
   // PATTERN: Relationships just indicate which shapes are active - metadata lives in shape tables
-  const partShapeId = raw.partShapeId ?? raw.part_shape_id
-  const blockShapeId = raw.blockShapeId ?? raw.block_shape_id
   const userTypeBlockBlockInstanceId = raw.userTypeBlockBlockInstanceId ?? raw.user_type_block_block_instance_id
   
   return {

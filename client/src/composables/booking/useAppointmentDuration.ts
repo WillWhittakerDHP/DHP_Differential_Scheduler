@@ -54,7 +54,6 @@ export function useAppointmentDuration(
       const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
       const eventShapes = getGlobalEntities('eventShape') as EventShape[]
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
-      const validPartsRelationships = (globalData?.relationships?.validParts || []) as GlobalRelationship[]
       
       const partShapes = getGlobalEntities('partShape')
       const partShapeById = new Map(
@@ -68,7 +67,6 @@ export function useAppointmentDuration(
         eventShapes,
         eventAssignmentsRelationships,
         partShapeById,
-        validPartsRelationships,
         globalData || undefined
       )
       

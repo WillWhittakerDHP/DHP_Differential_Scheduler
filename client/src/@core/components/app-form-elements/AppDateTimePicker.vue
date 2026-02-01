@@ -32,14 +32,14 @@ const props = defineProps({
     default: 'text',
   },
   modelModifiers: Object as PropType<Record<string, boolean>>,
-  ...makeVInputProps({
+  ...(makeVInputProps({
     density: 'comfortable',
     hideDetails: 'auto',
-  }),
-  ...makeVFieldProps({
+  }) as Record<string, unknown>),
+  ...(makeVFieldProps({
     variant: 'outlined',
     color: 'primary',
-  }),
+  }) as Record<string, unknown>),
 })
 
 const emit = defineEmits<Emit>()
@@ -65,13 +65,13 @@ const { focused } = useFocus(refFlatPicker)
 const isCalendarOpen = ref(false)
 const isInlinePicker = ref(false)
 
-if (compAttrs.config && compAttrs.config.inline) {
-  isInlinePicker.value = compAttrs.config.inline
+if (compAttrs.config && typeof compAttrs.config === 'object' && 'inline' in compAttrs.config) {
+  isInlinePicker.value = Boolean((compAttrs.config as { inline?: boolean }).inline)
   Object.assign(compAttrs, { altInputClass: 'inlinePicker' })
 }
 
 compAttrs.config = {
-  ...compAttrs.config,
+  ...(typeof compAttrs.config === 'object' ? compAttrs.config : {}),
   prevArrow: '<i class="tabler-chevron-left v-icon" style="font-size: 20px; height: 20px; width: 20px;"></i>',
   nextArrow: '<i class="tabler-chevron-right v-icon" style="font-size: 20px; height: 20px; width: 20px;"></i>',
 }
@@ -135,20 +135,20 @@ const elementId = computed (() => {
       v-if="fieldProps.label"
       class="mb-1 text-body-2"
       :for="elementId"
-      :text="fieldProps.label"
+      :text="String(fieldProps.label || '')"
     />
 
     <VInput
       v-bind="{ ...inputProps, ...rootAttrs }"
       :model-value="props.modelValue"
-      :hide-details="props.hideDetails"
+      :hide-details="(props as Record<string, unknown>).hideDetails"
       :class="[{
         'v-text-field--prefixed': props.prefix,
         'v-text-field--suffixed': props.suffix,
-        'v-text-field--flush-details': ['plain', 'underlined'].includes(props.variant),
-      }, props.class]"
+        'v-text-field--flush-details': ['plain', 'underlined'].includes((props as Record<string, unknown>).variant as string),
+      }, (props as Record<string, unknown>).class]"
       class="position-relative v-text-field"
-      :style="props.style"
+      :style="(props as Record<string, unknown>).style"
     >
       <template #default="{ id, isDirty, isValid, isDisabled, isReadonly, validate }">
         <!-- v-field -->
@@ -158,7 +158,7 @@ const elementId = computed (() => {
           role="textbox"
           :active="focused || isDirty.value || isCalendarOpen"
           :focused="focused || isCalendarOpen"
-          :dirty="isDirty.value || props.dirty"
+          :dirty="isDirty.value || (props as Record<string, unknown>).dirty"
           :error="isValid.value === false"
           :disabled="isDisabled.value"
           @click:clear="onClear"

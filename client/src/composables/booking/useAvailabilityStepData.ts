@@ -4,6 +4,8 @@
  * LEARNING: Extracts step data aggregation and time slot transformation logic from AvailabilityStep component
  * WHY: Moves data transformation and step data exposure logic to composable
  * PATTERN: Composable that provides computed properties for step data and transformations
+ * 
+ * SESSION: 2.1.3b - Updated to pass availabilitySettings for dynamic event name lookup
  */
 
 import { computed, type Ref } from 'vue'
@@ -16,6 +18,7 @@ import {
   type SelectedTimeSlot,
 } from '@/utils/booking/availabilityStepData'
 import type { ISO8601Date } from '@/types/datetime'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 export type { SelectedTimeSlot, AvailabilityStepData }
 
@@ -44,6 +47,11 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     moveableScheduling
   } = params
 
+  // LEARNING: Get availability settings for dynamic event name lookup
+  // WHY: Event names are configurable (e.g., 'OnSite' not 'Major'), need settings to find them
+  // SESSION: 2.1.3b - Fixed hardcoded event names
+  const { settings: availabilitySettings } = useAvailabilitySettings()
+
   /**
    * LEARNING: Transform selected time slots to API format
    * WHY: Converts AppointmentSlot totals to ISO timestamps with duration for API
@@ -53,6 +61,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     return buildSelectedTimeSlots({
       selectedDateStart: selectedDate.value.start,
       selectedSlot: selectedSlot.value,
+      availabilitySettings: availabilitySettings.value,
     })
   })
 

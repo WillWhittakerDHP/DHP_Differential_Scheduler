@@ -38,9 +38,6 @@ export class Appointment extends Model<
   declare propertyQuantities: Record<string, number> | null; // JSONB object - quantity multipliers for property type blocks
   declare selectedOptionIds: string[] | null; // JSONB array - replaces selectedAvailabilityOptions (Option block shape)
   declare optionQuantities: Record<string, number> | null; // JSONB object - quantity multipliers for availability options
-  declare serviceSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected services at booking time (deprecated - use serviceSnapshotIds)
-  declare propertySnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected property type blocks at booking time (deprecated - use propertySnapshotIds)
-  declare optionSnapshots: Record<string, BlockInstanceSnapshot> | null; // JSONB object - snapshots of selected availability options at booking time (deprecated - use optionSnapshotIds)
   declare serviceSnapshotIds: string[] | null; // UUID array - references block_instance_versions for selected services
   declare propertySnapshotIds: string[] | null; // UUID array - references block_instance_versions for selected property type blocks
   declare optionSnapshotIds: string[] | null; // UUID array - references block_instance_versions for selected availability options
@@ -50,12 +47,10 @@ export class Appointment extends Model<
   declare isQuoteMode: boolean;
   declare quotePdfUrl: string | null;
   declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted';
-  declare clientId: ForeignKey<string> | null;
-  declare agentId: ForeignKey<string> | null;
   /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   declare scheduledById: ForeignKey<string> | null;
-  declare additionalContacts: Array<Record<string, unknown>> | null;
   declare propertyDetails: Record<string, unknown> | null;
+  // Note: clientId, agentId, additionalContacts removed - use appointment_attendees table instead
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -123,24 +118,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
         field: 'option_quantities',
         comment: 'Quantity multipliers for selected availability options (item_id -> quantity mapping)',
       },
-      serviceSnapshots: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'service_snapshots',
-        comment: 'Snapshots of selected services at booking time (preserves pricing/names)',
-      },
-      propertySnapshots: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'property_snapshots',
-        comment: 'Snapshots of selected property type blocks at booking time (preserves pricing/names)',
-      },
-      optionSnapshots: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'option_snapshots',
-        comment: 'Snapshots of selected availability options at booking time (preserves pricing/names)',
-      },
       serviceSnapshotIds: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: true,
@@ -190,24 +167,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: 'started',
       },
-      clientId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'client_id',
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-      },
-      agentId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-        field: 'agent_id',
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-      },
       /** Tracks which user engaged/interacted with the scheduler to create this appointment */
       scheduledById: {
         type: DataTypes.UUID,
@@ -218,11 +177,7 @@ export function AppointmentFactory(sequelize: Sequelize) {
           key: 'id',
         },
       },
-      additionalContacts: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'additional_contacts',
-      },
+      // Note: clientId, agentId, additionalContacts columns removed - use appointment_attendees table
       propertyDetails: {
         type: DataTypes.JSONB,
         allowNull: true,

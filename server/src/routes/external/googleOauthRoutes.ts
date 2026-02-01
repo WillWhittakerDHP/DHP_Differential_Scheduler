@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getAuthUrl, getTokens, setCredentials, getCredentials } from '../../config/googleOAuth.js';
+import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js';
 
 /**
  * Google OAuth Routes
@@ -8,8 +8,8 @@ import { getAuthUrl, getTokens, setCredentials, getCredentials } from '../../con
  * WHY: Provides HTTP endpoints for OAuth authentication
  * PATTERN: Express router with OAuth flow handling
  * 
- * NOTE: Token storage is currently in-memory (oauth2Client). For production,
- * tokens should be stored securely in database (encrypted).
+ * SESSION: 2.1.3b - Added file-based token persistence for development
+ * NOTE: Tokens are saved to .google-tokens.json (gitignored) for persistence
  */
 
 const router = Router();
@@ -65,16 +65,19 @@ router.get('/callback', async (req: Request, res: Response) => {
     // Exchange code for tokens
     const tokens = await getTokens(code);
     
-    // Set credentials on OAuth client (stored in-memory for now)
-    // TODO: Store tokens securely in database for production
+    // Set credentials on OAuth client
     setCredentials(tokens);
+    
+    // Save tokens to file for persistence across restarts
+    // SESSION: 2.1.3b - Persist tokens across server restarts
+    saveTokensToFile(tokens);
     
     console.log('[GoogleOAuthRoutes] OAuth authentication successful');
     
     // Return success response
     res.json({
       success: true,
-      message: 'Authentication successful',
+      message: 'Authentication successful - tokens saved for future sessions',
       // Don't return tokens in response for security
       hasAccessToken: !!tokens.access_token,
       hasRefreshToken: !!tokens.refresh_token
@@ -95,21 +98,25 @@ router.get('/callback', async (req: Request, res: Response) => {
  */
 router.get('/status', (_req: Request, res: Response) => {
   try {
-    // Check OAuth client credentials (in-memory storage)
+    // Check OAuth client credentials (loaded from file on startup)
     const credentials = getCredentials();
+    const authenticated = hasCredentials();
     
-    if (credentials?.access_token) {
+    if (authenticated) {
       res.json({
         authenticated: true,
+        hasAccessToken: !!credentials.access_token,
         hasRefreshToken: !!credentials.refresh_token,
-        expiryDate: credentials.expiry_date || null
+        expiryDate: credentials.expiry_date || null,
+        tokenExpired: credentials.expiry_date ? credentials.expiry_date < Date.now() : null
       });
       return;
     }
     
     res.json({
       authenticated: false,
-      authUrl: '/api/v1/external/oauth'
+      authUrl: '/api/v1/external/oauth',
+      message: 'Visit the authUrl to authenticate with Google'
     });
     
   } catch (error: any) {

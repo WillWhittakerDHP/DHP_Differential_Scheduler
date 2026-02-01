@@ -8,7 +8,6 @@
  */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'
-import type { GlobalEntityKey } from '@/constants/entities'
 
 /**
  * Base API URL
