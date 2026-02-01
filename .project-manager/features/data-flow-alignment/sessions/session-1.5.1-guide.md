@@ -1,17 +1,31 @@
-# Session 1.5.1: Business Rules Database Infrastructure
+# Session 1.5.1 Guide: Business Rules Database Infrastructure
 
-**Phase:** 1.5 - Business Rules & Validation  
-**Session:** 1.5.1  
-**Status:** Not Started  
-**Created:** 2026-01-31
+**Purpose:** Session-level guide with task breakdown and learning goals
+
+**Tier:** Session (Tier 2 - Medium-Level)
 
 ---
 
-## Session Overview
+## Quick Start
 
-**Goal:** Create database tables, models, and API infrastructure for admin-configurable business rules that control validation behavior in the booking wizard.
+### Session Overview
 
-**Description:** Replace hardcoded validation logic with database-driven business rules that can be configured through the admin panel. Leverage existing annotation infrastructure for validation messages.
+**Session ID:** 1.5.1  
+**Session Name:** Business Rules Database Infrastructure  
+**Phase:** 1.5 - Business Rules & Validation
+
+**Description:** Create database tables, models, and API infrastructure for admin-configurable business rules that control validation behavior in the booking wizard. Replace hardcoded validation logic with database-driven business rules that can be configured through the admin panel. Leverage existing annotation infrastructure for validation messages.
+
+**Duration:** 3-4 hours  
+**Status:** Not Started
+
+### Learning Goals
+
+- Database schema design for configurable business rules
+- Relationship modeling between business rules and block instances  
+- Leveraging existing annotation infrastructure for validation messages
+- Following established patterns (requiresUnitNumber flag, BusinessSettings JSONB)
+- Understanding rule_type enumeration and typed JSONB configs
 
 ---
 
@@ -123,7 +137,9 @@ const customValidators = {
 
 ---
 
-## Session Objectives
+## Tasks
+
+### Session Objectives
 
 1. **Create `business_rules` table** - Store admin-configurable validation rules
 2. **Create Sequelize model** - `BusinessRule` model with TypeScript types
@@ -134,9 +150,7 @@ const customValidators = {
 
 ---
 
-## Tasks
-
-### Task 1.5.1.1: Create Business Rules Migration
+- [ ] #### Task 1.5.1.1: Create Business Rules Migration
 
 **Goal:** Create database table for storing business rules
 
@@ -197,7 +211,7 @@ CREATE INDEX idx_business_rules_active ON business_rules(active);
 
 ---
 
-### Task 1.5.1.2: Add Block Instance Validation Flags
+- [ ] #### Task 1.5.1.2: Add Block Instance Validation Flags
 
 **Goal:** Extend `block_instances` table with validation flags (follows `requiresUnitNumber` pattern)
 
@@ -221,7 +235,7 @@ COMMENT ON COLUMN block_instances.requires_agent IS 'Service requires agent/clie
 
 ---
 
-### Task 1.5.1.3: Create BusinessRule Sequelize Model
+- [ ] #### Task 1.5.1.3: Create BusinessRule Sequelize Model
 
 **Goal:** Create TypeScript model for business rules
 
@@ -286,7 +300,7 @@ export class BusinessRule extends Model<
 
 ---
 
-### Task 1.5.1.4: Create Business Rules API Router
+- [ ] #### Task 1.5.1.4: Create Business Rules API Router
 
 **Goal:** Create CRUD endpoints for business rules
 
@@ -333,7 +347,7 @@ GET /api/v1/internal/business-rules/block/:blockInstanceId
 
 ---
 
-### Task 1.5.1.5: Seed Default Business Rules
+- [ ] #### Task 1.5.1.5: Seed Default Business Rules
 
 **Goal:** Create seed script with default validation rules
 
@@ -368,7 +382,7 @@ GET /api/v1/internal/business-rules/block/:blockInstanceId
 
 ---
 
-### Task 1.5.1.6: Update Block Instances with Validation Flags
+- [ ] #### Task 1.5.1.6: Update Block Instances with Validation Flags
 
 **Goal:** Update existing block instances with new validation flags
 
