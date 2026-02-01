@@ -6,10 +6,10 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **596**
-- Files with issues: **293**
-- Issues found: **563**
-- Unused exports: 464
+- Files scanned: **600**
+- Files with issues: **294**
+- Issues found: **567**
+- Unused exports: 468
 - Commented exports: 3
 - Unused functions: 93
 - TODO markers: 3
@@ -138,6 +138,32 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **INFO** [unused-function] (line 522): Unused function: handleExistingShapeSaved
   ```
   function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/composables/admin/useBusinessRules.ts` [P0] (score: 12)
+
+- **WARNING** [unused-export] (line 32): Unused export: RequiredFieldsRuleConfig (type)
+  ```
+  export interface RequiredFieldsRuleConfig {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 43): Unused export: RequiresAgentRuleConfig (type)
+  ```
+  export interface RequiresAgentRuleConfig {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 53): Unused export: ConditionalValidationRuleConfig (type)
+  ```
+  export interface ConditionalValidationRuleConfig {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 66): Unused export: ValidationMessageRuleConfig (type)
+  ```
+  export interface ValidationMessageRuleConfig {
   ```
   💡 Remove if unused or document why kept
 
@@ -2047,7 +2073,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 33): Unused export: UseContactsValidationReturn (type)
+- **WARNING** [unused-export] (line 34): Unused export: UseContactsValidationReturn (type)
   ```
   export type UseContactsValidationReturn = UseStepValidationReturn
   ```
@@ -3393,7 +3419,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/types/entities.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 126): Unused export: GlobalEntityMap (type)
+- **WARNING** [unused-export] (line 136): Unused export: GlobalEntityMap (type)
   ```
   export type GlobalEntityMap = {
   ```
@@ -3625,7 +3651,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/transformers/globalToBookingTransformer.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 90): Unused export: BookingTransformer (class)
+- **WARNING** [unused-export] (line 92): Unused export: BookingTransformer (class)
   ```
   export class BookingTransformer {
   ```
@@ -3775,13 +3801,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P2] (score: 2)
 
-- **INFO** [unused-function] (line 253): Unused function: ensureMaxWorkHours
+- **INFO** [unused-function] (line 254): Unused function: ensureMaxWorkHours
   ```
   const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 440): Unused function: ensureRangeConstraints
+- **INFO** [unused-function] (line 441): Unused function: ensureRangeConstraints
   ```
   const ensureRangeConstraints = (current: RangeConstraints | undefined) => {
   ```
@@ -3825,13 +3851,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts` [P2] (score: 2)
 
-- **INFO** [unused-function] (line 314): Unused function: whereWithParentId
+- **INFO** [unused-function] (line 315): Unused function: whereWithParentId
   ```
   const whereWithParentId = (() => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 330): Unused function: whereClause
+- **INFO** [unused-function] (line 331): Unused function: whereClause
   ```
   const whereClause = (() => {
   ```

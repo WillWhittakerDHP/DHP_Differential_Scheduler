@@ -87,10 +87,8 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   })
 
   /**
-   * LEARNING: Check if selected property type is multi-family using database flag
-   * WHY: Replaces hardcoded name check with database-driven flag
-   * PATTERN: Database flag (is_multi_family) instead of string matching
-   * SESSION: 1.5.3 - Replaced hardcoded logic with business rules infrastructure
+   * WHY: Database flag (is_multi_family) instead of hardcoded name matching
+   * PATTERN: Database-driven validation for multi-family property detection
    */
   const isMultiFamily = computed(() => {
     return wizard.selectedPropertyTypeBlocks.value.some(

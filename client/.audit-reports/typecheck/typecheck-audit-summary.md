@@ -6,12 +6,14 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 
 | Priority | Pool | score | errors | files | severity | blast | repetition | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-relationship-types` | 90 | 8 | 1 | 80 | 2 | 8 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-allactiveservicetypes` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2307-ts2307-cannot-find-module-composables-booking-usewizard-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2339-ts2339-prop-servicetypeoptions` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-values-does-not-exist-in-type-draganddrop-unknown` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2739-ts2739-type-id-string-entitykey-blockinstance-name-string-basesqft-number-icon-string-active-boolean-bookingmode-both-st` | 12 | 1 | 1 | 9 | 2 | 1 | 0 | 0 |
 | P1 | `TS6133-ts6133-partscollection-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 6 | 4 | 2 | 0 | 0 |
 | P1 | `TS7006-ts7006-parameter-s-implicitly-has-an-any-type` | 10 | 1 | 1 | 7 | 2 | 1 | 0 | 0 |
+| P1 | `TS7006-ts7006-parameter-selected-implicitly-has-an-any-type` | 10 | 1 | 1 | 7 | 2 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-blockshapeid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 3 | 2 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-bookingblockinstance-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 3 | 2 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-clearotherdefaults-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 3 | 2 | 1 | 0 | 0 |
@@ -60,13 +62,13 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 
 | File | errors | unsafeCasts | suppressions |
 | --- | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 8 | 0 | 0 |
 | `src/utils/optimistic/annotationAssignmentsOptimistic.ts` | 7 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | 6 | 0 | 0 |
 | `src/utils/annotationUtils.ts` | 4 | 0 | 0 |
 | `src/utils/transformers/fetchToGlobalTransformer.ts` | 3 | 0 | 0 |
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | 2 | 0 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 2 | 0 | 0 |
+| `src/components/booking/steps/ContactsStep.vue` | 2 | 0 | 0 |
 | `src/composables/admin/useRelationshipCollection.ts` | 2 | 0 | 0 |
 | `src/composables/booking/useDevPanelsComputed.ts` | 2 | 0 | 0 |
 | `src/utils/booking/serviceDescriptions.ts` | 2 | 0 | 0 |
@@ -78,6 +80,7 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 | `src/components/booking/steps/AvailabilityStep.vue` | 1 | 0 | 0 |
 | `src/composables/admin/useMetadataEditorEntity.ts` | 1 | 0 | 0 |
 | `src/composables/admin/useRelationshipCollectionData.ts` | 1 | 0 | 0 |
+| `src/composables/booking/useDependentInstances.ts` | 1 | 0 | 0 |
 | `src/composables/entityCrud/usePrimitiveMutation.ts` | 1 | 0 | 0 |
 | `src/configs/field/form/appliedForm/annotationInstanceFields.ts` | 1 | 0 | 0 |
 | `src/utils/admin/buildMetadataEntry.ts` | 1 | 0 | 0 |

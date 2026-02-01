@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:49:18.781Z",
+  "generatedAt": "2026-02-01T00:31:01.154Z",
   "check": "Fallback",
   "status": "warning",
   "issues": [
@@ -1703,7 +1703,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/types/entities.ts",
-      "line": 88,
+      "line": 98,
       "code": "ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail grac...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -1711,7 +1711,7 @@
       "severity": "warning",
       "message": "Found \"Deprecated code\" keyword: deprecated",
       "file": "client/src/types/entities.ts",
-      "line": 107,
+      "line": 117,
       "code": "userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.us...",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2615,7 +2615,7 @@
       "severity": "warning",
       "message": "Found Nullish coalescing with default string",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 159,
+      "line": 161,
       "code": "const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2623,7 +2623,7 @@
       "severity": "warning",
       "message": "Found Nullish coalescing with default string",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 184,
+      "line": 186,
       "code": "const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2631,7 +2631,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 372,
+      "line": 374,
       "code": "icon: blockInstanceWithProps.icon || '',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2639,7 +2639,7 @@
       "severity": "warning",
       "message": "Found Nullish coalescing with default string",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 373,
+      "line": 375,
       "code": "bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities')....",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2663,7 +2663,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 121,
+      "line": 122,
       "code": "title: bi.name || `Block ${bi.id}`,",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2671,7 +2671,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 152,
+      "line": 153,
       "code": "get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2679,7 +2679,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 163,
+      "line": 164,
       "code": "get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2687,7 +2687,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 174,
+      "line": 175,
       "code": "get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time...",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2695,7 +2695,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 185,
+      "line": 186,
       "code": "get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2703,7 +2703,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 196,
+      "line": 197,
       "code": "get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -2711,7 +2711,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 444,
+      "line": 445,
       "code": "minutes: 60 // Default 1 hour",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -2719,9 +2719,65 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 460,
+      "line": 461,
       "code": "getDefault: () => 60, // Default 1 hour",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 42,
+      "code": "title: bi.name || `Block ${bi.id}`,",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 61,
+      "code": "title: ai.name || `Annotation ${ai.id}`,",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 119,
+      "code": "blockInstanceId: selectedBlockId.value || '',",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 154,
+      "code": "blockInstanceId: selectedBlockId.value || '',",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 222,
+      "code": "default:",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 236,
+      "code": "return config.fields?.join(', ') || ''",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
+    },
+    {
+      "severity": "warning",
+      "message": "Found Logical OR with default string",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 253,
+      "code": "return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition || ''",
+      "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
     {
       "severity": "warning",
@@ -2966,6 +3022,14 @@
     {
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
+      "file": "server/src/routes/internal/businessRulesRouter.ts",
+      "line": 269,
+      "code": "export default router;",
+      "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+    },
+    {
+      "severity": "warning",
+      "message": "Found \"Default values\" keyword: default",
       "file": "server/src/routes/internal/businessSettingsRouter.ts",
       "line": 58,
       "code": "enabled: false, // Default disabled for testing",
@@ -3023,7 +3087,7 @@
       "severity": "warning",
       "message": "Found \"Default values\" keyword: default",
       "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 180,
+      "line": 181,
       "code": "default:",
       "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
     },
@@ -3031,7 +3095,7 @@
       "severity": "warning",
       "message": "Found Logical OR with default string",
       "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 718,
+      "line": 719,
       "code": "details: error.message || 'One of the referenced entities does not exist',",
       "suggestion": "Review for removal - prefer explicit error handling or type safety"
     },
@@ -6161,7 +6225,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/types/entities.ts",
-          "line": 88,
+          "line": 98,
           "code": "ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail grac...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -6169,7 +6233,7 @@
           "severity": "warning",
           "message": "Found \"Deprecated code\" keyword: deprecated",
           "file": "client/src/types/entities.ts",
-          "line": 107,
+          "line": 117,
           "code": "userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.us...",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
@@ -7290,7 +7354,7 @@
           "severity": "warning",
           "message": "Found Nullish coalescing with default string",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 159,
+          "line": 161,
           "code": "const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7298,7 +7362,7 @@
           "severity": "warning",
           "message": "Found Nullish coalescing with default string",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 184,
+          "line": 186,
           "code": "const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7306,7 +7370,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 372,
+          "line": 374,
           "code": "icon: blockInstanceWithProps.icon || '',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7314,7 +7378,7 @@
           "severity": "warning",
           "message": "Found Nullish coalescing with default string",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 373,
+          "line": 375,
           "code": "bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities')....",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -7359,7 +7423,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 121,
+          "line": 122,
           "code": "title: bi.name || `Block ${bi.id}`,",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7367,7 +7431,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 152,
+          "line": 153,
           "code": "get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7375,7 +7439,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 163,
+          "line": 164,
           "code": "get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7383,7 +7447,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 174,
+          "line": 175,
           "code": "get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time...",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7391,7 +7455,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 185,
+          "line": 186,
           "code": "get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7399,7 +7463,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 196,
+          "line": 197,
           "code": "get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         },
@@ -7407,7 +7471,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 444,
+          "line": 445,
           "code": "minutes: 60 // Default 1 hour",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7415,12 +7479,75 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 460,
+          "line": 461,
           "code": "getDefault: () => 60, // Default 1 hour",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         }
       ],
       "score": 8,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 42,
+          "code": "title: bi.name || `Block ${bi.id}`,",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 61,
+          "code": "title: ai.name || `Annotation ${ai.id}`,",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 119,
+          "code": "blockInstanceId: selectedBlockId.value || '',",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 154,
+          "code": "blockInstanceId: selectedBlockId.value || '',",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 222,
+          "code": "default:",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 236,
+          "code": "return config.fields?.join(', ') || ''",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        },
+        {
+          "severity": "warning",
+          "message": "Found Logical OR with default string",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 253,
+          "code": "return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition || ''",
+          "suggestion": "Review for removal - prefer explicit error handling or type safety"
+        }
+      ],
+      "score": 7,
       "priority": "P0"
     },
     {
@@ -7748,6 +7875,21 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "Found \"Default values\" keyword: default",
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 269,
+          "code": "export default router;",
+          "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
       "issues": [
         {
@@ -7838,7 +7980,7 @@
           "severity": "warning",
           "message": "Found \"Default values\" keyword: default",
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 180,
+          "line": 181,
           "code": "default:",
           "suggestion": "Review for removal - prefer dynamic/config-driven approach or explicit failures"
         },
@@ -7846,7 +7988,7 @@
           "severity": "warning",
           "message": "Found Logical OR with default string",
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 718,
+          "line": 719,
           "code": "details: error.message || 'One of the referenced entities does not exist',",
           "suggestion": "Review for removal - prefer explicit error handling or type safety"
         }
@@ -8843,7 +8985,7 @@
     }
   ],
   "recommendations": [
-    "Found 484 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
+    "Found 492 warning(s) - review defaults/fallbacks for removal in favor of dynamic/config-driven approaches"
   ],
-  "summary": "Scanned 585 file(s) (478 client, 107 server). Found 484 issue(s): 0 critical, 484 warnings"
+  "summary": "Scanned 589 file(s) (480 client, 109 server). Found 492 issue(s): 0 critical, 492 warnings"
 }

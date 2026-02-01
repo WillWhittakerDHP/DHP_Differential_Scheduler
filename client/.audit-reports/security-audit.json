@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:49:22.707Z",
+  "generatedAt": "2026-02-01T00:31:05.246Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -13,8 +13,8 @@
     ]
   },
   "summary": {
-    "totalErrors": 46,
-    "totalWarnings": 256,
+    "totalErrors": 50,
+    "totalWarnings": 257,
     "byCategory": {
       "dependencies": {
         "errors": 0,
@@ -29,12 +29,12 @@
         "warnings": 0
       },
       "csrf": {
-        "errors": 42,
+        "errors": 46,
         "warnings": 0
       },
       "auth": {
         "errors": 0,
-        "warnings": 12
+        "warnings": 13
       },
       "idor": {
         "errors": 4,
@@ -3697,6 +3697,38 @@
           "severity": "error"
         },
         {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 114,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 161,
+          "route": "/:id",
+          "method": "PUT",
+          "issue": "Missing CSRF protection on PUT route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 208,
+          "route": "/:id",
+          "method": "PATCH",
+          "issue": "Missing CSRF protection on PATCH route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 240,
+          "route": "/:id",
+          "method": "DELETE",
+          "issue": "Missing CSRF protection on DELETE route",
+          "severity": "error"
+        },
+        {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
           "line": 377,
           "route": "/",
@@ -3874,7 +3906,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 434,
+          "line": 435,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3882,7 +3914,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 741,
+          "line": 742,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3890,7 +3922,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 782,
+          "line": 783,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3898,7 +3930,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 842,
+          "line": 843,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3906,7 +3938,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 888,
+          "line": 889,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -3946,7 +3978,7 @@
         }
       ],
       "warnings": [],
-      "score": 504,
+      "score": 552,
       "fileIssues": {
         "server/src/api/api.routes.ts": [
           {
@@ -4040,6 +4072,40 @@
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
             "line": 271,
+            "route": "/:id",
+            "method": "DELETE",
+            "issue": "Missing CSRF protection on DELETE route",
+            "severity": "error"
+          }
+        ],
+        "server/src/routes/internal/businessRulesRouter.ts": [
+          {
+            "file": "server/src/routes/internal/businessRulesRouter.ts",
+            "line": 114,
+            "route": "/",
+            "method": "POST",
+            "issue": "Missing CSRF protection on POST route",
+            "severity": "error"
+          },
+          {
+            "file": "server/src/routes/internal/businessRulesRouter.ts",
+            "line": 161,
+            "route": "/:id",
+            "method": "PUT",
+            "issue": "Missing CSRF protection on PUT route",
+            "severity": "error"
+          },
+          {
+            "file": "server/src/routes/internal/businessRulesRouter.ts",
+            "line": 208,
+            "route": "/:id",
+            "method": "PATCH",
+            "issue": "Missing CSRF protection on PATCH route",
+            "severity": "error"
+          },
+          {
+            "file": "server/src/routes/internal/businessRulesRouter.ts",
+            "line": 240,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4235,7 +4301,7 @@
         "server/src/routes/internal/relationships/relationshipRouter.ts": [
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 434,
+            "line": 435,
             "route": "/:relationshipType",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4243,7 +4309,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 741,
+            "line": 742,
             "route": "/instanceComponents/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4251,7 +4317,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 782,
+            "line": 783,
             "route": "/instanceComponents/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4259,7 +4325,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 842,
+            "line": 843,
             "route": "/annotationAssignments/:blockInstanceId/:annotationId",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4267,7 +4333,7 @@
           },
           {
             "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-            "line": 888,
+            "line": 889,
             "route": "/:relationshipType/:parentId/:childId",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4365,6 +4431,14 @@
           "severity": "warning"
         },
         {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 1,
+          "route": "multiple",
+          "method": "various",
+          "issue": "Sensitive routes detected without authentication",
+          "severity": "warning"
+        },
+        {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
           "line": 1,
           "route": "multiple",
@@ -4413,7 +4487,7 @@
           "severity": "warning"
         }
       ],
-      "score": 60,
+      "score": 65,
       "fileIssues": {
         "server/src/routes/external/googleFetchRoutes.ts": [
           {
@@ -4468,6 +4542,16 @@
         "server/src/routes/internal/availabilityRouter.ts": [
           {
             "file": "server/src/routes/internal/availabilityRouter.ts",
+            "line": 1,
+            "route": "multiple",
+            "method": "various",
+            "issue": "Sensitive routes detected without authentication",
+            "severity": "warning"
+          }
+        ],
+        "server/src/routes/internal/businessRulesRouter.ts": [
+          {
+            "file": "server/src/routes/internal/businessRulesRouter.ts",
             "line": 1,
             "route": "multiple",
             "method": "various",
@@ -8995,6 +9079,98 @@
       "priority": "P0"
     },
     {
+      "id": "server__src__routes__internal__businessRulesRouter.ts",
+      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
+      "categories": [
+        "csrf",
+        "auth"
+      ],
+      "issues": [
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 114,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 161,
+          "route": "/:id",
+          "method": "PUT",
+          "issue": "Missing CSRF protection on PUT route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 208,
+          "route": "/:id",
+          "method": "PATCH",
+          "issue": "Missing CSRF protection on PATCH route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 240,
+          "route": "/:id",
+          "method": "DELETE",
+          "issue": "Missing CSRF protection on DELETE route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 114,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 161,
+          "route": "/:id",
+          "method": "PUT",
+          "issue": "Missing CSRF protection on PUT route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 208,
+          "route": "/:id",
+          "method": "PATCH",
+          "issue": "Missing CSRF protection on PATCH route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 240,
+          "route": "/:id",
+          "method": "DELETE",
+          "issue": "Missing CSRF protection on DELETE route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 1,
+          "route": "multiple",
+          "method": "various",
+          "issue": "Sensitive routes detected without authentication",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "line": 1,
+          "route": "multiple",
+          "method": "various",
+          "issue": "Sensitive routes detected without authentication",
+          "severity": "warning"
+        }
+      ],
+      "score": 86,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__routes__internal__businessSettingsRouter.ts",
       "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
       "categories": [
@@ -9513,7 +9689,7 @@
       "issues": [
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 434,
+          "line": 435,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9521,7 +9697,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 741,
+          "line": 742,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9529,7 +9705,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 782,
+          "line": 783,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9537,7 +9713,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 842,
+          "line": 843,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9545,7 +9721,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 888,
+          "line": 889,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9553,7 +9729,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 434,
+          "line": 435,
           "route": "/:relationshipType",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9561,7 +9737,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 741,
+          "line": 742,
           "route": "/instanceComponents/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9569,7 +9745,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 782,
+          "line": 783,
           "route": "/instanceComponents/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9577,7 +9753,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 842,
+          "line": 843,
           "route": "/annotationAssignments/:blockInstanceId/:annotationId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9585,7 +9761,7 @@
         },
         {
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 888,
+          "line": 889,
           "route": "/:relationshipType/:parentId/:childId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",

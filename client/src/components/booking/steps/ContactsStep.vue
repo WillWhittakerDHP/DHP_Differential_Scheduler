@@ -15,18 +15,22 @@ import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { ContactsStepData } from '@/types/wizard'
-import { useWizard } from '@/composables/booking/useWizard'
+import type { UseBookingWizardReturn } from '@/types/wizard'
 
 // LEARNING: Inject loaded wizard state for populating form fields
 // WHY: Enables populating contact information from loaded appointment
 // PATTERN: Inject provided loadedWizardState and pass to composable
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
-// LEARNING: Access wizard state to check if selected services require agent
+// LEARNING: Inject wizard instance to access selected service blocks
 // WHY: Some services require agent contact info (e.g., Buyers Inspection), others don't
-// PATTERN: Check requires_agent flag on selected service blocks
+// PATTERN: Inject wizard provided by parent BookingWizard component
 // SESSION 1.5.3: Use database-driven requires_agent flag instead of hardcoded always-required
-const wizard = useWizard()
+const wizard = inject<UseBookingWizardReturn>('wizard')
+
+if (!wizard) {
+  throw new Error('Wizard instance not found. Make sure BookingWizard provides wizard.')
+}
 
 /**
  * LEARNING: Check if any selected services require agent contact information
@@ -35,7 +39,7 @@ const wizard = useWizard()
  * SESSION 1.5.3: Database-driven agent requirement
  */
 const requiresAgent = computed(() => {
-  return wizard.selectedServiceBlocks.value.some(
+  return wizard.selectedServiceTypeBlocks.value.some(
     selected => selected.requires_agent === true
   )
 })

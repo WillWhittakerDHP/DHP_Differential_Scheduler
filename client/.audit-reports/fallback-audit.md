@@ -6,11 +6,11 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ## Summary
 
-- Files scanned: **585**
-- Files with issues: **156**
-- Issues found: **484**
+- Files scanned: **589**
+- Files with issues: **158**
+- Issues found: **492**
 - Critical: 0
-- Warnings: 484
+- Warnings: 492
 
 ## Issues by File (sorted by priority)
 
@@ -944,49 +944,49 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P0] (score: 8)
 
-- **WARNING** (line 121): Found Logical OR with default string
+- **WARNING** (line 122): Found Logical OR with default string
   ```
   title: bi.name || `Block ${bi.id}`,
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 152): Found Logical OR with default string
+- **WARNING** (line 153): Found Logical OR with default string
   ```
   get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 163): Found Logical OR with default string
+- **WARNING** (line 164): Found Logical OR with default string
   ```
   get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 174): Found Logical OR with default string
+- **WARNING** (line 175): Found Logical OR with default string
   ```
   get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 185): Found Logical OR with default string
+- **WARNING** (line 186): Found Logical OR with default string
   ```
   get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 196): Found Logical OR with default string
+- **WARNING** (line 197): Found Logical OR with default string
   ```
   get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 444): Found "Default values" keyword: default
+- **WARNING** (line 445): Found "Default values" keyword: default
   ```
   minutes: 60 // Default 1 hour
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 460): Found "Default values" keyword: default
+- **WARNING** (line 461): Found "Default values" keyword: default
   ```
   getDefault: () => 60, // Default 1 hour
   ```
@@ -1039,6 +1039,50 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 - **WARNING** (line 168): Found Logical OR with default string
   ```
   panel: config.panel || 'none',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+### `client/src/views/admin/tabs/BusinessRulesTab.vue` [P0] (score: 7)
+
+- **WARNING** (line 42): Found Logical OR with default string
+  ```
+  title: bi.name || `Block ${bi.id}`,
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 61): Found Logical OR with default string
+  ```
+  title: ai.name || `Annotation ${ai.id}`,
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 119): Found Logical OR with default string
+  ```
+  blockInstanceId: selectedBlockId.value || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 154): Found Logical OR with default string
+  ```
+  blockInstanceId: selectedBlockId.value || '',
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 222): Found "Default values" keyword: default
+  ```
+  default:
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+- **WARNING** (line 236): Found Logical OR with default string
+  ```
+  return config.fields?.join(', ') || ''
+  ```
+  💡 Review for removal - prefer explicit error handling or type safety
+
+- **WARNING** (line 253): Found Logical OR with default string
+  ```
+  return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition || ''
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
@@ -1708,25 +1752,25 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `client/src/utils/transformers/globalToBookingTransformer.ts` [P1] (score: 4)
 
-- **WARNING** (line 159): Found Nullish coalescing with default string
+- **WARNING** (line 161): Found Nullish coalescing with default string
   ```
   const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 184): Found Nullish coalescing with default string
+- **WARNING** (line 186): Found Nullish coalescing with default string
   ```
   const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').Book...
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 372): Found Logical OR with default string
+- **WARNING** (line 374): Found Logical OR with default string
   ```
   icon: blockInstanceWithProps.icon || '',
   ```
   💡 Review for removal - prefer explicit error handling or type safety
 
-- **WARNING** (line 373): Found Nullish coalescing with default string
+- **WARNING** (line 375): Found Nullish coalescing with default string
   ```
   bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities')....
   ```
@@ -2030,13 +2074,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 88): Found "Default values" keyword: default
+- **WARNING** (line 98): Found "Default values" keyword: default
   ```
   ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail grac...
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 107): Found "Deprecated code" keyword: deprecated
+- **WARNING** (line 117): Found "Deprecated code" keyword: deprecated
   ```
   userTypeBlock: string | null; // BlockInstance ID or null (deprecated, use annotation_assignments.us...
   ```
@@ -2710,13 +2754,13 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts` [P1] (score: 2)
 
-- **WARNING** (line 180): Found "Default values" keyword: default
+- **WARNING** (line 181): Found "Default values" keyword: default
   ```
   default:
   ```
   💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
 
-- **WARNING** (line 718): Found Logical OR with default string
+- **WARNING** (line 719): Found Logical OR with default string
   ```
   details: error.message || 'One of the referenced entities does not exist',
   ```
@@ -3201,6 +3245,14 @@ Scope: `client/src` (ts, js, vue files) and `server/src` (ts, mjs files)
 ### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` [P2] (score: 1)
 
 - **WARNING** (line 227): Found "Default values" keyword: default
+  ```
+  export default router;
+  ```
+  💡 Review for removal - prefer dynamic/config-driven approach or explicit failures
+
+### `server/src/routes/internal/businessRulesRouter.ts` [P2] (score: 1)
+
+- **WARNING** (line 269): Found "Default values" keyword: default
   ```
   export default router;
   ```

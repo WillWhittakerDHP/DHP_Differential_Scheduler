@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-01-31T23:49:23.349Z
+Generated at: 2026-02-01T00:31:06.957Z
 
 ## Summary
 
-- **Total source files**: 675
+- **Total source files**: 679
 - **Total test files**: 128
-- **Untested source files**: 558
+- **Untested source files**: 562
 - **Orphaned test files**: 10
 - **Coverage**: 17%
 
@@ -53,6 +53,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/useMetadataCache.ts` | **5.8** | 7 | 6 | 5 | 2 | 3 |
 | `client/src/utils/booking/partsTotals.ts` | **5.8** | 5 | 6 | 10 | 0 | 1 |
 | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
+| `client/src/composables/admin/useBusinessRules.ts` | **5.7** | 7 | 5 | 5 | 4 | 2 |
 | `client/src/utils/ternary/ternaryUtils.ts` | **5.7** | 4 | 7 | 10 | 0 | 3 |
 | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | **5.6** | 7 | 5 | 6 | 1 | 2 |
 | `client/src/composables/admin/useFieldMetadataUpdate.ts` | **5.6** | 5 | 5 | 10 | 1 | 2 |
@@ -66,7 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `server/src/db/models/booking/appointment.ts` | **5.5** | 6 | 5 | 8 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | **5.4** | 7 | 5 | 5 | 1 | 2 |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | **5.3** | 5 | 7 | 6 | 0 | 5 |
-| `client/src/composables/admin/useFieldInputSetup.ts` | **5.3** | 5 | 5 | 9 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 

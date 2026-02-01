@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-31T23:49:18.346Z",
+  "generatedAt": "2026-02-01T00:31:00.726Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -310,6 +310,46 @@
       "file": "client/src/composables/admin/useBlockInstanceForm.ts",
       "line": 46,
       "code": "export interface UseBlockInstanceFormReturn {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: RequiredFieldsRuleConfig (type)",
+      "file": "client/src/composables/admin/useBusinessRules.ts",
+      "line": 32,
+      "code": "export interface RequiredFieldsRuleConfig {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: RequiresAgentRuleConfig (type)",
+      "file": "client/src/composables/admin/useBusinessRules.ts",
+      "line": 43,
+      "code": "export interface RequiresAgentRuleConfig {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: ConditionalValidationRuleConfig (type)",
+      "file": "client/src/composables/admin/useBusinessRules.ts",
+      "line": 53,
+      "code": "export interface ConditionalValidationRuleConfig {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: ValidationMessageRuleConfig (type)",
+      "file": "client/src/composables/admin/useBusinessRules.ts",
+      "line": 66,
+      "code": "export interface ValidationMessageRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2224,7 +2264,7 @@
       "type": "unused-export",
       "message": "Unused export: UseContactsValidationReturn (type)",
       "file": "client/src/composables/booking/useContactsValidation.ts",
-      "line": 33,
+      "line": 34,
       "code": "export type UseContactsValidationReturn = UseStepValidationReturn",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3910,7 +3950,7 @@
       "type": "unused-export",
       "message": "Unused export: GlobalEntityMap (type)",
       "file": "client/src/types/entities.ts",
-      "line": 126,
+      "line": 136,
       "code": "export type GlobalEntityMap = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4865,7 +4905,7 @@
       "type": "unused-export",
       "message": "Unused export: BookingTransformer (class)",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 90,
+      "line": 92,
       "code": "export class BookingTransformer {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4935,7 +4975,7 @@
       "type": "unused-function",
       "message": "Unused function: ensureMaxWorkHours",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 253,
+      "line": 254,
       "code": "const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -4944,7 +4984,7 @@
       "type": "unused-function",
       "message": "Unused function: ensureRangeConstraints",
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "line": 440,
+      "line": 441,
       "code": "const ensureRangeConstraints = (current: RangeConstraints | undefined) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5421,7 +5461,7 @@
       "type": "unused-function",
       "message": "Unused function: whereWithParentId",
       "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 314,
+      "line": 315,
       "code": "const whereWithParentId = (() => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5430,7 +5470,7 @@
       "type": "unused-function",
       "message": "Unused function: whereClause",
       "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 330,
+      "line": 331,
       "code": "const whereClause = (() => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -6006,6 +6046,53 @@
       ],
       "score": 9,
       "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: RequiredFieldsRuleConfig (type)",
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "line": 32,
+          "code": "export interface RequiredFieldsRuleConfig {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: RequiresAgentRuleConfig (type)",
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "line": 43,
+          "code": "export interface RequiresAgentRuleConfig {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: ConditionalValidationRuleConfig (type)",
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "line": 53,
+          "code": "export interface ConditionalValidationRuleConfig {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: ValidationMessageRuleConfig (type)",
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "line": 66,
+          "code": "export interface ValidationMessageRuleConfig {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 12,
+      "priority": "P0"
     },
     {
       "repoPath": "client/src/composables/admin/useConditionalFieldVisibility.ts",
@@ -8572,7 +8659,7 @@
           "type": "unused-export",
           "message": "Unused export: UseContactsValidationReturn (type)",
           "file": "client/src/composables/booking/useContactsValidation.ts",
-          "line": 33,
+          "line": 34,
           "code": "export type UseContactsValidationReturn = UseStepValidationReturn",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10909,7 +10996,7 @@
           "type": "unused-export",
           "message": "Unused export: GlobalEntityMap (type)",
           "file": "client/src/types/entities.ts",
-          "line": 126,
+          "line": 136,
           "code": "export type GlobalEntityMap = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12228,7 +12315,7 @@
           "type": "unused-export",
           "message": "Unused export: BookingTransformer (class)",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 90,
+          "line": 92,
           "code": "export class BookingTransformer {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12319,7 +12406,7 @@
           "type": "unused-function",
           "message": "Unused function: ensureMaxWorkHours",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 253,
+          "line": 254,
           "code": "const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -12328,7 +12415,7 @@
           "type": "unused-function",
           "message": "Unused function: ensureRangeConstraints",
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "line": 440,
+          "line": 441,
           "code": "const ensureRangeConstraints = (current: RangeConstraints | undefined) => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -12959,7 +13046,7 @@
           "type": "unused-function",
           "message": "Unused function: whereWithParentId",
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 314,
+          "line": 315,
           "code": "const whereWithParentId = (() => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -12968,7 +13055,7 @@
           "type": "unused-function",
           "message": "Unused function: whereClause",
           "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-          "line": 330,
+          "line": 331,
           "code": "const whereClause = (() => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -13120,18 +13207,18 @@
     }
   ],
   "recommendations": [
-    "Found 464 unused export(s) - review for removal",
+    "Found 468 unused export(s) - review for removal",
     "Found 3 commented-out export(s) - review and clean up",
     "Found 93 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 596 file(s) (478 client, 118 server). Found 563 issue(s): 464 unused exports, 3 commented exports, 93 unused functions, 3 TODO markers",
+  "summary": "Scanned 600 file(s) (480 client, 120 server). Found 567 issue(s): 468 unused exports, 3 commented exports, 93 unused functions, 3 TODO markers",
   "summaryData": {
-    "totalFiles": 596,
+    "totalFiles": 600,
     "skippedFilesCount": 0,
-    "filesWithIssues": 293,
-    "totalIssues": 563,
-    "unusedExports": 464,
+    "filesWithIssues": 294,
+    "totalIssues": 567,
+    "unusedExports": 468,
     "commentedExports": 3,
     "unusedFunctions": 93,
     "todoMarkers": 3,

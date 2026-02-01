@@ -9,9 +9,9 @@ Scope:
 
 ## Summary
 
-- Total errors: **46**
-- Total warnings: **256**
-- Files with issues: **72**
+- Total errors: **50**
+- Total warnings: **257**
+- Files with issues: **73**
 
 ## Categories
 
@@ -20,8 +20,8 @@ Scope:
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
 | Exposed Secrets | P0 | 1220 | 0 | 244 |
 | Security Configuration | P2 | 0 | 0 | 0 |
-| CSRF Protection | P0 | 504 | 42 | 0 |
-| Authentication Patterns | P0 | 60 | 0 | 12 |
+| CSRF Protection | P0 | 552 | 46 | 0 |
+| Authentication Patterns | P0 | 65 | 0 | 13 |
 | IDOR Vulnerabilities | P0 | 48 | 4 | 0 |
 
 ## Issues by File (sorted by priority)
@@ -123,25 +123,25 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 ### `server/src/routes/internal/relationships/relationshipRouter.ts` [P0] (score: 106)
 
-- ❌ **Missing CSRF protection on POST route** (line 434)
+- ❌ **Missing CSRF protection on POST route** (line 435)
   - Route: /:relationshipType (POST)
-- ❌ **Missing CSRF protection on PATCH route** (line 741)
+- ❌ **Missing CSRF protection on PATCH route** (line 742)
   - Route: /instanceComponents/:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 782)
+- ❌ **Missing CSRF protection on DELETE route** (line 783)
   - Route: /instanceComponents/:id (DELETE)
-- ❌ **Missing CSRF protection on PATCH route** (line 842)
+- ❌ **Missing CSRF protection on PATCH route** (line 843)
   - Route: /annotationAssignments/:blockInstanceId/:annotationId (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 888)
+- ❌ **Missing CSRF protection on DELETE route** (line 889)
   - Route: /:relationshipType/:parentId/:childId (DELETE)
-- ❌ **Missing CSRF protection on POST route** (line 434)
+- ❌ **Missing CSRF protection on POST route** (line 435)
   - Route: /:relationshipType (POST)
-- ❌ **Missing CSRF protection on PATCH route** (line 741)
+- ❌ **Missing CSRF protection on PATCH route** (line 742)
   - Route: /instanceComponents/:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 782)
+- ❌ **Missing CSRF protection on DELETE route** (line 783)
   - Route: /instanceComponents/:id (DELETE)
-- ❌ **Missing CSRF protection on PATCH route** (line 842)
+- ❌ **Missing CSRF protection on PATCH route** (line 843)
   - Route: /annotationAssignments/:blockInstanceId/:annotationId (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 888)
+- ❌ **Missing CSRF protection on DELETE route** (line 889)
   - Route: /:relationshipType/:parentId/:childId (DELETE)
 - ⚠️ **Sensitive routes detected without authentication** (line 1)
 - ⚠️ **Sensitive routes detected without authentication** (line 1)
@@ -203,6 +203,27 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ⚠️ **Potential console.log with secret found** (line 203)
 - ⚠️ **Potential console.log with secret found** (line 208)
 - ⚠️ **Potential console.log with secret found** (line 224)
+
+### `server/src/routes/internal/businessRulesRouter.ts` [P0] (score: 86)
+
+- ❌ **Missing CSRF protection on POST route** (line 114)
+  - Route: / (POST)
+- ❌ **Missing CSRF protection on PUT route** (line 161)
+  - Route: /:id (PUT)
+- ❌ **Missing CSRF protection on PATCH route** (line 208)
+  - Route: /:id (PATCH)
+- ❌ **Missing CSRF protection on DELETE route** (line 240)
+  - Route: /:id (DELETE)
+- ❌ **Missing CSRF protection on POST route** (line 114)
+  - Route: / (POST)
+- ❌ **Missing CSRF protection on PUT route** (line 161)
+  - Route: /:id (PUT)
+- ❌ **Missing CSRF protection on PATCH route** (line 208)
+  - Route: /:id (PATCH)
+- ❌ **Missing CSRF protection on DELETE route** (line 240)
+  - Route: /:id (DELETE)
+- ⚠️ **Sensitive routes detected without authentication** (line 1)
+- ⚠️ **Sensitive routes detected without authentication** (line 1)
 
 ### `server/src/routes/internal/businessSettingsRouter.ts` [P0] (score: 86)
 

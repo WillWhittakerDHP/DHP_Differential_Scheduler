@@ -55,15 +55,9 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
   const { required, email } = useFormValidation()
 
   /**
-   * LEARNING: Form validation rules (now with conditional agent fields)
-   * WHY: Defines validation rules for each contact form field
-   * PATTERN: Object with field names as keys and arrays of ValidationRule as values
-   * SESSION 1.5.3: Agent fields now conditionally required based on selected services
-   * WHY: Some services require agent (e.g., Buyers Inspection), others don't
-   * PATTERN: Use requiresAgent parameter to determine if agent fields are required
-   * LEARNING: Use centralized validation strings from config
-   * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
-   * PATTERN: Import validation strings from config file instead of defining inline
+   * WHY: Agent fields conditionally required based on selected services (some require agent, others don't)
+   * PATTERN: requiresAgent parameter determines if agent validation rules apply
+   * LEARNING: Centralized validation strings from config reduce hardcoding
    */
   const validationRules: Record<string, ValidationRule[]> = {
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
@@ -106,10 +100,8 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
   }
 
   /**
-   * LEARNING: Create reactive rules that exclude optional fields when not visible
-   * WHY: Validation rules should only apply to visible fields
-   * PATTERN: Computed property that dynamically builds rules object
-   * SESSION 1.5.3: Agent fields now conditionally included based on requiresAgent flag
+   * WHY: Validation rules only apply to visible/required fields (reactive rules based on flags)
+   * PATTERN: Computed property dynamically builds rules object based on requiresAgent
    */
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {
