@@ -44,11 +44,11 @@ const OUT_JSON = path.join(OUT_DIR, 'pattern-detection-audit.json')
 const OUT_MD = path.join(OUT_DIR, 'pattern-detection-audit.md')
 const CONFIG_PATH = path.join(OUT_DIR, 'pattern-detection-audit-config.json')
 
-const AUDIT_TYPE = 'pattern-detection'
+const _AUDIT_TYPE = 'pattern-detection'
 
 // Minimum occurrences to consider a pattern significant
 const MIN_STRING_LITERAL_OCCURRENCES = 3
-const MIN_TYPE_USAGE_OCCURRENCES = 2
+const _MIN_TYPE_USAGE_OCCURRENCES = 2
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true })
@@ -58,7 +58,7 @@ function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
 }
 
-function toStableId(repoPath) {
+function _toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
 }
 
@@ -251,7 +251,7 @@ function scanFile(filePath, allFiles, configAllowlist) {
         })
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Skip files we can't read
   }
   
@@ -588,13 +588,13 @@ function main() {
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
   
   // Load priority config
-  let priorityConfig = {}
+  let _priorityConfig = {}
   try {
     if (fs.existsSync(CONFIG_PATH)) {
       const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
-      priorityConfig = JSON.parse(configRaw)
+      _priorityConfig = JSON.parse(configRaw)
     }
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 

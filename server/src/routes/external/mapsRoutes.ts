@@ -15,6 +15,7 @@ import {
   getCachedDriveTime, 
   cacheDriveTime, 
   getDriveTimeCacheStats,
+  getAllCachedDriveTimes,
   clearDriveTimeCache
 } from '../../services/driveTimeCache.js';
 
@@ -492,13 +493,18 @@ router.get('/debug/rate-limit', (_req: Request, res: Response): void => {
 /**
  * GET /api/v1/external/maps/debug/drive-time-cache
  * 
- * Get drive time cache statistics
+ * Get drive time cache statistics and entries
  * 
- * LEARNING: Debug endpoint for monitoring cache performance
- * WHY: Helps verify caching is working correctly
+ * LEARNING: Debug endpoint for monitoring cache performance and viewing cached entries
+ * WHY: Helps verify caching is working correctly and inspect cached drive times
+ * PATTERN: Matches freebusy-cache and events-cache endpoint structure
  * 
  * Response:
- *   Drive time cache statistics
+ *   {
+ *     stats: { totalEntries, oldestEntryAge, memoryEstimateBytes },
+ *     entries: [{ key, data: { durationSeconds, distanceMeters }, timestamp, age, expired }],
+ *     totalEntries: number
+ *   }
  */
 router.get('/debug/drive-time-cache', (_req: Request, res: Response): void => {
   // Only allow in development
@@ -507,8 +513,40 @@ router.get('/debug/drive-time-cache', (_req: Request, res: Response): void => {
     return;
   }
   
-  const stats = getDriveTimeCacheStats();
-  res.json(stats);
+  try {
+    const stats = getDriveTimeCacheStats();
+    const entries = getAllCachedDriveTimes();
+    
+    // Convert Map to array for JSON serialization
+    const entriesArray = Array.from(entries.entries()).map(([key, entry]) => ({
+      key,
+      data: {
+        durationSeconds: entry.durationSeconds,
+        distanceMeters: entry.distanceMeters,
+        durationMinutes: Math.ceil(entry.durationSeconds / 60),
+        distanceMiles: Math.round(entry.distanceMeters / 1609.34 * 10) / 10
+      },
+      timestamp: entry.timestamp,
+      age: Date.now() - entry.timestamp,
+      expired: (Date.now() - entry.timestamp) > (24 * 60 * 60 * 1000) // 24 hour TTL
+    }));
+    
+    res.json({
+      stats: {
+        totalEntries: stats.totalEntries,
+        oldestEntryAge: stats.oldestEntryAge,
+        memoryUsage: stats.memoryEstimateBytes
+      },
+      entries: entriesArray,
+      totalEntries: entries.size
+    });
+  } catch (error: any) {
+    console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message || 'An unexpected error occurred'
+    });
+  }
 });
 
 /**

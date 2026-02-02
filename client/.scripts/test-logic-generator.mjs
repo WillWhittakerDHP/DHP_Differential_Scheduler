@@ -18,11 +18,11 @@ import readline from 'node:readline'
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
 const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const _PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
 
 const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
 const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const SRC_DIR = IS_CLIENT_DIR
+const _SRC_DIR = IS_CLIENT_DIR
   ? path.join(CWD, 'src')
   : path.join(CWD, 'client', 'src')
 
@@ -31,7 +31,7 @@ const AUDIT_DIR = IS_CLIENT_DIR
   : path.join(CWD, 'client', '.audit-reports')
 const AUDIT_JSON = path.join(AUDIT_DIR, 'test-audit.json')
 
-function toRepoPath(absPath) {
+function _toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
 }
 
@@ -50,6 +50,7 @@ function loadAuditData() {
  */
 function extractFunctionDetails(contents, functionName) {
   // Try to find function definition
+  // eslint-disable-next-line security/detect-non-literal-regexp
   const functionRegex = new RegExp(
     `export\\s+(?:async\\s+)?function\\s+${functionName}\\s*\\(([^)]*)\\)\\s*(?::\\s*([^{]+))?`,
     's'
@@ -58,6 +59,7 @@ function extractFunctionDetails(contents, functionName) {
   
   if (!match) {
     // Try const arrow function
+    // eslint-disable-next-line security/detect-non-literal-regexp
     const arrowRegex = new RegExp(
       `export\\s+const\\s+${functionName}\\s*=\\s*(?:async\\s+)?\\(([^)]*)\\)\\s*(?::\\s*([^{=]+))?\\s*=>`,
       's'
@@ -141,7 +143,7 @@ function extractBehaviors(contents) {
 /**
  * Identify edge cases from code structure
  */
-function identifyEdgeCases(contents, functionName) {
+function identifyEdgeCases(contents, _functionName) {
   const edgeCases = []
   
   // Check for null/undefined handling
@@ -342,6 +344,7 @@ function hasPlaceholderTests(content, functionName) {
   
   // Only check if this function's tests exist - look for the describe block
   const escapedName = functionName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  // eslint-disable-next-line security/detect-non-literal-regexp
   const functionTestRegex = new RegExp(
     `describe\\(['"]${escapedName}['"].*?\\{([\\s\\S]*?)\\s*\\}`,
     'm'
@@ -368,6 +371,7 @@ function replacePlaceholderTests(content, functionName, newTestCode) {
   let endIdx = -1
   
   // Find the start of the describe block
+  // eslint-disable-next-line security/detect-non-literal-regexp
   const startPattern = new RegExp(`describe\\(['"]${escapedName}['"]`, 'm')
   const startMatch = content.match(startPattern)
   
@@ -623,9 +627,9 @@ async function interactiveTestGeneration() {
     console.log('   3. Run tests: npm run test')
     console.log('   4. Run audit again: npm run audit:test')
     
-  } catch (error) {
-    console.error('❌ Error:', error.message)
-    console.error(error.stack)
+  } catch (_error) {
+    console.error('❌ Error:', _error.message)
+    console.error(_error.stack)
   } finally {
     rl.close()
   }
@@ -725,8 +729,8 @@ function main() {
         console.log(JSON.stringify(result, null, 2))
         console.log('---ENDRESULT---')
       }
-    } catch (error) {
-      console.error('Error:', error.message)
+    } catch (_error) {
+      console.error('Error:', _error.message)
       process.exit(1)
     }
   } else {

@@ -197,7 +197,7 @@ function extractReplacement(line) {
 function extractDeprecatedItem(lines, lineIndex) {
   const currentLine = lines[lineIndex]
   const nextLine = lines[lineIndex + 1] || ''
-  const prevLine = lines[lineIndex - 1] || ''
+  const _prevLine = lines[lineIndex - 1] || ''
   
   // Try to extract from current line (inline comment after property)
   // e.g., "propertyId?: string | null; // Deprecated"

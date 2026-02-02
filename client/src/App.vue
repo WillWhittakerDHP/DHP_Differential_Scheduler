@@ -13,13 +13,32 @@
       
       <!-- 
         Dev Panel System (dev mode only) 
-        LEARNING: Only show booking wizard dev panel on non-admin routes
-        WHY: Admin page has its own ApiDevPanel for API debugging
+        LEARNING: Show both dev panels on non-admin routes (wizard)
+        WHY: Wizard needs both booking debug panel and API debug panel
+        PATTERN: Conditionally render based on route
+      -->
+      <!-- 
+        Dev Panel System (dev mode only) 
+        LEARNING: Show both dev panels on non-admin routes (wizard)
+        WHY: Wizard needs both booking debug panel and API debug panel
         PATTERN: Conditionally render based on route
       -->
       <template v-if="isDevMode && !isAdminRoute">
         <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
-        <DevPanelToggle @toggle="debugPanelVisible = !debugPanelVisible" />
+        <ApiDevPanel :visible="apiDevPanelVisible" @close="apiDevPanelVisible = false" />
+        <DevPanelToggle class="wizard-debug-toggle" @toggle="debugPanelVisible = !debugPanelVisible" />
+        <VBtn
+          size="small"
+          color="error"
+          variant="elevated"
+          class="wizard-api-toggle"
+          @click="apiDevPanelVisible = !apiDevPanelVisible"
+        >
+          <span class="button-label">api</span>
+          <VTooltip activator="parent" location="left">
+            API Dev Panel
+          </VTooltip>
+        </VBtn>
       </template>
     </VApp>
   </VLocaleProvider>
@@ -41,6 +60,7 @@ import { useRoute } from 'vue-router'
 import AppNotification from '@/components/AppNotification.vue'
 import DevPanelToggle from '@/components/booking/dev/DevPanelToggle.vue'
 import DevPanelsContainer from '@/components/booking/dev/DevPanelsContainer.vue'
+import ApiDevPanel from '@/components/admin/dev/ApiDevPanel.vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
@@ -76,6 +96,7 @@ useGlobal()
 // PATTERN: Reactive ref passed as prop to DevPanelsContainer
 const isDevMode = isDevModeEnabled()
 const debugPanelVisible = ref(false)
+const apiDevPanelVisible = ref(false)
 
 const devPanelButtons = ref<{
   selectedAppointmentId: Ref<string | null>
@@ -96,6 +117,46 @@ provide('devPanelButtons', devPanelButtons)
 #app {
   width: 100%;
   min-height: 100vh;
+}
+
+/* Wizard dev panel buttons - positioned at top-right, stacked vertically */
+.wizard-debug-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.wizard-api-toggle {
+  position: fixed;
+  top: 72px; /* 24px (top) + 48px (button height + gap) */
+  right: 24px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.wizard-api-toggle .button-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+@media (max-width: 960px) {
+  .wizard-debug-toggle {
+    top: 16px;
+    right: 16px;
+  }
+  
+  .wizard-api-toggle {
+    top: 64px; /* 16px (top) + 48px (button height + gap) */
+    right: 16px;
+  }
 }
 </style>
 

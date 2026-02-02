@@ -41,7 +41,7 @@ const OUT_JSON = path.join(OUT_DIR, 'security-audit.json')
 const OUT_MD = path.join(OUT_DIR, 'security-audit.md')
 const CONFIG_PATH = path.join(OUT_DIR, 'security-audit-config.json')
 
-const AUDIT_TYPE = 'security'
+const _AUDIT_TYPE = 'security'
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true })
@@ -87,7 +87,7 @@ function listFilesRecursive(dirPath) {
         files.push(fullPath)
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Skip directories we can't read
   }
   
@@ -195,7 +195,7 @@ function checkDependencies() {
           }
         }
       }
-    } catch (error) {
+    } catch (_error) {
       // npm audit may fail if vulnerabilities exist, but we've parsed the output
     }
   }
@@ -228,7 +228,7 @@ function checkDependencies() {
           }
         }
       }
-    } catch (error) {
+    } catch (_error) {
       // npm audit may fail if vulnerabilities exist
     }
   }
@@ -272,7 +272,7 @@ function checkSecrets(files) {
         for (const { pattern, name, severity } of SECRET_PATTERNS) {
           const matches = Array.from(line.matchAll(pattern))
           
-          for (const match of matches) {
+          for (const _match of matches) {
             // Skip if it's a comment explaining why it's safe
             if (line.trim().startsWith('//') && (line.includes('safe') || line.includes('example'))) {
               continue
@@ -299,7 +299,7 @@ function checkSecrets(files) {
           }
         }
       })
-    } catch (error) {
+    } catch (_error) {
       // Skip files we can't read
     }
   }
@@ -355,7 +355,7 @@ function checkConfig() {
             message: 'Default username detected',
           })
         }
-      } catch (error) {
+      } catch (_error) {
         // Skip files we can't read
       }
     }
@@ -380,7 +380,7 @@ function checkConfig() {
         if (/helmet/i.test(content)) {
           hasHelmet = true
         }
-      } catch (error) {
+      } catch (_error) {
         // Skip
       }
     }
@@ -436,7 +436,7 @@ function checkCSRF(files) {
           globalCSRF = true
           break
         }
-      } catch (error) {
+      } catch (_error) {
         // Skip
       }
     }
@@ -455,6 +455,7 @@ function checkCSRF(files) {
       lines.forEach((line, index) => {
         // Check for state-changing methods
         for (const method of STATE_CHANGING_METHODS) {
+          // eslint-disable-next-line security/detect-non-literal-regexp
           const methodPattern = new RegExp(`\\.${method}\\s*\\(`, 'gi')
           if (methodPattern.test(line)) {
             // Check if CSRF protection exists in file
@@ -483,7 +484,7 @@ function checkCSRF(files) {
           }
         }
       })
-    } catch (error) {
+    } catch (_error) {
       // Skip files we can't read
     }
   }
@@ -525,7 +526,7 @@ function checkAuth(files) {
           globalAuth = true
           break
         }
-      } catch (error) {
+      } catch (_error) {
         // Skip
       }
     }
@@ -539,7 +540,7 @@ function checkAuth(files) {
     
     try {
       const content = fs.readFileSync(absPath, 'utf-8')
-      const lines = content.split('\n')
+      const _lines = content.split('\n')
       
       // Check if file has auth patterns
       const hasAuth = AUTH_PATTERNS.some(pattern => pattern.test(content))
@@ -567,7 +568,7 @@ function checkAuth(files) {
         
         warnings.push(issue)
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files we can't read
     }
   }
@@ -638,7 +639,7 @@ function checkIDOR(files) {
         
         errors.push(issue)
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files we can't read
     }
   }
@@ -755,7 +756,7 @@ function main() {
       const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
       priorityConfig = JSON.parse(configRaw)
     }
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
   

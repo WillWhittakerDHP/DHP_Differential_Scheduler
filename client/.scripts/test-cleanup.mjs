@@ -16,11 +16,11 @@ import path from 'node:path'
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
 const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const _PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
 
 const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
 const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const SRC_DIR = IS_CLIENT_DIR
+const _SRC_DIR = IS_CLIENT_DIR
   ? path.join(CWD, 'src')
   : path.join(CWD, 'client', 'src')
 
@@ -73,7 +73,7 @@ function generateTestStub(repoPath, fileData) {
   const baseName = path.basename(repoPath, path.extname(repoPath))
   const isComposable = composables.length > 0
   const isTransformer = repoPath.includes('/transformers/')
-  const isUtility = repoPath.includes('/utils/') && !isTransformer
+  const _isUtility = repoPath.includes('/utils/') && !isTransformer
   
   // Determine import path (use @/ alias)
   const importPath = repoPath.replace(/\.ts$/, '').replace(/\.tsx$/, '').replace(/^src\//, '@/')

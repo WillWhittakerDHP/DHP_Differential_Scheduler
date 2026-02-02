@@ -162,7 +162,7 @@ function extractComposables(contents) {
 /**
  * Extract class methods (public methods that should be tested)
  */
-function extractClassMethods(contents, className) {
+function extractClassMethods(contents, _className) {
   const methods = new Set()
   
   // public methodName(...) or methodName(...) [defaults to public in JS/TS]
@@ -182,7 +182,7 @@ function extractClassMethods(contents, className) {
 /**
  * Analyze test file to see what it tests
  */
-function analyzeTestFile(contents, testFilePath) {
+function analyzeTestFile(contents, _testFilePath) {
   const testedItems = new Set()
   const testPatterns = []
   
@@ -190,7 +190,7 @@ function analyzeTestFile(contents, testFilePath) {
   const importRegex = /import\s+.*\s+from\s+['"]([^'"]+)['"]/g
   let m
   while ((m = importRegex.exec(contents)) !== null) {
-    const importPath = m[1]
+    const _importPath = m[1]
     // Extract function/class names from imports
     const namedImportRegex = /import\s+\{([^}]+)\}\s+from/
     const namedMatch = contents.match(namedImportRegex)
@@ -446,7 +446,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
   

@@ -154,6 +154,7 @@ function extractEntityKeysBestEffort() {
 function makeEntityKeyRegex(entityKeys) {
   if (!entityKeys.length) return null
   const escaped = entityKeys.map(k => k.replaceAll(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'))
+  // eslint-disable-next-line security/detect-non-literal-regexp
   return new RegExp(`['"](?:${escaped.join('|')})['"]`, 'g')
 }
 
@@ -401,7 +402,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 

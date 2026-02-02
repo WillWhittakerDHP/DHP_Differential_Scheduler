@@ -23,7 +23,7 @@ defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
-const activeTab = ref<'oauth' | 'freebusy' | 'events' | 'ratelimit'>('oauth')
+const activeTab = ref<'oauth' | 'freebusy' | 'events' | 'ratelimit' | 'drivetime'>('oauth')
 const panelRef = ref<HTMLElement | null>(null)
 
 // API data state
@@ -31,17 +31,20 @@ const oauthStatus = ref<any>(null)
 const freeBusyCache = ref<any>(null)
 const eventsCache = ref<any>(null)
 const rateLimitStats = ref<any>(null)
+const driveTimeCache = ref<any>(null)
 const loading = ref({
   oauth: false,
   freebusy: false,
   events: false,
-  ratelimit: false
+  ratelimit: false,
+  drivetime: false
 })
 const errors = ref({
   oauth: null as string | null,
   freebusy: null as string | null,
   events: null as string | null,
-  ratelimit: null as string | null
+  ratelimit: null as string | null,
+  drivetime: null as string | null
 })
 
 // API base URL for external routes
@@ -118,6 +121,23 @@ async function fetchRateLimitStats() {
 }
 
 /**
+ * Fetch drive time cache
+ */
+async function fetchDriveTimeCache() {
+  loading.value.drivetime = true
+  errors.value.drivetime = null
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/v1/external/maps/debug/drive-time-cache`)
+    driveTimeCache.value = response.data
+  } catch (error: any) {
+    errors.value.drivetime = error.response?.data?.message || error.message || 'Failed to fetch drive time cache'
+    console.error('[ApiDevPanel] Error fetching drive time cache:', error)
+  } finally {
+    loading.value.drivetime = false
+  }
+}
+
+/**
  * Fetch all data
  */
 async function fetchAll() {
@@ -125,7 +145,8 @@ async function fetchAll() {
     fetchOAuthStatus(),
     fetchFreeBusyCache(),
     fetchEventsCache(),
-    fetchRateLimitStats()
+    fetchRateLimitStats(),
+    fetchDriveTimeCache()
   ])
 }
 
@@ -144,6 +165,9 @@ watch(activeTabWatcher, (newTab) => {
       break
     case 'ratelimit':
       if (!rateLimitStats.value) fetchRateLimitStats()
+      break
+    case 'drivetime':
+      if (!driveTimeCache.value) fetchDriveTimeCache()
       break
   }
 })
@@ -192,6 +216,7 @@ function formatTTL(ttl: number): string {
           <VTab value="freebusy">Free-Busy Cache</VTab>
           <VTab value="events">Events Cache</VTab>
           <VTab value="ratelimit">Rate Limiter</VTab>
+          <VTab value="drivetime">Drive Time Cache</VTab>
         </VTabs>
 
         <!-- Tab Content -->
@@ -437,6 +462,87 @@ function formatTTL(ttl: number): string {
                   >
                     {{ Math.round(rateLimitStats.utilizationPercent) }}%
                   </VProgressLinear>
+                </div>
+              </VCardText>
+            </VCard>
+          </VWindowItem>
+
+          <!-- Drive Time Cache Tab -->
+          <VWindowItem value="drivetime">
+            <div class="d-flex justify-space-between align-center mb-3">
+              <h3 class="text-h6">Drive Time Cache</h3>
+              <VBtn
+                size="small"
+                :loading="loading.drivetime"
+                @click="fetchDriveTimeCache"
+              >
+                Refresh
+              </VBtn>
+            </div>
+
+            <VAlert
+              v-if="errors.drivetime"
+              type="error"
+              class="mb-3"
+            >
+              {{ errors.drivetime }}
+            </VAlert>
+
+            <VCard v-if="driveTimeCache" variant="outlined">
+              <VCardText>
+                <div class="mb-3">
+                  <strong>Cache Stats:</strong>
+                  <ul>
+                    <li>Total Entries: {{ driveTimeCache.stats?.totalEntries || 0 }}</li>
+                    <li>Memory Usage: ~{{ Math.round((driveTimeCache.stats?.memoryUsage || 0) / 1024) }} KB</li>
+                    <li v-if="driveTimeCache.stats?.oldestEntryAge !== null">
+                      Oldest Entry: {{ driveTimeCache.stats.oldestEntryAge }} minutes old
+                    </li>
+                  </ul>
+                </div>
+                
+                <div v-if="driveTimeCache.entries && driveTimeCache.entries.length > 0">
+                  <strong>Cached Entries ({{ driveTimeCache.entries.length }}):</strong>
+                  <VExpansionPanels class="mt-2">
+                    <VExpansionPanel
+                      v-for="(entry, index) in driveTimeCache.entries"
+                      :key="index"
+                    >
+                      <VExpansionPanelTitle>
+                        <span style="font-size: 0.85rem; word-break: break-all;">
+                          {{ entry.key.length > 60 ? entry.key.substring(0, 60) + '...' : entry.key }}
+                        </span>
+                        <VChip
+                          :color="entry.expired ? 'error' : 'success'"
+                          size="small"
+                          class="ml-2"
+                        >
+                          {{ entry.expired ? 'Expired' : 'Valid' }}
+                        </VChip>
+                      </VExpansionPanelTitle>
+                      <VExpansionPanelText>
+                        <div class="mb-2">
+                          <strong>Duration:</strong> {{ entry.data.durationMinutes }} min ({{ entry.data.durationSeconds }}s)
+                        </div>
+                        <div class="mb-2">
+                          <strong>Distance:</strong> {{ entry.data.distanceMiles }} miles ({{ entry.data.distanceMeters }}m)
+                        </div>
+                        <div class="mb-2">
+                          <strong>Age:</strong> {{ Math.round(entry.age / 1000) }}s ({{ Math.round(entry.age / 60000) }} min)
+                        </div>
+                        <div class="mb-2">
+                          <strong>TTL:</strong> 24 hours
+                        </div>
+                        <div>
+                          <strong>Full Key:</strong>
+                          <pre class="mt-2" style="max-height: 100px; overflow-y: auto; font-size: 0.75rem;">{{ entry.key }}</pre>
+                        </div>
+                      </VExpansionPanelText>
+                    </VExpansionPanel>
+                  </VExpansionPanels>
+                </div>
+                <div v-else class="text-body-2 text-medium-emphasis">
+                  No cached entries
                 </div>
               </VCardText>
             </VCard>

@@ -291,7 +291,7 @@ function loadPatternDetectionCandidates() {
       const data = JSON.parse(fs.readFileSync(patternJson, 'utf8'))
       return data.candidates || null
     }
-  } catch (error) {
+  } catch (_error) {
     // Pattern-detection not run or invalid, continue without candidates
   }
   return null
@@ -461,7 +461,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 

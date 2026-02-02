@@ -114,73 +114,126 @@ async function calculateConstraintDriveTime(
     return constraint
   }
   
-  if (constraint.type === 'driveTimeTo' && defaultLocation) {
-    // Drive time TO appointment: from default location to first event
-    // WHY: First event represents the earliest appointment, so drive time applies to all slots before it
-    const firstEvent = eventsForDate[0]
-    const destination = eventPlaceIdToRouteLocation(firstEvent.placeId)
-    
-    if (destination) {
-      const source = defaultLocationToRouteLocation(defaultLocation)
-      const driveTime = await fetchDriveTime(source, destination, constraint.minutes)
-      
-      if (driveTime && driveTime.minutes !== constraint.minutes) {
-        return { ...constraint, minutes: driveTime.minutes }
-      }
-    }
-  } else if (constraint.type === 'driveTimeFrom' && defaultLocation) {
-    // Drive time FROM appointment: from last event to default location
-    // WHY: Last event represents the latest appointment, so drive time applies to all slots after it
-    const lastEvent = eventsForDate[eventsForDate.length - 1]
-    const source = eventPlaceIdToRouteLocation(lastEvent.placeId)
-    
-    if (source) {
-      const destination = defaultLocationToRouteLocation(defaultLocation)
-      const driveTime = await fetchDriveTime(source, destination, constraint.minutes)
-      
-      if (driveTime && driveTime.minutes !== constraint.minutes) {
-        return { ...constraint, minutes: driveTime.minutes }
-      }
-    }
-  }
-  
-  // Return original constraint if no calculation performed
-  return constraint
-
-  // Calculate drive time with fallback to static minutes
+  // Calculate drive time based on constraint type
   try {
-    const result = await fetchDriveTime(
-      origin,
-      destination,
-      true, // useTraffic
-      constraint.minutes // fallbackMinutes
-    )
-
-    if (!result) {
-      logger.warn('[calculateConstraintDriveTime] No route found, using static minutes')
+    if (constraint.type === 'driveTimeTo' && defaultLocation) {
+      // Drive time TO appointment: from default location to first event
+      // WHY: First event represents the earliest appointment, so drive time applies to all slots before it
+      const firstEvent = eventsForDate[0]
+      const destination = eventPlaceIdToRouteLocation(firstEvent.placeId)
+      
+      if (!destination) {
+        logger.warn(
+          `[calculateConstraintDriveTime] No placeId for first event (${firstEvent.summary || 'unnamed'}), ` +
+          `using static minutes: ${constraint.minutes}`
+        )
+        return constraint
+      }
+      
+      const source = defaultLocationToRouteLocation(defaultLocation)
+      logger.debug(
+        `[calculateConstraintDriveTime] Calculating driveTimeTo: defaultLocation → first event ` +
+        `(fallback: ${constraint.minutes} min)`
+      )
+      
+      const driveTime = await fetchDriveTime(
+        source,
+        destination,
+        true, // useTraffic
+        constraint.minutes // fallbackMinutes
+      )
+      
+      if (!driveTime) {
+        logger.warn('[calculateConstraintDriveTime] No route found, using static minutes')
+        return constraint
+      }
+      
+      // Use calculated minutes if source is calculated or cached
+      if (driveTime._meta?.source === 'calculated' || driveTime._meta?.source === 'cache') {
+        logger.debug(
+          `[calculateConstraintDriveTime] Calculated driveTimeTo: ${driveTime.durationMinutes} min ` +
+          `(source: ${driveTime._meta.source}, was: ${constraint.minutes} min)`
+        )
+        return { ...constraint, minutes: driveTime.durationMinutes }
+      }
+      
+      // If source is 'estimated' (fallback), keep original constraint
+      logger.debug(
+        `[calculateConstraintDriveTime] Using estimated/fallback value for driveTimeTo, ` +
+        `keeping static minutes: ${constraint.minutes}`
+      )
+      return constraint
+      
+    } else if (constraint.type === 'driveTimeFrom' && defaultLocation) {
+      // Drive time FROM appointment: from last event to default location
+      // WHY: Last event represents the latest appointment, so drive time applies to all slots after it
+      const lastEvent = eventsForDate[eventsForDate.length - 1]
+      const source = eventPlaceIdToRouteLocation(lastEvent.placeId)
+      
+      if (!source) {
+        logger.warn(
+          `[calculateConstraintDriveTime] No placeId for last event (${lastEvent.summary || 'unnamed'}), ` +
+          `using static minutes: ${constraint.minutes}`
+        )
+        return constraint
+      }
+      
+      const destination = defaultLocationToRouteLocation(defaultLocation)
+      logger.debug(
+        `[calculateConstraintDriveTime] Calculating driveTimeFrom: last event → defaultLocation ` +
+        `(fallback: ${constraint.minutes} min)`
+      )
+      
+      const driveTime = await fetchDriveTime(
+        source,
+        destination,
+        true, // useTraffic
+        constraint.minutes // fallbackMinutes
+      )
+      
+      if (!driveTime) {
+        logger.warn('[calculateConstraintDriveTime] No route found, using static minutes')
+        return constraint
+      }
+      
+      // Use calculated minutes if source is calculated or cached
+      if (driveTime._meta?.source === 'calculated' || driveTime._meta?.source === 'cache') {
+        logger.debug(
+          `[calculateConstraintDriveTime] Calculated driveTimeFrom: ${driveTime.durationMinutes} min ` +
+          `(source: ${driveTime._meta.source}, was: ${constraint.minutes} min)`
+        )
+        return { ...constraint, minutes: driveTime.durationMinutes }
+      }
+      
+      // If source is 'estimated' (fallback), keep original constraint
+      logger.debug(
+        `[calculateConstraintDriveTime] Using estimated/fallback value for driveTimeFrom, ` +
+        `keeping static minutes: ${constraint.minutes}`
+      )
       return constraint
     }
-
-    // Use calculated minutes if available
-    if (result._meta?.source === 'calculated' || result._meta?.source === 'cache') {
-      logger.debug(
-        `[calculateConstraintDriveTime] Calculated drive time: ${result.durationMinutes} min ` +
-        `(source: ${result._meta.source}, constraint: ${constraint.type})`
-      )
-      return {
-        ...constraint,
-        minutes: result.durationMinutes
-      }
-    }
-
-    // If source is 'estimated' (fallback), keep original constraint
+    
+    // No calculation performed (missing defaultLocation or constraint type not handled)
     logger.debug(
-      `[calculateConstraintDriveTime] Using estimated/fallback value, keeping static minutes: ${constraint.minutes}`
+      `[calculateConstraintDriveTime] Skipping calculation for ${constraint.type} ` +
+      `(defaultLocation: ${defaultLocation ? 'present' : 'missing'})`
     )
     return constraint
-
+    
   } catch (error) {
-    logger.error('[calculateConstraintDriveTime] Error calculating drive time:', error)
+    // Error during calculation - log with context and return original constraint (fallback to static minutes)
+    logger.error(
+      `[calculateConstraintDriveTime] Error calculating ${constraint.type} drive time:`,
+      error instanceof Error ? error.message : String(error),
+      {
+        constraintType: constraint.type,
+        applyTo: constraint.applyTo,
+        fallbackMinutes: constraint.minutes,
+        hasDefaultLocation: !!defaultLocation,
+        eventCount: eventsForDate.length,
+        slotDate: slotDate.toISOString()
+      }
+    )
     // Return original constraint on error (fallback to static minutes)
     return constraint
   }
@@ -211,22 +264,62 @@ export async function calculateDriveTimeConstraints(
     return constraints
   }
 
+  const startTime = performance.now()
   logger.debug(
-    `[calculateDriveTimeConstraints] Calculating drive times for ${driveTimeConstraints.length} constraints`
+    `[calculateDriveTimeConstraints] Calculating drive times for ${driveTimeConstraints.length} constraints ` +
+    `(date: ${context.slotDate.toISOString().split('T')[0]})`
   )
 
-  // Calculate drive times for all drive time constraints in parallel
-  const calculatedConstraints = await Promise.all(
-    driveTimeConstraints.map(constraint => calculateConstraintDriveTime(constraint, context))
-  )
-
-  // Replace original constraints with calculated ones
-  const result = constraints.map(constraint => {
-    const calculated = calculatedConstraints.find(
-      c => c.type === constraint.type && c.applyTo === constraint.applyTo
+  try {
+    // Calculate drive times for all drive time constraints in parallel
+    const calculatedConstraints = await Promise.all(
+      driveTimeConstraints.map(constraint => calculateConstraintDriveTime(constraint, context))
     )
-    return calculated || constraint
-  })
 
-  return result
+    const duration = performance.now() - startTime
+    const calculatedCount = calculatedConstraints.filter(
+      c => c.minutes !== constraints.find(orig => 
+        orig.type === c.type && orig.applyTo === c.applyTo
+      )?.minutes
+    ).length
+
+    logger.debug(
+      `[calculateDriveTimeConstraints] Completed in ${duration.toFixed(0)}ms: ` +
+      `${calculatedCount}/${driveTimeConstraints.length} constraints updated ` +
+      `(${duration < 2000 ? '✓' : '⚠'} performance: ${duration < 2000 ? 'good' : 'slow'})`
+    )
+
+    // Warn if performance is slow
+    if (duration >= 2000) {
+      logger.warn(
+        `[calculateDriveTimeConstraints] Performance warning: calculation took ${duration.toFixed(0)}ms ` +
+        `(target: <2000ms). Consider optimizing or reducing parallel calculations.`
+      )
+    }
+
+    // Replace original constraints with calculated ones
+    const result = constraints.map(constraint => {
+      const calculated = calculatedConstraints.find(
+        c => c.type === constraint.type && c.applyTo === constraint.applyTo
+      )
+      return calculated || constraint
+    })
+
+    return result
+    
+  } catch (error) {
+    const duration = performance.now() - startTime
+    logger.error(
+      `[calculateDriveTimeConstraints] Failed after ${duration.toFixed(0)}ms:`,
+      error instanceof Error ? error.message : String(error),
+      {
+        constraintCount: driveTimeConstraints.length,
+        slotDate: context.slotDate.toISOString(),
+        hasDefaultLocation: !!context.defaultLocation,
+        eventCount: context.calendarEvents?.length || 0
+      }
+    )
+    // Return original constraints on error (fallback to static values)
+    return constraints
+  }
 }

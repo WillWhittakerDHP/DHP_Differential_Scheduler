@@ -993,6 +993,41 @@ const emailValidationRule = (value: string): true | string => {
                   <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
                   <VExpansionPanel :title="UI_STRINGS.panels.driveTimeToBuffer">
                     <VExpansionPanelText>
+                      <!-- Session 2.2.3: Drive time source indicator -->
+                      <VAlert
+                        v-if="defaultLocationPlaceId"
+                        type="success"
+                        variant="tonal"
+                        density="compact"
+                        class="mb-4"
+                      >
+                        <template #prepend>
+                          <VIcon>mdi-map-marker-check</VIcon>
+                        </template>
+                        <div class="text-body-2">
+                          <strong>Calculated Drive Times</strong>
+                        </div>
+                        <div class="text-caption">
+                          Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.
+                        </div>
+                      </VAlert>
+                      <VAlert
+                        v-else
+                        type="info"
+                        variant="tonal"
+                        density="compact"
+                        class="mb-4"
+                      >
+                        <template #prepend>
+                          <VIcon>mdi-information</VIcon>
+                        </template>
+                        <div class="text-body-2">
+                          <strong>Estimated Drive Times</strong>
+                        </div>
+                        <div class="text-caption">
+                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.
+                        </div>
+                      </VAlert>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
                         {{ UI_STRINGS.help.driveTimeToDescription }}
                       </div>
@@ -1039,6 +1074,41 @@ const emailValidationRule = (value: string): true | string => {
                   <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
                   <VExpansionPanel :title="UI_STRINGS.panels.driveTimeFromBuffer">
                     <VExpansionPanelText>
+                      <!-- Session 2.2.3: Drive time source indicator -->
+                      <VAlert
+                        v-if="defaultLocationPlaceId"
+                        type="success"
+                        variant="tonal"
+                        density="compact"
+                        class="mb-4"
+                      >
+                        <template #prepend>
+                          <VIcon>mdi-map-marker-check</VIcon>
+                        </template>
+                        <div class="text-body-2">
+                          <strong>Calculated Drive Times</strong>
+                        </div>
+                        <div class="text-caption">
+                          Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.
+                        </div>
+                      </VAlert>
+                      <VAlert
+                        v-else
+                        type="info"
+                        variant="tonal"
+                        density="compact"
+                        class="mb-4"
+                      >
+                        <template #prepend>
+                          <VIcon>mdi-information</VIcon>
+                        </template>
+                        <div class="text-body-2">
+                          <strong>Estimated Drive Times</strong>
+                        </div>
+                        <div class="text-caption">
+                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.
+                        </div>
+                      </VAlert>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
                         {{ UI_STRINGS.help.driveTimeFromDescription }}
                       </div>

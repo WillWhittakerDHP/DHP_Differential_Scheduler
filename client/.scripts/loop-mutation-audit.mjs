@@ -3,7 +3,6 @@ import path from 'node:path'
 import {
   loadConfigAllowlist,
   categorizeMatches,
-  renderAllowedExceptionsSection,
   summarizeExceptions,
   checkConfigAllowlist,
 } from './audit-exceptions.mjs'
@@ -197,7 +196,7 @@ function scanLines(lines) {
  * @param {string} repoPath - File path for context-aware detection
  * @returns {boolean} True if mutation should be excluded
  */
-function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, repoPath = '') {
+function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, _repoPath = '') {
   // Vue ref assignments - legitimate reactive state updates
   if (mutationRuleId === 'assignProp' && /\.value\s*=/.test(mutationLine)) {
     return true
@@ -420,7 +419,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 

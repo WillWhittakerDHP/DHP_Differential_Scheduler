@@ -1,10 +1,11 @@
 <script setup lang="ts">
 /**
- * Dev Panels Container Component
+ * Slot Dev Panel Component (formerly DevPanelsContainer)
  * 
- * LEARNING: Unified floating container for dev mode debug panels
+ * LEARNING: Unified floating container for slot/wizard dev mode debug panels
  * WHY: Provides tabbed interface for switching between different debug panels
  * PATTERN: Teleport to body, fixed positioning, tab interface with VWindow
+ * NOTE: Renamed from DevPanelsContainer to distinguish from ApiDevPanel
  */
 
 import { ref, inject, computed, onMounted, onUnmounted, watch, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
@@ -40,7 +41,8 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
-const activeTab = ref<'slotShape' | 'finalizedParts' | 'services' | 'constraints' | 'calendar'>('slotShape')
+const activeTab = ref<'slotShape' | 'instances' | 'constraints' | 'calendar'>('slotShape')
+const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
 
 // WHY: AvailabilityStep updates shared state, DevPanelsContainer reads it
@@ -554,13 +556,9 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
           <VIcon size="small" class="mr-2">tabler-chart-bar</VIcon>
           Durations
         </VTab>
-        <VTab value="finalizedParts">
+        <VTab value="instances">
           <VIcon size="small" class="mr-2">tabler-package</VIcon>
-          Part
-        </VTab>
-        <VTab value="services">
-          <VIcon size="small" class="mr-2">tabler-settings</VIcon>
-          Services
+          Instances
         </VTab>
         <VTab value="constraints">
           <VIcon size="small" class="mr-2">tabler-lock</VIcon>
@@ -631,13 +629,28 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             </div>
           </VWindowItem>
 
-          <!-- Tab 2: Finalized Parts -->
-          <VWindowItem value="finalizedParts">
-            <div class="pa-3">
-              <div v-if="finalizedParts.length > 0" class="mb-4">
-                <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
-                  Finalized Parts
-                </VCardTitle>
+          <!-- Tab 2: Instances (with sub-tabs for Parts and Blocks) -->
+          <VWindowItem value="instances">
+            <div class="pa-0">
+              <!-- Sub-tabs for Instances -->
+              <VTabs v-model="activeInstancesSubTab" density="compact" color="info" class="px-3 pt-2">
+                <VTab value="parts">
+                  <VIcon size="small" class="mr-2">tabler-package</VIcon>
+                  Parts
+                </VTab>
+                <VTab value="blocks">
+                  <VIcon size="small" class="mr-2">tabler-settings</VIcon>
+                  Blocks
+                </VTab>
+              </VTabs>
+              
+              <VWindow v-model="activeInstancesSubTab" class="pa-3">
+                <!-- Sub-tab: Parts -->
+                <VWindowItem value="parts">
+                  <div v-if="finalizedParts.length > 0" class="mb-4">
+                    <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
+                      Finalized Parts
+                    </VCardTitle>
                 <VRow dense class="ma-0">
                   <VCol
                     v-for="(part, index) in finalizedParts"
@@ -685,20 +698,18 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                   </VCol>
                 </VRow>
               </div>
-              <div v-else class="text-center pa-4 text-medium-emphasis">
-                No finalized parts available
-              </div>
-            </div>
-          </VWindowItem>
-
-          <!-- Tab 3: Selected Services -->
-          <VWindowItem value="services">
-            <div class="pa-3">
-              <!-- Service Type Dropdown -->
-              <div class="mb-4">
-                <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
-                  Change Service Type
-                </VCardTitle>
+                  <div v-else class="text-center pa-4 text-medium-emphasis">
+                    No finalized parts available
+                  </div>
+                </VWindowItem>
+                
+                <!-- Sub-tab: Blocks (formerly Services) -->
+                <VWindowItem value="blocks">
+                  <!-- Service Type Dropdown -->
+                  <div class="mb-4">
+                    <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
+                      Change Service Type
+                    </VCardTitle>
                 <VSelect
                   :model-value="selectedServiceTypeId"
                   :items="serviceTypeOptions"
@@ -729,10 +740,10 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                 </VChip>
               </div>
               
-              <!-- Selected Services Summary -->
+              <!-- Selected Blocks Summary -->
               <div v-if="servicesSummary.length > 0" class="mb-4">
                 <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">
-                  Selected Services
+                  Selected Blocks
                 </VCardTitle>
                 <VList density="compact">
                   <VListItem
@@ -778,10 +789,12 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                   </VListItem>
                 </VList>
               </div>
+                </VWindowItem>
+              </VWindow>
             </div>
           </VWindowItem>
 
-          <!-- Tab 4: Active Constraints -->
+          <!-- Tab 3: Active Constraints -->
           <VWindowItem value="constraints">
             <div class="pa-3">
               <div class="mb-4">
@@ -822,15 +835,27 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                       </div>
                     </VCard>
                   </VCol>
-                  <VCol v-if="availabilitySettingsValue?.buffers?.driveTime" cols="auto">
+                  <VCol v-if="availabilitySettingsValue?.buffers?.driveTimeTo && availabilitySettingsValue.buffers.driveTimeTo.applyTo !== 'none'" cols="auto">
                     <VCard variant="outlined" density="compact" class="pa-2">
-                      <div class="text-caption text-medium-emphasis">Drive Time Buffer</div>
+                      <div class="text-caption text-medium-emphasis">Drive Time To</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ availabilitySettingsValue.buffers.driveTime.minutes }} min
+                        {{ availabilitySettingsValue.buffers.driveTimeTo.minutes }} min
                       </div>
                       <div class="text-caption">
-                        ({{ availabilitySettingsValue.buffers.driveTime.placement }}, 
-                        {{ availabilitySettingsValue.buffers.driveTime.enforcement }})
+                        ({{ availabilitySettingsValue.buffers.driveTimeTo.applyTo }}, 
+                        {{ availabilitySettingsValue.buffers.driveTimeTo.enforcement }})
+                      </div>
+                    </VCard>
+                  </VCol>
+                  <VCol v-if="availabilitySettingsValue?.buffers?.driveTimeFrom && availabilitySettingsValue.buffers.driveTimeFrom.applyTo !== 'none'" cols="auto">
+                    <VCard variant="outlined" density="compact" class="pa-2">
+                      <div class="text-caption text-medium-emphasis">Drive Time From</div>
+                      <div class="text-body-2 font-weight-medium">
+                        {{ availabilitySettingsValue.buffers.driveTimeFrom.minutes }} min
+                      </div>
+                      <div class="text-caption">
+                        ({{ availabilitySettingsValue.buffers.driveTimeFrom.applyTo }}, 
+                        {{ availabilitySettingsValue.buffers.driveTimeFrom.enforcement }})
                       </div>
                     </VCard>
                   </VCol>
@@ -851,7 +876,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             </div>
           </VWindowItem>
 
-          <!-- Tab 5: Free/Busy Data Source -->
+          <!-- Tab 4: Free/Busy Data Source -->
           <!-- Session 2.1.2: Updated with data source toggle -->
           <VWindowItem value="calendar">
             <div class="pa-3">

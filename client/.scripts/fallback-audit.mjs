@@ -136,7 +136,7 @@ function listFilesRecursive(dirPath, extensions) {
         }
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Directory might not exist or be inaccessible
   }
   
@@ -171,6 +171,7 @@ function scanFile(filePath) {
       
       // Check keyword patterns (case-insensitive)
       for (const { keyword, label } of KEYWORD_PATTERNS) {
+        // eslint-disable-next-line security/detect-non-literal-regexp
         const regex = new RegExp(`\\b${keyword}\\b`, 'i')
         if (regex.test(line)) {
           // Skip comments and strings to reduce false positives
@@ -300,7 +301,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(path.join(OUT_DIR, 'fallback-audit-config.json'), 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
   
@@ -361,8 +362,8 @@ function main() {
   } catch (error) {
     issues.push({
       severity: 'error',
-      message: `Failed to audit session-tier files: ${error instanceof Error ? error.message : String(error)}`,
-      file: toRepoPath(SESSION_TIER_PATH),
+      message: `Failed to audit files: ${error instanceof Error ? error.message : String(error)}`,
+      file: '',
     })
   }
   

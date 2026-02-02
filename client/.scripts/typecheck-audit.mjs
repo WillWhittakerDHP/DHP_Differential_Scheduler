@@ -3,7 +3,6 @@ import path from 'node:path'
 import childProcess from 'node:child_process'
 import {
   parseInlineExceptions,
-  renderAllowedExceptionsSection,
 } from './audit-exceptions.mjs'
 
 /**
@@ -115,6 +114,7 @@ function simpleGlobMatch(filePath, pattern) {
   }
   
   try {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     const regex = new RegExp(regexStr)
     return regex.test(normalizedPath)
   } catch {
@@ -353,6 +353,7 @@ function scoreSeverity(code, config) {
 
 function compileRegexes(patterns) {
   if (!Array.isArray(patterns)) return []
+  // eslint-disable-next-line security/detect-non-literal-regexp
   return patterns.map((p) => new RegExp(p, 'g'))
 }
 
@@ -477,7 +478,7 @@ function main() {
   // Combine outputs
   const clientCombined = `${clientCheck.stdout}\n${clientCheck.stderr}`.trim()
   const serverCombined = `${serverCheck.stdout}\n${serverCheck.stderr}`.trim()
-  const combined = `${clientCombined}\n${serverCombined}`.trim()
+  const _combined = `${clientCombined}\n${serverCombined}`.trim()
   
   const clientErrors = parseTscOutput(clientCombined).map(e => ({ ...e, scope: 'client' }))
   const serverErrors = parseTscOutput(serverCombined).map(e => ({ ...e, scope: 'server' }))

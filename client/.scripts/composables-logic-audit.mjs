@@ -30,7 +30,7 @@ import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mj
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
 const CLIENT_SRC = path.join(CWD, 'src')
-const PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
+const _PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
 
 // If src exists in cwd, we're in client/; otherwise assume project root
 const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
@@ -476,7 +476,7 @@ function main() {
   try {
     const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
     priorityConfig = JSON.parse(configRaw)
-  } catch (error) {
+  } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 

@@ -52,7 +52,7 @@ const apiDevPanelVisible = ref(false)
       v-if="isDevMode"
       icon
       size="small"
-      color="info"
+      color="error"
       variant="elevated"
       class="admin-dev-panel-toggle"
       @click="apiDevPanelVisible = !apiDevPanelVisible"
@@ -117,7 +117,7 @@ const apiDevPanelVisible = ref(false)
 /* Fixed position FAB for dev panel toggle - matches global booking wizard toggle */
 .admin-dev-panel-toggle {
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   right: 24px;
   z-index: 999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -125,7 +125,7 @@ const apiDevPanelVisible = ref(false)
 
 @media (max-width: 960px) {
   .admin-dev-panel-toggle {
-    bottom: 16px;
+    top: 16px;
     right: 16px;
   }
 }

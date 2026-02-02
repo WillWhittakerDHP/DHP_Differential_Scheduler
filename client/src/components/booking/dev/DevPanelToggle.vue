@@ -37,14 +37,13 @@ onUnmounted(() => {
 <template>
   <VBtn
     v-if="isDevMode"
-    icon
     size="small"
     color="info"
     variant="elevated"
     class="dev-panel-toggle"
     @click.stop="emit('toggle')"
   >
-    <VIcon>tabler-bug</VIcon>
+    <span class="button-label">slot</span>
     <VTooltip activator="parent" location="left">
       Debug Panel (Ctrl+Shift+D)
     </VTooltip>
@@ -53,15 +52,17 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .dev-panel-toggle {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
   
-  @media (max-width: 960px) {
-    bottom: 16px;
-    right: 16px;
+  .button-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: lowercase;
   }
 }
 </style>

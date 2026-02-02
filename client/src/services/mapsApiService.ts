@@ -389,6 +389,7 @@ export async function fetchDriveTime(
     throw new MapsApiError('invalid', 'Destination must have placeId, coordinates, or address')
   }
   
+  const startTime = performance.now()
   logger.debug('[fetchDriveTime] Calculating drive time', fallbackMinutes !== undefined ? `(fallback: ${fallbackMinutes} min)` : '')
   
   try {
@@ -427,18 +428,38 @@ export async function fetchDriveTime(
       `${API_BASE_URL}/api/v1/external/maps/drive-time?${params.toString()}`
     )
     
+    const duration = performance.now() - startTime
     const source = response.data._meta?.source || 'calculated'
     logger.debug(
       `[fetchDriveTime] Got result: ${response.data.durationMinutes} minutes ` +
-      `(source: ${source})`
+      `(source: ${source}, duration: ${duration.toFixed(0)}ms${duration >= 2000 ? ' ⚠ slow' : ''})`
     )
+    
+    // Warn if performance is slow
+    if (duration >= 2000) {
+      logger.warn(
+        `[fetchDriveTime] Performance warning: API call took ${duration.toFixed(0)}ms ` +
+        `(target: <2000ms). Origin: ${origin.placeId ? 'placeId' : origin.coordinates ? 'coordinates' : 'address'}, ` +
+        `Destination: ${destination.placeId ? 'placeId' : destination.coordinates ? 'coordinates' : 'address'}`
+      )
+    }
     
     return response.data
     
   } catch (error) {
+    const duration = performance.now() - startTime
+    const apiError = handleApiError(error)
+    
     // Handle 404 as "not found" - use fallback if available
     if (axios.isAxiosError(error) && error.response?.status === 404) {
-      logger.warn('[fetchDriveTime] No route found between locations')
+      logger.warn(
+        `[fetchDriveTime] No route found between locations (after ${duration.toFixed(0)}ms)`,
+        {
+          originType: origin.placeId ? 'placeId' : origin.coordinates ? 'coordinates' : 'address',
+          destinationType: destination.placeId ? 'placeId' : destination.coordinates ? 'coordinates' : 'address',
+          hasFallback: fallbackMinutes !== undefined
+        }
+      )
       if (fallbackMinutes !== undefined) {
         return {
           durationMinutes: fallbackMinutes,
@@ -453,9 +474,16 @@ export async function fetchDriveTime(
     
     // For other errors, use fallback if available
     if (fallbackMinutes !== undefined) {
-      const apiError = handleApiError(error)
       logger.warn(
-        `[fetchDriveTime] API error (${apiError.type}), using fallback: ${fallbackMinutes} minutes`
+        `[fetchDriveTime] API error (${apiError.type}) after ${duration.toFixed(0)}ms, ` +
+        `using fallback: ${fallbackMinutes} minutes`,
+        {
+          errorType: apiError.type,
+          errorMessage: apiError.message,
+          retryable: apiError.retryable,
+          originType: origin.placeId ? 'placeId' : origin.coordinates ? 'coordinates' : 'address',
+          destinationType: destination.placeId ? 'placeId' : destination.coordinates ? 'coordinates' : 'address'
+        }
       )
       return {
         durationMinutes: fallbackMinutes,
@@ -466,9 +494,18 @@ export async function fetchDriveTime(
       }
     }
     
-    // No fallback available - throw error
-    const apiError = handleApiError(error)
-    logger.error('[fetchDriveTime] Error:', apiError.type, apiError.message)
+    // No fallback available - throw error with context
+    logger.error(
+      `[fetchDriveTime] Error after ${duration.toFixed(0)}ms:`,
+      apiError.type,
+      apiError.message,
+      {
+        errorType: apiError.type,
+        retryable: apiError.retryable,
+        originType: origin.placeId ? 'placeId' : origin.coordinates ? 'coordinates' : 'address',
+        destinationType: destination.placeId ? 'placeId' : destination.coordinates ? 'coordinates' : 'address'
+      }
+    )
     throw apiError
   }
 }
