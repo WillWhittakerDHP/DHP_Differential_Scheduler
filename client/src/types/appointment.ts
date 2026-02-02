@@ -9,6 +9,7 @@
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { RFC3339DateTime, ISO8601Date } from './datetime'
 import type { PartFinal } from '@/utils/booking/PartFinal'
+import type { BlockFinal } from '@/utils/booking/BlockFinal'
 import type { EventInstance, EventShape } from './events'
 
 /**
@@ -144,21 +145,27 @@ export interface SlotShape {
 }
 
 /**
- * AppointmentShape: Time-independent structure (durations + finalized parts)
+ * AppointmentShape: Time-independent structure (durations + finalized blocks/parts)
  * Calculated once from block instances, then applied to each available start time
  * 
  * This is the "what does this appointment look like?" answer
  * 
- * LEARNING: Holds finalized parts (source of truth) and SlotShape (durations)
- * WHY: Finalized parts are the source of truth, SlotShape provides precomputed durations
- * PATTERN: Source data (finalizedParts) + computed totals (slotShape)
+ * LEARNING: Holds finalized blocks (source of truth) and SlotShape (durations)
+ * WHY: Finalized blocks preserve block-level context, SlotShape provides precomputed durations
+ * PATTERN: Source data (finalizedBlocks) + computed totals (slotShape)
+ * 
+ * BlockFinal Refactor: Added finalizedBlocks as source of truth
+ * WHY: Makes it explicit that we're finalizing blocks, preserving block-level context
+ * PATTERN: finalizedBlocks is source of truth, finalizedParts is derived for backward compatibility
  * 
  * LEARNING: Events are appointment-level features, not part-level properties
  * WHY: Events are configured at shape level (PartShape → EventInstance), parts determine which events apply
  * PATTERN: Store EventInstance[] keyed by partShape name on AppointmentShape
  */
 export interface AppointmentShape {
-  finalizedParts: PartFinal[]
+  finalizedBlocks: BlockFinal[]  // New: source of truth - finalized blocks
+  
+  finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility
   
   slotShape: SlotShape
   

@@ -19,10 +19,12 @@ import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import {
-  createPartFinals,
-  filterZeroedParts,
   calculateSlotShape
 } from './partFinalizer'
+import {
+  createBlockFinals,
+  filterZeroedBlocks
+} from './blockFinalizer'
 import { 
   getMajorEventShape, 
   getMinorEventShape 
@@ -208,17 +210,15 @@ export function buildAppointmentShape(
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   globalData?: GlobalData
 ): AppointmentShape {
-  // PATTERN: Functional approach - flatMap instead of forEach with push mutations
-  const allParts = blockInstances.flatMap(blockInstance => 
-    blockInstance.partInstances && blockInstance.partInstances.length > 0 
-      ? blockInstance.partInstances 
-      : []
-  )
-  
-  // PATTERN: Create finalized parts with rounding settings, then filter out zeroed parts
+  // PATTERN: Create finalized blocks with rounding settings, then filter out blocks with all zeroed parts
+  // LEARNING: Preserves block-level context instead of flattening immediately
   // DUAL-TRACK: Pass settings to compute roundedTime at part level
-  const allFinalizedParts = createPartFinals(allParts, settings || null)
-  const nonZeroedParts = filterZeroedParts(allFinalizedParts)
+  const allBlockFinals = createBlockFinals(blockInstances, settings || null)
+  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  
+  // PATTERN: Extract finalizedParts from BlockFinals for backward compatibility
+  // WHY: Maintains existing finalizedParts property while adding finalizedBlocks
+  const nonZeroedParts = nonZeroedBlockFinals.flatMap(blockFinal => blockFinal.finalizedParts)
   
   // PATTERN: Build eventAssignmentsByPartShape Record keyed by partShape name (aggregated from PartInstances)
   const eventAssignmentsByPartShape: Record<string, EventInstance[]> = {}
@@ -245,12 +245,14 @@ export function buildAppointmentShape(
   }
   
   // PATTERN: Use calculateSlotShape to get all durations in one pass
+  // LEARNING: Now passes BlockFinal[] instead of PartFinal[], making accumulation explicit
   // DUAL-TRACK: Rounding is now computed at part level, so rounded values are already in slotShape
   fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'appointmentSlotBuilder.ts:303',message:'buildAppointmentShape: before calculateSlotShape',data:{hasSettings:!!settings,settings:settings?{hasDifferentialPerspectives:!!settings.differentialPerspectives,differentialPerspectives:settings.differentialPerspectives?{majorAttendees:settings.differentialPerspectives.majorAttendees||[],minorAttendees:settings.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,eventShapesCount:eventShapes?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-  const slotShape = calculateSlotShape(nonZeroedParts, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
+  const slotShape = calculateSlotShape(nonZeroedBlockFinals, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
   
   const shape: AppointmentShape = {
-    finalizedParts: nonZeroedParts,
+    finalizedBlocks: nonZeroedBlockFinals,
+    finalizedParts: nonZeroedParts,  // Derived from finalizedBlocks for backward compatibility
     slotShape,
     eventAssignmentsByPartShape
   }
