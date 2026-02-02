@@ -42,11 +42,10 @@ function getStateControlBlockShapes(
   const filtered = blockShapes.filter(
     blockShape => {
       if (!blockShape.type) {
-        console.error(
-          `[getStateControlBlockShapes] Block shape "${blockShape.name}" (id: ${blockShape.id}) has no type defined. ` +
-          `All block shapes must have a type ('user', 'service', 'property', 'option'). ` +
-          `This block shape will be excluded from filtering.`
-        )
+        logger.error('Block shape has no type defined', {
+          blockShapeName: blockShape.name,
+          blockShapeId: blockShape.id
+        })
         return false
       }
       return blockShape.type === 'user'

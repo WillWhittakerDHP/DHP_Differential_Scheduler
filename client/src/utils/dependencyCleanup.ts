@@ -123,7 +123,13 @@ export async function cleanupInvalidActiveRelationships(
             queryClient.invalidateQueries({ queryKey: [affectedEntityKey] })
             queryClient.invalidateQueries({ queryKey: ['globalData'] })
           } catch (error) {
-            // PATTERN: Silently continue - relationship might already be deleted
+            // PATTERN: Continue - relationship might already be deleted, but log for debugging
+            logger.debug('Failed to delete invalid active relationship (may already be deleted)', { 
+              error, 
+              activeRelationshipKey, 
+              parentId: String(parentId), 
+              childId: String(childId) 
+            })
           }
         })
       )

@@ -1,5 +1,8 @@
 
 import { AUTCOMPLETE_OFF } from './autocomplete'
+import { createLogger } from './logger'
+
+const logger = createLogger('patchFormElements')
 
 export function patchFormElements(formElement: HTMLFormElement): void {
   try {
@@ -28,5 +31,6 @@ export function patchFormElements(formElement: HTMLFormElement): void {
       }
     }
   } catch (error) {
+    logger.debug('Failed to patch form elements', { error, formId: formElement.id })
   }
 }

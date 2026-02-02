@@ -69,6 +69,9 @@ import type { FieldComponent } from '../../../../utils/forms/fieldComponentDispa
 import type { FieldMetadataEntry } from '../../../../types/entityMetadata'
 import type { GlobalEntity } from '../../../../types/entities'
 import { useFieldContextMetadataEntity } from '../../../../composables/admin/useFieldContextMetadataEntity'
+import { createLogger } from '../../../../utils/logger'
+
+const logger = createLogger('FieldRenderer')
 
 interface Props {
   fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -221,8 +224,7 @@ watch(
     const reason = 'reason' in componentType ? componentType.reason : 'unknown'
     
     // PATTERN: Structured error logging with all relevant context
-    console.error('[FieldRenderer] Unknown input type detected', {
-      location: 'FieldRenderer.vue',
+    logger.error('Unknown input type detected', {
       componentType: componentType.type,
       reason: reason,
       fullComponentType: componentType,

@@ -2,6 +2,9 @@ import { computed, type Ref } from 'vue'
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getStateControlBlockInstances, getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useWizardFilteredOptions')
 
 /**
  * Generic cascade filter result
@@ -247,7 +250,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     const propertyTypeBlockShapeId = getBlockShapeIdByType(bookingData.value, BLOCK_SHAPE_TYPES.PROPERTY)
     
     if (!propertyTypeBlockShapeId) {
-      console.warn('[useWizardFilteredOptions] Property block shape (type="property") not found')
+      logger.warn('Property block shape (type="property") not found')
       return []
     }
     

@@ -39,6 +39,7 @@ export interface UseAppointmentSlotsParams {
   blockInstances: ComputedRef<BookingBlockInstance[]>
   availableStartTimes: ComputedRef<string[]>
   slotAvailability?: ComputedRef<Map<string, boolean>> // Optional: map of startTime -> isAvailable
+  slotViolations?: ComputedRef<Map<string, string[] | undefined>> // Optional: map of startTime -> flexibleViolations
   timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fallback
   selectedButtonIndex: Ref<number | null>
   perspective: ComputedRef<PerspectiveKey>
@@ -72,6 +73,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     blockInstances,
     availableStartTimes,
     slotAvailability,
+    slotViolations,
     timeSlotDurations,
     selectedButtonIndex,
     perspective,
@@ -100,8 +102,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
       const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
       
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:121',message:'Checking attendeeAssignments relationships',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships,relationshipKeys:globalData?.relationships?Object.keys(globalData.relationships):[],attendeeAssignmentsRelationships:attendeeAssignmentsRelationships.slice(0,5)},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
-      
       // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
       // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
       // WHY: Relationships are transformed to nested format with parent and children arrays
@@ -124,12 +124,10 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
           // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
           // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
           const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'Attaching attendees to event shape',data:{eventShapeId:eventShape.id,eventPerspective,attendeesCount:attendees.length,attendees,hasMatchingRel:!!matchingRel,matchingRelParentId:matchingRel?.parent?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
           return { ...eventShape, attendees }
         })
       } else {
         eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
-        fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:142',message:'No attendeeAssignments relationships found',data:{attendeeAssignmentsRelationshipsCount:attendeeAssignmentsRelationships.length,hasGlobalData:!!globalData,hasRelationships:!!globalData?.relationships},timestamp:Date.now(),sessionId:'debug-session',runId:'run3',hypothesisId:'F'})}).catch(()=>{});
       }
       
       const partShapes = getGlobalEntities('partShape')
@@ -138,7 +136,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       )
       
       // PATTERN: Extract events data from globalData and pass to builder
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:133',message:'buildAppointmentShape: before call',data:{hasSettings:!!settings.value,settings:settings.value?{hasDifferentialPerspectives:!!settings.value.differentialPerspectives,differentialPerspectives:settings.value.differentialPerspectives?{majorAttendees:settings.value.differentialPerspectives.majorAttendees||[],minorAttendees:settings.value.differentialPerspectives.minorAttendees||[]}:null}:null,hasGlobalData:!!globalData,instancesCount:instances.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'E'})}).catch(()=>{});
       const shape = buildAppointmentShape(
         instances, 
         settings.value,
@@ -165,11 +162,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     const times = availableStartTimes.value
     if (times.length === 0) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:195',message:'appointmentSlots: no times available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
       return []
     }
-    
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:192',message:'appointmentSlots: checking times',data:{timesCount:times.length,hasShape:!!shape,timesSample:times.slice(0,3)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
     
     const durations = timeSlotDurations?.value
     
@@ -178,6 +172,7 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     try {
       const availabilityMap = slotAvailability?.value
+      const violationsMap = slotViolations?.value
       
       const slots = times.map((time, index) => {
         const fallbackDuration = durations?.get(time)
@@ -186,19 +181,22 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         // PATTERN: Check availability map, default to true if not found (backward compatibility)
         const isAvailable = availabilityMap?.get(time) ?? true
         
+        // WHY: Get constraint violations for this slot for debugging overlay
+        // PATTERN: Read pre-computed violations, don't recalculate
+        const flexibleViolations = violationsMap?.get(time)
+        
         try {
           // PATTERN: Pass map index directly to builder, which uses it as buttonIndex
           const slot = applyShapeToTime(shape, time, index, fallbackDuration, isAvailable, globalData || undefined, settings.value || null)
-          return slot
+          // PATTERN: Add flexibleViolations to slot for debugging overlay
+          return { ...slot, flexibleViolations }
         } catch (error) {
-          fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:267',message:'appointmentSlots: error creating slot',data:{index,time,error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
           throw error
         }
       })
       
       return slots
     } catch (error) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:279',message:'appointmentSlots: error in computed',data:{error:error instanceof Error?error.message:String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run4',hypothesisId:'G'})}).catch(()=>{});
       logger.error('Error applying shape to times:', error)
       return []
     }
@@ -223,7 +221,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
   const graphBars = computed(() => {
     const slot = selectedSlot.value
     if (!slot) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:265',message:'graphBars: no selected slot',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
       return { major: null, minor: null }
     }
     
@@ -232,7 +229,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     // PATTERN: Return null if required data is not available
     if (!globalData || !availabilitySettingsValue?.differentialPerspectives) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:303',message:'graphBars: missing required data (no fallback)',data:{hasGlobalData:!!globalData,hasSettings:!!availabilitySettingsValue,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
       return { major: null, minor: null }
     }
     
@@ -241,7 +237,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     
     const shape = appointmentShape.value
     if (!shape || !shape.slotShape.eventFinals) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:316',message:'graphBars: missing shape/eventFinals (no fallback)',data:{hasShape:!!shape,hasEventFinals:!!shape?.slotShape.eventFinals,eventFinalsCount:shape?.slotShape.eventFinals?.length||0,isDifferentialService:isDifferentialService.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
       return { major: null, minor: null }
     }
     
@@ -257,11 +252,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
       : null
     
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:335',message:'graphBars: event shape lookup results',data:{isDifferentialService:isDifferentialService.value,majorAttendeeIds,minorAttendeeIds,eventShapeEntitiesCount:eventShapeEntities.length,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees})),majorEventShape:majorEventShape?{id:majorEventShape.id,name:majorEventShape.name,attendees:majorEventShape.attendees}:null,minorEventShape:minorEventShape?{id:minorEventShape.id,name:minorEventShape.name,attendees:minorEventShape.attendees}:null,rawDifferentialOffset:shape.slotShape.rawDifferentialOffset,roundedDifferentialOffset:shape.slotShape.roundedDifferentialOffset},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-    
     // PATTERN: Return null if event shapes are not found
     if (!majorEventShape) {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:345',message:'graphBars: major event shape not found (no fallback)',data:{majorAttendeeIds,eventShapeEntities:eventShapeEntities.map(es=>({id:es.id,name:es.name,attendees:es.attendees}))},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
       return { major: null, minor: null }
     }
     
@@ -274,8 +266,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
         ? (slot.eventTimeRanges?.[minorEventName] ?? null)
         : null
     }
-    
-    fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useAppointmentSlots.ts:360',message:'graphBars: final result',data:{majorEventName,minorEventName,hasMajorTimeRange:!!result.major,hasMinorTimeRange:!!result.minor,majorTimeRange:result.major?{startTime:result.major.startTime,endTime:result.major.endTime,duration:result.major.duration}:null,minorTimeRange:result.minor?{startTime:result.minor.startTime,endTime:result.minor.endTime,duration:result.minor.duration}:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
     
     return result
   })

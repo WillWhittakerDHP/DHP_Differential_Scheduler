@@ -9,7 +9,10 @@
  */
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
-import { getAvailabilitySettings, getCalendarEmailsArray, type CalendarConfig } from '@/configs/availabilitySettings'
+import { getAvailabilitySettings, getReadFromCalendars, type CalendarConfig } from '@/configs/availabilitySettings'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFreeBusyDataSource')
 
 /**
  * Data source modes for free/busy data
@@ -60,7 +63,7 @@ export interface UseFreeBusyDataSourceReturn {
 // Shared state - persists across component instances
 // LEARNING: Module-level refs are shared across all uses of this composable
 // WHY: Dev panel selection should affect all components using busy times
-const sharedDataSource = ref<FreeBusyDataSource>('mock')
+const sharedDataSource = ref<FreeBusyDataSource>('real')
 const sharedSkipCache = ref(false)
 const sharedRefreshKey = ref(0)
 
@@ -76,20 +79,20 @@ async function loadCalendarConfig(): Promise<void> {
   if (sharedSettingsLoaded.value) return
   
   try {
-    console.log('[useFreeBusyDataSource] Loading calendar config...')
+    logger.debug('Loading calendar config...')
     const settings = await getAvailabilitySettings()
     sharedCalendarConfig.value = settings.calendarConfig ?? null
     sharedSettingsLoaded.value = true
     
     // Log what was loaded for debugging
-    console.log('[useFreeBusyDataSource] Loaded calendar config:', {
+    logger.debug('Loaded calendar config', {
       enabled: sharedCalendarConfig.value?.enabled,
       provider: sharedCalendarConfig.value?.provider,
       calendars: sharedCalendarConfig.value?.calendars,
-      emailsArray: getCalendarEmailsArray(sharedCalendarConfig.value ?? undefined)
+      readFromEmails: getReadFromCalendars(sharedCalendarConfig.value ?? undefined)
     })
   } catch (error) {
-    console.error('[useFreeBusyDataSource] Failed to load settings:', error)
+    logger.error('Failed to load settings', { error })
     sharedSettingsLoaded.value = true // Don't retry on error
   }
 }
@@ -118,11 +121,12 @@ export function useFreeBusyDataSource(): UseFreeBusyDataSourceReturn {
   }
   
   /**
-   * Calendar emails from cached settings
-   * LEARNING: Reads from cached calendarConfig, returns empty array if not configured
+   * Calendar emails from cached settings (readFrom calendars only)
+   * LEARNING: Reads from cached calendarConfig, returns emails where readFrom is true
+   * WHY: Only calendars marked for reading should be checked for availability
    */
   const calendarEmails = computed<string[]>(() => {
-    return getCalendarEmailsArray(sharedCalendarConfig.value ?? undefined)
+    return getReadFromCalendars(sharedCalendarConfig.value ?? undefined)
   })
   
   /**

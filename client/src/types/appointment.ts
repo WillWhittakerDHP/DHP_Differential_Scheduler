@@ -186,6 +186,7 @@ export interface AppointmentShape {
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
+  flexibleViolations?: string[]  // Constraint types that blocked this slot (e.g., ['leadTime', 'capacity.daily'])
   orderIndex?: number  // Optional: normalized position for multiple appointments (0-based)
   
   // PATTERN: Reference shape, access slotShape via shape.slotShape

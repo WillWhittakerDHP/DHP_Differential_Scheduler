@@ -18,19 +18,24 @@ import { extractAllConstraints, ensureDateRangeInSettings } from '@/utils/bookin
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
 import { fetchCalendarEvents, type CalendarEvent } from '@/services/calendarApiService'
 import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
+import { useDriveTimeDataSource } from '@/composables/booking/useDriveTimeDataSource'
+import { createLogger } from '@/utils/logger'
 
 const { error: showErrorNotification } = useNotification()
+const logger = createLogger('useAvailableStartTimes')
 
 interface UseAvailableStartTimesParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
   settings?: Ref<AvailabilitySettings | null> // Optional: can be passed in or fetched internally
   appointmentDuration?: Ref<number | null> // Optional: duration in minutes to filter start times (ensures end time <= day end)
   busyTimes?: Ref<BusyTimeRange[]> // Optional: calendar busy periods
+  busyTimesLoading?: Ref<boolean> // Optional: whether busy times are currently loading
 }
 
 interface UseAvailableStartTimesReturn {
   availableStartTimes: ComputedRef<string[]> // All start times (available + busy)
   slotAvailability: ComputedRef<Map<string, boolean>> // Map of startTime -> isAvailable
+  slotViolations: ComputedRef<Map<string, string[] | undefined>> // Map of startTime -> flexibleViolations
   isLoading: Ref<boolean>
   error: Ref<Error | null>
 }
@@ -38,7 +43,7 @@ interface UseAvailableStartTimesReturn {
 export function useAvailableStartTimes(
   params: UseAvailableStartTimesParams
 ): UseAvailableStartTimesReturn {
-  const { selectedDate, settings: externalSettings, appointmentDuration, busyTimes } = params
+  const { selectedDate, settings: externalSettings, appointmentDuration, busyTimes, busyTimesLoading } = params
   
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
@@ -76,6 +81,14 @@ export function useAvailableStartTimes(
   watchEffect(async () => {
     if (!selectedDate.value.start) {
       slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
+    }
+    
+    // PATTERN: Wait for busy times to finish loading before generating slots
+    // WHY: Prevents race condition where slots are generated with stale busy times
+    // FIX: Skip slot generation while busy times are loading - watchEffect will re-run when loading completes
+    if (busyTimesLoading?.value) {
+      // Don't clear existing results - keep showing previous slots until new data is ready
       return
     }
     
@@ -194,7 +207,7 @@ export function useAvailableStartTimes(
         calendarEvents = eventArrays.flat()
       } catch (err) {
         // Log error but don't fail - drive times will use static fallback
-        console.warn('[useAvailableStartTimes] Failed to fetch calendar events for drive time calculation:', err)
+        logger.warn('Failed to fetch calendar events for drive time calculation', { error: err })
       }
     }
 
@@ -210,6 +223,9 @@ export function useAvailableStartTimes(
         busyTimes: busyPeriods,
         includeFlags: DEFAULT_INCLUDE_FLAGS
       }
+      // Get drive time data source
+      const { dataSource: driveTimeDataSource } = useDriveTimeDataSource()
+      
       const result = await fitAllTimeSlotsWithAvailability(
         slotGenParams, 
         rangeConstraints, 
@@ -217,7 +233,8 @@ export function useAvailableStartTimes(
         capacityConstraints,
         {
           defaultLocation: internalSettings.value.defaultLocation,
-          calendarEvents
+          calendarEvents,
+          driveTimeDataSource: driveTimeDataSource.value
         }
       )
       
@@ -251,9 +268,20 @@ export function useAvailableStartTimes(
     )
   })
   
+  // PATTERN: Computed that creates Map for violations from shared result
+  // WHY: Exposes flexibleViolations for debugging overlay to show WHY slots are blocked
+  const slotViolations = computed(() => {
+    const result = slotGenerationResult.value
+    
+    return new Map(
+      result.slots.map(slot => [slot.startTime, slot.flexibleViolations])
+    )
+  })
+  
   return {
     availableStartTimes,
     slotAvailability,
+    slotViolations,
     isLoading,
     error
   }

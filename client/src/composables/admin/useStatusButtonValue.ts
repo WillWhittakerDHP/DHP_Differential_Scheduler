@@ -7,6 +7,9 @@
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useStatusButtonValue')
 
 export function getStatusButtonBooleanValue<GE extends GlobalEntityKey>(
   entityKey: GE,
@@ -18,10 +21,11 @@ export function getStatusButtonBooleanValue<GE extends GlobalEntityKey>(
   const fieldValue = entityRecord[keyStr]
 
   if (fieldValue === undefined) {
-    console.error(
-      `[StatusButton] Status button field '${keyStr}' is configured in metadata for ${entityKey} but missing on entity. ` +
-      `Entity ID: ${entity.id}. Defaulting to false.`
-    )
+    logger.error('Status button field configured in metadata but missing on entity', {
+      entityKey,
+      fieldKey: keyStr,
+      entityId: entity.id
+    })
     return false
   }
 

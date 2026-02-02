@@ -11,6 +11,9 @@ import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useDragAndDrop')
 
 export type DragEndHandler = () => Promise<void>
 
@@ -109,7 +112,8 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
             },
           })
         } catch (error) {
-          // PATTERN: Silently handle error to prevent breaking Vue's mount process
+          // PATTERN: Handle error gracefully to prevent breaking Vue's mount process, but log for debugging
+          logger.debug('Failed to initialize drag and drop', { error, group })
         }
       })
     }, { immediate: true })

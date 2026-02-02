@@ -160,15 +160,50 @@ export interface DriveTimeConfig {
  * Default location for drive time calculations
  * LEARNING: Starting/ending point for first/last appointment drive times
  * WHY: Needed to calculate travel time from home/office to first appointment
- * PATTERN: Interface with address string and optional coordinates
+ * PATTERN: Interface with placeId as primary identifier, address optional for UI display
+ * Session 2.2.2: Added placeId for Routes API integration
  */
 export interface DefaultLocation {
-  address: string;
-  label?: string;
+  placeId: string;           // Google Place ID (primary location identifier)
+  address?: string;          // Address string for UI display only (optional, from autocomplete)
+  label?: string;            // Optional label like "Home Office", "Shop", etc.
   coordinates?: {
     lat: number;
     lng: number;
   };
+}
+
+/**
+ * Calendar provider type
+ * LEARNING: Identifies the calendar service provider
+ * WHY: Supports multiple calendar providers (Google, Outlook)
+ * PATTERN: Enum-like string literal union type
+ */
+export type CalendarProvider = 'google' | 'outlook' | 'none'
+
+/**
+ * Calendar entry with read/write permissions
+ * LEARNING: Individual calendar configuration with explicit permissions
+ * WHY: Allows admin to configure which calendars are read vs written to
+ * PATTERN: Interface with email, optional label, and permission flags
+ */
+export interface CalendarEntry {
+  email: string           // Calendar email address (e.g., "will@districthomepro.com")
+  label?: string          // Optional friendly name (e.g., "Work Calendar")
+  readFrom: boolean       // Check this calendar for availability (free-busy)
+  writeTo: boolean        // Create appointments on this calendar
+}
+
+/**
+ * Calendar configuration
+ * LEARNING: Configuration for which calendars to check for free-busy data and where to create events
+ * WHY: Allows admin to configure multiple calendar sources with explicit read/write permissions
+ * PATTERN: Dynamic array of calendar entries instead of fixed labeled fields
+ */
+export interface CalendarConfig {
+  enabled: boolean
+  provider: CalendarProvider
+  calendars: CalendarEntry[]  // Dynamic list instead of fixed object
 }
 
 export interface AvailabilitySettingsData {
@@ -214,6 +249,7 @@ export interface AvailabilitySettingsData {
     majorStateLabel?: string;  // State message when major perspective is selected (e.g., "Showing Major Times")
     minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
   };
+  calendarConfig?: CalendarConfig; // Calendar integration configuration
   defaultLocation?: DefaultLocation; // Starting/ending point for drive time calculations
 }
 

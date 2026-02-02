@@ -12,8 +12,10 @@ import axios, { AxiosError } from 'axios'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
+import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
 
 const logger = createLogger('calendarApiService')
+const { recordApiCall } = useApiCallStatus()
 
 // Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
@@ -175,12 +177,19 @@ export async function fetchFreeBusy(
     
     logger.debug('[fetchFreeBusy] Fetched', busyTimes.length, 'busy periods')
     
+    // Record successful API call
+    recordApiCall('freeBusy', 'hit')
+    
     return busyTimes
     
   } catch (error) {
     // Handle specific error types
     const apiError = handleApiError(error)
     logger.error('[fetchFreeBusy] Error:', apiError.type, apiError.message)
+    
+    // Record failed API call
+    recordApiCall('freeBusy', 'error')
+    
     throw apiError
   }
 }
@@ -338,11 +347,18 @@ export async function fetchCalendarEvents(
     
     logger.debug('[fetchCalendarEvents] Fetched', response.data.length, 'events')
     
+    // Record successful API call
+    recordApiCall('events', 'hit')
+    
     return response.data
     
   } catch (error) {
     const apiError = handleApiError(error)
     logger.error('[fetchCalendarEvents] Error:', apiError.type, apiError.message)
+    
+    // Record failed API call
+    recordApiCall('events', 'error')
+    
     throw apiError
   }
 }

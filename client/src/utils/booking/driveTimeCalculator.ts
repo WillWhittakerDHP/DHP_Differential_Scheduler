@@ -13,6 +13,7 @@ import type { DefaultLocation } from '@/configs/availabilitySettings'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import { fetchDriveTime, type RouteLocation } from '@/services/mapsApiService'
 import { createLogger } from '@/utils/logger'
+import type { DriveTimeDataSource } from '@/composables/booking/useDriveTimeDataSource'
 
 const logger = createLogger('driveTimeCalculator')
 
@@ -27,6 +28,7 @@ export interface DriveTimeCalculationContext {
   defaultLocation?: DefaultLocation
   calendarEvents?: CalendarEvent[]
   slotDate: Date
+  dataSource?: DriveTimeDataSource // 'default' | 'api' | 'both' | 'none'
 }
 
 /**
@@ -73,14 +75,41 @@ function eventPlaceIdToRouteLocation(placeId: string | undefined): RouteLocation
  * @returns Events on the specified date, sorted by start time
  */
 function getEventsForDate(events: CalendarEvent[], date: Date): CalendarEvent[] {
+  // LEARNING: Validate date before calling toISOString()
+  // WHY: Invalid dates throw "Invalid time value" error
+  // PATTERN: Check if date is valid before using
+  if (isNaN(date.getTime())) {
+    logger.warn('[getEventsForDate] Invalid date provided, returning empty array', { date })
+    return []
+  }
+  
   const dateStr = date.toISOString().split('T')[0] // YYYY-MM-DD
   
   return events
     .filter(event => {
-      const eventDate = new Date(event.start).toISOString().split('T')[0]
+      // LEARNING: Validate event.start before parsing
+      // WHY: Invalid event dates can cause errors
+      if (!event.start) {
+        return false
+      }
+      const eventDateObj = new Date(event.start)
+      if (isNaN(eventDateObj.getTime())) {
+        logger.warn('[getEventsForDate] Invalid event.start date, skipping event', { eventStart: event.start })
+        return false
+      }
+      const eventDate = eventDateObj.toISOString().split('T')[0]
       return eventDate === dateStr
     })
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+    .sort((a, b) => {
+      // LEARNING: Validate dates before sorting
+      // WHY: Invalid dates cause comparison errors
+      const aTime = new Date(a.start).getTime()
+      const bTime = new Date(b.start).getTime()
+      if (isNaN(aTime) || isNaN(bTime)) {
+        return 0 // Keep order if dates are invalid
+      }
+      return aTime - bTime
+    })
 }
 
 /**
@@ -101,7 +130,18 @@ async function calculateConstraintDriveTime(
     return constraint
   }
 
-  const { defaultLocation, calendarEvents, slotDate } = context
+  const { defaultLocation, calendarEvents, slotDate, dataSource = 'both' } = context
+  
+  // Handle data source modes
+  if (dataSource === 'none') {
+    // No drive time constraints applied
+    return { ...constraint, applyTo: 'none' }
+  }
+  
+  if (dataSource === 'default') {
+    // Use static fallback values only - skip API call
+    return constraint
+  }
   
   // Session 2.2.3: Simplified logic - calculate drive times for all constraints
   // Filtering by skipDayStart/skipDayEnd is handled by shouldApplyDriveTimeConstraint
@@ -188,10 +228,14 @@ async function calculateConstraintDriveTime(
         source,
         destination,
         true, // useTraffic
-        constraint.minutes // fallbackMinutes
+        dataSource === 'api' ? undefined : constraint.minutes // fallbackMinutes (only if 'both', not 'api')
       )
       
       if (!driveTime) {
+        if (dataSource === 'api') {
+          // 'api' mode: fail if no route found
+          throw new Error(`No route found for driveTimeFrom: ${source.placeId || 'unknown'} → ${destination.placeId || 'unknown'}`)
+        }
         logger.warn('[calculateConstraintDriveTime] No route found, using static minutes')
         return constraint
       }
@@ -205,7 +249,13 @@ async function calculateConstraintDriveTime(
         return { ...constraint, minutes: driveTime.durationMinutes }
       }
       
-      // If source is 'estimated' (fallback), keep original constraint
+      // If source is 'estimated' (fallback)
+      if (dataSource === 'api') {
+        // 'api' mode: fail if we got fallback
+        throw new Error(`DriveTime API returned estimated/fallback value for driveTimeFrom`)
+      }
+      
+      // 'both' mode: keep original constraint (fallback to static)
       logger.debug(
         `[calculateConstraintDriveTime] Using estimated/fallback value for driveTimeFrom, ` +
         `keeping static minutes: ${constraint.minutes}`
@@ -309,12 +359,24 @@ export async function calculateDriveTimeConstraints(
     
   } catch (error) {
     const duration = performance.now() - startTime
+    // LEARNING: Safely handle slotDate in error logging
+    // WHY: Invalid dates throw "Invalid time value" when calling toISOString()
+    // PATTERN: Check if date is valid before converting to string
+    let slotDateStr: string
+    try {
+      slotDateStr = isNaN(context.slotDate.getTime()) 
+        ? 'Invalid Date' 
+        : context.slotDate.toISOString()
+    } catch {
+      slotDateStr = String(context.slotDate)
+    }
+    
     logger.error(
       `[calculateDriveTimeConstraints] Failed after ${duration.toFixed(0)}ms:`,
       error instanceof Error ? error.message : String(error),
       {
         constraintCount: driveTimeConstraints.length,
-        slotDate: context.slotDate.toISOString(),
+        slotDate: slotDateStr,
         hasDefaultLocation: !!context.defaultLocation,
         eventCount: context.calendarEvents?.length || 0
       }

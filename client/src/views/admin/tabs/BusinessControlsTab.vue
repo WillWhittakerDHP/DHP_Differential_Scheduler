@@ -9,9 +9,10 @@
 import { computed } from 'vue'
 import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
+import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
 import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig, Coordinates } from '@/configs/availabilitySettings'
+import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig, Coordinates, CalendarEntry } from '@/configs/availabilitySettings'
 import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useGlobal } from '@/composables/useGlobal'
@@ -626,41 +627,20 @@ const calendarProvider = computed({
   }
 })
 
-const calendarPrimary = computed({
-  get: () => formData.value?.calendarConfig?.calendars?.primary ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.calendars.primary = value
-    }
-  }
-})
-
-const calendarWork = computed({
-  get: () => formData.value?.calendarConfig?.calendars?.work ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.calendars.work = value
-    }
-  }
-})
-
-const calendarPersonal = computed({
-  get: () => formData.value?.calendarConfig?.calendars?.personal ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.calendars.personal = value
-    }
-  }
-})
+// Calendar entries management composable
+// LEARNING: Extracts calendar entry logic to composable
+// WHY: Provides clean separation of concerns and enforces business rules
+const {
+  entries: calendarEntries,
+  addEntry: addCalendarEntry,
+  removeEntry: removeCalendarEntry,
+  updateEntry: updateCalendarEntry,
+  setReadFrom,
+  setWriteTo,
+  writeToIndex,
+  validationError: calendarValidationError,
+  isValid: calendarIsValid
+} = useCalendarEntries(formData, calendarEnabled, calendarProvider)
 
 // Email validation rules
 // PATTERN: Returns true if valid, or error message string if invalid
@@ -1035,11 +1015,11 @@ const emailValidationRule = (value: string): true | string => {
                         <VCol cols="12" sm="6" md="3">
                           <VTextField
                             v-model.number="buffersDriveTimeToMinutes"
-                            label="Minutes"
+                            :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
                             type="number"
                             min="0"
                             step="5"
-                            :hint="UI_STRINGS.hints.driveTimeToMinutes"
+                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveTimeToMinutes"
                             persistent-hint
                             :rules="[
                               (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
@@ -1086,10 +1066,10 @@ const emailValidationRule = (value: string): true | string => {
                           <VIcon>mdi-map-marker-check</VIcon>
                         </template>
                         <div class="text-body-2">
-                          <strong>Calculated Drive Times</strong>
+                          <strong>Calculated Drive Times (Routes API Active)</strong>
                         </div>
                         <div class="text-caption">
-                          Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.
+                          Drive times are calculated using Google Maps Routes API based on your default location and appointment addresses. The value below is used as a <strong>fallback</strong> if the API is unavailable or returns no route.
                         </div>
                       </VAlert>
                       <VAlert
@@ -1103,10 +1083,10 @@ const emailValidationRule = (value: string): true | string => {
                           <VIcon>mdi-information</VIcon>
                         </template>
                         <div class="text-body-2">
-                          <strong>Estimated Drive Times</strong>
+                          <strong>Static Drive Times (Fallback Only)</strong>
                         </div>
                         <div class="text-caption">
-                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.
+                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times from Google Maps Routes API.
                         </div>
                       </VAlert>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
@@ -1116,11 +1096,11 @@ const emailValidationRule = (value: string): true | string => {
                         <VCol cols="12" sm="6" md="3">
                           <VTextField
                             v-model.number="buffersDriveTimeFromMinutes"
-                            label="Minutes"
+                            :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
                             type="number"
                             min="0"
                             step="5"
-                            :hint="UI_STRINGS.hints.driveTimeFromMinutes"
+                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveTimeFromMinutes"
                             persistent-hint
                             :rules="[
                               (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
@@ -1235,60 +1215,138 @@ const emailValidationRule = (value: string): true | string => {
                     class="mb-4"
                   />
                   
-                  <!-- Calendar Email Fields (only show when enabled and provider selected) -->
+                  <!-- Calendar List (only show when enabled and provider selected) -->
                   <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">
-                    <div class="text-subtitle-2 mb-3">Calendar Email Addresses</div>
-                    <div class="text-body-2 mb-4 text-medium-emphasis">
-                      Enter the email addresses for each calendar to check. Leave optional fields empty if not used.
+                    <div class="d-flex justify-space-between align-center mb-3">
+                      <div>
+                        <div class="text-subtitle-2">Calendars</div>
+                        <div class="text-body-2 text-medium-emphasis">
+                          Configure which calendars to read from (availability) and write to (appointments)
+                        </div>
+                      </div>
+                      <VBtn
+                        color="primary"
+                        variant="outlined"
+                        size="small"
+                        @click="addCalendarEntry"
+                      >
+                        <VIcon start>mdi-plus</VIcon>
+                        Add Calendar
+                      </VBtn>
                     </div>
                     
-                    <!-- Primary Calendar -->
-                    <VTextField
-                      v-model="calendarPrimary"
-                      label="Primary Calendar"
-                      hint="Your main calendar email address (e.g., you@example.com)"
-                      persistent-hint
-                      placeholder="Enter email address"
-                      :rules="[emailValidationRule]"
-                      validate-on="blur"
-                      class="mb-4"
-                    >
-                      <template #prepend-inner>
-                        <VIcon>mdi-calendar-account</VIcon>
-                      </template>
-                    </VTextField>
+                    <!-- Calendar Entries List -->
+                    <div v-if="calendarEntries.length === 0" class="text-body-2 text-medium-emphasis mb-4">
+                      No calendars configured. Click "Add Calendar" to add one.
+                    </div>
                     
-                    <!-- Work Calendar -->
-                    <VTextField
-                      v-model="calendarWork"
-                      label="Work Calendar (Optional)"
-                      hint="Separate work calendar if you have one"
-                      persistent-hint
-                      placeholder="Enter email address"
-                      :rules="[emailValidationRule]"
-                      validate-on="blur"
+                    <VCard
+                      v-for="(entry, index) in calendarEntries"
+                      :key="index"
+                      variant="outlined"
                       class="mb-4"
                     >
-                      <template #prepend-inner>
-                        <VIcon>mdi-briefcase-clock</VIcon>
-                      </template>
-                    </VTextField>
+                      <VCardText>
+                        <VRow>
+                          <!-- Email Address -->
+                          <VCol cols="12" md="5">
+                            <VTextField
+                              :model-value="entry.email"
+                              @update:model-value="(v: string) => updateCalendarEntry(index, { email: v })"
+                              label="Email Address"
+                              hint="Calendar email address (e.g., you@example.com)"
+                              persistent-hint
+                              placeholder="Enter email address"
+                              :rules="[emailValidationRule]"
+                              validate-on="blur"
+                              required
+                            >
+                              <template #prepend-inner>
+                                <VIcon>mdi-email</VIcon>
+                              </template>
+                            </VTextField>
+                          </VCol>
+                          
+                          <!-- Label (Optional) -->
+                          <VCol cols="12" md="4">
+                            <VTextField
+                              :model-value="entry.label"
+                              @update:model-value="(v: string) => updateCalendarEntry(index, { label: v })"
+                              label="Label (Optional)"
+                              hint="Friendly name (e.g., Work Calendar)"
+                              persistent-hint
+                              placeholder="e.g., Work Calendar"
+                            >
+                              <template #prepend-inner>
+                                <VIcon>mdi-label</VIcon>
+                              </template>
+                            </VTextField>
+                          </VCol>
+                          
+                          <!-- Remove Button -->
+                          <VCol cols="12" md="3" class="d-flex align-center">
+                            <VBtn
+                              color="error"
+                              variant="text"
+                              size="small"
+                              @click="removeCalendarEntry(index)"
+                            >
+                              <VIcon start>mdi-delete</VIcon>
+                              Remove
+                            </VBtn>
+                          </VCol>
+                        </VRow>
+                        
+                        <VRow class="mt-2">
+                          <!-- Read From Checkbox -->
+                          <VCol cols="12" sm="6" md="4">
+                            <VCheckbox
+                              :model-value="entry.readFrom"
+                              @update:model-value="(v: boolean) => setReadFrom(index, v)"
+                              label="Read From"
+                              hint="Check this calendar for availability"
+                              persistent-hint
+                              density="compact"
+                            >
+                              <template #prepend>
+                                <VIcon size="small">mdi-calendar-search</VIcon>
+                              </template>
+                            </VCheckbox>
+                          </VCol>
+                          
+                          <!-- Write To Checkbox -->
+                          <VCol cols="12" sm="6" md="8">
+                            <VCheckbox
+                              :model-value="entry.writeTo"
+                              @update:model-value="(v: boolean) => setWriteTo(index, v)"
+                              label="Write To"
+                              hint="Create appointments on this calendar (only one can be selected)"
+                              persistent-hint
+                              density="compact"
+                              :disabled="!entry.writeTo && writeToIndex >= 0 && writeToIndex !== index"
+                            >
+                              <template #prepend>
+                                <VIcon size="small">mdi-calendar-plus</VIcon>
+                              </template>
+                            </VCheckbox>
+                            <div class="text-caption text-medium-emphasis mt-1">
+                              Only one calendar can be selected for writing
+                            </div>
+                          </VCol>
+                        </VRow>
+                      </VCardText>
+                    </VCard>
                     
-                    <!-- Personal Calendar -->
-                    <VTextField
-                      v-model="calendarPersonal"
-                      label="Personal Calendar (Optional)"
-                      hint="Personal calendar to block personal appointments"
-                      persistent-hint
-                      placeholder="Enter email address"
-                      :rules="[emailValidationRule]"
-                      validate-on="blur"
-                      class="mb-4"
+                    <!-- Validation Message -->
+                    <VAlert
+                      v-if="calendarValidationError"
+                      type="warning"
+                      variant="tonal"
+                      density="compact"
+                      class="mt-2"
                     >
-                      <template #prepend-inner>
-                        <VIcon>mdi-calendar-heart</VIcon>
-                      </template>
-                    </VTextField>
+                      {{ calendarValidationError }}
+                    </VAlert>
                   </div>
                   
                   <!-- Info Alert for OAuth -->

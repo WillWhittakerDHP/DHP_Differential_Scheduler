@@ -63,7 +63,7 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load business settings'
       error.value = errorMessage
-      console.error('[useAttendeeQuickSelect] Failed to fetch business settings:', err)
+      logger.error('Failed to fetch business settings', { error: err })
     } finally {
       isLoading.value = false
     }

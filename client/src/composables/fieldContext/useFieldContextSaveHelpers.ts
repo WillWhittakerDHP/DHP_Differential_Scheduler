@@ -138,6 +138,11 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
         queryClient
       )
     } catch (error) {
+      logger.warn('Failed to cleanup invalid active relationships', { 
+        error, 
+        entityKey: state.entityKey, 
+        relationshipKey 
+      })
     }
   }
 

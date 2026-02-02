@@ -1,5 +1,7 @@
 import type { App } from 'vue'
+import { createLogger } from '@/utils/logger'
 
+const logger = createLogger('plugins')
 
 export const registerPlugins = (app: App) => {
   const imports = import.meta.glob(['../../plugins/*.{ts,js}', '../../plugins/*/index.{ts,js}'], { eager: true })
@@ -14,6 +16,7 @@ export const registerPlugins = (app: App) => {
         pluginImportModule.default(app)
       }
     } catch (error) {
+      logger.warn('Failed to register plugin', { error, path })
     }
   })
 }

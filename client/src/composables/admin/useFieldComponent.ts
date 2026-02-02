@@ -17,6 +17,9 @@ import { useEntityMetadata } from './useEntityMetadata'
 import type { GlobalEntity } from '@/types/entities'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { getFieldComponent, type FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldComponent')
 
 export interface UseFieldComponentOptions {
   /**
@@ -145,8 +148,7 @@ export function useFieldComponent(
   const componentType = computed(() => {
     if (!fieldKeyRef.value) {
       const result = { type: 'unknown' as const, reason: 'notConfigured' as const }
-      console.warn('[useFieldComponent] Unknown component type - missing fieldKey', {
-        location: 'useFieldComponent.ts',
+      logger.warn('Unknown component type - missing fieldKey', {
         entityKey: entityKeyRef.value,
         fieldKey: fieldKeyRef.value,
         fieldMetadataEntry: fieldMetadataEntry.value,
@@ -156,8 +158,7 @@ export function useFieldComponent(
     }
     if (!entityKeyRef.value) {
       const result = { type: 'unknown' as const, reason: 'notConfigured' as const }
-      console.warn('[useFieldComponent] Unknown component type - missing entityKey', {
-        location: 'useFieldComponent.ts',
+      logger.warn('Unknown component type - missing entityKey', {
         entityKey: entityKeyRef.value,
         fieldKey: fieldKeyRef.value,
         fieldMetadataEntry: fieldMetadataEntry.value,
@@ -167,8 +168,7 @@ export function useFieldComponent(
     }
     const result = getFieldComponent(entityKeyRef.value, fieldKeyRef.value, fieldMetadataEntry.value)
     if (result.type === 'unknown') {
-      console.warn('[useFieldComponent] Unknown component type determined', {
-        location: 'useFieldComponent.ts',
+      logger.warn('Unknown component type determined', {
         entityKey: entityKeyRef.value,
         fieldKey: fieldKeyRef.value,
         fieldMetadataEntry: fieldMetadataEntry.value,

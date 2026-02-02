@@ -30,6 +30,9 @@ import type { EventInstance } from '@/types/events'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('InstancesTab')
 
 /**
  * LEARNING: Reactive active tab state
@@ -283,7 +286,7 @@ onMounted(() => {
         },
       })
     } catch (error) {
-      console.error('Error setting up event instances drag-and-drop:', error)
+      logger.error('Error setting up event instances drag-and-drop', { error })
     }
   })
 })
@@ -330,6 +333,7 @@ const handleEventInstanceCreate = async () => {
     newEventInstanceData.value = null
     expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
   } catch (error) {
+    logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
   } finally {
     isCreatingEventInstanceLoading.value = false
   }

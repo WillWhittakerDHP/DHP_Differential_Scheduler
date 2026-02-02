@@ -115,10 +115,13 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
 
         if (!parentEntity || !childEntity) {
           if (isDevModeEnabled()) {
-            console.warn(
-              `[useRelationship] Parent or child entity not found for relationship ${relationshipKey}:`,
-              { parentId, childId, parentFound: !!parentEntity, childFound: !!childEntity }
-            )
+            logger.warn('Parent or child entity not found for relationship', {
+              relationshipKey,
+              parentId,
+              childId,
+              parentFound: !!parentEntity,
+              childFound: !!childEntity
+            })
           }
           return old
         }

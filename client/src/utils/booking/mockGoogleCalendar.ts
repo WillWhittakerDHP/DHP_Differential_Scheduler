@@ -176,7 +176,7 @@ export function generateMockFreeBusyResponse(
   
   // PATTERN: Early return with clear warning if window is too small
   if (availableMinutes < mergedConfig.minDurationMinutes) {
-    console.warn('[mockGoogleCalendar] Time window too small:', {
+    logger.warn('Time window too small', {
       availableMinutes: Math.round(availableMinutes * 100) / 100,
       minDurationMinutes: mergedConfig.minDurationMinutes,
       message: 'Cannot generate busy periods - not enough time remaining'

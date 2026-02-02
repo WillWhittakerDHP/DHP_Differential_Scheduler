@@ -19,6 +19,9 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '../useFieldContext'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useSelectHandlers')
 
 export interface UseSelectHandlersOptions {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -213,6 +216,7 @@ export function useSelectHandlers(
       try {
         await fieldContext.save()
       } catch (error) {
+        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
       }
     }
   }

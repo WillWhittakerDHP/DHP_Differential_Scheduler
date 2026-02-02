@@ -203,7 +203,7 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
    * PATTERN: Expand fields to allow manual entry
    */
   const handleAutocompleteError = (error: Error): void => {
-    console.warn('[usePropertyDetailsLogic] Autocomplete error, showing manual fields:', error)
+    logger.warn('Autocomplete error, showing manual fields', { error })
     isAddressExpanded.value = true
   }
 

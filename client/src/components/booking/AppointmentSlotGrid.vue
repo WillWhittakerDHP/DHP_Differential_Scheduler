@@ -22,6 +22,7 @@ import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
 import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import SlotConstraintOverlay from '@/components/booking/dev/SlotConstraintOverlay.vue'
 
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
@@ -92,8 +93,6 @@ const displaySlots = computed(() => {
   const currentPerspective = props.timeBasis
   const globalData = getGlobalData()
   
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:94',message:'displaySlots: computing slots',data:{perspective:currentPerspective,slotsCount:props.appointmentSlots.length,hasGlobalData:!!globalData,hasSettings:!!availabilitySettings.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-  
   const slots = props.appointmentSlots.map(appointmentSlot => {
     const displayTime = derivePerspective(
       appointmentSlot, 
@@ -101,10 +100,6 @@ const displaySlots = computed(() => {
       globalData || undefined,
       availabilitySettings.value || null
     )
-    
-    if (currentPerspective === 'minor') {
-      fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:110',message:'displaySlots: minor perspective slot',data:{buttonIndex:appointmentSlot.buttonIndex,hasDisplayTime:!!displayTime,displayTime,isAvailable:appointmentSlot.isAvailable,hasTotalTimeRange:!!appointmentSlot.totalTimeRange},timestamp:Date.now(),sessionId:'debug-session',runId:'run5',hypothesisId:'H'})}).catch(()=>{});
-    }
     
     return {
       buttonIndex: appointmentSlot.buttonIndex,
@@ -156,6 +151,10 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
     >
       {{ formatSlotTime(slotData) }}
     </VBtn>
+    <!-- LEARNING: Constraint overlay for dev mode debugging -->
+    <!-- WHY: Shows which constraints apply to each slot visually -->
+    <!-- PATTERN: Absolute positioned overlay that doesn't interfere with button clicks -->
+    <SlotConstraintOverlay :appointment-slots="appointmentSlots" />
   </div>
 </template>
 
@@ -167,6 +166,7 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
   min-width: 0; // Allow grid to shrink below content size
   box-sizing: border-box; // Include padding in width calculation
   margin-bottom: 0; // Override default margin to align with container spacing
+  position: relative; // LEARNING: Enable absolute positioning for constraint overlay
   // PATTERN: Use fixed column width (140px), buttons will size to content with min-width constraint
   grid-template-columns: repeat(var(--grid-columns, 1), 140px);
   grid-auto-rows: max-content; // Allow height to collapse to button content

@@ -169,7 +169,8 @@ const {
 // PATTERN: Composable provides computed property for busy times with loading/error states
 // Session 2.1.2: Updated to support data source modes
 const { 
-  busyTimes: busyTimesForStartTimes
+  busyTimes: busyTimesForStartTimes,
+  isLoading: busyTimesLoading
 } = useBusyTimes({
   dateRangeForApi,
   dataSource: freeBusyDataSource,
@@ -180,11 +181,13 @@ const {
 
 const {
   availableStartTimes,
-  slotAvailability
+  slotAvailability,
+  slotViolations
 } = useAvailableStartTimes({
   selectedDate,
   appointmentDuration,
-  busyTimes: busyTimesForStartTimes
+  busyTimes: busyTimesForStartTimes,
+  busyTimesLoading
 })
 
 // LEARNING: Use time slot durations composable
@@ -220,6 +223,7 @@ const {
   blockInstances: accumulatedBlockInstances,
   availableStartTimes,
   slotAvailability,
+  slotViolations,
   timeSlotDurations,
   selectedButtonIndex,
   perspective,

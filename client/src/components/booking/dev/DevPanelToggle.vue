@@ -37,7 +37,6 @@ onUnmounted(() => {
 <template>
   <VBtn
     v-if="isDevMode"
-    size="small"
     color="info"
     variant="elevated"
     class="dev-panel-toggle"
@@ -52,17 +51,36 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .dev-panel-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 48px;
-  width: 48px;
-  height: 48px;
+  min-width: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  max-height: 48px !important;
   border-radius: 50%;
-  padding: 0;
+  padding: 0 !important;
+  
+  :deep(.v-btn__content) {
+    padding: 0 !important;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
   .button-label {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: lowercase;
+    line-height: 1;
+  }
+  
+  @media (max-width: 960px) {
+    top: 16px;
+    right: 16px;
   }
 }
 </style>

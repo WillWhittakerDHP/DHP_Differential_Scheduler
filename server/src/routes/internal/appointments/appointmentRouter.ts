@@ -8,7 +8,8 @@ import {
   User, 
   BlockInstanceVersion,
   AppointmentAttendee,
-  BlockInstance
+  BlockInstance,
+  BusinessSettings
 } from '../../../config/app.js';
 import { 
   fetchAll, 
@@ -22,6 +23,69 @@ import { createBlockInstanceVersion } from '../../../services/instanceVersioning
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js';
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js';
 import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js';
+import { createLogger } from '../../../utils/logger.js';
+
+const logger = createLogger('AppointmentRouter');
+
+/**
+ * Get the writeTo calendar email from business settings
+ * LEARNING: Reads calendarConfig from availability_settings to find calendar with writeTo: true
+ * WHY: Appointments should be created on the calendar configured by admin, not hardcoded
+ * PATTERN: Helper function to extract writeTo calendar from settings
+ * 
+ * @returns Calendar email string where writeTo is true, or undefined if not configured
+ */
+async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
+  try {
+    const setting = await BusinessSettings.findOne({
+      where: { settingKey: 'availability_settings' },
+    });
+    
+    if (!setting || !setting.settingValue) {
+      logger.debug('No availability_settings found, using default calendar');
+      return undefined;
+    }
+    
+    const settings = setting.settingValue as {
+      calendarConfig?: {
+        enabled?: boolean;
+        provider?: string;
+        calendars?: Array<{
+          email?: string;
+          readFrom?: boolean;
+          writeTo?: boolean;
+        }>;
+      };
+    };
+    
+    const calendarConfig = settings.calendarConfig;
+    if (!calendarConfig || !calendarConfig.enabled) {
+      logger.debug('Calendar integration not enabled');
+      return undefined;
+    }
+    
+    if (!Array.isArray(calendarConfig.calendars)) {
+      logger.error('Invalid calendar config: calendars must be an array');
+      return undefined;
+    }
+    
+    // Find calendar with writeTo: true
+    const writeToEntry = calendarConfig.calendars.find(
+      entry => entry.writeTo && entry.email && entry.email.trim() !== ''
+    );
+    
+    if (writeToEntry?.email) {
+      logger.debug('Found writeTo calendar', { email: writeToEntry.email });
+      return writeToEntry.email.trim();
+    }
+    
+    logger.debug('No writeTo calendar configured');
+    return undefined;
+  } catch (error) {
+    logger.error('Error reading writeTo calendar from settings', { error });
+    return undefined;
+  }
+}
 
 /**
  * Type for attendee data in request body
@@ -202,9 +266,18 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     if (appointment.status === 'submitted' || appointment.status === 'confirmed') {
       try {
         console.log(`[AppointmentRouter] Creating calendar event for appointment ${appointment.id}`);
+        
+        // Get writeTo calendar from settings (or fallback to default)
+        const writeToCalendar = await getWriteToCalendarFromSettings();
+        const calendarId = writeToCalendar || 'scheduling@districthomepro.com'; // Fallback to default if not configured
+        
+        if (!writeToCalendar) {
+          console.warn(`[AppointmentRouter] No writeTo calendar configured, using default: ${calendarId}`);
+        }
+        
         const calendarResult = await createCalendarEventForAppointment(
           appointment.id,
-          'scheduling@districthomepro.com' // TODO: Make configurable via business settings
+          calendarId
         );
         
         if (calendarResult.success) {

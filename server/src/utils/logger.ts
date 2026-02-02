@@ -1,12 +1,12 @@
 /**
- * App Logger Utility
+ * Server Logger Utility
  *
  * WHY: Centralizes logging so we can control noise, keep production clean, and avoid scattered `console.*`.
- * PATTERN: Scoped logger + level gating via Vite env vars.
+ * PATTERN: Scoped logger + level gating via Node.js env vars.
  *
  * Controls:
- * - `VITE_LOG_LEVEL`: debug | info | warn | error | silent
- * - `VITE_DEBUG_SCOPES`: comma-separated scopes (or `*`) to allow debug logs in DEV
+ * - `LOG_LEVEL`: debug | info | warn | error | silent
+ * - `DEBUG_SCOPES`: comma-separated scopes (or `*`) to allow debug logs in DEV
  *
  * Defaults:
  * - DEV: debug
@@ -71,13 +71,14 @@ function parseDebugScopesList(raw: string | undefined): Set<string> | null {
 
 function getDebugScopes(): Set<string> | null {
   if (cachedDebugScopes === undefined) {
-    cachedDebugScopes = parseDebugScopesList(import.meta.env.VITE_DEBUG_SCOPES)
+    cachedDebugScopes = parseDebugScopesList(process.env.DEBUG_SCOPES)
   }
   return cachedDebugScopes
 }
 
 function isDebugScopeEnabled(scope: string): boolean {
-  if (!import.meta.env.DEV) return false
+  const isDev = process.env.NODE_ENV !== 'production'
+  if (!isDev) return false
   const scopes = getDebugScopes()
   if (!scopes) return true
   const normalized = scope.toLowerCase()
@@ -85,22 +86,24 @@ function isDebugScopeEnabled(scope: string): boolean {
 }
 
 /**
- * Check if a scope is explicitly enabled in VITE_DEBUG_SCOPES
+ * Check if a scope is explicitly enabled in DEBUG_SCOPES
  * WHY: Some scopes should be opt-in only (require explicit enabling, not via wildcard)
- * PATTERN: Returns true only if VITE_DEBUG_SCOPES is set and explicitly contains the scope (not via *)
+ * PATTERN: Returns true only if DEBUG_SCOPES is set and explicitly contains the scope (not via *)
  */
 export function isScopeExplicitlyEnabled(scope: string): boolean {
-  if (!import.meta.env.DEV) return false
+  const isDev = process.env.NODE_ENV !== 'production'
+  if (!isDev) return false
   const scopes = getDebugScopes()
-  if (!scopes) return false // Require explicit enabling if VITE_DEBUG_SCOPES is not set
+  if (!scopes) return false // Require explicit enabling if DEBUG_SCOPES is not set
   const normalized = scope.toLowerCase()
   return scopes.has(normalized)
 }
 
 function getConfiguredLogLevel(): LogLevel {
   if (cachedLogLevel === null) {
-    const configured = parseLogLevel(import.meta.env.VITE_LOG_LEVEL)
-    cachedLogLevel = configured || (import.meta.env.DEV ? 'debug' : 'warn')
+    const configured = parseLogLevel(process.env.LOG_LEVEL)
+    const isDev = process.env.NODE_ENV !== 'production'
+    cachedLogLevel = configured || (isDev ? 'debug' : 'warn')
   }
   return cachedLogLevel
 }
@@ -145,5 +148,3 @@ export function createLogger(scope: string): AppLogger {
     },
   }
 }
-
-

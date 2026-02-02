@@ -13,6 +13,9 @@ import { calculatePartsTotals } from '@/utils/booking/partsTotals'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePartsTotals')
 
 export interface UsePartsTotalsReturn {
   canHaveParts: ComputedRef<boolean>
@@ -88,7 +91,8 @@ export function usePartsTotals(
     const childIds = [...new Set(childIdsBeforeDedup)]
 
     if (childIdsBeforeDedup.length !== childIds.length) {
-      console.warn(`[usePartsTotals] BlockInstance ${entityId} - Found duplicate child_ids!`, {
+      logger.warn('Found duplicate child_ids', {
+        entityId,
         beforeDedup: childIdsBeforeDedup,
         afterDedup: childIds,
         duplicates: childIdsBeforeDedup.filter((id, index) => childIdsBeforeDedup.indexOf(id) !== index)
@@ -98,7 +102,7 @@ export function usePartsTotals(
     const { resolved, missingIds } = resolveByIds(partInstances.value, childIds)
 
     if (missingIds.length > 0) {
-      console.warn(`[usePartsTotals] BlockInstance ${entityId} - Missing part instances:`, missingIds)
+      logger.warn('Missing part instances', { entityId, missingIds })
     }
     
     return resolved

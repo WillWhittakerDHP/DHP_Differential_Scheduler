@@ -69,6 +69,9 @@ import type {
 } from './constraintExtractors'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import { calculateDriveTimeConstraints, type DriveTimeCalculationContext } from './driveTimeCalculator'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('timeAvailabilityManager')
 
 /**
  * Slot position context for drive time constraint application
@@ -472,6 +475,11 @@ export function checkRangeConstraints(
  * WHY: Single pathway for all overlap prevention, consolidates appointment, driveTimeTo, driveTimeFrom, and lunch buffers
  * PATTERN: Check each constraint individually to accurately attribute violations to the specific constraint that caused overlap
  * 
+ * DISTINCTION: Direct vs Buffer Overlap
+ * - `.direct` suffix: Slot directly overlaps with a busy period (no buffer needed)
+ * - `.buffer` suffix: Slot only overlaps due to buffer expansion (would be free without buffer)
+ * This allows the UI to show WHY a slot is blocked (actual conflict vs buffer requirement)
+ * 
  * @param slotStart - Slot start time as Date
  * @param slotEnd - Slot end time as Date
  * @param parsedBusyTimes - Array of pre-parsed busy time ranges with cached Date objects
@@ -490,15 +498,22 @@ export function checkSlotAvailability(
     return { available: true, violations: [] }
   }
 
-  // If no overlap constraints, check basic overlap
-  if (!overlapConstraints || overlapConstraints.length === 0) {
-    const overlapsBusy = parsedBusyTimes.some(busy => {
-      return timeRangesOverlap(
+  // LEARNING: Helper to check direct overlap (no buffer)
+  // WHY: Distinguishes between direct busy period conflict vs buffer requirement
+  const hasDirectOverlap = (): boolean => {
+    return parsedBusyTimes.some(busy => 
+      timeRangesOverlap(
         { start: slotStart, end: slotEnd },
         { start: busy.start, end: busy.end }
       )
-    })
-    return { available: !overlapsBusy, violations: [] }
+    )
+  }
+
+  // If no overlap constraints, check basic overlap
+  if (!overlapConstraints || overlapConstraints.length === 0) {
+    const directOverlap = hasDirectOverlap()
+    // PATTERN: Use .direct suffix for basic overlaps (no buffer configured)
+    return { available: !directOverlap, violations: directOverlap ? ['overlap.appointment.direct'] : [] }
   }
 
   // LEARNING: Filter constraints based on position context for drive time applyTo logic
@@ -511,24 +526,26 @@ export function checkSlotAvailability(
   
   // If no applicable constraints after filtering, check basic overlap
   if (applicableConstraints.length === 0) {
-    const overlapsBusy = parsedBusyTimes.some(busy => {
-      return timeRangesOverlap(
-        { start: slotStart, end: slotEnd },
-        { start: busy.start, end: busy.end }
-      )
-    })
-    return { available: !overlapsBusy, violations: [] }
+    const directOverlap = hasDirectOverlap()
+    // PATTERN: Use .direct suffix for basic overlaps (constraints filtered out)
+    return { available: !directOverlap, violations: directOverlap ? ['overlap.appointment.direct'] : [] }
   }
 
   // LEARNING: Use functional approach to collect violations
   // PATTERN: Filter constraints, check overlaps, collect violations, check for hard failures
   
   /**
-   * LEARNING: Extract constraint overlap check to pure function
-   * WHY: Separates overlap checking logic from violation collection
-   * PATTERN: Pure function returns boolean
+   * LEARNING: Check constraint overlap and distinguish direct vs buffer
+   * WHY: Provides granular feedback on WHY a slot is blocked
+   * PATTERN: Returns { overlaps: boolean, isDirect: boolean }
+   * - overlaps: true if there's any overlap (direct or buffer)
+   * - isDirect: true if direct overlap exists (slot touches busy period without buffer)
    */
-  const checkConstraintOverlap = (constraint: OverlapConstraint): boolean => {
+  const checkConstraintOverlap = (constraint: OverlapConstraint): { overlaps: boolean; isDirect: boolean } => {
+    // First check direct overlap (no buffer)
+    const directOverlap = hasDirectOverlap()
+    
+    // Then check buffer-expanded overlap
     const bufferMs = constraint.minutes * 60 * 1000
     let checkStart = slotStart
     let checkEnd = slotEnd
@@ -541,26 +558,51 @@ export function checkSlotAvailability(
       checkEnd = new Date(slotEnd.getTime() + bufferMs)
     }
 
-    return parsedBusyTimes.some(busy => {
-      return timeRangesOverlap(
+    const bufferOverlap = parsedBusyTimes.some(busy => 
+      timeRangesOverlap(
         { start: checkStart, end: checkEnd },
         { start: busy.start, end: busy.end }
       )
-    })
-  }
-
-  const hardFailure = applicableConstraints.find(
-    constraint => constraint.enforcement === 'hard' && checkConstraintOverlap(constraint)
-  )
-  if (hardFailure) {
-    return { available: false, violations: [] }
-  }
-
-  const violations = applicableConstraints
-    .filter(constraint => 
-      constraint.enforcement === 'flexible' && checkConstraintOverlap(constraint)
     )
-    .map(constraint => `overlap.${constraint.type}`)
+
+    return { 
+      overlaps: bufferOverlap, // Buffer check includes direct overlap
+      isDirect: directOverlap 
+    }
+  }
+
+  /**
+   * LEARNING: Generate violation string with direct/buffer suffix
+   * WHY: Allows UI to show different colors for direct vs buffer overlaps
+   * PATTERN: `overlap.{type}.direct` or `overlap.{type}.buffer`
+   */
+  const getViolationString = (constraint: OverlapConstraint, isDirect: boolean): string => {
+    const suffix = isDirect ? 'direct' : 'buffer'
+    return `overlap.${constraint.type}.${suffix}`
+  }
+
+  // Check hard constraints first
+  const hardFailure = applicableConstraints.find(constraint => {
+    if (constraint.enforcement !== 'hard') return false
+    const result = checkConstraintOverlap(constraint)
+    return result.overlaps
+  })
+  
+  if (hardFailure) {
+    const result = checkConstraintOverlap(hardFailure)
+    // PATTERN: Record violation type with direct/buffer distinction for debugging overlay
+    return { available: false, violations: [getViolationString(hardFailure, result.isDirect)] }
+  }
+
+  // Collect flexible constraint violations
+  const violations = applicableConstraints
+    .filter(constraint => constraint.enforcement === 'flexible')
+    .map(constraint => {
+      const result = checkConstraintOverlap(constraint)
+      if (!result.overlaps) return null
+      return getViolationString(constraint, result.isDirect)
+    })
+    .filter((v): v is string => v !== null)
 
   return { available: true, violations }
 }
@@ -802,13 +844,8 @@ function mergeViolations(
   newViolations: string[],
   passes: boolean = true
 ): { hasFlexibleViolations: boolean; flexibleViolations: string[] | undefined } {
-  // PATTERN: Keep existing violations for display, don't merge new ones
-  if (!passes) {
-    return {
-      hasFlexibleViolations: existing ? existing.length > 0 : false,
-      flexibleViolations: existing
-    }
-  }
+  // PATTERN: Always merge violations for debugging overlay, regardless of pass/fail
+  // WHY: Even hard failures should record their violation type for visibility
   const allViolations = [...(existing || []), ...newViolations]
   return {
     hasFlexibleViolations: allViolations.length > 0,
@@ -985,20 +1022,109 @@ async function fetchScheduledHoursForRollingWeek(
  * @param slots - Array of slots to mark
  * @param parsedBusyTimes - Array of pre-parsed busy time ranges with cached Date objects
  * @param overlapConstraints - Optional array of overlap constraints (buffers) to apply
+ * @param dateCache - Optional cache of slot Date objects
+ * @param rangeConstraints - Optional array of range constraints for building position context
+ * @param businessHoursCache - Optional cache of parsed business hours by day of week
+ * @param calculatedConstraintsByDate - Optional map of date keys to calculated constraints (for per-day drive times)
  * @returns Slots with isAvailable flag
  */
 export function markSlotAvailability(
   slots: TimeSlot[],
   parsedBusyTimes: ParsedBusyTimeRange[],
   overlapConstraints?: OverlapConstraint[],
-  dateCache?: Map<string, { start: Date; end: Date }>
+  dateCache?: Map<string, { start: Date; end: Date }>,
+  rangeConstraints?: RangeConstraint[],
+  businessHoursCache?: ParsedBusinessHoursCache,
+  calculatedConstraintsByDate?: Map<string, OverlapConstraint[]>
 ): TimeSlot[] {
+  // LEARNING: Extract business hours constraint for building position context
+  // WHY: Drive time constraints need business hours boundaries for skipDayStart/skipDayEnd logic
+  const businessHoursConstraint = rangeConstraints?.find(
+    c => c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
+  )
+  const businessHoursConfig = businessHoursConstraint?.config as { hours: BusinessHoursMap } | undefined
+
   return slots.map((slot) => {
     // PATTERN: Accept optional date cache map using slot.startTime as key
     const cachedDates = dateCache?.get(slot.startTime)
     const slotStart = cachedDates?.start || new Date(slot.startTime)
     const slotEnd = cachedDates?.end || new Date(slot.endTime)
-    const availabilityResult = checkSlotAvailability(slotStart, slotEnd, parsedBusyTimes, overlapConstraints)
+    
+    // LEARNING: Use per-day calculated constraints if available (for drive time API values)
+    // WHY: Drive times may differ per day based on calendar events
+    // PATTERN: Look up constraints by date key, fallback to provided constraints
+    let constraintsForSlot = overlapConstraints
+    if (calculatedConstraintsByDate) {
+      const slotDate = new Date(slot.startTime)
+      const dateKey = slotDate.toISOString().split('T')[0] // YYYY-MM-DD
+      const calculatedConstraints = calculatedConstraintsByDate.get(dateKey)
+      if (calculatedConstraints) {
+        constraintsForSlot = calculatedConstraints
+      }
+    }
+    
+    // LEARNING: Build SlotPositionContext from business hours for this slot's day
+    // WHY: Drive time constraints need business hours boundaries for skipDayStart/skipDayEnd logic
+    // PATTERN: Extract business hours for slot's day of week, parse, convert to Date objects
+    // FIX: Wrap in try-catch to ensure slots are always returned even if context building fails
+    let positionContext: SlotPositionContext | undefined
+    try {
+      if (businessHoursConfig && businessHoursCache) {
+        const dayOfWeek = slotStart.getUTCDay() as DayOfWeek
+        const dayHours = businessHoursConfig.hours[dayOfWeek]
+        
+        if (dayHours) {
+          // PATTERN: Check cache first, parse if not cached
+          let parsedHours: ReturnType<typeof parseBusinessHours> | null = null
+          
+          if (businessHoursCache.has(dayOfWeek)) {
+            parsedHours = businessHoursCache.get(dayOfWeek)!
+          } else {
+            parsedHours = parseBusinessHours(dayHours, dayOfWeek)
+            if (parsedHours) {
+              businessHoursCache.set(dayOfWeek, parsedHours)
+            }
+          }
+          
+          if (parsedHours) {
+            // LEARNING: Convert business hours time-of-day to Date objects for this specific day
+            // WHY: Business hours are stored as time-of-day (RFC3339 with reference date), need actual dates
+            // PATTERN: Extract local hours/minutes, create Date for slot's date, convert to UTC
+            const slotYear = slotStart.getUTCFullYear()
+            const slotMonth = slotStart.getUTCMonth()
+            const slotDay = slotStart.getUTCDate()
+            
+            // Create local Date objects with business hours times
+            const businessHoursStartLocal = new Date(slotYear, slotMonth, slotDay, parsedHours.startHour, parsedHours.startMinute, 0, 0)
+            const businessHoursEndLocal = new Date(slotYear, slotMonth, slotDay, parsedHours.endHour, parsedHours.endMinute, 0, 0)
+            
+            // Validate dates before using
+            if (!isNaN(businessHoursStartLocal.getTime()) && !isNaN(businessHoursEndLocal.getTime())) {
+              // Convert to UTC (matching slot timezone handling)
+              positionContext = {
+                businessHoursStart: new Date(businessHoursStartLocal.toISOString()),
+                businessHoursEnd: new Date(businessHoursEndLocal.toISOString())
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      // LEARNING: Log error but continue - position context is optional
+      // WHY: Don't prevent slot generation if context building fails
+      logger.warn(
+        '[markSlotAvailability] Failed to build position context, continuing without it',
+        { error: error instanceof Error ? error.message : String(error), slotStart: slot.startTime }
+      )
+    }
+    
+    const availabilityResult = checkSlotAvailability(
+      slotStart, 
+      slotEnd, 
+      parsedBusyTimes, 
+      constraintsForSlot,
+      positionContext
+    )
     
     const mergedViolations = mergeViolations(slot.flexibleViolations, availabilityResult.violations, availabilityResult.available)
     
@@ -1278,6 +1404,7 @@ export async function generateSlotsWithAvailability(
   options?: {
     defaultLocation?: DefaultLocation
     calendarEvents?: CalendarEvent[]
+    driveTimeDataSource?: 'default' | 'api' | 'both' | 'none'
   }
 ): Promise<AvailabilityManagerResult> {
   const { busyTimes = [], ...otherParams } = params
@@ -1351,7 +1478,10 @@ export async function generateSlotsWithAvailability(
   // WHY: Replace static minutes with calculated drive times when location data available
   // PATTERN: Calculate drive times once per day, use for all slots on that day
   // Session 2.2.3: Added drive time calculation integration
-  if (options?.defaultLocation || options?.calendarEvents) {
+  // FIX: Require both defaultLocation AND non-empty calendarEvents for drive time calculation
+  const calculatedConstraintsByDate = new Map<string, OverlapConstraint[]>()
+  
+  if (options?.defaultLocation && options?.calendarEvents && options.calendarEvents.length > 0) {
     // Group slots by date to calculate drive times per day
     const slotsByDate = new Map<string, TimeSlot[]>()
     slotsPassingRangeConstraints.forEach(slot => {
@@ -1364,17 +1494,27 @@ export async function generateSlotsWithAvailability(
     })
 
     // Calculate drive times for each day
-    const calculatedConstraintsByDate = new Map<string, OverlapConstraint[]>()
-    
     for (const [dateKey, daySlots] of slotsByDate.entries()) {
+      // LEARNING: Create Date object for the date key, validate it's valid
+      // WHY: Invalid dates cause "Invalid time value" errors when calling toISOString()
+      // PATTERN: Validate date before using in calculation context
       const slotDate = new Date(dateKey + 'T00:00:00Z')
+      if (isNaN(slotDate.getTime())) {
+        logger.warn(
+          `[generateSlotsWithAvailability] Invalid date key for drive time calculation: ${dateKey}`,
+          { dateKey, daySlotsCount: daySlots.length }
+        )
+        // Skip this date - will use original constraints (fallback minutes)
+        continue
+      }
       
       // Session 2.2.3: Simplified drive time calculation
       // Calculate drive times once per day - filtering by skipDayStart/skipDayEnd happens per-slot
       const calculationContext = {
         defaultLocation: options.defaultLocation,
         calendarEvents: options.calendarEvents,
-        slotDate
+        slotDate,
+        dataSource: options.driveTimeDataSource || 'both' // Default to 'both' for backward compatibility
       }
       
       // Calculate drive times for all constraints (filtering happens in shouldApplyDriveTimeConstraint)
@@ -1401,25 +1541,19 @@ export async function generateSlotsWithAvailability(
       
       calculatedConstraintsByDate.set(dateKey, mergedConstraints)
     }
-    
-    // Use calculated constraints (will be filtered per-slot by applyTo logic in checkSlotAvailability)
-    // For now, use constraints from first day (most common case)
-    // TODO: Future enhancement - use per-day constraints when checking each slot
-    const firstDateKey = Array.from(slotsByDate.keys())[0]
-    if (firstDateKey && calculatedConstraintsByDate.has(firstDateKey)) {
-      activeOverlapConstraints = calculatedConstraintsByDate.get(firstDateKey)!
-    }
   }
   
   // PATTERN: Map slots and add availability flag, pass overlap constraints to expand time range
   // Session 2.2.3: Pass range constraints and business hours cache for skipDayStart/skipDayEnd logic
+  // FIX: Pass calculatedConstraintsByDate for per-day drive time constraints
   const slotsWithAvailability = markSlotAvailability(
     slotsPassingRangeConstraints,
     parsedBusyTimes,
     activeOverlapConstraints,
     slotDateCache,
     activeRangeConstraints,
-    businessHoursCache
+    businessHoursCache,
+    calculatedConstraintsByDate.size > 0 ? calculatedConstraintsByDate : undefined
   )
 
   // PATTERN: Check capacity after busy period availability is marked

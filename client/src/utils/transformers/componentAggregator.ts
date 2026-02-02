@@ -139,8 +139,7 @@ export function composeProperties<GE extends GlobalEntityKey>(
 
   // PATTERN: Log and continue with resolved entities only
   if (missingIds.length > 0 && isDevModeEnabled()) {
-     
-    console.warn('[componentAggregator.composeProperties] Missing component entity IDs:', {
+    logger.warn('Missing component entity IDs', {
       composerId,
       missingIds,
       entityKind,

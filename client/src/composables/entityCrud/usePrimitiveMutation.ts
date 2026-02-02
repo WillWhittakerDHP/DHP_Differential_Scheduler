@@ -6,6 +6,9 @@ import type { ValidAdminValue } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntity } from '@/types/entities'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePrimitiveMutation')
 
 /**
  * Primitive mutation for updating a single field on an entity.
@@ -107,9 +110,10 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
 
         if (entityIndex === -1) {
           if (isDevModeEnabled()) {
-            console.warn(
-              `[usePrimitiveMutation] Entity ${variables.dynamicId} not found in ${entityKey} cache. Cache may be stale.`
-            )
+            logger.warn('Entity not found in cache. Cache may be stale', {
+              entityId: variables.dynamicId,
+              entityKey
+            })
           }
           return old
         }
@@ -163,7 +167,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       }
 
       if (isDevModeEnabled()) {
-        console.error(`[usePrimitiveMutation] Failed to update ${entityKey}:`, error)
+        logger.error('Failed to update entity', { entityKey, error })
       }
     },
     onSuccess: () => {

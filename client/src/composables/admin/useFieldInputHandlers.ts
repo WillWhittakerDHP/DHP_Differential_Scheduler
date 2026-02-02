@@ -14,6 +14,9 @@ import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldInputHandlers')
 
 export interface UseFieldInputHandlersParams {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -52,7 +55,7 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
       try {
         await fieldContext.save()
       } catch (error) {
-        console.error('[FIELD-SAVE] Field save failed', {
+        logger.error('Field save failed', {
           fieldKey: String(fieldContext.fieldKey),
           entityId: String(fieldContext.entityId),
           error
@@ -80,6 +83,7 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
           target.blur()
         }
       } catch (error) {
+        logger.warn('Failed to save new entity card on blur', { error, fieldKey: fieldContext.fieldKey })
       }
     } else {
       try {
@@ -90,6 +94,7 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
           target.blur()
         }
       } catch (error) {
+        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
       }
     }
   }

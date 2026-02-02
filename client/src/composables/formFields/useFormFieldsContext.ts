@@ -7,6 +7,9 @@ import { useFieldContext, type FieldContextType } from '@/composables/useFieldCo
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useNotification } from '@/composables/useNotification'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFormFieldsContext')
 
 type UseFormFieldsContextOptions = {
   entityKey: GlobalEntityKey
@@ -142,7 +145,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       const warningKey = `${entityKey}:metadata-empty`
       if (!warnedFields.value.has(warningKey)) {
         const warningMessage = `Missing fieldMetadata for ${entityKey}. Field metadata must be provided from /admin-input-metadata or /admin-relationship-metadata.`
-        console.warn(`[useFormFieldsContext] ${warningMessage}`)
+        logger.warn(warningMessage, { entityKey })
         showWarning(warningMessage, 6000)
         warnedFields.value.add(warningKey)
       }
@@ -199,7 +202,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     // PATTERN: Warn and use fallback value
     if (!meta.label) {
       const warningMessage = `Missing label in FieldMetadataEntry for ${entityKey}.${fieldKey}. Metadata should include label property.`
-      console.warn(`[useFormFieldsContext] ${warningMessage}`)
+      logger.warn(warningMessage, { entityKey, fieldKey })
       if (!warnedFields.value.has(`${fieldKey}:label`)) {
         showWarning(warningMessage, 6000)
         warnedFields.value.add(`${fieldKey}:label`)
@@ -279,7 +282,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   const createContextsForFields = (): void => {
     if (!isFormReady.value) {
       const currentFormInstance = formInstance.value
-      console.warn(`[useFormFieldsContext] Cannot create contexts - form not ready:`, {
+      logger.warn('Cannot create contexts - form not ready', {
         entityKey,
         entityId: currentEntityId.value,
         hasFormInstance: !!currentFormInstance,

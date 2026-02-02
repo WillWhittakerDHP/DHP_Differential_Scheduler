@@ -9,6 +9,9 @@
  */
 
 import { checkRateLimit, recordRequest, waitForRateLimit } from './rateLimiter.js';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('GoogleMapsService');
 
 /**
  * API base URL for Google Maps
@@ -179,7 +182,7 @@ export async function getAutocompleteSuggestions(
   const rateLimitResult = checkRateLimit('google-maps');
   
   if (rateLimitResult.status === 'exceeded') {
-    console.warn('[GoogleMapsService] Rate limit exceeded, waiting...');
+    logger.warn('Rate limit exceeded, waiting...');
     await waitForRateLimit('google-maps');
   }
   
@@ -202,7 +205,7 @@ export async function getAutocompleteSuggestions(
   
   const url = `${GOOGLE_MAPS_API_BASE}/place/autocomplete/json?${params.toString()}`;
   
-  console.log(`[GoogleMapsService] Fetching autocomplete for: "${input}"`);
+  logger.debug('Fetching autocomplete', { input });
   
   try {
     const response = await fetch(url);
@@ -218,9 +221,9 @@ export async function getAutocompleteSuggestions(
     const data = await response.json();
     
     // Log raw response for debugging
-    console.log('[GoogleMapsService] Autocomplete API status:', data.status);
+    logger.debug('Autocomplete API status', { status: data.status });
     if (data.error_message) {
-      console.error('[GoogleMapsService] API error_message:', data.error_message);
+      logger.error('API error_message', { errorMessage: data.error_message });
     }
     
     // Handle API-level errors
@@ -249,7 +252,7 @@ export async function getAutocompleteSuggestions(
       secondaryText: p.structured_formatting?.secondary_text || ''
     }));
     
-    console.log(`[GoogleMapsService] Found ${predictions.length} suggestions`);
+    logger.debug('Found suggestions', { count: predictions.length });
     
     return predictions;
     
@@ -259,7 +262,7 @@ export async function getAutocompleteSuggestions(
     }
     
     // Network or parsing error
-    console.error('[GoogleMapsService] Autocomplete error:', error);
+    logger.error('Autocomplete error', { error });
     throw new MapsApiError(
       'network',
       error instanceof Error ? error.message : 'Network error',
@@ -291,7 +294,7 @@ export async function getPlaceDetails(
   const rateLimitResult = checkRateLimit('google-maps');
   
   if (rateLimitResult.status === 'exceeded') {
-    console.warn('[GoogleMapsService] Rate limit exceeded, waiting...');
+    logger.warn('Rate limit exceeded, waiting...');
     await waitForRateLimit('google-maps');
   }
   
@@ -315,7 +318,7 @@ export async function getPlaceDetails(
   
   const url = `${GOOGLE_MAPS_API_BASE}/place/details/json?${params.toString()}`;
   
-  console.log(`[GoogleMapsService] Fetching place details for: ${placeId}`);
+  logger.debug('Fetching place details', { placeId });
   
   try {
     const response = await fetch(url);
@@ -369,7 +372,7 @@ export async function getPlaceDetails(
       coordinates
     };
     
-    console.log(`[GoogleMapsService] Got place details: ${placeDetails.formattedAddress}`);
+    logger.debug('Got place details', { formattedAddress: placeDetails.formattedAddress });
     
     return placeDetails;
     
@@ -379,7 +382,7 @@ export async function getPlaceDetails(
     }
     
     // Network or parsing error
-    console.error('[GoogleMapsService] Place details error:', error);
+    logger.error('Place details error', { error });
     throw new MapsApiError(
       'network',
       error instanceof Error ? error.message : 'Network error',
@@ -409,7 +412,7 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
   const rateLimitResult = checkRateLimit('google-maps');
   
   if (rateLimitResult.status === 'exceeded') {
-    console.warn('[GoogleMapsService] Rate limit exceeded for geocoding, waiting...');
+    logger.warn('Rate limit exceeded for geocoding, waiting...');
     await waitForRateLimit('google-maps');
   }
   
@@ -430,13 +433,13 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
   
   const url = `${GOOGLE_MAPS_API_BASE}/place/findplacefromtext/json?${params.toString()}`;
   
-  console.log(`[GoogleMapsService] Geocoding address to placeId: ${address.substring(0, 50)}...`);
+  logger.debug('Geocoding address to placeId', { address: address.substring(0, 50) });
   
   try {
     const response = await fetch(url);
     
     if (!response.ok) {
-      console.warn(`[GoogleMapsService] Geocoding HTTP error: ${response.status}`);
+      logger.warn('Geocoding HTTP error', { status: response.status });
       return null;
     }
     
@@ -444,29 +447,29 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
     
     // Handle API-level errors
     if (data.status === 'REQUEST_DENIED') {
-      console.warn('[GoogleMapsService] Geocoding denied - API key invalid or restricted');
+      logger.warn('Geocoding denied - API key invalid or restricted');
       return null;
     }
     
     if (data.status === 'OVER_QUERY_LIMIT') {
-      console.warn('[GoogleMapsService] Geocoding quota exceeded');
+      logger.warn('Geocoding quota exceeded');
       return null;
     }
     
     if (data.status === 'ZERO_RESULTS' || data.status === 'NOT_FOUND') {
-      console.log(`[GoogleMapsService] No place found for address: ${address.substring(0, 50)}...`);
+      logger.debug('No place found for address', { address: address.substring(0, 50) });
       return null;
     }
     
     if (data.status !== 'OK') {
-      console.warn(`[GoogleMapsService] Geocoding error status: ${data.status}`);
+      logger.warn('Geocoding error status', { status: data.status });
       return null;
     }
     
     // Extract place_id from first candidate
     if (data.candidates && data.candidates.length > 0 && data.candidates[0].place_id) {
       const placeId = data.candidates[0].place_id;
-      console.log(`[GoogleMapsService] Geocoded address to placeId: ${placeId}`);
+      logger.debug('Geocoded address to placeId', { placeId });
       return placeId;
     }
     
@@ -474,7 +477,7 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
     
   } catch (error) {
     // Network or parsing error - log but don't throw
-    console.warn('[GoogleMapsService] Geocoding error:', error instanceof Error ? error.message : 'Unknown error');
+    logger.warn('Geocoding error', { error: error instanceof Error ? error.message : 'Unknown error' });
     return null;
   }
 }
@@ -601,7 +604,7 @@ export async function calculateRouteMatrix(
   const rateLimitResult = checkRateLimit('google-maps');
   
   if (rateLimitResult.status === 'exceeded') {
-    console.warn('[GoogleMapsService] Rate limit exceeded, waiting...');
+    logger.warn('Rate limit exceeded, waiting...');
     await waitForRateLimit('google-maps');
   }
   
@@ -624,7 +627,7 @@ export async function calculateRouteMatrix(
   
   const url = `${ROUTES_API_BASE}/distanceMatrix/v2:computeRouteMatrix`;
   
-  console.log(`[GoogleMapsService] Calculating route matrix: ${origins.length} origins × ${destinations.length} destinations`);
+  logger.debug('Calculating route matrix', { originsCount: origins.length, destinationsCount: destinations.length });
   
   try {
     const response = await fetch(url, {
@@ -639,7 +642,7 @@ export async function calculateRouteMatrix(
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('[GoogleMapsService] Routes API HTTP error:', response.status, errorText);
+      logger.error('Routes API HTTP error', { status: response.status, errorText });
       
       if (response.status === 401 || response.status === 403) {
         throw new MapsApiError('auth', `API key invalid or Routes API not enabled: ${errorText}`);
@@ -658,11 +661,11 @@ export async function calculateRouteMatrix(
     const data = await response.json();
     
     // Log response for debugging
-    console.log('[GoogleMapsService] Routes API response count:', Array.isArray(data) ? data.length : 'not array');
+    logger.debug('Routes API response', { count: Array.isArray(data) ? data.length : 'not array' });
     
     // Routes API returns an array of results
     if (!Array.isArray(data)) {
-      console.error('[GoogleMapsService] Unexpected response format:', data);
+      logger.error('Unexpected response format', { data });
       throw new MapsApiError('invalid', 'Unexpected response format from Routes API');
     }
     
@@ -695,7 +698,7 @@ export async function calculateRouteMatrix(
       };
     });
     
-    console.log(`[GoogleMapsService] Route matrix complete: ${results.length} results`);
+    logger.debug('Route matrix complete', { resultsCount: results.length });
     
     return results;
     
@@ -705,7 +708,7 @@ export async function calculateRouteMatrix(
     }
     
     // Network or parsing error
-    console.error('[GoogleMapsService] Route matrix error:', error);
+    logger.error('Route matrix error', { error });
     throw new MapsApiError(
       'network',
       error instanceof Error ? error.message : 'Network error',
@@ -789,22 +792,24 @@ async function withRetry<T>(
       
       // Don't retry non-retryable errors
       if (!lastError.retryable) {
-        console.error(`[GoogleMapsService] Non-retryable error (${lastError.type}):`, lastError.message);
+        logger.error('Non-retryable error', { errorType: lastError.type, message: lastError.message });
         throw lastError;
       }
       
       // Don't retry if we've exhausted all attempts
       if (attempt >= retryConfig.maxRetries) {
-        console.error(`[GoogleMapsService] All ${retryConfig.maxRetries} retries exhausted`);
+        logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries });
         throw lastError;
       }
       
       // Calculate and wait for backoff delay
       const delay = calculateBackoffDelay(attempt, retryConfig);
-      console.warn(
-        `[GoogleMapsService] Retry ${attempt + 1}/${retryConfig.maxRetries} after ${delay}ms ` +
-        `(error: ${lastError.type})`
-      );
+      logger.warn('Retrying after delay', {
+        attempt: attempt + 1,
+        maxRetries: retryConfig.maxRetries,
+        delayMs: delay,
+        errorType: lastError.type
+      });
       
       await new Promise(resolve => setTimeout(resolve, delay));
     }
@@ -843,7 +848,7 @@ export async function calculateDriveTime(
 } | null> {
   // Validate location data before attempting API call
   if (!origin.placeId && !origin.coordinates && !origin.address) {
-    console.warn('[GoogleMapsService] Missing origin location data');
+    logger.warn('Missing origin location data');
     if (fallbackMinutes !== undefined) {
       return {
         durationMinutes: fallbackMinutes,
@@ -857,7 +862,7 @@ export async function calculateDriveTime(
   }
   
   if (!destination.placeId && !destination.coordinates && !destination.address) {
-    console.warn('[GoogleMapsService] Missing destination location data');
+    logger.warn('Missing destination location data');
     if (fallbackMinutes !== undefined) {
       return {
         durationMinutes: fallbackMinutes,
@@ -877,7 +882,7 @@ export async function calculateDriveTime(
     );
     
     if (results.length === 0 || results[0].status !== 'OK') {
-      console.warn('[GoogleMapsService] No route found between locations');
+      logger.warn('No route found between locations');
       // Use fallback if available
       if (fallbackMinutes !== undefined) {
         return {
@@ -904,10 +909,10 @@ export async function calculateDriveTime(
   } catch (error) {
     // API failed - use fallback if available
     if (fallbackMinutes !== undefined) {
-      console.warn(
-        `[GoogleMapsService] API failed (${error instanceof MapsApiError ? error.type : 'unknown'}), ` +
-        `using fallback: ${fallbackMinutes} minutes`
-      );
+      logger.warn('API failed, using fallback', {
+        errorType: error instanceof MapsApiError ? error.type : 'unknown',
+        fallbackMinutes
+      });
       return {
         durationMinutes: fallbackMinutes,
         durationSeconds: fallbackMinutes * 60,

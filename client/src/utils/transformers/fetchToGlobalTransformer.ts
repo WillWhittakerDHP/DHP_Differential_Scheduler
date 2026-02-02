@@ -18,6 +18,9 @@ import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('fetchToGlobalTransformer')
 
 /**
  * GlobalRelationship type matching React's structure
@@ -331,6 +334,7 @@ export class GlobalTransformer {
       metadataCache = useMetadataCache()
       metadata = metadataCache.getMetadata(entityType)
     } catch (error) {
+      logger.debug('Metadata cache not available, using schema defaults', { error, entityType })
     }
 
     // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them

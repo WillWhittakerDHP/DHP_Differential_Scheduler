@@ -150,7 +150,7 @@ export function useBusinessRules() {
       const response = await apiClient.get<BusinessRule[]>(url)
       rules.value = response.data || []
     } catch (err) {
-      console.error('Error fetching business rules:', err)
+      logger.error('Error fetching business rules', { error: err })
       error.value = err instanceof Error ? err.message : 'Failed to load business rules'
       rules.value = []
     } finally {
@@ -172,7 +172,7 @@ export function useBusinessRules() {
       const response = await apiClient.get<BusinessRule[]>(`/internal/business-rules/block/${blockInstanceId}`)
       return response.data || []
     } catch (err) {
-      console.error('Error fetching business rules for block:', err)
+      logger.error('Error fetching business rules for block', { error: err, blockInstanceId })
       error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
       return []
     } finally {
@@ -232,7 +232,7 @@ export function useBusinessRules() {
       
       return null
     } catch (err) {
-      console.error('Error updating business rule:', err)
+      logger.error('Error updating business rule', { error: err, id, formData })
       error.value = err instanceof Error ? err.message : 'Failed to update business rule'
       return null
     } finally {
@@ -281,7 +281,7 @@ export function useBusinessRules() {
       await fetchRules()
       return true
     } catch (err) {
-      console.error('Error toggling business rule:', err)
+      logger.error('Error toggling business rule', { error: err, id, active })
       error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
       return false
     } finally {

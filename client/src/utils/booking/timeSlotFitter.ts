@@ -382,6 +382,7 @@ export async function fitAllTimeSlotsWithAvailability(
   options?: {
     defaultLocation?: import('@/configs/availabilitySettings').DefaultLocation
     calendarEvents?: import('@/services/calendarApiService').CalendarEvent[]
+    driveTimeDataSource?: 'default' | 'api' | 'both' | 'none'
   }
 ): Promise<FitTimeSlotsResultWithAvailability> {
   // PATTERN: Delegate to availability manager with constraint arrays

@@ -15,6 +15,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import { useAdmin } from './useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useSelectOptions')
 
 export interface SelectOption {
   title: string
@@ -284,6 +287,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         return result
       } catch (error) {
+        logger.debug('Failed to group select options', { error, entityKey: String(optionEntityKey.value) })
       }
     }
     

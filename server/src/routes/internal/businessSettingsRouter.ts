@@ -265,6 +265,37 @@ function validateAvailabilitySettings(data: any): data is AvailabilitySettingsDa
     }
   }
 
+  // Validate calendarConfig structure if present
+  if (data.calendarConfig !== undefined) {
+    if (typeof data.calendarConfig !== 'object') {
+      return false;
+    }
+    if (typeof data.calendarConfig.enabled !== 'boolean') {
+      return false;
+    }
+    if (!['google', 'outlook', 'none'].includes(data.calendarConfig.provider)) {
+      return false;
+    }
+    // Validate calendars array (required, must be array)
+    if (data.calendarConfig.calendars !== undefined) {
+      if (!Array.isArray(data.calendarConfig.calendars)) {
+        return false; // Must be array format
+      }
+      // Validate array entries
+      for (const entry of data.calendarConfig.calendars) {
+        if (typeof entry !== 'object' ||
+            typeof entry.email !== 'string' ||
+            typeof entry.readFrom !== 'boolean' ||
+            typeof entry.writeTo !== 'boolean') {
+          return false;
+        }
+        if (entry.label !== undefined && typeof entry.label !== 'string') {
+          return false;
+        }
+      }
+    }
+  }
+
   return true;
 }
 

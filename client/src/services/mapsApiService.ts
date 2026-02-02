@@ -10,8 +10,10 @@
 
 import axios, { AxiosError } from 'axios'
 import { createLogger } from '@/utils/logger'
+import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
 
 const logger = createLogger('mapsApiService')
+const { recordApiCall } = useApiCallStatus()
 
 // Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
@@ -164,11 +166,18 @@ export async function fetchAutocompleteSuggestions(
     
     logger.debug('[fetchAutocompleteSuggestions] Got', response.data.predictions.length, 'suggestions')
     
+    // Record successful Places API call
+    recordApiCall('places', 'hit')
+    
     return response.data.predictions
     
   } catch (error) {
     const apiError = handleApiError(error)
     logger.error('[fetchAutocompleteSuggestions] Error:', apiError.type, apiError.message)
+    
+    // Record failed Places API call
+    recordApiCall('places', 'error')
+    
     throw apiError
   }
 }
@@ -208,11 +217,18 @@ export async function fetchPlaceDetails(
     
     logger.debug('[fetchPlaceDetails] Got details:', response.data.formattedAddress)
     
+    // Record successful Places API call
+    recordApiCall('places', 'hit')
+    
     return response.data
     
   } catch (error) {
     const apiError = handleApiError(error)
     logger.error('[fetchPlaceDetails] Error:', apiError.type, apiError.message)
+    
+    // Record failed Places API call
+    recordApiCall('places', 'error')
+    
     throw apiError
   }
 }
@@ -435,6 +451,11 @@ export async function fetchDriveTime(
       `(source: ${source}, duration: ${duration.toFixed(0)}ms${duration >= 2000 ? ' ⚠ slow' : ''})`
     )
     
+    // Record successful Routes API call (only if source is 'calculated' or 'cache', not 'estimated')
+    if (source === 'calculated' || source === 'cache') {
+      recordApiCall('routes', 'hit')
+    }
+    
     // Warn if performance is slow
     if (duration >= 2000) {
       logger.warn(
@@ -461,6 +482,7 @@ export async function fetchDriveTime(
         }
       )
       if (fallbackMinutes !== undefined) {
+        // API call succeeded but no route found - using fallback, don't record as error
         return {
           durationMinutes: fallbackMinutes,
           durationSeconds: fallbackMinutes * 60,
@@ -469,11 +491,14 @@ export async function fetchDriveTime(
           _meta: { source: 'estimated' }
         }
       }
+      // No fallback available - record as error
+      recordApiCall('routes', 'error')
       return null
     }
     
     // For other errors, use fallback if available
     if (fallbackMinutes !== undefined) {
+      // Using fallback - don't record as error since we have a result
       logger.warn(
         `[fetchDriveTime] API error (${apiError.type}) after ${duration.toFixed(0)}ms, ` +
         `using fallback: ${fallbackMinutes} minutes`,
@@ -493,6 +518,9 @@ export async function fetchDriveTime(
         _meta: { source: 'estimated' }
       }
     }
+    
+    // No fallback available - record as error and throw
+    recordApiCall('driveTime', 'error')
     
     // No fallback available - throw error with context
     logger.error(

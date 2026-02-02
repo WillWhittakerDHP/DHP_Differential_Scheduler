@@ -219,41 +219,44 @@ export interface DefaultLocation {
 export type CalendarProvider = 'google' | 'outlook' | 'none'
 
 /**
+ * Calendar entry with read/write permissions
+ * LEARNING: Individual calendar configuration with explicit permissions
+ * WHY: Allows admin to configure which calendars are read vs written to
+ * PATTERN: Interface with email, optional label, and permission flags
+ */
+export interface CalendarEntry {
+  email: string           // Calendar email address (e.g., "will@districthomepro.com")
+  label?: string          // Optional friendly name (e.g., "Work Calendar")
+  readFrom: boolean       // Check this calendar for availability (free-busy)
+  writeTo: boolean        // Create appointments on this calendar
+}
+
+/**
  * Calendar configuration
- * LEARNING: Configuration for which calendars to check for free-busy data
- * WHY: Allows admin to configure multiple calendar sources for availability checking
- * PATTERN: Labeled fields matching mock data IDs for consistency
+ * LEARNING: Configuration for which calendars to check for free-busy data and where to create events
+ * WHY: Allows admin to configure multiple calendar sources with explicit read/write permissions
+ * PATTERN: Dynamic array of calendar entries instead of fixed labeled fields
  * Session 2.0.1: Added for Google Calendar API integration
- * 
- * Calendar labels match mock data IDs (client/src/utils/booking/mockGoogleCalendar.ts):
- * - primary: Main calendar (user's primary Google/Outlook calendar)
- * - work: Work calendar (optional)
- * - personal: Personal calendar (optional)
+ * Session 2.X: Refactored to support dynamic calendar list with read/write permissions
  */
 export interface CalendarConfig {
   enabled: boolean
   provider: CalendarProvider
-  calendars: {
-    primary: string    // e.g., "will@districthomepro.com"
-    work: string       // Optional, empty if not used
-    personal: string   // Optional, empty if not used
-  }
+  calendars: CalendarEntry[]  // Dynamic list instead of fixed object
 }
+
 
 /**
  * Default calendar configuration
  * LEARNING: Default values when no calendar config is set
- * WHY: Provides sensible defaults (disabled, no provider, empty emails)
+ * WHY: Provides sensible defaults (disabled, no provider, empty array)
  * Session 2.0.1: Added for calendar configuration
+ * Session 2.X: Updated to use CalendarEntry[] array
  */
 export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
   enabled: false,
   provider: 'none',
-  calendars: {
-    primary: '',
-    work: '',
-    personal: ''
-  }
+  calendars: []
 }
 
 /**
@@ -564,35 +567,82 @@ export function isValidCalendarEmail(email: string): boolean {
 }
 
 /**
- * Extract non-empty calendar emails as array
- * LEARNING: Converts CalendarConfig.calendars object to string array
- * WHY: API calls need array of email strings, not labeled object
- * PATTERN: Filter out empty strings, return array
+ * Extract calendar emails that are configured for reading (readFrom: true)
+ * LEARNING: Returns emails from calendars marked for availability checking
+ * WHY: Free-busy API calls need array of email strings for calendars to check
+ * PATTERN: Filter calendars by readFrom flag, return email array
  * Session 2.0.1: Added for Google Calendar API integration
+ * Session 2.X: Updated to use CalendarEntry[] with readFrom flag
  * 
  * @param config - CalendarConfig object (optional)
- * @returns Array of non-empty calendar email strings
+ * @returns Array of calendar email strings where readFrom is true
  * 
  * @example
  * const config: CalendarConfig = {
  *   enabled: true,
  *   provider: 'google',
- *   calendars: { primary: 'a@b.com', work: '', personal: 'c@d.com' }
+ *   calendars: [
+ *     { email: 'a@b.com', readFrom: true, writeTo: false },
+ *     { email: 'c@d.com', readFrom: true, writeTo: true }
+ *   ]
  * }
- * getCalendarEmailsArray(config) // Returns ['a@b.com', 'c@d.com']
+ * getReadFromCalendars(config) // Returns ['a@b.com', 'c@d.com']
  */
-export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
-  if (!config || !config.enabled) {
+export function getReadFromCalendars(config: CalendarConfig | undefined): string[] {
+  if (!config || !config.enabled || !Array.isArray(config.calendars)) {
     return []
   }
   
-  const emails = [
-    config.calendars.primary,
-    config.calendars.work,
-    config.calendars.personal
-  ]
-  
-  return emails.filter(email => email && email.trim() !== '')
+  return config.calendars
+    .filter(entry => entry.readFrom && entry.email && entry.email.trim() !== '')
+    .map(entry => entry.email.trim())
 }
+
+/**
+ * Extract the calendar email configured for writing (writeTo: true)
+ * LEARNING: Returns single email from calendar marked for event creation
+ * WHY: Event creation needs single calendar ID where appointments are created
+ * PATTERN: Find first calendar with writeTo flag, return email or undefined
+ * Session 2.X: Added for writeTo calendar configuration
+ * 
+ * @param config - CalendarConfig object (optional)
+ * @returns Calendar email string where writeTo is true, or undefined if none
+ * 
+ * @example
+ * const config: CalendarConfig = {
+ *   enabled: true,
+ *   provider: 'google',
+ *   calendars: [
+ *     { email: 'a@b.com', readFrom: true, writeTo: false },
+ *     { email: 'c@d.com', readFrom: true, writeTo: true }
+ *   ]
+ * }
+ * getWriteToCalendar(config) // Returns 'c@d.com'
+ */
+export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {
+  if (!config || !config.enabled || !Array.isArray(config.calendars)) {
+    return undefined
+  }
+  
+  const writeToEntry = config.calendars.find(entry => entry.writeTo && entry.email && entry.email.trim() !== '')
+  return writeToEntry?.email.trim()
+}
+
+/**
+ * Extract non-empty calendar emails as array
+ * LEARNING: Converts CalendarConfig.calendars to string array (all calendars, regardless of permissions)
+ * WHY: Some code may need all calendar emails without filtering by readFrom
+ * PATTERN: Returns all non-empty emails from calendar entries
+ * Session 2.0.1: Added for Google Calendar API integration
+ * Session 2.X: Updated to use CalendarEntry[] array, delegates to getReadFromCalendars for consistency
+ * 
+ * @param config - CalendarConfig object (optional)
+ * @returns Array of non-empty calendar email strings
+ */
+export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
+  // Returns readFrom calendars (most common use case)
+  return getReadFromCalendars(config)
+}
+
 
 

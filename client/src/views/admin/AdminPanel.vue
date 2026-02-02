@@ -12,8 +12,6 @@ import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
-import { isDevModeEnabled } from '@/utils/env/devMode'
-import ApiDevPanel from '@/components/admin/dev/ApiDevPanel.vue'
 
 /**
  * LEARNING: Initialize admin data context when admin panel mounts
@@ -30,46 +28,10 @@ useAdmin()
  * PATTERN: Use ref for reactive primitive values in Vue 3 Composition API
  */
 const currentTab = ref('instances')
-
-/**
- * LEARNING: Dev panel visibility state
- * WHY: Controls visibility of API dev panel for debugging
- * PATTERN: Only visible in dev mode
- */
-const isDevMode = isDevModeEnabled()
-const apiDevPanelVisible = ref(false)
 </script>
 
 <template>
   <div class="admin-panel">
-    <!-- 
-      Dev Panel Toggle (dev mode only) 
-      LEARNING: Fixed position FAB matching global booking wizard toggle style
-      WHY: Consistent dev panel access across all pages
-      PATTERN: Admin has its own ApiDevPanel for OAuth, cache, rate limit debugging
-    -->
-    <VBtn
-      v-if="isDevMode"
-      icon
-      size="small"
-      color="error"
-      variant="elevated"
-      class="admin-dev-panel-toggle"
-      @click="apiDevPanelVisible = !apiDevPanelVisible"
-    >
-      <VIcon>mdi-bug</VIcon>
-      <VTooltip activator="parent" location="left">
-        API Dev Panel
-      </VTooltip>
-    </VBtn>
-
-    <!-- API Dev Panel -->
-    <ApiDevPanel
-      v-if="isDevMode"
-      :visible="apiDevPanelVisible"
-      @close="apiDevPanelVisible = false"
-    />
-
     <!--
       LEARNING: VTabs component for tab navigation
       WHY: Provides tabbed interface with Vuexy styling
@@ -112,22 +74,6 @@ const apiDevPanelVisible = ref(false)
 <style scoped>
 .admin-panel {
   padding: 1rem;
-}
-
-/* Fixed position FAB for dev panel toggle - matches global booking wizard toggle */
-.admin-dev-panel-toggle {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-@media (max-width: 960px) {
-  .admin-dev-panel-toggle {
-    top: 16px;
-    right: 16px;
-  }
 }
 </style>
 

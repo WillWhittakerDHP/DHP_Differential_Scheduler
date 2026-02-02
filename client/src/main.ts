@@ -141,6 +141,7 @@ const prefetchGlobalData = async () => {
     queryClient.setQueryData<GlobalData>(['globalData'], globalData)
     
   } catch (error) {
+    logger.error('Failed to prefetch global data', { error })
   }
 }
 

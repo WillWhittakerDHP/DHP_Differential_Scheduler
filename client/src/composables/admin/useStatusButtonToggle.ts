@@ -186,6 +186,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       // PATTERN: Call optional callback after successful mutation
       onToggle?.(String(fieldKey))
     } catch (error) {
+      logger.warn('Failed to toggle status button', { error, entityKey, entityId: String(entityId), fieldKey })
     } finally {
       // PATTERN: Use finally block to ensure cleanup happens even if update fails
       pendingToggles.value.delete(toggleKey)

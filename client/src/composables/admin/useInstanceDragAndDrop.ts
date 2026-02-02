@@ -12,6 +12,9 @@ import { useEntityTabState } from './useEntityTabState'
 import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from './useEntityDragHandlers'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useInstanceDragAndDrop')
 
 export interface UseInstanceDragAndDropOptions {
   mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -171,7 +174,8 @@ export function useInstanceDragAndDrop(
               dragHandlers.handleDragEnd()
             },
           }))
-        } catch (_error) {
+        } catch (error) {
+          logger.debug('Failed to initialize drag and drop for group', { error, groupKey })
         }
       })
     })

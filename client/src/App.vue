@@ -26,13 +26,12 @@
       <template v-if="isDevMode && !isAdminRoute">
         <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <ApiDevPanel :visible="apiDevPanelVisible" @close="apiDevPanelVisible = false" />
-        <DevPanelToggle class="wizard-debug-toggle" @toggle="debugPanelVisible = !debugPanelVisible" />
+        <DevPanelToggle @toggle="handleSlotPanelToggle" />
         <VBtn
-          size="small"
           color="error"
           variant="elevated"
           class="wizard-api-toggle"
-          @click="apiDevPanelVisible = !apiDevPanelVisible"
+          @click="handleApiPanelToggle"
         >
           <span class="button-label">api</span>
           <VTooltip activator="parent" location="left">
@@ -98,6 +97,22 @@ const isDevMode = isDevModeEnabled()
 const debugPanelVisible = ref(false)
 const apiDevPanelVisible = ref(false)
 
+// Handle slot panel toggle - close API panel if open
+const handleSlotPanelToggle = (): void => {
+  if (apiDevPanelVisible.value) {
+    apiDevPanelVisible.value = false
+  }
+  debugPanelVisible.value = !debugPanelVisible.value
+}
+
+// Handle API panel toggle - close slot panel if open
+const handleApiPanelToggle = (): void => {
+  if (debugPanelVisible.value) {
+    debugPanelVisible.value = false
+  }
+  apiDevPanelVisible.value = !apiDevPanelVisible.value
+}
+
 const devPanelButtons = ref<{
   selectedAppointmentId: Ref<string | null>
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
@@ -120,39 +135,36 @@ provide('devPanelButtons', devPanelButtons)
 }
 
 /* Wizard dev panel buttons - positioned at top-right, stacked vertically */
-.wizard-debug-toggle {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
 .wizard-api-toggle {
   position: fixed;
   top: 72px; /* 24px (top) + 48px (button height + gap) */
   right: 24px;
   z-index: 999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 48px;
-  width: 48px;
-  height: 48px;
+  min-width: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  max-height: 48px !important;
   border-radius: 50%;
-  padding: 0;
+  padding: 0 !important;
+  
+  :deep(.v-btn__content) {
+    padding: 0 !important;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .wizard-api-toggle .button-label {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: lowercase;
+  line-height: 1;
 }
 
 @media (max-width: 960px) {
-  .wizard-debug-toggle {
-    top: 16px;
-    right: 16px;
-  }
-  
   .wizard-api-toggle {
     top: 64px; /* 16px (top) + 48px (button height + gap) */
     right: 16px;

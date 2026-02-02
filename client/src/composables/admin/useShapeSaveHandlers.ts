@@ -9,6 +9,9 @@ import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useShapeSaveHandlers')
 
 export interface UseShapeSaveHandlersOptions {
   expandedShapes: Ref<string[]>
@@ -89,7 +92,8 @@ export function useShapeSaveHandlers(
       isCreatingAnnotationShape.value = false
       newAnnotationShapeName.value = ''
       expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to create annotation shape', { error, name: newAnnotationShapeName.value })
     }
   }
 

@@ -221,7 +221,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
       `[useFieldContextState] Missing required displayConfig for ${String(entityKey)}.${String(fieldKey)}. ` +
       `Expected label and fieldType from metadata. Field must be configured in /admin-input-metadata.`
     )
-    console.error(error)
+    logger.error('Missing required displayConfig', { entityKey, fieldKey, error })
     throw error
   }
 

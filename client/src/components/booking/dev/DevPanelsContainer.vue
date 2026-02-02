@@ -14,11 +14,8 @@ import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'
 import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/appointment'
-import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
-import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { getMockBusyTimesSync } from '@/utils/timeSlotCalculations'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
@@ -26,8 +23,6 @@ import type { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
-import { useFreeBusyDataSource, type FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
-import { checkOAuthStatus, getOAuthUrl } from '@/services/calendarApiService'
 
 interface Props {
   visible: boolean
@@ -41,7 +36,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
-const activeTab = ref<'slotShape' | 'instances' | 'constraints' | 'calendar'>('slotShape')
+const activeTab = ref<'slotShape' | 'instances' | 'constraints'>('slotShape')
 const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
 
@@ -240,160 +235,6 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
-const calendarData = computed(() => {
-  // LEARNING: Access shared ref first to establish dependency
-  const data = devPanelData.value
-  
-  // LEARNING: Access dateRange ComputedRef to establish dependency tracking
-  const dateRangeRef = data.dateRange
-  
-  // PATTERN: Check if dateRange exists and unwrap it, handling both ComputedRef and direct values
-  // WHY: Access .value inside computed to ensure Vue tracks the ComputedRef as a dependency
-  let dateRangeValue: { start: RFC3339DateTime; end: RFC3339DateTime } | null = null
-  
-  if (dateRangeRef) {
-    if (typeof dateRangeRef === 'object' && 'value' in dateRangeRef) {
-      const value = dateRangeRef.value
-      if (value && typeof value === 'object' && 'start' in value && 'end' in value) {
-        dateRangeValue = value as { start: RFC3339DateTime; end: RFC3339DateTime }
-      }
-    } else if (dateRangeRef && typeof dateRangeRef === 'object' && 'start' in dateRangeRef && 'end' in dateRangeRef) {
-      dateRangeValue = dateRangeRef as { start: RFC3339DateTime; end: RFC3339DateTime }
-    }
-  }
-  
-  // LEARNING: Access busyPeriods ComputedRef to establish dependency tracking
-  const busyPeriodsRef = data.busyPeriods
-  
-  let busyPeriodsValue: BusyTimeRange[] = []
-  if (busyPeriodsRef) {
-    if (typeof busyPeriodsRef === 'object' && 'value' in busyPeriodsRef) {
-      const value = busyPeriodsRef.value
-      if (Array.isArray(value)) {
-        busyPeriodsValue = value as BusyTimeRange[]
-      }
-    } else if (Array.isArray(busyPeriodsRef)) {
-      busyPeriodsValue = busyPeriodsRef as BusyTimeRange[]
-    }
-  }
-  
-  // LEARNING: Access refreshKey to establish dependency tracking
-  // PATTERN: refreshKey is a Ref<number> | undefined, so access .value directly
-  const refreshKeyRef = data.refreshKey
-  let refreshKeyValue: number | undefined = undefined
-  if (refreshKeyRef && typeof refreshKeyRef === 'object' && 'value' in refreshKeyRef) {
-    const ref = refreshKeyRef as Ref<number>
-    refreshKeyValue = ref.value
-  }
-  
-  return {
-    dateRange: dateRangeValue,
-    refreshKey: refreshKeyValue,
-    busyPeriods: busyPeriodsValue
-  }
-})
-
-// Session 2.1.2: Free/busy data source management
-const { 
-  dataSource: freeBusyDataSource, 
-  calendarEmails: configuredCalendarEmails,
-  forceRefresh: triggerForceRefresh,
-  settingsLoaded: calendarSettingsLoaded
-} = useFreeBusyDataSource()
-
-// Data source options for radio group
-const dataSourceOptions: { title: string; value: FreeBusyDataSource }[] = [
-  { title: 'Real API', value: 'real' },
-  { title: 'Mock Data', value: 'mock' },
-  { title: 'Both (Merged)', value: 'both' },
-  { title: 'None', value: 'none' }
-]
-
-// OAuth status for showing auth prompt
-const oauthStatus = ref<{ authenticated: boolean; authUrl?: string }>({ authenticated: false })
-const isCheckingAuth = ref(false)
-
-// Check OAuth status when component mounts or data source changes to 'real' or 'both'
-const checkAuth = async () => {
-  if (freeBusyDataSource.value === 'real' || freeBusyDataSource.value === 'both') {
-    isCheckingAuth.value = true
-    try {
-      oauthStatus.value = await checkOAuthStatus()
-    } catch (error) {
-      oauthStatus.value = { authenticated: false, authUrl: getOAuthUrl() }
-    } finally {
-      isCheckingAuth.value = false
-    }
-  }
-}
-
-// Check auth on mount
-onMounted(() => {
-  checkAuth()
-})
-
-// Watch data source changes
-watch(freeBusyDataSource, () => {
-  checkAuth()
-})
-
-const busyPeriods = computed(() => {
-  // PATTERN: Prefer prop over generated values for consistency
-  if (calendarData.value.busyPeriods && calendarData.value.busyPeriods.length > 0) {
-    return calendarData.value.busyPeriods
-  }
-  
-  // PATTERN: Generate busy periods from dateRange when prop not provided
-  if (!calendarData.value.dateRange) {
-    return []
-  }
-  
-  // LEARNING: Include refreshKey in dependency to force recalculation
-  // PATTERN: Reference refreshKey in computed to trigger recalculation
-  void calendarData.value.refreshKey // Force dependency tracking
-  
-  // Session 2.1.2: Use mock sync version for dev panel display
-  // The actual async fetch happens in useBusyTimes which updates devPanelData.busyPeriods
-  const result = getMockBusyTimesSync(calendarData.value.dateRange)
-  
-  return result
-})
-
-const formatBusyPeriod = (period: { start: RFC3339DateTime; end: RFC3339DateTime }): string => {
-  const start = new Date(period.start)
-  const end = new Date(period.end)
-  const durationMinutes = Math.round((end.getTime() - start.getTime()) / (1000 * 60))
-  
-  const startStr = formatDateTimeForDisplay(period.start as any, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  })
-  
-  const endStr = formatTimeForDisplay(period.end as any, {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  })
-  
-  return `${startStr} - ${endStr} (${durationMinutes} min)`
-}
-
-const totalBlockedMinutes = computed(() => {
-  return busyPeriods.value.reduce((total, period) => {
-    const start = new Date(period.start)
-    const end = new Date(period.end)
-    const duration = (end.getTime() - start.getTime()) / (1000 * 60)
-    return total + duration
-  }, 0)
-})
-
-const totalBlockedHours = computed(() => {
-  return Math.round((totalBlockedMinutes.value / 60) * 10) / 10
-})
 
 const devPanelButtonsRef = inject<Ref<{
   selectedAppointmentId: Ref<string | null>
@@ -563,10 +404,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
         <VTab value="constraints">
           <VIcon size="small" class="mr-2">tabler-lock</VIcon>
           Constraints
-        </VTab>
-        <VTab value="calendar">
-          <VIcon size="small" class="mr-2">tabler-calendar-event</VIcon>
-          Free/Busy
         </VTab>
       </VTabs>
       
@@ -876,193 +713,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             </div>
           </VWindowItem>
 
-          <!-- Tab 4: Free/Busy Data Source -->
-          <!-- Session 2.1.2: Updated with data source toggle -->
-          <VWindowItem value="calendar">
-            <div class="pa-3">
-              <!-- Data Source Selection -->
-              <div class="mb-4">
-                <div class="text-subtitle-2 mb-2">Data Source</div>
-                <VRadioGroup
-                  v-model="freeBusyDataSource"
-                  inline
-                  density="compact"
-                  hide-details
-                >
-                  <VRadio
-                    v-for="option in dataSourceOptions"
-                    :key="option.value"
-                    :label="option.title"
-                    :value="option.value"
-                  />
-                </VRadioGroup>
-                
-                <!-- Force Refresh and Reset Mocks Buttons -->
-                <div class="d-flex gap-2 mt-2">
-                  <VBtn
-                    variant="outlined"
-                    size="small"
-                    color="primary"
-                    prepend-icon="tabler-refresh"
-                    @click="triggerForceRefresh"
-                  >
-                    Force Refresh
-                  </VBtn>
-                  <VBtn
-                    v-if="devPanelButtons"
-                    variant="outlined"
-                    size="small"
-                    color="warning"
-                    prepend-icon="tabler-refresh"
-                    @click="devPanelButtons.handleResetMocks"
-                  >
-                    Reset Mocks
-                  </VBtn>
-                </div>
-              </div>
-              
-              <!-- OAuth Status Warning (when using real API) -->
-              <VAlert
-                v-if="(freeBusyDataSource === 'real' || freeBusyDataSource === 'both') && !oauthStatus.authenticated && !isCheckingAuth"
-                type="warning"
-                variant="tonal"
-                density="compact"
-                class="mb-4"
-              >
-                <template #prepend>
-                  <VIcon>tabler-alert-triangle</VIcon>
-                </template>
-                <div class="d-flex align-center justify-space-between">
-                  <span class="text-caption">Not connected to Google Calendar</span>
-                  <VBtn
-                    variant="text"
-                    size="small"
-                    color="warning"
-                    :href="oauthStatus.authUrl || getOAuthUrl()"
-                    target="_blank"
-                  >
-                    Connect
-                  </VBtn>
-                </div>
-              </VAlert>
-              
-              <!-- Auth Checking Indicator -->
-              <div v-if="isCheckingAuth" class="d-flex align-center mb-4">
-                <VProgressCircular indeterminate size="16" class="mr-2" />
-                <span class="text-caption">Checking authentication...</span>
-              </div>
-              
-              <!-- Calendar Configuration Info -->
-              <VAlert
-                v-if="freeBusyDataSource !== 'mock' && freeBusyDataSource !== 'none'"
-                :type="configuredCalendarEmails.length > 0 ? 'success' : (calendarSettingsLoaded ? 'info' : 'warning')"
-                variant="tonal"
-                density="compact"
-                class="mb-4"
-              >
-                <template #prepend>
-                  <VIcon v-if="!calendarSettingsLoaded">tabler-loader</VIcon>
-                  <VIcon v-else-if="configuredCalendarEmails.length > 0">tabler-check</VIcon>
-                  <VIcon v-else>tabler-info-circle</VIcon>
-                </template>
-                <div class="text-caption">
-                  <template v-if="!calendarSettingsLoaded">
-                    Loading calendar settings...
-                  </template>
-                  <template v-else-if="configuredCalendarEmails.length > 0">
-                    <strong>Configured calendars:</strong> {{ configuredCalendarEmails.join(', ') }}
-                  </template>
-                  <template v-else>
-                    No calendars configured. Go to Admin → Controls → Calendar → Integration to add calendars.
-                  </template>
-                </div>
-              </VAlert>
-              
-              <VDivider class="my-3" />
-
-              <div v-if="!calendarData.dateRange" class="text-body-2 text-medium-emphasis mb-4">
-                Select a date to see busy periods
-              </div>
-
-              <template v-else>
-                <!-- LEARNING: Summary Statistics -->
-                <!-- WHY: Quick overview of blocked time -->
-                <!-- PATTERN: Display key metrics in cards -->
-                <VRow class="mb-4">
-                  <VCol cols="12" sm="6">
-                    <VCard variant="tonal" color="warning">
-                      <VCardText class="py-2">
-                        <div class="text-caption text-medium-emphasis">Blocked Periods</div>
-                        <div class="text-h6">{{ busyPeriods.length }}</div>
-                      </VCardText>
-                    </VCard>
-                  </VCol>
-                  <VCol cols="12" sm="6">
-                    <VCard variant="tonal" color="warning">
-                      <VCardText class="py-2">
-                        <div class="text-caption text-medium-emphasis">Total Blocked Time</div>
-                        <div class="text-h6">{{ totalBlockedHours }} hours</div>
-                      </VCardText>
-                    </VCard>
-                  </VCol>
-                </VRow>
-
-                <!-- LEARNING: Busy Periods List -->
-                <!-- WHY: Shows exactly what times are blocked -->
-                <!-- PATTERN: List display with formatted times and icons -->
-                <div v-if="busyPeriods.length === 0" class="text-body-2 text-medium-emphasis mb-4">
-                  No busy periods for this date range
-                  <span v-if="freeBusyDataSource === 'none'" class="text-caption">(data source is "None")</span>
-                </div>
-
-                <VList v-else density="compact">
-                  <VListSubheader>Blocked Time Periods</VListSubheader>
-                  <VListItem
-                    v-for="(period, index) in busyPeriods"
-                    :key="index"
-                    :title="formatBusyPeriod(period)"
-                    prepend-icon="tabler-clock-x"
-                    color="warning"
-                  >
-                    <template #subtitle>
-                      <span class="text-caption">
-                        {{ new Date(period.start).toISOString() }} → 
-                        {{ new Date(period.end).toISOString() }}
-                      </span>
-                    </template>
-                  </VListItem>
-                </VList>
-
-                <!-- LEARNING: Info Message -->
-                <!-- WHY: Explains the data source behavior -->
-                <!-- PATTERN: Alert component for informational messages -->
-                <VAlert
-                  type="info"
-                  variant="tonal"
-                  density="compact"
-                  class="mt-4"
-                >
-                  <template #prepend>
-                    <VIcon>tabler-info-circle</VIcon>
-                  </template>
-                  <div class="text-caption">
-                    <template v-if="freeBusyDataSource === 'mock'">
-                      Busy periods are randomly generated mock data. Change the selected date to regenerate.
-                    </template>
-                    <template v-else-if="freeBusyDataSource === 'real'">
-                      Busy periods are fetched from Google Calendar API (cached on server).
-                    </template>
-                    <template v-else-if="freeBusyDataSource === 'both'">
-                      Busy periods are merged from Google Calendar API and mock data.
-                    </template>
-                    <template v-else>
-                      Data source is "None" - all times are available.
-                    </template>
-                  </div>
-                </VAlert>
-              </template>
-            </div>
-          </VWindowItem>
         </VWindow>
       </VCardText>
     </VCard>

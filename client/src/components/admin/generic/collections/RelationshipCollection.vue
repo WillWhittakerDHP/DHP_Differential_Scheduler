@@ -124,6 +124,9 @@ import type { GlobalEntity } from '@/types/entities'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useNotification } from '@/composables/useNotification'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('RelationshipCollection')
 
 export type CollectionType = 'parts' | 'annotations' | 'events'
 
@@ -227,7 +230,7 @@ const { relationships, remove: removeRelationship } = relationshipCrud
 const handleDeleteChildById = async (id: string) => {
   const entity = existingChildren.value.find(child => String(child.id) === id)
   if (!entity) {
-    console.warn(`[RelationshipCollection] Could not find entity with id: ${id}`)
+    logger.warn('Could not find entity with id', { id })
     return
   }
   await handleDeleteChild(entity)
