@@ -311,7 +311,9 @@ export interface RouteLocation {
 
 /**
  * Drive time result from Routes API
- * LEARNING: Contains duration and distance for a route
+ * LEARNING: Contains duration and distance for a route with source metadata
+ * WHY: Indicates whether time is calculated (from API), estimated (fallback), or cached
+ * Session 2.2.3: Added 'estimated' source type for fallback values
  */
 export interface DriveTimeResult {
   durationMinutes: number
@@ -319,7 +321,7 @@ export interface DriveTimeResult {
   distanceMeters: number
   distanceMiles: number
   _meta?: {
-    source: 'cache' | 'api'
+    source: 'calculated' | 'estimated' | 'cache'
   }
 }
 
@@ -338,32 +340,56 @@ export interface RouteMatrixResult {
 /**
  * Fetch drive time between two locations
  * 
- * LEARNING: Get drive time from Routes API via server proxy
+ * LEARNING: Get drive time from Routes API via server proxy with fallback support
  * WHY: Needed for dynamic drive time buffer calculations
  * PATTERN: Location priority: placeId > coordinates > address
  * 
  * Session 2.2.2: Created for Routes API integration
+ * Session 2.2.3: Added fallback support and source metadata
  * 
  * @param origin Origin location (placeId, coordinates, or address)
  * @param destination Destination location (placeId, coordinates, or address)
  * @param useTraffic Whether to use real-time traffic (default: true)
- * @returns Drive time result or null if route not found
- * @throws MapsApiError on failure
+ * @param fallbackMinutes Optional fallback minutes to use if API fails or location missing
+ * @returns Drive time result with source metadata, or null if route not found and no fallback
+ * @throws MapsApiError on failure (only if no fallback provided)
  */
 export async function fetchDriveTime(
   origin: RouteLocation,
   destination: RouteLocation,
-  useTraffic: boolean = true
+  useTraffic: boolean = true,
+  fallbackMinutes?: number
 ): Promise<DriveTimeResult | null> {
-  // Validate inputs
+  // Validate inputs - if missing and fallback provided, return fallback immediately
   if (!origin.placeId && !origin.coordinates && !origin.address) {
+    if (fallbackMinutes !== undefined) {
+      logger.warn('[fetchDriveTime] Missing origin location, using fallback')
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        _meta: { source: 'estimated' }
+      }
+    }
     throw new MapsApiError('invalid', 'Origin must have placeId, coordinates, or address')
   }
+  
   if (!destination.placeId && !destination.coordinates && !destination.address) {
+    if (fallbackMinutes !== undefined) {
+      logger.warn('[fetchDriveTime] Missing destination location, using fallback')
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        _meta: { source: 'estimated' }
+      }
+    }
     throw new MapsApiError('invalid', 'Destination must have placeId, coordinates, or address')
   }
   
-  logger.debug('[fetchDriveTime] Calculating drive time')
+  logger.debug('[fetchDriveTime] Calculating drive time', fallbackMinutes !== undefined ? `(fallback: ${fallbackMinutes} min)` : '')
   
   try {
     // Build URL with query params
@@ -392,21 +418,55 @@ export async function fetchDriveTime(
     // Add traffic preference
     params.append('useTraffic', useTraffic.toString())
     
+    // Add fallback if provided
+    if (fallbackMinutes !== undefined) {
+      params.append('fallbackMinutes', fallbackMinutes.toString())
+    }
+    
     const response = await axios.get<DriveTimeResult>(
       `${API_BASE_URL}/api/v1/external/maps/drive-time?${params.toString()}`
     )
     
-    logger.debug('[fetchDriveTime] Got result:', response.data.durationMinutes, 'minutes')
+    const source = response.data._meta?.source || 'calculated'
+    logger.debug(
+      `[fetchDriveTime] Got result: ${response.data.durationMinutes} minutes ` +
+      `(source: ${source})`
+    )
     
     return response.data
     
   } catch (error) {
-    // Handle 404 as "not found" - return null instead of throwing
+    // Handle 404 as "not found" - use fallback if available
     if (axios.isAxiosError(error) && error.response?.status === 404) {
       logger.warn('[fetchDriveTime] No route found between locations')
+      if (fallbackMinutes !== undefined) {
+        return {
+          durationMinutes: fallbackMinutes,
+          durationSeconds: fallbackMinutes * 60,
+          distanceMeters: 0,
+          distanceMiles: 0,
+          _meta: { source: 'estimated' }
+        }
+      }
       return null
     }
     
+    // For other errors, use fallback if available
+    if (fallbackMinutes !== undefined) {
+      const apiError = handleApiError(error)
+      logger.warn(
+        `[fetchDriveTime] API error (${apiError.type}), using fallback: ${fallbackMinutes} minutes`
+      )
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        _meta: { source: 'estimated' }
+      }
+    }
+    
+    // No fallback available - throw error
     const apiError = handleApiError(error)
     logger.error('[fetchDriveTime] Error:', apiError.type, apiError.message)
     throw apiError

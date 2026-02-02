@@ -45,8 +45,6 @@ export interface PropertyFormData {
   city: Ref<string>
   state: Ref<string>
   zipCode: Ref<string>
-  placeId: Ref<string | undefined>
-  coordinates: Ref<{ lat: number; lng: number } | undefined>
   propertySize: Ref<number | null>
   numberOfUnits: Ref<number | null>
   mlsNumber: Ref<string>

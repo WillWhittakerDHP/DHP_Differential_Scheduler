@@ -162,9 +162,11 @@ router.get('/session-token', (_req: Request, res: Response): void => {
  * 
  * Get drive time between two locations (simple point-to-point)
  * 
- * LEARNING: Convenience endpoint for single origin-destination
+ * LEARNING: Convenience endpoint for single origin-destination with fallback support
  * WHY: Most common use case - calculate drive time from A to B
- * PATTERN: Uses caching to reduce API calls
+ * PATTERN: Uses caching to reduce API calls, falls back to static value on error
+ * 
+ * Session 2.2.3: Added fallback support and source metadata
  * 
  * Query params (at least one identifier required for origin and destination):
  *   originPlaceId: string - Google Place ID for origin
@@ -176,17 +178,30 @@ router.get('/session-token', (_req: Request, res: Response): void => {
  *   destLng: number - Longitude for destination
  *   destAddress: string - Address string for destination
  *   useTraffic: 'true'|'false' - Use real-time traffic (default: true)
+ *   fallbackMinutes: number - Fallback minutes to use if API fails (optional)
  * 
  * Response:
- *   { durationMinutes, durationSeconds, distanceMeters, distanceMiles }
+ *   { 
+ *     durationMinutes, 
+ *     durationSeconds, 
+ *     distanceMeters, 
+ *     distanceMiles,
+ *     _meta: { source: 'calculated' | 'estimated' | 'cache' }
+ *   }
  */
 router.get('/drive-time', async (req: Request, res: Response): Promise<void> => {
   try {
     const { 
       originPlaceId, originLat, originLng, originAddress,
       destPlaceId, destLat, destLng, destAddress,
-      useTraffic = 'true'
+      useTraffic = 'true',
+      fallbackMinutes
     } = req.query;
+    
+    // Parse fallback minutes if provided
+    const fallbackMinutesNum = fallbackMinutes 
+      ? parseFloat(fallbackMinutes as string) 
+      : undefined;
     
     // Build origin location
     const origin: RouteLocation = {};
@@ -214,8 +229,19 @@ router.get('/drive-time', async (req: Request, res: Response): Promise<void> => 
       destination.address = destAddress;
     }
     
-    // Validate we have both locations
+    // Validate we have both locations (unless fallback is provided)
     if (!origin.placeId && !origin.coordinates && !origin.address) {
+      if (fallbackMinutesNum !== undefined) {
+        // Return fallback immediately if origin missing
+        res.json({
+          durationMinutes: fallbackMinutesNum,
+          durationSeconds: fallbackMinutesNum * 60,
+          distanceMeters: 0,
+          distanceMiles: 0,
+          _meta: { source: 'estimated' }
+        });
+        return;
+      }
       res.status(400).json({
         error: 'Missing origin location. Provide originPlaceId, originLat+originLng, or originAddress',
         type: 'invalid'
@@ -224,6 +250,17 @@ router.get('/drive-time', async (req: Request, res: Response): Promise<void> => 
     }
     
     if (!destination.placeId && !destination.coordinates && !destination.address) {
+      if (fallbackMinutesNum !== undefined) {
+        // Return fallback immediately if destination missing
+        res.json({
+          durationMinutes: fallbackMinutesNum,
+          durationSeconds: fallbackMinutesNum * 60,
+          distanceMeters: 0,
+          distanceMiles: 0,
+          _meta: { source: 'estimated' }
+        });
+        return;
+      }
       res.status(400).json({
         error: 'Missing destination location. Provide destPlaceId, destLat+destLng, or destAddress',
         type: 'invalid'
@@ -244,14 +281,16 @@ router.get('/drive-time', async (req: Request, res: Response): Promise<void> => 
       return;
     }
     
-    // Calculate drive time
+    // Calculate drive time with fallback support
     const result = await calculateDriveTime(
       origin, 
       destination, 
-      useTraffic !== 'false'
+      useTraffic !== 'false',
+      fallbackMinutesNum
     );
     
     if (!result) {
+      // No route found and no fallback
       res.status(404).json({
         error: 'No route found between locations',
         type: 'not_found'
@@ -259,17 +298,40 @@ router.get('/drive-time', async (req: Request, res: Response): Promise<void> => 
       return;
     }
     
-    // Cache the result
-    cacheDriveTime(origin, destination, result.durationSeconds, result.distanceMeters);
+    // Cache the result only if it's calculated (not estimated)
+    if (result.source === 'calculated') {
+      cacheDriveTime(origin, destination, result.durationSeconds, result.distanceMeters);
+    }
     
     res.json({
-      ...result,
-      _meta: { source: 'api' }
+      durationMinutes: result.durationMinutes,
+      durationSeconds: result.durationSeconds,
+      distanceMeters: result.distanceMeters,
+      distanceMiles: result.distanceMiles,
+      _meta: { source: result.source }
     });
     
   } catch (error) {
     console.error('[MapsRoutes] Drive time error:', error);
     
+    // If we have fallback, return it instead of error
+    const fallbackMinutes = req.query.fallbackMinutes 
+      ? parseFloat(req.query.fallbackMinutes as string) 
+      : undefined;
+    
+    if (fallbackMinutes !== undefined) {
+      console.warn('[MapsRoutes] API error, returning fallback value');
+      res.json({
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        _meta: { source: 'estimated' }
+      });
+      return;
+    }
+    
+    // No fallback available - return error
     if (error instanceof MapsApiError) {
       const statusCode = getStatusCodeForError(error.type);
       res.status(statusCode).json({

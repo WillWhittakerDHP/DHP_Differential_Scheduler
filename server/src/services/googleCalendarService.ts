@@ -3,6 +3,7 @@ import { oauth2Client, setCredentials } from '../config/googleOAuth.js';
 import { checkRateLimit, recordRequest, waitForRateLimit, RateLimitStatus } from './rateLimiter.js';
 import { getCachedFreeBusy, cacheFreeBusy, invalidateCache as invalidateFreeBusyCache } from './freeBusyCache.js';
 import { getCachedEvents, cacheEvents, invalidateEventsCache, type CachedCalendarEvent } from './calendarEventsCache.js';
+import { geocodeAddressToPlaceId } from './googleMapsService.js';
 import { 
   CalendarApiError, 
   classifyError, 
@@ -243,7 +244,7 @@ export async function getCalendarEvents(
     }
     
     // Transform response to our cached format
-    const events: CachedCalendarEvent[] = response.data.items
+    const eventsWithLocations = response.data.items
       .filter(event => event.start && event.end) // Filter out events without start/end
       .map(event => {
         // Extract start time (handle both dateTime and date formats)
@@ -258,16 +259,56 @@ export async function getCalendarEvents(
           id: event.id || '',
           start: startTime,
           end: endTime,
-          location: event.location || null,
+          location: event.location || null, // Temporary - will be geocoded to placeId
           summary: event.summary || null
         };
       })
-      .filter((event): event is CachedCalendarEvent => event !== null);
+      .filter((event): event is { id: string; start: string; end: string; location: string | null; summary: string | null } => event !== null);
+    
+    // Geocode addresses to placeIds
+    // LEARNING: Convert address strings to placeIds for accurate drive time calculations
+    // WHY: placeId is primary location identifier throughout codebase
+    // PATTERN: Process geocoding in parallel for all events with locations
+    // Session 2.2.3: Added geocoding for placeId standardization
+    const events: CachedCalendarEvent[] = await Promise.all(
+      eventsWithLocations.map(async (event) => {
+        if (event.location) {
+          try {
+            const placeId = await geocodeAddressToPlaceId(event.location);
+            return {
+              id: event.id,
+              start: event.start,
+              end: event.end,
+              placeId: placeId || undefined, // Store placeId if found, undefined if not
+              summary: event.summary
+            };
+          } catch (error) {
+            // Log warning but continue - geocoding failure shouldn't break event fetching
+            console.warn(`[GoogleCalendarService] Failed to geocode location "${event.location}" for event ${event.id}:`, error instanceof Error ? error.message : 'Unknown error');
+            return {
+              id: event.id,
+              start: event.start,
+              end: event.end,
+              placeId: undefined, // No placeId if geocoding failed
+              summary: event.summary
+            };
+          }
+        }
+        // Event has no location
+        return {
+          id: event.id,
+          start: event.start,
+          end: event.end,
+          placeId: undefined,
+          summary: event.summary
+        };
+      })
+    );
     
     // Cache the response
     cacheEvents(calendarEmail, timeMinDate, timeMaxDate, events);
     
-    console.log(`[GoogleCalendarService] Successfully fetched ${events.length} events`);
+    console.log(`[GoogleCalendarService] Successfully fetched ${events.length} events (with placeIds)`);
     
     return events;
   };

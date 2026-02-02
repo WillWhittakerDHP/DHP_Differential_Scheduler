@@ -20,6 +20,8 @@ import type { PropertyDetails } from '@/types/availability'
 import { useNotification } from '@/composables/useNotification'
 import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
 import { ensureDateRangeInSettings, extractAllConstraints } from '@/utils/booking/constraintHelpers'
+import { fetchCalendarEvents, type CalendarEvent } from '@/services/calendarApiService'
+import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 
 const { error: showErrorNotification } = useNotification()
 
@@ -108,6 +110,16 @@ export function useAvailability(
         }
         if (signal.aborted) return
 
+        // WHY: Allows parent to provide settings via provide/inject pattern
+        // PATTERN: Use provided settings or fetch if not available
+        let settingsValue: AvailabilitySettings
+        if (settings?.value) {
+          settingsValue = settings.value
+        } else {
+          settingsValue = await getAvailabilitySettings()
+        }
+        if (signal.aborted) return
+
         // WHY: Mark slots that conflict with existing appointments as unavailable
         // PATTERN: Use async getCalendarAvailability with mock data source for consistency
         const rawBusyTimes = await getCalendarAvailability(
@@ -125,13 +137,26 @@ export function useAvailability(
         const busyTimes = preprocessBusyPeriods(rawBusyTimes as BusyTimeRange[])
         if (signal.aborted) return
 
-        // WHY: Allows parent to provide settings via provide/inject pattern
-        // PATTERN: Use provided settings or fetch if not available
-        let settingsValue: AvailabilitySettings
-        if (settings?.value) {
-          settingsValue = settings.value
-        } else {
-          settingsValue = await getAvailabilitySettings()
+        // LEARNING: Fetch calendar events with locations for drive time calculations
+        // WHY: Drive time constraints need event locations to calculate travel times
+        // PATTERN: Fetch events in parallel with busy times, use cached data from server
+        // Session 2.2.3: Added calendar event fetching for drive time integration
+        let calendarEvents: CalendarEvent[] = []
+        const { calendarEmails, dataSource } = useFreeBusyDataSource()
+        
+        // Only fetch events if using real calendar data (not mock)
+        if (dataSource.value === 'real' && calendarEmails.value.length > 0) {
+          try {
+            // Fetch events for all calendars and merge
+            const eventPromises = calendarEmails.value.map(email =>
+              fetchCalendarEvents(email, validatedDateRange.start, validatedDateRange.end)
+            )
+            const eventArrays = await Promise.all(eventPromises)
+            calendarEvents = eventArrays.flat()
+          } catch (err) {
+            // Log error but don't fail - drive times will use static fallback
+            console.warn('[useAvailability] Failed to fetch calendar events for drive time calculation:', err)
+          }
         }
         if (signal.aborted) return
 
@@ -148,6 +173,7 @@ export function useAvailability(
 
         // WHY: Generates ALL slots and marks them as available/busy instead of filtering
         // PATTERN: Use fitAllTimeSlotsWithAvailability for unified availability handling
+        // Session 2.2.3: Pass calendar events and defaultLocation for drive time calculations
         const result = await fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
           startBoundary: validatedDateRange.start,
           endBoundary: validatedDateRange.end,
@@ -155,7 +181,10 @@ export function useAvailability(
           minuteIncrement: settingsValue.minuteIncrement,
           busyTimes,
           includeFlags: { major: false, minor: false, moveable: false }
-        }, rangeConstraints, overlapConstraints, capacityConstraints)
+        }, rangeConstraints, overlapConstraints, capacityConstraints, {
+          defaultLocation: settingsValue.defaultLocation,
+          calendarEvents
+        })
         if (signal.aborted) return
 
         // PATTERN: Calculate adjustments and modify slots if needed

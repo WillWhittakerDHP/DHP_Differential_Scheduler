@@ -136,11 +136,13 @@ export interface BufferConfig {
 
 /**
  * Drive time application rules
- * LEARNING: Controls when drive time buffers are applied
- * WHY: First/last appointment of day may need different handling than middle appointments
+ * LEARNING: Controls when drive time buffers are applied based on slot position
+ * WHY: Slots at business hours boundaries may need different handling than middle slots
  * PATTERN: Enum-like string literal union type
+ * 
+ * Session 2.2.3: Changed from first_only/last_only to skipDayStart/skipDayEnd for exclusionary logic
  */
-export type DriveTimeApplyTo = 'all' | 'first_only' | 'last_only' | 'none'
+export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
 
 /**
  * Drive time buffer configuration

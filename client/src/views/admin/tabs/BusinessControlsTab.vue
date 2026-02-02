@@ -340,13 +340,14 @@ const bufferPlacementOptions = [
   { title: 'Both', value: 'both' }
 ]
 
-// LEARNING: Drive time applyTo options for first/last appointment rules
-// WHY: Allows admin to configure when drive time buffers apply
+// LEARNING: Drive time applyTo options for boundary exclusion rules
+// WHY: Allows admin to configure when drive time buffers apply (all slots vs. excluding day start/end)
 // PATTERN: Array of options matching DriveTimeApplyTo type
+// Session 2.2.3: Changed from first_only/last_only to skipDayStart/skipDayEnd for exclusionary logic
 const driveTimeApplyToOptions: { title: string; value: DriveTimeApplyTo }[] = [
-  { title: 'All Appointments', value: 'all' },
-  { title: 'First Appointment Only', value: 'first_only' },
-  { title: 'Last Appointment Only', value: 'last_only' },
+  { title: 'All Slots', value: 'all' },
+  { title: 'Skip Day Start', value: 'skipDayStart' },
+  { title: 'Skip Day End', value: 'skipDayEnd' },
   { title: 'None (Disabled)', value: 'none' }
 ]
 
@@ -453,12 +454,12 @@ function createDriveTimeComputed<TValue>(
 // Computed properties for driveTimeTo
 const buffersDriveTimeToMinutes = createDriveTimeComputed('driveTimeTo', 'minutes', () => 30, ensureDriveTimeTo)
 const buffersDriveTimeToEnforcement = createDriveTimeComputed('driveTimeTo', 'enforcement', () => 'hard' as const, ensureDriveTimeTo)
-const buffersDriveTimeToApplyTo = createDriveTimeComputed('driveTimeTo', 'applyTo', () => 'first_only' as const, ensureDriveTimeTo)
+const buffersDriveTimeToApplyTo = createDriveTimeComputed('driveTimeTo', 'applyTo', () => 'skipDayStart' as const, ensureDriveTimeTo)  // Session 2.2.3: Updated default
 
 // Computed properties for driveTimeFrom
 const buffersDriveTimeFromMinutes = createDriveTimeComputed('driveTimeFrom', 'minutes', () => 15, ensureDriveTimeFrom)
 const buffersDriveTimeFromEnforcement = createDriveTimeComputed('driveTimeFrom', 'enforcement', () => 'hard' as const, ensureDriveTimeFrom)
-const buffersDriveTimeFromApplyTo = createDriveTimeComputed('driveTimeFrom', 'applyTo', () => 'last_only' as const, ensureDriveTimeFrom)
+const buffersDriveTimeFromApplyTo = createDriveTimeComputed('driveTimeFrom', 'applyTo', () => 'skipDayEnd' as const, ensureDriveTimeFrom)  // Session 2.2.3: Updated default
 
 // Computed properties for defaultLocation
 // LEARNING: defaultLocation is at root level of AvailabilitySettings, not nested in buffers
@@ -468,7 +469,7 @@ const defaultLocationAddress = computed({
   set: (value: string) => {
     if (formData.value) {
       if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { address: '' }
+        formData.value.defaultLocation = { placeId: '' }
       }
       formData.value.defaultLocation.address = value
     }
@@ -480,7 +481,7 @@ const defaultLocationLabel = computed({
   set: (value: string) => {
     if (formData.value) {
       if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { address: '' }
+        formData.value.defaultLocation = { placeId: '' }
       }
       formData.value.defaultLocation.label = value
     }
@@ -489,13 +490,13 @@ const defaultLocationLabel = computed({
 
 // LEARNING: Computed property for default location coordinates
 // WHY: AddressAutocomplete extracts coordinates from Google Places API
-// PATTERN: Coordinates stored alongside address for drive time calculations
+// PATTERN: Coordinates stored alongside placeId for drive time calculations
 const defaultLocationCoordinates = computed({
   get: () => formData.value?.defaultLocation?.coordinates,
   set: (value: Coordinates | undefined) => {
     if (formData.value) {
       if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { address: '' }
+        formData.value.defaultLocation = { placeId: '' }
       }
       formData.value.defaultLocation.coordinates = value
     }
@@ -503,14 +504,14 @@ const defaultLocationCoordinates = computed({
 })
 
 // LEARNING: Computed property for default location Place ID (Session 2.2.2)
-// WHY: Routes API uses Place IDs for more accurate routing than coordinates or addresses
-// PATTERN: placeId > coordinates > address (priority order for route calculations)
+// WHY: placeId is primary location identifier throughout codebase (address only at UI boundary)
+// PATTERN: placeId is required, address is optional for UI display
 const defaultLocationPlaceId = computed({
-  get: () => formData.value?.defaultLocation?.placeId,
-  set: (value: string | undefined) => {
+  get: () => formData.value?.defaultLocation?.placeId ?? '',
+  set: (value: string) => {
     if (formData.value) {
       if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { address: '' }
+        formData.value.defaultLocation = { placeId: '' }
       }
       formData.value.defaultLocation.placeId = value
     }

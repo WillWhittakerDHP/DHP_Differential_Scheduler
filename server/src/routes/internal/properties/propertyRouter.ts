@@ -141,9 +141,6 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         city,
         state,
         zipCode,
-        placeId: placeId || null,
-        latitude: latitude || null,
-        longitude: longitude || null,
       });
 
       const propertyVersion = await PropertyVersion.create({

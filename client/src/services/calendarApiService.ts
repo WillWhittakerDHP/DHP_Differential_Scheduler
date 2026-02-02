@@ -276,3 +276,73 @@ function handleApiError(error: unknown): CalendarApiError {
 export function getOAuthUrl(): string {
   return `${API_BASE_URL}/api/v1/external/oauth`
 }
+
+/**
+ * Calendar event with location data
+ * LEARNING: Structure matches server CachedCalendarEvent
+ * WHY: Used for drive time calculations between appointments
+ * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
+ */
+export interface CalendarEvent {
+  id: string
+  start: string
+  end: string
+  placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
+  summary: string | null   // Event title for context/debugging
+}
+
+/**
+ * Fetch calendar events with locations
+ * 
+ * LEARNING: Gets full calendar events (not just free-busy) to extract locations
+ * WHY: Required for drive time calculations between appointments
+ * PATTERN: Server-side cache (5-15 min TTL) reduces API calls
+ * 
+ * Session 2.2.3: Added for drive time integration
+ * 
+ * @param calendarEmail Calendar email address
+ * @param timeMin Start time for event query (RFC3339)
+ * @param timeMax End time for event query (RFC3339)
+ * @param options Optional settings like skipCache
+ * @returns Array of calendar events with locations
+ * @throws CalendarApiError on failure
+ */
+export async function fetchCalendarEvents(
+  calendarEmail: string,
+  timeMin: RFC3339DateTime,
+  timeMax: RFC3339DateTime,
+  options?: CalendarApiOptions
+): Promise<CalendarEvent[]> {
+  if (!calendarEmail) {
+    logger.debug('[fetchCalendarEvents] No calendar email provided, returning empty')
+    return []
+  }
+  
+  logger.debug('[fetchCalendarEvents] Fetching events for:', calendarEmail)
+  
+  try {
+    // Build URL with query params
+    const params = new URLSearchParams({
+      calendarEmail,
+      timeMin,
+      timeMax
+    })
+    
+    if (options?.skipCache) {
+      params.append('skipCache', 'true')
+    }
+    
+    const response = await axios.get<CalendarEvent[]>(
+      `${API_BASE_URL}/api/v1/external/calendar/events?${params.toString()}`
+    )
+    
+    logger.debug('[fetchCalendarEvents] Fetched', response.data.length, 'events')
+    
+    return response.data
+    
+  } catch (error) {
+    const apiError = handleApiError(error)
+    logger.error('[fetchCalendarEvents] Error:', apiError.type, apiError.message)
+    throw apiError
+  }
+}

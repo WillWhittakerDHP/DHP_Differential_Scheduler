@@ -427,11 +427,6 @@ export async function transformAppointmentToWizard(
     city: address?.city ?? '',
     state: address?.state ?? '',
     zipCode: address?.zipCode ?? '',
-    placeId: address?.placeId ?? undefined,
-    coordinates: (address?.latitude !== null && address?.latitude !== undefined && 
-                  address?.longitude !== null && address?.longitude !== undefined)
-      ? { lat: address.latitude, lng: address.longitude }
-      : undefined,
     
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,

@@ -457,11 +457,15 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
     expect(resultWithMiddleContext.available).toBe(true) // Constraint not applied
   })
 
-  it('should apply driveTimeFrom constraint only when position context indicates last of day', () => {
-    const slotStart = new Date('2026-01-15T17:00:00Z')
-    const slotEnd = new Date('2026-01-15T18:00:00Z')
-    const busyStart = new Date('2026-01-15T18:15:00Z') // Busy period after slot
-    const busyEnd = new Date('2026-01-15T18:30:00Z')
+  it('should apply driveTimeFrom constraint with skipDayEnd - skip at day end, apply elsewhere', () => {
+    const businessHoursStart = new Date('2026-01-15T09:00:00Z') // 9 AM UTC
+    const businessHoursEnd = new Date('2026-01-15T17:00:00Z')   // 5 PM UTC
+    const context = { businessHoursStart, businessHoursEnd }
+    
+    const slotAtDayEnd = new Date('2026-01-15T16:45:00Z') // Within buffer of day end
+    const slotEndAtDayEnd = new Date('2026-01-15T17:00:00Z') // At business hours end
+    const busyStart = new Date('2026-01-15T17:15:00Z') // Busy period after slot
+    const busyEnd = new Date('2026-01-15T17:30:00Z')
     
     const parsedBusyTimes = [{
       start: busyStart,
@@ -472,38 +476,31 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
       type: 'driveTimeFrom',
       placement: 'after',
       enforcement: 'hard',
-      minutes: 30, // Would extend to 18:30, overlapping with busy
-      applyTo: 'last_only'
+      minutes: 30, // Would extend to 17:30, overlapping with busy
+      applyTo: 'skipDayEnd'
     }
 
-    // Without position context, last_only constraint should NOT apply
-    const resultWithoutContext = checkSlotAvailability(
-      slotStart,
-      slotEnd,
-      parsedBusyTimes,
-      [driveTimeFromConstraint]
-    )
-    expect(resultWithoutContext.available).toBe(true) // Constraint not applied
-
-    // With isLastOfDay=true, constraint SHOULD apply and block
-    const resultWithLastContext = checkSlotAvailability(
-      slotStart,
-      slotEnd,
+    // At day end - constraint should NOT apply (skipped)
+    const resultAtDayEnd = checkSlotAvailability(
+      slotAtDayEnd,
+      slotEndAtDayEnd,
       parsedBusyTimes,
       [driveTimeFromConstraint],
-      { isFirstOfDay: false, isLastOfDay: true }
+      context
     )
-    expect(resultWithLastContext.available).toBe(false) // Blocked by buffer overlap
+    expect(resultAtDayEnd.available).toBe(true) // Constraint skipped, slot available
 
-    // With isLastOfDay=false, constraint should NOT apply
-    const resultWithMiddleContext = checkSlotAvailability(
-      slotStart,
-      slotEnd,
+    // In middle of day - constraint SHOULD apply and block
+    const slotMiddle = new Date('2026-01-15T12:00:00Z')
+    const slotEndMiddle = new Date('2026-01-15T13:00:00Z')
+    const resultMiddle = checkSlotAvailability(
+      slotMiddle,
+      slotEndMiddle,
       parsedBusyTimes,
       [driveTimeFromConstraint],
-      { isFirstOfDay: false, isLastOfDay: false }
+      context
     )
-    expect(resultWithMiddleContext.available).toBe(true) // Constraint not applied
+    expect(resultMiddle.available).toBe(false) // Blocked by buffer overlap
   })
 
   it('should block immediately on hard enforcement overlap', () => {
@@ -540,6 +537,10 @@ describe('checkSlotAvailability - precise overlap constraint checks', () => {
 // DRIVE TIME APPLY-TO HELPER TESTS
 
 describe('shouldApplyDriveTimeConstraint', () => {
+  const businessHoursStart = new Date('2026-01-15T09:00:00Z') // 9 AM UTC
+  const businessHoursEnd = new Date('2026-01-15T17:00:00Z')   // 5 PM UTC
+  const context = { businessHoursStart, businessHoursEnd }
+
   it('should return true for non-drive-time constraints', () => {
     const constraint: OverlapConstraint = {
       type: 'appointment',
@@ -548,8 +549,11 @@ describe('shouldApplyDriveTimeConstraint', () => {
       minutes: 15
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(true)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
+    const slotStart = new Date('2026-01-15T10:00:00Z')
+    const slotEnd = new Date('2026-01-15T11:00:00Z')
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd)).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd, context)).toBe(true)
   })
 
   it('should return true for driveTimeTo with applyTo=all', () => {
@@ -561,49 +565,75 @@ describe('shouldApplyDriveTimeConstraint', () => {
       applyTo: 'all'
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(true)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
+    const slotStart = new Date('2026-01-15T10:00:00Z')
+    const slotEnd = new Date('2026-01-15T11:00:00Z')
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd)).toBe(true)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd, context)).toBe(true)
   })
 
-  it('should return false for driveTimeTo with applyTo=first_only when no context', () => {
+  it('should return false for driveTimeTo with applyTo=skipDayStart when no context', () => {
     const constraint: OverlapConstraint = {
       type: 'driveTimeTo',
       placement: 'before',
       enforcement: 'hard',
       minutes: 30,
-      applyTo: 'first_only'
+      applyTo: 'skipDayStart'
     }
     
-    // Without context, first_only should NOT apply
-    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(false)
+    const slotStart = new Date('2026-01-15T10:00:00Z')
+    const slotEnd = new Date('2026-01-15T11:00:00Z')
+    
+    // Without context, skipDayStart should NOT apply (only 'all' applies without context)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd)).toBe(false)
   })
 
-  it('should return true for driveTimeTo with applyTo=first_only when isFirstOfDay', () => {
+  it('should skip driveTimeTo with applyTo=skipDayStart for slots at day start', () => {
     const constraint: OverlapConstraint = {
       type: 'driveTimeTo',
       placement: 'before',
       enforcement: 'hard',
       minutes: 30,
-      applyTo: 'first_only'
+      applyTo: 'skipDayStart'
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: false })).toBe(true)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: true })).toBe(false)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(false)
+    // Slot at day start (within buffer window)
+    const slotAtDayStart = new Date('2026-01-15T09:00:00Z') // Exactly at business hours start
+    const slotEndAtDayStart = new Date('2026-01-15T10:00:00Z')
+    
+    // Slot in middle of day
+    const slotMiddle = new Date('2026-01-15T12:00:00Z')
+    const slotEndMiddle = new Date('2026-01-15T13:00:00Z')
+    
+    // Should NOT apply at day start (skip it)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotAtDayStart, slotEndAtDayStart, context)).toBe(false)
+    
+    // Should apply in middle of day
+    expect(shouldApplyDriveTimeConstraint(constraint, slotMiddle, slotEndMiddle, context)).toBe(true)
   })
 
-  it('should return true for driveTimeFrom with applyTo=last_only when isLastOfDay', () => {
+  it('should skip driveTimeFrom with applyTo=skipDayEnd for slots at day end', () => {
     const constraint: OverlapConstraint = {
       type: 'driveTimeFrom',
       placement: 'after',
       enforcement: 'hard',
       minutes: 15,
-      applyTo: 'last_only'
+      applyTo: 'skipDayEnd'
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: true })).toBe(true)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: false })).toBe(false)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(false)
+    // Slot at day end (within buffer window)
+    const slotAtDayEnd = new Date('2026-01-15T16:45:00Z') // Within 15 min buffer of end
+    const slotEndAtDayEnd = new Date('2026-01-15T17:00:00Z') // Exactly at business hours end
+    
+    // Slot in middle of day
+    const slotMiddle = new Date('2026-01-15T12:00:00Z')
+    const slotEndMiddle = new Date('2026-01-15T13:00:00Z')
+    
+    // Should NOT apply at day end (skip it)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotAtDayEnd, slotEndAtDayEnd, context)).toBe(false)
+    
+    // Should apply in middle of day
+    expect(shouldApplyDriveTimeConstraint(constraint, slotMiddle, slotEndMiddle, context)).toBe(true)
   })
 
   it('should return false for driveTimeFrom with applyTo=none', () => {
@@ -615,8 +645,11 @@ describe('shouldApplyDriveTimeConstraint', () => {
       applyTo: 'none'
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint)).toBe(false)
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: true, isLastOfDay: true })).toBe(false)
+    const slotStart = new Date('2026-01-15T10:00:00Z')
+    const slotEnd = new Date('2026-01-15T11:00:00Z')
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd)).toBe(false)
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd, context)).toBe(false)
   })
 
   it('should handle undefined applyTo by returning true (fallback)', () => {
@@ -628,7 +661,10 @@ describe('shouldApplyDriveTimeConstraint', () => {
       applyTo: undefined
     }
     
-    expect(shouldApplyDriveTimeConstraint(constraint, { isFirstOfDay: false, isLastOfDay: false })).toBe(true)
+    const slotStart = new Date('2026-01-15T10:00:00Z')
+    const slotEnd = new Date('2026-01-15T11:00:00Z')
+    
+    expect(shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd, context)).toBe(true)
   })
 })
 

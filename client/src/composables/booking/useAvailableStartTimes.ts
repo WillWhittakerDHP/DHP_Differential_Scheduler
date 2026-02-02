@@ -16,6 +16,8 @@ import { useNotification } from '@/composables/useNotification'
 import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
 import { extractAllConstraints, ensureDateRangeInSettings } from '@/utils/booking/constraintHelpers'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
+import { fetchCalendarEvents, type CalendarEvent } from '@/services/calendarApiService'
+import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 
 const { error: showErrorNotification } = useNotification()
 
@@ -170,9 +172,36 @@ export function useAvailableStartTimes(
     // PATTERN: Use extractAllConstraints helper to extract all constraint types at once
     const { rangeConstraints, overlapConstraints, capacityConstraints } = extractAllConstraints(settingsWithDateRange)
 
+    // LEARNING: Fetch calendar events with locations for drive time calculations
+    // WHY: Drive time constraints need event locations to calculate travel times
+    // PATTERN: Fetch events in parallel, use cached data from server
+    // Session 2.2.3: Added calendar event fetching for drive time integration
+    let calendarEvents: CalendarEvent[] = []
+    const { calendarEmails, dataSource } = useFreeBusyDataSource()
+    
+    // Only fetch events if using real calendar data (not mock)
+    if (dataSource.value === 'real' && calendarEmails.value.length > 0) {
+      try {
+        // Fetch events for all calendars and merge
+        const eventPromises = calendarEmails.value.map(email =>
+          fetchCalendarEvents(
+            email, 
+            startBoundaryUTC.toISOString() as RFC3339DateTime,
+            endBoundaryUTC.toISOString() as RFC3339DateTime
+          )
+        )
+        const eventArrays = await Promise.all(eventPromises)
+        calendarEvents = eventArrays.flat()
+      } catch (err) {
+        // Log error but don't fail - drive times will use static fallback
+        console.warn('[useAvailableStartTimes] Failed to fetch calendar events for drive time calculation:', err)
+      }
+    }
+
     try {
       // WHY: Generates ALL slots and marks them as available/busy using unified constraint system
       // PATTERN: Pass constraint arrays to fitAllTimeSlotsWithAvailability
+      // Session 2.2.3: Pass calendar events and defaultLocation for drive time calculations
       const slotGenParams = {
         startBoundary: startBoundaryUTC.toISOString() as RFC3339DateTime,
         endBoundary: endBoundaryUTC.toISOString() as RFC3339DateTime,
@@ -182,7 +211,15 @@ export function useAvailableStartTimes(
         includeFlags: DEFAULT_INCLUDE_FLAGS
       }
       const result = await fitAllTimeSlotsWithAvailability(
-        slotGenParams, rangeConstraints, overlapConstraints, capacityConstraints)
+        slotGenParams, 
+        rangeConstraints, 
+        overlapConstraints, 
+        capacityConstraints,
+        {
+          defaultLocation: internalSettings.value.defaultLocation,
+          calendarEvents
+        }
+      )
       
       slotGenerationResult.value = result
       error.value = null

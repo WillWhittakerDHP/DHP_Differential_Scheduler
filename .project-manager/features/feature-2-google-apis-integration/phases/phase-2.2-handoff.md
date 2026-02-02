@@ -190,36 +190,43 @@ POST https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix
 
 ---
 
-### Session 2.2.3: Error Handling & Fallbacks
+### Session 2.2.3: Drive Time ApplyTo Logic Refactor
 
-**Status:** ⏳ Not Started
+**Status:** ✅ Complete
 
 **Objectives:**
-- Handle API errors gracefully
-- Implement fallback to static drive time values
-- Handle missing coordinates
-- Display user-friendly error messages
+- Refactor drive time `applyTo` logic from inclusionary to exclusionary semantics
+- Prevent accidental blocking of early/late appointments
+- Use business hours boundaries instead of appointment position detection
 
-**Key Tasks:**
-1. **Error Classification**
-   - Create `MapsApiError` typed error class
-   - Handle: auth errors, rate limits, invalid requests, network errors
+**Key Tasks Completed:**
+1. **Type System Updates**
+   - Changed `DriveTimeApplyTo` from `first_only`/`last_only` to `skipDayStart`/`skipDayEnd`
+   - Updated `SlotPositionContext` to use business hours boundaries
 
-2. **Fallback Strategy**
-   - API fails → Use static `minutes` from `driveTimeTo`/`driveTimeFrom` config
-   - Missing coordinates → Skip drive time calculation, use static value
-   - Rate limit → Queue request, return cached or static value
+2. **Core Logic Refactor**
+   - Updated `shouldApplyDriveTimeConstraint` to check slot position relative to business hours
+   - Added `extractBusinessHoursForDay()` helper to extract business hours from range constraints
+   - Updated `markSlotAvailability` to pass business hours context
 
-3. **User Feedback**
-   - Show "Calculating drive time..." indicator
-   - Show "Using estimated drive time" when using fallback
-   - Log detailed errors for debugging
+3. **Drive Time Calculator Simplification**
+   - Removed `slotPosition` dependency from `DriveTimeCalculationContext`
+   - Simplified calculation logic - filtering happens in `shouldApplyDriveTimeConstraint`
+
+4. **UI Updates**
+   - Updated option labels: "All Slots", "Skip Day Start", "Skip Day End"
+   - Updated default values: `driveTimeTo.applyTo: 'skipDayStart'`, `driveTimeFrom.applyTo: 'skipDayEnd'`
+
+5. **Test Updates**
+   - Updated tests to use business hours boundaries
+   - Tests verify constraints are skipped at boundaries and applied elsewhere
 
 **Success Criteria:**
-- [ ] API errors handled gracefully
-- [ ] Fallback to static values works correctly
-- [ ] User informed when using estimated values
-- [ ] Errors logged for debugging
+- [x] Exclusionary logic implemented (`skipDayStart`/`skipDayEnd`)
+- [x] Business hours boundaries used instead of appointment position
+- [x] Early/late slots not incorrectly blocked
+- [x] UI updated with new labels and defaults
+- [x] Tests updated and passing
 
 ---
 

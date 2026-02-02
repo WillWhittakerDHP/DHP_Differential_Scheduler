@@ -71,20 +71,25 @@
  *             with Vuetify styling and our API proxy for security.
  */
 
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import { 
   fetchAutocompleteSuggestions, 
   fetchPlaceDetails,
-  getSessionToken,
   type AutocompletePrediction,
   type PlaceDetails,
   type Coordinates,
   MapsApiError
 } from '@/services/mapsApiService'
+import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('AddressAutocomplete')
+
+// LEARNING: Use shared session token composable
+// WHY: Token can be pre-fetched by parent component (PropertyDetailsStep)
+// PATTERN: Shared token across all AddressAutocomplete instances
+const { token: sessionToken, getToken, resetToken } = useMapsSessionToken()
 
 /**
  * Props interface
@@ -142,26 +147,11 @@ const selectedAddress = ref<AutocompletePrediction | null>(null)
 const suggestions = ref<AutocompletePrediction[]>([])
 const isLoading = ref(false)
 const errorMessage = ref('')
-const sessionToken = ref<string>('')
 
 // LEARNING: Track if we're showing an existing address from props (no prediction object)
 // WHY: VAutocomplete with return-object emits null when there's no object, even if we have text
 // PATTERN: Skip clearing the modelValue when we're just displaying existing text
 const hasInitialAddressFromProps = ref(false)
-
-/**
- * Initialize session token on mount
- * LEARNING: Session tokens optimize billing - one autocomplete session = one charge
- */
-onMounted(async () => {
-  try {
-    sessionToken.value = await getSessionToken()
-    logger.debug('[onMounted] Got session token')
-  } catch (error) {
-    logger.warn('[onMounted] Failed to get session token:', error)
-    // Continue without session token - will work but may cost more
-  }
-})
 
 /**
  * Sync initial value from prop
@@ -244,9 +234,23 @@ const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
  * Handle search input changes
  * LEARNING: Triggers debounced API call when user types
  * Session 2.2.2: Also clears placeId when user types new address
+ * Session 2.2.5: Token is pre-fetched by parent component, but lazy-load as fallback
  */
-const handleSearchUpdate = (value: string | null) => {
+const handleSearchUpdate = async (value: string | null) => {
   const input = value || ''
+  
+  // Lazy-load session token on first use (fallback if not pre-fetched)
+  // LEARNING: Token should be pre-fetched by PropertyDetailsStep, but fetch if needed
+  // WHY: Ensures token is available even if pre-fetch didn't complete
+  if (!sessionToken.value && input.length >= props.minInputLength) {
+    try {
+      await getToken()
+      logger.debug('[handleSearchUpdate] Got session token (lazy-loaded fallback)')
+    } catch (error) {
+      logger.warn('[handleSearchUpdate] Failed to get token:', error)
+      // Continue without token - will generate client-side fallback
+    }
+  }
   
   // If user is typing (not selecting), emit the raw value
   if (!selectedAddress.value || selectedAddress.value.description !== input) {
@@ -335,7 +339,9 @@ const handleSelectionChange = async (selection: AutocompletePrediction | null) =
     
     // Generate new session token for next autocomplete session
     // LEARNING: Session token is consumed after place-details call
-    sessionToken.value = await getSessionToken()
+    // Session 2.2.5: Use shared token composable
+    resetToken() // Clear consumed token
+    await getToken() // Pre-fetch new token for next session
     
   } catch (error) {
     logger.error('[handleSelectionChange] Error fetching details:', error)

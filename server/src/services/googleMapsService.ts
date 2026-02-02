@@ -389,6 +389,97 @@ export async function getPlaceDetails(
 }
 
 /**
+ * Geocode address string to placeId using Places API Find Place
+ * 
+ * LEARNING: Converts address text to placeId for accurate routing
+ * WHY: Calendar events have address strings, need placeIds for drive time calculations
+ * PATTERN: Uses Find Place API with address input, returns placeId
+ * 
+ * Session 2.2.3: Added for server-side placeId standardization
+ * 
+ * @param address Address string to geocode
+ * @returns placeId if found, null if not found or error
+ */
+export async function geocodeAddressToPlaceId(address: string): Promise<string | null> {
+  if (!address || typeof address !== 'string' || address.trim().length === 0) {
+    return null;
+  }
+  
+  // Check rate limit
+  const rateLimitResult = checkRateLimit('google-maps');
+  
+  if (rateLimitResult.status === 'exceeded') {
+    console.warn('[GoogleMapsService] Rate limit exceeded for geocoding, waiting...');
+    await waitForRateLimit('google-maps');
+  }
+  
+  // Record request for rate limiting
+  recordRequest('google-maps');
+  
+  const apiKey = getApiKey();
+  
+  // Build URL with parameters
+  // LEARNING: Find Place API searches by text query and returns place_id
+  // WHY: More efficient than Geocoding API for this use case
+  const params = new URLSearchParams({
+    input: address.trim(),
+    inputtype: 'textquery',
+    fields: 'place_id', // Only request place_id to minimize cost
+    key: apiKey
+  });
+  
+  const url = `${GOOGLE_MAPS_API_BASE}/place/findplacefromtext/json?${params.toString()}`;
+  
+  console.log(`[GoogleMapsService] Geocoding address to placeId: ${address.substring(0, 50)}...`);
+  
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      console.warn(`[GoogleMapsService] Geocoding HTTP error: ${response.status}`);
+      return null;
+    }
+    
+    const data = await response.json();
+    
+    // Handle API-level errors
+    if (data.status === 'REQUEST_DENIED') {
+      console.warn('[GoogleMapsService] Geocoding denied - API key invalid or restricted');
+      return null;
+    }
+    
+    if (data.status === 'OVER_QUERY_LIMIT') {
+      console.warn('[GoogleMapsService] Geocoding quota exceeded');
+      return null;
+    }
+    
+    if (data.status === 'ZERO_RESULTS' || data.status === 'NOT_FOUND') {
+      console.log(`[GoogleMapsService] No place found for address: ${address.substring(0, 50)}...`);
+      return null;
+    }
+    
+    if (data.status !== 'OK') {
+      console.warn(`[GoogleMapsService] Geocoding error status: ${data.status}`);
+      return null;
+    }
+    
+    // Extract place_id from first candidate
+    if (data.candidates && data.candidates.length > 0 && data.candidates[0].place_id) {
+      const placeId = data.candidates[0].place_id;
+      console.log(`[GoogleMapsService] Geocoded address to placeId: ${placeId}`);
+      return placeId;
+    }
+    
+    return null;
+    
+  } catch (error) {
+    // Network or parsing error - log but don't throw
+    console.warn('[GoogleMapsService] Geocoding error:', error instanceof Error ? error.message : 'Unknown error');
+    return null;
+  }
+}
+
+/**
  * Generate a session token for billing optimization
  * 
  * LEARNING: Session tokens group autocomplete + details into one billing session
@@ -624,34 +715,209 @@ export async function calculateRouteMatrix(
 }
 
 /**
+ * Retry configuration for Maps API operations
+ * LEARNING: Exponential backoff retry configuration
+ * WHY: Handles transient errors (rate limits, network issues) automatically
+ * PATTERN: Matches calendarErrorHandler.ts retry pattern
+ */
+interface RetryConfig {
+  maxRetries: number;
+  initialDelayMs: number;
+  maxDelayMs: number;
+  backoffMultiplier: number;
+}
+
+const DEFAULT_RETRY_CONFIG: RetryConfig = {
+  maxRetries: 3,
+  initialDelayMs: 1000,      // Start with 1 second
+  maxDelayMs: 30000,         // Max 30 seconds
+  backoffMultiplier: 2,      // Double each time
+};
+
+/**
+ * Calculate delay for exponential backoff with jitter
+ * LEARNING: Exponential backoff with jitter prevents thundering herd
+ * WHY: Spreads out retry attempts to reduce load spikes
+ */
+function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
+  // Calculate base delay with exponential backoff
+  const baseDelay = Math.min(
+    config.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),
+    config.maxDelayMs
+  );
+  
+  // Add jitter (±25%) to prevent thundering herd
+  const jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);
+  
+  return Math.round(baseDelay + jitter);
+}
+
+/**
+ * Execute operation with exponential backoff retry for transient errors
+ * LEARNING: Generic retry wrapper for Maps API operations
+ * WHY: Handles transient errors (rate_limit, network) automatically
+ * PATTERN: Only retries retryable errors, throws immediately for permanent errors
+ * 
+ * @param operation - Async function to execute
+ * @param config - Retry configuration (optional)
+ * @returns Promise with operation result
+ * @throws MapsApiError if all retries fail or error is not retryable
+ */
+async function withRetry<T>(
+  operation: () => Promise<T>,
+  config: Partial<RetryConfig> = {}
+): Promise<T> {
+  const retryConfig = { ...DEFAULT_RETRY_CONFIG, ...config };
+  let lastError: MapsApiError | null = null;
+  
+  for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error: any) {
+      // Only retry MapsApiErrors that are retryable
+      if (!(error instanceof MapsApiError)) {
+        // Wrap unknown errors
+        const mapsError = new MapsApiError(
+          'unknown',
+          error instanceof Error ? error.message : 'Unknown error',
+          true
+        );
+        lastError = mapsError;
+      } else {
+        lastError = error;
+      }
+      
+      // Don't retry non-retryable errors
+      if (!lastError.retryable) {
+        console.error(`[GoogleMapsService] Non-retryable error (${lastError.type}):`, lastError.message);
+        throw lastError;
+      }
+      
+      // Don't retry if we've exhausted all attempts
+      if (attempt >= retryConfig.maxRetries) {
+        console.error(`[GoogleMapsService] All ${retryConfig.maxRetries} retries exhausted`);
+        throw lastError;
+      }
+      
+      // Calculate and wait for backoff delay
+      const delay = calculateBackoffDelay(attempt, retryConfig);
+      console.warn(
+        `[GoogleMapsService] Retry ${attempt + 1}/${retryConfig.maxRetries} after ${delay}ms ` +
+        `(error: ${lastError.type})`
+      );
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  
+  // Should never reach here, but TypeScript needs this
+  throw lastError || new MapsApiError('unknown', 'Retry failed');
+}
+
+/**
  * Calculate drive time between two locations (convenience function)
  * 
- * LEARNING: Simple wrapper for single origin-destination calculation
+ * LEARNING: Simple wrapper for single origin-destination calculation with fallback support
  * WHY: Most common use case is point-to-point drive time
+ * PATTERN: Returns fallback value when API fails or location data missing
+ * 
+ * Session 2.2.3: Added fallback support and retry logic
  * 
  * @param origin Origin location
  * @param destination Destination location
  * @param useTraffic Whether to use real-time traffic
- * @returns Drive time result or null if route not found
+ * @param fallbackMinutes Optional fallback minutes to use if API fails or location missing
+ * @returns Drive time result with source metadata, or null if route not found and no fallback
  */
 export async function calculateDriveTime(
   origin: RouteLocation,
   destination: RouteLocation,
-  useTraffic: boolean = true
-): Promise<{ durationMinutes: number; durationSeconds: number; distanceMeters: number; distanceMiles: number } | null> {
-  const results = await calculateRouteMatrix([origin], [destination], useTraffic);
-  
-  if (results.length === 0 || results[0].status !== 'OK') {
-    console.warn('[GoogleMapsService] No route found between locations');
-    return null;
+  useTraffic: boolean = true,
+  fallbackMinutes?: number
+): Promise<{ 
+  durationMinutes: number; 
+  durationSeconds: number; 
+  distanceMeters: number; 
+  distanceMiles: number;
+  source: 'calculated' | 'estimated';
+} | null> {
+  // Validate location data before attempting API call
+  if (!origin.placeId && !origin.coordinates && !origin.address) {
+    console.warn('[GoogleMapsService] Missing origin location data');
+    if (fallbackMinutes !== undefined) {
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0, // Unknown distance when using fallback
+        distanceMiles: 0,
+        source: 'estimated'
+      };
+    }
+    throw new MapsApiError('invalid', 'Origin location must have placeId, coordinates, or address');
   }
   
-  const result = results[0];
+  if (!destination.placeId && !destination.coordinates && !destination.address) {
+    console.warn('[GoogleMapsService] Missing destination location data');
+    if (fallbackMinutes !== undefined) {
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        source: 'estimated'
+      };
+    }
+    throw new MapsApiError('invalid', 'Destination location must have placeId, coordinates, or address');
+  }
   
-  return {
-    durationMinutes: Math.ceil(result.durationSeconds / 60),
-    durationSeconds: result.durationSeconds,
-    distanceMeters: result.distanceMeters,
-    distanceMiles: Math.round(result.distanceMeters / 1609.34 * 10) / 10
-  };
+  // Attempt API call with retry for transient errors
+  try {
+    const results = await withRetry(
+      () => calculateRouteMatrix([origin], [destination], useTraffic)
+    );
+    
+    if (results.length === 0 || results[0].status !== 'OK') {
+      console.warn('[GoogleMapsService] No route found between locations');
+      // Use fallback if available
+      if (fallbackMinutes !== undefined) {
+        return {
+          durationMinutes: fallbackMinutes,
+          durationSeconds: fallbackMinutes * 60,
+          distanceMeters: 0,
+          distanceMiles: 0,
+          source: 'estimated'
+        };
+      }
+      return null;
+    }
+    
+    const result = results[0];
+    
+    return {
+      durationMinutes: Math.ceil(result.durationSeconds / 60),
+      durationSeconds: result.durationSeconds,
+      distanceMeters: result.distanceMeters,
+      distanceMiles: Math.round(result.distanceMeters / 1609.34 * 10) / 10,
+      source: 'calculated'
+    };
+    
+  } catch (error) {
+    // API failed - use fallback if available
+    if (fallbackMinutes !== undefined) {
+      console.warn(
+        `[GoogleMapsService] API failed (${error instanceof MapsApiError ? error.type : 'unknown'}), ` +
+        `using fallback: ${fallbackMinutes} minutes`
+      );
+      return {
+        durationMinutes: fallbackMinutes,
+        durationSeconds: fallbackMinutes * 60,
+        distanceMeters: 0,
+        distanceMiles: 0,
+        source: 'estimated'
+      };
+    }
+    
+    // No fallback available - rethrow error
+    throw error;
+  }
 }

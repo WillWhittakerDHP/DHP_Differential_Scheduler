@@ -165,13 +165,21 @@ router.post('/freebusy', async (req: Request, res: Response) => {
  * - timeMax: string (required) - ISO date string
  * 
  * Response:
- * Array<{
- *   id: string,
- *   start: string,
- *   end: string,
- *   location: string | null,
- *   summary: string | null
- * }>
+ * {
+ *   events: Array<{
+ *     id: string,
+ *     start: string,
+ *     end: string,
+ *     placeId?: string,        // Google Place ID (primary location identifier)
+ *     summary: string | null
+ *   }>,
+ *   _meta: {
+ *     source: 'api' | 'cache' | 'empty',
+ *     error?: string
+ *   }
+ * }
+ * 
+ * Session 2.2.3: Updated to return placeId instead of location string
  */
 router.get('/events', async (req: Request, res: Response) => {
   try {

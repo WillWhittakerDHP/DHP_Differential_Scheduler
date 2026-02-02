@@ -10,7 +10,7 @@
  * Phase 1.2: Removed hardcoded data - all form values initialize empty, ready for API integration
  */
 
-import { ref, inject, computed, watch, type Ref } from 'vue'
+import { ref, inject, computed, watch, onMounted, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
@@ -18,6 +18,7 @@ import { usePropertyTypeBlockSelection } from '@/composables/booking/useProperty
 import { usePropertyFormWatchers } from '@/composables/booking/usePropertyFormWatchers'
 import { usePropertyFormState } from '@/composables/booking/usePropertyFormState'
 import { usePropertyTypeBlockConfig } from '@/composables/booking/usePropertyTypeBlockConfig'
+import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { createWizardStatePlugin } from '@/components/booking/plugins/wizardStatePlugin'
 import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
@@ -29,6 +30,23 @@ import { MapsApiError } from '@/services/mapsApiService'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('PropertyDetailsStep')
+
+// LEARNING: Pre-fetch Maps API session token when Step 2 becomes active
+// WHY: Token ready when user needs it, no delay on first keystroke
+// PATTERN: Pre-fetch in background without blocking component initialization
+const { prefetchToken } = useMapsSessionToken()
+
+/**
+ * Pre-fetch session token when component mounts (Step 2 becomes active)
+ * LEARNING: Component only mounts when Step 2 is active, so this is the right time
+ * WHY: Token ready when user starts typing, better UX than lazy-loading
+ */
+onMounted(() => {
+  prefetchToken().catch(error => {
+    logger.warn('[onMounted] Failed to pre-fetch session token:', error)
+    // Continue without token - AddressAutocomplete will lazy-load as fallback
+  })
+})
 
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {

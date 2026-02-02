@@ -60,39 +60,47 @@ import {
 import { validateSlotGenerationParams } from './slotGenerationValidation'
 import apiClient from '@/utils/api'
 import type {
-  RangeConstraint
+  RangeConstraint,
+  DefaultLocation
 } from '@/configs/availabilitySettings'
 import type {
   OverlapConstraint,
   CapacityConstraint
 } from './constraintExtractors'
+import type { CalendarEvent } from '@/services/calendarApiService'
+import { calculateDriveTimeConstraints, type DriveTimeCalculationContext } from './driveTimeCalculator'
 
 /**
  * Slot position context for drive time constraint application
- * LEARNING: Provides position information for determining when drive time constraints apply
- * WHY: First/last appointment of day may need different handling than middle appointments
- * PATTERN: Interface with boolean flags for position
+ * LEARNING: Provides business hours boundaries for determining slot position
+ * WHY: Drive time constraints apply based on slot position relative to business hours boundaries
+ * PATTERN: Interface with business hours start/end times
  * 
- * Note: Currently optional - when not provided, applyTo='all' constraints apply, others don't
- * Future enhancement: Determine position based on existing appointments in the day
+ * Session 2.2.3: Refactored from appointment-based (first/last) to time-slot-based (dayStart/dayEnd)
  */
 export interface SlotPositionContext {
-  isFirstOfDay: boolean
-  isLastOfDay: boolean
+  businessHoursStart: Date  // Business hours start time for this day
+  businessHoursEnd: Date    // Business hours end time for this day
 }
 
 /**
  * Check if a drive time constraint should be applied based on slot position
- * LEARNING: Helper function to determine constraint applicability
- * WHY: Centralizes applyTo logic for drive time constraints
- * PATTERN: Pure function that returns boolean based on constraint and context
+ * LEARNING: Determines if slot is at business hours boundary
+ * WHY: Drive time constraints can skip boundaries (skipDayStart/skipDayEnd) or apply everywhere (all)
+ * PATTERN: Compare slot times to business hours boundaries
+ * 
+ * Session 2.2.3: Refactored from appointment-based to time-slot-based logic
  * 
  * @param constraint - The overlap constraint to check
- * @param context - Optional slot position context (if undefined, only 'all' applies)
+ * @param slotStart - Slot start time
+ * @param slotEnd - Slot end time
+ * @param context - Business hours context for this day
  * @returns true if constraint should be applied to this slot
  */
 export function shouldApplyDriveTimeConstraint(
   constraint: OverlapConstraint,
+  slotStart: Date,
+  slotEnd: Date,
   context?: SlotPositionContext
 ): boolean {
   // Non-drive-time constraints always apply (no applyTo filtering)
@@ -101,20 +109,55 @@ export function shouldApplyDriveTimeConstraint(
   }
   
   // If no context provided, only 'all' constraints apply
-  // WHY: Without position info, we can't know if first/last, so only 'all' is safe
+  // WHY: Without business hours info, we can't determine boundaries, so only 'all' is safe
   if (!context) {
-    return constraint.applyTo === 'all'
+    return constraint.applyTo === 'all' || constraint.applyTo === undefined
   }
+  
+  const { businessHoursStart, businessHoursEnd } = context
+  const bufferMs = constraint.minutes * 60 * 1000
   
   switch (constraint.applyTo) {
     case 'all':
-      return true
-    case 'first_only':
-      return context.isFirstOfDay
-    case 'last_only':
-      return context.isLastOfDay
+      return true  // Apply everywhere
+    
+    case 'skipDayStart':
+      // Skip constraint if slot is at day start (within buffer window of business hours start)
+      // For driveTimeTo: check if slot start is within buffer of business hours start
+      // For driveTimeFrom: check if slot end is within buffer of business hours start
+      if (constraint.type === 'driveTimeTo') {
+        const slotStartMs = slotStart.getTime()
+        const dayStartMs = businessHoursStart.getTime()
+        const isAtDayStart = slotStartMs >= dayStartMs && slotStartMs <= (dayStartMs + bufferMs)
+        return !isAtDayStart  // Apply if NOT at day start
+      } else {
+        // driveTimeFrom - check slot end relative to day start
+        const slotEndMs = slotEnd.getTime()
+        const dayStartMs = businessHoursStart.getTime()
+        const isAtDayStart = slotEndMs >= dayStartMs && slotEndMs <= (dayStartMs + bufferMs)
+        return !isAtDayStart  // Apply if NOT at day start
+      }
+    
+    case 'skipDayEnd':
+      // Skip constraint if slot is at day end (within buffer window of business hours end)
+      // For driveTimeTo: check if slot start is within buffer of business hours end
+      // For driveTimeFrom: check if slot end is within buffer of business hours end
+      if (constraint.type === 'driveTimeTo') {
+        const slotStartMs = slotStart.getTime()
+        const dayEndMs = businessHoursEnd.getTime()
+        const isAtDayEnd = slotStartMs >= (dayEndMs - bufferMs) && slotStartMs <= dayEndMs
+        return !isAtDayEnd  // Apply if NOT at day end
+      } else {
+        // driveTimeFrom - check slot end relative to day end
+        const slotEndMs = slotEnd.getTime()
+        const dayEndMs = businessHoursEnd.getTime()
+        const isAtDayEnd = slotEndMs >= (dayEndMs - bufferMs) && slotEndMs <= dayEndMs
+        return !isAtDayEnd  // Apply if NOT at day end
+      }
+    
     case 'none':
-      return false
+      return false  // Never apply
+    
     default:
       // Fallback for safety - apply if applyTo is undefined
       return true
@@ -459,10 +502,11 @@ export function checkSlotAvailability(
   }
 
   // LEARNING: Filter constraints based on position context for drive time applyTo logic
-  // WHY: driveTimeTo/driveTimeFrom have applyTo rules (first_only, last_only, all, none)
+  // WHY: driveTimeTo/driveTimeFrom have applyTo rules (skipDayStart, skipDayEnd, all, none)
   // PATTERN: Use shouldApplyDriveTimeConstraint to filter before checking overlaps
+  // Session 2.2.3: Updated to pass slot times for boundary detection
   const applicableConstraints = overlapConstraints.filter(constraint => 
-    shouldApplyDriveTimeConstraint(constraint, positionContext)
+    shouldApplyDriveTimeConstraint(constraint, slotStart, slotEnd, positionContext)
   )
   
   // If no applicable constraints after filtering, check basic overlap
@@ -1230,7 +1274,11 @@ export async function generateSlotsWithAvailability(
   rangeConstraints?: RangeConstraint[],
   overlapConstraints?: OverlapConstraint[],
   capacityConstraints?: CapacityConstraint[],
-  now?: Date
+  now?: Date,
+  options?: {
+    defaultLocation?: DefaultLocation
+    calendarEvents?: CalendarEvent[]
+  }
 ): Promise<AvailabilityManagerResult> {
   const { busyTimes = [], ...otherParams } = params
 
@@ -1239,7 +1287,7 @@ export async function generateSlotsWithAvailability(
 
   // PATTERN: Filter once upfront, pass only active constraints to checking functions
   const activeRangeConstraints = rangeConstraints?.filter(c => c.enforcement !== 'off') || []
-  const activeOverlapConstraints: OverlapConstraint[] = overlapConstraints?.filter(c => 
+  let activeOverlapConstraints: OverlapConstraint[] = overlapConstraints?.filter(c => 
     c.enforcement !== 'off' && c.placement !== 'off'
   ) || []
   const activeCapacityConstraints = capacityConstraints?.filter(c => c.enforcement !== 'off') || []
@@ -1299,8 +1347,80 @@ export async function generateSlotsWithAvailability(
         .filter((slot): slot is TimeSlot => slot !== null)
     : allSlots
   
+  // LEARNING: Calculate drive times for constraints before checking slot availability
+  // WHY: Replace static minutes with calculated drive times when location data available
+  // PATTERN: Calculate drive times once per day, use for all slots on that day
+  // Session 2.2.3: Added drive time calculation integration
+  if (options?.defaultLocation || options?.calendarEvents) {
+    // Group slots by date to calculate drive times per day
+    const slotsByDate = new Map<string, TimeSlot[]>()
+    slotsPassingRangeConstraints.forEach(slot => {
+      const slotDate = new Date(slot.startTime)
+      const dateKey = slotDate.toISOString().split('T')[0] // YYYY-MM-DD
+      if (!slotsByDate.has(dateKey)) {
+        slotsByDate.set(dateKey, [])
+      }
+      slotsByDate.get(dateKey)!.push(slot)
+    })
+
+    // Calculate drive times for each day
+    const calculatedConstraintsByDate = new Map<string, OverlapConstraint[]>()
+    
+    for (const [dateKey, daySlots] of slotsByDate.entries()) {
+      const slotDate = new Date(dateKey + 'T00:00:00Z')
+      
+      // Session 2.2.3: Simplified drive time calculation
+      // Calculate drive times once per day - filtering by skipDayStart/skipDayEnd happens per-slot
+      const calculationContext = {
+        defaultLocation: options.defaultLocation,
+        calendarEvents: options.calendarEvents,
+        slotDate
+      }
+      
+      // Calculate drive times for all constraints (filtering happens in shouldApplyDriveTimeConstraint)
+      const calculatedConstraints = await calculateDriveTimeConstraints(
+        activeOverlapConstraints,
+        calculationContext
+      )
+      
+      // Merge calculated constraints (use calculated minutes if different from original)
+      const mergedConstraints = activeOverlapConstraints.map(constraint => {
+        const calculated = calculatedConstraints.find(c => 
+          c.type === constraint.type && 
+          c.applyTo === constraint.applyTo &&
+          c.placement === constraint.placement
+        )
+        
+        // Use calculated value if it differs from original
+        if (calculated && calculated.minutes !== constraint.minutes) {
+          return calculated
+        }
+        
+        return constraint
+      })
+      
+      calculatedConstraintsByDate.set(dateKey, mergedConstraints)
+    }
+    
+    // Use calculated constraints (will be filtered per-slot by applyTo logic in checkSlotAvailability)
+    // For now, use constraints from first day (most common case)
+    // TODO: Future enhancement - use per-day constraints when checking each slot
+    const firstDateKey = Array.from(slotsByDate.keys())[0]
+    if (firstDateKey && calculatedConstraintsByDate.has(firstDateKey)) {
+      activeOverlapConstraints = calculatedConstraintsByDate.get(firstDateKey)!
+    }
+  }
+  
   // PATTERN: Map slots and add availability flag, pass overlap constraints to expand time range
-  const slotsWithAvailability = markSlotAvailability(slotsPassingRangeConstraints, parsedBusyTimes, activeOverlapConstraints, slotDateCache)
+  // Session 2.2.3: Pass range constraints and business hours cache for skipDayStart/skipDayEnd logic
+  const slotsWithAvailability = markSlotAvailability(
+    slotsPassingRangeConstraints,
+    parsedBusyTimes,
+    activeOverlapConstraints,
+    slotDateCache,
+    activeRangeConstraints,
+    businessHoursCache
+  )
 
   // PATTERN: Check capacity after busy period availability is marked
   const slotsWithCapacity = activeCapacityConstraints.length > 0

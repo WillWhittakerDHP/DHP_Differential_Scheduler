@@ -67,6 +67,7 @@ export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>
 export interface BusyTimeRange {
   start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
+  placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
 }
 
 export interface FitTimeSlotsParams {
@@ -377,7 +378,11 @@ export async function fitAllTimeSlotsWithAvailability(
   params: FitTimeSlotsParams,
   rangeConstraints?: RangeConstraint[],
   overlapConstraints?: OverlapConstraint[],
-  capacityConstraints?: CapacityConstraint[]
+  capacityConstraints?: CapacityConstraint[],
+  options?: {
+    defaultLocation?: import('@/configs/availabilitySettings').DefaultLocation
+    calendarEvents?: import('@/services/calendarApiService').CalendarEvent[]
+  }
 ): Promise<FitTimeSlotsResultWithAvailability> {
   // PATTERN: Delegate to availability manager with constraint arrays
   return await generateSlotsWithAvailability(
@@ -391,6 +396,8 @@ export async function fitAllTimeSlotsWithAvailability(
     },
     rangeConstraints || params.rangeConstraints,
     overlapConstraints || params.overlapConstraints,
-    capacityConstraints || params.capacityConstraints
+    capacityConstraints || params.capacityConstraints,
+    undefined, // now parameter
+    options
   )
 }

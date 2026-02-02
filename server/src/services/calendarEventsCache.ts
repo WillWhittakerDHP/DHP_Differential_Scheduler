@@ -12,12 +12,15 @@
  * Cached calendar event structure
  * LEARNING: Minimal event data needed for drive time calculations
  * WHY: Only cache essential fields to reduce memory usage
+ * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
+ * 
+ * Session 2.2.3: Updated to use placeId instead of location string
  */
 export interface CachedCalendarEvent {
   id: string;
   start: string;
   end: string;
-  location: string | null;  // Address for drive time calculation
+  placeId?: string;        // Google Place ID (primary location identifier)
   summary: string | null;   // Event title for context/debugging
 }
 
@@ -205,6 +208,9 @@ export function invalidateEventsCache(
  * Clear all cache entries
  * LEARNING: Useful for testing or manual cache clearing
  * WHY: Allows complete cache reset
+ * 
+ * IMPORTANT: Cache should be cleared when deploying changes that modify CachedCalendarEvent structure
+ * (e.g., Session 2.2.3: Changed from location:string to placeId:string)
  */
 export function clearEventsCache(): void {
   cache.clear();

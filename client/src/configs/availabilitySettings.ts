@@ -150,16 +150,16 @@ export interface BufferConfig {
 
 /**
  * Drive time application rules
- * LEARNING: Controls when drive time buffers are applied
- * WHY: First/last appointment of day may need different handling than middle appointments
+ * LEARNING: Controls when drive time buffers are applied based on slot position
+ * WHY: Slots at business hours boundaries may need different handling than middle slots
  * PATTERN: Enum-like string literal union type
  * 
- * - 'all': Apply to all appointments (default for between-appointment travel)
- * - 'first_only': Only apply to first appointment of day (travel FROM home/office)
- * - 'last_only': Only apply to last appointment of day (travel TO home/office)
+ * - 'all': Apply to all slots (default - includes day start and day end)
+ * - 'skipDayStart': Apply to all slots EXCEPT those at day start (allows early slots without drive time blocking)
+ * - 'skipDayEnd': Apply to all slots EXCEPT those at day end (allows late slots without drive time blocking)
  * - 'none': Disabled - don't apply this buffer
  */
-export type DriveTimeApplyTo = 'all' | 'first_only' | 'last_only' | 'none'
+export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
 
 /**
  * Drive time buffer configuration
@@ -193,20 +193,19 @@ export interface Coordinates {
  * Default location for drive time calculations
  * LEARNING: Starting/ending point for first/last appointment drive times
  * WHY: Needed to calculate travel time from home/office to first appointment
- * PATTERN: Interface with address string and optional coordinates for future Google Maps integration
+ * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
  * 
  * This is used as:
  * - Starting point for travel to first appointment of the day
  * - Ending point for travel from last appointment of the day
  * 
  * Session 2.2.2: Added placeId for Routes API integration
- * WHY: Place IDs provide better accuracy than coordinates/addresses for routing
- * PATTERN: placeId > coordinates > address (priority order for route calculations)
+ * Session 2.2.3: placeId is now primary location identifier throughout codebase
  */
 export interface DefaultLocation {
-  address: string           // Full address string (e.g., "123 Main St, City, State ZIP")
+  placeId: string           // Google Place ID (primary location identifier)
+  address?: string          // Address string for UI display only (optional, from autocomplete)
   label?: string            // Optional label like "Home Office", "Shop", etc.
-  placeId?: string          // Optional - Google Place ID for accurate routing (Session 2.2.2)
   coordinates?: Coordinates // Optional - populated by Google Places API (Session 2.2.1)
 }
 
