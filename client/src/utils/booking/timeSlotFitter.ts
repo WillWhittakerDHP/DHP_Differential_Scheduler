@@ -13,9 +13,8 @@ import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import {
   generateSlotsWithAvailability
 } from './timeAvailabilityManager'
-import type { RangeConstraint } from '@/configs/availabilitySettings'
+import type { RangeConstraint, OverlapConstraint, CapacityConstraint, BusyPeriodSource } from '@shared/types/availabilityTypes'
 import { createLogger } from '@/utils/logger'
-import type { OverlapConstraint, CapacityConstraint } from './constraintExtractors'
 import { validateSlotGenerationParams } from './slotGenerationValidation'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
 
@@ -68,6 +67,7 @@ export interface BusyTimeRange {
   start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
   placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
+  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'freeBusy' from Calendar API, 'outOfOffice' from Events API)
 }
 
 export interface FitTimeSlotsParams {
@@ -327,7 +327,8 @@ export async function fitAvailableTimeSlots(params: FitTimeSlotsParams): Promise
   }
 
   // PATTERN: Generate all slots with availability, then filter to available only
-  const result = await generateSlotsWithAvailability(
+  // Phase 6: Function is now synchronous (all data pre-computed server-side)
+  const result = generateSlotsWithAvailability(
     {
       startBoundary,
       endBoundary,
@@ -374,19 +375,32 @@ interface FitTimeSlotsResultWithAvailability {
  * @param params - Parameters for fitting time slots
  * @returns Result with all slots (available + busy) and earliest available completion time
  */
-export async function fitAllTimeSlotsWithAvailability(
+/**
+ * Fit all time slots with availability status
+ * 
+ * Phase 6: Refactored to be synchronous - delegates to synchronous generateSlotsWithAvailability
+ * WHY: All data is pre-computed server-side, eliminating async operations
+ * 
+ * @param params - Parameters for fitting time slots
+ * @param rangeConstraints - Pre-computed range constraints (from server)
+ * @param overlapConstraints - Pre-computed overlap constraints (from server)
+ * @param capacityConstraints - Pre-computed capacity constraints (from server)
+ * @param options - Options including pre-computed drive times and capacity hours
+ * @returns Synchronous result with all slots (available + busy) and earliest available completion time
+ */
+export function fitAllTimeSlotsWithAvailability(
   params: FitTimeSlotsParams,
   rangeConstraints?: RangeConstraint[],
   overlapConstraints?: OverlapConstraint[],
   capacityConstraints?: CapacityConstraint[],
   options?: {
-    defaultLocation?: import('@/configs/availabilitySettings').DefaultLocation
-    calendarEvents?: import('@/services/calendarApiService').CalendarEvent[]
-    driveTimeDataSource?: 'default' | 'api' | 'both' | 'none'
+    // Phase 6: Pre-computed data from server orchestrator (required)
+    precomputedDriveTimesByDate?: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>
+    precomputedCapacityHours?: Record<string, number>
   }
-): Promise<FitTimeSlotsResultWithAvailability> {
-  // PATTERN: Delegate to availability manager with constraint arrays
-  return await generateSlotsWithAvailability(
+): FitTimeSlotsResultWithAvailability {
+  // PATTERN: Delegate to availability manager with constraint arrays (now synchronous)
+  return generateSlotsWithAvailability(
     {
       startBoundary: params.startBoundary,
       endBoundary: params.endBoundary,

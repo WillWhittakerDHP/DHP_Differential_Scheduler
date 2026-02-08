@@ -42,20 +42,26 @@ const isDevMode = isDevModeEnabled()
 // - .direct = Slot directly overlaps with busy period (darker shade)
 // - .buffer = Slot only blocked due to buffer, not direct overlap (lighter shade)
 const CONSTRAINT_COLORS: Record<string, string> = {
-  // Overlap constraints - DIRECT (slot touches busy period)
-  'overlap.appointment.direct': '#1565C0',    // Dark Blue - direct appointment conflict
-  'overlap.driveTimeTo.direct': '#2E7D32',    // Dark Green - direct drive time to conflict
-  'overlap.driveTimeFrom.direct': '#E65100',  // Dark Orange - direct drive time from conflict
-  'overlap.lunch.direct': '#6A1B9A',          // Dark Purple - direct lunch conflict
+  // Direct overlap - by DATA SOURCE (what made the calendar busy)
+  // LEARNING: Direct violations use BusyPeriodSource vocabulary, NOT constraint type
+  // WHY: FreeBusy API just says "busy" - we don't know if it's an appointment, meeting, etc.
+  'overlap.freeBusy.direct': '#1565C0',       // Dark Blue - calendar shows busy (from FreeBusy API)
+  'overlap.outOfOffice.direct': '#00897B',    // Teal - out-of-office event (from Events API)
   
-  // Overlap constraints - BUFFER (slot blocked by buffer, not direct overlap)
-  'overlap.appointment.buffer': '#64B5F6',    // Light Blue - buffer around appointment
-  'overlap.driveTimeTo.buffer': '#81C784',    // Light Green - buffer for drive time to
-  'overlap.driveTimeFrom.buffer': '#FFB74D',  // Light Orange - buffer for drive time from
-  'overlap.lunch.buffer': '#BA68C8',          // Light Purple - buffer for lunch
+  // Buffer overlap - by CONSTRAINT TYPE (what rule added the buffer)
+  // LEARNING: Buffer violations use OverlapConstraint type vocabulary
+  // WHY: Buffers are about spacing rules, not data sources
+  'overlap.appointment.buffer': '#64B5F6',    // Light Blue - appointment buffer constraint
+  'overlap.driveTimeTo.buffer': '#81C784',    // Light Green - drive time to buffer
+  'overlap.driveTimeFrom.buffer': '#FFB74D',  // Light Orange - drive time from buffer
+  'overlap.lunch.buffer': '#BA68C8',          // Light Purple - lunch buffer
   
   // Legacy support (fallback for any code still using old format)
+  'overlap.appointment.direct': '#1565C0',    // Legacy: mapped to freeBusy.direct color
   'overlap.appointment': '#2196F3',    // Blue (medium)
+  'overlap.driveTimeTo.direct': '#2E7D32',    // Dark Green
+  'overlap.driveTimeFrom.direct': '#E65100',  // Dark Orange
+  'overlap.lunch.direct': '#6A1B9A',          // Dark Purple
   'overlap.driveTimeTo': '#4CAF50',    // Green (medium)
   'overlap.driveTimeFrom': '#FF9800',  // Orange (medium)
   'overlap.lunch': '#9C27B0',          // Purple (medium)
@@ -78,6 +84,25 @@ interface ConstraintInfo {
   color: string
 }
 
+// LEARNING: Get color for violation type, handling buffer:minutes format
+// WHY: Violation strings may include minutes (e.g., 'overlap.driveTimeTo.buffer:20')
+// PATTERN: Strip minutes suffix before color lookup
+const getColorForViolation = (violationType: string): string => {
+  // Try exact match first
+  if (CONSTRAINT_COLORS[violationType]) {
+    return CONSTRAINT_COLORS[violationType]
+  }
+  
+  // Strip minutes suffix if present (e.g., 'overlap.driveTimeTo.buffer:20' -> 'overlap.driveTimeTo.buffer')
+  const baseType = violationType.replace(/:\d+$/, '')
+  if (CONSTRAINT_COLORS[baseType]) {
+    return CONSTRAINT_COLORS[baseType]
+  }
+  
+  // Default gray for unknown types
+  return '#757575'
+}
+
 // LEARNING: Read flexibleViolations directly from slots
 // WHY: No recalculation - data is already computed during slot generation
 // PATTERN: Only show dots on unavailable slots that have violations
@@ -95,7 +120,7 @@ const appliedConstraintsPerSlot = computed(() => {
     // Map violations to constraint info
     const constraints: ConstraintInfo[] = violations.map(violationType => ({
       type: violationType,
-      color: CONSTRAINT_COLORS[violationType] || '#757575' // Default gray for unknown types
+      color: getColorForViolation(violationType)
     }))
     
     result.set(slot.buttonIndex, constraints)
@@ -112,21 +137,33 @@ const getConstraintColor = (constraint: ConstraintInfo): string => {
 }
 
 // LEARNING: Format constraint tooltip text
-// WHY: Shows which constraint blocked this slot with clear direct/buffer distinction
+// WHY: Shows which constraint blocked this slot with clear direct/buffer distinction and buffer value
 // PATTERN: Parse constraint type and format human-readable message
+// Format: 'overlap.{constraintType}.{direct|buffer}' or 'overlap.{constraintType}.buffer:{minutes}'
 const formatConstraintTooltip = (constraint: ConstraintInfo): string => {
   const type = constraint.type
   
   // Parse the constraint type to extract components
-  // Format: 'overlap.{constraintType}.{direct|buffer}' or 'capacity.{type}' or 'range.{type}'
+  // Format: 'overlap.{constraintType}.{direct|buffer:{minutes}}' or 'capacity.{type}' or 'range.{type}'
   const parts = type.split('.')
   
   if (parts[0] === 'overlap' && parts.length >= 3) {
     const constraintName = parts[1] // e.g., 'appointment', 'driveTimeTo'
-    const reason = parts[2] // 'direct' or 'buffer'
+    const reasonPart = parts[2] // 'direct' or 'buffer' or 'buffer:20'
+    
+    // Parse buffer minutes if present (format: 'buffer:20')
+    let reason = reasonPart
+    let bufferMinutes: number | null = null
+    if (reasonPart.includes(':')) {
+      const [reasonType, minutes] = reasonPart.split(':')
+      reason = reasonType
+      bufferMinutes = parseInt(minutes, 10)
+    }
     
     const nameMap: Record<string, string> = {
-      'appointment': 'Appointment',
+      'freeBusy': 'Existing Event',
+      'outOfOffice': 'Out of Office',
+      'appointment': 'Appointment Buffer',
       'driveTimeTo': 'Drive Time To',
       'driveTimeFrom': 'Drive Time From',
       'lunch': 'Lunch Break'
@@ -137,6 +174,9 @@ const formatConstraintTooltip = (constraint: ConstraintInfo): string => {
     if (reason === 'direct') {
       return `Direct conflict with ${friendlyName}`
     } else if (reason === 'buffer') {
+      if (bufferMinutes !== null && !isNaN(bufferMinutes)) {
+        return `${friendlyName} buffer (${bufferMinutes} min)`
+      }
       return `${friendlyName} buffer required`
     }
   }

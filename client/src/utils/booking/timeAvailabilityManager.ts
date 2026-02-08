@@ -58,17 +58,12 @@ import {
   parseBusinessHours
 } from './timeSlotFitter'
 import { validateSlotGenerationParams } from './slotGenerationValidation'
-import apiClient from '@/utils/api'
 import type {
   RangeConstraint,
-  DefaultLocation
-} from '@/configs/availabilitySettings'
-import type {
   OverlapConstraint,
-  CapacityConstraint
-} from './constraintExtractors'
-import type { CalendarEvent } from '@/services/calendarApiService'
-import { calculateDriveTimeConstraints, type DriveTimeCalculationContext } from './driveTimeCalculator'
+  CapacityConstraint,
+  BusyPeriodSource
+} from '@shared/types/availabilityTypes'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('timeAvailabilityManager')
@@ -166,11 +161,7 @@ export function shouldApplyDriveTimeConstraint(
       return true
   }
 }
-import {
-  validateRangeConstraint,
-  validateOverlapConstraint,
-  validateCapacityConstraint
-} from './constraintExtractors'
+// Phase 8: Removed validation function imports - constraints are validated server-side
 import { rfc3339ToLocalMinutesFromMidnight } from '@/composables/useLocalTime'
 import { RANGE_CONSTRAINT_TYPES, TIME_BASIS_TYPES } from '@/constants/constraintTypes'
 
@@ -208,6 +199,7 @@ export class ConstraintValidationError extends Error {
 interface ParsedBusyTimeRange {
   start: Date
   end: Date
+  source?: BusyPeriodSource
 }
 
 /**
@@ -270,7 +262,8 @@ function mergeBusyPeriods(sortedBusyTimes: BusyTimeRange[]): BusyTimeRange[] {
     const currentStart = new Date(current.start)
     const currentEnd = new Date(current.end)
     
-    if (currentStart <= lastEnd) {
+    // Only merge periods with the same source - preserves source information for violation attribution
+    if (currentStart <= lastEnd && current.source === lastMerged.source) {
       if (currentEnd > lastEnd) {
         // WHY: Immutable pattern - don't mutate objects in arrays
         // PATTERN: Replace last element with new merged object
@@ -301,11 +294,22 @@ export function preprocessBusyPeriods(busyTimes: BusyTimeRange[]): BusyTimeRange
   // Step 1: Validate and filter invalid periods
   const validBusyTimes = busyTimes.filter(validateBusyPeriod)
   
+  // DEBUG: Log filtering results
+  if (busyTimes.length !== validBusyTimes.length) {
+    const invalidCount = busyTimes.length - validBusyTimes.length
+    console.warn(`[preprocessBusyPeriods] Filtered out ${invalidCount} invalid busy periods (${busyTimes.length} -> ${validBusyTimes.length})`)
+  }
+  
   if (validBusyTimes.length === 0) return []
   
   const sortedBusyTimes = sortBusyPeriods(validBusyTimes)
   
   const mergedBusyTimes = mergeBusyPeriods(sortedBusyTimes)
+  
+  // DEBUG: Log merging results
+  if (sortedBusyTimes.length !== mergedBusyTimes.length) {
+    console.log(`[preprocessBusyPeriods] Merged ${sortedBusyTimes.length} periods into ${mergedBusyTimes.length} periods`)
+  }
   
   return mergedBusyTimes
 }
@@ -320,7 +324,7 @@ function parseBusyPeriods(busyTimes: BusyTimeRange[]): ParsedBusyTimeRange[] {
   return busyTimes.map(busy => ({
     start: new Date(busy.start),
     end: new Date(busy.end),
-    original: busy
+    source: busy.source,
   }))
 }
 
@@ -498,22 +502,32 @@ export function checkSlotAvailability(
     return { available: true, violations: [] }
   }
 
-  // LEARNING: Helper to check direct overlap (no buffer)
-  // WHY: Distinguishes between direct busy period conflict vs buffer requirement
-  const hasDirectOverlap = (): boolean => {
-    return parsedBusyTimes.some(busy => 
-      timeRangesOverlap(
+  // LEARNING: Helper to get data-origin sources of all directly overlapping busy periods
+  // WHY: Enables source-specific violation attribution (e.g., overlap.outOfOffice.direct vs overlap.freeBusy.direct)
+  // PATTERN: Returns array of BusyPeriodSource values from matching busy periods
+  const getDirectOverlapSources = (): BusyPeriodSource[] => {
+    return parsedBusyTimes
+      .filter(busy => timeRangesOverlap(
         { start: slotStart, end: slotEnd },
         { start: busy.start, end: busy.end }
-      )
-    )
+      ))
+      .map(busy => busy.source ?? 'freeBusy')
   }
 
   // If no overlap constraints, check basic overlap
   if (!overlapConstraints || overlapConstraints.length === 0) {
-    const directOverlap = hasDirectOverlap()
+    const directOverlapSources = getDirectOverlapSources()
+    const hasDirectOverlap = directOverlapSources.length > 0
     // PATTERN: Use .direct suffix for basic overlaps (no buffer configured)
-    return { available: !directOverlap, violations: directOverlap ? ['overlap.appointment.direct'] : [] }
+    // Generate source-specific violations
+    const violations: string[] = []
+    if (hasDirectOverlap) {
+      const uniqueSources = [...new Set(directOverlapSources)]
+      for (const source of uniqueSources) {
+        violations.push(`overlap.${source}.direct`)
+      }
+    }
+    return { available: !hasDirectOverlap, violations }
   }
 
   // LEARNING: Filter constraints based on position context for drive time applyTo logic
@@ -526,9 +540,18 @@ export function checkSlotAvailability(
   
   // If no applicable constraints after filtering, check basic overlap
   if (applicableConstraints.length === 0) {
-    const directOverlap = hasDirectOverlap()
+    const directOverlapSources = getDirectOverlapSources()
+    const hasDirectOverlap = directOverlapSources.length > 0
     // PATTERN: Use .direct suffix for basic overlaps (constraints filtered out)
-    return { available: !directOverlap, violations: directOverlap ? ['overlap.appointment.direct'] : [] }
+    // Generate source-specific violations
+    const violations: string[] = []
+    if (hasDirectOverlap) {
+      const uniqueSources = [...new Set(directOverlapSources)]
+      for (const source of uniqueSources) {
+        violations.push(`overlap.${source}.direct`)
+      }
+    }
+    return { available: !hasDirectOverlap, violations }
   }
 
   // LEARNING: Use functional approach to collect violations
@@ -542,8 +565,9 @@ export function checkSlotAvailability(
    * - isDirect: true if direct overlap exists (slot touches busy period without buffer)
    */
   const checkConstraintOverlap = (constraint: OverlapConstraint): { overlaps: boolean; isDirect: boolean } => {
-    // First check direct overlap (no buffer)
-    const directOverlap = hasDirectOverlap()
+    // First check direct overlap (no buffer) - use the sources function
+    const directOverlapSources = getDirectOverlapSources()
+    const directOverlap = directOverlapSources.length > 0
     
     // Then check buffer-expanded overlap
     const bufferMs = constraint.minutes * 60 * 1000
@@ -581,30 +605,75 @@ export function checkSlotAvailability(
     return `overlap.${constraint.type}.${suffix}`
   }
 
-  // Check hard constraints first
-  const hardFailure = applicableConstraints.find(constraint => {
-    if (constraint.enforcement !== 'hard') return false
-    const result = checkConstraintOverlap(constraint)
-    return result.overlaps
-  })
+  // LEARNING: Check ALL constraints and collect ALL violations with proper attribution
+  // WHY: Overlay needs to show all constraint types that block a slot with correct colors
+  // PATTERN: Direct conflicts use source-specific attribution (e.g., overlap.outOfOffice.direct)
+  // Session 2.2.3: Fixed violation attribution - drive times can never be "direct" conflicts
   
-  if (hardFailure) {
-    const result = checkConstraintOverlap(hardFailure)
-    // PATTERN: Record violation type with direct/buffer distinction for debugging overlay
-    return { available: false, violations: [getViolationString(hardFailure, result.isDirect)] }
+  const allViolations: string[] = []
+  let hasHardFailure = false
+  const directOverlapSources = getDirectOverlapSources()
+  const hasDirectOverlap = directOverlapSources.length > 0
+  
+  // LEARNING: Direct overlap violations use source-specific attribution
+  // WHY: Enables dev-mode overlay to show distinct colors for different busy period sources
+  // PATTERN: Generate one violation per unique source (e.g., overlap.freeBusy.direct, overlap.outOfOffice.direct)
+  if (hasDirectOverlap) {
+    const uniqueSources = [...new Set(directOverlapSources)]
+    for (const source of uniqueSources) {
+      allViolations.push(`overlap.${source}.direct`)
+    }
+    hasHardFailure = true  // Direct conflicts are always hard failures
+  }
+  
+  // Check buffer-only overlaps for all constraints
+  for (const constraint of applicableConstraints) {
+    const result = checkConstraintOverlap(constraint)
+    
+    // LEARNING: Only record buffer violations when overlap is DUE TO the buffer
+    // WHY: If there's a direct overlap, that's already captured with source-specific violations above
+    // PATTERN: Buffer violations only for !hasDirectOverlap && bufferOverlap
+    const isBufferOnlyOverlap = result.overlaps && !hasDirectOverlap
+    
+    // For appointment constraint: also record buffer if it extends beyond direct overlap
+    // For drive time constraints: only record buffer-only overlaps (they can never be "direct")
+    // PATTERN: Include buffer minutes in violation string for tooltip display: 'overlap.{type}.buffer:{minutes}'
+    if (constraint.type === 'appointment') {
+      // Appointment buffer extends beyond direct overlap
+      if (result.overlaps && !result.isDirect) {
+        // Buffer-only for appointment (direct already recorded above if applicable)
+        allViolations.push(`overlap.appointment.buffer:${constraint.minutes}`)
+        if (constraint.enforcement === 'hard') {
+          hasHardFailure = true
+        }
+      }
+    } else if (constraint.type === 'driveTimeTo' || constraint.type === 'driveTimeFrom') {
+      // Drive time constraints can ONLY be buffer violations
+      if (isBufferOnlyOverlap) {
+        allViolations.push(`overlap.${constraint.type}.buffer:${constraint.minutes}`)
+        if (constraint.enforcement === 'hard') {
+          hasHardFailure = true
+        }
+      }
+    } else {
+      // Other constraint types (e.g., lunch) - use original logic with minutes
+      if (result.overlaps) {
+        const suffix = result.isDirect ? 'direct' : `buffer:${constraint.minutes}`
+        allViolations.push(`overlap.${constraint.type}.${suffix}`)
+        if (constraint.enforcement === 'hard') {
+          hasHardFailure = true
+        }
+      }
+    }
+  }
+  
+  // If any hard constraint failed, slot is unavailable but we return ALL violations for debugging
+  if (hasHardFailure) {
+    return { available: false, violations: allViolations }
   }
 
-  // Collect flexible constraint violations
-  const violations = applicableConstraints
-    .filter(constraint => constraint.enforcement === 'flexible')
-    .map(constraint => {
-      const result = checkConstraintOverlap(constraint)
-      if (!result.overlaps) return null
-      return getViolationString(constraint, result.isDirect)
-    })
-    .filter((v): v is string => v !== null)
-
-  return { available: true, violations }
+  // No hard failures - slot is available but may have flexible violations
+  return { available: true, violations: allViolations }
 }
 
 /**
@@ -854,163 +923,10 @@ function mergeViolations(
 }
 
 /**
- * Cache entry with timestamp for TTL checking
- * LEARNING: Stores value with timestamp to enable automatic expiry
- * WHY: Prevents stale cache data from persisting indefinitely
- * PATTERN: Object with value and timestamp
- */
-interface CacheEntry {
-  value: number
-  timestamp: number
-}
-
-/**
- * Cache TTL in milliseconds (5 minutes)
- * LEARNING: Configurable cache expiry time
- * WHY: Balances freshness with performance (avoids excessive API calls)
- * PATTERN: Constant for easy adjustment
- */
-const CACHE_TTL_MS = 5 * 60 * 1000 // 5 minutes
-
-/**
- * Cache for scheduled hours by date/week
- * LEARNING: Avoids redundant API calls for same date/week
- * WHY: Multiple slots may share same date/week, cache results
- * PATTERN: Map with date/week key to CacheEntry (value + timestamp)
- */
-const scheduledHoursCache = new Map<string, CacheEntry>()
-
-
-function getCachedValue(key: string): number | undefined {
-  const entry = scheduledHoursCache.get(key)
-  if (!entry) return undefined
-  
-  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
-    scheduledHoursCache.delete(key)
-    return undefined
-  }
-  
-  return entry.value
-}
-
-/**
- * Set cached value with current timestamp
- * LEARNING: Stores value with timestamp for TTL checking
- * WHY: Enables automatic cache expiry
- * PATTERN: Store object with value and timestamp
- * 
- * @param key - Cache key to store
- * @param value - Value to cache
- */
-function setCachedValue(key: string, value: number): void {
-  scheduledHoursCache.set(key, { value, timestamp: Date.now() })
-}
-
-/**
- * Fetch scheduled hours for a specific date
- * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours, with caching
- * WHY: Capacity checking needs current scheduled hours from database appointments
- * PATTERN: Check cache first, call API if not cached, cache result
- * 
- * ASYNCHRONOUS WORKFLOW SUPPORT:
- * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
- * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
- * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
- * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
- */
-async function fetchScheduledHoursForDate(date: string): Promise<number> {
-  const cacheKey = `date:${date}`
-  const cached = getCachedValue(cacheKey)
-  if (cached !== undefined) {
-    return cached
-  }
-
-  const response = await apiClient.get('/availability/scheduled-hours', {
-    params: { date }
-  })
-  const hours = response.data.hours || 0
-  setCachedValue(cacheKey, hours)
-  return hours
-}
-
-/**
- * Fetch scheduled hours for calendar week containing date
- * LEARNING: Calls API to get scheduled hours for Monday-Sunday week
- * WHY: Calendar week capacity filter needs weekly hours
- * PATTERN: Check cache first, call API if not cached, cache result
- */
-async function fetchScheduledHoursForCalendarWeek(date: string): Promise<number> {
-  const cacheKey = `calendarWeek:${date}`
-  const cached = getCachedValue(cacheKey)
-  if (cached !== undefined) {
-    return cached
-  }
-
-  const response = await apiClient.get('/availability/scheduled-hours', {
-    params: { calendarWeek: date }
-  })
-  const hours = response.data.hours || 0
-  setCachedValue(cacheKey, hours)
-  return hours
-}
-
-/**
- * Fetch scheduled hours for rolling week
- * LEARNING: Calls GET /availability/scheduled-hours API endpoint to get scheduled hours for rolling 7-day window, with caching
- * WHY: Rolling week capacity filter needs rolling window hours from database appointments
- * PATTERN: Check cache first, call API if not cached, cache result
- * 
- * ASYNCHRONOUS WORKFLOW SUPPORT:
- * - Calls GET /availability/scheduled-hours endpoint which queries database appointments
- * - Endpoint returns hours from appointments with status 'submitted' or 'confirmed' (not Google Calendar events)
- * - Supports asynchronous appointment creation workflow where appointments exist in DB before calendar sync
- * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
- */
-async function fetchScheduledHoursForRollingWeek(
-  date: string,
-  direction: 'past' | 'centered' | 'future'
-): Promise<number> {
-  const cacheKey = `rollingWeek:${date}:${direction}`
-  const cached = getCachedValue(cacheKey)
-  if (cached !== undefined) {
-    return cached
-  }
-
-  const response = await apiClient.get('/availability/scheduled-hours', {
-    params: { rollingWeek: date, direction }
-  })
-  const hours = response.data.hours || 0
-  setCachedValue(cacheKey, hours)
-  return hours
-}
-
-/**
- * LEARNING: Constraint checking has mixed sync/async patterns
- * 
- * - checkRangeConstraints: Synchronous (no external data needed)
- *   - Business hours, leadTime, and dateRange checks use only local data
- *   - Fast and deterministic
- * 
- * - checkSlotAvailability: Synchronous (uses pre-parsed busy times)
- *   - Overlap checks use cached Date objects from pre-processing
- *   - Fast and deterministic
- * 
- * - applyCapacityFilters: Async (requires API call for scheduled hours)
- *   - Capacity checking needs real-time data from server
- *   - Batching already partially addresses performance (fetch once per unique date/week)
- * 
- * WHY: Capacity checking needs real-time data from server that changes as appointments are created/deleted.
- * 
- * FUTURE: Consider pre-fetching all capacity data in batches at start of slot generation
- * to enable fully synchronous constraint checking. This would require:
- * - Collecting all unique dates/weeks before slot generation
- * - Fetching all capacity data upfront
- * - Passing capacity data to synchronous check function
- * 
- * This architectural inconsistency is acceptable for now because:
- * - Batching minimizes API calls (one per unique date/week, not per slot)
- * - Capacity checks only run for available slots (already filtered by sync checks)
- * - The async nature is isolated to capacity checking only
+ * Phase 12: Removed legacy async capacity fetch functions
+ * LEARNING: All capacity data is now pre-computed server-side and passed via precomputedCapacityHours
+ * WHY: Eliminates async operations and redundant API calls to removed /availability/scheduled-hours endpoint
+ * PATTERN: Synchronous capacity checking using pre-computed data from server orchestrator
  */
 
 /**
@@ -1177,11 +1093,12 @@ export function markSlotAvailability(
  * @param capacityConstraints - Optional array of capacity constraints (daily, calendar week, rolling week)
  * @returns Slots with capacity filters applied
  */
-async function applyCapacityFilters(
+function applyCapacityFilters(
   slots: TimeSlot[],
   duration: number,
-  capacityConstraints?: CapacityConstraint[]
-): Promise<TimeSlot[]> {
+  capacityConstraints?: CapacityConstraint[],
+  precomputedCapacityHours?: Record<string, number>
+): TimeSlot[] {
   // If no capacity constraints, return slots as-is
   if (!capacityConstraints || capacityConstraints.length === 0) {
     return slots
@@ -1222,31 +1139,21 @@ async function applyCapacityFilters(
     return map
   }, slotKeysMap)
 
-  // PATTERN: Supports asynchronous appointment workflow where appointments exist in DB before calendar sync
+  // Phase 6: Use pre-computed capacity hours from server orchestrator (required)
+  // WHY: All capacity calculations happen server-side, eliminating async operations
+  // PATTERN: Synchronous lookup from pre-computed data structure
+  if (!precomputedCapacityHours) {
+    // Pre-computed capacity hours are required - return slots without capacity filtering
+    // This should not happen in normal flow - orchestrator always provides capacity hours
+    logger.warn('[applyCapacityFilters] Pre-computed capacity hours not provided - skipping capacity checks')
+    return slots
+  }
+  
   const capacityHoursByKey = new Map<string, number>()
-  await Promise.all(
-    Array.from(capacityKeyPartsSet).map(async (keyString) => {
-      const keyParts = keyPartsMap.get(keyString)!
-      let hours = 0
-      
-      switch (keyParts.type) {
-        case TIME_BASIS_TYPES.DAILY:
-          hours = await fetchScheduledHoursForDate(keyParts.date)
-          break
-        case TIME_BASIS_TYPES.CALENDAR_WEEK:
-          hours = await fetchScheduledHoursForCalendarWeek(keyParts.date)
-          break
-        case TIME_BASIS_TYPES.ROLLING_WEEK:
-          hours = await fetchScheduledHoursForRollingWeek(
-            keyParts.date,
-            keyParts.direction || 'past'
-          )
-          break
-      }
-      
-      capacityHoursByKey.set(keyString, hours)
-    })
-  )
+  for (const keyString of capacityKeyPartsSet) {
+    const hours = precomputedCapacityHours[keyString] ?? 0
+    capacityHoursByKey.set(keyString, hours)
+  }
 
   const slotDurationHours = duration / 60
   const slotsWithCapacity = slots.map((slot) => {
@@ -1340,73 +1247,38 @@ function validateConstraintArrays(
   overlapConstraints?: OverlapConstraint[],
   capacityConstraints?: CapacityConstraint[]
 ): void {
-  // PATTERN: Filter first, then validate only active constraints
-  const activeRangeConstraints = rangeConstraints?.filter(c => c.enforcement !== 'off') || []
-  const activeOverlapConstraints = overlapConstraints?.filter(c => 
-    c.enforcement !== 'off' && c.placement !== 'off'
-  ) || []
-  const activeCapacityConstraints = capacityConstraints?.filter(c => c.enforcement !== 'off') || []
-
-  // PATTERN: Use find + early throw instead of forEach + throw
-  
-  const rangeFailure = activeRangeConstraints.find((constraint) => {
-    const validation = validateRangeConstraint(constraint)
-    return !validation.valid
-  })
-  if (rangeFailure) {
-    const index = activeRangeConstraints.indexOf(rangeFailure)
-    const validation = validateRangeConstraint(rangeFailure)
-    throw new ConstraintValidationError(
-      `Invalid range constraint at index ${index}: ${validation.error || 'unknown error'}`,
-      'range',
-      index,
-      validation.error
-    )
-  }
-
-  const overlapFailure = activeOverlapConstraints.find((constraint) => {
-    const validation = validateOverlapConstraint(constraint)
-    return !validation.valid
-  })
-  if (overlapFailure) {
-    const index = activeOverlapConstraints.indexOf(overlapFailure)
-    const validation = validateOverlapConstraint(overlapFailure)
-    throw new ConstraintValidationError(
-      `Invalid overlap constraint at index ${index}: ${validation.error || 'unknown error'}`,
-      'overlap',
-      index,
-      validation.error
-    )
-  }
-
-  const capacityFailure = activeCapacityConstraints.find((constraint) => {
-    const validation = validateCapacityConstraint(constraint)
-    return !validation.valid
-  })
-  if (capacityFailure) {
-    const index = activeCapacityConstraints.indexOf(capacityFailure)
-    const validation = validateCapacityConstraint(capacityFailure)
-    throw new ConstraintValidationError(
-      `Invalid capacity constraint at index ${index}: ${validation.error || 'unknown error'}`,
-      'capacity',
-      index,
-      validation.error
-    )
-  }
+  // Phase 8: Removed client-side validation - constraints are validated server-side before being sent to client
+  // Trust server validation - if invalid constraints reach client, it's a server bug
+  // This function now only exists for type checking and to maintain the function signature
 }
 
-export async function generateSlotsWithAvailability(
+/**
+ * Generate time slots with availability status
+ * 
+ * Phase 6: Refactored to be synchronous - all data must be pre-computed server-side
+ * WHY: Eliminates async operations, improves performance, aligns with server-side refactor
+ * PATTERN: Synchronous function that uses pre-computed constraints, drive times, and capacity hours
+ * 
+ * @param params - Slot generation parameters
+ * @param rangeConstraints - Pre-computed range constraints (from server)
+ * @param overlapConstraints - Pre-computed overlap constraints (from server)
+ * @param capacityConstraints - Pre-computed capacity constraints (from server)
+ * @param now - Optional current time for testing
+ * @param options - Options including pre-computed drive times and capacity hours
+ * @returns Synchronous result with slots and earliest completion time
+ */
+export function generateSlotsWithAvailability(
   params: GenerateSlotsWithAvailabilityParams,
   rangeConstraints?: RangeConstraint[],
   overlapConstraints?: OverlapConstraint[],
   capacityConstraints?: CapacityConstraint[],
   now?: Date,
   options?: {
-    defaultLocation?: DefaultLocation
-    calendarEvents?: CalendarEvent[]
-    driveTimeDataSource?: 'default' | 'api' | 'both' | 'none'
+    // Phase 6: Pre-computed data from server orchestrator (required)
+    precomputedDriveTimesByDate?: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>
+    precomputedCapacityHours?: Record<string, number>
   }
-): Promise<AvailabilityManagerResult> {
+): AvailabilityManagerResult {
   const { busyTimes = [], ...otherParams } = params
 
   // PATTERN: Validate upfront, throw structured error for UI notification
@@ -1474,15 +1346,14 @@ export async function generateSlotsWithAvailability(
         .filter((slot): slot is TimeSlot => slot !== null)
     : allSlots
   
-  // LEARNING: Calculate drive times for constraints before checking slot availability
-  // WHY: Replace static minutes with calculated drive times when location data available
-  // PATTERN: Calculate drive times once per day, use for all slots on that day
-  // Session 2.2.3: Added drive time calculation integration
-  // FIX: Require both defaultLocation AND non-empty calendarEvents for drive time calculation
+  // Phase 6: Use pre-computed drive times from server orchestrator (synchronous)
+  // WHY: All drive time calculations happen server-side, eliminating async operations
+  // PATTERN: Synchronous lookup from pre-computed data structure
   const calculatedConstraintsByDate = new Map<string, OverlapConstraint[]>()
   
-  if (options?.defaultLocation && options?.calendarEvents && options.calendarEvents.length > 0) {
-    // Group slots by date to calculate drive times per day
+  if (options?.precomputedDriveTimesByDate) {
+    // New path: Use pre-computed drive times (synchronous)
+    // Group slots by date to apply drive times per day
     const slotsByDate = new Map<string, TimeSlot[]>()
     slotsPassingRangeConstraints.forEach(slot => {
       const slotDate = new Date(slot.startTime)
@@ -1492,56 +1363,31 @@ export async function generateSlotsWithAvailability(
       }
       slotsByDate.get(dateKey)!.push(slot)
     })
-
-    // Calculate drive times for each day
-    for (const [dateKey, daySlots] of slotsByDate.entries()) {
-      // LEARNING: Create Date object for the date key, validate it's valid
-      // WHY: Invalid dates cause "Invalid time value" errors when calling toISOString()
-      // PATTERN: Validate date before using in calculation context
-      const slotDate = new Date(dateKey + 'T00:00:00Z')
-      if (isNaN(slotDate.getTime())) {
-        logger.warn(
-          `[generateSlotsWithAvailability] Invalid date key for drive time calculation: ${dateKey}`,
-          { dateKey, daySlotsCount: daySlots.length }
-        )
-        // Skip this date - will use original constraints (fallback minutes)
+    
+    // Apply pre-computed drive times to constraints synchronously
+    for (const [dateKey] of slotsByDate.entries()) {
+      const driveTimes = options.precomputedDriveTimesByDate[dateKey]
+      if (!driveTimes) {
+        // No drive times for this date - use original constraints
         continue
       }
       
-      // Session 2.2.3: Simplified drive time calculation
-      // Calculate drive times once per day - filtering by skipDayStart/skipDayEnd happens per-slot
-      const calculationContext = {
-        defaultLocation: options.defaultLocation,
-        calendarEvents: options.calendarEvents,
-        slotDate,
-        dataSource: options.driveTimeDataSource || 'both' // Default to 'both' for backward compatibility
-      }
-      
-      // Calculate drive times for all constraints (filtering happens in shouldApplyDriveTimeConstraint)
-      const calculatedConstraints = await calculateDriveTimeConstraints(
-        activeOverlapConstraints,
-        calculationContext
-      )
-      
-      // Merge calculated constraints (use calculated minutes if different from original)
+      // Merge pre-computed drive times into constraints
       const mergedConstraints = activeOverlapConstraints.map(constraint => {
-        const calculated = calculatedConstraints.find(c => 
-          c.type === constraint.type && 
-          c.applyTo === constraint.applyTo &&
-          c.placement === constraint.placement
-        )
-        
-        // Use calculated value if it differs from original
-        if (calculated && calculated.minutes !== constraint.minutes) {
-          return calculated
+        if (constraint.type === 'driveTimeTo' && driveTimes.driveTimeTo !== undefined) {
+          return { ...constraint, minutes: driveTimes.driveTimeTo }
         }
-        
+        if (constraint.type === 'driveTimeFrom' && driveTimes.driveTimeFrom !== undefined) {
+          return { ...constraint, minutes: driveTimes.driveTimeFrom }
+        }
         return constraint
       })
       
       calculatedConstraintsByDate.set(dateKey, mergedConstraints)
     }
   }
+  // Note: Legacy async path removed - pre-computed data is required
+  // If drive time constraints exist but pre-computed data is missing, they will use static fallback minutes
   
   // PATTERN: Map slots and add availability flag, pass overlap constraints to expand time range
   // Session 2.2.3: Pass range constraints and business hours cache for skipDayStart/skipDayEnd logic
@@ -1557,8 +1403,14 @@ export async function generateSlotsWithAvailability(
   )
 
   // PATTERN: Check capacity after busy period availability is marked
+  // Phase 6: Use pre-computed capacity hours from server orchestrator
   const slotsWithCapacity = activeCapacityConstraints.length > 0
-    ? await applyCapacityFilters(slotsWithAvailability, params.duration, activeCapacityConstraints)
+    ? applyCapacityFilters(
+        slotsWithAvailability,
+        params.duration,
+        activeCapacityConstraints,
+        options?.precomputedCapacityHours
+      )
     : slotsWithAvailability
 
   // PATTERN: Filter available slots, find earliest end time
