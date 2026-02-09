@@ -9,10 +9,11 @@
  */
 
 import axios, { AxiosError } from 'axios'
-import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import type { BusyTimeRange } from '@/utils/booking/slotPipeline'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
+import { groupConstraintsByCategory } from '@shared/utils/constraintUtils'
 import type {
   ComputedAvailabilityData,
   ComputedAvailabilityRequest,
@@ -41,21 +42,6 @@ export interface OAuthStatus {
  */
 export interface CalendarApiOptions {
   skipCache?: boolean
-}
-
-/**
- * Server free-busy response format
- * LEARNING: Matches response from POST /api/v1/external/calendar/freebusy
- */
-interface ServerFreeBusyResponse {
-  calendars: {
-    [email: string]: {
-      busy: Array<{
-        start: string
-        end: string
-      }>
-    }
-  }
 }
 
 /**
@@ -120,7 +106,7 @@ export async function checkOAuthStatus(): Promise<OAuthStatus> {
 }
 
 // Phase 9: Removed fetchFreeBusy and transformFreeBusyResponse
-// WHY: Free-busy data is now fetched server-side via fetchComputedAvailabilityData
+// WHY: Calendar events data is now fetched server-side via fetchComputedAvailabilityData
 
 /**
  * Handle API errors and convert to CalendarApiError
@@ -231,15 +217,22 @@ export async function fetchComputedAvailabilityData(
       request
     )
     
+    // Group constraints by category for logging (matches new unified structure)
+    const { range, overlap, capacity } = groupConstraintsByCategory(response.data.constraints)
+    
+    // Derive scheduled hours count from enriched capacity constraints
+    const scheduledHoursCount = capacity.reduce((sum, c) => {
+      return sum + (c.scheduledHours ? Object.keys(c.scheduledHours).length : 0)
+    }, 0)
     logger.debug('[fetchComputedAvailabilityData] Response received:', {
-      rangeConstraints: response.data.rangeConstraints.length,
-      overlapConstraints: response.data.overlapConstraints.length,
-      capacityConstraints: response.data.capacityConstraints.length,
+      constraints: response.data.constraints.length,
+      rangeConstraints: range.length,
+      overlapConstraints: overlap.length,
+      capacityConstraints: capacity.length,
       busyPeriods: response.data.busyPeriods.length,
       calendarEvents: response.data.calendarEvents.length,
       outOfOfficeEvents: response.data.outOfOfficeEvents.length,
-      driveTimesByDate: Object.keys(response.data.driveTimesByDate).length,
-      scheduledHoursByKey: Object.keys(response.data.scheduledHoursByKey).length,
+      scheduledHours: scheduledHoursCount + ' keys (enriched on constraints)',
     })
     
     // Record successful API call

@@ -2,26 +2,18 @@
  * Busy Period Processor
  * 
  * LEARNING: Handles validation, sorting, merging, and parsing of busy periods
- * WHY: Separated from slotAvailabilityManager to reduce complexity and improve maintainability
+ * WHY: Separated from slotAvailabilityOrchestrator to reduce complexity and improve maintainability
  * PATTERN: Pure utility functions - no side effects
  */
 
-import type { BusyTimeRange, BusyPeriodSource } from '@shared/types/availabilityTypes'
+import type { BusyTimeRange } from '@shared/types/availabilityTypes'
+import type { ParsedBusyTimeRange } from './timeSlotTypes'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('busyPeriodProcessor')
 
-/**
- * Parsed busy time range with Date objects
- * LEARNING: Internal representation of busy periods with parsed Date objects
- * WHY: Avoids repeated parsing of RFC3339 strings during overlap checks
- * PATTERN: Pre-parsed Date objects for efficient comparisons
- */
-export interface ParsedBusyTimeRange {
-  start: Date
-  end: Date
-  source?: BusyPeriodSource
-}
+// Re-export for backward compatibility
+export type { ParsedBusyTimeRange }
 
 /**
  * Validate a single busy period
@@ -149,5 +141,8 @@ export function parseBusyPeriods(busyTimes: BusyTimeRange[]): ParsedBusyTimeRang
     start: new Date(busy.start),
     end: new Date(busy.end),
     source: busy.source,
+    placeId: busy.placeId,
+    driveTimeTo: busy.driveTimeTo,
+    driveTimeFrom: busy.driveTimeFrom,
   }))
 }

@@ -1,5 +1,8 @@
 import { ModelStatic, Model } from 'sequelize';
 import { PartShape, PartInstance, BlockShape, BlockInstance, EventShape, EventInstance, AnnotationShape, AnnotationInstance } from './app.js';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('EntityRegistry');
 
 /**
  * Helper function to check if a BlockInstance can be a component
@@ -28,7 +31,7 @@ export async function isBlockInstanceComposable(blockInstanceId: string): Promis
     
     return blockShape.composable === true;
   } catch (error) {
-    console.error('[EntityRegistry] Error checking if BlockInstance is composable:', error);
+    logger.error('Error checking if BlockInstance is composable:', error);
     return false;
   }
 }
@@ -111,8 +114,8 @@ if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape 
     AnnotationShape: !!AnnotationShape,
     AnnotationInstance: !!AnnotationInstance
   };
-  console.warn('[EntityRegistry] Models not yet initialized:', missingModels);
-  console.warn('[EntityRegistry] This is normal during module loading - models will be available after app initialization');
+  logger.warn('Models not yet initialized:', missingModels);
+  logger.warn('This is normal during module loading - models will be available after app initialization');
 }
 
 export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {

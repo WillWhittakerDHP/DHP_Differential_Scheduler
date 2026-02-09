@@ -6,7 +6,7 @@
  * PATTERN: Transformer class that handles entity and relationship transformation
  */
 
-import apiClient, { getEntityEndpoint, getRelationshipEndpoint } from '../api'
+import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -21,6 +21,76 @@ import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('fetchToGlobalTransformer')
+
+/**
+ * Transform batch entities response to expected structure
+ * LEARNING: Converts batch endpoint response (object keyed by entityKey) to Record<GlobalEntityKey, GlobalEntity[]>
+ * WHY: Batch endpoint returns structured object, need to transform each entity type's array
+ * PATTERN: Map over ENTITY_KEYS, transform and sort each entity type's data
+ * 
+ * @param batchResponse - Batch endpoint response with entities keyed by entityKey
+ * @returns Transformed entities in expected structure
+ */
+function transformBatchEntities(
+  batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
+): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
+  return ENTITY_KEYS.reduce((acc, entityKey) => {
+    const rawEntities = batchResponse[entityKey] || []
+    
+    const transformedEntities = rawEntities.map((raw: Record<string, unknown>) => 
+      transformApiEntity(raw, entityKey)
+    )
+    
+    const sortedEntities = [...transformedEntities].sort((a, b) => {
+      const aOrder = a.orderIndex ?? 0
+      const bOrder = b.orderIndex ?? 0
+      return aOrder - bOrder
+    })
+    
+    // LEARNING: Handle annotationInstance name migration (text → name)
+    // WHY: Backward compatibility - annotationInstance may have text field instead of name
+    if (entityKey === 'annotationInstance') {
+      const mappedEntities = sortedEntities.map(entity => {
+        const entityWithName = entity as unknown as Record<string, unknown>
+        if (!entityWithName.name && entityWithName.text) {
+          entityWithName.name = entityWithName.text
+        }
+        return entity
+      })
+      acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
+    } else {
+      acc[entityKey] = sortedEntities
+    }
+    
+    return acc
+  }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
+}
+
+/**
+ * Transform batch relationships response to flat array
+ * LEARNING: Converts batch endpoint response (object keyed by relationshipKey) to flat FetchedRelationship[]
+ * WHY: Batch endpoint returns structured object, need to transform and flatten all relationship types
+ * PATTERN: Map over RELATIONSHIP_KEYS, transform each relationship type's data, flatten to single array
+ * 
+ * @param batchResponse - Batch endpoint response with relationships keyed by relationshipKey
+ * @returns Transformed relationships as flat array
+ */
+function transformBatchRelationships(
+  batchResponse: Record<GlobalRelationshipKey, Record<string, unknown>[]>
+): FetchedRelationship[] {
+  const relationshipKeys = Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]
+  
+  // LEARNING: Transform each relationship type's data, then flatten to single array
+  // WHY: Expected structure is flat array of FetchedRelationship objects
+  // PATTERN: Map over relationship keys, transform each, then flat() to combine
+  return relationshipKeys.flatMap((relationshipKey) => {
+    const rawRelationships = batchResponse[relationshipKey] || []
+    
+    // WHY: Endpoint is /relationships/{relationshipKey}, so we pass relationshipKey to transformer
+    // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
+    return rawRelationships.map(raw => transformApiRelationship(raw, relationshipKey))
+  })
+}
 
 /**
  * GlobalRelationship type matching React's structure
@@ -145,61 +215,23 @@ export class GlobalTransformer {
     fetchedRelationships: FetchedRelationship[]
   }> {
     try {
-      // LEARNING: Fetch all entities in parallel using same processor pattern
-      // WHY: Consistent parallel fetching pattern across all data types
-      // PATTERN: map() → Promise.all() for parallel execution
-      const entityPromises = ENTITY_KEYS.map(async (entityKey) => {
-        const endpoint = getEntityEndpoint(entityKey)
-        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
-        
-        const transformedEntities = response.data.map((raw: Record<string, unknown>) => 
-          transformApiEntity(raw, entityKey)
-        )
-        
-        const sortedEntities = [...transformedEntities].sort((a, b) => {
-          const aOrder = a.orderIndex ?? 0
-          const bOrder = b.orderIndex ?? 0
-          return aOrder - bOrder
-        })
-        
-        return { entityKey, normalizedEntities: sortedEntities }
-      })
-      
-      const entityResults = await Promise.all(entityPromises)
-      const fetchedEntities = entityResults.reduce((acc, { entityKey, normalizedEntities }) => {
-        if (entityKey === 'annotationInstance') {
-          const mappedEntities = normalizedEntities.map(entity => {
-            const entityWithName = entity as unknown as Record<string, unknown>
-            // Migrate text to name if name is missing
-            if (!entityWithName.name && entityWithName.text) {
-              entityWithName.name = entityWithName.text
-            }
-            return entity
-          })
-          acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
-        } else {
-          acc[entityKey] = normalizedEntities
-        }
-        return acc
-      }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
-      
-      // LEARNING: Fetch all relationships in parallel using same processor pattern
-      // WHY: Consistent parallel fetching pattern across all data types
-      // PATTERN: map() → Promise.all() for parallel execution
-      const relationshipPromises = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).map(async (relationshipKey) => {
-        const endpoint = getRelationshipEndpoint(relationshipKey)
-        const response = await apiClient.get<Record<string, unknown>[]>(endpoint)
-        
-        // WHY: Endpoint is /relationships/{relationshipKey}, so we pass relationshipKey to transformer
-        // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
-        const transformed = response.data.map(raw => transformApiRelationship(raw, relationshipKey))
-        
-        return transformed
-      })
-      
-      const relationshipResults = await Promise.all(relationshipPromises)
-      const fetchedRelationships = relationshipResults.flat()
-      
+      // LEARNING: Use batch endpoints to reduce N+18 HTTP requests to 2 requests
+      // WHY: Dramatically improves initial load performance, reduces network overhead
+      // PATTERN: Fetch entities and relationships in parallel using batch endpoints
+      const [entitiesResponse, relationshipsResponse] = await Promise.all([
+        apiClient.get<Record<GlobalEntityKey, Record<string, unknown>[]>>(getEntitiesBatchEndpoint()),
+        apiClient.get<Record<GlobalRelationshipKey, Record<string, unknown>[]>>(getRelationshipsBatchEndpoint())
+      ])
+
+      // LEARNING: Transform batch entities response to expected structure
+      // WHY: Batch endpoint returns object keyed by entityKey, need to transform each array
+      // PATTERN: Map over ENTITY_KEYS, transform each entity type's data
+      const fetchedEntities = transformBatchEntities(entitiesResponse.data)
+
+      // LEARNING: Transform batch relationships response to flat array
+      // WHY: Batch endpoint returns object keyed by relationshipKey, need to flatten and transform
+      // PATTERN: Map over RELATIONSHIP_KEYS, transform each relationship type's data, flatten
+      const fetchedRelationships = transformBatchRelationships(relationshipsResponse.data)
       
       return {
         fetchedEntities,

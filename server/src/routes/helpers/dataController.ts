@@ -1,6 +1,9 @@
 import { Model, ModelStatic, UpdateOptions, DestroyOptions, WhereOptions, Attributes } from "sequelize";
 import { MakeNullishOptional } from "sequelize/types/utils";
 import { getModelAttributes, isModelUnderscored } from "../../utils/sequelizeHelpers.js";
+import { createLogger } from "../../utils/logger.js";
+
+const logger = createLogger('DataController');
 
 /**
  * Type helper for creating where clauses by ID
@@ -70,17 +73,17 @@ const fetchAll = async <T extends Model>(
   
   if (options?.attributes) {
     queryOptions.attributes = options.attributes;
-  } else {
-    if (isModelUnderscored(Entity)) {
-      const autoAttributes = getModelAttributes(Entity);
-      queryOptions.attributes = autoAttributes;
-      console.warn(
-        `[fetchAll] Model ${Entity.name} uses underscored: true but attributes were not explicitly provided. ` +
-        `Auto-extracted attributes: ${autoAttributes.join(', ')}. ` +
-        `Consider specifying attributes explicitly for better performance and clarity.`
-      );
+    } else {
+      if (isModelUnderscored(Entity)) {
+        const autoAttributes = getModelAttributes(Entity);
+        queryOptions.attributes = autoAttributes;
+        logger.warn(
+          `Model ${Entity.name} uses underscored: true but attributes were not explicitly provided. ` +
+          `Auto-extracted attributes: ${autoAttributes.join(', ')}. ` +
+          `Consider specifying attributes explicitly for better performance and clarity.`
+        );
+      }
     }
-  }
   
   if (options?.order && options.order.length > 0) {
     queryOptions.order = options.order;

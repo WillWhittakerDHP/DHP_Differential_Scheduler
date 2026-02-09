@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:28:02.499Z",
+  "generatedAt": "2026-02-09T16:40:29.733Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,164 +14,9 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 623,
-  "totalDefinitions": 687,
+  "fileCount": 723,
+  "totalDefinitions": 696,
   "groups": [
-    {
-      "groupId": "sim-subset-4d659c4133b0",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "DayHours",
-          "kind": "interface",
-          "file": "client/src/configs/availabilitySettings.ts",
-          "line": 24,
-          "exported": false,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "ServerFreeBusyResponse",
-          "kind": "interface",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 50,
-          "exported": false,
-          "propertyCount": 4,
-          "signature": "{ busy: Array<{, calendars: {, end: string, start: string }"
-        },
-        {
-          "name": "CalendarEvent",
-          "kind": "interface",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 199,
-          "exported": true,
-          "propertyCount": 5,
-          "signature": "{ end: string, id: string, placeId?: string, start: string, summary: string | null }"
-        },
-        {
-          "name": "BusyTimeRange",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 65,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
-        },
-        {
-          "name": "CachedCalendarEvent",
-          "kind": "interface",
-          "file": "server/src/services/calendarEventsCache.ts",
-          "line": 19,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null }"
-        },
-        {
-          "name": "FreeBusyResponse",
-          "kind": "interface",
-          "file": "server/src/services/googleCalendarService.ts",
-          "line": 29,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ busy: Array<{, calendars: {, end: string, start: string }"
-        },
-        {
-          "name": "CreatedEventResponse",
-          "kind": "interface",
-          "file": "server/src/services/googleCalendarService.ts",
-          "line": 438,
-          "exported": true,
-          "propertyCount": 9,
-          "signature": "{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }"
-        },
-        {
-          "name": "BusyTimeRange",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 235,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
-        },
-        {
-          "name": "CalendarEvent",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 248,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null }"
-        },
-        {
-          "name": "ComputedAvailabilityRequest",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 263,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ dataSource?: 'real' | 'mock' | 'none', dateRange: {, duration: number, end: string, placeId?: string, start: string }"
-        },
-        {
-          "name": "DateRangeConfig",
-          "kind": "interface",
-          "file": "client/src/configs/availabilitySettings.ts",
-          "line": 103,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "GoogleCalendarBusyPeriod",
-          "kind": "interface",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 17,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DayBusinessHours",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 41,
-          "exported": false,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DateRangeConfig",
-          "kind": "interface",
-          "file": "server/src/db/models/admin/business_settings.ts",
-          "line": 91,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DayHours",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 65,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DateRangeConfig",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 105,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        }
-      ],
-      "signature": "{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }",
-      "propertyCount": 9,
-      "score": 65,
-      "priority": "P0"
-    },
     {
       "groupId": "sim-subset-8139a29720f6",
       "relationship": "SUBSET",
@@ -319,7 +164,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-e42c4978626f",
+      "groupId": "sim-subset-94b5e1d0812b",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -371,9 +216,9 @@
         {
           "name": "ParsedClient",
           "kind": "interface",
-          "file": "server/src/scripts/importCalendarData.ts",
-          "line": 28,
-          "exported": false,
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "line": 51,
+          "exported": true,
           "propertyCount": 4,
           "signature": "{ email: string, firstName: string, lastName: string, phone: string | null }"
         },
@@ -381,7 +226,7 @@
           "name": "AppointmentWithDetails",
           "kind": "interface",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 44,
+          "line": 45,
           "exported": false,
           "propertyCount": 19,
           "signature": "{ address?: {, attendees?: Array<{, city: string, email: string, firstName?: string, id: string, id: string, id: string, lastName?: string, propertyVersion?: {, selectedDate: Date | string | null, selectedTimeSlots: TimeSlot[] | null, shouldReceiveInvitation: boolean, state: string, status: string, streetAddress: string, user?: {, userId: string, zipCode: string }"
@@ -452,16 +297,153 @@
         {
           "name": "ParsedProperty",
           "kind": "interface",
-          "file": "server/src/scripts/importCalendarData.ts",
-          "line": 35,
-          "exported": false,
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "line": 63,
+          "exported": true,
           "propertyCount": 11,
           "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, state: string, unit: string | null, zipCode: string }"
         }
       ],
       "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, city: string, client: {, contacts: {, coordinates?: { lat: number, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], placeId?: string, propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', selectedDate: { start: string | null, selectedTimeSlots: Array<{ time: string, services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }",
       "propertyCount": 42,
-      "score": 59,
+      "score": 63,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-cff243989e82",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "DayHours",
+          "kind": "interface",
+          "file": "client/src/configs/availabilitySettings.ts",
+          "line": 24,
+          "exported": false,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "CalendarEvent",
+          "kind": "interface",
+          "file": "client/src/services/calendarApiService.ts",
+          "line": 185,
+          "exported": true,
+          "propertyCount": 5,
+          "signature": "{ end: string, id: string, placeId?: string, start: string, summary: string | null }"
+        },
+        {
+          "name": "BusyTimeRange",
+          "kind": "interface",
+          "file": "client/src/utils/booking/timeSlotTypes.ts",
+          "line": 56,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
+        },
+        {
+          "name": "CachedCalendarEvent",
+          "kind": "interface",
+          "file": "server/src/services/calendarEventsCache.ts",
+          "line": 19,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null, transparency?: string }"
+        },
+        {
+          "name": "CreatedEventResponse",
+          "kind": "interface",
+          "file": "server/src/services/google/calendar/calendarTypes.ts",
+          "line": 56,
+          "exported": true,
+          "propertyCount": 9,
+          "signature": "{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }"
+        },
+        {
+          "name": "BusyTimeRange",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 265,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
+        },
+        {
+          "name": "CalendarEvent",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 278,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null, transparency?: string }"
+        },
+        {
+          "name": "ComputedAvailabilityRequest",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 294,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ dataSource?: 'real' | 'mock' | 'none', dateRange: {, duration: number, end: string, placeId?: string, start: string }"
+        },
+        {
+          "name": "DateRangeConfig",
+          "kind": "interface",
+          "file": "client/src/configs/availabilitySettings.ts",
+          "line": 103,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "GoogleCalendarBusyPeriod",
+          "kind": "interface",
+          "file": "client/src/types/googleCalendar.ts",
+          "line": 17,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "DayBusinessHours",
+          "kind": "interface",
+          "file": "client/src/utils/booking/timeSlotTypes.ts",
+          "line": 25,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "DateRangeConfig",
+          "kind": "interface",
+          "file": "server/src/db/models/admin/business_settings.ts",
+          "line": 91,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "DayHours",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 73,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        },
+        {
+          "name": "DateRangeConfig",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 113,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ end: string, start: string }"
+        }
+      ],
+      "signature": "{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }",
+      "propertyCount": 9,
+      "score": 61,
       "priority": "P0"
     },
     {
@@ -499,9 +481,9 @@
         {
           "name": "DayBusinessHours",
           "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 41,
-          "exported": false,
+          "file": "client/src/utils/booking/timeSlotTypes.ts",
+          "line": 25,
+          "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
         },
@@ -518,7 +500,7 @@
           "name": "DayHours",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 65,
+          "line": 73,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -527,7 +509,7 @@
           "name": "DateRangeConfig",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 105,
+          "line": 113,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -535,7 +517,7 @@
       ],
       "signature": "{ end: string, start: string }",
       "propertyCount": 2,
-      "score": 33,
+      "score": 35,
       "priority": "P0"
     },
     {
@@ -622,7 +604,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-b2c0d3f34fe0",
+      "groupId": "sim-subset-2d4c3d89b6bb",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -656,8 +638,8 @@
         {
           "name": "Coordinates",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 113,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 57,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ lat: number, lng: number }"
@@ -666,7 +648,7 @@
           "name": "Coordinates",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 195,
+          "line": 225,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ lat: number, lng: number }"
@@ -703,8 +685,8 @@
         {
           "name": "Coordinates",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 113,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 57,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -713,7 +695,7 @@
           "name": "Coordinates",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 195,
+          "line": 225,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -816,7 +798,7 @@
           "name": "TimeSlot",
           "kind": "interface",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 34,
+          "line": 35,
           "exported": false,
           "propertyCount": 3,
           "signature": "{ duration?: number, endTime: string, startTime: string }"
@@ -917,7 +899,7 @@
           "name": "DurationRoundingConfig",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 223,
+          "line": 253,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ enabled: boolean, increment?: number, method?: 'roundUp' | 'roundDown' | 'roundNearest' }"
@@ -938,7 +920,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-67a7967f003a",
+      "groupId": "sim-subset-69cb0b3ff7af",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -963,8 +945,8 @@
         {
           "name": "RouteLocation",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 517,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 79,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ address?: string, coordinates?: Coordinates, placeId?: string }"
@@ -973,7 +955,7 @@
           "name": "DefaultLocation",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 210,
+          "line": 240,
           "exported": true,
           "propertyCount": 4,
           "signature": "{ address?: string, coordinates?: Coordinates, label?: string, placeId: string }"
@@ -1002,10 +984,10 @@
           "name": "CapacityConstraint",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 145,
+          "line": 155,
           "exported": true,
-          "propertyCount": 4,
-          "signature": "{ direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, type: 'daily' | 'calendarWeek' | 'rollingWeek' }"
+          "propertyCount": 5,
+          "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, type: 'daily' | 'calendarWeek' | 'rollingWeek' }"
         },
         {
           "name": "WorkCapacityFilter",
@@ -1020,14 +1002,14 @@
           "name": "WorkCapacityFilter",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 174,
+          "line": 204,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ enforcement: ConstraintEnforcement, maxHours: number }"
         }
       ],
-      "signature": "{ direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, type: 'daily' | 'calendarWeek' | 'rollingWeek' }",
-      "propertyCount": 4,
+      "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, type: 'daily' | 'calendarWeek' | 'rollingWeek' }",
+      "propertyCount": 5,
       "score": 23,
       "priority": "P0"
     },
@@ -1115,7 +1097,7 @@
           "name": "DriveTimeApplyTo",
           "kind": "type-alias-union",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 57,
+          "line": 65,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": [
@@ -1216,7 +1198,7 @@
           "name": "RangeConstraintType",
           "kind": "type-alias-union",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 44,
+          "line": 52,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": [
@@ -1258,7 +1240,7 @@
           "name": "WorkCapacityFilter",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 174,
+          "line": 204,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1266,44 +1248,6 @@
       ],
       "signature": "{ enforcement: ConstraintEnforcement, maxHours: number }",
       "propertyCount": 2,
-      "score": 21,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-b14a17ad36c9",
-      "relationship": "EXACT",
-      "action": "UNIFY",
-      "members": [
-        {
-          "name": "RangeConstraint",
-          "kind": "interface",
-          "file": "client/src/configs/availabilitySettings.ts",
-          "line": 114,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "RangeConstraint",
-          "kind": "interface",
-          "file": "server/src/db/models/admin/business_settings.ts",
-          "line": 102,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "RangeConstraint",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 116,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }",
-      "propertyCount": 3,
       "score": 21,
       "priority": "P0"
     },
@@ -1334,7 +1278,7 @@
           "name": "RollingWeekCapacityFilter",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 185,
+          "line": 215,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1547,7 +1491,7 @@
           "name": "LeadTimeConfig",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 95,
+          "line": 103,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1555,6 +1499,44 @@
       ],
       "signature": "{ minutes: number }",
       "propertyCount": 1,
+      "score": 19,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-0dc8b9782c9f",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "RangeConstraint",
+          "kind": "interface",
+          "file": "client/src/configs/availabilitySettings.ts",
+          "line": 114,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }"
+        },
+        {
+          "name": "RangeConstraint",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 124,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ category: 'range', config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }"
+        },
+        {
+          "name": "RangeConstraint",
+          "kind": "interface",
+          "file": "server/src/db/models/admin/business_settings.ts",
+          "line": 102,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }"
+        }
+      ],
+      "signature": "{ category: 'range', config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }",
+      "propertyCount": 4,
       "score": 19,
       "priority": "P0"
     },
@@ -1576,10 +1558,10 @@
           "name": "OverlapConstraint",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 131,
+          "line": 140,
           "exported": true,
-          "propertyCount": 5,
-          "signature": "{ applyTo?: DriveTimeApplyTo, enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch' }"
+          "propertyCount": 6,
+          "signature": "{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch' }"
         },
         {
           "name": "DriveTimeConfig",
@@ -1591,8 +1573,8 @@
           "signature": "{ applyTo: DriveTimeApplyTo, enforcement: ConstraintEnforcement, minutes: number }"
         }
       ],
-      "signature": "{ applyTo?: DriveTimeApplyTo, enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch' }",
-      "propertyCount": 5,
+      "signature": "{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch' }",
+      "propertyCount": 6,
       "score": 19,
       "priority": "P0"
     },
@@ -1633,8 +1615,8 @@
         {
           "name": "BusyTimeRange",
           "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 65,
+          "file": "client/src/utils/booking/timeSlotTypes.ts",
+          "line": 56,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1643,7 +1625,7 @@
           "name": "BusyTimeRange",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 235,
+          "line": 265,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1700,8 +1682,8 @@
         {
           "name": "PlaceDetails",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 122,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 66,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1787,8 +1769,8 @@
         {
           "name": "AutocompletePrediction",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 82,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 26,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1800,7 +1782,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-exact-33dec876bd70",
+      "groupId": "sim-exact-3cf76c390008",
       "relationship": "EXACT",
       "action": "BRAND",
       "members": [
@@ -1817,14 +1799,14 @@
           "name": "CalendarEvent",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 248,
+          "line": 278,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
         }
       ],
-      "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null }",
-      "propertyCount": 6,
+      "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null, transparency?: string }",
+      "propertyCount": 7,
       "score": 17,
       "priority": "P0"
     },
@@ -1845,8 +1827,8 @@
         {
           "name": "AddressComponents",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 101,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 45,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -1903,8 +1885,8 @@
         {
           "name": "RouteLocation",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 517,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 79,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -2032,6 +2014,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-b14a17ad36c9",
+      "relationship": "EXACT",
+      "action": "UNIFY",
+      "members": [
+        {
+          "name": "RangeConstraint",
+          "kind": "interface",
+          "file": "client/src/configs/availabilitySettings.ts",
+          "line": 114,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "RangeConstraint",
+          "kind": "interface",
+          "file": "server/src/db/models/admin/business_settings.ts",
+          "line": 102,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig, enforcement: ConstraintEnforcement, type: RangeConstraintType }",
+      "propertyCount": 3,
+      "score": 17,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-exact-de5f9a5d9a01",
       "relationship": "EXACT",
       "action": "UNIFY",
@@ -2049,7 +2060,7 @@
           "name": "DefaultLocation",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 210,
+          "line": 240,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -2206,6 +2217,53 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-subset-26677bed3970",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "DevPanelButtons",
+          "kind": "interface",
+          "file": "client/src/components/dev/DevPanelButtons.vue",
+          "line": 13,
+          "exported": false,
+          "propertyCount": 13,
+          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]> }, fetchAll: { isLoading: Ref<boolean>, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetMocks: () => void, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isLoadingAppointment: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: { isPending: Ref<boolean> }, value: string }>>, wizard: ReturnType<typeof useBookingWizard> | null }"
+        },
+        {
+          "name": "UseAppointmentDropdownReturn",
+          "kind": "interface",
+          "file": "client/src/composables/booking/useAppointmentDropdown.ts",
+          "line": 18,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, value: string }>> }"
+        },
+        {
+          "name": "UseWizardDevModeOptions",
+          "kind": "interface",
+          "file": "client/src/composables/booking/useWizardDevMode.ts",
+          "line": 13,
+          "exported": true,
+          "propertyCount": 15,
+          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }"
+        },
+        {
+          "name": "UseAppointmentDropdownOptions",
+          "kind": "interface",
+          "file": "client/src/composables/booking/useAppointmentDropdown.ts",
+          "line": 12,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ data: Ref<AppointmentResponse[]>, fetchAll: { }"
+        }
+      ],
+      "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }",
+      "propertyCount": 15,
+      "score": 16,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-327590bd3f79",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -2259,35 +2317,6 @@
       "signature": "{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, unifiedSaveState: { }",
       "propertyCount": 17,
       "score": 16,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-0267b6915063",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "ServerFreeBusyResponse",
-          "kind": "interface",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 50,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "FreeBusyResponse",
-          "kind": "interface",
-          "file": "server/src/services/googleCalendarService.ts",
-          "line": 29,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ busy: Array<{, calendars: {, end: string, start: string }",
-      "propertyCount": 4,
-      "score": 15,
       "priority": "P0"
     },
     {
@@ -2345,7 +2374,7 @@
           "name": "TimeSlot",
           "kind": "interface",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 34,
+          "line": 35,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -2396,7 +2425,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-81aa155d530a",
+      "groupId": "sim-subset-422b2e0ac929",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -2412,8 +2441,8 @@
         {
           "name": "RouteMatrixResult",
           "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 527,
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "line": 89,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ condition?: string, destinationIndex: number, distanceMeters: number, durationSeconds: number, originIndex: number, status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' }"
@@ -2434,6 +2463,47 @@
         "condition"
       ],
       "score": 15,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-high_overlap-17ad809a32ff",
+      "relationship": "HIGH_OVERLAP",
+      "action": "REVIEW",
+      "members": [
+        {
+          "name": "AttendeeRequest",
+          "kind": "interface",
+          "file": "client/src/types/appointment.ts",
+          "line": 237,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ role?: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
+        },
+        {
+          "name": "AttendeeRequest",
+          "kind": "interface",
+          "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+          "line": 157,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ role?: string, shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
+        }
+      ],
+      "signature": "{ role?: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }",
+      "propertyCount": 4,
+      "overlapPercent": 75,
+      "sharedProperties": [
+        "shouldReceiveInvitation",
+        "userId",
+        "userTypeBlockInstanceId"
+      ],
+      "uniqueToFirst": [
+        "role('client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector')"
+      ],
+      "uniqueToSecond": [
+        "role(string)"
+      ],
+      "score": 14,
       "priority": "P0"
     },
     {
@@ -2475,40 +2545,40 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-4025c180eabd",
+      "groupId": "sim-subset-774ce5ef0390",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
         {
-          "name": "UseAppointmentDropdownOptions",
+          "name": "SlotGenerationParams",
           "kind": "interface",
-          "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-          "line": 12,
+          "file": "client/src/utils/booking/slotGenerationValidation.ts",
+          "line": 15,
           "exported": true,
-          "propertyCount": 2,
-          "signature": "{ data: Ref<AppointmentResponse[]>, fetchAll: { }"
+          "propertyCount": 4,
+          "signature": "{ duration: number, endBoundary: string, minuteIncrement: number, startBoundary: string }"
         },
         {
-          "name": "UseWizardDevModeOptions",
+          "name": "GenerateSlotsWithAvailabilityParams",
           "kind": "interface",
-          "file": "client/src/composables/booking/useWizardDevMode.ts",
-          "line": 13,
+          "file": "client/src/utils/booking/slotGenerator.ts",
+          "line": 19,
           "exported": true,
-          "propertyCount": 15,
-          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }"
+          "propertyCount": 9,
+          "signature": "{ busyTimes?: never, duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, startBoundary: string }"
         },
         {
-          "name": "UseAppointmentDropdownReturn",
+          "name": "FitTimeSlotsParams",
           "kind": "interface",
-          "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-          "line": 18,
+          "file": "client/src/utils/booking/timeSlotFitter.ts",
+          "line": 45,
           "exported": true,
-          "propertyCount": 2,
-          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, value: string }>> }"
+          "propertyCount": 11,
+          "signature": "{ businessHours?: BusinessHoursMap, busyTimes?: BusyTimeRange[], constraints?: Constraint[], duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, startBoundary: string }"
         }
       ],
-      "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }",
-      "propertyCount": 15,
+      "signature": "{ businessHours?: BusinessHoursMap, busyTimes?: BusyTimeRange[], constraints?: Constraint[], duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, startBoundary: string }",
+      "propertyCount": 11,
       "score": 14,
       "priority": "P0"
     },
@@ -2538,6 +2608,35 @@
       ],
       "signature": "{ redirectRouteName?: string }",
       "propertyCount": 1,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-exact-246fa0d7bb86",
+      "relationship": "EXACT",
+      "action": "UNIFY",
+      "members": [
+        {
+          "name": "ParsedBusyTimeRange",
+          "kind": "interface",
+          "file": "client/src/utils/booking/busyPeriodProcessor.ts",
+          "line": 20,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "ParsedBusyTimeRange",
+          "kind": "interface",
+          "file": "client/src/utils/booking/overlapConstraintChecker.ts",
+          "line": 19,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ end: Date, source?: BusyPeriodSource, start: Date }",
+      "propertyCount": 3,
       "score": 12,
       "priority": "P0"
     },
@@ -2821,6 +2920,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-7e2a448dde85",
+      "relationship": "EXACT",
+      "action": "UNIFY",
+      "members": [
+        {
+          "name": "RetryConfig",
+          "kind": "interface",
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "line": 171,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "RetryConfig",
+          "kind": "interface",
+          "file": "server/src/services/google/shared/googleApiRetry.ts",
+          "line": 17,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ backoffMultiplier: number, initialDelayMs: number, maxDelayMs: number, maxRetries: number }",
+      "propertyCount": 4,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-exact-858569b247dc",
       "relationship": "EXACT",
       "action": "UNIFY",
@@ -3033,85 +3161,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-high_overlap-5e9b28d0790c",
-      "relationship": "HIGH_OVERLAP",
-      "action": "REVIEW",
-      "members": [
-        {
-          "name": "AttendeeRequest",
-          "kind": "interface",
-          "file": "client/src/types/appointment.ts",
-          "line": 237,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ role?: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
-        },
-        {
-          "name": "AttendeeRequest",
-          "kind": "interface",
-          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 96,
-          "exported": false,
-          "propertyCount": 4,
-          "signature": "{ role?: string, shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
-        }
-      ],
-      "signature": "{ role?: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }",
-      "propertyCount": 4,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "shouldReceiveInvitation",
-        "userId",
-        "userTypeBlockInstanceId"
-      ],
-      "uniqueToFirst": [
-        "role('client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector')"
-      ],
-      "uniqueToSecond": [
-        "role(string)"
-      ],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-0eb834b1da72",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "SlotGenerationParams",
-          "kind": "interface",
-          "file": "client/src/utils/booking/slotGenerationValidation.ts",
-          "line": 15,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ duration: number, endBoundary: string, minuteIncrement: number, startBoundary: string }"
-        },
-        {
-          "name": "GenerateSlotsWithAvailabilityParams",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 335,
-          "exported": false,
-          "propertyCount": 9,
-          "signature": "{ busyTimes?: BusyTimeRange[], duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, startBoundary: string }"
-        },
-        {
-          "name": "FitTimeSlotsParams",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 72,
-          "exported": true,
-          "propertyCount": 13,
-          "signature": "{ businessHours?: BusinessHoursMap, busyTimes?: BusyTimeRange[], capacityConstraints?: CapacityConstraint[], duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, overlapConstraints?: OverlapConstraint[], rangeConstraints?: RangeConstraint[], startBoundary: string }"
-        }
-      ],
-      "signature": "{ businessHours?: BusinessHoursMap, busyTimes?: BusyTimeRange[], capacityConstraints?: CapacityConstraint[], duration: number, endBoundary: string, includeFlags: {, major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean, overlapConstraints?: OverlapConstraint[], rangeConstraints?: RangeConstraint[], startBoundary: string }",
-      "propertyCount": 13,
-      "score": 12,
-      "priority": "P0"
-    },
-    {
       "groupId": "sim-subset-35908429a6cf",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -3293,35 +3342,6 @@
       "priority": "P1"
     },
     {
-      "groupId": "sim-exact-7e2a448dde85",
-      "relationship": "EXACT",
-      "action": "UNIFY",
-      "members": [
-        {
-          "name": "RetryConfig",
-          "kind": "interface",
-          "file": "server/src/services/calendarErrorHandler.ts",
-          "line": 171,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "RetryConfig",
-          "kind": "interface",
-          "file": "server/src/services/googleMapsService.ts",
-          "line": 726,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ backoffMultiplier: number, initialDelayMs: number, maxDelayMs: number, maxRetries: number }",
-      "propertyCount": 4,
-      "score": 10,
-      "priority": "P1"
-    },
-    {
       "groupId": "sim-exact-8b1d3f7f0e59",
       "relationship": "EXACT",
       "action": "UNIFY",
@@ -3346,44 +3366,6 @@
         }
       ],
       "signature": "{ fallbackHandle: () => void, resolveHandle: () => void }",
-      "propertyCount": 2,
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-exact-f9a443f84a39",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "AvailabilityManagerResult",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-          "line": 330,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "FitTimeSlotsResult",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 89,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "FitTimeSlotsResultWithAvailability",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotFitter.ts",
-          "line": 354,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ earliestCompletion: string | null, slots: TimeSlot[] }",
       "propertyCount": 2,
       "score": 10,
       "priority": "P1"
@@ -3557,45 +3539,6 @@
         "updatedAt"
       ],
       "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-4ac670dd1cb9",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "FreeBusyResponseWithMeta",
-          "kind": "interface",
-          "file": "server/src/services/googleCalendarService.ts",
-          "line": 45,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ _meta?: {, error?: string, source: 'fresh' | 'cache' | 'empty' }"
-        },
-        {
-          "name": "CalendarEventsResponseWithMeta",
-          "kind": "interface",
-          "file": "server/src/services/googleCalendarService.ts",
-          "line": 222,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ _meta?: {, error?: string, events: CachedCalendarEvent[], source: 'fresh' | 'cache' | 'empty' }"
-        }
-      ],
-      "signature": "{ _meta?: {, error?: string, events: CachedCalendarEvent[], source: 'fresh' | 'cache' | 'empty' }",
-      "propertyCount": 4,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "_meta",
-        "error",
-        "source"
-      ],
-      "uniqueToFirst": [],
-      "uniqueToSecond": [
-        "events"
-      ],
       "score": 10,
       "priority": "P1"
     },
@@ -3952,7 +3895,7 @@
           "name": "Props",
           "kind": "interface",
           "file": "client/src/components/admin/dev/ApiDevPanel.vue",
-          "line": 24,
+          "line": 23,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -3981,7 +3924,7 @@
           "name": "AnnotationConfig",
           "kind": "interface",
           "file": "server/src/types/express.d.ts",
-          "line": 2,
+          "line": 3,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -3990,7 +3933,7 @@
           "name": "EventConfig",
           "kind": "interface",
           "file": "server/src/types/express.d.ts",
-          "line": 8,
+          "line": 9,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -4027,6 +3970,35 @@
       ],
       "signature": "{ baseSqFt: number, bookingMode: string, differential: TernaryBoolean, name: string, partCount: number }",
       "propertyCount": 5,
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-exact-f9a443f84a39",
+      "relationship": "EXACT",
+      "action": "BRAND",
+      "members": [
+        {
+          "name": "AvailabilityManagerResult",
+          "kind": "interface",
+          "file": "client/src/utils/booking/slotAvailabilityManager.ts",
+          "line": 111,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "FitTimeSlotsResult",
+          "kind": "interface",
+          "file": "client/src/utils/booking/timeSlotFitter.ts",
+          "line": 60,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ earliestCompletion: string | null, slots: TimeSlot[] }",
+      "propertyCount": 2,
       "score": 8,
       "priority": "P1"
     },
@@ -4201,6 +4173,54 @@
       "priority": "P1"
     },
     {
+      "groupId": "sim-high_overlap-1ae75994f07d",
+      "relationship": "HIGH_OVERLAP",
+      "action": "REVIEW",
+      "members": [
+        {
+          "name": "CalendarEvent",
+          "kind": "interface",
+          "file": "server/src/scripts/createAppointmentsFromCalendar.ts",
+          "line": 15,
+          "exported": false,
+          "propertyCount": 16,
+          "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }"
+        },
+        {
+          "name": "CalendarEvent",
+          "kind": "interface",
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "line": 22,
+          "exported": true,
+          "propertyCount": 17,
+          "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }"
+        }
+      ],
+      "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }",
+      "propertyCount": 17,
+      "overlapPercent": 92,
+      "sharedProperties": [
+        "attendees",
+        "date",
+        "dateTime",
+        "description",
+        "displayName",
+        "email",
+        "end",
+        "location",
+        "organizer",
+        "responseStatus",
+        "start",
+        "summary"
+      ],
+      "uniqueToFirst": [],
+      "uniqueToSecond": [
+        "id"
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
       "groupId": "sim-subset-8ab89827dbf3",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -4277,54 +4297,6 @@
       ],
       "uniqueToSecond": [],
       "score": 6,
-      "priority": "P2"
-    },
-    {
-      "groupId": "sim-high_overlap-9f191fb163e7",
-      "relationship": "HIGH_OVERLAP",
-      "action": "REVIEW",
-      "members": [
-        {
-          "name": "CalendarEvent",
-          "kind": "interface",
-          "file": "server/src/scripts/createAppointmentsFromCalendar.ts",
-          "line": 15,
-          "exported": false,
-          "propertyCount": 16,
-          "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }"
-        },
-        {
-          "name": "CalendarEvent",
-          "kind": "interface",
-          "file": "server/src/scripts/importCalendarData.ts",
-          "line": 4,
-          "exported": false,
-          "propertyCount": 17,
-          "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }"
-        }
-      ],
-      "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }",
-      "propertyCount": 17,
-      "overlapPercent": 92,
-      "sharedProperties": [
-        "attendees",
-        "date",
-        "dateTime",
-        "description",
-        "displayName",
-        "email",
-        "end",
-        "location",
-        "organizer",
-        "responseStatus",
-        "start",
-        "summary"
-      ],
-      "uniqueToFirst": [],
-      "uniqueToSecond": [
-        "id"
-      ],
-      "score": 5,
       "priority": "P2"
     }
   ],
@@ -4433,7 +4405,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/dev/ApiDevPanel.vue",
-      "line": 24,
+      "line": 23,
       "exported": false,
       "fingerprint": "25ce0b0b97b7",
       "propertyCount": 1,
@@ -4443,10 +4415,40 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/admin/dev/ApiDevPanel.vue",
-      "line": 28,
+      "line": 27,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/admin/dev/ApiDevPanelComputedTab.vue",
+      "line": 13,
+      "exported": false,
+      "fingerprint": "35cc1ce4ed32",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue",
+      "line": 11,
+      "exported": false,
+      "fingerprint": "d08edc191c57",
+      "propertyCount": 10,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/admin/dev/ApiDevPanelStatusTab.vue",
+      "line": 12,
+      "exported": false,
+      "fingerprint": "ca473e55806b",
+      "propertyCount": 15,
       "primitiveAlias": null
     },
     {
@@ -5137,6 +5139,16 @@
       "exported": false,
       "fingerprint": "d550e1bfd86d",
       "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
+      "name": "DevPanelButtons",
+      "kind": "interface",
+      "file": "client/src/components/dev/DevPanelButtons.vue",
+      "line": 13,
+      "exported": false,
+      "fingerprint": "e94f7c84aefd",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
@@ -6545,8 +6557,8 @@
       "file": "client/src/composables/booking/useApiCallStatus.ts",
       "line": 12,
       "exported": true,
-      "fingerprint": "7571a00b297d",
-      "propertyCount": 4,
+      "fingerprint": "dc4d458f313f",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -6895,15 +6907,15 @@
       "file": "client/src/composables/booking/useAvailableStartTimes.ts",
       "line": 28,
       "exported": false,
-      "fingerprint": "c493aec59011",
-      "propertyCount": 14,
+      "fingerprint": "f7bcb97cd1c7",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailableStartTimesReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailableStartTimes.ts",
-      "line": 45,
+      "line": 43,
       "exported": false,
       "fingerprint": "33261a42c48b",
       "propertyCount": 5,
@@ -6993,7 +7005,7 @@
       "name": "UseComputedAvailabilityParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useComputedAvailability.ts",
-      "line": 28,
+      "line": 27,
       "exported": true,
       "fingerprint": "b961f95e3ad7",
       "propertyCount": 5,
@@ -7003,10 +7015,10 @@
       "name": "UseComputedAvailabilityReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useComputedAvailability.ts",
-      "line": 42,
+      "line": 41,
       "exported": true,
-      "fingerprint": "059e7af8d608",
-      "propertyCount": 11,
+      "fingerprint": "1988e4d79ea5",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
@@ -7990,6 +8002,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "DevPanelTab",
+      "kind": "type-alias-union",
+      "file": "client/src/composables/dev/useDevPanelTabs.ts",
+      "line": 10,
+      "exported": true,
+      "fingerprint": "517e862f2cc9",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseEntityCrudMutationsReturn",
       "kind": "type-alias-object",
       "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
@@ -8883,7 +8905,7 @@
       "name": "OAuthStatus",
       "kind": "interface",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "891313be88c4",
       "propertyCount": 4,
@@ -8893,27 +8915,17 @@
       "name": "CalendarApiOptions",
       "kind": "interface",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 42,
+      "line": 43,
       "exported": true,
       "fingerprint": "5e231b2fcf44",
       "propertyCount": 1,
       "primitiveAlias": null
     },
     {
-      "name": "ServerFreeBusyResponse",
-      "kind": "interface",
-      "file": "client/src/services/calendarApiService.ts",
-      "line": 50,
-      "exported": false,
-      "fingerprint": "0267b6915063",
-      "propertyCount": 4,
-      "primitiveAlias": null
-    },
-    {
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 199,
+      "line": 185,
       "exported": true,
       "fingerprint": "9bcb889c297b",
       "propertyCount": 5,
@@ -9740,6 +9752,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "ParsedBusyTimeRange",
+      "kind": "interface",
+      "file": "client/src/utils/booking/busyPeriodProcessor.ts",
+      "line": 20,
+      "exported": true,
+      "fingerprint": "246fa0d7bb86",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "BlockInstanceFeeResult",
       "kind": "interface",
       "file": "client/src/utils/booking/confirmationStepData.ts",
@@ -9810,6 +9832,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "ParsedBusyTimeRange",
+      "kind": "interface",
+      "file": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "246fa0d7bb86",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "PartWithTotals",
       "kind": "interface",
       "file": "client/src/utils/booking/partsTotals.ts",
@@ -9840,6 +9872,36 @@
       "primitiveAlias": null
     },
     {
+      "name": "SlotPositionContext",
+      "kind": "interface",
+      "file": "client/src/utils/booking/slotAvailabilityManager.ts",
+      "line": 82,
+      "exported": true,
+      "fingerprint": "bab97d78dc15",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilityManagerResult",
+      "kind": "interface",
+      "file": "client/src/utils/booking/slotAvailabilityManager.ts",
+      "line": 111,
+      "exported": false,
+      "fingerprint": "f9a443f84a39",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "MarkSlotAvailabilityOptions",
+      "kind": "interface",
+      "file": "client/src/utils/booking/slotAvailabilityMarker.ts",
+      "line": 30,
+      "exported": true,
+      "fingerprint": "274cf9f6b903",
+      "propertyCount": 6,
+      "primitiveAlias": null
+    },
+    {
       "name": "SlotGenerationParams",
       "kind": "interface",
       "file": "client/src/utils/booking/slotGenerationValidation.ts",
@@ -9850,100 +9912,30 @@
       "primitiveAlias": null
     },
     {
-      "name": "SlotPositionContext",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 79,
-      "exported": true,
-      "fingerprint": "bab97d78dc15",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "ParsedBusyTimeRange",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 199,
-      "exported": false,
-      "fingerprint": "246fa0d7bb86",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AvailabilityManagerResult",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 330,
-      "exported": false,
-      "fingerprint": "f9a443f84a39",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "GenerateSlotsWithAvailabilityParams",
       "kind": "interface",
-      "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 335,
-      "exported": false,
-      "fingerprint": "800b72c4ccfe",
-      "propertyCount": 9,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CapacityKeyParts",
-      "kind": "type-alias-object",
-      "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "line": 860,
-      "exported": false,
-      "fingerprint": "32d23ed4ae65",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "DayBusinessHours",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeSlotFitter.ts",
-      "line": 41,
-      "exported": false,
-      "fingerprint": "c62c5ebd4d3e",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "BusyTimeRange",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeSlotFitter.ts",
-      "line": 65,
+      "file": "client/src/utils/booking/slotGenerator.ts",
+      "line": 19,
       "exported": true,
-      "fingerprint": "03cefbcc8fb0",
-      "propertyCount": 4,
+      "fingerprint": "0fd8d47ae56c",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
       "name": "FitTimeSlotsParams",
       "kind": "interface",
       "file": "client/src/utils/booking/timeSlotFitter.ts",
-      "line": 72,
+      "line": 45,
       "exported": true,
-      "fingerprint": "6d9a7fc8ce6a",
-      "propertyCount": 13,
+      "fingerprint": "162eb5239448",
+      "propertyCount": 11,
       "primitiveAlias": null
     },
     {
       "name": "FitTimeSlotsResult",
       "kind": "interface",
       "file": "client/src/utils/booking/timeSlotFitter.ts",
-      "line": 89,
-      "exported": false,
-      "fingerprint": "f9a443f84a39",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "FitTimeSlotsResultWithAvailability",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeSlotFitter.ts",
-      "line": 354,
+      "line": 60,
       "exported": false,
       "fingerprint": "f9a443f84a39",
       "propertyCount": 2,
@@ -9957,6 +9949,26 @@
       "exported": true,
       "fingerprint": "ea67114112f1",
       "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "DayBusinessHours",
+      "kind": "interface",
+      "file": "client/src/utils/booking/timeSlotTypes.ts",
+      "line": 25,
+      "exported": true,
+      "fingerprint": "c62c5ebd4d3e",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BusyTimeRange",
+      "kind": "interface",
+      "file": "client/src/utils/booking/timeSlotTypes.ts",
+      "line": 56,
+      "exported": true,
+      "fingerprint": "03cefbcc8fb0",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -10143,7 +10155,7 @@
       "name": "GlobalRelationship",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 30,
+      "line": 100,
       "exported": true,
       "fingerprint": "fc870bb98f38",
       "propertyCount": 3,
@@ -10153,7 +10165,7 @@
       "name": "GlobalData",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 63,
+      "line": 133,
       "exported": true,
       "fingerprint": "c6c759a9b9e4",
       "propertyCount": 2,
@@ -10530,6 +10542,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "CrudErrorMessages",
+      "kind": "interface",
+      "file": "server/src/routes/helpers/createCrudRouter.ts",
+      "line": 52,
+      "exported": true,
+      "fingerprint": "594e6d21805d",
+      "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
       "name": "SafeDeleteOptions",
       "kind": "interface",
       "file": "server/src/routes/helpers/dataController.ts",
@@ -10562,9 +10584,9 @@
     {
       "name": "AttendeeRequest",
       "kind": "interface",
-      "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-      "line": 96,
-      "exported": false,
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "line": 157,
+      "exported": true,
       "fingerprint": "01b53342ea48",
       "propertyCount": 4,
       "primitiveAlias": null
@@ -10572,21 +10594,21 @@
     {
       "name": "RelationshipConfig",
       "kind": "interface",
-      "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 26,
-      "exported": false,
+      "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
+      "line": 36,
+      "exported": true,
       "fingerprint": "fe28d196bb80",
       "propertyCount": 4,
       "primitiveAlias": null
     },
     {
-      "name": "Request",
-      "kind": "interface",
-      "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "line": 828,
-      "exported": false,
-      "fingerprint": "c8584c8b971c",
-      "propertyCount": 1,
+      "name": "RelationshipKind",
+      "kind": "type-alias-union",
+      "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
+      "line": 35,
+      "exported": true,
+      "fingerprint": "c07b4f2eb6ca",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -10602,9 +10624,9 @@
     {
       "name": "CalendarEvent",
       "kind": "interface",
-      "file": "server/src/scripts/importCalendarData.ts",
-      "line": 4,
-      "exported": false,
+      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "line": 22,
+      "exported": true,
       "fingerprint": "448718fdcd86",
       "propertyCount": 17,
       "primitiveAlias": null
@@ -10612,9 +10634,9 @@
     {
       "name": "ParsedClient",
       "kind": "interface",
-      "file": "server/src/scripts/importCalendarData.ts",
-      "line": 28,
-      "exported": false,
+      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "line": 51,
+      "exported": true,
       "fingerprint": "4284208aaefa",
       "propertyCount": 4,
       "primitiveAlias": null
@@ -10622,18 +10644,38 @@
     {
       "name": "ParsedProperty",
       "kind": "interface",
-      "file": "server/src/scripts/importCalendarData.ts",
-      "line": 35,
-      "exported": false,
+      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "line": 63,
+      "exported": true,
       "fingerprint": "d0be7b68530d",
       "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AddressWithVersions",
+      "kind": "interface",
+      "file": "server/src/scripts/importCalendarData.ts",
+      "line": 50,
+      "exported": false,
+      "fingerprint": "7be27331580c",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AddressGeocodingCacheEntry",
+      "kind": "interface",
+      "file": "server/src/services/addressGeocodingCache.ts",
+      "line": 15,
+      "exported": true,
+      "fingerprint": "c96647170f5b",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "CalendarEventResult",
       "kind": "interface",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 17,
+      "line": 18,
       "exported": true,
       "fingerprint": "56858a4773ed",
       "propertyCount": 5,
@@ -10643,7 +10685,7 @@
       "name": "TimeSlot",
       "kind": "interface",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 34,
+      "line": 35,
       "exported": false,
       "fingerprint": "33ae3945c665",
       "propertyCount": 3,
@@ -10653,7 +10695,7 @@
       "name": "AppointmentWithDetails",
       "kind": "interface",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 44,
+      "line": 45,
       "exported": false,
       "fingerprint": "a630a781d8e1",
       "propertyCount": 19,
@@ -10675,27 +10717,17 @@
       "file": "server/src/services/calendarEventsCache.ts",
       "line": 19,
       "exported": true,
-      "fingerprint": "33dec876bd70",
-      "propertyCount": 6,
+      "fingerprint": "3cf76c390008",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
       "name": "EventsCacheEntry",
       "kind": "interface",
       "file": "server/src/services/calendarEventsCache.ts",
-      "line": 27,
+      "line": 28,
       "exported": false,
       "fingerprint": "1ee238990521",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CapacityKeyParts",
-      "kind": "interface",
-      "file": "server/src/services/capacityComputer.ts",
-      "line": 33,
-      "exported": false,
-      "fingerprint": "6edfe16986ae",
       "propertyCount": 3,
       "primitiveAlias": null
     },
@@ -10710,40 +10742,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "CacheEntry",
-      "kind": "interface",
-      "file": "server/src/services/freeBusyCache.ts",
-      "line": 10,
-      "exported": false,
-      "fingerprint": "5a57c8fb8850",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "FreeBusyResponse",
-      "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 29,
-      "exported": true,
-      "fingerprint": "0267b6915063",
-      "propertyCount": 4,
-      "primitiveAlias": null
-    },
-    {
-      "name": "FreeBusyResponseWithMeta",
-      "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 45,
-      "exported": true,
-      "fingerprint": "b3fe36dc4ff2",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "CalendarEventsResponseWithMeta",
       "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 222,
+      "file": "server/src/services/google/calendar/calendarTypes.ts",
+      "line": 16,
       "exported": true,
       "fingerprint": "b8cb4c2d8e06",
       "propertyCount": 4,
@@ -10752,8 +10754,8 @@
     {
       "name": "EventAttendee",
       "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 411,
+      "file": "server/src/services/google/calendar/calendarTypes.ts",
+      "line": 29,
       "exported": true,
       "fingerprint": "a2d7d1f666d2",
       "propertyCount": 3,
@@ -10762,8 +10764,8 @@
     {
       "name": "CreateEventParams",
       "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 422,
+      "file": "server/src/services/google/calendar/calendarTypes.ts",
+      "line": 40,
       "exported": true,
       "fingerprint": "3497f0e844ea",
       "propertyCount": 8,
@@ -10772,8 +10774,8 @@
     {
       "name": "CreatedEventResponse",
       "kind": "interface",
-      "file": "server/src/services/googleCalendarService.ts",
-      "line": 438,
+      "file": "server/src/services/google/calendar/calendarTypes.ts",
+      "line": 56,
       "exported": true,
       "fingerprint": "1ae0cfe65fb2",
       "propertyCount": 9,
@@ -10782,8 +10784,8 @@
     {
       "name": "AutocompletePrediction",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 82,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 26,
       "exported": true,
       "fingerprint": "3286fd134c63",
       "propertyCount": 4,
@@ -10792,8 +10794,8 @@
     {
       "name": "AutocompleteResponse",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 92,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 36,
       "exported": true,
       "fingerprint": "0402c1fce24a",
       "propertyCount": 2,
@@ -10802,8 +10804,8 @@
     {
       "name": "AddressComponents",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 101,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 45,
       "exported": true,
       "fingerprint": "447fd6e96cb2",
       "propertyCount": 6,
@@ -10812,8 +10814,8 @@
     {
       "name": "Coordinates",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 113,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 57,
       "exported": true,
       "fingerprint": "1b0f90b02f32",
       "propertyCount": 2,
@@ -10822,8 +10824,8 @@
     {
       "name": "PlaceDetails",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 122,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 66,
       "exported": true,
       "fingerprint": "16aa8a72c732",
       "propertyCount": 4,
@@ -10832,8 +10834,8 @@
     {
       "name": "RouteLocation",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 517,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 79,
       "exported": true,
       "fingerprint": "4f8a212b07d3",
       "propertyCount": 3,
@@ -10842,21 +10844,51 @@
     {
       "name": "RouteMatrixResult",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 527,
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 89,
       "exported": true,
       "fingerprint": "6e816ce3f460",
       "propertyCount": 6,
       "primitiveAlias": null
     },
     {
+      "name": "DriveTimeResult",
+      "kind": "interface",
+      "file": "server/src/services/google/maps/mapsTypes.ts",
+      "line": 102,
+      "exported": true,
+      "fingerprint": "bcdcc7e4bd93",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "GoogleApiName",
+      "kind": "type-alias-union",
+      "file": "server/src/services/google/shared/googleApiRateLimiter.ts",
+      "line": 17,
+      "exported": true,
+      "fingerprint": "5ac90c60f868",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
       "name": "RetryConfig",
       "kind": "interface",
-      "file": "server/src/services/googleMapsService.ts",
-      "line": 726,
-      "exported": false,
+      "file": "server/src/services/google/shared/googleApiRetry.ts",
+      "line": 17,
+      "exported": true,
       "fingerprint": "7e2a448dde85",
       "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "RetryableError",
+      "kind": "interface",
+      "file": "server/src/services/google/shared/googleApiRetry.ts",
+      "line": 39,
+      "exported": true,
+      "fingerprint": "58bafefcfce8",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -10893,7 +10925,7 @@
       "name": "AnnotationConfig",
       "kind": "interface",
       "file": "server/src/types/express.d.ts",
-      "line": 2,
+      "line": 3,
       "exported": false,
       "fingerprint": "965fe8050f35",
       "propertyCount": 3,
@@ -10903,7 +10935,7 @@
       "name": "EventConfig",
       "kind": "interface",
       "file": "server/src/types/express.d.ts",
-      "line": 8,
+      "line": 9,
       "exported": false,
       "fingerprint": "965fe8050f35",
       "propertyCount": 3,
@@ -10913,10 +10945,10 @@
       "name": "Request",
       "kind": "interface",
       "file": "server/src/types/express.d.ts",
-      "line": 17,
+      "line": 18,
       "exported": false,
-      "fingerprint": "148c72eb9e3c",
-      "propertyCount": 3,
+      "fingerprint": "b44c8a3127c4",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -10983,7 +11015,7 @@
       "name": "DayHours",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 65,
+      "line": 73,
       "exported": true,
       "fingerprint": "c62c5ebd4d3e",
       "propertyCount": 2,
@@ -10993,7 +11025,7 @@
       "name": "BusinessHoursConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 77,
+      "line": 85,
       "exported": true,
       "fingerprint": "e65e474599ea",
       "propertyCount": 8,
@@ -11003,7 +11035,7 @@
       "name": "LeadTimeConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 95,
+      "line": 103,
       "exported": true,
       "fingerprint": "4ca75d8af3e0",
       "propertyCount": 1,
@@ -11013,7 +11045,7 @@
       "name": "DateRangeConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 105,
+      "line": 113,
       "exported": true,
       "fingerprint": "c62c5ebd4d3e",
       "propertyCount": 2,
@@ -11023,37 +11055,47 @@
       "name": "RangeConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 116,
+      "line": 124,
       "exported": true,
-      "fingerprint": "b14a17ad36c9",
-      "propertyCount": 3,
+      "fingerprint": "f05e5df158f7",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "OverlapConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 131,
+      "line": 140,
       "exported": true,
-      "fingerprint": "5225299cb626",
-      "propertyCount": 5,
+      "fingerprint": "f720a95ba086",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
       "name": "CapacityConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 145,
+      "line": 155,
       "exported": true,
-      "fingerprint": "6dd313ef6b74",
-      "propertyCount": 4,
+      "fingerprint": "4c2cf3fb3682",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ConstraintCheckResult",
+      "kind": "interface",
+      "file": "shared/types/availabilityTypes.ts",
+      "line": 177,
+      "exported": true,
+      "fingerprint": "f93e30ea7d67",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "WorkCapacityFilter",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 174,
+      "line": 204,
       "exported": true,
       "fingerprint": "b047f06e0c97",
       "propertyCount": 2,
@@ -11063,7 +11105,7 @@
       "name": "RollingWeekCapacityFilter",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 185,
+      "line": 215,
       "exported": true,
       "fingerprint": "c1b027d82f51",
       "propertyCount": 1,
@@ -11073,7 +11115,7 @@
       "name": "Coordinates",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 195,
+      "line": 225,
       "exported": true,
       "fingerprint": "1b0f90b02f32",
       "propertyCount": 2,
@@ -11083,7 +11125,7 @@
       "name": "DefaultLocation",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 210,
+      "line": 240,
       "exported": true,
       "fingerprint": "de5f9a5d9a01",
       "propertyCount": 4,
@@ -11093,7 +11135,7 @@
       "name": "DurationRoundingConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 223,
+      "line": 253,
       "exported": true,
       "fingerprint": "efb40e0b432a",
       "propertyCount": 3,
@@ -11103,7 +11145,7 @@
       "name": "BusyTimeRange",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 235,
+      "line": 265,
       "exported": true,
       "fingerprint": "03cefbcc8fb0",
       "propertyCount": 4,
@@ -11113,17 +11155,17 @@
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 248,
+      "line": 278,
       "exported": true,
-      "fingerprint": "33dec876bd70",
-      "propertyCount": 6,
+      "fingerprint": "3cf76c390008",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
       "name": "ComputedAvailabilityRequest",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 263,
+      "line": 294,
       "exported": true,
       "fingerprint": "2ea30b71651d",
       "propertyCount": 6,
@@ -11133,10 +11175,10 @@
       "name": "ComputedAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 279,
+      "line": 310,
       "exported": true,
-      "fingerprint": "5de3503afd45",
-      "propertyCount": 22,
+      "fingerprint": "f85e340818dc",
+      "propertyCount": 19,
       "primitiveAlias": null
     },
     {
@@ -11170,10 +11212,20 @@
       "primitiveAlias": null
     },
     {
-      "name": "RangeConstraintType",
+      "name": "ConstraintCategory",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
       "line": 44,
+      "exported": true,
+      "fingerprint": "e2abfd3ec780",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "RangeConstraintType",
+      "kind": "type-alias-union",
+      "file": "shared/types/availabilityTypes.ts",
+      "line": 52,
       "exported": true,
       "fingerprint": "8e1681ac4cd7",
       "propertyCount": 0,
@@ -11183,7 +11235,7 @@
       "name": "DriveTimeApplyTo",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 57,
+      "line": 65,
       "exported": true,
       "fingerprint": "5df7af5639fb",
       "propertyCount": 0,
@@ -11193,10 +11245,20 @@
       "name": "BusyPeriodSource",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 166,
+      "line": 196,
       "exported": true,
-      "fingerprint": "5f56641863b0",
+      "fingerprint": "722ae6a5bd85",
       "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "CapacityKeyParts",
+      "kind": "interface",
+      "file": "shared/utils/capacityKeyUtils.ts",
+      "line": 23,
+      "exported": true,
+      "fingerprint": "6edfe16986ae",
+      "propertyCount": 3,
       "primitiveAlias": null
     }
   ]

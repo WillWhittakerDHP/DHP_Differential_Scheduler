@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:31:55.243Z",
+  "generatedAt": "2026-02-09T16:43:28.285Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -8,28 +8,28 @@
     },
     {
       "auditId": "component-logic",
-      "filesWithFindings": 63,
-      "totalFindings": 63
+      "filesWithFindings": 65,
+      "totalFindings": 65
     },
     {
       "auditId": "composables-logic",
-      "filesWithFindings": 167,
-      "totalFindings": 167
+      "filesWithFindings": 169,
+      "totalFindings": 169
     },
     {
       "auditId": "loop-mutation",
-      "filesWithFindings": 198,
-      "totalFindings": 842
+      "filesWithFindings": 209,
+      "totalFindings": 825
     },
     {
       "auditId": "hardcoding",
-      "filesWithFindings": 212,
-      "totalFindings": 1124
+      "filesWithFindings": 244,
+      "totalFindings": 1037
     },
     {
       "auditId": "function-complexity",
-      "filesWithFindings": 356,
-      "totalFindings": 356
+      "filesWithFindings": 385,
+      "totalFindings": 385
     },
     {
       "auditId": "pattern-detection",
@@ -43,190 +43,51 @@
     },
     {
       "auditId": "unused-code",
-      "filesWithFindings": 313,
-      "totalFindings": 313
+      "filesWithFindings": 328,
+      "totalFindings": 328
     },
     {
       "auditId": "error-handling",
-      "filesWithFindings": 81,
-      "totalFindings": 622
+      "filesWithFindings": 86,
+      "totalFindings": 465
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 155,
-      "totalFindings": 433
+      "filesWithFindings": 164,
+      "totalFindings": 435
     },
     {
       "auditId": "security",
-      "filesWithFindings": 78,
-      "totalFindings": 78
+      "filesWithFindings": 19,
+      "totalFindings": 19
     },
     {
       "auditId": "todo-aging",
-      "filesWithFindings": 16,
-      "totalFindings": 25
+      "filesWithFindings": 18,
+      "totalFindings": 32
     },
     {
       "auditId": "import-graph",
-      "filesWithFindings": 35,
-      "totalFindings": 35
+      "filesWithFindings": 38,
+      "totalFindings": 38
     },
     {
       "auditId": "file-cohesion",
-      "filesWithFindings": 97,
-      "totalFindings": 97
+      "filesWithFindings": 114,
+      "totalFindings": 114
     },
     {
       "auditId": "api-contract",
       "filesWithFindings": 0,
-      "totalFindings": 77
+      "totalFindings": 65
+    },
+    {
+      "auditId": "constants-consolidation",
+      "filesWithFindings": 85,
+      "totalFindings": 211
     }
   ],
   "hotspots": [
-    {
-      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
-      "totalScore": 542.5,
-      "auditCount": 7,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "deprecation",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
-      "totalScore": 482.5,
-      "auditCount": 7,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "deprecation",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "totalScore": 463.5,
-      "auditCount": 7,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
-      "totalScore": 362,
-      "auditCount": 7,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "deprecation",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "totalScore": 330,
-      "auditCount": 7,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/googleMapsService.ts",
-      "totalScore": 310,
-      "auditCount": 7,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/users/userRouter.ts",
-      "totalScore": 308.5,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "error-handling",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
-      "totalScore": 257,
-      "auditCount": 6,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "security",
-        "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
-      "totalScore": 238,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "security",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
-      "totalScore": 234.5,
-      "auditCount": 4,
-      "auditIds": [
-        "hardcoding",
-        "error-handling",
-        "security",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-      "totalScore": 219.5,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "security",
-        "api-contract"
-      ]
-    },
     {
       "repoPath": "server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs",
       "totalScore": 194,
@@ -240,52 +101,17 @@
       ]
     },
     {
-      "repoPath": "server/src/scripts/importCalendarData.ts",
-      "totalScore": 192.5,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20250130_rename_type_to_shape.mjs",
-      "totalScore": 192,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
-      "totalScore": 176,
+      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "totalScore": 174.0079365079365,
       "auditCount": 7,
       "auditIds": [
         "loop-mutation",
-        "hardcoding",
         "function-complexity",
         "unused-code",
         "error-handling",
         "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/googleCalendarService.ts",
-      "totalScore": 169.5,
-      "auditCount": 8,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "deprecation",
-        "security",
-        "file-cohesion"
+        "file-cohesion",
+        "constants-consolidation"
       ]
     },
     {
@@ -298,19 +124,6 @@
         "unused-code",
         "error-handling",
         "security"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "totalScore": 161.5,
-      "auditCount": 6,
-      "auditIds": [
-        "loop-mutation",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "deprecation",
-        "file-cohesion"
       ]
     },
     {
@@ -338,18 +151,6 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-      "totalScore": 156.5,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "security",
-        "api-contract"
-      ]
-    },
-    {
       "repoPath": "client/src/configs/field/display/fullFieldDisplayConfig",
       "totalScore": 150,
       "auditCount": 1,
@@ -369,42 +170,28 @@
       ]
     },
     {
-      "repoPath": "server/src/db/migrations/20250130_rename_profile_to_instance.js",
-      "totalScore": 144,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20250130_rename_profile_to_instance.mjs",
-      "totalScore": 144,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-      "totalScore": 139,
-      "auditCount": 4,
-      "auditIds": [
-        "hardcoding",
-        "error-handling",
-        "security",
-        "api-contract"
-      ]
-    },
-    {
       "repoPath": "server/src/app.ts",
-      "totalScore": 137.5,
-      "auditCount": 5,
+      "totalScore": 143.5,
+      "auditCount": 6,
       "auditIds": [
         "hardcoding",
         "function-complexity",
         "unused-code",
         "error-handling",
-        "security"
+        "security",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "totalScore": 140.5,
+      "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "error-handling",
+        "deprecation"
       ]
     },
     {
@@ -422,23 +209,15 @@
       ]
     },
     {
-      "repoPath": "server/src/db/migrations/20260130_ensure_relationship_keys_removed_from_primitive_metadata.mjs",
-      "totalScore": 132,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/constraintExtractor.ts",
-      "totalScore": 127.5,
+      "repoPath": "server/src/scripts/backfill-input-config-from-selectable.mjs",
+      "totalScore": 130,
       "auditCount": 5,
       "auditIds": [
-        "loop-mutation",
         "hardcoding",
         "function-complexity",
-        "unused-code",
-        "deprecation"
+        "error-handling",
+        "security",
+        "constants-consolidation"
       ]
     },
     {
@@ -467,43 +246,29 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/external/calendarRoutes.ts",
-      "totalScore": 122,
-      "auditCount": 6,
+      "repoPath": "server/src/services/constraintExtractor.ts",
+      "totalScore": 125,
+      "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "deprecation"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
+      "totalScore": 117.5,
+      "auditCount": 7,
       "auditIds": [
         "hardcoding",
         "function-complexity",
+        "unused-code",
         "error-handling",
-        "security",
         "file-cohesion",
-        "api-contract"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20260115_remove_activeparts_from_primitive_metadata.mjs",
-      "totalScore": 120,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20260131_force_delete_relationship_keys_from_primitive_metadata.mjs",
-      "totalScore": 120,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/scripts/backfill-input-config-from-selectable.mjs",
-      "totalScore": 116,
-      "auditCount": 4,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "error-handling",
-        "security"
+        "api-contract",
+        "constants-consolidation"
       ]
     },
     {
@@ -518,19 +283,29 @@
       ]
     },
     {
-      "repoPath": "server/src/db/migrations/20260129_remove_relationship_keys_from_primitive_metadata.mjs",
-      "totalScore": 108,
-      "auditCount": 1,
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "totalScore": 110.5,
+      "auditCount": 6,
       "auditIds": [
-        "security"
+        "hardcoding",
+        "function-complexity",
+        "error-handling",
+        "security",
+        "file-cohesion",
+        "api-contract"
       ]
     },
     {
-      "repoPath": "server/src/db/migrations/20260130_173500_fix_all_activeparts_references.mjs",
-      "totalScore": 108,
-      "auditCount": 1,
+      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
+      "totalScore": 106.94444444444444,
+      "auditCount": 6,
       "auditIds": [
-        "security"
+        "hardcoding",
+        "function-complexity",
+        "error-handling",
+        "deprecation",
+        "file-cohesion",
+        "constants-consolidation"
       ]
     },
     {
@@ -542,6 +317,29 @@
         "hardcoding",
         "function-complexity",
         "unused-code",
+        "deprecation",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "totalScore": 106,
+      "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "error-handling",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "totalScore": 104,
+      "auditCount": 4,
+      "auditIds": [
+        "loop-mutation",
+        "function-complexity",
         "deprecation",
         "file-cohesion"
       ]
@@ -560,42 +358,27 @@
       ]
     },
     {
-      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "totalScore": 98,
-      "auditCount": 4,
-      "auditIds": [
-        "loop-mutation",
-        "function-complexity",
-        "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20260115_migrate_field_metadata_to_new_tables.mjs",
-      "totalScore": 96,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/db/migrations/20260201_update_constituents_to_parts_in_relationship_metadata.mjs",
-      "totalScore": 96,
-      "auditCount": 1,
-      "auditIds": [
-        "security"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "totalScore": 94,
+      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "totalScore": 96.5,
       "auditCount": 5,
       "auditIds": [
         "loop-mutation",
         "hardcoding",
         "function-complexity",
-        "error-handling",
-        "deprecation"
+        "unused-code",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "totalScore": 95,
+      "auditCount": 5,
+      "auditIds": [
+        "hardcoding",
+        "deprecation",
+        "security",
+        "file-cohesion",
+        "api-contract"
       ]
     },
     {
@@ -612,15 +395,65 @@
       ]
     },
     {
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
+      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
       "totalScore": 90.5,
+      "auditCount": 4,
+      "auditIds": [
+        "function-complexity",
+        "security",
+        "file-cohesion",
+        "api-contract"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "totalScore": 89.85714285714286,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "function-complexity",
+        "unused-code",
+        "deprecation",
+        "file-cohesion",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "server/src/scripts/importCalendarData.ts",
+      "totalScore": 86.44444444444444,
       "auditCount": 5,
       "auditIds": [
         "hardcoding",
         "function-complexity",
         "error-handling",
+        "file-cohesion",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "client/src/services/mapsApiService.ts",
+      "totalScore": 86,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
         "deprecation",
-        "file-cohesion"
+        "file-cohesion",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "server/src/utils/userTypeMapping.ts",
+      "totalScore": 85.44444444444444,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "constants-consolidation"
       ]
     },
     {
@@ -637,6 +470,26 @@
       ]
     },
     {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "totalScore": 85,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "security",
+        "file-cohesion",
+        "api-contract"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "totalScore": 80.74665334665336,
+      "auditCount": 2,
+      "auditIds": [
+        "hardcoding",
+        "constants-consolidation"
+      ]
+    },
+    {
       "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
       "totalScore": 77,
       "auditCount": 5,
@@ -649,19 +502,285 @@
       ]
     },
     {
-      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "totalScore": 77,
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "totalScore": 75.5,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "function-complexity",
+        "error-handling",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
+      "totalScore": 75,
+      "auditCount": 7,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "deprecation",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
+      "totalScore": 74.5,
+      "auditCount": 7,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "todo-aging",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
+      "totalScore": 74.5,
+      "auditCount": 7,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "deprecation",
+        "todo-aging"
+      ]
+    },
+    {
+      "repoPath": "server/src/scripts/fix-validConstituents.mjs",
+      "totalScore": 73,
+      "auditCount": 4,
+      "auditIds": [
+        "function-complexity",
+        "error-handling",
+        "security",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "totalScore": 71.5,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "function-complexity",
+        "deprecation",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "totalScore": 67.18181818181819,
+      "auditCount": 7,
+      "auditIds": [
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "file-cohesion",
+        "api-contract",
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "totalScore": 66,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "error-handling",
+        "file-cohesion",
+        "api-contract"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/entities",
+      "totalScore": 66,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
+      "totalScore": 65,
       "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "deprecation"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/differentialScheduling.ts",
+      "totalScore": 61,
+      "auditCount": 4,
       "auditIds": [
         "loop-mutation",
         "function-complexity",
         "unused-code",
+        "deprecation"
+      ]
+    },
+    {
+      "repoPath": "server/src/scripts/check-layout-configs.mjs",
+      "totalScore": 60,
+      "auditCount": 5,
+      "auditIds": [
+        "function-complexity",
+        "error-handling",
         "deprecation",
+        "security",
         "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
+      "totalScore": 60,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/annotations",
+      "totalScore": 60,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/BlockFinal",
+      "totalScore": 60,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/partFinalizer",
+      "totalScore": 60,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
       ]
     }
   ],
-  "totalExceptions": 1319,
-  "previousExceptions": null,
-  "trend": null
+  "totalExceptions": 1314,
+  "previousExceptions": 1319,
+  "trend": [
+    {
+      "auditId": "type-similarity",
+      "current": 0,
+      "previous": 0,
+      "delta": 0
+    },
+    {
+      "auditId": "component-logic",
+      "current": 65,
+      "previous": 63,
+      "delta": 2
+    },
+    {
+      "auditId": "composables-logic",
+      "current": 169,
+      "previous": 167,
+      "delta": 2
+    },
+    {
+      "auditId": "loop-mutation",
+      "current": 825,
+      "previous": 842,
+      "delta": -17
+    },
+    {
+      "auditId": "hardcoding",
+      "current": 1037,
+      "previous": 1055,
+      "delta": -18
+    },
+    {
+      "auditId": "function-complexity",
+      "current": 385,
+      "previous": 371,
+      "delta": 14
+    },
+    {
+      "auditId": "pattern-detection",
+      "current": 0,
+      "previous": 0,
+      "delta": 0
+    },
+    {
+      "auditId": "duplication",
+      "current": 0,
+      "previous": 0,
+      "delta": 0
+    },
+    {
+      "auditId": "unused-code",
+      "current": 328,
+      "previous": 320,
+      "delta": 8
+    },
+    {
+      "auditId": "error-handling",
+      "current": 465,
+      "previous": 539,
+      "delta": -74
+    },
+    {
+      "auditId": "deprecation",
+      "current": 435,
+      "previous": 439,
+      "delta": -4
+    },
+    {
+      "auditId": "security",
+      "current": 19,
+      "previous": 82,
+      "delta": -63
+    },
+    {
+      "auditId": "todo-aging",
+      "current": 32,
+      "previous": 25,
+      "delta": 7
+    },
+    {
+      "auditId": "import-graph",
+      "current": 38,
+      "previous": 37,
+      "delta": 1
+    },
+    {
+      "auditId": "file-cohesion",
+      "current": 114,
+      "previous": 113,
+      "delta": 1
+    },
+    {
+      "auditId": "api-contract",
+      "current": 65,
+      "previous": 77,
+      "delta": -12
+    },
+    {
+      "auditId": "constants-consolidation",
+      "current": 211,
+      "previous": 190,
+      "delta": 21
+    }
+  ]
 }

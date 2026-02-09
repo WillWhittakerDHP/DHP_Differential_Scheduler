@@ -11,6 +11,9 @@
 
 import { BlockInstance, BlockShape } from '../config/app.js';
 import { Op } from 'sequelize';
+import { createLogger } from './logger.js';
+
+const logger = createLogger('UserTypeMapping');
 
 /**
  * Mapping from hardcoded user roles to expected UserTypeBlock names
@@ -54,7 +57,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 export async function getUserTypeBlockIdForRole(role: string): Promise<string | null> {
   const blockName = ROLE_TO_BLOCK_NAME[role];
   if (!blockName) {
-    console.warn(`[UserTypeMapping] No mapping found for role: ${role}`);
+    logger.warn(`No mapping found for role: ${role}`);
     return null;
   }
 
@@ -81,11 +84,11 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
       return userTypeBlock.id;
     }
     
-    console.warn(`[UserTypeMapping] UserTypeBlock not found for name: ${blockName}`);
+    logger.warn(`UserTypeBlock not found for name: ${blockName}`);
     return null;
     
   } catch (error) {
-    console.error(`[UserTypeMapping] Error looking up UserTypeBlock for role ${role}:`, error);
+    logger.error(`Error looking up UserTypeBlock for role ${role}:`, error);
     return null;
   }
 }
@@ -129,7 +132,7 @@ async function findUserTypeBlockByName(name: string): Promise<{ id: string; name
   });
   
   if (stateControlShapes.length === 0) {
-    console.warn('[UserTypeMapping] No state control BlockShapes found');
+    logger.warn('No state control BlockShapes found');
     return null;
   }
   
@@ -173,7 +176,7 @@ async function refreshCache(): Promise<void> {
     });
     
     if (stateControlShapes.length === 0) {
-      console.warn('[UserTypeMapping] No state control BlockShapes found');
+      logger.warn('No state control BlockShapes found');
       userTypeBlockCache = new Map();
       cacheTimestamp = Date.now();
       return;
@@ -196,10 +199,10 @@ async function refreshCache(): Promise<void> {
     }
     cacheTimestamp = Date.now();
     
-    console.log(`[UserTypeMapping] Cache refreshed with ${userTypeBlocks.length} UserTypeBlocks`);
+    logger.info(`Cache refreshed with ${userTypeBlocks.length} UserTypeBlocks`);
     
   } catch (error) {
-    console.error('[UserTypeMapping] Error refreshing cache:', error);
+    logger.error('Error refreshing cache:', error);
     userTypeBlockCache = new Map();
     cacheTimestamp = Date.now();
   }

@@ -11,6 +11,7 @@ import { withRateLimit } from '../shared/googleApiRateLimiter.js'
 import { getGoogleMapsApiKey, GOOGLE_MAPS_API_BASE } from '../shared/googleApiConfig.js'
 import { MapsApiError } from './mapsErrorHandler.js'
 import { parseAddressComponents, generateSessionToken } from './mapsHelpers.js'
+import { getCachedPlaceId, cachePlaceId, normalizeAddress } from '../../addressGeocodingCache.js'
 import type {
   AutocompletePrediction,
   PlaceDetails,
@@ -19,6 +20,10 @@ import type {
 } from './mapsTypes.js'
 
 const logger = createLogger('PlacesApiService')
+
+// In-flight deduplication: reuse pending promises for the same address
+// WHY: Prevents duplicate API calls when multiple events share the same location
+const inflightGeocoding = new Map<string, Promise<string | null>>()
 
 /**
  * Get address autocomplete suggestions
@@ -251,68 +256,108 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
     return null
   }
   
-  try {
-    return await withRateLimit('google-maps', async () => {
-      const apiKey = getGoogleMapsApiKey()
-      
-      // Build URL with parameters
-      // LEARNING: Find Place API searches by text query and returns place_id
-      // WHY: More efficient than Geocoding API for this use case
-      const params = new URLSearchParams({
-        input: address.trim(),
-        inputtype: 'textquery',
-        fields: 'place_id', // Only request place_id to minimize cost
-        key: apiKey
+  // Check cache first
+  const cached = getCachedPlaceId(address)
+  if (cached !== undefined) {
+    // Cache hit - return cached result (could be string or null)
+    logger.debug('Geocoding cache hit', { 
+      address: address.substring(0, 50),
+      placeId: cached || '(not found)'
+    })
+    return cached
+  }
+  
+  // Cache miss - check for in-flight request
+  const normalizedKey = normalizeAddress(address)
+  const inflight = inflightGeocoding.get(normalizedKey)
+  if (inflight) {
+    // Another request for this address is already in progress, reuse it
+    return inflight
+  }
+  
+  logger.debug('Geocoding cache miss, calling API', { address: address.substring(0, 50) })
+  
+  // Create promise for this geocoding request
+  const geocodingPromise = (async (): Promise<string | null> => {
+    try {
+      const placeId = await withRateLimit('google-maps', async () => {
+        const apiKey = getGoogleMapsApiKey()
+        
+        // Build URL with parameters
+        // LEARNING: Find Place API searches by text query and returns place_id
+        // WHY: More efficient than Geocoding API for this use case
+        const params = new URLSearchParams({
+          input: address.trim(),
+          inputtype: 'textquery',
+          fields: 'place_id', // Only request place_id to minimize cost
+          key: apiKey
+        })
+        
+        const url = `${GOOGLE_MAPS_API_BASE}/place/findplacefromtext/json?${params.toString()}`
+        
+        const response = await fetch(url)
+        
+        if (!response.ok) {
+          logger.warn('Geocoding HTTP error', { status: response.status })
+          return null
+        }
+        
+        const data = await response.json()
+        
+        // Handle API-level errors
+        if (data.status === 'REQUEST_DENIED') {
+          logger.warn('Geocoding denied - API key invalid or restricted')
+          return null
+        }
+        
+        if (data.status === 'OVER_QUERY_LIMIT') {
+          logger.warn('Geocoding quota exceeded')
+          return null
+        }
+        
+        if (data.status === 'ZERO_RESULTS' || data.status === 'NOT_FOUND') {
+          logger.debug('No place found for address', { address: address.substring(0, 50) })
+          return null
+        }
+        
+        if (data.status !== 'OK') {
+          logger.warn('Geocoding error status', { status: data.status })
+          return null
+        }
+        
+        // Extract place_id from first candidate
+        if (data.candidates && data.candidates.length > 0 && data.candidates[0].place_id) {
+          const placeId = data.candidates[0].place_id
+          logger.debug('Geocoded address to placeId', { 
+            address: address.substring(0, 50),
+            placeId 
+          })
+          return placeId
+        }
+        
+        return null
       })
       
-      const url = `${GOOGLE_MAPS_API_BASE}/place/findplacefromtext/json?${params.toString()}`
+      // Cache the result (including null for "not found" cases)
+      cachePlaceId(address, placeId)
       
-      logger.debug('Geocoding address to placeId', { address: address.substring(0, 50) })
-      
-      const response = await fetch(url)
-      
-      if (!response.ok) {
-        logger.warn('Geocoding HTTP error', { status: response.status })
-        return null
-      }
-      
-      const data = await response.json()
-      
-      // Handle API-level errors
-      if (data.status === 'REQUEST_DENIED') {
-        logger.warn('Geocoding denied - API key invalid or restricted')
-        return null
-      }
-      
-      if (data.status === 'OVER_QUERY_LIMIT') {
-        logger.warn('Geocoding quota exceeded')
-        return null
-      }
-      
-      if (data.status === 'ZERO_RESULTS' || data.status === 'NOT_FOUND') {
-        logger.debug('No place found for address', { address: address.substring(0, 50) })
-        return null
-      }
-      
-      if (data.status !== 'OK') {
-        logger.warn('Geocoding error status', { status: data.status })
-        return null
-      }
-      
-      // Extract place_id from first candidate
-      if (data.candidates && data.candidates.length > 0 && data.candidates[0].place_id) {
-        const placeId = data.candidates[0].place_id
-        logger.debug('Geocoded address to placeId', { placeId })
-        return placeId
-      }
-      
+      return placeId
+    } catch (error) {
+      // Network or parsing error - log but don't throw
+      logger.warn('Geocoding error', { error: error instanceof Error ? error.message : 'Unknown error' })
+      // Cache null result for errors too (to avoid retrying immediately)
+      cachePlaceId(address, null)
       return null
-    })
-  } catch (error) {
-    // Network or parsing error - log but don't throw
-    logger.warn('Geocoding error', { error: error instanceof Error ? error.message : 'Unknown error' })
-    return null
-  }
+    } finally {
+      // Remove from in-flight map when done (success or error)
+      inflightGeocoding.delete(normalizedKey)
+    }
+  })()
+  
+  // Store promise in in-flight map before awaiting
+  inflightGeocoding.set(normalizedKey, geocodingPromise)
+  
+  return geocodingPromise
 }
 
 // Re-export generateSessionToken for convenience

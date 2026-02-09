@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:28:46.301Z",
+  "generatedAt": "2026-02-09T16:40:57.808Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -14,7 +14,7 @@
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 78,
+    "totalRequiresReview": 80,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -373,6 +373,16 @@
       "repoPath": "src/composables/booking/usePropertyFormWatchers.ts"
     },
     {
+      "file": "src/composables/dev/useDevPanelTabs.ts",
+      "line": 9,
+      "col": 27,
+      "code": "TS6133",
+      "message": "'Ref' is declared but its value is never read.",
+      "raw": "src/composables/dev/useDevPanelTabs.ts(9,27): error TS6133: 'Ref' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/dev/useDevPanelTabs.ts"
+    },
+    {
       "file": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
       "line": 141,
       "col": 7,
@@ -391,6 +401,16 @@
       "raw": "src/composables/fieldContext/useFieldContextState.ts(224,5): error TS2304: Cannot find name 'logger'.",
       "scope": "client",
       "repoPath": "src/composables/fieldContext/useFieldContextState.ts"
+    },
+    {
+      "file": "src/composables/useAvailability.ts",
+      "line": 20,
+      "col": 41,
+      "code": "TS6196",
+      "message": "'Constraint' is declared but never used.",
+      "raw": "src/composables/useAvailability.ts(20,41): error TS6196: 'Constraint' is declared but never used.",
+      "scope": "client",
+      "repoPath": "src/composables/useAvailability.ts"
     },
     {
       "file": "src/composables/useRelationship.ts",
@@ -433,26 +453,6 @@
       "repoPath": "src/composables/useSelectOptions.ts"
     },
     {
-      "file": "src/main.ts",
-      "line": 144,
-      "col": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'logger'.",
-      "raw": "src/main.ts(144,5): error TS2304: Cannot find name 'logger'.",
-      "scope": "client",
-      "repoPath": "src/main.ts"
-    },
-    {
-      "file": "src/main.ts",
-      "line": 160,
-      "col": 3,
-      "code": "TS2304",
-      "message": "Cannot find name 'logger'.",
-      "raw": "src/main.ts(160,3): error TS2304: Cannot find name 'logger'.",
-      "scope": "client",
-      "repoPath": "src/main.ts"
-    },
-    {
       "file": "src/services/calendarApiService.ts",
       "line": 12,
       "col": 1,
@@ -474,31 +474,21 @@
     },
     {
       "file": "src/services/calendarApiService.ts",
-      "line": 50,
-      "col": 11,
-      "code": "TS6196",
-      "message": "'ServerFreeBusyResponse' is declared but never used.",
-      "raw": "src/services/calendarApiService.ts(50,11): error TS6196: 'ServerFreeBusyResponse' is declared but never used.",
+      "line": 236,
+      "col": 19,
+      "code": "TS2345",
+      "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+      "raw": "src/services/calendarApiService.ts(236,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
       "scope": "client",
       "repoPath": "src/services/calendarApiService.ts"
     },
     {
       "file": "src/services/calendarApiService.ts",
-      "line": 246,
+      "line": 245,
       "col": 19,
       "code": "TS2345",
-      "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-      "raw": "src/services/calendarApiService.ts(246,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-      "scope": "client",
-      "repoPath": "src/services/calendarApiService.ts"
-    },
-    {
-      "file": "src/services/calendarApiService.ts",
-      "line": 255,
-      "col": 19,
-      "code": "TS2345",
-      "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-      "raw": "src/services/calendarApiService.ts(255,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
+      "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+      "raw": "src/services/calendarApiService.ts(245,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
       "scope": "client",
       "repoPath": "src/services/calendarApiService.ts"
     },
@@ -511,6 +501,16 @@
       "raw": "src/utils/blockInstanceUtils.ts(45,9): error TS2304: Cannot find name 'logger'.",
       "scope": "client",
       "repoPath": "src/utils/blockInstanceUtils.ts"
+    },
+    {
+      "file": "src/utils/booking/capacityConstraintChecker.ts",
+      "line": 12,
+      "col": 3,
+      "code": "TS6133",
+      "message": "'CapacityKeyParts' is declared but its value is never read.",
+      "raw": "src/utils/booking/capacityConstraintChecker.ts(12,3): error TS6133: 'CapacityKeyParts' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/capacityConstraintChecker.ts"
     },
     {
       "file": "src/utils/booking/partFinalizer.ts",
@@ -543,64 +543,64 @@
       "repoPath": "src/utils/booking/partFinalizer.ts"
     },
     {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 166,
-      "col": 34,
-      "code": "TS6133",
-      "message": "'TIME_BASIS_TYPES' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(166,34): error TS6133: 'TIME_BASIS_TYPES' is declared but its value is never read.",
+      "file": "src/utils/booking/slotAvailabilityManager.ts",
+      "line": 62,
+      "col": 3,
+      "code": "TS6196",
+      "message": "'RangeConstraint' is declared but never used.",
+      "raw": "src/utils/booking/slotAvailabilityManager.ts(62,3): error TS6196: 'RangeConstraint' is declared but never used.",
       "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
+      "repoPath": "src/utils/booking/slotAvailabilityManager.ts"
     },
     {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 603,
-      "col": 9,
-      "code": "TS6133",
-      "message": "'getViolationString' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(603,9): error TS6133: 'getViolationString' is declared but its value is never read.",
+      "file": "src/utils/booking/slotAvailabilityManager.ts",
+      "line": 64,
+      "col": 3,
+      "code": "TS6196",
+      "message": "'CapacityConstraint' is declared but never used.",
+      "raw": "src/utils/booking/slotAvailabilityManager.ts(64,3): error TS6196: 'CapacityConstraint' is declared but never used.",
       "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
+      "repoPath": "src/utils/booking/slotAvailabilityManager.ts"
     },
     {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 914,
+      "file": "src/utils/booking/timeSlotFitter.ts",
+      "line": 12,
+      "col": 32,
+      "code": "TS6196",
+      "message": "'DayOfWeek' is declared but never used.",
+      "raw": "src/utils/booking/timeSlotFitter.ts(12,32): error TS6196: 'DayOfWeek' is declared but never used.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/timeSlotFitter.ts"
+    },
+    {
+      "file": "src/utils/booking/timeSlotFitter.ts",
+      "line": 23,
       "col": 3,
       "code": "TS6133",
-      "message": "'passes' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(914,3): error TS6133: 'passes' is declared but its value is never read.",
+      "message": "'timeRangesOverlap' is declared but its value is never read.",
+      "raw": "src/utils/booking/timeSlotFitter.ts(23,3): error TS6133: 'timeRangesOverlap' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
+      "repoPath": "src/utils/booking/timeSlotFitter.ts"
     },
     {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1246,
+      "file": "src/utils/booking/timeSlotFitter.ts",
+      "line": 24,
       "col": 3,
       "code": "TS6133",
-      "message": "'rangeConstraints' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(1246,3): error TS6133: 'rangeConstraints' is declared but its value is never read.",
+      "message": "'parseBusinessHours' is declared but its value is never read.",
+      "raw": "src/utils/booking/timeSlotFitter.ts(24,3): error TS6133: 'parseBusinessHours' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
+      "repoPath": "src/utils/booking/timeSlotFitter.ts"
     },
     {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1247,
-      "col": 3,
-      "code": "TS6133",
-      "message": "'overlapConstraints' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(1247,3): error TS6133: 'overlapConstraints' is declared but its value is never read.",
+      "file": "src/utils/booking/timeSlotFitter.ts",
+      "line": 204,
+      "col": 36,
+      "code": "TS2339",
+      "message": "Property 'config' does not exist on type 'Constraint'.",
+      "raw": "src/utils/booking/timeSlotFitter.ts(204,36): error TS2339: Property 'config' does not exist on type 'Constraint'.",
       "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-    },
-    {
-      "file": "src/utils/booking/timeAvailabilityManager.ts",
-      "line": 1248,
-      "col": 3,
-      "code": "TS6133",
-      "message": "'capacityConstraints' is declared but its value is never read.",
-      "raw": "src/utils/booking/timeAvailabilityManager.ts(1248,3): error TS6133: 'capacityConstraints' is declared but its value is never read.",
-      "scope": "client",
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
+      "repoPath": "src/utils/booking/timeSlotFitter.ts"
     },
     {
       "file": "src/utils/dependencyCleanup.ts",
@@ -625,10 +625,10 @@
     {
       "file": "src/utils/timeSlotCalculations.ts",
       "line": 14,
-      "col": 52,
+      "col": 59,
       "code": "TS6133",
       "message": "'BusyTimeRange' is declared but its value is never read.",
-      "raw": "src/utils/timeSlotCalculations.ts(14,52): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
+      "raw": "src/utils/timeSlotCalculations.ts(14,59): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
       "scope": "client",
       "repoPath": "src/utils/timeSlotCalculations.ts"
     },
@@ -723,6 +723,26 @@
       "repoPath": "src/utils/transformers/componentAggregator.ts"
     },
     {
+      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 9,
+      "col": 21,
+      "code": "TS6133",
+      "message": "'getEntityEndpoint' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(9,21): error TS6133: 'getEntityEndpoint' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+    },
+    {
+      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 9,
+      "col": 40,
+      "code": "TS6133",
+      "message": "'getRelationshipEndpoint' is declared but its value is never read.",
+      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(9,40): error TS6133: 'getRelationshipEndpoint' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+    },
+    {
       "file": "src/utils/transformers/globalToBookingTransformer.ts",
       "line": 205,
       "col": 5,
@@ -808,14 +828,14 @@
     {
       "poolId": "TS2304-ts2304-cannot-find-name-logger",
       "groupKey": "TS2304::Cannot find name 'logger'.",
-      "errorCount": 15,
-      "fileCount": 11,
-      "severityScore": 150,
-      "blastRadiusScore": 22,
-      "repetitionScore": 15,
+      "errorCount": 13,
+      "fileCount": 10,
+      "severityScore": 130,
+      "blastRadiusScore": 20,
+      "repetitionScore": 13,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
-      "totalScore": 187,
+      "totalScore": 163,
       "sample": [
         {
           "repoPath": "src/composables/admin/useAttendeeQuickSelect.ts",
@@ -1066,8 +1086,8 @@
       "priority": "P0"
     },
     {
-      "poolId": "TS2345-ts2345-arg-computeddata-events-freebusy-routes-places",
-      "groupKey": "TS2345::arg:\"computedData\"=>\"events\" | \"freeBusy\" | \"routes\" | \"places\"",
+      "poolId": "TS2345-ts2345-arg-computeddata-events-routes-places",
+      "groupKey": "TS2345::arg:\"computedData\"=>\"events\" | \"routes\" | \"places\"",
       "errorCount": 2,
       "fileCount": 1,
       "severityScore": 20,
@@ -1079,17 +1099,17 @@
       "sample": [
         {
           "repoPath": "src/services/calendarApiService.ts",
-          "line": 246,
+          "line": 236,
           "col": 19,
           "code": "TS2345",
-          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'."
+          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'."
         },
         {
           "repoPath": "src/services/calendarApiService.ts",
-          "line": 255,
+          "line": 245,
           "col": 19,
           "code": "TS2345",
-          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'."
+          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'."
         }
       ],
       "priority": "P0"
@@ -1197,6 +1217,28 @@
       "priority": "P1"
     },
     {
+      "poolId": "TS2339-ts2339-prop-config-constraint",
+      "groupKey": "TS2339::prop:config@Constraint",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/timeSlotFitter.ts",
+          "line": 204,
+          "col": 36,
+          "code": "TS2339",
+          "message": "Property 'config' does not exist on type 'Constraint'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
       "poolId": "TS2741-ts2741-property-blockshape-is-missing-in-type-id-string-entitykey-blockinstance-name-string-active-boolean-basesqft-numb",
       "groupKey": "TS2741::Property 'blockShape' is missing in type '{ id: string; entityKey: \"blockInstance\"; name: string; active: boolean; baseSqFt: number; icon: string; bookingMode: import(\"@/constants/entities\").BookingMode; differential: TernaryBoolean; ... 0 more ...; requires_agent: boolean; }' but required in type 'BookingBlockInstance'.",
       "errorCount": 1,
@@ -1262,9 +1304,38 @@
         {
           "repoPath": "src/utils/timeSlotCalculations.ts",
           "line": 14,
-          "col": 52,
+          "col": 59,
           "code": "TS6133",
           "message": "'BusyTimeRange' is declared but its value is never read."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-ref-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'Ref' is declared but its value is never read.",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 6,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useApiCallStatus.ts",
+          "line": 9,
+          "col": 20,
+          "code": "TS6133",
+          "message": "'Ref' is declared but its value is never read."
+        },
+        {
+          "repoPath": "src/composables/dev/useDevPanelTabs.ts",
+          "line": 9,
+          "col": 27,
+          "code": "TS6133",
+          "message": "'Ref' is declared but its value is never read."
         }
       ],
       "priority": "P1"
@@ -1358,8 +1429,8 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-capacityconstraints-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'capacityConstraints' is declared but its value is never read.",
+      "poolId": "TS6133-ts6133-capacitykeyparts-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'CapacityKeyParts' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -1370,11 +1441,11 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1248,
+          "repoPath": "src/utils/booking/capacityConstraintChecker.ts",
+          "line": 12,
           "col": 3,
           "code": "TS6133",
-          "message": "'capacityConstraints' is declared but its value is never read."
+          "message": "'CapacityKeyParts' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -1424,8 +1495,8 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-getviolationstring-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'getViolationString' is declared but its value is never read.",
+      "poolId": "TS6133-ts6133-getentityendpoint-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getEntityEndpoint' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -1436,11 +1507,33 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 603,
-          "col": 9,
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 9,
+          "col": 21,
           "code": "TS6133",
-          "message": "'getViolationString' is declared but its value is never read."
+          "message": "'getEntityEndpoint' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-getrelationshipendpoint-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'getRelationshipEndpoint' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 9,
+          "col": 40,
+          "code": "TS6133",
+          "message": "'getRelationshipEndpoint' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -1556,8 +1649,8 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-overlapconstraints-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'overlapConstraints' is declared but its value is never read.",
+      "poolId": "TS6133-ts6133-parsebusinesshours-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'parseBusinessHours' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -1568,77 +1661,11 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1247,
+          "repoPath": "src/utils/booking/timeSlotFitter.ts",
+          "line": 24,
           "col": 3,
           "code": "TS6133",
-          "message": "'overlapConstraints' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
-      "poolId": "TS6133-ts6133-passes-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'passes' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 914,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'passes' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
-      "poolId": "TS6133-ts6133-rangeconstraints-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'rangeConstraints' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1246,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'rangeConstraints' is declared but its value is never read."
-        }
-      ],
-      "priority": "P2"
-    },
-    {
-      "poolId": "TS6133-ts6133-ref-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'Ref' is declared but its value is never read.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 3,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 6,
-      "sample": [
-        {
-          "repoPath": "src/composables/booking/useApiCallStatus.ts",
-          "line": 9,
-          "col": 20,
-          "code": "TS6133",
-          "message": "'Ref' is declared but its value is never read."
+          "message": "'parseBusinessHours' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -1666,8 +1693,8 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6133-ts6133-time-basis-types-is-declared-but-its-value-is-never-read",
-      "groupKey": "TS6133::'TIME_BASIS_TYPES' is declared but its value is never read.",
+      "poolId": "TS6133-ts6133-timerangesoverlap-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'timeRangesOverlap' is declared but its value is never read.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -1678,11 +1705,11 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 166,
-          "col": 34,
+          "repoPath": "src/utils/booking/timeSlotFitter.ts",
+          "line": 23,
+          "col": 3,
           "code": "TS6133",
-          "message": "'TIME_BASIS_TYPES' is declared but its value is never read."
+          "message": "'timeRangesOverlap' is declared but its value is never read."
         }
       ],
       "priority": "P2"
@@ -1820,8 +1847,8 @@
       "priority": "P2"
     },
     {
-      "poolId": "TS6196-ts6196-serverfreebusyresponse-is-declared-but-never-used",
-      "groupKey": "TS6196::'ServerFreeBusyResponse' is declared but never used.",
+      "poolId": "TS6196-ts6196-capacityconstraint-is-declared-but-never-used",
+      "groupKey": "TS6196::'CapacityConstraint' is declared but never used.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 3,
@@ -1832,11 +1859,77 @@
       "totalScore": 6,
       "sample": [
         {
-          "repoPath": "src/services/calendarApiService.ts",
-          "line": 50,
-          "col": 11,
+          "repoPath": "src/utils/booking/slotAvailabilityManager.ts",
+          "line": 64,
+          "col": 3,
           "code": "TS6196",
-          "message": "'ServerFreeBusyResponse' is declared but never used."
+          "message": "'CapacityConstraint' is declared but never used."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-constraint-is-declared-but-never-used",
+      "groupKey": "TS6196::'Constraint' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/useAvailability.ts",
+          "line": 20,
+          "col": 41,
+          "code": "TS6196",
+          "message": "'Constraint' is declared but never used."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-dayofweek-is-declared-but-never-used",
+      "groupKey": "TS6196::'DayOfWeek' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/timeSlotFitter.ts",
+          "line": 12,
+          "col": 32,
+          "code": "TS6196",
+          "message": "'DayOfWeek' is declared but never used."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6196-ts6196-rangeconstraint-is-declared-but-never-used",
+      "groupKey": "TS6196::'RangeConstraint' is declared but never used.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/slotAvailabilityManager.ts",
+          "line": 62,
+          "col": 3,
+          "code": "TS6196",
+          "message": "'RangeConstraint' is declared but never used."
         }
       ],
       "priority": "P2"
@@ -1958,74 +2051,6 @@
           "raw": "src/components/booking/steps/PropertyDetailsStep.vue(281,38): error TS2339: Property 'placeId' does not exist on type 'PropertyFormData'.",
           "scope": "client",
           "repoPath": "src/components/booking/steps/PropertyDetailsStep.vue"
-        }
-      ]
-    },
-    {
-      "repoPath": "src/utils/booking/timeAvailabilityManager.ts",
-      "errorCount": 6,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 166,
-          "col": 34,
-          "code": "TS6133",
-          "message": "'TIME_BASIS_TYPES' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(166,34): error TS6133: 'TIME_BASIS_TYPES' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-        },
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 603,
-          "col": 9,
-          "code": "TS6133",
-          "message": "'getViolationString' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(603,9): error TS6133: 'getViolationString' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-        },
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 914,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'passes' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(914,3): error TS6133: 'passes' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-        },
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1246,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'rangeConstraints' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(1246,3): error TS6133: 'rangeConstraints' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-        },
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1247,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'overlapConstraints' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(1247,3): error TS6133: 'overlapConstraints' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
-        },
-        {
-          "file": "src/utils/booking/timeAvailabilityManager.ts",
-          "line": 1248,
-          "col": 3,
-          "code": "TS6133",
-          "message": "'capacityConstraints' is declared but its value is never read.",
-          "raw": "src/utils/booking/timeAvailabilityManager.ts(1248,3): error TS6133: 'capacityConstraints' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/utils/booking/timeAvailabilityManager.ts"
         }
       ]
     },
@@ -2224,64 +2249,6 @@
       ]
     },
     {
-      "repoPath": "src/services/calendarApiService.ts",
-      "errorCount": 5,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/services/calendarApiService.ts",
-          "line": 12,
-          "col": 1,
-          "code": "TS6133",
-          "message": "'BusyTimeRange' is declared but its value is never read.",
-          "raw": "src/services/calendarApiService.ts(12,1): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/services/calendarApiService.ts"
-        },
-        {
-          "file": "src/services/calendarApiService.ts",
-          "line": 13,
-          "col": 1,
-          "code": "TS6133",
-          "message": "'RFC3339DateTime' is declared but its value is never read.",
-          "raw": "src/services/calendarApiService.ts(13,1): error TS6133: 'RFC3339DateTime' is declared but its value is never read.",
-          "scope": "client",
-          "repoPath": "src/services/calendarApiService.ts"
-        },
-        {
-          "file": "src/services/calendarApiService.ts",
-          "line": 50,
-          "col": 11,
-          "code": "TS6196",
-          "message": "'ServerFreeBusyResponse' is declared but never used.",
-          "raw": "src/services/calendarApiService.ts(50,11): error TS6196: 'ServerFreeBusyResponse' is declared but never used.",
-          "scope": "client",
-          "repoPath": "src/services/calendarApiService.ts"
-        },
-        {
-          "file": "src/services/calendarApiService.ts",
-          "line": 246,
-          "col": 19,
-          "code": "TS2345",
-          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-          "raw": "src/services/calendarApiService.ts(246,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-          "scope": "client",
-          "repoPath": "src/services/calendarApiService.ts"
-        },
-        {
-          "file": "src/services/calendarApiService.ts",
-          "line": 255,
-          "col": 19,
-          "code": "TS2345",
-          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-          "raw": "src/services/calendarApiService.ts(255,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"freeBusy\" | \"routes\" | \"places\"'.",
-          "scope": "client",
-          "repoPath": "src/services/calendarApiService.ts"
-        }
-      ]
-    },
-    {
       "repoPath": "src/composables/admin/useBusinessRules.ts",
       "errorCount": 4,
       "unsafeCastHits": 0,
@@ -2330,6 +2297,102 @@
       ]
     },
     {
+      "repoPath": "src/services/calendarApiService.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/services/calendarApiService.ts",
+          "line": 12,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'BusyTimeRange' is declared but its value is never read.",
+          "raw": "src/services/calendarApiService.ts(12,1): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/services/calendarApiService.ts"
+        },
+        {
+          "file": "src/services/calendarApiService.ts",
+          "line": 13,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'RFC3339DateTime' is declared but its value is never read.",
+          "raw": "src/services/calendarApiService.ts(13,1): error TS6133: 'RFC3339DateTime' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/services/calendarApiService.ts"
+        },
+        {
+          "file": "src/services/calendarApiService.ts",
+          "line": 236,
+          "col": 19,
+          "code": "TS2345",
+          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+          "raw": "src/services/calendarApiService.ts(236,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+          "scope": "client",
+          "repoPath": "src/services/calendarApiService.ts"
+        },
+        {
+          "file": "src/services/calendarApiService.ts",
+          "line": 245,
+          "col": 19,
+          "code": "TS2345",
+          "message": "Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+          "raw": "src/services/calendarApiService.ts(245,19): error TS2345: Argument of type '\"computedData\"' is not assignable to parameter of type '\"events\" | \"routes\" | \"places\"'.",
+          "scope": "client",
+          "repoPath": "src/services/calendarApiService.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/booking/timeSlotFitter.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/timeSlotFitter.ts",
+          "line": 12,
+          "col": 32,
+          "code": "TS6196",
+          "message": "'DayOfWeek' is declared but never used.",
+          "raw": "src/utils/booking/timeSlotFitter.ts(12,32): error TS6196: 'DayOfWeek' is declared but never used.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/timeSlotFitter.ts"
+        },
+        {
+          "file": "src/utils/booking/timeSlotFitter.ts",
+          "line": 23,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'timeRangesOverlap' is declared but its value is never read.",
+          "raw": "src/utils/booking/timeSlotFitter.ts(23,3): error TS6133: 'timeRangesOverlap' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/timeSlotFitter.ts"
+        },
+        {
+          "file": "src/utils/booking/timeSlotFitter.ts",
+          "line": 24,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'parseBusinessHours' is declared but its value is never read.",
+          "raw": "src/utils/booking/timeSlotFitter.ts(24,3): error TS6133: 'parseBusinessHours' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/timeSlotFitter.ts"
+        },
+        {
+          "file": "src/utils/booking/timeSlotFitter.ts",
+          "line": 204,
+          "col": 36,
+          "code": "TS2339",
+          "message": "Property 'config' does not exist on type 'Constraint'.",
+          "raw": "src/utils/booking/timeSlotFitter.ts(204,36): error TS2339: Property 'config' does not exist on type 'Constraint'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/timeSlotFitter.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/utils/timeSlotCalculations.ts",
       "errorCount": 4,
       "unsafeCastHits": 0,
@@ -2348,10 +2411,10 @@
         {
           "file": "src/utils/timeSlotCalculations.ts",
           "line": 14,
-          "col": 52,
+          "col": 59,
           "code": "TS6133",
           "message": "'BusyTimeRange' is declared but its value is never read.",
-          "raw": "src/utils/timeSlotCalculations.ts(14,52): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
+          "raw": "src/utils/timeSlotCalculations.ts(14,59): error TS6133: 'BusyTimeRange' is declared but its value is never read.",
           "scope": "client",
           "repoPath": "src/utils/timeSlotCalculations.ts"
         },
@@ -2520,30 +2583,58 @@
       ]
     },
     {
-      "repoPath": "src/main.ts",
+      "repoPath": "src/utils/booking/slotAvailabilityManager.ts",
       "errorCount": 2,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
       "errors": [
         {
-          "file": "src/main.ts",
-          "line": 144,
-          "col": 5,
-          "code": "TS2304",
-          "message": "Cannot find name 'logger'.",
-          "raw": "src/main.ts(144,5): error TS2304: Cannot find name 'logger'.",
+          "file": "src/utils/booking/slotAvailabilityManager.ts",
+          "line": 62,
+          "col": 3,
+          "code": "TS6196",
+          "message": "'RangeConstraint' is declared but never used.",
+          "raw": "src/utils/booking/slotAvailabilityManager.ts(62,3): error TS6196: 'RangeConstraint' is declared but never used.",
           "scope": "client",
-          "repoPath": "src/main.ts"
+          "repoPath": "src/utils/booking/slotAvailabilityManager.ts"
         },
         {
-          "file": "src/main.ts",
-          "line": 160,
+          "file": "src/utils/booking/slotAvailabilityManager.ts",
+          "line": 64,
           "col": 3,
-          "code": "TS2304",
-          "message": "Cannot find name 'logger'.",
-          "raw": "src/main.ts(160,3): error TS2304: Cannot find name 'logger'.",
+          "code": "TS6196",
+          "message": "'CapacityConstraint' is declared but never used.",
+          "raw": "src/utils/booking/slotAvailabilityManager.ts(64,3): error TS6196: 'CapacityConstraint' is declared but never used.",
           "scope": "client",
-          "repoPath": "src/main.ts"
+          "repoPath": "src/utils/booking/slotAvailabilityManager.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "errorCount": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 9,
+          "col": 21,
+          "code": "TS6133",
+          "message": "'getEntityEndpoint' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(9,21): error TS6133: 'getEntityEndpoint' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+        },
+        {
+          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 9,
+          "col": 40,
+          "code": "TS6133",
+          "message": "'getRelationshipEndpoint' is declared but its value is never read.",
+          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(9,40): error TS6133: 'getRelationshipEndpoint' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
         }
       ]
     },
@@ -2756,6 +2847,24 @@
       ]
     },
     {
+      "repoPath": "src/composables/dev/useDevPanelTabs.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/dev/useDevPanelTabs.ts",
+          "line": 9,
+          "col": 27,
+          "code": "TS6133",
+          "message": "'Ref' is declared but its value is never read.",
+          "raw": "src/composables/dev/useDevPanelTabs.ts(9,27): error TS6133: 'Ref' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/dev/useDevPanelTabs.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/composables/fieldContext/useFieldContextSaveHelpers.ts",
       "errorCount": 1,
       "unsafeCastHits": 0,
@@ -2792,6 +2901,24 @@
       ]
     },
     {
+      "repoPath": "src/composables/useAvailability.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/useAvailability.ts",
+          "line": 20,
+          "col": 41,
+          "code": "TS6196",
+          "message": "'Constraint' is declared but never used.",
+          "raw": "src/composables/useAvailability.ts(20,41): error TS6196: 'Constraint' is declared but never used.",
+          "scope": "client",
+          "repoPath": "src/composables/useAvailability.ts"
+        }
+      ]
+    },
+    {
       "repoPath": "src/composables/useSelectOptions.ts",
       "errorCount": 1,
       "unsafeCastHits": 0,
@@ -2824,6 +2951,24 @@
           "raw": "src/utils/blockInstanceUtils.ts(45,9): error TS2304: Cannot find name 'logger'.",
           "scope": "client",
           "repoPath": "src/utils/blockInstanceUtils.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/booking/capacityConstraintChecker.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/capacityConstraintChecker.ts",
+          "line": 12,
+          "col": 3,
+          "code": "TS6133",
+          "message": "'CapacityKeyParts' is declared but its value is never read.",
+          "raw": "src/utils/booking/capacityConstraintChecker.ts(12,3): error TS6133: 'CapacityKeyParts' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/capacityConstraintChecker.ts"
         }
       ]
     },

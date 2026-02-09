@@ -12,11 +12,11 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **155**
-- Requiring review: **433**
+- Files with findings: **164**
+- Requiring review: **435**
 - Allowed (with justification): 0
-- Annotated deprecations: **36**
-- Runtime legacy accommodation: **397**
+- Annotated deprecations: **44**
+- Runtime legacy accommodation: **391**
 
 ## Top hotspots (by score)
 
@@ -24,36 +24,36 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | --- | --- | ---: | ---: | ---: |
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 56 | 1 | 29 |
 | `client/src/composables/booking/useContactsStepData.ts` | P0 | 30 | 0 | 15 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 25 | 1 | 12 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 23 | 0 | 13 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 21 | 1 | 10 |
-| `server/src/services/googleCalendarService.ts` | P0 | 20 | 0 | 12 |
+| `server/src/scripts/helpers/calendarParsingHelpers.ts` | P0 | 21 | 0 | 12 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 18 | 2 | 8 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 18 | 2 | 8 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | P0 | 15 | 1 | 9 |
 | `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 14 | 0 | 7 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 14 | 0 | 7 |
-| `server/src/scripts/importCalendarData.ts` | P0 | 14 | 0 | 7 |
 | `client/src/utils/differentialScheduling.ts` | P0 | 13 | 1 | 8 |
 | `client/src/utils/blockInstanceUtils.ts` | P0 | 12 | 0 | 6 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 11 | 0 | 6 |
 | `client/src/composables/booking/usePropertyDetailsLogic.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | P0 | 10 | 0 | 6 |
 | `client/src/types/admin/AdminEntity.ts` | P0 | 10 | 0 | 5 |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useAvailableStartTimes.ts` | P1 | 9 | 2 | 4 |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | P1 | 9 | 0 | 5 |
 | `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/formFields/useFormFieldsStandardLayout.ts` | P1 | 8 | 0 | 4 |
 | `client/src/utils/booking/partFinalizer.ts` | P1 | 8 | 0 | 4 |
 | `client/src/utils/eventAttendeeUtils.ts` | P1 | 8 | 0 | 4 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | P1 | 8 | 0 | 4 |
+| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P1 | 8 | 0 | 4 |
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 8 | 0 | 4 |
-| `server/src/services/googleMapsService.ts` | P1 | 8 | 0 | 5 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P1 | 7 | 1 | 3 |
 | `client/src/composables/useBookingWizard.ts` | P1 | 7 | 1 | 3 |
+| `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | P1 | 7 | 0 | 4 |
+| `client/src/components/admin/generic/DynamicForm.vue` | P1 | 6 | 0 | 3 |
+| `client/src/composables/booking/useAppointmentTimes.ts` | P1 | 6 | 2 | 2 |
 
-*...and 125 more files. See JSON report for details.*
+*...and 134 more files. See JSON report for details.*
 
 ## Per-file findings
 
@@ -112,6 +112,24 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@183: email: sellerContact.email || ''
 ```
 
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P0] (score: 25)
+
+```
+[LEGACY] unhelpful-default-or@38: const rawEntities = batchResponse[entityKey] || []
+[LEGACY] unhelpful-default-or@87: const rawRelationships = batchResponse[relationshipKey] || []
+[LEGACY] unhelpful-default-nullish@153: const parentKind = config?.parentEntity ?? ''
+[LEGACY] unhelpful-default-nullish@154: const childKind = config?.childEntity ?? ''
+[LEGACY] unhelpful-default-nullish@181: id: (raw.id ?? '') as GlobalEntityId,
+[LEGACY] unhelpful-default-nullish@185: parent_id: (parentId ?? '') as GlobalEntityId,
+[LEGACY] unhelpful-default-nullish@186: child_id: (childId ?? '') as GlobalEntityId,
+[DEPR] compat-marker@274: // Attach instanceComponents arrays to entities (for backward compatibility)
+[LEGACY] unhelpful-default-or@277: const entityList = staged.fetchedEntities[entityKey] || []
+[LEGACY] unhelpful-default-or@284: const existing = map.get(rel.parent_id) || []
+[LEGACY] unhelpful-default-or@396: const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
+[LEGACY] unhelpful-default-or@397: const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
+[LEGACY] unhelpful-default-or@398: const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
+```
+
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P0] (score: 23)
 
 ```
@@ -130,37 +148,21 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@528: return current || {}
 ```
 
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P0] (score: 21)
+### `server/src/scripts/helpers/calendarParsingHelpers.ts` [P0] (score: 21)
 
 ```
-[LEGACY] unhelpful-default-nullish@83: const parentKind = config?.parentEntity ?? ''
-[LEGACY] unhelpful-default-nullish@84: const childKind = config?.childEntity ?? ''
-[LEGACY] unhelpful-default-nullish@111: id: (raw.id ?? '') as GlobalEntityId,
-[LEGACY] unhelpful-default-nullish@115: parent_id: (parentId ?? '') as GlobalEntityId,
-[LEGACY] unhelpful-default-nullish@116: child_id: (childId ?? '') as GlobalEntityId,
-[DEPR] compat-marker@242: // Attach instanceComponents arrays to entities (for backward compatibility)
-[LEGACY] unhelpful-default-or@245: const entityList = staged.fetchedEntities[entityKey] || []
-[LEGACY] unhelpful-default-or@252: const existing = map.get(rel.parent_id) || []
-[LEGACY] unhelpful-default-or@364: const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
-[LEGACY] unhelpful-default-or@365: const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
-[LEGACY] unhelpful-default-or@366: const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
-```
-
-### `server/src/services/googleCalendarService.ts` [P0] (score: 20)
-
-```
-[LEGACY] unhelpful-default-or@81: const totalCachedPeriods = Object.values(cachedData.calendars || {})
-[LEGACY] chaining-fallback@82: .reduce((sum: number, cal: any) => sum + (cal.busy?.length || 0), 0);
-[LEGACY] unhelpful-default-or@84: calendarCount: Object.keys(cachedData.calendars || {}).length,
-[LEGACY] unhelpful-default-or@86: calendars: Object.entries(cachedData.calendars || {}).map(([email, data]: [string, any]) => ({
-[LEGACY] chaining-fallback@88: busyCount: data.busy?.length || 0,
-[LEGACY] unhelpful-default-or@89: busyPeriods: data.busy?.map((p: any) => `${p.start} to ${p.end}`) || []
-[LEGACY] chaining-fallback@141: busyCount: data.busy?.length || 0,
-[LEGACY] unhelpful-default-or@142: busyPeriods: data.busy?.map(p => ({ start: p.start, end: p.end })) || []
-[LEGACY] unhelpful-default-or@153: const rawBusyPeriods = calendarData.busy || [];
-[LEGACY] chaining-fallback@178: .reduce((sum, cal) => sum + (cal.busy?.length || 0), 0);
-[LEGACY] unhelpful-default-or@305: id: event.id || '',
-[LEGACY] unhelpful-default-or@567: htmlLink: createdEvent.htmlLink || '',
+[LEGACY] unhelpful-default-or@81: * PATTERN: Explicit empty strings instead of `|| ''` fallbacks
+[LEGACY] fallback-keyword@90: city: '', // Explicit empty string (not `|| ''` fallback)
+[LEGACY] fallback-keyword@91: state: '', // Explicit empty string (not `|| ''` fallback)
+[LEGACY] fallback-keyword@92: zipCode: '', // Explicit empty string (not `|| ''` fallback)
+[LEGACY] unhelpful-default-or@194: property.city = parts[1] || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@195: property.state = parts[2]?.substring(0, 2).toUpperCase() || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@196: property.zipCode = parts[parts.length - 1]?.match(/\d{5}/)?.[0] || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@210: property.city = city || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@211: property.state = state?.toUpperCase() || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@212: property.zipCode = zipCode || ''; // Explicit empty string
+[LEGACY] unhelpful-default-or@264: * PATTERN: Uses explicit empty string fallback instead of `|| ''` chain
+[LEGACY] unhelpful-default-or@270: // LEARNING: Explicit fallback chain instead of `|| ''` pattern
 ```
 
 ### `client/src/utils/booking/appointmentSlotBuilder.ts` [P0] (score: 18)
@@ -232,18 +234,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@279: const composerEntity = findById(entities[entityKind] || [], composerId)
 ```
 
-### `server/src/scripts/importCalendarData.ts` [P0] (score: 14)
-
-```
-[LEGACY] unhelpful-default-or@97: city: parts[1] || '',
-[LEGACY] unhelpful-default-or@98: state: parts[2]?.substring(0, 2).toUpperCase() || '',
-[LEGACY] unhelpful-default-or@99: zipCode: parts[parts.length - 1]?.match(/\d{5}/)?.[0] || '',
-[LEGACY] unhelpful-default-or@138: city: city || '',
-[LEGACY] unhelpful-default-or@139: state: state?.toUpperCase() || '',
-[LEGACY] unhelpful-default-or@140: zipCode: zipCode || '',
-[LEGACY] unhelpful-default-or@185: const addressSource = event.location || event.description || event.summary || '';
-```
-
 ### `client/src/utils/differentialScheduling.ts` [P0] (score: 13)
 
 ```
@@ -311,35 +301,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@195: return Object.keys(this.displayConfig?.relationships || {})
 ```
 
-### `client/src/utils/booking/timeAvailabilityManager.ts` [P0] (score: 10)
-
-```
-[LEGACY] unhelpful-default-or@918: const allViolations = [...(existing || []), ...newViolations]
-[LEGACY] unhelpful-default-or@1165: const slotKeys = slotKeysMap.get(slot.startTime) || []
-[LEGACY] unhelpful-default-or@1288: const activeRangeConstraints = rangeConstraints?.filter(c => c.enforcement !== 'off') || []
-[LEGACY] unhelpful-default-or@1291: ) || []
-[LEGACY] unhelpful-default-or@1292: const activeCapacityConstraints = capacityConstraints?.filter(c => c.enforcement !== 'off') || []
-```
-
 ### `client/src/composables/booking/useAvailableStartTimes.ts` [P1] (score: 9)
 
 ```
 [DEPR] jsdoc-deprecated@31: settings?: Ref<AvailabilitySettings | null> // @deprecated Phase 12: Use minuteIncrement parameter instead
-[DEPR] compat-marker@88: // For now, keep the settings fetch for backward compatibility, but it's only used for businessHours
+[DEPR] compat-marker@84: // For now, keep the settings fetch for backward compatibility, but it's only used for businessHours
 [LEGACY] chaining-fallback@234: const duration = appointmentDuration?.value || 0
 [LEGACY] unhelpful-default-or@235: const busyPeriods = busyTimes?.value || []
-[LEGACY] unhelpful-default-nullish@279: const calendarEvents: CalendarEvent[] = prefetchedCalendarEvents?.value ?? []
-[LEGACY] chaining-fallback@295: minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,
-```
-
-### `server/src/routes/internal/appointments/appointmentRouter.ts` [P1] (score: 9)
-
-```
-[LEGACY] unhelpful-default-or@206: const attendeesData: AttendeeRequest[] = appointmentData.attendees || [];
-[LEGACY] unhelpful-default-or@213: appointmentFields.selectedServiceIds || []
-[LEGACY] unhelpful-default-or@216: appointmentFields.selectedPropertyIds || []
-[LEGACY] unhelpful-default-or@219: appointmentFields.selectedOptionIds || []
-[LEGACY] fallback-keyword@272: const calendarId = writeToCalendar || 'scheduling@districthomepro.com'; // Fallback to default if not configured
+[LEGACY] unhelpful-default-nullish@286: const calendarEvents: CalendarEvent[] = prefetchedCalendarEvents?.value ?? []
+[LEGACY] chaining-fallback@302: minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,
 ```
 
 ### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 8)
@@ -396,6 +366,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@214: return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition || ''
 ```
 
+### `server/src/routes/internal/appointments/appointmentCrudRouter.ts` [P1] (score: 8)
+
+```
+[LEGACY] unhelpful-default-or@84: const attendeesData: AttendeeRequest[] = appointmentData.attendees || []
+[LEGACY] unhelpful-default-or@88: appointmentData.selectedServiceIds || []
+[LEGACY] unhelpful-default-or@91: appointmentData.selectedPropertyIds || []
+[LEGACY] unhelpful-default-or@94: appointmentData.selectedOptionIds || []
+```
+
 ### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 8)
 
 ```
@@ -403,16 +382,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@98: loadAppointmentVersions(appointment.serviceSnapshotIds || []),
 [LEGACY] unhelpful-default-or@99: loadAppointmentVersions(appointment.propertySnapshotIds || []),
 [LEGACY] unhelpful-default-or@100: loadAppointmentVersions(appointment.optionSnapshotIds || []),
-```
-
-### `server/src/services/googleMapsService.ts` [P1] (score: 8)
-
-```
-[LEGACY] unhelpful-default-or@252: secondaryText: p.structured_formatting?.secondary_text || ''
-[LEGACY] unhelpful-default-or@366: const addressComponents = parseAddressComponents(result.address_components || []);
-[LEGACY] unhelpful-default-or@370: formattedAddress: result.formatted_address || '',
-[LEGACY] fallback-keyword@856: distanceMeters: 0, // Unknown distance when using fallback
-[LEGACY] fallback-keyword@912: logger.warn('API failed, using fallback', {
 ```
 
 ### `client/src/components/admin/generic/EntityFormContent.vue` [P1] (score: 7)
@@ -516,6 +485,14 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@138: const { resolved: components, missingIds } = resolveByIds(globalData.entities[entityKind] || [], componentIds)
 ```
 
+### `server/src/services/google/maps/placesApiService.ts` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-or@108: secondaryText: p.structured_formatting?.secondary_text || ''
+[LEGACY] unhelpful-default-or@213: const addressComponents = parseAddressComponents(result.address_components || [])
+[LEGACY] unhelpful-default-or@217: formattedAddress: result.formatted_address || '',
+```
+
 ### `server/src/services/rateLimiter.ts` [P1] (score: 6)
 
 ```
@@ -561,13 +538,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] default-param@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
 ```
 
-### `client/src/components/admin/dev/ApiDevPanel.vue` [P1] (score: 4)
-
-```
-[LEGACY] unhelpful-default-or@100: const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
-[LEGACY] unhelpful-default-or@332: return calendarData.value.busyPeriods || []
-```
-
 ### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 4)
 
 ```
@@ -595,6 +565,27 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ```
 [LEGACY] unhelpful-default-or@184: name: entity.name || '',
 [LEGACY] unhelpful-default-or@185: blockShapeRef: entity.blockShapeRef || '',
+```
+
+### `client/src/composables/admin/useBusinessRules.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-or@151: rules.value = response.data || []
+[LEGACY] unhelpful-default-or@173: return response.data || []
+```
+
+### `client/src/composables/admin/useEntityCardLayout.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-or@75: inline: formContentRef.value.readyInlineFields?.value || [],
+[LEGACY] unhelpful-default-or@76: stacked: formContentRef.value.readyStackedFields?.value || []
+```
+
+### `client/src/composables/admin/useInstanceBulkEdit.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-or@116: const instances = blockInstancesByShape.value.get(blockShapeId) || []
+[LEGACY] unhelpful-default-or@159: const current = bulkEditData.value.get(blockShapeId) || {}
 ```
 
 ## Notes

@@ -8,6 +8,7 @@ import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
 import BusinessRulesRouter from "./businessRulesRouter.js";
 import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
+import { DevStatusRouter } from "./dev/devStatusRouter.js";
 
 const router = Router();
 
@@ -33,5 +34,8 @@ router.use('/admin-metadata', adminMetadataRouter);
 router.use('/admin-input-metadata', adminMetadataRouter);
 router.use('/admin-primitive-metadata', adminMetadataRouter);
 router.use('/admin-relationship-metadata', adminMetadataRouter);
+
+// Dev status endpoint (development only)
+router.use('/dev', DevStatusRouter);
 
 export { router as InternalRouter };

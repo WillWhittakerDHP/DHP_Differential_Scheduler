@@ -44,8 +44,8 @@ const isDevMode = isDevModeEnabled()
 const CONSTRAINT_COLORS: Record<string, string> = {
   // Direct overlap - by DATA SOURCE (what made the calendar busy)
   // LEARNING: Direct violations use BusyPeriodSource vocabulary, NOT constraint type
-  // WHY: FreeBusy API just says "busy" - we don't know if it's an appointment, meeting, etc.
-  'overlap.freeBusy.direct': '#1565C0',       // Dark Blue - calendar shows busy (from FreeBusy API)
+  // WHY: Events API provides eventType and transparency - we can distinguish event types
+  'overlap.event.direct': '#1565C0',          // Dark Blue - regular calendar event (from Events API)
   'overlap.outOfOffice.direct': '#00897B',    // Teal - out-of-office event (from Events API)
   
   // Buffer overlap - by CONSTRAINT TYPE (what rule added the buffer)
@@ -57,7 +57,7 @@ const CONSTRAINT_COLORS: Record<string, string> = {
   'overlap.lunch.buffer': '#BA68C8',          // Light Purple - lunch buffer
   
   // Legacy support (fallback for any code still using old format)
-  'overlap.appointment.direct': '#1565C0',    // Legacy: mapped to freeBusy.direct color
+  'overlap.appointment.direct': '#1565C0',    // Legacy: appointment direct overlap
   'overlap.appointment': '#2196F3',    // Blue (medium)
   'overlap.driveTimeTo.direct': '#2E7D32',    // Dark Green
   'overlap.driveTimeFrom.direct': '#E65100',  // Dark Orange
@@ -161,7 +161,7 @@ const formatConstraintTooltip = (constraint: ConstraintInfo): string => {
     }
     
     const nameMap: Record<string, string> = {
-      'freeBusy': 'Existing Event',
+      'event': 'Calendar Event',
       'outOfOffice': 'Out of Office',
       'appointment': 'Appointment Buffer',
       'driveTimeTo': 'Drive Time To',

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:28:49.258Z",
+  "generatedAt": "2026-02-09T16:41:00.315Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 622,
+  "fileCount": 719,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -35,12 +35,15 @@
           "client/src/utils/booking/wizardValidation.ts",
           "client/src/utils/entities/entityFieldPatch.ts",
           "client/src/utils/logger.ts",
+          "server/src/routes/helpers/createCrudRouter.ts",
+          "server/src/routes/internal/appointments/appointmentHelpers.ts",
+          "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/services/appointmentCalendarService.ts",
-          "server/src/services/googleCalendarService.ts",
+          "server/src/services/google/calendar/eventCreationService.ts",
           "server/src/services/instanceVersioning.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 24
+        "patternCount": 28
       },
       {
         "prefix": "get",
@@ -70,6 +73,7 @@
           "client/src/utils/booking/serviceDescriptions.ts",
           "client/src/utils/booking/wizardStepContent.ts",
           "client/src/utils/colors/complementaryColors.ts",
+          "client/src/utils/dev/formatDevPanelData.ts",
           "client/src/utils/entities/entityFieldAccess.ts",
           "client/src/utils/entities/entityTypeMapping.ts",
           "client/src/utils/entityDefaults.ts",
@@ -85,11 +89,16 @@
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
+          "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+          "server/src/routes/internal/appointments/appointmentHelpers.ts",
+          "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+          "server/src/routes/internal/properties/propertyHelpers.ts",
+          "server/src/services/addressGeocodingCache.ts",
           "server/src/services/calendarEventsCache.ts",
           "server/src/services/driveTimeCache.ts",
-          "server/src/services/freeBusyCache.ts",
-          "server/src/services/googleCalendarService.ts",
-          "server/src/services/googleMapsService.ts",
+          "server/src/services/google/calendar/eventsService.ts",
+          "server/src/services/google/maps/placesApiService.ts",
+          "server/src/services/google/shared/googleApiConfig.ts",
           "server/src/services/rateLimiter.ts",
           "server/src/test/setup/testDb.ts",
           "server/src/utils/adminMetadataComposer.ts",
@@ -98,7 +107,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 108
+        "patternCount": 122
       },
       {
         "prefix": "use",
@@ -266,6 +275,8 @@
           "client/src/composables/componentEntity/useComponentEntityDomain.ts",
           "client/src/composables/componentEntity/useComponentEntityQuery.ts",
           "client/src/composables/dataCollections/useDataCollectionActions.ts",
+          "client/src/composables/dev/useApiDevPanelData.ts",
+          "client/src/composables/dev/useDevPanelTabs.ts",
           "client/src/composables/entityCrud/useEntityCrud.ts",
           "client/src/composables/entityCrud/useEntityCrudActions.ts",
           "client/src/composables/entityCrud/useEntityCrudMutations.ts",
@@ -308,23 +319,16 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 208
+        "patternCount": 210
       }
     ],
     "repeatedStringFiles": [
       {
-        "value": "hit",
-        "files": [
-          "client/src/components/admin/dev/ApiDevPanel.vue",
-          "client/src/composables/booking/useApiCallStatus.ts"
-        ],
-        "occurrences": 3
-      },
-      {
         "value": "OK",
         "files": [
           "client/src/services/mapsApiService.ts",
-          "server/src/services/googleMapsService.ts"
+          "server/src/services/google/maps/mapsTypes.ts",
+          "server/src/services/google/maps/routesApiService.ts"
         ],
         "occurrences": 3
       }
@@ -332,29 +336,6 @@
   },
   "aggregated": {
     "stringLiterals": {
-      "hit": {
-        "count": 3,
-        "locations": [
-          {
-            "file": "client/src/components/admin/dev/ApiDevPanel.vue",
-            "line": 371,
-            "context": "status-check",
-            "code": "function getApiStatusColor(status: 'hit' | 'error' | 'not_called'): string {"
-          },
-          {
-            "file": "client/src/components/admin/dev/ApiDevPanel.vue",
-            "line": 380,
-            "context": "status-check",
-            "code": "function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {"
-          },
-          {
-            "file": "client/src/composables/booking/useApiCallStatus.ts",
-            "line": 39,
-            "context": "status-check",
-            "code": "const recordApiCall = (api: 'freeBusy' | 'events' | 'routes' | 'places', status: 'hit' | 'error'): v"
-          }
-        ]
-      },
       "started": {
         "count": 2,
         "locations": [
@@ -372,6 +353,17 @@
           }
         ]
       },
+      "hit": {
+        "count": 1,
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useApiCallStatus.ts",
+            "line": 37,
+            "context": "status-check",
+            "code": "const recordApiCall = (api: 'events' | 'routes' | 'places', status: 'hit' | 'error'): void => {"
+          }
+        ]
+      },
       "OK": {
         "count": 3,
         "locations": [
@@ -382,16 +374,16 @@
             "code": "status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'"
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 532,
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 94,
             "context": "status-check",
-            "code": "status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS';"
+            "code": "status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'"
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 684,
+            "file": "server/src/services/google/maps/routesApiService.ts",
+            "line": 121,
             "context": "status-check",
-            "code": "let status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' = 'OK';"
+            "code": "let status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' = 'OK'"
           }
         ]
       },
@@ -399,10 +391,10 @@
         "count": 1,
         "locations": [
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 686,
+            "file": "server/src/services/google/maps/routesApiService.ts",
+            "line": 123,
             "context": "status-check",
-            "code": "status = 'NOT_FOUND';"
+            "code": "status = 'NOT_FOUND'"
           }
         ]
       },
@@ -410,10 +402,10 @@
         "count": 1,
         "locations": [
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 688,
+            "file": "server/src/services/google/maps/routesApiService.ts",
+            "line": 125,
             "context": "status-check",
-            "code": "status = 'ZERO_RESULTS';"
+            "code": "status = 'ZERO_RESULTS'"
           }
         ]
       },
@@ -2599,7 +2591,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useComputedAvailability.ts",
-            "line": 29
+            "line": 28
           }
         ]
       },
@@ -2609,7 +2601,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useComputedAvailability.ts",
-            "line": 43
+            "line": 42
           }
         ]
       },
@@ -3485,6 +3477,16 @@
           }
         ]
       },
+      "DevPanelTab": {
+        "definition": "export type DevPanelTab = 'status' | 'drivetime' | 'computed'",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/dev/useDevPanelTabs.ts",
+            "line": 11
+          }
+        ]
+      },
       "OrderIndexUpdate": {
         "definition": "export type OrderIndexUpdate = Array<{ id: GlobalEntityId; orderIndex: number }>",
         "isInterface": false,
@@ -3685,6 +3687,18 @@
         "locations": [
           {
             "file": "client/src/composables/useFormValidation.ts",
+            "line": 18
+          },
+          {
+            "file": "server/src/routes/helpers/routerValidators.ts",
+            "line": 15
+          },
+          {
+            "file": "server/src/routes/internal/entities/entityValidators.ts",
+            "line": 17
+          },
+          {
+            "file": "server/src/routes/internal/properties/propertyValidators.ts",
             "line": 18
           }
         ]
@@ -3982,8 +3996,8 @@
             "line": 94
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 113
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 57
           }
         ]
       },
@@ -4141,6 +4155,16 @@
           }
         ]
       },
+      "ApiStatusValue": {
+        "definition": "export type ApiStatusValue = typeof API_STATUS_HIT | typeof API_STATUS_ERROR | typeof API_STATUS_NOT",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/constants/apiStatus.ts",
+            "line": 57
+          }
+        ]
+      },
       "TimezoneOption": {
         "definition": "export type TimezoneOption = typeof TIMEZONE_OPTIONS[number]['value']",
         "isInterface": false,
@@ -4161,13 +4185,13 @@
           }
         ]
       },
-      "TimeBasisType": {
-        "definition": "export type TimeBasisType = typeof TIME_BASIS_TYPES[keyof typeof TIME_BASIS_TYPES]",
-        "isInterface": false,
+      "for": {
+        "definition": "* - Maintains same export interface for existing client code",
+        "isInterface": true,
         "locations": [
           {
             "file": "client/src/constants/constraintTypes.ts",
-            "line": 35
+            "line": 10
           }
         ]
       },
@@ -4227,7 +4251,7 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 31
+            "line": 32
           }
         ]
       },
@@ -4237,7 +4261,7 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 42
+            "line": 43
           }
         ]
       },
@@ -4247,7 +4271,7 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 66
+            "line": 52
           }
         ]
       },
@@ -4257,7 +4281,11 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 199
+            "line": 185
+          },
+          {
+            "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+            "line": 22
           }
         ]
       },
@@ -4270,8 +4298,8 @@
             "line": 26
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 39
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 14
           }
         ]
       },
@@ -4284,8 +4312,8 @@
             "line": 71
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 82
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 26
           }
         ]
       },
@@ -4298,8 +4326,8 @@
             "line": 82
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 101
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 45
           }
         ]
       },
@@ -4312,8 +4340,8 @@
             "line": 103
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 122
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 66
           }
         ]
       },
@@ -4326,8 +4354,8 @@
             "line": 322
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 517
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 79
           }
         ]
       },
@@ -4338,6 +4366,10 @@
           {
             "file": "client/src/services/mapsApiService.ts",
             "line": 334
+          },
+          {
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 102
           }
         ]
       },
@@ -4350,8 +4382,8 @@
             "line": 348
           },
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 527
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 89
           }
         ]
       },
@@ -4576,6 +4608,10 @@
           {
             "file": "client/src/types/appointment.ts",
             "line": 237
+          },
+          {
+            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+            "line": 157
           }
         ]
       },
@@ -5247,6 +5283,20 @@
           }
         ]
       },
+      "ParsedBusyTimeRange": {
+        "definition": "export interface ParsedBusyTimeRange {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/busyPeriodProcessor.ts",
+            "line": 20
+          },
+          {
+            "file": "client/src/utils/booking/overlapConstraintChecker.ts",
+            "line": 19
+          }
+        ]
+      },
       "BlockInstanceFeeResult": {
         "definition": "export interface BlockInstanceFeeResult {",
         "isInterface": true,
@@ -5307,6 +5357,36 @@
           }
         ]
       },
+      "ParsedBusinessHoursCache": {
+        "definition": "export type ParsedBusinessHoursCache = Map<DayOfWeek, ReturnType<typeof parseBusinessHours>>",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/rangeConstraintChecker.ts",
+            "line": 23
+          }
+        ]
+      },
+      "SlotPositionContext": {
+        "definition": "export interface SlotPositionContext {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/slotAvailabilityManager.ts",
+            "line": 82
+          }
+        ]
+      },
+      "MarkSlotAvailabilityOptions": {
+        "definition": "export interface MarkSlotAvailabilityOptions {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/slotAvailabilityMarker.ts",
+            "line": 30
+          }
+        ]
+      },
       "SlotGenerationParams": {
         "definition": "export interface SlotGenerationParams {",
         "isInterface": true,
@@ -5317,33 +5397,13 @@
           }
         ]
       },
-      "SlotPositionContext": {
-        "definition": "export interface SlotPositionContext {",
+      "GenerateSlotsWithAvailabilityParams": {
+        "definition": "export interface GenerateSlotsWithAvailabilityParams {",
         "isInterface": true,
         "locations": [
           {
-            "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-            "line": 79
-          }
-        ]
-      },
-      "BusinessHoursMap": {
-        "definition": "export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/timeSlotFitter.ts",
-            "line": 64
-          }
-        ]
-      },
-      "BusyTimeRange": {
-        "definition": "export interface BusyTimeRange {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/timeSlotFitter.ts",
-            "line": 66
+            "file": "client/src/utils/booking/slotGenerator.ts",
+            "line": 19
           }
         ]
       },
@@ -5353,7 +5413,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/timeSlotFitter.ts",
-            "line": 73
+            "line": 46
           }
         ]
       },
@@ -5364,6 +5424,36 @@
           {
             "file": "client/src/utils/booking/timeSlotMatching.ts",
             "line": 75
+          }
+        ]
+      },
+      "DayBusinessHours": {
+        "definition": "export interface DayBusinessHours {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/timeSlotTypes.ts",
+            "line": 25
+          }
+        ]
+      },
+      "BusinessHoursMap": {
+        "definition": "export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/timeSlotTypes.ts",
+            "line": 48
+          }
+        ]
+      },
+      "BusyTimeRange": {
+        "definition": "export interface BusyTimeRange {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/timeSlotTypes.ts",
+            "line": 56
           }
         ]
       },
@@ -5585,7 +5675,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-            "line": 63
+            "line": 133
           }
         ]
       },
@@ -5763,6 +5853,26 @@
           }
         ]
       },
+      "CrudErrorMessages": {
+        "definition": "export interface CrudErrorMessages {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/routes/helpers/createCrudRouter.ts",
+            "line": 52
+          }
+        ]
+      },
+      "CrudRouterConfig": {
+        "definition": "export interface CrudRouterConfig<T extends Model> {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/routes/helpers/createCrudRouter.ts",
+            "line": 65
+          }
+        ]
+      },
       "DependentDelete": {
         "definition": "export type DependentDelete = {",
         "isInterface": false,
@@ -5783,13 +5893,63 @@
           }
         ]
       },
+      "RelationshipKind": {
+        "definition": "export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' |",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
+            "line": 35
+          }
+        ]
+      },
+      "RelationshipConfig": {
+        "definition": "export interface RelationshipConfig {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
+            "line": 37
+          }
+        ]
+      },
+      "ParsedClient": {
+        "definition": "export interface ParsedClient {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+            "line": 51
+          }
+        ]
+      },
+      "ParsedProperty": {
+        "definition": "export interface ParsedProperty {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+            "line": 63
+          }
+        ]
+      },
+      "AddressGeocodingCacheEntry": {
+        "definition": "export interface AddressGeocodingCacheEntry {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/addressGeocodingCache.ts",
+            "line": 15
+          }
+        ]
+      },
       "CalendarEventResult": {
         "definition": "export interface CalendarEventResult {",
         "isInterface": true,
         "locations": [
           {
             "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 17
+            "line": 18
           }
         ]
       },
@@ -5810,6 +5970,10 @@
           {
             "file": "server/src/services/calendarErrorHandler.ts",
             "line": 171
+          },
+          {
+            "file": "server/src/services/google/shared/googleApiRetry.ts",
+            "line": 17
           }
         ]
       },
@@ -5843,33 +6007,13 @@
           }
         ]
       },
-      "FreeBusyResponse": {
-        "definition": "export interface FreeBusyResponse {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 29
-          }
-        ]
-      },
-      "FreeBusyResponseWithMeta": {
-        "definition": "export interface FreeBusyResponseWithMeta extends FreeBusyResponse {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 45
-          }
-        ]
-      },
       "CalendarEventsResponseWithMeta": {
         "definition": "export interface CalendarEventsResponseWithMeta {",
         "isInterface": true,
         "locations": [
           {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 222
+            "file": "server/src/services/google/calendar/calendarTypes.ts",
+            "line": 16
           }
         ]
       },
@@ -5878,8 +6022,8 @@
         "isInterface": true,
         "locations": [
           {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 411
+            "file": "server/src/services/google/calendar/calendarTypes.ts",
+            "line": 29
           }
         ]
       },
@@ -5888,8 +6032,8 @@
         "isInterface": true,
         "locations": [
           {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 422
+            "file": "server/src/services/google/calendar/calendarTypes.ts",
+            "line": 40
           }
         ]
       },
@@ -5898,8 +6042,8 @@
         "isInterface": true,
         "locations": [
           {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 438
+            "file": "server/src/services/google/calendar/calendarTypes.ts",
+            "line": 56
           }
         ]
       },
@@ -5908,8 +6052,28 @@
         "isInterface": true,
         "locations": [
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 92
+            "file": "server/src/services/google/maps/mapsTypes.ts",
+            "line": 36
+          }
+        ]
+      },
+      "GoogleApiName": {
+        "definition": "export type GoogleApiName = 'google-calendar' | 'google-maps'",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/services/google/shared/googleApiRateLimiter.ts",
+            "line": 17
+          }
+        ]
+      },
+      "RetryableError": {
+        "definition": "export interface RetryableError {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/services/google/shared/googleApiRetry.ts",
+            "line": 39
           }
         ]
       },
@@ -5968,6 +6132,19 @@
           {
             "file": "client/src/constants/entities.ts",
             "line": 26
+          }
+        ]
+      },
+      "STATUSES_REQUIRING_CALENDAR_EVENT": {
+        "values": [
+          "submitted",
+          "confirmed"
+        ],
+        "definition": "export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
+            "line": 44
           }
         ]
       }
@@ -7185,7 +7362,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useApiCallStatus.ts",
-            "line": 35,
+            "line": 33,
             "name": "ApiCallStatus"
           }
         ]
@@ -7355,7 +7532,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailableStartTimes.ts",
-            "line": 54,
+            "line": 52,
             "name": "AvailableStartTimes"
           }
         ]
@@ -7395,7 +7572,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useComputedAvailability.ts",
-            "line": 88,
+            "line": 81,
             "name": "ComputedAvailability"
           }
         ]
@@ -7897,6 +8074,26 @@
             "file": "client/src/composables/dataCollections/useDataCollectionActions.ts",
             "line": 36,
             "name": "DataCollectionActions"
+          }
+        ]
+      },
+      "useApiDevPanelData": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/dev/useApiDevPanelData.ts",
+            "line": 68,
+            "name": "ApiDevPanelData"
+          }
+        ]
+      },
+      "useDevPanelTabs": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/dev/useDevPanelTabs.ts",
+            "line": 21,
+            "name": "DevPanelTabs"
           }
         ]
       },
@@ -8445,7 +8642,7 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 189,
+            "line": 175,
             "name": "OAuthUrl"
           }
         ]
@@ -8650,12 +8847,32 @@
           }
         ]
       },
+      "getEntitiesBatchEndpoint": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/api.ts",
+            "line": 138,
+            "name": "EntitiesBatchEndpoint"
+          }
+        ]
+      },
+      "getRelationshipsBatchEndpoint": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/api.ts",
+            "line": 148,
+            "name": "RelationshipsBatchEndpoint"
+          }
+        ]
+      },
       "getAdminPrimitiveMetadataEndpoint": {
         "prefix": "get",
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 133,
+            "line": 153,
             "name": "AdminPrimitiveMetadataEndpoint"
           }
         ]
@@ -8665,7 +8882,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 138,
+            "line": 158,
             "name": "AdminRelationshipMetadataEndpoint"
           }
         ]
@@ -8675,7 +8892,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 149,
+            "line": 169,
             "name": "AvailabilityEndpoint"
           }
         ]
@@ -8685,7 +8902,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 159,
+            "line": 179,
             "name": "AppointmentEndpoint"
           }
         ]
@@ -8695,7 +8912,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 163,
+            "line": 183,
             "name": "AppointmentByIdEndpoint"
           }
         ]
@@ -8705,7 +8922,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 167,
+            "line": 187,
             "name": "AppointmentVersionsEndpoint"
           }
         ]
@@ -8715,7 +8932,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 177,
+            "line": 197,
             "name": "PropertyEndpoint"
           }
         ]
@@ -8725,7 +8942,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 181,
+            "line": 201,
             "name": "PropertyByIdEndpoint"
           }
         ]
@@ -8735,7 +8952,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 191,
+            "line": 211,
             "name": "UserEndpoint"
           }
         ]
@@ -8745,7 +8962,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 195,
+            "line": 215,
             "name": "UserByIdEndpoint"
           }
         ]
@@ -8755,7 +8972,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 207,
+            "line": 227,
             "name": "BlockInstanceAnnotationsEndpoint"
           }
         ]
@@ -8765,7 +8982,7 @@
         "locations": [
           {
             "file": "client/src/utils/api.ts",
-            "line": 211,
+            "line": 231,
             "name": "BlockInstanceAnnotationEndpoint"
           }
         ]
@@ -9002,6 +9219,26 @@
             "file": "client/src/utils/colors/complementaryColors.ts",
             "line": 36,
             "name": "ComplementaryColor"
+          }
+        ]
+      },
+      "getApiStatusColor": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/dev/formatDevPanelData.ts",
+            "line": 82,
+            "name": "ApiStatusColor"
+          }
+        ]
+      },
+      "getApiStatusLabel": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/dev/formatDevPanelData.ts",
+            "line": 94,
+            "name": "ApiStatusLabel"
           }
         ]
       },
@@ -9305,12 +9542,182 @@
           }
         ]
       },
+      "createCrudRouter": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "server/src/routes/helpers/createCrudRouter.ts",
+            "line": 121,
+            "name": "CrudRouter"
+          }
+        ]
+      },
+      "getDefaultRenderAs": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+            "line": 36,
+            "name": "DefaultRenderAs"
+          }
+        ]
+      },
+      "getDefaultPanel": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+            "line": 49,
+            "name": "DefaultPanel"
+          }
+        ]
+      },
+      "getWriteToCalendarFromSettings": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+            "line": 26,
+            "name": "WriteToCalendarFromSettings"
+          }
+        ]
+      },
+      "createSnapshotsForAppointment": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+            "line": 113,
+            "name": "SnapshotsForAppointment"
+          }
+        ]
+      },
+      "createAttendeeRecords": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+            "line": 174,
+            "name": "AttendeeRecords"
+          }
+        ]
+      },
+      "getCalendarIdForAppointment": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+            "line": 225,
+            "name": "CalendarIdForAppointment"
+          }
+        ]
+      },
+      "getSettingWithDefault": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+            "line": 38,
+            "name": "SettingWithDefault"
+          }
+        ]
+      },
+      "getPropertyDetailsFromVersion": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 55,
+            "name": "PropertyDetailsFromVersion"
+          }
+        ]
+      },
+      "getPropertyWithAssociations": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 126,
+            "name": "PropertyWithAssociations"
+          }
+        ]
+      },
+      "getBlockInstanceWithShape": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 165,
+            "name": "BlockInstanceWithShape"
+          }
+        ]
+      },
+      "createPropertyTypesBulk": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 183,
+            "name": "PropertyTypesBulk"
+          }
+        ]
+      },
+      "getPropertyTypesWithAssociations": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 214,
+            "name": "PropertyTypesWithAssociations"
+          }
+        ]
+      },
+      "updateComponentActiveStates": {
+        "prefix": "update",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+            "line": 266,
+            "name": "ComponentActiveStates"
+          }
+        ]
+      },
+      "getCachedPlaceId": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/services/addressGeocodingCache.ts",
+            "line": 86,
+            "name": "CachedPlaceId"
+          }
+        ]
+      },
+      "getGeocodingCacheStats": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/services/addressGeocodingCache.ts",
+            "line": 154,
+            "name": "GeocodingCacheStats"
+          }
+        ]
+      },
+      "getAllCachedGeocodings": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/services/addressGeocodingCache.ts",
+            "line": 185,
+            "name": "AllCachedGeocodings"
+          }
+        ]
+      },
       "createCalendarEventForAppointment": {
         "prefix": "create",
         "locations": [
           {
             "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 80,
+            "line": 81,
             "name": "CalendarEventForAppointment"
           }
         ]
@@ -9320,7 +9727,7 @@
         "locations": [
           {
             "file": "server/src/services/calendarEventsCache.ts",
-            "line": 123,
+            "line": 124,
             "name": "CachedEvents"
           }
         ]
@@ -9330,7 +9737,7 @@
         "locations": [
           {
             "file": "server/src/services/calendarEventsCache.ts",
-            "line": 225,
+            "line": 226,
             "name": "EventsCacheStats"
           }
         ]
@@ -9340,12 +9747,7 @@
         "locations": [
           {
             "file": "server/src/services/calendarEventsCache.ts",
-            "line": 241,
-            "name": "AllCachedEntries"
-          },
-          {
-            "file": "server/src/services/freeBusyCache.ts",
-            "line": 215,
+            "line": 242,
             "name": "AllCachedEntries"
           }
         ]
@@ -9380,33 +9782,13 @@
           }
         ]
       },
-      "getCachedFreeBusy": {
-        "prefix": "get",
+      "createEvent": {
+        "prefix": "create",
         "locations": [
           {
-            "file": "server/src/services/freeBusyCache.ts",
-            "line": 109,
-            "name": "CachedFreeBusy"
-          }
-        ]
-      },
-      "getCacheStats": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/services/freeBusyCache.ts",
-            "line": 199,
-            "name": "CacheStats"
-          }
-        ]
-      },
-      "getFreeBusy": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 66,
-            "name": "FreeBusy"
+            "file": "server/src/services/google/calendar/eventCreationService.ts",
+            "line": 31,
+            "name": "Event"
           }
         ]
       },
@@ -9414,19 +9796,9 @@
         "prefix": "get",
         "locations": [
           {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 244,
+            "file": "server/src/services/google/calendar/eventsService.ts",
+            "line": 33,
             "name": "CalendarEvents"
-          }
-        ]
-      },
-      "createEvent": {
-        "prefix": "create",
-        "locations": [
-          {
-            "file": "server/src/services/googleCalendarService.ts",
-            "line": 464,
-            "name": "Event"
           }
         ]
       },
@@ -9434,8 +9806,8 @@
         "prefix": "get",
         "locations": [
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 173,
+            "file": "server/src/services/google/maps/placesApiService.ts",
+            "line": 39,
             "name": "AutocompleteSuggestions"
           }
         ]
@@ -9444,9 +9816,19 @@
         "prefix": "get",
         "locations": [
           {
-            "file": "server/src/services/googleMapsService.ts",
-            "line": 285,
+            "file": "server/src/services/google/maps/placesApiService.ts",
+            "line": 142,
             "name": "PlaceDetails"
+          }
+        ]
+      },
+      "getGoogleMapsApiKey": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/services/google/shared/googleApiConfig.ts",
+            "line": 29,
+            "name": "GoogleMapsApiKey"
           }
         ]
       },
@@ -9682,38 +10064,31 @@
       },
       {
         "type": "status-workflow",
-        "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1069,
+        "file": "client/src/utils/booking/capacityConstraintChecker.ts",
+        "line": 35,
         "pattern": "AppointmentStatus workflow",
         "code": "* workflows where appointments exist in the database with 'submitted' or 'confirmed'"
       },
       {
         "type": "status-workflow",
-        "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1073,
+        "file": "client/src/utils/booking/capacityConstraintChecker.ts",
+        "line": 39,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'started': Non-quote mode appointment creation in progress (NOT COUNTED)"
       },
       {
         "type": "status-workflow",
-        "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1074,
+        "file": "client/src/utils/booking/capacityConstraintChecker.ts",
+        "line": 40,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'submitted': Submitted through app, awaiting confirmation (COUNTED)"
       },
       {
         "type": "status-workflow",
-        "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1075,
+        "file": "client/src/utils/booking/capacityConstraintChecker.ts",
+        "line": 41,
         "pattern": "AppointmentStatus workflow",
         "code": "* - 'confirmed': Submitted and confirmed (COUNTED)"
-      },
-      {
-        "type": "status-workflow",
-        "file": "client/src/utils/booking/timeAvailabilityManager.ts",
-        "line": 1088,
-        "pattern": "AppointmentStatus workflow",
-        "code": "* and only counts appointments with status 'submitted' or 'confirmed'. This ensures"
       },
       {
         "type": "status-workflow",
@@ -9752,10 +10127,10 @@
       },
       {
         "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-        "line": 266,
+        "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
+        "line": 44,
         "pattern": "AppointmentStatus workflow",
-        "code": "if (appointment.status === 'submitted' || appointment.status === 'confirmed') {"
+        "code": "export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const"
       },
       {
         "type": "status-workflow",

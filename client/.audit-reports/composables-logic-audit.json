@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:28:46.893Z",
+  "generatedAt": "2026-02-09T16:40:58.368Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 235,
+  "totalScanned": 237,
   "overlap": {
     "duplicateExportNames": [
       {
@@ -1829,82 +1829,82 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 72,
+          "lineNumber": 68,
           "line": "const isLoading = ref(false)"
         },
         {
           "ruleId": "watchEffect",
-          "lineNumber": 81,
+          "lineNumber": 77,
           "line": "watchEffect(async () => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 81,
+          "lineNumber": 77,
           "line": "watchEffect(async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 98,
+          "lineNumber": 94,
           "line": "const settings = await getAvailabilitySettings()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 122,
+          "lineNumber": 118,
           "line": "const settings = await getAvailabilitySettings()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 136,
-          "line": "// FIXED: Changed from computed to ref+watchEffect to handle async fitAllTimeSlotsWithAvailability"
+          "lineNumber": 132,
+          "line": "// FIXED: Changed from computed to ref+watchEffect to handle async slot generation"
         },
         {
           "ruleId": "async",
-          "lineNumber": 139,
+          "lineNumber": 135,
           "line": "// PATTERN: WatchEffect tracks dependencies, calls async function to update ref"
         },
         {
           "ruleId": "watchEffect",
-          "lineNumber": 140,
+          "lineNumber": 136,
           "line": "watchEffect(async () => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 140,
+          "lineNumber": 136,
           "line": "watchEffect(async () => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 166,
+          "lineNumber": 162,
           "line": "const [year, month, day] = dateString.split('-').map(Number)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 329,
+          "lineNumber": 334,
           "line": "const availableStartTimes = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 330,
+          "lineNumber": 335,
           "line": "return slotGenerationResult.value.slots.map(slot => slot.startTime)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 334,
+          "lineNumber": 339,
           "line": "const slotAvailability = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 338,
+          "lineNumber": 343,
           "line": "result.slots.map(slot => [slot.startTime, slot.isAvailable])"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 344,
+          "lineNumber": 349,
           "line": "const slotViolations = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 348,
+          "lineNumber": 353,
           "line": "result.slots.map(slot => [slot.startTime, slot.flexibleViolations])"
         }
       ],
@@ -1918,10 +1918,11 @@
         "@/services/calendarApiService",
         "@/types/appointment",
         "@/types/datetime",
-        "@/utils/booking/timeAvailabilityManager",
+        "@/utils/booking/slotAvailabilityManager",
         "@/utils/booking/timeSlotFitter",
         "@/utils/logger",
         "@shared/types/availabilityTypes",
+        "@shared/utils/constraintUtils",
         "vue"
       ],
       "returnKeys": [
@@ -2543,11 +2544,11 @@
         "watchEffect": 1,
         "lifecycle": 0,
         "async": 2,
-        "await": 2,
+        "await": 1,
         "vueQuery": 0,
         "map": 4,
         "reduce": 0,
-        "filter": 0,
+        "filter": 1,
         "sort": 0,
         "dom": 0,
         "timers": 0,
@@ -2610,14 +2611,14 @@
           "line": "const settings = await getAvailabilitySettings()"
         },
         {
-          "ruleId": "await",
-          "lineNumber": 186,
-          "line": "const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity"
-        },
-        {
           "ruleId": "map",
           "lineNumber": 195,
-          "line": "const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({"
+          "line": "const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 195,
+          "line": "const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({"
         },
         {
           "ruleId": "computed",
@@ -2655,6 +2656,127 @@
         "selectedMoveableSlot",
         "selectedSlotIndex",
         "showModal"
+      ],
+      "complexityScore": 14,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__dev__useApiDevPanelData.ts",
+      "repoPath": "src/composables/dev/useApiDevPanelData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/dev/useApiDevPanelData.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 2,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 6,
+        "await": 6,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 81,
+          "line": "const loading = ref({"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 88,
+          "line": "const errors = ref({"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 98,
+          "line": "async function fetchOAuthStatus(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 102,
+          "line": "const response = await axios.get(`${apiBaseUrl}/api/v1/external/oauth/status`)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 115,
+          "line": "async function fetchEventsCache(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 119,
+          "line": "const response = await axios.get(`${apiBaseUrl}/api/v1/external/calendar/debug/events-cache`)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 134,
+          "line": "async function fetchRateLimitStats(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 138,
+          "line": "const [calendarResponse, mapsResponse] = await Promise.allSettled(["
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 160,
+          "line": "async function fetchDriveTimeCache(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 164,
+          "line": "const response = await axios.get(`${apiBaseUrl}/api/v1/external/maps/debug/drive-time-cache`)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 179,
+          "line": "async function fetchDevStatus(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 186,
+          "line": "const response = await axios.get(`${apiBaseUrl}/api/v1/internal/dev/status`)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 216,
+          "line": "async function fetchAll(): Promise<void> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 217,
+          "line": "await fetchDevStatus()"
+        }
+      ],
+      "exportUseFunctions": [
+        "useApiDevPanelData"
+      ],
+      "importSpecifiers": [
+        "@/constants/errorMessages",
+        "@/utils/logger",
+        "axios",
+        "vue"
+      ],
+      "returnKeys": [
+        "driveTimeCache",
+        "errors",
+        "eventsCache",
+        "fetchAll",
+        "fetchDevStatus",
+        "fetchDriveTimeCache",
+        "fetchEventsCache",
+        "fetchOAuthStatus",
+        "fetchRateLimitStats",
+        "loading",
+        "oauthStatus",
+        "rateLimitStats"
       ],
       "complexityScore": 14,
       "priority": "P2",
@@ -3736,27 +3858,27 @@
         },
         {
           "ruleId": "async",
-          "lineNumber": 145,
+          "lineNumber": 143,
           "line": "// Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 192,
+          "lineNumber": 190,
           "line": "timeSlots: computed(() => timeSlots.value), // Return as computed for consistency"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 193,
+          "lineNumber": 191,
           "line": "error: computed(() => error.value), // P1-3: Expose error state"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 194,
+          "lineNumber": 192,
           "line": "hasError: computed(() => error.value !== null), // P1-3: Convenience computed for error check"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 195,
+          "lineNumber": 193,
           "line": "isLoading: computed(() => isLoading.value) // P1-3: Expose loading state"
         }
       ],
@@ -3769,7 +3891,7 @@
         "@/types/appointment",
         "@/types/availability",
         "@/utils/booking/dateRangeValidation",
-        "@/utils/booking/timeAvailabilityManager",
+        "@/utils/booking/slotAvailabilityManager",
         "@/utils/booking/timeSlotFitter",
         "@/utils/timeSlotCalculations",
         "@/utils/transformers/globalToBookingTransformer",
@@ -7096,37 +7218,37 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 93,
+          "lineNumber": 86,
           "line": "const placeId = computed(() => propertyDetailsStepData.value?.placeId)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 101,
+          "lineNumber": 94,
           "line": "const canFetchAvailability = computed(() => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 117,
+          "lineNumber": 108,
           "line": "const isLoading = ref(false)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 121,
+          "lineNumber": 112,
           "line": "watch(placeId, (newPlaceId, oldPlaceId) => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 139,
+          "lineNumber": 130,
           "line": "const fetchComputedAvailability = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 166,
+          "lineNumber": 157,
           "line": "const data = await fetchComputedAvailabilityData({"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 232,
+          "lineNumber": 221,
           "line": "watch("
         }
       ],
@@ -7140,19 +7262,18 @@
         "@/utils/booking/timeSlotFitter",
         "@/utils/logger",
         "@shared/types/availabilityTypes",
+        "@shared/utils/constraintUtils",
         "vue"
       ],
       "returnKeys": [
         "_meta",
         "busyPeriods",
         "calendarEvents",
-        "capacityConstraints",
+        "constraints",
         "driveTimesByDate",
         "durationRounding",
         "minuteIncrement",
         "outOfOfficeEvents",
-        "overlapConstraints",
-        "rangeConstraints",
         "scheduledHoursByKey",
         "timezone"
       ],
@@ -12832,6 +12953,48 @@
       ],
       "returnKeys": [
         "instanceComponents"
+      ],
+      "complexityScore": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__dev__useDevPanelTabs.ts",
+      "repoPath": "src/composables/dev/useDevPanelTabs.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/dev/useDevPanelTabs.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "watch",
+          "lineNumber": 24,
+          "line": "watch(activeTab, (newTab) => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useDevPanelTabs"
+      ],
+      "importSpecifiers": [
+        "vue"
+      ],
+      "returnKeys": [
+        "activeTab"
       ],
       "complexityScore": 1,
       "priority": "P2",

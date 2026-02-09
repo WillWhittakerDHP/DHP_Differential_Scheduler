@@ -11,6 +11,7 @@
  */
 
 import { Router } from 'express'
+import { EntityBatchRouter } from './entityBatchRouter.js'
 import { EntityCrudRouter } from './entityCrudRouter.js'
 import { EntityBulkRouter } from './entityBulkRouter.js'
 import { EntityConfigRouter } from './entityConfigRouter.js'
@@ -19,6 +20,11 @@ const router = Router()
 
 // Mount config router (no entityType param required)
 router.use('/', EntityConfigRouter)
+
+// Mount batch router BEFORE CRUD routes to avoid :entityType param conflict
+// WHY: /batch route must be registered before /:entityType route
+// PATTERN: More specific routes (batch) before parameterized routes (entityType)
+router.use('/', EntityBatchRouter)
 
 // Mount CRUD routes (entityType param handler registered in EntityCrudRouter)
 router.use('/', EntityCrudRouter)

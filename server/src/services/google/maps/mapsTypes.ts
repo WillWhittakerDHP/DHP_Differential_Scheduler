@@ -104,5 +104,5 @@ export interface DriveTimeResult {
   durationSeconds: number
   distanceMeters: number
   distanceMiles: number
-  source: 'calculated' | 'estimated'
+  source: 'calculated' | 'estimated' | 'cached'
 }

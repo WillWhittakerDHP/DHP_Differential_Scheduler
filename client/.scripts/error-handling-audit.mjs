@@ -19,6 +19,7 @@ import {
  * - console-in-catch (P1): console.log/warn/error inside catch blocks
  * - type-suppression (P1): as any, @ts-ignore, @ts-expect-error, eslint-disable
  * - console-general (P2): console usage outside error paths
+ * - console-no-logger (P2): console.* usage without createLogger import (file-level)
  *
  * Scope:
  * - Included: client/src (ts, js, vue) and server/src (ts, mjs)
@@ -124,7 +125,51 @@ const RULES = [
       return /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(l)
     },
   },
+  // P2: File-level rule for console usage without logger import
+  // NOTE: This rule is checked at file level in scanFile(), not per-line
+  {
+    id: 'console-no-logger',
+    label: 'console.* used without logger utility',
+    severity: 'P2',
+    test: () => false, // Never matches per-line, checked at file level
+  },
 ]
+
+/**
+ * Check if file uses console.* without importing createLogger
+ * WHY: Flags files that should use the logger utility instead of raw console calls
+ * PATTERN: File-level check - scans entire file content for console usage and logger import
+ */
+function checkConsoleWithoutLogger(content, repoPath) {
+  // Exclude server/src/config/app.ts - startup/bootstrap logging is acceptable
+  if (repoPath === 'server/src/config/app.ts') {
+    return null
+  }
+  
+  // Check if file uses console.*
+  const hasConsoleUsage = /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(content)
+  if (!hasConsoleUsage) {
+    return null
+  }
+  
+  // Check if file imports createLogger
+  // Pattern matches: import { createLogger } from '...' or import { createLogger } from "..."
+  // Also matches: import createLogger from '...' or const { createLogger } = require('...')
+  const hasLoggerImport = /import\s+(?:\{[^}]*createLogger[^}]*\}|\*\s+as\s+createLogger|createLogger)\s+from/.test(content) ||
+                          /import\s+createLogger\s+from/.test(content) ||
+                          /const\s+\{\s*createLogger\s*\}\s*=\s*require/.test(content) ||
+                          /require\s*\([^)]*['"]logger['"]/.test(content)
+  
+  if (!hasLoggerImport) {
+    return {
+      ruleId: 'console-no-logger',
+      lineNumber: 1, // File-level finding, use line 1 as placeholder
+      line: 'Raw console.* used without logger utility -- use createLogger() from utils/logger instead.',
+    }
+  }
+  
+  return null
+}
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true })
@@ -273,6 +318,12 @@ function scanFile(filePath, configAllowlist) {
         matches.push({ ruleId: rule.id, lineNumber, line: trimmed.length > 120 ? trimmed.substring(0, 120) + '...' : trimmed })
       }
     }
+  }
+
+  // File-level check: console usage without logger import
+  const fileLevelFinding = checkConsoleWithoutLogger(content, repoPath)
+  if (fileLevelFinding) {
+    matches.push(fileLevelFinding)
   }
 
   return { matches, content }

@@ -1,9 +1,9 @@
 /**
  * Entity CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for entities
- * WHY: Separates CRUD operations from bulk operations, improves maintainability
- * PATTERN: Express router with RESTful endpoints
+ * LEARNING: Refactored to use response helpers and security middleware while preserving :entityType/:id pattern
+ * WHY: Uses dynamic model selection via req.entityConfig, can't use factory directly but benefits from standardization
+ * PATTERN: Express router with RESTful endpoints, security middleware on state-changing routes
  */
 
 import { Router, Request, Response } from 'express'
@@ -23,6 +23,9 @@ import { buildFetchOptions, handleBlockInstanceVersioning, handlePartInstanceCle
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
+import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const logger = createLogger('EntityRouter')
 
@@ -44,7 +47,7 @@ router.param('entityType', entityTypeParamHandler)
 router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
+    sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     return
   }
   
@@ -55,7 +58,7 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     const options = buildFetchOptions(entityConfig.model)
     const data = await fetchAll(entityConfig.model, options)
     
-    res.json(data)
+    sendSuccess(res, data)
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.FETCH_ENTITIES.replace('{displayName}', entityConfig.displayName)
     handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entities')
@@ -73,7 +76,7 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
 router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
+    sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     return
   }
   
@@ -82,14 +85,11 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
     
     if (!record) {
       const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      res.status(404).json({ 
-        error: errorMessage,
-        id: req.params.id
-      })
+      sendNotFound(res, errorMessage, req.params.id)
       return
     }
     
-    res.json(record)
+    sendSuccess(res, record)
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.FETCH_ENTITY.replace('{displayName}', entityConfig.displayName)
     handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entity', req.params.id)
@@ -104,25 +104,29 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
  * WHY: Ensures enum fields are properly handled, prevents database errors
  * PATTERN: Sanitize data, create record, handle validation errors
  */
-router.post('/:entityType', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
-    return
-  }
-  
-  try {
-    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
-    // PATTERN: Convert empty strings for known enum fields to their default values
-    const sanitizedData = sanitizeEntityDataForCreate(req.body, req.params.entityType)
+router.post(
+  '/:entityType',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
+    const { entityConfig } = req
+    if (!entityConfig) {
+      sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      return
+    }
     
-    const created = await createRecord(entityConfig.model, sanitizedData)
-    res.status(201).json(created)
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.CREATE_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'creating entity')
+    try {
+      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+      // PATTERN: Convert empty strings for known enum fields to their default values
+      const sanitizedData = sanitizeEntityDataForCreate(req.body, req.params.entityType)
+      
+      const created = await createRecord(entityConfig.model, sanitizedData)
+      sendCreated(res, created)
+    } catch (error) {
+      const errorMessage = ERROR_MESSAGES.CREATE_ENTITY.replace('{displayName}', entityConfig.displayName)
+      handleRouteError(error, res, errorMessage, entityConfig.displayName, 'creating entity')
+    }
   }
-})
+)
 
 /**
  * PUT /entities/:entityType/:id
@@ -132,61 +136,61 @@ router.post('/:entityType', async (req: Request, res: Response): Promise<void> =
  * WHY: Ensures data integrity, preserves historical data, maintains relationships
  * PATTERN: Version block instances, sanitize data, update record, cleanup part assignments
  */
-router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
-    return
-  }
-  
-  const entityId = req.params.id
-  
-  try {
-    // LEARNING: Sanitize empty strings for enum fields to prevent database errors
-    // PATTERN: Convert empty strings for known enum fields to their default values
-    const sanitizedData = sanitizeEntityDataForUpdate(req.body, req.params.entityType)
-    
-    // CRITICAL: For block instances, capture old state BEFORE update for versioning
-    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
-      const oldInstance = await handleBlockInstanceVersioning(entityId, true)
-      
-      if (!oldInstance) {
-        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-        res.status(404).json({ 
-          error: errorMessage,
-          id: entityId
-        })
-        return
-      }
-    }
-    
-    // Perform the update (using sanitizedData to ensure enum fields are properly handled)
-    const updatedCount = await updateRecord(entityConfig.model, entityId, sanitizedData)
-    
-    if (updatedCount === 0) {
-      const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      res.status(404).json({ 
-        error: errorMessage,
-        id: entityId
-      })
+router.put(
+  '/:entityType/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    const { entityConfig } = req
+    if (!entityConfig) {
+      sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
       return
     }
     
-    // PATTERN: After successful update, find and disable old relationships
-    if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
-      await handlePartInstanceCleanup(entityId)
-    }
+    const entityId = req.params.id
     
-    const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
-    res.json({ 
-      message: `${successMessage} successfully`,
-      updated: updatedCount 
-    })
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'updating entity', entityId)
+    try {
+      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
+      // PATTERN: Convert empty strings for known enum fields to their default values
+      const sanitizedData = sanitizeEntityDataForUpdate(req.body, req.params.entityType)
+      
+      // CRITICAL: For block instances, capture old state BEFORE update for versioning
+      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+        const oldInstance = await handleBlockInstanceVersioning(entityId, true)
+        
+        if (!oldInstance) {
+          const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+          sendNotFound(res, errorMessage, entityId)
+          return
+        }
+      }
+      
+      // Perform the update (using sanitizedData to ensure enum fields are properly handled)
+      const updatedCount = await updateRecord(entityConfig.model, entityId, sanitizedData)
+      
+      if (updatedCount === 0) {
+        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+        sendNotFound(res, errorMessage, entityId)
+        return
+      }
+      
+      // PATTERN: After successful update, find and disable old relationships
+      if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
+        await handlePartInstanceCleanup(entityId)
+      }
+      
+    // Note: Keeping custom response format for backward compatibility
+      const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
+      sendSuccess(res, { 
+        message: `${successMessage} successfully`,
+        updated: updatedCount 
+      })
+    } catch (error) {
+      const errorMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName)
+      handleRouteError(error, res, errorMessage, entityConfig.displayName, 'updating entity', entityId)
+    }
   }
-})
+)
 
 /**
  * PATCH /entities/:entityType/:id
@@ -196,76 +200,75 @@ router.put('/:entityType/:id', async (req: Request, res: Response): Promise<void
  * WHY: Ensures data integrity, preserves historical data, maintains relationships
  * PATTERN: Validate ID, version block instances, sanitize data, update record, cleanup part assignments
  */
-router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
-    return
-  }
-  
-  const entityId = req.params.id
-  const fieldKey = req.body.key
-  const newValue = req.body.value
-  
-  // PATTERN: Validate entity ID format before attempting database operations
-  const idValidation = validateEntityId(entityId, entityConfig.displayName)
-  if (!idValidation.valid) {
-    res.status(400).json({
-      error: idValidation.error,
-      ...idValidation.details
-    })
-    return
-  }
-  
-  try {
-    // WHY: Support both {key, value} format and direct field updates
-    // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
-    let updateData
-    if (fieldKey && newValue !== undefined) {
-      updateData = { [fieldKey]: newValue }
-    } else {
-      updateData = req.body
-    }
-    
-    // Sanitize update data
-    const sanitizedData = sanitizeEntityDataForUpdate(updateData, req.params.entityType)
-    
-    // WHY: Standard PATCH pattern - log essentials, not entire entity state
-    // PATTERN: Log before update to track what's being changed
-    logger.info(`PATCH: ${entityConfig.displayName} ${entityId}`, {
-      fieldKey,
-      value: newValue
-    })
-    
-    // CRITICAL: For block instances, capture old state BEFORE update for versioning
-    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
-      await handleBlockInstanceVersioning(entityId, true)
-    }
-    
-    // WHY: Standard REST PATCH pattern - one database query, let ORM handle validation
-    // PATTERN: Call update, check result, handle errors
-    const updatedCount = await patchRecord(entityConfig.model, entityId, sanitizedData)
-    
-    if (updatedCount === 0) {
-      const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      res.status(404).json({ 
-        error: errorMessage,
-        id: entityId
-      })
+router.patch(
+  '/:entityType/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    const { entityConfig } = req
+    if (!entityConfig) {
+      sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
       return
     }
     
-    // PATTERN: After successful update, find and disable old relationships
-    if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
-      await handlePartInstanceCleanup(entityId)
+    const entityId = req.params.id
+    const fieldKey = req.body.key
+    const newValue = req.body.value
+    
+    // PATTERN: Validate entity ID format before attempting database operations
+    const idValidation = validateEntityId(entityId, entityConfig.displayName)
+    if (!idValidation.valid) {
+      sendBadRequest(res, idValidation.error, idValidation.details?.message as string, entityId)
+      return
     }
     
-    res.json({ updated: updatedCount })
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.PATCH_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'patching entity', entityId)
+    try {
+      // WHY: Support both {key, value} format and direct field updates
+      // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
+      let updateData
+      if (fieldKey && newValue !== undefined) {
+        updateData = { [fieldKey]: newValue }
+      } else {
+        updateData = req.body
+      }
+      
+      // Sanitize update data
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, req.params.entityType)
+      
+      // WHY: Standard PATCH pattern - log essentials, not entire entity state
+      // PATTERN: Log before update to track what's being changed
+      logger.info(`PATCH: ${entityConfig.displayName} ${entityId}`, {
+        fieldKey,
+        value: newValue
+      })
+      
+      // CRITICAL: For block instances, capture old state BEFORE update for versioning
+      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+        await handleBlockInstanceVersioning(entityId, true)
+      }
+      
+      // WHY: Standard REST PATCH pattern - one database query, let ORM handle validation
+      // PATTERN: Call update, check result, handle errors
+      const updatedCount = await patchRecord(entityConfig.model, entityId, sanitizedData)
+      
+      if (updatedCount === 0) {
+        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+        sendNotFound(res, errorMessage, entityId)
+        return
+      }
+      
+      // PATTERN: After successful update, find and disable old relationships
+      if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
+        await handlePartInstanceCleanup(entityId)
+      }
+      
+      sendSuccess(res, { updated: updatedCount })
+    } catch (error) {
+      const errorMessage = ERROR_MESSAGES.PATCH_ENTITY.replace('{displayName}', entityConfig.displayName)
+      handleRouteError(error, res, errorMessage, entityConfig.displayName, 'patching entity', entityId)
+    }
   }
-})
+)
 
 /**
  * DELETE /entities/:entityType/:id
@@ -275,50 +278,50 @@ router.patch('/:entityType/:id', async (req: Request, res: Response): Promise<vo
  * WHY: Ensures data integrity, preserves historical data
  * PATTERN: Version block instances, delete record, return 404 if not found
  */
-router.delete('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
-    return
-  }
-  
-  const entityId = req.params.id
-  
-  try {
-    // CRITICAL: For block instances, capture old state BEFORE delete for versioning
-    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
-      const oldInstance = await handleBlockInstanceVersioning(entityId, false)
-      
-      if (!oldInstance) {
-        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-        res.status(404).json({ 
-          error: errorMessage,
-          id: entityId
-        })
-        return
-      }
-    }
-    
-    const deletedCount = await deleteRecord(entityConfig.model, entityId)
-    
-    if (deletedCount === 0) {
-      const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      res.status(404).json({ 
-        error: errorMessage,
-        id: entityId
-      })
+router.delete(
+  '/:entityType/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    const { entityConfig } = req
+    if (!entityConfig) {
+      sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
       return
     }
     
-    const successMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
-    res.json({ 
-      message: `${successMessage} successfully`,
-      deleted: deletedCount
-    })
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'deleting entity', entityId)
+    const entityId = req.params.id
+    
+    try {
+      // CRITICAL: For block instances, capture old state BEFORE delete for versioning
+      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+        const oldInstance = await handleBlockInstanceVersioning(entityId, false)
+        
+        if (!oldInstance) {
+          const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+          sendNotFound(res, errorMessage, entityId)
+          return
+        }
+      }
+      
+      const deletedCount = await deleteRecord(entityConfig.model, entityId)
+      
+      if (deletedCount === 0) {
+        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+        sendNotFound(res, errorMessage, entityId)
+        return
+      }
+      
+      // Note: Keeping custom response format for backward compatibility (different from standard 204)
+      const successMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
+      sendSuccess(res, { 
+        message: `${successMessage} successfully`,
+        deleted: deletedCount
+      })
+    } catch (error) {
+      const errorMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName)
+      handleRouteError(error, res, errorMessage, entityConfig.displayName, 'deleting entity', entityId)
+    }
   }
-})
+)
 
 export { router as EntityCrudRouter }

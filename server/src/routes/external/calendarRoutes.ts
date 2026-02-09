@@ -6,10 +6,12 @@ import type {
   EventAttendee
 } from '../../services/google/calendar/calendarTypes.js';
 import { getCredentials } from '../../config/googleOAuth.js';
-import { getCacheStats, getAllCachedEntries as getAllFreeBusyEntries } from '../../services/freeBusyCache.js';
 import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';
 import { getRateLimitStats } from '../../services/rateLimiter.js';
 import { CalendarApiError, type CalendarErrorType } from '../../services/calendarErrorHandler.js';
+import { createLogger } from '../../utils/logger.js';
+
+const logger = createLogger('CalendarRoutes');
 
 /**
  * Calendar Routes
@@ -50,7 +52,7 @@ const router = Router();
 
 // Phase 10: Removed POST /freebusy and GET /events endpoints
 // WHY: These booking-flow-only endpoints are replaced by POST /computed-data
-// Free-busy and events are now fetched server-side via the orchestrator
+// Events are now fetched server-side via the orchestrator
 
 /**
  * POST /api/v1/external/calendar/events
@@ -207,7 +209,7 @@ router.post('/events', async (req: Request, res: Response) => {
     res.status(201).json(createdEvent);
     
   } catch (error: any) {
-    console.error('[CalendarRoutes] Error in POST /events:', error);
+    logger.error('Error in POST /events:', error);
     
     // Handle typed CalendarApiError
     if (error instanceof CalendarApiError) {
@@ -236,47 +238,6 @@ router.post('/events', async (req: Request, res: Response) => {
  * WHY: Useful for debugging and validation during development
  * PATTERN: Only accessible in development environment
  */
-
-/**
- * GET /api/v1/external/calendar/debug/freebusy-cache
- * Get free-busy cache contents and statistics (dev mode only)
- */
-router.get('/debug/freebusy-cache', (_req: Request, res: Response) => {
-  // Only allow in development
-  if (process.env.NODE_ENV === 'production') {
-    res.status(403).json({
-      error: 'Debug endpoints are not available in production'
-    });
-    return;
-  }
-  
-  try {
-    const stats = getCacheStats();
-    const entries = getAllFreeBusyEntries();
-    
-    // Convert Map to array for JSON serialization
-    const entriesArray = Array.from(entries.entries()).map(([key, entry]) => ({
-      key,
-      data: entry.data,
-      timestamp: entry.timestamp,
-      ttl: entry.ttl,
-      age: Date.now() - entry.timestamp,
-      expired: (Date.now() - entry.timestamp) > entry.ttl
-    }));
-    
-    res.json({
-      stats,
-      entries: entriesArray,
-      totalEntries: entries.size
-    });
-  } catch (error: any) {
-    console.error('[CalendarRoutes] Error in /debug/freebusy-cache:', error);
-    res.status(500).json({
-      error: 'Internal server error',
-      message: error.message || 'An unexpected error occurred'
-    });
-  }
-});
 
 /**
  * GET /api/v1/external/calendar/debug/events-cache
@@ -311,7 +272,7 @@ router.get('/debug/events-cache', (_req: Request, res: Response) => {
       totalEntries: entries.size
     });
   } catch (error: any) {
-    console.error('[CalendarRoutes] Error in /debug/events-cache:', error);
+    logger.error('Error in /debug/events-cache:', error);
     res.status(500).json({
       error: 'Internal server error',
       message: error.message || 'An unexpected error occurred'
@@ -336,7 +297,7 @@ router.get('/debug/rate-limit', (_req: Request, res: Response) => {
     const stats = getRateLimitStats('google-calendar');
     res.json(stats);
   } catch (error: any) {
-    console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);
+    logger.error('Error in /debug/rate-limit:', error);
     res.status(500).json({
       error: 'Internal server error',
       message: error.message || 'An unexpected error occurred'

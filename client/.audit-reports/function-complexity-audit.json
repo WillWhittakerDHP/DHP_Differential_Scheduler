@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-08T23:28:48.189Z",
-  "totalScanned": 1041,
+  "generatedAt": "2026-02-09T16:40:59.301Z",
+  "totalScanned": 1138,
   "thresholds": {
     "maxNesting": 3,
     "maxBranches": 8,
@@ -10,824 +10,6 @@
     "maxReturns": 4
   },
   "files": [
-    {
-      "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "functions": [
-        {
-          "name": "shouldApplyDriveTimeConstraint",
-          "startLine": 98,
-          "endLine": 163,
-          "length": 66,
-          "maxNesting": 18,
-          "branches": 23,
-          "params": 0,
-          "returns": 9,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 18,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 23,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 66,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 9,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "mergeBusyPeriods",
-          "startLine": 255,
-          "endLine": 280,
-          "length": 26,
-          "maxNesting": 7,
-          "branches": 5,
-          "params": 1,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 7,
-              "threshold": 3
-            },
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "that",
-          "startLine": 284,
-          "endLine": 315,
-          "length": 32,
-          "maxNesting": 6,
-          "branches": 5,
-          "params": 0,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "for",
-          "startLine": 353,
-          "endLine": 368,
-          "length": 16,
-          "maxNesting": 4,
-          "branches": 6,
-          "params": 3,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "returns",
-          "startLine": 382,
-          "endLine": 455,
-          "length": 74,
-          "maxNesting": 14,
-          "branches": 17,
-          "params": 0,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 14,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 17,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 74,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 518,
-          "endLine": 531,
-          "length": 14,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 542,
-          "endLine": 555,
-          "length": 14,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "for",
-          "startLine": 630,
-          "endLine": 668,
-          "length": 39,
-          "maxNesting": 16,
-          "branches": 16,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 16,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 16,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "that",
-          "startLine": 684,
-          "endLine": 848,
-          "length": 165,
-          "maxNesting": 9,
-          "branches": 8,
-          "params": 0,
-          "returns": 9,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 3
-            },
-            {
-              "rule": "length",
-              "value": 165,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 9,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 988,
-          "endLine": 1027,
-          "length": 40,
-          "maxNesting": 12,
-          "branches": 10,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 12,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 10,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "applies",
-          "startLine": 1066,
-          "endLine": 1224,
-          "length": 159,
-          "maxNesting": 18,
-          "branches": 16,
-          "params": 0,
-          "returns": 21,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 18,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 16,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 159,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 21,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "that",
-          "startLine": 1228,
-          "endLine": 1253,
-          "length": 26,
-          "maxNesting": 6,
-          "branches": 8,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 1354,
-          "endLine": 1388,
-          "length": 35,
-          "maxNesting": 10,
-          "branches": 7,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 10,
-              "threshold": 3
-            }
-          ]
-        }
-      ],
-      "score": 93,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "server/src/services/googleMapsService.ts",
-      "functions": [
-        {
-          "name": "for",
-          "startLine": 141,
-          "endLine": 157,
-          "length": 17,
-          "maxNesting": 10,
-          "branches": 13,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 10,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 13,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "getAutocompleteSuggestions",
-          "startLine": 173,
-          "endLine": 272,
-          "length": 100,
-          "maxNesting": 15,
-          "branches": 17,
-          "params": 0,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 15,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 17,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 100,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "getPlaceDetails",
-          "startLine": 285,
-          "endLine": 392,
-          "length": 108,
-          "maxNesting": 14,
-          "branches": 16,
-          "params": 0,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 14,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 16,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 108,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "geocodeAddressToPlaceId",
-          "startLine": 406,
-          "endLine": 483,
-          "length": 78,
-          "maxNesting": 15,
-          "branches": 15,
-          "params": 1,
-          "returns": 9,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 15,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 15,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 78,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 9,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "toRoutesWaypoint",
-          "startLine": 546,
-          "endLine": 570,
-          "length": 25,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "calculateRouteMatrix",
-          "startLine": 584,
-          "endLine": 718,
-          "length": 135,
-          "maxNesting": 19,
-          "branches": 23,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 19,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 23,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 135,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "for",
-          "startLine": 776,
-          "endLine": 816,
-          "length": 41,
-          "maxNesting": 9,
-          "branches": 9,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 884,
-          "endLine": 897,
-          "length": 14,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        }
-      ],
-      "score": 67,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "functions": [
-        {
-          "name": "to",
-          "startLine": 131,
-          "endLine": 181,
-          "length": 51,
-          "maxNesting": 8,
-          "branches": 8,
-          "params": 0,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 8,
-              "threshold": 3
-            },
-            {
-              "rule": "length",
-              "value": 51,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "to",
-          "startLine": 184,
-          "endLine": 238,
-          "length": 55,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 0,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            },
-            {
-              "rule": "length",
-              "value": 55,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 268,
-          "endLine": 275,
-          "length": 8,
-          "maxNesting": 5,
-          "branches": 3,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "whereWithParentId",
-          "startLine": 290,
-          "endLine": 300,
-          "length": 11,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "whereClause",
-          "startLine": 303,
-          "endLine": 313,
-          "length": 11,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 400,
-          "endLine": 539,
-          "length": 140,
-          "maxNesting": 19,
-          "branches": 20,
-          "params": 1,
-          "returns": 14,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 19,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 20,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 140,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 14,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 546,
-          "endLine": 588,
-          "length": 43,
-          "maxNesting": 9,
-          "branches": 7,
-          "params": 1,
-          "returns": 4,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 604,
-          "endLine": 617,
-          "length": 14,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        }
-      ],
-      "score": 52,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "server/src/scripts/importCalendarData.ts",
-      "functions": [
-        {
-          "name": "parseAddress",
-          "startLine": 82,
-          "endLine": 148,
-          "length": 67,
-          "maxNesting": 5,
-          "branches": 9,
-          "params": 1,
-          "returns": 4,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 67,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "extractClients",
-          "startLine": 150,
-          "endLine": 182,
-          "length": 33,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 2,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 242,
-          "endLine": 248,
-          "length": 7,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "upsertProperty",
-          "startLine": 266,
-          "endLine": 334,
-          "length": 69,
-          "maxNesting": 15,
-          "branches": 12,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 15,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 12,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 69,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "for",
-          "startLine": 352,
-          "endLine": 396,
-          "length": 45,
-          "maxNesting": 11,
-          "branches": 10,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 11,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 10,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "importCalendarData",
-          "startLine": 401,
-          "endLine": 467,
-          "length": 67,
-          "maxNesting": 11,
-          "branches": 11,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 11,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 11,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 67,
-              "threshold": 50
-            }
-          ]
-        }
-      ],
-      "score": 48,
-      "priority": "P0"
-    },
     {
       "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
       "functions": [
@@ -973,156 +155,30 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
-      "functions": [
-        {
-          "name": "options",
-          "startLine": 84,
-          "endLine": 92,
-          "length": 9,
-          "maxNesting": 4,
-          "branches": 4,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 165,
-          "endLine": 175,
-          "length": 11,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 222,
-          "endLine": 229,
-          "length": 8,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 232,
-          "endLine": 255,
-          "length": 24,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 270,
-          "endLine": 312,
-          "length": 43,
-          "maxNesting": 8,
-          "branches": 4,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 8,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 384,
-          "endLine": 409,
-          "length": 26,
-          "maxNesting": 7,
-          "branches": 4,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 7,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 474,
-          "endLine": 516,
-          "length": 43,
-          "maxNesting": 8,
-          "branches": 4,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 8,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 574,
-          "endLine": 587,
-          "length": 14,
-          "maxNesting": 4,
-          "branches": 3,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        }
-      ],
-      "score": 40,
-      "priority": "P0"
-    },
-    {
       "repoPath": "server/src/services/constraintExtractor.ts",
       "functions": [
         {
+          "name": "that",
+          "startLine": 37,
+          "endLine": 46,
+          "length": 10,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
           "name": "with",
-          "startLine": 45,
-          "endLine": 83,
-          "length": 39,
+          "startLine": 52,
+          "endLine": 95,
+          "length": 44,
           "maxNesting": 6,
           "branches": 4,
           "params": 0,
@@ -1137,8 +193,8 @@
         },
         {
           "name": "that",
-          "startLine": 89,
-          "endLine": 125,
+          "startLine": 101,
+          "endLine": 137,
           "length": 37,
           "maxNesting": 8,
           "branches": 7,
@@ -1153,53 +209,43 @@
           ]
         },
         {
-          "name": "that",
-          "startLine": 131,
-          "endLine": 196,
-          "length": 66,
-          "maxNesting": 12,
-          "branches": 9,
+          "name": "extractOverlapConstraints",
+          "startLine": 174,
+          "endLine": 216,
+          "length": 43,
+          "maxNesting": 5,
+          "branches": 3,
           "params": 0,
           "returns": 2,
           "violations": [
             {
               "rule": "nesting",
-              "value": 12,
+              "value": 5,
               "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 66,
-              "threshold": 50
             }
           ]
         },
         {
           "name": "that",
-          "startLine": 202,
-          "endLine": 246,
-          "length": 45,
-          "maxNesting": 7,
-          "branches": 6,
+          "startLine": 222,
+          "endLine": 265,
+          "length": 44,
+          "maxNesting": 5,
+          "branches": 4,
           "params": 0,
           "returns": 4,
           "violations": [
             {
               "rule": "nesting",
-              "value": 7,
+              "value": 5,
               "threshold": 3
             }
           ]
         },
         {
           "name": "switch",
-          "startLine": 258,
-          "endLine": 285,
+          "startLine": 281,
+          "endLine": 308,
           "length": 28,
           "maxNesting": 7,
           "branches": 8,
@@ -1220,8 +266,8 @@
         },
         {
           "name": "if",
-          "startLine": 310,
-          "endLine": 317,
+          "startLine": 335,
+          "endLine": 342,
           "length": 8,
           "maxNesting": 5,
           "branches": 3,
@@ -1440,96 +486,308 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/services/googleCalendarService.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
       "functions": [
         {
-          "name": "getFreeBusy",
-          "startLine": 66,
-          "endLine": 215,
-          "length": 150,
-          "maxNesting": 16,
-          "branches": 24,
+          "name": "to",
+          "startLine": 21,
+          "endLine": 76,
+          "length": 56,
+          "maxNesting": 8,
+          "branches": 8,
           "params": 0,
-          "returns": 4,
+          "returns": 5,
           "violations": [
             {
               "rule": "nesting",
-              "value": 16,
+              "value": 8,
               "threshold": 3
             },
             {
-              "rule": "branches",
-              "value": 24,
-              "threshold": 8
-            },
-            {
               "rule": "length",
-              "value": 150,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "getCalendarEvents",
-          "startLine": 244,
-          "endLine": 390,
-          "length": 147,
-          "maxNesting": 21,
-          "branches": 22,
-          "params": 0,
-          "returns": 8,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 21,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 22,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 147,
+              "value": 56,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 8,
+              "value": 5,
               "threshold": 4
             }
           ]
         },
         {
-          "name": "createEvent",
-          "startLine": 464,
-          "endLine": 609,
-          "length": 146,
-          "maxNesting": 16,
-          "branches": 24,
-          "params": 1,
-          "returns": 2,
+          "name": "to",
+          "startLine": 79,
+          "endLine": 137,
+          "length": 59,
+          "maxNesting": 7,
+          "branches": 5,
+          "params": 0,
+          "returns": 5,
           "violations": [
             {
               "rule": "nesting",
-              "value": 16,
+              "value": 7,
               "threshold": 3
             },
             {
-              "rule": "branches",
-              "value": 24,
-              "threshold": 8
+              "rule": "length",
+              "value": 59,
+              "threshold": 50
             },
             {
-              "rule": "length",
-              "value": 146,
-              "threshold": 50
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "validateBlockShapesComposable",
+          "startLine": 203,
+          "endLine": 218,
+          "length": 16,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "validateAttendeeAssignmentEntities",
+          "startLine": 230,
+          "endLine": 255,
+          "length": 26,
+          "maxNesting": 8,
+          "branches": 6,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "restoreComponentActiveState",
+          "startLine": 291,
+          "endLine": 306,
+          "length": 16,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
             }
           ]
         }
       ],
       "score": 31,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "functions": [
+        {
+          "name": "getAutocompleteSuggestions",
+          "startLine": 39,
+          "endLine": 129,
+          "length": 91,
+          "maxNesting": 14,
+          "branches": 15,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 14,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 15,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 91,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "getPlaceDetails",
+          "startLine": 142,
+          "endLine": 240,
+          "length": 99,
+          "maxNesting": 13,
+          "branches": 14,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 13,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 99,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "geocodeAddressToPlaceId",
+          "startLine": 254,
+          "endLine": 361,
+          "length": 108,
+          "maxNesting": 20,
+          "branches": 19,
+          "params": 1,
+          "returns": 14,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 20,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 19,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 108,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 14,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 31,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "functions": [
+        {
+          "name": "buildRelationshipWhereClause",
+          "startLine": 57,
+          "endLine": 98,
+          "length": 42,
+          "maxNesting": 8,
+          "branches": 8,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "buildRelationshipQueryOptions",
+          "startLine": 111,
+          "endLine": 172,
+          "length": 62,
+          "maxNesting": 5,
+          "branches": 4,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3
+            },
+            {
+              "rule": "length",
+              "value": 62,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 253,
+          "endLine": 330,
+          "length": 78,
+          "maxNesting": 14,
+          "branches": 13,
+          "params": 1,
+          "returns": 10,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 14,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 78,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 10,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 337,
+          "endLine": 357,
+          "length": 21,
+          "maxNesting": 8,
+          "branches": 5,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 29,
       "priority": "P0"
     },
     {
@@ -1721,100 +979,100 @@
       "priority": "P0"
     },
     {
-      "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+      "repoPath": "server/src/scripts/importCalendarData.ts",
       "functions": [
         {
-          "name": "fetchRateLimitStats",
-          "startLine": 172,
-          "endLine": 203,
-          "length": 32,
-          "maxNesting": 9,
-          "branches": 8,
-          "params": 0,
-          "returns": 0,
+          "name": "if",
+          "startLine": 108,
+          "endLine": 114,
+          "length": 7,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 1,
           "violations": [
             {
               "rule": "nesting",
-              "value": 9,
+              "value": 4,
               "threshold": 3
             }
           ]
         },
         {
-          "name": "switch",
-          "startLine": 250,
-          "endLine": 263,
-          "length": 14,
-          "maxNesting": 7,
-          "branches": 9,
+          "name": "upsertProperty",
+          "startLine": 167,
+          "endLine": 221,
+          "length": 55,
+          "maxNesting": 9,
+          "branches": 6,
           "params": 1,
-          "returns": 0,
+          "returns": 2,
           "violations": [
             {
               "rule": "nesting",
-              "value": 7,
+              "value": 9,
               "threshold": 3
             },
             {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
+              "rule": "length",
+              "value": 55,
+              "threshold": 50
             }
           ]
         },
         {
-          "name": "if",
-          "startLine": 294,
-          "endLine": 303,
-          "length": 10,
-          "maxNesting": 6,
-          "branches": 5,
+          "name": "for",
+          "startLine": 244,
+          "endLine": 256,
+          "length": 13,
+          "maxNesting": 5,
+          "branches": 4,
           "params": 1,
           "returns": 0,
           "violations": [
             {
               "rule": "nesting",
-              "value": 6,
+              "value": 5,
               "threshold": 3
             }
           ]
         },
         {
-          "name": "if",
-          "startLine": 307,
-          "endLine": 316,
-          "length": 10,
-          "maxNesting": 6,
-          "branches": 5,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "<script setup>",
-          "startLine": 1,
-          "endLine": 387,
-          "length": 387,
-          "maxNesting": 0,
-          "branches": 0,
+          "name": "readEventsFromStdin",
+          "startLine": 356,
+          "endLine": 374,
+          "length": 19,
+          "maxNesting": 4,
+          "branches": 3,
           "params": 0,
-          "returns": 0,
+          "returns": 1,
           "violations": [
             {
-              "rule": "script-setup-length",
-              "value": 387,
-              "threshold": 100
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "importCalendarData",
+          "startLine": 408,
+          "endLine": 456,
+          "length": 49,
+          "maxNesting": 8,
+          "branches": 8,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
             }
           ]
         }
       ],
-      "score": 26,
+      "score": 27,
       "priority": "P0"
     },
     {
@@ -1908,6 +1166,91 @@
       "priority": "P0"
     },
     {
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "functions": [
+        {
+          "name": "convertEventsToBusyPeriods",
+          "startLine": 94,
+          "endLine": 116,
+          "length": 23,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 171,
+          "endLine": 185,
+          "length": 15,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 188,
+          "endLine": 202,
+          "length": 15,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "that",
+          "startLine": 214,
+          "endLine": 338,
+          "length": 125,
+          "maxNesting": 9,
+          "branches": 9,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 125,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 25,
+      "priority": "P0"
+    },
+    {
       "repoPath": "client/src/services/mapsApiService.ts",
       "functions": [
         {
@@ -1989,9 +1332,26 @@
       "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
       "functions": [
         {
+          "name": "transformBatchEntities",
+          "startLine": 34,
+          "endLine": 67,
+          "length": 34,
+          "maxNesting": 6,
+          "branches": 3,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
           "name": "transformApiRelationship",
-          "startLine": 76,
-          "endLine": 120,
+          "startLine": 146,
+          "endLine": 190,
           "length": 45,
           "maxNesting": 4,
           "branches": 10,
@@ -2011,26 +1371,9 @@
           ]
         },
         {
-          "name": "if",
-          "startLine": 170,
-          "endLine": 180,
-          "length": 11,
-          "maxNesting": 5,
-          "branches": 4,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3
-            }
-          ]
-        },
-        {
           "name": "that",
-          "startLine": 423,
-          "endLine": 491,
+          "startLine": 455,
+          "endLine": 523,
           "length": 69,
           "maxNesting": 26,
           "branches": 28,
@@ -2056,84 +1399,6 @@
               "rule": "returns",
               "value": 14,
               "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 24,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
-      "functions": [
-        {
-          "name": "to",
-          "startLine": 34,
-          "endLine": 88,
-          "length": 55,
-          "maxNesting": 8,
-          "branches": 13,
-          "params": 0,
-          "returns": 6,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 8,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 13,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 55,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 6,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 239,
-          "endLine": 259,
-          "length": 21,
-          "maxNesting": 4,
-          "branches": 5,
-          "params": 1,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 266,
-          "endLine": 292,
-          "length": 27,
-          "maxNesting": 9,
-          "branches": 9,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
             }
           ]
         }
@@ -2222,64 +1487,64 @@
       "priority": "P0"
     },
     {
-      "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
       "functions": [
         {
-          "name": "parseUTCDate",
-          "startLine": 103,
-          "endLine": 158,
-          "length": 56,
-          "maxNesting": 10,
-          "branches": 12,
-          "params": 1,
-          "returns": 6,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 10,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 12,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 56,
-              "threshold": 50
-            },
-            {
-              "rule": "returns",
-              "value": 6,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "now",
-          "startLine": 250,
-          "endLine": 353,
-          "length": 104,
-          "maxNesting": 11,
-          "branches": 11,
+          "name": "calculateRouteMatrix",
+          "startLine": 36,
+          "endLine": 156,
+          "length": 121,
+          "maxNesting": 17,
+          "branches": 19,
           "params": 0,
           "returns": 3,
           "violations": [
             {
               "rule": "nesting",
-              "value": 11,
+              "value": 17,
               "threshold": 3
             },
             {
               "rule": "branches",
-              "value": 11,
+              "value": 19,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 104,
+              "value": 121,
               "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "calculateDriveTime",
+          "startLine": 173,
+          "endLine": 274,
+          "length": 102,
+          "maxNesting": 15,
+          "branches": 15,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 15,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 15,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 102,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4
             }
           ]
         }
@@ -3072,61 +2337,59 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
       "functions": [
         {
-          "name": "if",
-          "startLine": 164,
-          "endLine": 178,
-          "length": 15,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 181,
-          "endLine": 195,
-          "length": 15,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 1,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 3
-            }
-          ]
-        },
-        {
-          "name": "that",
-          "startLine": 238,
-          "endLine": 353,
-          "length": 116,
-          "maxNesting": 7,
-          "branches": 8,
+          "name": "with",
+          "startLine": 71,
+          "endLine": 99,
+          "length": 29,
+          "maxNesting": 4,
+          "branches": 7,
           "params": 0,
-          "returns": 2,
+          "returns": 5,
           "violations": [
             {
               "rule": "nesting",
-              "value": 7,
+              "value": 4,
               "threshold": 3
             },
             {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "for",
+          "startLine": 150,
+          "endLine": 326,
+          "length": 177,
+          "maxNesting": 39,
+          "branches": 42,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 39,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 42,
+              "threshold": 8
+            },
+            {
               "rule": "length",
-              "value": 116,
+              "value": 177,
               "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4
             }
           ]
         }
@@ -3222,19 +2485,19 @@
           "startLine": 84,
           "endLine": 258,
           "length": 175,
-          "maxNesting": 16,
-          "branches": 17,
+          "maxNesting": 15,
+          "branches": 16,
           "params": 1,
           "returns": 9,
           "violations": [
             {
               "rule": "nesting",
-              "value": 16,
+              "value": 15,
               "threshold": 3
             },
             {
               "rule": "branches",
-              "value": 17,
+              "value": 16,
               "threshold": 8
             },
             {
@@ -3310,48 +2573,104 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
       "functions": [
         {
-          "name": "validateAvailabilitySettings",
-          "startLine": 59,
-          "endLine": 300,
-          "length": 242,
-          "maxNesting": 74,
-          "branches": 72,
-          "params": 1,
-          "returns": 34,
+          "name": "handleSequelizeValidationError",
+          "startLine": 28,
+          "endLine": 103,
+          "length": 76,
+          "maxNesting": 10,
+          "branches": 12,
+          "params": 0,
+          "returns": 6,
           "violations": [
             {
               "rule": "nesting",
-              "value": 74,
+              "value": 10,
               "threshold": 3
             },
             {
               "rule": "branches",
-              "value": 72,
+              "value": 12,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 242,
+              "value": 76,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 34,
+              "value": 6,
               "threshold": 4
             }
           ]
         },
         {
-          "name": "if",
-          "startLine": 306,
-          "endLine": 326,
-          "length": 21,
+          "name": "handleRouteError",
+          "startLine": 158,
+          "endLine": 179,
+          "length": 22,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 16,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "functions": [
+        {
+          "name": "to",
+          "startLine": 22,
+          "endLine": 76,
+          "length": 55,
+          "maxNesting": 8,
+          "branches": 13,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 55,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "createAttendeeRecords",
+          "startLine": 174,
+          "endLine": 202,
+          "length": 29,
           "maxNesting": 5,
-          "branches": 4,
-          "params": 1,
+          "branches": 5,
+          "params": 0,
           "returns": 2,
           "violations": [
             {
@@ -3363,6 +2682,120 @@
         }
       ],
       "score": 16,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
+      "functions": [
+        {
+          "name": "for",
+          "startLine": 15,
+          "endLine": 263,
+          "length": 249,
+          "maxNesting": 76,
+          "branches": 74,
+          "params": 0,
+          "returns": 34,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 76,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 74,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 249,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 34,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "validateAvailabilitySettingsWithDetails",
+          "startLine": 315,
+          "endLine": 332,
+          "length": 18,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 16,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/utils/booking/rangeConstraintChecker.ts",
+      "functions": [
+        {
+          "name": "with",
+          "startLine": 78,
+          "endLine": 108,
+          "length": 31,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "for",
+          "startLine": 133,
+          "endLine": 151,
+          "length": 19,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 3,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "returns",
+          "startLine": 164,
+          "endLine": 196,
+          "length": 33,
+          "maxNesting": 7,
+          "branches": 8,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 15,
       "priority": "P0"
     },
     {
@@ -3482,12 +2915,63 @@
       "priority": "P0"
     },
     {
+      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
+      "functions": [
+        {
+          "name": "processShapeLayoutConfigs",
+          "startLine": 156,
+          "endLine": 252,
+          "length": 97,
+          "maxNesting": 17,
+          "branches": 14,
+          "params": 3,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 17,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 97,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "complexity",
+          "startLine": 285,
+          "endLine": 318,
+          "length": 34,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
       "repoPath": "server/src/services/appointmentCalendarService.ts",
       "functions": [
         {
           "name": "createCalendarEventForAppointment",
-          "startLine": 80,
-          "endLine": 163,
+          "startLine": 81,
+          "endLine": 164,
           "length": 84,
           "maxNesting": 11,
           "branches": 9,
@@ -3513,8 +2997,8 @@
         },
         {
           "name": "buildAttendeesList",
-          "startLine": 298,
-          "endLine": 328,
+          "startLine": 299,
+          "endLine": 329,
           "length": 31,
           "maxNesting": 8,
           "branches": 6,
@@ -3639,6 +3123,57 @@
               "rule": "script-setup-length",
               "value": 150,
               "threshold": 100
+            }
+          ]
+        }
+      ],
+      "score": 14,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/services/calendarApiService.ts",
+      "functions": [
+        {
+          "name": "handleApiError",
+          "startLine": 118,
+          "endLine": 167,
+          "length": 50,
+          "maxNesting": 12,
+          "branches": 12,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 12,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "fetchComputedAvailabilityData",
+          "startLine": 209,
+          "endLine": 249,
+          "length": 41,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
             }
           ]
         }
@@ -3802,6 +3337,52 @@
       "priority": "P0"
     },
     {
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "functions": [
+        {
+          "name": "for",
+          "startLine": 28,
+          "endLine": 44,
+          "length": 17,
+          "maxNesting": 10,
+          "branches": 13,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 10,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8
+            }
+          ]
+        },
+        {
+          "name": "toRoutesWaypoint",
+          "startLine": 60,
+          "endLine": 84,
+          "length": 25,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 13,
+      "priority": "P0"
+    },
+    {
       "repoPath": "client/src/composables/booking/useContactsStepData.ts",
       "functions": [
         {
@@ -3898,8 +3479,8 @@
       "functions": [
         {
           "name": "if",
-          "startLine": 24,
-          "endLine": 63,
+          "startLine": 42,
+          "endLine": 81,
           "length": 40,
           "maxNesting": 7,
           "branches": 5,
@@ -3915,8 +3496,8 @@
         },
         {
           "name": "if",
-          "startLine": 65,
-          "endLine": 116,
+          "startLine": 83,
+          "endLine": 134,
           "length": 52,
           "maxNesting": 7,
           "branches": 6,
@@ -5666,27 +5247,27 @@
       "functions": [
         {
           "name": "useAvailableStartTimes",
-          "startLine": 54,
-          "endLine": 359,
-          "length": 306,
-          "maxNesting": 40,
-          "branches": 51,
+          "startLine": 52,
+          "endLine": 364,
+          "length": 313,
+          "maxNesting": 41,
+          "branches": 52,
           "params": 0,
           "returns": 14,
           "violations": [
             {
               "rule": "nesting",
-              "value": 40,
+              "value": 41,
               "threshold": 3
             },
             {
               "rule": "branches",
-              "value": 51,
+              "value": 52,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 306,
+              "value": 313,
               "threshold": 50
             },
             {
@@ -5705,9 +5286,9 @@
       "functions": [
         {
           "name": "useComputedAvailability",
-          "startLine": 88,
-          "endLine": 277,
-          "length": 190,
+          "startLine": 81,
+          "endLine": 262,
+          "length": 182,
           "maxNesting": 11,
           "branches": 13,
           "params": 0,
@@ -5725,7 +5306,7 @@
             },
             {
               "rule": "length",
-              "value": 190,
+              "value": 182,
               "threshold": 50
             },
             {
@@ -6330,26 +5911,26 @@
         {
           "name": "to",
           "startLine": 69,
-          "endLine": 187,
-          "length": 119,
-          "maxNesting": 21,
-          "branches": 22,
+          "endLine": 185,
+          "length": 117,
+          "maxNesting": 20,
+          "branches": 21,
           "params": 0,
           "returns": 11,
           "violations": [
             {
               "rule": "nesting",
-              "value": 21,
+              "value": 20,
               "threshold": 3
             },
             {
               "rule": "branches",
-              "value": 22,
+              "value": 21,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 119,
+              "value": 117,
               "threshold": 50
             },
             {
@@ -6637,6 +6218,130 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/utils/booking/busyPeriodProcessor.ts",
+      "functions": [
+        {
+          "name": "mergeBusyPeriods",
+          "startLine": 76,
+          "endLine": 101,
+          "length": 26,
+          "maxNesting": 7,
+          "branches": 5,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 3
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "that",
+          "startLine": 105,
+          "endLine": 136,
+          "length": 32,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 0,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
+      "functions": [
+        {
+          "name": "applies",
+          "startLine": 33,
+          "endLine": 183,
+          "length": 151,
+          "maxNesting": 18,
+          "branches": 16,
+          "params": 0,
+          "returns": 21,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 18,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 151,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 21,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
+      "functions": [
+        {
+          "name": "parseUTCDate",
+          "startLine": 74,
+          "endLine": 129,
+          "length": 56,
+          "maxNesting": 10,
+          "branches": 12,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 10,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 56,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
       "functions": [
         {
@@ -6846,44 +6551,129 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
       "functions": [
         {
-          "name": "computeRenderAs",
-          "startLine": 21,
-          "endLine": 58,
-          "length": 38,
-          "maxNesting": 9,
-          "branches": 8,
+          "name": "that",
+          "startLine": 114,
+          "endLine": 513,
+          "length": 400,
+          "maxNesting": 66,
+          "branches": 65,
           "params": 0,
-          "returns": 9,
+          "returns": 20,
           "violations": [
             {
               "rule": "nesting",
-              "value": 9,
+              "value": 66,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 65,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 400,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 20,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "functions": [
+        {
+          "name": "parseAddress",
+          "startLine": 181,
+          "endLine": 215,
+          "length": 35,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
               "threshold": 3
             },
             {
               "rule": "returns",
-              "value": 9,
+              "value": 5,
               "threshold": 4
             }
           ]
         },
         {
-          "name": "if",
-          "startLine": 145,
-          "endLine": 151,
-          "length": 7,
+          "name": "extractClients",
+          "startLine": 226,
+          "endLine": 258,
+          "length": 33,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 2,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/addressGeocodingCache.ts",
+      "functions": [
+        {
+          "name": "cleanExpiredEntries",
+          "startLine": 67,
+          "endLine": 75,
+          "length": 9,
           "maxNesting": 4,
           "branches": 2,
-          "params": 1,
-          "returns": 1,
+          "params": 0,
+          "returns": 0,
           "violations": [
             {
               "rule": "nesting",
               "value": 4,
               "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "getCachedPlaceId",
+          "startLine": 86,
+          "endLine": 111,
+          "length": 26,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
             }
           ]
         }
@@ -7460,6 +7250,40 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
+      "functions": [
+        {
+          "name": "markSlotAvailability",
+          "startLine": 118,
+          "endLine": 190,
+          "length": 73,
+          "maxNesting": 14,
+          "branches": 14,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 14,
+              "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 73,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/utils/dependencyCleanup.ts",
       "functions": [
         {
@@ -7685,17 +7509,17 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
       "functions": [
         {
-          "name": "for",
-          "startLine": 61,
-          "endLine": 90,
-          "length": 30,
+          "name": "validateRenderAs",
+          "startLine": 85,
+          "endLine": 97,
+          "length": 13,
           "maxNesting": 6,
-          "branches": 5,
+          "branches": 2,
           "params": 1,
-          "returns": 0,
+          "returns": 2,
           "violations": [
             {
               "rule": "nesting",
@@ -7705,14 +7529,96 @@
           ]
         },
         {
-          "name": "if",
-          "startLine": 197,
-          "endLine": 203,
-          "length": 7,
+          "name": "validateInputConfig",
+          "startLine": 109,
+          "endLine": 123,
+          "length": 15,
           "maxNesting": 4,
           "branches": 2,
+          "params": 2,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+      "functions": [
+        {
+          "name": "validateRenderAs",
+          "startLine": 85,
+          "endLine": 97,
+          "length": 13,
+          "maxNesting": 6,
+          "branches": 2,
           "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "validateInputConfig",
+          "startLine": 109,
+          "endLine": 123,
+          "length": 15,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 2,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityHelpers.ts",
+      "functions": [
+        {
+          "name": "handlePartInstanceCleanup",
+          "startLine": 65,
+          "endLine": 112,
+          "length": 48,
+          "maxNesting": 6,
+          "branches": 3,
+          "params": 0,
           "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        },
+        {
+          "name": "options",
+          "startLine": 135,
+          "endLine": 143,
+          "length": 9,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 1,
+          "returns": 3,
           "violations": [
             {
               "rule": "nesting",
@@ -7785,40 +7691,6 @@
             {
               "rule": "length",
               "value": 105,
-              "threshold": 50
-            }
-          ]
-        }
-      ],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
-      "functions": [
-        {
-          "name": "fixMissingConfigs",
-          "startLine": 12,
-          "endLine": 276,
-          "length": 265,
-          "maxNesting": 33,
-          "branches": 33,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 33,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 33,
-              "threshold": 8
-            },
-            {
-              "rule": "length",
-              "value": 265,
               "threshold": 50
             }
           ]
@@ -8005,39 +7877,66 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/services/freeBusyCache.ts",
+      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
       "functions": [
         {
-          "name": "cleanExpiredEntries",
-          "startLine": 90,
-          "endLine": 98,
-          "length": 9,
-          "maxNesting": 4,
-          "branches": 2,
-          "params": 0,
-          "returns": 0,
+          "name": "createEvent",
+          "startLine": 31,
+          "endLine": 168,
+          "length": 138,
+          "maxNesting": 12,
+          "branches": 20,
+          "params": 1,
+          "returns": 3,
           "violations": [
             {
               "rule": "nesting",
-              "value": 4,
+              "value": 12,
               "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 20,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 138,
+              "threshold": 50
             }
           ]
-        },
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/eventsService.ts",
+      "functions": [
         {
-          "name": "invalidateCache",
-          "startLine": 171,
-          "endLine": 183,
-          "length": 13,
-          "maxNesting": 4,
-          "branches": 2,
-          "params": 1,
-          "returns": 0,
+          "name": "getCalendarEvents",
+          "startLine": 33,
+          "endLine": 103,
+          "length": 71,
+          "maxNesting": 8,
+          "branches": 11,
+          "params": 0,
+          "returns": 4,
           "violations": [
             {
               "rule": "nesting",
-              "value": 4,
+              "value": 8,
               "threshold": 3
+            },
+            {
+              "rule": "branches",
+              "value": 11,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50
             }
           ]
         }
@@ -8107,40 +8006,6 @@
             {
               "rule": "branches",
               "value": 9,
-              "threshold": 8
-            },
-            {
-              "rule": "returns",
-              "value": 6,
-              "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 9,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/services/calendarApiService.ts",
-      "functions": [
-        {
-          "name": "handleApiError",
-          "startLine": 132,
-          "endLine": 181,
-          "length": 50,
-          "maxNesting": 12,
-          "branches": 12,
-          "params": 1,
-          "returns": 6,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 12,
-              "threshold": 3
-            },
-            {
-              "rule": "branches",
-              "value": 12,
               "threshold": 8
             },
             {
@@ -9789,6 +9654,35 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/composables/dev/useApiDevPanelData.ts",
+      "functions": [
+        {
+          "name": "useApiDevPanelData",
+          "startLine": 68,
+          "endLine": 236,
+          "length": 169,
+          "maxNesting": 11,
+          "branches": 8,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 11,
+              "threshold": 3
+            },
+            {
+              "rule": "length",
+              "value": 169,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/useAppointment.ts",
       "functions": [
         {
@@ -9896,6 +9790,35 @@
             {
               "rule": "length",
               "value": 59,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotGenerator.ts",
+      "functions": [
+        {
+          "name": "that",
+          "startLine": 160,
+          "endLine": 258,
+          "length": 99,
+          "maxNesting": 4,
+          "branches": 5,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            },
+            {
+              "rule": "length",
+              "value": 99,
               "threshold": 50
             }
           ]
@@ -10521,6 +10444,35 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "functions": [
+        {
+          "name": "buildBatchRelationshipOptions",
+          "startLine": 35,
+          "endLine": 102,
+          "length": 68,
+          "maxNesting": 6,
+          "branches": 6,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            },
+            {
+              "rule": "length",
+              "value": 68,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/scripts/addPropertySizesToAppointments.mjs",
       "functions": [
         {
@@ -10919,8 +10871,8 @@
       "functions": [
         {
           "name": "getStatusCodeForError",
-          "startLine": 29,
-          "endLine": 47,
+          "startLine": 28,
+          "endLine": 46,
           "length": 19,
           "maxNesting": 2,
           "branches": 8,
@@ -10936,8 +10888,8 @@
         },
         {
           "name": "if",
-          "startLine": 140,
-          "endLine": 157,
+          "startLine": 139,
+          "endLine": 156,
           "length": 18,
           "maxNesting": 6,
           "branches": 4,
@@ -10948,6 +10900,35 @@
               "rule": "nesting",
               "value": 6,
               "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
+      "functions": [
+        {
+          "name": "computeRenderAs",
+          "startLine": 22,
+          "endLine": 59,
+          "length": 38,
+          "maxNesting": 9,
+          "branches": 8,
+          "params": 0,
+          "returns": 9,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 3
+            },
+            {
+              "rule": "returns",
+              "value": 9,
+              "threshold": 4
             }
           ]
         }
@@ -10967,6 +10948,30 @@
           "branches": 3,
           "params": 0,
           "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 72,
+          "endLine": 77,
+          "length": 6,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 0,
           "violations": [
             {
               "rule": "nesting",
@@ -11988,6 +11993,30 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/utils/booking/slotAvailabilityManager.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 221,
+          "endLine": 253,
+          "length": 33,
+          "maxNesting": 9,
+          "branches": 6,
+          "params": 1,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/utils/forms/fieldSorting.ts",
       "functions": [
         {
@@ -12420,6 +12449,30 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/middlewares/security.ts",
+      "functions": [
+        {
+          "name": "that",
+          "startLine": 76,
+          "endLine": 105,
+          "length": 30,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 0,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/routes/helpers/dataController.ts",
       "functions": [
         {
@@ -12444,13 +12497,109 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
+      "repoPath": "server/src/routes/helpers/routerResponseHelpers.ts",
+      "functions": [
+        {
+          "name": "that",
+          "startLine": 55,
+          "endLine": 81,
+          "length": 27,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "functions": [
+        {
+          "name": "for",
+          "startLine": 166,
+          "endLine": 195,
+          "length": 30,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "functions": [
+        {
+          "name": "validateInputConfig",
+          "startLine": 86,
+          "endLine": 100,
+          "length": 15,
+          "maxNesting": 4,
+          "branches": 2,
+          "params": 2,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/availabilityValidators.ts",
+      "functions": [
+        {
+          "name": "validateComputedAvailabilityRequest",
+          "startLine": 22,
+          "endLine": 51,
+          "length": 30,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesCrudRouter.ts",
       "functions": [
         {
           "name": "if",
-          "startLine": 526,
-          "endLine": 554,
-          "length": 29,
+          "startLine": 52,
+          "endLine": 66,
+          "length": 15,
           "maxNesting": 4,
           "branches": 3,
           "params": 1,
@@ -12459,6 +12608,126 @@
             {
               "rule": "nesting",
               "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 87,
+          "endLine": 112,
+          "length": 26,
+          "maxNesting": 7,
+          "branches": 4,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityErrorHandler.ts",
+      "functions": [
+        {
+          "name": "handleDatabaseConstraintError",
+          "startLine": 55,
+          "endLine": 89,
+          "length": 35,
+          "maxNesting": 8,
+          "branches": 6,
+          "params": 0,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyErrorHandler.ts",
+      "functions": [
+        {
+          "name": "handleDatabaseConstraintError",
+          "startLine": 47,
+          "endLine": 74,
+          "length": 28,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "functions": [
+        {
+          "name": "validateBlockInstancesForPropertyTypes",
+          "startLine": 98,
+          "endLine": 133,
+          "length": 36,
+          "maxNesting": 5,
+          "branches": 4,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipErrorHandler.ts",
+      "functions": [
+        {
+          "name": "handleRouteError",
+          "startLine": 154,
+          "endLine": 177,
+          "length": 24,
+          "maxNesting": 5,
+          "branches": 7,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
               "threshold": 3
             }
           ]
@@ -12520,8 +12789,8 @@
       "functions": [
         {
           "name": "cleanExpiredEntries",
-          "startLine": 104,
-          "endLine": 112,
+          "startLine": 105,
+          "endLine": 113,
           "length": 9,
           "maxNesting": 4,
           "branches": 2,
@@ -12531,6 +12800,78 @@
             {
               "rule": "nesting",
               "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/calendarHelpers.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 65,
+          "endLine": 94,
+          "length": 30,
+          "maxNesting": 7,
+          "branches": 5,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRateLimiter.ts",
+      "functions": [
+        {
+          "name": "to",
+          "startLine": 26,
+          "endLine": 46,
+          "length": 21,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRetry.ts",
+      "functions": [
+        {
+          "name": "for",
+          "startLine": 87,
+          "endLine": 118,
+          "length": 32,
+          "maxNesting": 9,
+          "branches": 8,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
               "threshold": 3
             }
           ]
@@ -12809,8 +13150,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 426,
-          "length": 426,
+          "endLine": 424,
+          "length": 424,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -12818,7 +13159,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 426,
+              "value": 424,
               "threshold": 100
             }
           ]
@@ -13696,8 +14037,8 @@
       "functions": [
         {
           "name": "getStatusCodeForError",
-          "startLine": 268,
-          "endLine": 283,
+          "startLine": 270,
+          "endLine": 285,
           "length": 16,
           "maxNesting": 2,
           "branches": 6,

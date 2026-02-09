@@ -6,9 +6,8 @@ Generated from `.audit-reports/component-logic-audit.json`.
 
 | File | Priority | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/components/admin/dev/ApiDevPanel.vue` | P0 | 30 | 6 | 4 | 1 | 7 | 7 | 0 | 1 | 1 | 0 | 7 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | P0 | 22 | 17 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 21 | 19 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | P0 | 20 | 15 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | `src/views/admin/tabs/BusinessRulesTab.vue` | P0 | 18 | 6 | 4 | 2 | 3 | 4 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | P1 | 13 | 7 | 1 | 0 | 0 | 0 | 2 | 0 | 3 | 0 | 1 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | P1 | 13 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -36,8 +35,9 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/admin/generic/CardButton.vue` | P2 | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/AppNotification.vue` | P2 | 4 | 3 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/wrappers/ServiceSelectCards.vue` | P2 | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/MetadataEditModal.vue` | P2 | 4 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
 
-*...and 33 more files. See full report for details.*
+*...and 35 more files. See full report for details.*
 
 ## Notes
 

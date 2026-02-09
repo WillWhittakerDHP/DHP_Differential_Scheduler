@@ -463,9 +463,122 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
   return issues
 }
 
+/**
+ * Detect dead scripts in server/src/scripts/
+ *
+ * A "dead script" is a standalone file in server/src/scripts/ that is:
+ *   1. NOT referenced in any package.json npm script
+ *   2. NOT imported by any other file in the codebase
+ *
+ * These are typically one-off data fixup/backfill/check scripts that have
+ * already been executed and serve no ongoing purpose. Git history preserves
+ * them if ever needed for reference.
+ */
+function detectDeadScripts(allFiles) {
+  const scriptsDir = path.join(SERVER_ROOT, 'src', 'scripts')
+  if (!fs.existsSync(scriptsDir)) return []
+
+  // Load all package.json files to check for script references
+  const packageJsonPaths = [
+    path.join(PROJECT_ROOT, 'package.json'),
+    path.join(PROJECT_ROOT, 'server', 'package.json'),
+    path.join(PROJECT_ROOT, 'client', 'package.json'),
+  ]
+
+  const packageScriptContents = packageJsonPaths
+    .filter(p => fs.existsSync(p))
+    .map(p => {
+      try {
+        const pkg = JSON.parse(fs.readFileSync(p, 'utf8'))
+        return Object.values(pkg.scripts || {}).join('\n')
+      } catch {
+        return ''
+      }
+    })
+    .join('\n')
+
+  // List all script files (recursive, including helpers/)
+  const scriptFiles = listScriptFiles(scriptsDir)
+  const findings = []
+
+  for (const absPath of scriptFiles) {
+    const repoPath = toRepoPath(absPath)
+    const basename = path.basename(absPath)
+    const basenameNoExt = basename.replace(/\.(ts|js|mjs|mts)$/, '')
+
+    // Check 1: Is this script referenced in any package.json?
+    // Scripts can be referenced as src/scripts/name.ext or dist/scripts/name.js
+    const isInPackageJson =
+      packageScriptContents.includes(`scripts/${basename}`) ||
+      packageScriptContents.includes(`scripts/${basenameNoExt}.js`)
+
+    if (isInPackageJson) continue
+
+    // Check 2: Is this file imported by any other file?
+    // Check all script files AND all codebase files for imports referencing this basename.
+    // Handles absolute paths (scripts/name), relative paths (./helpers/name), and
+    // TypeScript ESM imports that use .js extension for .ts files
+    const allScriptFiles = listScriptFiles(scriptsDir)
+    const filesToCheck = [...new Set([...allFiles, ...allScriptFiles])]
+    const isImported = filesToCheck.some(otherFile => {
+      if (otherFile === absPath) return false
+      try {
+        const content = fs.readFileSync(otherFile, 'utf-8')
+        if (!content.includes(basenameNoExt)) return false
+        if (!content.includes('from') && !content.includes('require')) return false
+        // Match import path ending with the basename (with or without any extension)
+        // Covers: /name', /name", /name.ts', /name.js', /name.mjs', etc.
+        // eslint-disable-next-line security/detect-non-literal-regexp
+        const importPattern = new RegExp(`/${basenameNoExt}(\\.\\w+)?['"]`)
+        return importPattern.test(content)
+      } catch {
+        return false
+      }
+    })
+
+    if (isImported) continue
+
+    // This script is unreferenced -- flag it
+    findings.push({
+      severity: 'warning',
+      type: 'dead-script',
+      message: `Unreferenced script: ${basename} - not used by any package.json script or imported by other files`,
+      file: repoPath,
+      line: 1,
+      code: '',
+      suggestion: 'Delete this script (git history preserves it). One-off scripts that have already run add noise to audits and the codebase.',
+    })
+  }
+
+  return findings
+}
+
+/**
+ * Recursively list script files in a directory
+ */
+function listScriptFiles(dir) {
+  const files = []
+  if (!fs.existsSync(dir)) return files
+  try {
+    const entries = fs.readdirSync(dir, { withFileTypes: true })
+    for (const entry of entries) {
+      const full = path.join(dir, entry.name)
+      if (entry.isDirectory()) {
+        files.push(...listScriptFiles(full))
+      } else if (entry.isFile() && isScannable(full)) {
+        files.push(full)
+      }
+    }
+  } catch {
+    // Skip unreadable dirs
+  }
+  return files
+}
+
 function calculateScore(issues) {
-  // Scoring: unused exports = 3, commented exports = 2, unused functions = 1, TODO markers = 1
+  // Scoring: dead scripts = 5, unused exports = 3, commented exports = 2, unused functions = 1, TODO markers = 1
   return issues.reduce((sum, issue) => {
+    if (issue.type === 'dead-script') return sum + 5
     if (issue.type === 'unused-export') return sum + 3
     if (issue.type === 'commented-export') return sum + 2
     if (issue.type === 'unused-function') return sum + 1
@@ -503,6 +616,7 @@ function renderMarkdownReport(filesWithPriority, issues, summary, totalFiles) {
   lines.push(`- Commented exports: ${issues.filter(i => i.type === 'commented-export').length}`)
   lines.push(`- Unused functions: ${issues.filter(i => i.type === 'unused-function').length}`)
   lines.push(`- TODO markers: ${issues.filter(i => i.type === 'todo-marker').length}`)
+  lines.push(`- Dead scripts: ${issues.filter(i => i.type === 'dead-script').length}`)
   if (summary.usingPatternDetection) {
     lines.push(`- Using pattern-detection data: **Yes** (prioritizing exports found by pattern-detection)`)
   }
@@ -601,11 +715,23 @@ function main() {
       }
     }
     
+    // Detect dead scripts in server/src/scripts/
+    const deadScriptFindings = detectDeadScripts(allFiles)
+    issues.push(...deadScriptFindings)
+    for (const finding of deadScriptFindings) {
+      const repoPath = finding.file
+      if (!filesWithIssues.has(repoPath)) {
+        filesWithIssues.set(repoPath, [])
+      }
+      filesWithIssues.get(repoPath).push(finding)
+    }
+
     // Generate recommendations
     const unusedExportsCount = issues.filter(i => i.type === 'unused-export').length
     const commentedCount = issues.filter(i => i.type === 'commented-export').length
     const unusedFuncCount = issues.filter(i => i.type === 'unused-function').length
     const todoCount = issues.filter(i => i.type === 'todo-marker').length
+    const deadScriptCount = issues.filter(i => i.type === 'dead-script').length
     
     if (unusedExportsCount > 0) {
       recommendations.push(`Found ${unusedExportsCount} unused export(s) - review for removal`)
@@ -618,6 +744,9 @@ function main() {
     }
     if (todoCount > 0) {
       recommendations.push(`Found ${todoCount} TODO/FIXME marker(s) about unused code - review and clean up`)
+    }
+    if (deadScriptCount > 0) {
+      recommendations.push(`Found ${deadScriptCount} dead script(s) in server/src/scripts/ - delete unreferenced one-off scripts (git preserves history)`)
     }
     
     if (issues.length === 0) {
@@ -660,7 +789,8 @@ function main() {
   const serverFiles = listFilesRecursive(SERVER_SRC)
   const totalFiles = clientFiles.length + serverFiles.length
   
-  const summaryText = `Scanned ${totalFiles} file(s) (${clientFiles.length} client, ${serverFiles.length} server). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers`
+  const deadScripts = issues.filter(i => i.type === 'dead-script').length
+  const summaryText = `Scanned ${totalFiles} file(s) (${clientFiles.length} client, ${serverFiles.length} server). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers, ${deadScripts} dead scripts`
   
   const summary = {
     totalFiles,
@@ -671,6 +801,7 @@ function main() {
     commentedExports: issues.filter(i => i.type === 'commented-export').length,
     unusedFunctions: issues.filter(i => i.type === 'unused-function').length,
     todoMarkers: issues.filter(i => i.type === 'todo-marker').length,
+    deadScripts,
     usingPatternDetection: !!patternData,
     usingHardcoding: !!hardcodingData,
     usingTypecheck: !!typecheckErrorFiles,

@@ -1,14 +1,14 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-08T23:31:49.217Z
+Generated at: 2026-02-09T16:43:21.311Z
 
 ## Summary
 
-- **Total source files**: 701
+- **Total source files**: 798
 - **Total test files**: 127
-- **Untested source files**: 585
+- **Untested source files**: 682
 - **Orphaned test files**: 10
-- **Coverage**: 17%
+- **Coverage**: 15%
 
 ## Untested Source Files (Priority: High)
 
@@ -36,7 +36,9 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/dev/usePanelPosition.ts` | **6.9** | 9 | 7 | 6 | 0 | 2 |
 | `client/src/composables/booking/useComputedAvailability.ts` | **6.9** | 10 | 7 | 4 | 0 | 2 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | **6.9** | 7 | 9 | 7 | 0 | 3 |
+| `client/src/utils/booking/busyPeriodProcessor.ts` | **6.8** | 6 | 8 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardDevMode.ts` | **6.7** | 9 | 7 | 5 | 0 | 2 |
+| `client/src/utils/booking/slotGenerator.ts` | **6.6** | 7 | 6 | 10 | 0 | 1 |
 | `client/src/composables/booking/useApiCallStatus.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilitySlotColor.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useDateRangeDecider.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
@@ -44,12 +46,15 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useMockCalendarRefresh.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/usePerspectiveMapping.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/utils/booking/blockFinalizer.ts` | **6.4** | 5 | 8 | 10 | 0 | 2 |
+| `client/src/utils/booking/timeSlotTypes.ts` | **6.4** | 6 | 8 | 8 | 0 | 2 |
 | `client/src/composables/admin/tables/useAppointmentHelpers.ts` | **6.3** | 7 | 5 | 10 | 0 | 2 |
 | `client/src/composables/admin/useInstanceFiltering.ts` | **6.3** | 8 | 5 | 8 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceCollection.ts` | **6.3** | 10 | 5 | 4 | 0 | 2 |
 | `client/src/composables/admin/useSelectFiltering.ts` | **6.3** | 8 | 5 | 6 | 4 | 2 |
+| `client/src/utils/booking/overlapConstraintChecker.ts` | **6.3** | 6 | 8 | 6 | 3 | 2 |
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | **6.1** | 9 | 5 | 5 | 0 | 2 |
 | `client/src/composables/booking/useElementDimensions.ts` | **6.1** | 7 | 7 | 6 | 0 | 2 |
+| `client/src/utils/booking/rangeConstraintChecker.ts` | **6.1** | 6 | 6 | 9 | 1 | 1 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | **6.0** | 7 | 5 | 8 | 1 | 2 |
 | `client/src/composables/admin/useEntityCardSaveState.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `client/src/composables/admin/useSelectDomTargets.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
@@ -61,12 +66,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
 | `client/src/composables/admin/useBusinessRules.ts` | **5.7** | 7 | 5 | 5 | 4 | 2 |
 | `client/src/composables/admin/useMetadataCache.ts` | **5.7** | 7 | 6 | 5 | 1 | 3 |
-| `client/src/utils/ternary/ternaryUtils.ts` | **5.7** | 4 | 7 | 10 | 0 | 3 |
-| `client/src/utils/booking/dateRangeValidation.ts` | **5.6** | 3 | 8 | 10 | 0 | 2 |
-| `server/src/utils/propertyTransformers.ts` | **5.6** | 6 | 4 | 10 | 0 | 1 |
-| `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | **5.5** | 7 | 5 | 6 | 0 | 2 |
-| `client/src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `client/src/composables/admin/useFieldMetadataUpdate.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
+| `client/src/utils/booking/capacityConstraintChecker.ts` | **5.7** | 7 | 6 | 5 | 1 | 1 |
 
 ## Orphaned Test Files (Priority: Medium)
 
@@ -90,11 +90,6 @@ These test files may not have corresponding source files, or the mapping failed.
 | Directory | Sources | Tests | Untested | Coverage % |
 | --- | ---: | ---: | ---: | ---: |
 | `client/src/utils/time` | 1 | 1 | 0 | 100% |
-| `server/src/routes/internal/appointments` | 1 | 1 | 0 | 100% |
-| `server/src/routes/internal/entities` | 1 | 1 | 0 | 100% |
-| `server/src/routes/internal/properties` | 1 | 1 | 0 | 100% |
-| `server/src/routes/internal/relationships` | 1 | 1 | 0 | 100% |
-| `server/src/routes/internal/users` | 1 | 1 | 0 | 100% |
 | `client/src/@core/utils/__tests__` | 0 | 0 | 0 | 100% |
 | `client/src/composables/__tests__` | 0 | 0 | 0 | 100% |
 | `client/src/composables/booking/__tests__` | 0 | 0 | 0 | 100% |
@@ -119,6 +114,11 @@ These test files may not have corresponding source files, or the mapping failed.
 | `client/src/@layouts/plugins` | 1 | 0 | 1 | 0% |
 | `client/src/@layouts/stores` | 1 | 0 | 1 | 0% |
 | `client/src/components/admin/component` | 1 | 0 | 1 | 0% |
+| `client/src/components/admin/metadata` | 1 | 0 | 1 | 0% |
+| `client/src/components/booking/modals` | 1 | 0 | 1 | 0% |
+| `client/src/components/booking/types` | 1 | 0 | 1 | 0% |
+| `client/src/components/common` | 1 | 0 | 1 | 0% |
+| `client/src/components/dev` | 1 | 0 | 1 | 0% |
 
 ## Recommendations
 

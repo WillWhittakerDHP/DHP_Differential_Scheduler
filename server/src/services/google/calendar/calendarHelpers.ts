@@ -29,6 +29,7 @@ export async function transformEventsWithGeocoding(
     location?: string | null
     summary?: string | null
     eventType?: string | null
+    transparency?: string | null  // 'opaque' (blocks time) or 'transparent' (free)
   }>
 ): Promise<CachedCalendarEvent[]> {
   // Filter and transform events
@@ -49,10 +50,11 @@ export async function transformEventsWithGeocoding(
         end: endTime,
         location: event.location || null, // Temporary - will be geocoded to placeId
         summary: event.summary || null,
-        eventType: event.eventType || 'default'
+        eventType: event.eventType || 'default',
+        transparency: event.transparency || undefined
       }
     })
-    .filter((event): event is { id: string; start: string; end: string; location: string | null; summary: string | null; eventType: string } => event !== null)
+    .filter((event): event is NonNullable<typeof event> => event !== null)
   
   // Geocode addresses to placeIds
   // LEARNING: Convert address strings to placeIds for accurate drive time calculations
@@ -69,7 +71,8 @@ export async function transformEventsWithGeocoding(
             end: event.end,
             placeId: placeId || undefined, // Store placeId if found, undefined if not
             summary: event.summary,
-            eventType: event.eventType || 'default'
+            eventType: event.eventType || 'default',
+            transparency: event.transparency
           }
         } catch (error) {
           // Log warning but continue - geocoding failure shouldn't break event fetching
@@ -84,7 +87,8 @@ export async function transformEventsWithGeocoding(
             end: event.end,
             placeId: undefined, // No placeId if geocoding failed
             summary: event.summary,
-            eventType: event.eventType || 'default'
+            eventType: event.eventType || 'default',
+            transparency: event.transparency
           }
         }
       }
@@ -95,68 +99,11 @@ export async function transformEventsWithGeocoding(
         end: event.end,
         placeId: undefined,
         summary: event.summary,
-        eventType: event.eventType || 'default'
+        eventType: event.eventType || 'default',
+        transparency: event.transparency
       }
     })
   )
   
   return events
-}
-
-/**
- * Transform free-busy response to our format
- * LEARNING: Filters and transforms busy periods from Google Calendar API
- * WHY: Ensures consistent format and filters invalid periods
- * PATTERN: Map over calendars, filter busy periods
- * 
- * @param googleCalendars - Calendar data from Google Calendar API
- * @returns Transformed free-busy data
- */
-export function transformFreeBusyResponse(googleCalendars: {
-  [email: string]: {
-    busy?: Array<{ start?: string | null; end?: string | null } | null> | null
-  } | null
-}): {
-  calendars: {
-    [email: string]: {
-      busy: Array<{
-        start: string
-        end: string
-      }>
-    }
-  }
-} {
-  const freeBusyData: {
-    calendars: {
-      [email: string]: {
-        busy: Array<{
-          start: string
-          end: string
-        }>
-      }
-    }
-  } = {
-    calendars: {}
-  }
-  
-  for (const [email, calendarData] of Object.entries(googleCalendars)) {
-    if (!calendarData) {
-      continue
-    }
-    
-    // Filter out null/undefined busy periods and ensure start/end are strings
-    const rawBusyPeriods = calendarData.busy || []
-    const filteredBusyPeriods = rawBusyPeriods.filter(period => period && period.start && period.end)
-    
-    const busyPeriods = filteredBusyPeriods.map(period => ({
-      start: period!.start!,
-      end: period!.end!
-    }))
-    
-    freeBusyData.calendars[email] = {
-      busy: busyPeriods
-    }
-  }
-  
-  return freeBusyData
 }

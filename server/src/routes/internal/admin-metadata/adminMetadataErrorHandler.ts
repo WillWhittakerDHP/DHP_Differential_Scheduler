@@ -12,6 +12,7 @@ import {
   handleGeneralError as sharedHandleGeneralError,
   handleRouteError as sharedHandleRouteError,
 } from '../../helpers/routerErrorHandler.js'
+import { VALIDATION_FAILED_MESSAGE } from '../../../constants/router.js'
 
 /**
  * Handle Sequelize validation errors
@@ -30,7 +31,7 @@ export function handleSequelizeValidationError(
   return sharedHandleSequelizeValidationError(
     error,
     res,
-    'Validation failed'
+    VALIDATION_FAILED_MESSAGE
   )
 }
 

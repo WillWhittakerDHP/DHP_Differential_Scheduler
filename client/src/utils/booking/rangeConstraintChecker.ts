@@ -2,7 +2,7 @@
  * Range Constraint Checker
  * 
  * LEARNING: Handles range constraint checking (business hours, lead time, date range)
- * WHY: Separated from slotAvailabilityManager to reduce complexity and improve maintainability
+ * WHY: Separated from slotAvailabilityOrchestrator to reduce complexity and improve maintainability
  * PATTERN: Pure utility functions - no side effects
  */
 
@@ -148,8 +148,7 @@ export function checkRangeConstraints(
   constraints: RangeConstraint[],
   now: Date = new Date(),
   businessHoursCache?: ParsedBusinessHoursCache,
-  dates?: { start: Date; end: Date },
-  _allSlots?: TimeSlot[]
+  dates?: { start: Date; end: Date }
 ): { passes: boolean; violations: string[] } {
   if (constraints.length === 0) {
     return { passes: true, violations: [] }
@@ -196,17 +195,18 @@ export function checkRangeConstraints(
     }
   }
 
-  // PATTERN: Filter constraints, check each, collect violations, check for hard failures
-  const activeConstraints = constraints.filter(c => c.enforcement !== 'off')
+  // PATTERN: Check each constraint, collect violations, check for hard failures
+  // NOTE: Callers are responsible for passing only active constraints (enforcement !== 'off')
+  // Constraints are pre-filtered by filterActiveConstraints() in slotAvailabilityManager
   
-  const hardFailure = activeConstraints.find(
+  const hardFailure = constraints.find(
     constraint => constraint.enforcement === 'hard' && !checkConstraint(constraint)
   )
   if (hardFailure) {
     return { passes: false, violations: [] }
   }
 
-  const violations = activeConstraints
+  const violations = constraints
     .filter(constraint => 
       constraint.enforcement === 'flexible' && !checkConstraint(constraint)
     )

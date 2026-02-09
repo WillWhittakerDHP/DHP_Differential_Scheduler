@@ -129,6 +129,26 @@ export function getAdminMetadataBatchEndpoint(): string {
   return '/admin-metadata/batch'
 }
 
+/**
+ * Entities Batch API endpoint
+ * LEARNING: Single endpoint fetches ALL entity types in one request
+ * WHY: Reduces N+8 calls to 1 call, improves initial load performance
+ * PATTERN: Batch endpoint returns structured entities for all entity types
+ */
+export function getEntitiesBatchEndpoint(): string {
+  return '/entities/batch'
+}
+
+/**
+ * Relationships Batch API endpoint
+ * LEARNING: Single endpoint fetches ALL relationship types in one request
+ * WHY: Reduces N+10 calls to 1 call, improves initial load performance
+ * PATTERN: Batch endpoint returns structured relationships for all relationship types
+ */
+export function getRelationshipsBatchEndpoint(): string {
+  return '/relationships/batch'
+}
+
 
 export function getAdminPrimitiveMetadataEndpoint(entityType: string, entityId: string): string {
   // Route to unified endpoint (backward compatibility)

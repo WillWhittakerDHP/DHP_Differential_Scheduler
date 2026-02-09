@@ -2,6 +2,9 @@ import type { InferAttributes } from 'sequelize';
 import { Model } from 'sequelize';
 import { BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
 import { Op } from 'sequelize';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('SnapshotLoader');
 
 /**
  * Appointment Snapshot Loader Service
@@ -56,7 +59,7 @@ export async function loadBlockInstanceFromVersion(
   });
   
   if (!blockVersion) {
-    console.warn(`[SnapshotLoader] Version ${versionId} not found`);
+    logger.warn(`Version ${versionId} not found`);
     return null; // Graceful degradation
   }
   
@@ -77,8 +80,8 @@ export async function loadAppointmentVersions(
   const validVersions = versions.filter(v => v !== null) as any[];
   
   if (validVersions.length !== snapshotIds.length) {
-    console.warn(
-      `[SnapshotLoader] Some versions missing: ${snapshotIds.length - validVersions.length} of ${snapshotIds.length}`
+    logger.warn(
+      `Some versions missing: ${snapshotIds.length - validVersions.length} of ${snapshotIds.length}`
     );
   }
   

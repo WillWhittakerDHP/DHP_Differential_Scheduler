@@ -11,6 +11,9 @@
  */
 
 import type { RouteLocation } from './google/maps/mapsTypes.js';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('DriveTimeCache');
 
 /**
  * Cached drive time entry
@@ -143,7 +146,7 @@ export function getCachedDriveTime(
     return null;
   }
   
-  console.log(`[DriveTimeCache] Cache hit for ${key.substring(0, 50)}...`);
+  logger.debug(`Cache hit for ${key.substring(0, 50)}...`);
   return entry;
 }
 
@@ -172,7 +175,7 @@ export function cacheDriveTime(
     timestamp: Date.now()
   });
   
-  console.log(`[DriveTimeCache] Cached drive time for ${key.substring(0, 50)}...`);
+  logger.debug(`Cached drive time for ${key.substring(0, 50)}...`);
   
   // Clean expired entries periodically (every 10th cache write)
   if (cache.size % 10 === 0) {
@@ -187,7 +190,7 @@ export function cacheDriveTime(
  */
 export function clearDriveTimeCache(): void {
   cache.clear();
-  console.log('[DriveTimeCache] Cache cleared');
+  logger.info('Cache cleared');
 }
 
 /**

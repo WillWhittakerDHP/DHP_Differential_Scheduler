@@ -39,6 +39,10 @@
  * ============================================================================
  */
 
+import { createLogger } from '../logger.js';
+
+const logger = createLogger('AvailabilitiesDbUtils');
+
 /**
  * Helper Function: Sum Work Hours for Day
  * LEARNING: Calculates total scheduled work hours for a specific date
@@ -93,7 +97,7 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
   } catch (error) {
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] Failed to sum work hours for date ${date.toISOString()}:`, errorMessage);
+    logger.error(`Failed to sum work hours for date ${date.toISOString()}:`, errorMessage);
     
     return 0;
   }
@@ -149,7 +153,7 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
   } catch (error) {
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] Failed to sum work hours for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`, errorMessage);
+    logger.error(`Failed to sum work hours for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`, errorMessage);
     
     return 0;
   }
@@ -196,7 +200,7 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
   } catch (error) {
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] Failed to sum work hours for calendar week containing ${date.toISOString()}:`, errorMessage);
+    logger.error(`Failed to sum work hours for calendar week containing ${date.toISOString()}:`, errorMessage);
     
     return 0;
   }
@@ -281,7 +285,7 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
         break;
         
       default:
-        console.warn(`[WARN] Invalid rolling week direction: ${direction}, defaulting to 'past'`);
+        logger.warn(`Invalid rolling week direction: ${direction}, defaulting to 'past'`);
         endDate = new Date(Date.UTC(
           referenceDateUTC.getUTCFullYear(),
           referenceDateUTC.getUTCMonth(),
@@ -300,7 +304,7 @@ export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingW
   } catch (error) {
     // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, errorMessage);
+    logger.error(`Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, errorMessage);
     
     return 0;
   }

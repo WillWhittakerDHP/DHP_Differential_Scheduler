@@ -8,19 +8,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-08T23:28:46.301Z**
+- Generated at: **2026-02-09T16:40:57.808Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 78**
+- **Errors requiring review: 80**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **42**
+- Pools: **45**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-logger` | 187 | 15 | 11 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-logger` | 163 | 13 | 10 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-coordinates-propertyformdata` | 83 | 7 | 3 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-placeid-propertyformdata` | 83 | 7 | 3 | 0 | 0 |
 | P0 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-placeid-does-not-exist-in-type-propertyformdata` | 37 | 3 | 2 | 0 | 0 |
@@ -28,23 +28,23 @@ Exception handling:
 | P0 | `TS2339-ts2339-prop-latitude-propertyresponse` | 24 | 2 | 1 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-longitude-propertyresponse` | 24 | 2 | 1 | 0 | 0 |
 | P0 | `TS2339-ts2339-prop-placeid-propertyresponse` | 24 | 2 | 1 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-computeddata-events-freebusy-routes-places` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-computeddata-events-routes-places` | 24 | 2 | 1 | 0 | 0 |
 | P1 | `TS6133-ts6133-eventperspective-is-declared-but-its-value-is-never-read` | 16 | 3 | 2 | 0 | 0 |
 | P1 | `TS2304-ts2304-cannot-find-name-optionentitykey` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2322-ts2322-assign-string-undefined-string` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2339-ts2339-prop-close` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-config-constraint` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2741-ts2741-property-blockshape-is-missing-in-type-id-string-entitykey-blockinstance-name-string-active-boolean-basesqft-numb` | 12 | 1 | 1 | 0 | 0 |
 | P1 | `TS2741-ts2741-property-blockshape-is-missing-in-type-id-string-entitykey-blockinstance-name-string-basesqft-number-icon-string-` | 12 | 1 | 1 | 0 | 0 |
 | P1 | `TS6133-ts6133-busytimerange-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P1 | `TS6133-ts6133-ref-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
 | P1 | `TS18004-ts18004-no-value-exists-in-scope-for-the-shorthand-property-groupkey-either-declare-one-or-provide-an-initializer` | 11 | 1 | 1 | 0 | 0 |
 | P2 | `TS2869-ts2869-right-operand-of-is-unreachable-because-the-left-operand-is-never-nullish` | 9 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-blockshapebyid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-calendarisvalid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-capacityconstraints-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-capacitykeyparts-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-error-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 | P2 | `TS6133-ts6133-formattimefordisplay-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getviolationstring-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-hasdevpanelbuttons-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -72,19 +72,6 @@ TS2339@273:34 Property 'coordinates' does not exist on type 'PropertyFormData'.
 TS2339@274:31 Property 'placeId' does not exist on type 'PropertyFormData'.
 TS2339@280:41 Property 'coordinates' does not exist on type 'PropertyFormData'.
 TS2339@281:38 Property 'placeId' does not exist on type 'PropertyFormData'.
-```
-
-### `src/utils/booking/timeAvailabilityManager.ts`
-
-- errors: 6, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@166:34 'TIME_BASIS_TYPES' is declared but its value is never read.
-TS6133@603:9 'getViolationString' is declared but its value is never read.
-TS6133@914:3 'passes' is declared but its value is never read.
-TS6133@1246:3 'rangeConstraints' is declared but its value is never read.
-TS6133@1247:3 'overlapConstraints' is declared but its value is never read.
-TS6133@1248:3 'capacityConstraints' is declared but its value is never read.
 ```
 
 ### `src/utils/transformers/appointmentToWizardTransformer.ts`
@@ -125,18 +112,6 @@ TS2339@196:14 Property 'coordinates' does not exist on type 'PropertyFormData'.
 TS2304@208:5 Cannot find name 'logger'.
 ```
 
-### `src/services/calendarApiService.ts`
-
-- errors: 5, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@12:1 'BusyTimeRange' is declared but its value is never read.
-TS6133@13:1 'RFC3339DateTime' is declared but its value is never read.
-TS6196@50:11 'ServerFreeBusyResponse' is declared but never used.
-TS2345@246:19 Argument of type '"computedData"' is not assignable to parameter of type '"events" | "freeBusy" | "routes" | "places"'.
-TS2345@255:19 Argument of type '"computedData"' is not assignable to parameter of type '"events" | "freeBusy" | "routes" | "places"'.
-```
-
 ### `src/composables/admin/useBusinessRules.ts`
 
 - errors: 4, unsafeCasts: 0, suppressions: 0
@@ -148,13 +123,35 @@ TS2304@235:7 Cannot find name 'logger'.
 TS2304@284:7 Cannot find name 'logger'.
 ```
 
+### `src/services/calendarApiService.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@12:1 'BusyTimeRange' is declared but its value is never read.
+TS6133@13:1 'RFC3339DateTime' is declared but its value is never read.
+TS2345@236:19 Argument of type '"computedData"' is not assignable to parameter of type '"events" | "routes" | "places"'.
+TS2345@245:19 Argument of type '"computedData"' is not assignable to parameter of type '"events" | "routes" | "places"'.
+```
+
+### `src/utils/booking/timeSlotFitter.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@12:32 'DayOfWeek' is declared but never used.
+TS6133@23:3 'timeRangesOverlap' is declared but its value is never read.
+TS6133@24:3 'parseBusinessHours' is declared but its value is never read.
+TS2339@204:36 Property 'config' does not exist on type 'Constraint'.
+```
+
 ### `src/utils/timeSlotCalculations.ts`
 
 - errors: 4, unsafeCasts: 0, suppressions: 0
 
 ```
 TS6133@12:10 'toRFC3339DateTime' is declared but its value is never read.
-TS6133@14:52 'BusyTimeRange' is declared but its value is never read.
+TS6133@14:59 'BusyTimeRange' is declared but its value is never read.
 TS6192@15:1 All imports in import declaration are unused.
 TS6133@16:1 'validateDateRange' is declared but its value is never read.
 ```
@@ -198,13 +195,22 @@ TS2339@79:18 Property 'placeId' does not exist on type 'PropertyFormData'.
 TS2339@80:18 Property 'coordinates' does not exist on type 'PropertyFormData'.
 ```
 
-### `src/main.ts`
+### `src/utils/booking/slotAvailabilityManager.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2304@144:5 Cannot find name 'logger'.
-TS2304@160:3 Cannot find name 'logger'.
+TS6196@62:3 'RangeConstraint' is declared but never used.
+TS6196@64:3 'CapacityConstraint' is declared but never used.
+```
+
+### `src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:21 'getEntityEndpoint' is declared but its value is never read.
+TS6133@9:40 'getRelationshipEndpoint' is declared but its value is never read.
 ```
 
 ### `src/utils/transformers/globalToBookingTransformer.ts`
@@ -296,6 +302,14 @@ TS2741@106:15 Property 'blockShape' is missing in type '{ id: string; entityKey:
 TS2353@70:5 Object literal may only specify known properties, and 'placeId' does not exist in type 'PropertyFormData'.
 ```
 
+### `src/composables/dev/useDevPanelTabs.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@9:27 'Ref' is declared but its value is never read.
+```
+
 ### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
@@ -312,6 +326,14 @@ TS2304@141:7 Cannot find name 'logger'.
 TS2304@224:5 Cannot find name 'logger'.
 ```
 
+### `src/composables/useAvailability.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6196@20:41 'Constraint' is declared but never used.
+```
+
 ### `src/composables/useSelectOptions.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
@@ -326,6 +348,14 @@ TS2304@290:83 Cannot find name 'optionEntityKey'.
 
 ```
 TS2304@45:9 Cannot find name 'logger'.
+```
+
+### `src/utils/booking/capacityConstraintChecker.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@12:3 'CapacityKeyParts' is declared but its value is never read.
 ```
 
 ### `src/utils/dependencyCleanup.ts`

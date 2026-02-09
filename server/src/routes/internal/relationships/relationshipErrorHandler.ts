@@ -13,6 +13,7 @@ import {
   handleRouteError as sharedHandleRouteError,
 } from '../../helpers/routerErrorHandler.js'
 import { SEQUELIZE_ERROR_CODES, ERROR_MESSAGES } from './relationshipConstants.js'
+import { VALIDATION_FAILED_MESSAGE } from '../../../constants/router.js'
 
 /**
  * Handle Sequelize unique constraint errors
@@ -111,7 +112,7 @@ export function handleSequelizeValidationError(
   return sharedHandleSequelizeValidationError(
     error,
     res,
-    'Validation failed'
+    VALIDATION_FAILED_MESSAGE
   )
 }
 

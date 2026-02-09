@@ -11,7 +11,7 @@ import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
-import { fitAvailableTimeSlots } from '@/utils/booking/timeSlotFitter'  // P3-6: Renamed for clarity
+import { computeSlotAvailability } from '@/utils/booking/slotPipeline'
 import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'
@@ -183,16 +183,16 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         throw new Error('businessHours must be provided in rangeConstraints.businessHours.config.hours')
       }
       
-      const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity
+      const result = computeSlotAvailability({
         startBoundary: innerBoundary,
         endBoundary: outerBoundary,
         duration,
         businessHours,
         minuteIncrement: settings.minuteIncrement,
         includeFlags: { major: false, minor: false, moveable: true }
-      })
+      }, [])
       
-      const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({
+      const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
         startTime: slot.startTime,
         endTime: slot.endTime,
         duration: slot.duration,

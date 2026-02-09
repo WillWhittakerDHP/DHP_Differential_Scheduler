@@ -23,6 +23,7 @@ export interface CachedCalendarEvent {
   placeId?: string;        // Google Place ID (primary location identifier)
   summary: string | null;   // Event title for context/debugging
   eventType?: string;       // 'default' | 'outOfOffice' - distinguishes regular events from out-of-office events
+  transparency?: string;    // 'opaque' | 'transparent' - whether event blocks time (opaque = busy, transparent = free)
 }
 
 interface EventsCacheEntry {

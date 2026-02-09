@@ -1,7 +1,6 @@
-import { google } from 'googleapis';
-import type { OAuth2Client } from 'google-auth-library';
-import fs from 'fs';
-import path from 'path';
+import { google } from 'googleapis'
+import { createLogger } from '../utils/logger.js'
+import { saveTokensToFile, loadTokensFromFile } from './googleOAuthTokenPersistence.js'
 
 /**
  * Google OAuth Configuration
@@ -14,13 +13,7 @@ import path from 'path';
  * WHY: Tokens survive server restarts, no need to re-authenticate repeatedly
  */
 
-/**
- * Token file path for persisting OAuth tokens across server restarts
- * LEARNING: Store tokens in a file for development convenience
- * WHY: Avoids re-authentication on every server restart
- * PATTERN: File stored in server root, gitignored for security
- */
-const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json');
+const logger = createLogger('googleOAuth')
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -61,23 +54,23 @@ export const oauth2Client = new google.auth.OAuth2(
  */
 export function getAuthUrl(): string {
   // Debug: Log all configuration values
-  console.log('[GoogleOAuth] Client ID:', GOOGLE_CLIENT_ID);
-  console.log('[GoogleOAuth] Redirect URI configured:', GOOGLE_REDIRECT_URI);
-  console.log('[GoogleOAuth] Scopes:', GOOGLE_SCOPES);
+  logger.debug('Client ID:', GOOGLE_CLIENT_ID)
+  logger.debug('Redirect URI configured:', GOOGLE_REDIRECT_URI)
+  logger.debug('Scopes:', GOOGLE_SCOPES)
   
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline', // Request refresh token
     scope: GOOGLE_SCOPES,
     prompt: 'consent' // Force consent screen to get refresh token
-  });
+  })
   
   // Debug: Parse and log the redirect_uri from the generated URL
-  const urlObj = new URL(authUrl);
-  const redirectUriParam = urlObj.searchParams.get('redirect_uri');
-  console.log('[GoogleOAuth] Redirect URI in auth URL:', redirectUriParam);
-  console.log('[GoogleOAuth] Full generated auth URL:', authUrl);
+  const urlObj = new URL(authUrl)
+  const redirectUriParam = urlObj.searchParams.get('redirect_uri')
+  logger.debug('Redirect URI in auth URL:', redirectUriParam)
+  logger.debug('Full generated auth URL:', authUrl)
   
-  return authUrl;
+  return authUrl
 }
 
 /**
@@ -88,34 +81,9 @@ export function getAuthUrl(): string {
  * @returns Token response with access_token, refresh_token, etc.
  */
 export async function getTokens(code: string) {
-  const { tokens } = await oauth2Client.getToken(code);
-  oauth2Client.setCredentials(tokens);
-  return tokens;
-}
-
-/**
- * Refresh expired access token using refresh token
- * LEARNING: Uses refresh token to get new access token without user interaction
- * WHY: Access tokens expire, refresh tokens allow automatic renewal
- * @param refreshToken Refresh token from previous OAuth flow
- * @returns New token response
- */
-export async function refreshAccessToken(refreshToken: string) {
-  oauth2Client.setCredentials({ refresh_token: refreshToken });
-  const { credentials } = await oauth2Client.refreshAccessToken();
-  return credentials;
-}
-
-/**
- * Get authenticated calendar client using access token
- * LEARNING: Creates calendar API client with authenticated OAuth2Client
- * WHY: Provides authenticated client for making Calendar API calls
- * @param accessToken Access token for authentication
- * @returns Authenticated calendar client
- */
-export function getAuthenticatedClient(accessToken: string): OAuth2Client {
-  oauth2Client.setCredentials({ access_token: accessToken });
-  return oauth2Client;
+  const { tokens } = await oauth2Client.getToken(code)
+  oauth2Client.setCredentials(tokens)
+  return tokens
 }
 
 /**
@@ -147,68 +115,12 @@ export function getCredentials() {
 // =============================================================================
 
 /**
- * Save tokens to file for persistence across server restarts
- * 
- * LEARNING: File-based persistence for development convenience
- * WHY: Avoids re-authentication every time server restarts
- * PATTERN: JSON file storage, gitignored for security
- * 
- * @param tokens Token object from OAuth flow (Google Credentials type)
+ * Re-export token persistence functions for backward compatibility
+ * LEARNING: Maintains existing import paths while extracting complexity
+ * WHY: Callers can continue importing from googleOAuth.ts
+ * PATTERN: Re-export pattern for module organization
  */
-export function saveTokensToFile(tokens: object): void {
-  try {
-    fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokens, null, 2));
-    console.log('[GoogleOAuth] Tokens saved to file:', TOKEN_FILE);
-  } catch (error) {
-    console.error('[GoogleOAuth] Failed to save tokens to file:', error);
-  }
-}
-
-/**
- * Load tokens from file on server startup
- * 
- * LEARNING: Restores authentication state from previous session
- * WHY: No need to re-authenticate after server restart
- * PATTERN: Check file exists, load and set credentials
- * 
- * @returns true if tokens were loaded, false otherwise
- */
-export function loadTokensFromFile(): boolean {
-  try {
-    if (!fs.existsSync(TOKEN_FILE)) {
-      console.log('[GoogleOAuth] No saved tokens found - authentication required');
-      console.log('[GoogleOAuth] Visit http://localhost:3001/api/v1/external/oauth to authenticate');
-      return false;
-    }
-
-    const fileContent = fs.readFileSync(TOKEN_FILE, 'utf-8');
-    const tokens = JSON.parse(fileContent) as {
-      access_token?: string | null;
-      refresh_token?: string | null;
-      expiry_date?: number | null;
-    };
-
-    if (!tokens.refresh_token) {
-      console.warn('[GoogleOAuth] Saved tokens missing refresh_token - re-authentication required');
-      return false;
-    }
-
-    oauth2Client.setCredentials(tokens);
-    console.log('[GoogleOAuth] Tokens loaded from file');
-    console.log('[GoogleOAuth] Has access token:', !!tokens.access_token);
-    console.log('[GoogleOAuth] Has refresh token:', !!tokens.refresh_token);
-    
-    // Check if access token is expired
-    if (tokens.expiry_date && tokens.expiry_date < Date.now()) {
-      console.log('[GoogleOAuth] Access token expired - will auto-refresh on next API call');
-    }
-
-    return true;
-  } catch (error) {
-    console.error('[GoogleOAuth] Failed to load tokens from file:', error);
-    return false;
-  }
-}
+export { saveTokensToFile, loadTokensFromFile }
 
 /**
  * Check if we have valid credentials (either in memory or on file)

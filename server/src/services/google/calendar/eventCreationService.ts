@@ -9,7 +9,6 @@
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
-import { invalidateCache as invalidateFreeBusyCache } from '../../freeBusyCache.js'
 import { invalidateEventsCache } from '../../calendarEventsCache.js'
 import { withRetry, classifyError, logCalendarError, CalendarApiError } from '../../calendarErrorHandler.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -114,9 +113,6 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       // CRITICAL: Invalidate caches after event creation
       // This ensures subsequent availability checks get fresh data
       logger.debug('Invalidating caches after event creation', { calendarId })
-      
-      // Invalidate free-busy cache for this calendar
-      invalidateFreeBusyCache([calendarId])
       
       // Invalidate events cache for this calendar
       invalidateEventsCache(calendarId)

@@ -4,8 +4,8 @@ Generated from `.audit-reports/test-audit.json`.
 
 ## Quick Stats
 
-- **Coverage**: 17%
-- **Untested**: 585 files
+- **Coverage**: 15%
+- **Untested**: 682 files
 - **Orphaned**: 10 tests
 
 ## Top Untested Files (by Priority Score)
@@ -33,7 +33,7 @@ Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independ
 | `client/src/composables/booking/dev/usePanelPosition.ts` | P1 | 6.9 | 9 | 7 | 2 |
 | `client/src/composables/booking/useComputedAvailability.ts` | P1 | 6.9 | 10 | 7 | 2 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | P1 | 6.9 | 7 | 9 | 3 |
-| `client/src/composables/booking/useWizardDevMode.ts` | P1 | 6.7 | 9 | 7 | 2 |
+| `client/src/utils/booking/busyPeriodProcessor.ts` | P1 | 6.8 | 6 | 8 | 2 |
 
 ## Full Report
 

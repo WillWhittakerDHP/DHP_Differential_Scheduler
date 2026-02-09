@@ -6,17 +6,18 @@ Generated from `.audit-reports/unused-code-audit.json`.
 
 | File | Priority | Score | Unused Exports | Commented | Unused Functions | TODO Markers |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | P0 | 19 | 6 | 0 | 1 | 0 |
 | `client/src/vite-env.d.ts` | P0 | 18 | 6 | 0 | 0 | 0 |
+| `server/src/services/constraintExtractor.ts` | P0 | 18 | 6 | 0 | 0 | 0 |
+| `client/src/composables/admin/useBusinessRules.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
+| `client/src/services/calendarApiService.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/ShapesTab.vue` | P0 | 15 | 0 | 0 | 15 | 0 |
-| `client/src/composables/admin/useBusinessRules.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `client/src/types/annotations.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `client/src/types/datetime.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `client/src/utils/differentialScheduling.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/config/entityRegistry.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/services/driveTimeCache.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
+| `server/src/services/addressGeocodingCache.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/test/setup/seedTestData.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/utils/userTypeMapping.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
@@ -46,7 +47,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/useBusiness.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/eventPerspectiveLabels.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/services/calendarApiService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/types/googleCalendar.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/types/shapeFieldMetadata.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/api.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
@@ -56,10 +56,8 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/orderIndexUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/routes/helpers/dataController.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
+| `server/src/scripts/helpers/calendarParsingHelpers.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/services/appointmentCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/services/constraintExtractor.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/services/googleCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/services/googleMapsService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardExpansion.ts` | P1 | 7 | 2 | 0 | 1 | 0 |
 | `client/src/composables/admin/useAvailabilitySettings.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/composables/admin/useConditionalFieldVisibility.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -180,13 +178,21 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/db/models/admin/valid_component.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/db/models/admin/valid_composition.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/db/models/booking/additional_service_option.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/middlewares/security.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/routes/helpers/createCrudRouter.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/routes/internal/properties/propertyHelpers.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/services/driveTimeCache.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/services/google/shared/googleApiRetry.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/services/rateLimiter.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/utils/logger.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P1 | 5 | 1 | 0 | 2 | 0 |
 | `client/src/composables/useLocalTime.ts` | P1 | 5 | 1 | 0 | 2 | 0 |
+| `client/src/composables/dev/useApiDevPanelData.ts` | P2 | 4 | 0 | 0 | 4 | 0 |
 | `client/src/composables/formFields/useFormFieldsContext.ts` | P2 | 4 | 1 | 0 | 1 | 0 |
-| `client/src/composables/useFormValidation.ts` | P2 | 4 | 1 | 0 | 1 | 0 |
 | `client/src/layouts/components/NavBarNotifications.vue` | P2 | 4 | 0 | 0 | 4 | 0 |
+| `client/src/utils/booking/overlapConstraintChecker.ts` | P2 | 4 | 1 | 0 | 1 | 0 |
 | `client/src/views/admin/tabs/InstancesTab.vue` | P2 | 4 | 0 | 0 | 4 | 0 |
 | `client/src/components/admin/generic/fields/IconPicker.vue` | P2 | 3 | 0 | 0 | 3 | 0 |
 | `client/src/components/admin/generic/fields/TextInput.vue` | P2 | 3 | 0 | 0 | 3 | 0 |
@@ -224,6 +230,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/componentEntity/useComponentEntityActions.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/componentEntity/useComponentEntityQuery.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `client/src/composables/dev/useDevPanelTabs.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/entityCrud/useEntityCrudQuery.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/fieldContext/useFieldContextActions.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/formFields/useFormFieldsStandardLayout.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -242,7 +249,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/configs/wizardSteps.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/1.router/guards.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/5.vuetify/theme.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/services/mapsApiService.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/types/component.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/types/entities.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -261,6 +267,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/booking/partShapeAggregator.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/selectionCardComponent.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/selectionCardConfig.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `client/src/utils/booking/slotAvailabilityMarker.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/slotGenerationValidation.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/collections/resolveByIds.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/colors/complementaryColors.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -281,12 +288,18 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/db/models/admin/adminRelationshipMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/booking/relationships.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/routes/external/googleFetchRoutes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/routes/internal/businessSettings/businessSettingsValidators.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/routes/internal/entities/entityErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/routes/internal/entities/entitySanitizers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/routes/internal/properties/propertyErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/calendarErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/calendarEventsCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/freeBusyCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/rateLimiter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/google/maps/mapsConstants.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/google/maps/mapsTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/google/maps/routesApiService.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/google/shared/googleApiRateLimiter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/test/setup/testDb.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/utils/adminRelationshipMetadataComposer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/propertyTransformers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/sequelizeHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -299,10 +312,9 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/config/app.js` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/db/models/booking/active_annotation.js` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/routes/internal/participantRoutes/login-routes.ts` | P2 | 2 | 0 | 1 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
+| `server/src/routes/internal/relationships/relationshipCrudRouter.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `client/src/components/admin/BlockInstanceCreateModal.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/MetadataEditModal.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/components/admin/dev/ApiDevPanel.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/fields/IconInput.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/booking/IndependentSelectCard.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
@@ -310,15 +322,18 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/components/booking/SelectionCardGroup.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/booking/modals/PropertyConfirmationModal.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
+| `client/src/composables/useFormValidation.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/layouts/components/UserProfile.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/main.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/plugins/1.router/additional-routes.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
+| `client/src/utils/booking/busyPeriodProcessor.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/app.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/db/models/admin/business_settings.js` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/db/models/admin/part_shape.js` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/db/models/admin/valid_cascade.js` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/db/models/booking/appointment.js` | P2 | 1 | 0 | 0 | 1 | 0 |
+| `server/src/services/google/calendar/eventsService.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 
 ## Notes
 

@@ -8,7 +8,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **235**
+- Total composable files scanned: **237**
 
 ## Top hotspots (heuristic)
 
@@ -31,14 +31,14 @@ Scope:
 | `src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `src/composables/admin/useAvailabilitySettings.ts` | 14 | 0 | 1 | 2 | 4 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
-| `src/composables/booking/useMoveablePartsScheduling.ts` | 14 | 0 | 1 | 5 | 4 | 0 | 0 |
+| `src/composables/booking/useMoveablePartsScheduling.ts` | 14 | 0 | 1 | 5 | 3 | 0 | 0 |
+| `src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
 | `src/composables/useSelectOptions.ts` | 14 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/composables/fieldContext/useFieldContextState.ts` | 13.5 | 3 | 0 | 11 | 0 | 0 | 0 |
 | `src/composables/admin/useBlockInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `src/composables/admin/usePartInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `src/composables/booking/useAppointmentSlots.ts` | 13 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
-| `src/composables/admin/useSelectInputsAsync.ts` | 12 | 0 | 0 | 1 | 8 | 0 | 0 |
 
 ## Redundancy candidates (heuristic)
 
@@ -1046,22 +1046,22 @@ timers@179: setTimeout(() => {
 - counts: vueQuery=0, watch=2, computed=3, ref=1, async=4, await=2, dom=0, console=0
 
 ```
-ref@72: const isLoading = ref(false)
-watchEffect@81: watchEffect(async () => {
-async@81: watchEffect(async () => {
-await@98: const settings = await getAvailabilitySettings()
-await@122: const settings = await getAvailabilitySettings()
-async@136: // FIXED: Changed from computed to ref+watchEffect to handle async fitAllTimeSlotsWithAvailability
-async@139: // PATTERN: WatchEffect tracks dependencies, calls async function to update ref
-watchEffect@140: watchEffect(async () => {
-async@140: watchEffect(async () => {
-map@166: const [year, month, day] = dateString.split('-').map(Number)
-computed@329: const availableStartTimes = computed(() => {
-map@330: return slotGenerationResult.value.slots.map(slot => slot.startTime)
-computed@334: const slotAvailability = computed(() => {
-map@338: result.slots.map(slot => [slot.startTime, slot.isAvailable])
-computed@344: const slotViolations = computed(() => {
-map@348: result.slots.map(slot => [slot.startTime, slot.flexibleViolations])
+ref@68: const isLoading = ref(false)
+watchEffect@77: watchEffect(async () => {
+async@77: watchEffect(async () => {
+await@94: const settings = await getAvailabilitySettings()
+await@118: const settings = await getAvailabilitySettings()
+async@132: // FIXED: Changed from computed to ref+watchEffect to handle async slot generation
+async@135: // PATTERN: WatchEffect tracks dependencies, calls async function to update ref
+watchEffect@136: watchEffect(async () => {
+async@136: watchEffect(async () => {
+map@162: const [year, month, day] = dateString.split('-').map(Number)
+computed@334: const availableStartTimes = computed(() => {
+map@335: return slotGenerationResult.value.slots.map(slot => slot.startTime)
+computed@339: const slotAvailability = computed(() => {
+map@343: result.slots.map(slot => [slot.startTime, slot.isAvailable])
+computed@349: const slotViolations = computed(() => {
+map@353: result.slots.map(slot => [slot.startTime, slot.flexibleViolations])
 ```
 
 ### `src/composables/booking/useContactsValidation.ts`
@@ -1175,7 +1175,7 @@ filter@448: return allEntities.value.filter((candidate) =>
 
 ### `src/composables/booking/useMoveablePartsScheduling.ts`
 
-- counts: vueQuery=0, watch=1, computed=3, ref=2, async=2, await=2, dom=0, console=0
+- counts: vueQuery=0, watch=1, computed=3, ref=2, async=2, await=1, dom=0, console=0
 
 ```
 ref@90: const showModal = ref(false)
@@ -1189,9 +1189,30 @@ map@131: const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => e
 map@152: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
 map@154: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
 await@173: const settings = await getAvailabilitySettings()
-await@186: const result = await fitAvailableTimeSlots({  // P3-6: Renamed for clarity
-map@195: const availableSlots: MoveableSlot[] = result.slots.map((slot) => ({
+map@195: const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
+filter@195: const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
 computed@250: moveableOptions: computed(() => moveableOptions.value),
+```
+
+### `src/composables/dev/useApiDevPanelData.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=2, async=6, await=6, dom=0, console=0
+
+```
+ref@81: const loading = ref({
+ref@88: const errors = ref({
+async@98: async function fetchOAuthStatus(): Promise<void> {
+await@102: const response = await axios.get(`${apiBaseUrl}/api/v1/external/oauth/status`)
+async@115: async function fetchEventsCache(): Promise<void> {
+await@119: const response = await axios.get(`${apiBaseUrl}/api/v1/external/calendar/debug/events-cache`)
+async@134: async function fetchRateLimitStats(): Promise<void> {
+await@138: const [calendarResponse, mapsResponse] = await Promise.allSettled([
+async@160: async function fetchDriveTimeCache(): Promise<void> {
+await@164: const response = await axios.get(`${apiBaseUrl}/api/v1/external/maps/debug/drive-time-cache`)
+async@179: async function fetchDevStatus(): Promise<void> {
+await@186: const response = await axios.get(`${apiBaseUrl}/api/v1/internal/dev/status`)
+async@216: async function fetchAll(): Promise<void> {
+await@217: await fetchDevStatus()
 ```
 
 ### `src/composables/useSelectOptions.ts`
@@ -1385,11 +1406,11 @@ computed@58: const dateRangeValue = computed(() => unref(dateRange))
 computed@59: const propertyDetailsValue = computed(() => unref(propertyDetails))
 computed@64: const prefetchedDataValue = computed(() => prefetchedData?.value ?? null)
 watch@73: watch(
-async@145: // Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)
-computed@192: timeSlots: computed(() => timeSlots.value), // Return as computed for consistency
-computed@193: error: computed(() => error.value), // P1-3: Expose error state
-computed@194: hasError: computed(() => error.value !== null), // P1-3: Convenience computed for error check
-computed@195: isLoading: computed(() => isLoading.value) // P1-3: Expose loading state
+async@143: // Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)
+computed@190: timeSlots: computed(() => timeSlots.value), // Return as computed for consistency
+computed@191: error: computed(() => error.value), // P1-3: Expose error state
+computed@192: hasError: computed(() => error.value !== null), // P1-3: Convenience computed for error check
+computed@193: isLoading: computed(() => isLoading.value) // P1-3: Expose loading state
 ```
 
 ### `src/composables/booking/useAppointmentLoader.ts`
@@ -1985,13 +2006,13 @@ computed@99: const hasCascades = computed((): boolean => {
 - counts: vueQuery=0, watch=2, computed=2, ref=1, async=1, await=1, dom=0, console=0
 
 ```
-computed@93: const placeId = computed(() => propertyDetailsStepData.value?.placeId)
-computed@101: const canFetchAvailability = computed(() => {
-ref@117: const isLoading = ref(false)
-watch@121: watch(placeId, (newPlaceId, oldPlaceId) => {
-async@139: const fetchComputedAvailability = async (): Promise<void> => {
-await@166: const data = await fetchComputedAvailabilityData({
-watch@232: watch(
+computed@86: const placeId = computed(() => propertyDetailsStepData.value?.placeId)
+computed@94: const canFetchAvailability = computed(() => {
+ref@108: const isLoading = ref(false)
+watch@112: watch(placeId, (newPlaceId, oldPlaceId) => {
+async@130: const fetchComputedAvailability = async (): Promise<void> => {
+await@157: const data = await fetchComputedAvailabilityData({
+watch@221: watch(
 ```
 
 ### `src/composables/booking/usePropertyFormState.ts`
@@ -2997,6 +3018,14 @@ ref@16: * NOTE: Wizard state uses ref(), so we access .value property
 
 ```
 computed@42: const instanceComponents = computed((): InstanceComponent[] => {
+```
+
+### `src/composables/dev/useDevPanelTabs.ts`
+
+- counts: vueQuery=0, watch=1, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+```
+watch@24: watch(activeTab, (newTab) => {
 ```
 
 ### `src/composables/entityCrud/useEntityCrudQuery.ts`

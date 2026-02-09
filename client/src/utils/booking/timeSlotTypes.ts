@@ -1,7 +1,7 @@
 /**
  * Shared Types and Utilities for Time Slot Management
  * 
- * LEARNING: Centralized types and utilities shared between timeSlotFitter and slotAvailabilityManager
+ * LEARNING: Centralized types and utilities shared between slotPipeline and slotAvailabilityOrchestrator
  * WHY: Breaks circular dependency and provides single source of truth for shared types
  * PATTERN: Pure utility functions and type definitions - no side effects
  */
@@ -15,6 +15,21 @@ const logger = createLogger('timeSlotTypes')
 
 // Re-export types for backward compatibility
 export type { BusyPeriodSource }
+
+/**
+ * Parsed busy time range with Date objects
+ * LEARNING: Internal representation of busy periods with parsed Date objects
+ * WHY: Avoids repeated parsing of RFC3339 strings during overlap checks
+ * PATTERN: Pre-parsed Date objects for efficient comparisons
+ */
+export interface ParsedBusyTimeRange {
+  start: Date
+  end: Date
+  source?: BusyPeriodSource
+  placeId?: string
+  driveTimeTo?: number    // minutes, stamped by server
+  driveTimeFrom?: number  // minutes, stamped by server
+}
 
 /**
  * Business hours configuration for a single day
@@ -57,7 +72,7 @@ export interface BusyTimeRange {
   start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
   placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
-  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'freeBusy' from Calendar API, 'outOfOffice' from Events API)
+  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'event' from Events API, 'outOfOffice' from Events API)
 }
 
 /**

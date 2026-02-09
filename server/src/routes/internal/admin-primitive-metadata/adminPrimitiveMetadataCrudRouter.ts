@@ -13,6 +13,8 @@ import { ERROR_MESSAGES } from './adminPrimitiveMetadataConstants.js'
 import { handleRouteError } from './adminPrimitiveMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminPrimitiveMetadataValidators.js'
 import { computeRenderAs, transformMetadataToRecord } from './adminPrimitiveMetadataHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
@@ -32,10 +34,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -46,7 +45,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
     const metadataRecord = transformMetadataToRecord(metadata)
 
-    res.json(metadataRecord)
+    sendSuccess(res, metadataRecord)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_METADATA, 'fetching primitive metadata')
   }
@@ -60,7 +59,10 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
  * WHY: Enables primitive metadata management via API
  * PATTERN: Validate, compute renderAs, find or create, return JSON
  */
-router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
+router.post(
+  '/:entityType/:entityId',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params
     const {
@@ -84,10 +86,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -101,30 +100,21 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       displayOrder,
     })
     if (!requiredFieldsValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: requiredFieldsValidation.error,
-        ...requiredFieldsValidation.details
-      })
+      sendBadRequest(res, requiredFieldsValidation.error, requiredFieldsValidation.details?.message as string)
       return
     }
 
     // Validate renderAs
     const renderAsValidation = validateRenderAs(renderAs)
     if (!renderAsValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: renderAsValidation.error,
-        ...renderAsValidation.details
-      })
+      sendBadRequest(res, renderAsValidation.error, renderAsValidation.details?.message as string)
       return
     }
 
     // Validate inputConfig
     const inputConfigValidation = validateInputConfig(renderAs, inputConfig)
     if (!inputConfigValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: inputConfigValidation.error,
-        ...inputConfigValidation.details
-      })
+      sendBadRequest(res, inputConfigValidation.error, inputConfigValidation.details?.message as string)
       return
     }
 
@@ -151,7 +141,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         inputConfig,
       })
 
-      res.json(existing)
+      sendSuccess(res, existing)
     } else {
       const metadata = await AdminPrimitiveMetadata.create({
         entityType: entityType as any,
@@ -170,12 +160,13 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         inputConfig,
       })
 
-      res.status(HTTP_STATUS_CODES.CREATED).json(metadata)
+      sendCreated(res, metadata)
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_UPDATE_METADATA, 'creating/updating primitive metadata')
   }
-})
+  }
+)
 
 /**
  * DELETE /admin-primitive-metadata/:entityType/:entityId/:fieldKey
@@ -185,17 +176,17 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
  * WHY: Enables primitive metadata deletion via API
  * PATTERN: Validate entity type, find metadata, delete, return 204
  */
-router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Response): Promise<void> => {
+router.delete(
+  '/:entityType/:entityId/:fieldKey',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId, fieldKey } = req.params
 
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -208,21 +199,17 @@ router.delete('/:entityType/:entityId/:fieldKey', async (req: Request, res: Resp
     })
 
     if (!metadata) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
-        error: ERROR_MESSAGES.METADATA_NOT_FOUND,
-        entityType,
-        entityId,
-        fieldKey,
-      })
+      sendNotFound(res, ERROR_MESSAGES.METADATA_NOT_FOUND, `${entityType}/${entityId}/${fieldKey}`)
       return
     }
 
     await metadata.destroy()
 
-    res.status(HTTP_STATUS_CODES.NO_CONTENT).send()
+    sendNoContent(res)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.DELETE_METADATA, 'deleting primitive metadata')
   }
-})
+  }
+)
 
 export { router as AdminPrimitiveMetadataCrudRouter }

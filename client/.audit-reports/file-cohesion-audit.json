@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-08T23:31:48.202Z",
-  "totalScanned": 1041,
+  "generatedAt": "2026-02-09T16:43:17.359Z",
+  "totalScanned": 1138,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -36,24 +36,6 @@
       "priority": "P0"
     },
     {
-      "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "category": "utils",
-      "lineCount": 1439,
-      "exportCount": 8,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 1439,
-          "threshold": 300,
-          "detail": "1439 lines (utils max: 300)"
-        }
-      ],
-      "score": 36,
-      "priority": "P0"
-    },
-    {
       "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
       "category": "components",
       "lineCount": 1650,
@@ -72,63 +54,21 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/services/googleMapsService.ts",
-      "category": "services",
-      "lineCount": 929,
-      "exportCount": 15,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 929,
-          "threshold": 400,
-          "detail": "929 lines (services max: 400)"
-        },
-        {
-          "rule": "high-exports",
-          "value": 15,
-          "threshold": 10,
-          "detail": "15 exports (max: 10)"
-        }
-      ],
-      "score": 28,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
-      "category": "components",
-      "lineCount": 1349,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 1349,
-          "threshold": 500,
-          "detail": "1349 lines (components max: 500)"
-        }
-      ],
-      "score": 27,
-      "priority": "P0"
-    },
-    {
       "repoPath": "client/src/utils/api.ts",
       "category": "utils",
-      "lineCount": 217,
-      "exportCount": 21,
+      "lineCount": 237,
+      "exportCount": 23,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 21,
+          "value": 23,
           "threshold": 10,
-          "detail": "21 exports (max: 10)"
+          "detail": "23 exports (max: 10)"
         }
       ],
-      "score": 22,
+      "score": 26,
       "priority": "P0"
     },
     {
@@ -192,30 +132,6 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "category": "routes",
-      "lineCount": 835,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 835,
-          "threshold": 400,
-          "detail": "835 lines (routes max: 400)"
-        },
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 16,
-      "priority": "P0"
-    },
-    {
       "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
       "category": "general",
       "lineCount": 671,
@@ -242,16 +158,16 @@
     {
       "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
       "category": "components",
-      "lineCount": 812,
+      "lineCount": 810,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 812,
+          "value": 810,
           "threshold": 500,
-          "detail": "812 lines (components max: 500)"
+          "detail": "810 lines (components max: 500)"
         }
       ],
       "score": 12,
@@ -312,30 +228,6 @@
       "priority": "P0"
     },
     {
-      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
-      "category": "routes",
-      "lineCount": 613,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 613,
-          "threshold": 400,
-          "detail": "613 lines (routes max: 400)"
-        },
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
       "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "category": "components",
       "lineCount": 759,
@@ -374,100 +266,52 @@
     {
       "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
       "category": "utils",
-      "lineCount": 504,
+      "lineCount": 536,
       "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 504,
+          "value": 536,
           "threshold": 300,
-          "detail": "504 lines (utils max: 300)"
+          "detail": "536 lines (utils max: 300)"
         }
       ],
       "score": 9,
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/services/googleCalendarService.ts",
-      "category": "services",
-      "lineCount": 610,
-      "exportCount": 10,
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
+      "category": "utils",
+      "lineCount": 514,
+      "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 610,
-          "threshold": 400,
-          "detail": "610 lines (services max: 400)"
+          "value": 514,
+          "threshold": 300,
+          "detail": "514 lines (utils max: 300)"
         }
       ],
       "score": 9,
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
-      "category": "routes",
-      "lineCount": 558,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 558,
-          "threshold": 400,
-          "detail": "558 lines (routes max: 400)"
-        },
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
-      "category": "routes",
-      "lineCount": 591,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 591,
-          "threshold": 400,
-          "detail": "591 lines (routes max: 400)"
-        },
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
       "repoPath": "server/src/scripts/importCalendarData.ts",
       "category": "general",
-      "lineCount": 503,
+      "lineCount": 491,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 503,
+          "value": 491,
           "threshold": 350,
-          "detail": "503 lines (general max: 350)"
+          "detail": "491 lines (general max: 350)"
         },
         {
           "rule": "no-exports",
@@ -552,24 +396,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
-      "category": "utils",
-      "lineCount": 419,
-      "exportCount": 10,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 419,
-          "threshold": 300,
-          "detail": "419 lines (utils max: 300)"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
       "category": "utils",
       "lineCount": 351,
@@ -594,6 +420,24 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/constants/apiStatus.ts",
+      "category": "general",
+      "lineCount": 76,
+      "exportCount": 12,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 12,
+          "threshold": 10,
+          "detail": "12 exports (max: 10)"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/constants/entities.ts",
       "category": "general",
       "lineCount": 27,
@@ -612,18 +456,18 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
       "category": "routes",
-      "lineCount": 418,
+      "lineCount": 450,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 418,
+          "value": 450,
           "threshold": 400,
-          "detail": "418 lines (routes max: 400)"
+          "detail": "450 lines (routes max: 400)"
         },
         {
           "rule": "no-exports",
@@ -768,6 +612,24 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "category": "utils",
+      "lineCount": 327,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 327,
+          "threshold": 300,
+          "detail": "327 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "category": "utils",
       "lineCount": 315,
@@ -780,6 +642,24 @@
           "value": 315,
           "threshold": 300,
           "detail": "315 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotAvailabilityManager.ts",
+      "category": "utils",
+      "lineCount": 306,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 306,
+          "threshold": 300,
+          "detail": "306 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -1382,7 +1262,7 @@
     {
       "repoPath": "server/src/routes/external/calendarRoutes.ts",
       "category": "routes",
-      "lineCount": 348,
+      "lineCount": 306,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1436,7 +1316,97 @@
     {
       "repoPath": "server/src/routes/external/mapsRoutes.ts",
       "category": "routes",
-      "lineCount": 286,
+      "lineCount": 288,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 302,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 216,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 206,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 225,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "category": "routes",
+      "lineCount": 19,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1454,7 +1424,169 @@
     {
       "repoPath": "server/src/routes/internal/availabilityRouter.ts",
       "category": "routes",
-      "lineCount": 49,
+      "lineCount": 45,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 140,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 283,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
+      "category": "routes",
+      "lineCount": 19,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "category": "routes",
+      "lineCount": 146,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBatchRouter.ts",
+      "category": "routes",
+      "lineCount": 65,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "category": "routes",
+      "lineCount": 123,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConfigRouter.ts",
+      "category": "routes",
+      "lineCount": 37,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 328,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
+      "category": "routes",
+      "lineCount": 36,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1488,9 +1620,153 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 281,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
+      "category": "routes",
+      "lineCount": 22,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "category": "routes",
+      "lineCount": 247,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "category": "routes",
+      "lineCount": 65,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "category": "routes",
+      "lineCount": 156,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "category": "routes",
+      "lineCount": 100,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "category": "routes",
+      "lineCount": 36,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 35,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/routes/internal/users/userRouter.ts",
       "category": "routes",
-      "lineCount": 241,
+      "lineCount": 19,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1634,7 +1910,7 @@
     {
       "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
       "category": "general",
-      "lineCount": 282,
+      "lineCount": 324,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1814,7 +2090,7 @@
     {
       "repoPath": "server/src/types/express.d.ts",
       "category": "general",
-      "lineCount": 25,
+      "lineCount": 27,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

@@ -11,6 +11,9 @@
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('AppointmentCalendarService');
 
 /**
  * Result of calendar event creation
@@ -82,7 +85,7 @@ export async function createCalendarEventForAppointment(
   appointmentId: string,
   calendarId: string = 'primary'
 ): Promise<CalendarEventResult> {
-  console.log(`[AppointmentCalendarService] Creating calendar event for appointment ${appointmentId}`);
+  logger.info(`Creating calendar event for appointment ${appointmentId}`);
   
   try {
     // Fetch appointment with all needed relationships
@@ -133,11 +136,11 @@ export async function createCalendarEventForAppointment(
           );
           attendeesUpdated++;
         } catch (error) {
-          console.error(`[AppointmentCalendarService] Failed to update attendee ${attendee.id}:`, error);
+          logger.error(`Failed to update attendee ${attendee.id}:`, error);
         }
       }
       
-      console.log(`[AppointmentCalendarService] Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);
+      logger.info(`Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);
       
       return {
         success: true,
@@ -154,7 +157,7 @@ export async function createCalendarEventForAppointment(
     }
     
   } catch (error) {
-    console.error('[AppointmentCalendarService] Error creating calendar event:', error);
+    logger.error('Error creating calendar event:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -258,14 +261,14 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
   
   // PATTERN: Explicit failure - require proper time slot data
   if (!firstSlot) {
-    console.error(`[AppointmentCalendarService] No time slots found for appointment ${appointment.id}`);
-    console.error(`[AppointmentCalendarService] selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));
+    logger.error(`No time slots found for appointment ${appointment.id}`);
+    logger.error(`selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));
     throw new Error(`Appointment ${appointment.id} has no selectedTimeSlots - cannot create calendar event`);
   }
   
   if (!firstSlot.startTime || !firstSlot.endTime) {
-    console.error(`[AppointmentCalendarService] Time slot missing startTime/endTime for appointment ${appointment.id}`);
-    console.error(`[AppointmentCalendarService] firstSlot:`, JSON.stringify(firstSlot));
+    logger.error(`Time slot missing startTime/endTime for appointment ${appointment.id}`);
+    logger.error(`firstSlot:`, JSON.stringify(firstSlot));
     throw new Error(
       `Appointment ${appointment.id} time slot missing required fields. ` +
       `Got: startTime=${firstSlot.startTime}, endTime=${firstSlot.endTime}. ` +
@@ -273,14 +276,14 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
     );
   }
   
-  console.log(`[AppointmentCalendarService] Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
+  logger.debug(`Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
   
   // Validate the dates
   const startDate = new Date(firstSlot.startTime);
   const endDate = new Date(firstSlot.endTime);
   
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    console.error(`[AppointmentCalendarService] Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
+    logger.error(`Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
     throw new Error(`Invalid dates: ${firstSlot.startTime} / ${firstSlot.endTime}`);
   }
   
@@ -311,7 +314,7 @@ function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[
     
     // Skip if no user or email
     if (!attendee.user?.email) {
-      console.warn(`[AppointmentCalendarService] Attendee ${attendee.id} has no email, skipping`);
+      logger.warn(`Attendee ${attendee.id} has no email, skipping`);
       continue;
     }
     
@@ -355,6 +358,6 @@ export async function syncInvitationStatus(appointmentId: string): Promise<numbe
   // TODO: Implement status sync from Google Calendar
   // This would query the calendar event and update invitation_status
   // based on each attendee's responseStatus (needsAction, accepted, declined, tentative)
-  console.log(`[AppointmentCalendarService] Status sync not yet implemented for ${appointmentId}`);
+  logger.debug(`Status sync not yet implemented for ${appointmentId}`);
   return 0;
 }

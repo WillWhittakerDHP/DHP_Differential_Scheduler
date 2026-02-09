@@ -39,25 +39,27 @@ export async function getCalendarEvents(
   const timeMinDate = typeof timeMin === 'string' ? new Date(timeMin) : timeMin
   const timeMaxDate = typeof timeMax === 'string' ? new Date(timeMax) : timeMax
   
-  // Check cache first (before any API call)
+  // Clamp timeMin to now — past events are irrelevant for availability
+  // WHY: Original timeMinDate is kept for cache key stability; effectiveTimeMin is sent to Google
+  const now = new Date()
+  const effectiveTimeMin = timeMinDate < now ? now : timeMinDate
+  
+  // Check cache first (using original date range for stable cache key)
   const cachedData = getCachedEvents(calendarEmail, timeMinDate, timeMaxDate)
   if (cachedData) {
-    logger.debug('Events cache hit', { calendarEmail })
     return { events: cachedData, _meta: { source: 'cache' } }
   }
   
   // Define the API operation
   const fetchFromApi = async () => {
     return await withRateLimit('google-calendar', async () => {
-      // Create calendar client
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client })
       
       logger.debug('Fetching events', { calendarEmail })
       
-      // Make API call to get full events
       const response = await calendar.events.list({
         calendarId: calendarEmail,
-        timeMin: timeMinDate.toISOString(),
+        timeMin: effectiveTimeMin.toISOString(),
         timeMax: timeMaxDate.toISOString(),
         singleEvents: true,
         orderBy: 'startTime',
@@ -68,16 +70,10 @@ export async function getCalendarEvents(
         throw new Error('Invalid response from Google Calendar API')
       }
       
-      // Transform response to our cached format with geocoding
       const events = await transformEventsWithGeocoding(response.data.items)
-      
-      // Cache the response
       cacheEvents(calendarEmail, timeMinDate, timeMaxDate, events)
       
-      logger.debug('Successfully fetched events', {
-        eventCount: events.length,
-        calendarEmail
-      })
+      logger.debug('Fetched events', { calendarEmail, count: events.length })
       
       return events
     })
@@ -90,12 +86,9 @@ export async function getCalendarEvents(
     []  // Empty array as default if no cache
   )
   
-  // Log error if one occurred (but we returned fallback data)
   if (result.error) {
     logCalendarError('EventsService.getCalendarEvents', result.error, {
       calendarEmail,
-      timeMin: timeMinDate.toISOString(),
-      timeMax: timeMaxDate.toISOString(),
       source: result.source,
     })
   }

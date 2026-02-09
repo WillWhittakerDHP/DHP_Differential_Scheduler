@@ -6,40 +6,27 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **81**
-- Requiring review: **622**
+- Files with findings: **86**
+- Requiring review: **465**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **7**
-- P1 (console-in-catch, type suppressions): **242**
-- P2 (general console usage): **373**
+- P0 (silent catches): **6**
+- P1 (console-in-catch, type suppressions): **169**
+- P2 (general console usage): **290**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | P0 | 79 | 0 | 15 | 4 |
-| `server/src/routes/internal/properties/propertyRouter.ts` | P0 | 76 | 0 | 15 | 1 |
-| `server/src/routes/internal/entities/entityRouter.ts` | P0 | 63 | 0 | 12 | 3 |
 | `server/src/test/setup/seedTestData.ts` | P0 | 61 | 0 | 12 | 1 |
-| `server/src/scripts/importCalendarData.ts` | P0 | 57 | 0 | 8 | 17 |
-| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | P0 | 55 | 0 | 10 | 5 |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | P0 | 52 | 0 | 9 | 7 |
 | `server/src/app.ts` | P0 | 49 | 0 | 8 | 9 |
-| `server/src/scripts/fix-missing-layout-configs.mjs` | P0 | 48 | 0 | 4 | 28 |
 | `server/src/scripts/createAppointmentsFromCalendar.ts` | P0 | 46 | 0 | 7 | 11 |
-| `server/src/routes/internal/users/userRouter.ts` | P0 | 45 | 0 | 9 | 0 |
 | `server/src/scripts/fixUserRolesAndEmails.ts` | P0 | 41 | 0 | 4 | 21 |
 | `server/src/scripts/manual-migrate-fieldmetadata.mjs` | P0 | 38 | 0 | 2 | 28 |
-| `client/src/components/admin/dev/ApiDevPanel.vue` | P0 | 37 | 0 | 7 | 2 |
 | `server/src/config/app.js` | P0 | 35 | 0 | 7 | 0 |
-| `server/src/routes/internal/businessRulesRouter.ts` | P0 | 35 | 0 | 7 | 0 |
-| `server/src/services/googleCalendarService.ts` | P0 | 33 | 1 | 1 | 18 |
 | `server/src/routes/external/googleOauthRoutes.ts` | P0 | 32 | 0 | 6 | 2 |
 | `server/src/config/googleOAuth.ts` | P0 | 31 | 0 | 4 | 11 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | P0 | 30 | 0 | 6 | 0 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` | P0 | 30 | 0 | 6 | 0 |
-| `server/src/routes/internal/businessSettingsRouter.ts` | P0 | 30 | 0 | 6 | 0 |
+| `server/src/routes/helpers/createCrudRouter.ts` | P0 | 30 | 0 | 6 | 0 |
 | `server/src/scripts/backfill-input-config-from-selectable.mjs` | P0 | 28 | 0 | 2 | 18 |
 | `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | P0 | 26 | 0 | 2 | 16 |
 | `server/src/scripts/setDifferentialServices.mjs` | P0 | 25 | 0 | 3 | 10 |
@@ -48,75 +35,23 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 | `server/src/scripts/check-specific-shape.mjs` | P0 | 23 | 0 | 2 | 13 |
 | `server/src/scripts/fix-validConstituents.mjs` | P0 | 22 | 0 | 2 | 12 |
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 21 | 0 | 3 | 6 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P0 | 21 | 0 | 4 | 1 |
+| `server/src/routes/internal/properties/propertyHelpers.ts` | P0 | 20 | 0 | 4 | 0 |
+| `server/src/scripts/fix-primitive-metadata-cleanup.mjs` | P0 | 20 | 0 | 1 | 15 |
+| `server/src/services/appointmentCalendarService.ts` | P0 | 20 | 0 | 2 | 10 |
+| `server/src/scripts/flatten-input-config.mjs` | P0 | 19 | 0 | 3 | 4 |
+| `server/src/config/app.ts` | P0 | 16 | 0 | 2 | 6 |
+| `server/src/services/calendarErrorHandler.ts` | P0 | 16 | 0 | 2 | 6 |
+| `server/src/routes/external/calendarRoutes.ts` | P0 | 15 | 0 | 3 | 0 |
+| `server/src/routes/external/mapsRoutes.ts` | P0 | 15 | 0 | 3 | 0 |
+| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
+| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
+| `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` | P0 | 15 | 0 | 3 | 0 |
+| `server/src/scripts/fix-appointment-block-instances.mjs` | P0 | 15 | 0 | 1 | 10 |
 
-*...and 51 more files. See JSON report for details.*
+*...and 56 more files. See JSON report for details.*
 
 ## Per-file findings
-
-### `server/src/routes/internal/relationships/relationshipRouter.ts` [P0] (score: 79)
-
-```
-console-general@35: console.error('[RelationshipRouter] Missing models:', {
-console-general@269: console.error('[RelationshipRouter] Model is undefined for:', req.params.relationshipType);
-console-general@296: console.warn(`[RelationshipRouter] Invalid parent_id format: ${parent_id}. Expected UUID, ignoring filter.`);
-console-general@309: console.warn(`[RelationshipRouter] Invalid blockInstanceId format: ${blockInstanceId}. Expected UUID, ignoring filter.`)...
-console-in-catch@373: console.error('[RelationshipRouter] Error fetching relationships:', error);
-console-in-catch@374: console.error('[RelationshipRouter] Relationship kind:', req.params.relationshipType);
-console-in-catch@375: console.error('[RelationshipRouter] Model:', relationshipConfig.model?.name);
-as-any@443: const parentBlockInstanceWithShape = parentBlockInstance as any;
-as-any@453: const childBlockInstanceWithShape = childBlockInstance as any;
-console-in-catch@490: console.error('[RelationshipRouter] Error validating entities:', error);
-console-in-catch@508: console.error('[RelationshipRouter] Error checking circular references:', error);
-console-in-catch@621: console.error('[RelationshipRouter] Error creating relationship:', error);
-console-in-catch@622: console.error('[RelationshipRouter] Relationship type:', req.params.relationshipType);
-console-in-catch@623: console.error('[RelationshipRouter] Create data:', createData ? JSON.stringify(createData, null, 2) : 'undefined');
-console-in-catch@624: console.error('[RelationshipRouter] Error details:', error instanceof Error ? error.stack : String(error));
-console-in-catch@686: console.error('[RelationshipRouter] Error updating instance component:', error);
-console-in-catch@732: console.error('[RelationshipRouter] Error deleting instance component:', error);
-console-in-catch@779: console.error('[RelationshipRouter] Error updating annotation assignment:', error);
-console-in-catch@818: console.error('[RelationshipRouter] Error:', error);
-```
-
-### `server/src/routes/internal/properties/propertyRouter.ts` [P0] (score: 76)
-
-```
-console-in-catch@64: console.error('[PropertyRouter] Error fetching properties:', error);
-console-in-catch@92: console.error('[PropertyRouter] Error fetching property:', error);
-console-in-catch@175: console.error('[PropertyRouter] Error creating property:', error);
-as-any@210: // PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)
-as-any@211: const propertyVersionWithAssociations = propertyVersion as any;
-console-in-catch@238: console.error('[PropertyRouter] Error updating property:', error);
-as-any@263: // PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)
-as-any@264: const propertyVersionWithAssociations = propertyVersion as any;
-console-in-catch@283: console.error('[PropertyRouter] Error patching property:', error);
-console-in-catch@307: console.error('[PropertyRouter] Error deleting property:', error);
-console-in-catch@339: console.error('[PropertyRouter] Error fetching property types:', error);
-as-any@393: const blockInstanceWithShape = blockInstance as any;
-console-general@433: console.error('[PropertyRouter] Error adding property type:', error);
-console-in-catch@466: console.error('[PropertyRouter] Error updating property type:', error);
-console-in-catch@492: console.error('[PropertyRouter] Error removing property type:', error);
-console-in-catch@582: console.error('[PropertyRouter] Error replacing property types:', error);
-```
-
-### `server/src/routes/internal/entities/entityRouter.ts` [P0] (score: 63)
-
-```
-console-in-catch@30: console.error('[EntityRouter] Error fetching config:', error);
-console-in-catch@31: console.error('[EntityRouter] Error details:', error instanceof Error ? error.stack : error);
-console-in-catch@60: console.error('[EntityRouter] Configuration error:', error);
-console-in-catch@99: console.error('[EntityRouter] Error:', error);
-console-in-catch@127: console.error('[EntityRouter] Error:', error);
-as-any@163: const validationError = error as any;
-console-general@200: console.error('[EntityRouter] Error:', error);
-console-in-catch@310: console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
-console-in-catch@319: console.error('[EntityRouter] Error:', error);
-console-in-catch@344: console.error('[EntityRouter] Error:', error);
-console-in-catch@414: console.error('[EntityRouter] Error:', error);
-console-general@455: console.log(`[EntityRouter] PATCH: ${entityConfig.displayName} ${entityId}`, {
-console-in-catch@514: console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);
-console-general@555: console.error('[EntityRouter] PATCH Error:', error);
-console-in-catch@604: console.error('[EntityRouter] Error:', error);
-```
 
 ### `server/src/test/setup/seedTestData.ts` [P0] (score: 61)
 
@@ -134,77 +69,6 @@ as-any@95: childId: (partInstance2 as any).id,
 as-any@130: // PATTERN: Use 'as any' cast to access model properties in test setup
 as-any@132: const propertyVersionId = propertyVersions.length > 0 ? (propertyVersions[0] as any).id : null
 console-general@135: console.warn('⚠️  No property versions found. Skipping appointment seeding.')
-```
-
-### `server/src/scripts/importCalendarData.ts` [P0] (score: 57)
-
-```
-as-any@384: const existingPropertyVersion = existingAddress && (existingAddress as any).propertyVersions?.[0];
-console-general@403: console.log('📅 Starting calendar data import...');
-console-general@413: console.log(`📆 Processing ${eventsToProcess.length} calendar events...`);
-console-general@416: console.log('⚠️  No events provided.');
-console-general@417: console.log('📖 Usage options:');
-console-general@418: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-console-general@419: console.log('  2. Use AI assistant with MCP to fetch and import events');
-console-general@420: console.log('  3. Call importCalendarData([events]) programmatically');
-console-general@432: console.log(`📆 Processing ${eventsToProcess.length} calendar events from input...`);
-console-in-catch@434: console.error('❌ Failed to parse JSON input:', parseError);
-console-in-catch@435: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-console-general@439: console.log('⚠️  No events provided in stdin.');
-console-general@446: console.log('⚠️  No events to process.');
-console-general@452: console.log('\n📊 Import Summary:');
-console-general@453: console.log(`  ✅ Clients imported: ${stats.clientsImported}`);
-console-general@454: console.log(`  🔄 Clients updated: ${stats.clientsUpdated}`);
-console-general@455: console.log(`  ✅ Properties imported: ${stats.propertiesImported}`);
-console-general@456: console.log(`  🔄 Properties updated: ${stats.propertiesUpdated}`);
-console-general@457: console.log(`  📝 Total events processed: ${eventsToProcess.length}`);
-console-general@459: console.log('\n✅ Calendar import completed successfully!');
-console-in-catch@462: console.error('❌ Error during calendar import:', error);
-console-in-catch@480: console.log('✅ Calendar import process completed.');
-console-in-catch@484: console.error('❌ Calendar import failed:', error);
-console-in-catch@488: console.error('❌ Failed to parse --events JSON:', error);
-console-in-catch@497: console.error('❌ Calendar import failed:', error);
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` [P0] (score: 55)
-
-```
-console-general@29: console.log('[AdminMetadataRouter] GET /admin-metadata/batch');
-console-general@92: console.log(`[AdminMetadataRouter] Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).l...
-console-in-catch@96: console.error('[AdminMetadataRouter] Error fetching batch metadata:', error);
-console-general@109: console.log(`[AdminMetadataRouter] GET /admin-metadata/${entityType}/${entityId}`, {
-console-general@128: console.log(`[AdminMetadataRouter] Returning ${Object.keys(metadataRecord).length} metadata entries`);
-console-in-catch@132: console.error('[AdminMetadataRouter] Error fetching metadata:', error);
-console-general@228: console.log(`[AdminMetadataRouter] POST /admin-metadata/${entityType}/${entityId}`, {
-as-any@235: entityType: entityType as any,
-as-any@237: metadataType: metadataType as any,
-as-any@270: entityType: entityType as any,
-as-any@272: metadataType: metadataType as any,
-console-in-catch@291: console.error('[AdminMetadataRouter] Error creating/updating metadata:', error);
-as-any@326: entityType: entityType as any,
-as-any@328: metadataType: metadataType as any,
-console-in-catch@357: console.error('[AdminMetadataRouter] Error deleting metadata:', error);
-```
-
-### `server/src/routes/internal/appointments/appointmentRouter.ts` [P0] (score: 52)
-
-```
-console-in-catch@138: console.error('[AppointmentRouter] Error fetching appointments:', error);
-console-in-catch@162: console.error('[AppointmentRouter] Error fetching appointment:', error);
-console-general@240: console.log(`[AppointmentRouter] Creating ${attendeesData.length} attendee records`);
-console-general@258: console.log(`[AppointmentRouter] Created attendee records for appointment ${appointment.id}`);
-console-general@260: console.log(`[AppointmentRouter] No attendees provided for appointment ${appointment.id}`);
-console-general@268: console.log(`[AppointmentRouter] Creating calendar event for appointment ${appointment.id}`);
-console-general@275: console.warn(`[AppointmentRouter] No writeTo calendar configured, using default: ${calendarId}`);
-console-general@284: console.log(`[AppointmentRouter] Calendar event created: ${calendarResult.eventId}, ${calendarResult.attendeesUpdated} a...
-console-general@286: console.error(`[AppointmentRouter] Calendar event creation failed: ${calendarResult.error}`);
-console-in-catch@290: console.error(`[AppointmentRouter] Calendar event creation error:`, calendarError);
-console-in-catch@293: console.log(`[AppointmentRouter] Skipping calendar event - status is '${appointment.status}' (not submitted/confirmed)`)...
-console-in-catch@302: console.error('[AppointmentRouter] Error creating appointment:', error);
-console-in-catch@328: console.error('[AppointmentRouter] Error updating appointment:', error);
-console-in-catch@354: console.error('[AppointmentRouter] Error patching appointment:', error);
-console-in-catch@376: console.error('[AppointmentRouter] Error deleting appointment:', error);
-console-in-catch@408: console.error('[AppointmentRouter] Error fetching appointment versions:', error);
 ```
 
 ### `server/src/app.ts` [P0] (score: 49)
@@ -229,43 +93,6 @@ console-in-catch@104: console.error('[OAuthCallback] Error in callback:', error)
 console-in-catch@105: console.error('[OAuthCallback] Error stack:', error.stack);
 ```
 
-### `server/src/scripts/fix-missing-layout-configs.mjs` [P0] (score: 48)
-
-```
-console-general@28: console.log('✅ Connected to database\n');
-console-general@45: console.log(`Found ${blockShapesNeedingMigration.length} BlockShapes needing migration\n`);
-console-general@52: console.log(`Processing BlockShape: ${blockShape.name} (${blockShape.id})`);
-console-general@56: console.log(`  ⚠️  Invalid field_metadata, skipping\n`);
-console-general@61: console.log(`  Found ${fieldKeys.length} fields in field_metadata`);
-console-general@66: console.log(`    ⚠️  Invalid config for ${fieldKey}, skipping`);
-console-general@83: console.log(`    ⚠️  No canonical metadata for ${fieldKey}, skipping`);
-console-general@101: console.log(`    ⏭️  Layout config for ${fieldKey} already exists, skipping`);
-console-general@131: console.log(`    ✅ Created layout config for ${fieldKey}`);
-console-in-catch@134: console.error(`    ❌ Error migrating ${fieldKey}:`, error.message);
-console-general@142: console.log('');
-console-general@160: console.log(`Found ${partShapesNeedingMigration.length} PartShapes needing migration\n`);
-console-general@163: console.log(`Processing PartShape: ${partShape.name} (${partShape.id})`);
-console-general@167: console.log(`  ⚠️  Invalid field_metadata, skipping\n`);
-console-general@172: console.log(`  Found ${fieldKeys.length} fields in field_metadata`);
-console-general@177: console.log(`    ⚠️  Invalid config for ${fieldKey}, skipping`);
-console-general@194: console.log(`    ⚠️  No canonical metadata for ${fieldKey}, skipping`);
-console-general@212: console.log(`    ⏭️  Layout config for ${fieldKey} already exists, skipping`);
-console-general@242: console.log(`    ✅ Created layout config for ${fieldKey}`);
-console-in-catch@245: console.error(`    ❌ Error migrating ${fieldKey}:`, error.message);
-console-general@253: console.log('');
-console-general@256: console.log('='.repeat(60));
-console-general@257: console.log('📊 Summary');
-console-general@258: console.log('='.repeat(60));
-console-general@259: console.log(`Layout configs created: ${totalCreated}`);
-console-general@260: console.log(`Fields skipped: ${totalSkipped}`);
-console-general@261: console.log(`Errors: ${errors.length}`);
-console-general@263: console.log('\nErrors:');
-console-general@265: console.log(`  ${i + 1}. ${err.shape} - ${err.field}: ${err.error}`);
-console-general@268: console.log('='.repeat(60));
-console-in-catch@271: console.error('❌ Error:', error.message);
-console-in-catch@279: console.error('Fatal error:', error);
-```
-
 ### `server/src/scripts/createAppointmentsFromCalendar.ts` [P0] (score: 46)
 
 ```
@@ -287,20 +114,6 @@ console-general@651: console.log(`   ❌ Errors: ${stats.errors}`);
 console-general@652: console.log('\n✅ Appointment creation completed!');
 console-in-catch@655: console.error('❌ Error:', error);
 console-in-catch@667: console.error('❌ Script failed:', error);
-```
-
-### `server/src/routes/internal/users/userRouter.ts` [P0] (score: 45)
-
-```
-console-in-catch@19: console.error('[UserRouter] Error fetching users:', error);
-console-in-catch@41: console.error('[UserRouter] Error fetching user:', error);
-console-in-catch@54: console.error('[UserRouter] Error creating user:', error);
-as-any@61: const validationError = error as any;
-console-in-catch@116: console.error('[UserRouter] Error updating user:', error);
-as-any@122: const validationError = error as any;
-console-in-catch@174: console.error('[UserRouter] Error patching user:', error);
-as-any@180: const validationError = error as any;
-console-in-catch@231: console.error('[UserRouter] Error deleting user:', error);
 ```
 
 ### `server/src/scripts/fixUserRolesAndEmails.ts` [P0] (score: 41)
@@ -368,20 +181,6 @@ console-in-catch@216: console.error('\n❌ Migration failed:', error);
 console-in-catch@224: console.error('Fatal error:', error);
 ```
 
-### `client/src/components/admin/dev/ApiDevPanel.vue` [P0] (score: 37)
-
-```
-console-in-catch@127: console.error('[ApiDevPanel] Error fetching OAuth status:', error)
-console-in-catch@145: console.error('[ApiDevPanel] Error fetching free-busy cache:', error)
-console-in-catch@163: console.error('[ApiDevPanel] Error fetching events cache:', error)
-console-general@184: console.error('[ApiDevPanel] Error fetching calendar rate limit:', calendarResponse.reason)
-console-general@190: console.error('[ApiDevPanel] Error fetching maps rate limit:', mapsResponse.reason)
-console-in-catch@199: console.error('[ApiDevPanel] Error fetching rate limit stats:', error)
-console-in-catch@217: console.error('[ApiDevPanel] Error fetching drive time cache:', error)
-as-any@340: const startStr = formatDateTimeForDisplay(period.start as any, {
-as-any@348: const endStr = formatTimeForDisplay(period.end as any, {
-```
-
 ### `server/src/config/app.js` [P0] (score: 35)
 
 ```
@@ -392,43 +191,6 @@ console-in-catch@92: console.log("✅ Database connection established.");
 console-in-catch@93: console.log("ℹ️  Run 'npm run migrate' to apply database migrations.");
 console-in-catch@97: console.error("❌ Database Connection Error:", err_1);
 console-in-catch@99: console.error("Validation errors:", err_1.errors);
-```
-
-### `server/src/routes/internal/businessRulesRouter.ts` [P0] (score: 35)
-
-```
-console-in-catch@31: console.error('Error fetching business rules:', error);
-console-in-catch@55: console.error('Error fetching business rule:', error);
-console-in-catch@78: console.error('Error fetching business rules for block:', error);
-console-in-catch@119: console.error('Error creating business rule:', error);
-console-in-catch@161: console.error('Error updating business rule:', error);
-console-in-catch@188: console.error('Error updating business rule:', error);
-console-in-catch@217: console.error('Error deleting business rule:', error);
-```
-
-### `server/src/services/googleCalendarService.ts` [P0] (score: 33)
-
-```
-console-general@83: console.log(`[GoogleCalendarService] Cache hit for ${calendarEmails.length} calendars:`, {
-console-general@95: console.log(`[GoogleCalendarService] skipCache=true, bypassing cache check`);
-console-general@104: console.warn(`[GoogleCalendarService] Rate limit exceeded, waiting...`);
-console-general@121: console.log(`[GoogleCalendarService] Fetching free-busy for ${calendarEmails.length} calendars`, {
-console-general@137: console.log(`[GoogleCalendarService] Raw API response received:`, {
-console-general@158: console.warn(`[GoogleCalendarService] Filtered out ${rawBusyPeriods.length - filteredBusyPeriods.length} invalid busy pe...
-console-general@167: console.log(`[GoogleCalendarService] Processed ${busyPeriods.length} busy periods for ${email}:`,
-console-general@179: console.log(`[GoogleCalendarService] Final transformed response: ${totalBusyPeriods} total busy periods across ${Object....
-console-general@184: console.log(`[GoogleCalendarService] Successfully fetched free-busy data`);
-console-general@256: console.log(`[GoogleCalendarService] Events cache hit for ${calendarEmail}`);
-console-general@266: console.warn(`[GoogleCalendarService] Rate limit exceeded, waiting...`);
-console-general@276: console.log(`[GoogleCalendarService] Fetching events for ${calendarEmail}`);
-catch-comment-only@333: } catch (error) {
-console-in-catch@335: console.warn(`[GoogleCalendarService] Failed to geocode location "${event.location}" for event ${event.id}:`, error inst...
-console-general@361: console.log(`[GoogleCalendarService] Successfully fetched ${events.length} events (with placeIds)`);
-console-general@491: console.warn('[GoogleCalendarService] Rate limit exceeded, waiting...');
-console-general@536: console.log(`[GoogleCalendarService] Creating event on calendar: ${calendarId}`);
-console-general@537: console.log(`[GoogleCalendarService] Event: "${summary}" from ${startDate.toISOString()} to ${endDate.toISOString()}`);
-console-general@554: console.log(`[GoogleCalendarService] Invalidating caches for calendar: ${calendarId}`);
-console-general@562: console.log(`[GoogleCalendarService] Successfully created event: ${createdEvent.id}`);
 ```
 
 ### `server/src/routes/external/googleOauthRoutes.ts` [P0] (score: 32)
@@ -464,37 +226,15 @@ console-general@203: console.log('[GoogleOAuth] Access token expired - will auto
 console-in-catch@208: console.error('[GoogleOAuth] Failed to load tokens from file:', error);
 ```
 
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` [P0] (score: 30)
+### `server/src/routes/helpers/createCrudRouter.ts` [P0] (score: 30)
 
 ```
-console-in-catch@97: console.error('[AdminPrimitiveMetadataRouter] Error fetching metadata:', error);
-as-any@169: entityType: entityType as any,
-as-any@193: entityType: entityType as any,
-console-in-catch@212: console.error('[AdminPrimitiveMetadataRouter] Error creating/updating metadata:', error);
-as-any@235: entityType: entityType as any,
-console-in-catch@255: console.error('[AdminPrimitiveMetadataRouter] Error deleting metadata:', error);
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` [P0] (score: 30)
-
-```
-console-in-catch@51: console.error('[AdminRelationshipMetadataRouter] Error fetching metadata:', error);
-as-any@111: entityType: entityType as any,
-as-any@135: entityType: entityType as any,
-console-in-catch@154: console.error('[AdminRelationshipMetadataRouter] Error creating/updating metadata:', error);
-as-any@177: entityType: entityType as any,
-console-in-catch@197: console.error('[AdminRelationshipMetadataRouter] Error deleting metadata:', error);
-```
-
-### `server/src/routes/internal/businessSettingsRouter.ts` [P0] (score: 30)
-
-```
-console-in-catch@334: console.error('[BusinessSettingsRouter] Error fetching settings:', error);
-console-in-catch@367: console.error('[BusinessSettingsRouter] Error fetching setting:', error);
-console-in-catch@419: console.error('[BusinessSettingsRouter] Error creating setting:', error);
-console-in-catch@472: console.error('[BusinessSettingsRouter] Error updating setting:', error);
-console-in-catch@523: console.error('[BusinessSettingsRouter] Error patching setting:', error);
-console-in-catch@548: console.error('[BusinessSettingsRouter] Error deleting setting:', error);
+as-any@165: options.includes = defaultIncludes as any[]
+as-any@173: ? (defaultOrder as any[])
+as-any@174: : [defaultOrder as any]
+as-any@266: const record = await createRecord(model, data as any)
+as-any@333: const updatedCount = await updateRecord(model, id, data as any)
+as-any@413: const updatedCount = await patchRecord(model, id, data as any)
 ```
 
 ### `server/src/scripts/backfill-input-config-from-selectable.mjs` [P0] (score: 28)
@@ -663,13 +403,13 @@ console-general@284: console.warn(`[WARN] Invalid rolling week direction: ${dire
 console-in-catch@303: console.error(`[ERROR] Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, erro...
 ```
 
-### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 20)
+### `server/src/routes/internal/properties/propertyHelpers.ts` [P0] (score: 20)
 
 ```
-console-in-catch@210: console.error('[CalendarRoutes] Error in POST /events:', error);
-console-in-catch@273: console.error('[CalendarRoutes] Error in /debug/freebusy-cache:', error);
-console-in-catch@314: console.error('[CalendarRoutes] Error in /debug/events-cache:', error);
-console-in-catch@339: console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);
+as-any@5: * WHY: Improves code reusability, eliminates `as any` casts, improves type safety
+as-any@14: * WHY: Replaces `as any` casts with type-safe checks
+as-any@32: * WHY: Replaces `as any` casts with type-safe checks
+as-any@49: * WHY: Replaces `as any` pattern with proper type handling
 ```
 
 ### `server/src/scripts/fix-primitive-metadata-cleanup.mjs` [P0] (score: 20)
@@ -696,18 +436,18 @@ console-in-catch@125: console.error('❌ Cleanup error:', error);
 ### `server/src/services/appointmentCalendarService.ts` [P0] (score: 20)
 
 ```
-console-general@84: console.log(`[AppointmentCalendarService] Creating calendar event for appointment ${appointmentId}`);
-console-in-catch@135: console.error(`[AppointmentCalendarService] Failed to update attendee ${attendee.id}:`, error);
-console-general@139: console.log(`[AppointmentCalendarService] Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);
-console-in-catch@156: console.error('[AppointmentCalendarService] Error creating calendar event:', error);
-console-general@260: console.error(`[AppointmentCalendarService] No time slots found for appointment ${appointment.id}`);
-console-general@261: console.error(`[AppointmentCalendarService] selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));
-console-general@266: console.error(`[AppointmentCalendarService] Time slot missing startTime/endTime for appointment ${appointment.id}`);
-console-general@267: console.error(`[AppointmentCalendarService] firstSlot:`, JSON.stringify(firstSlot));
-console-general@275: console.log(`[AppointmentCalendarService] Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`)...
-console-general@282: console.error(`[AppointmentCalendarService] Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime...
-console-general@313: console.warn(`[AppointmentCalendarService] Attendee ${attendee.id} has no email, skipping`);
-console-general@357: console.log(`[AppointmentCalendarService] Status sync not yet implemented for ${appointmentId}`);
+console-general@85: console.log(`[AppointmentCalendarService] Creating calendar event for appointment ${appointmentId}`);
+console-in-catch@136: console.error(`[AppointmentCalendarService] Failed to update attendee ${attendee.id}:`, error);
+console-general@140: console.log(`[AppointmentCalendarService] Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);
+console-in-catch@157: console.error('[AppointmentCalendarService] Error creating calendar event:', error);
+console-general@261: console.error(`[AppointmentCalendarService] No time slots found for appointment ${appointment.id}`);
+console-general@262: console.error(`[AppointmentCalendarService] selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));
+console-general@267: console.error(`[AppointmentCalendarService] Time slot missing startTime/endTime for appointment ${appointment.id}`);
+console-general@268: console.error(`[AppointmentCalendarService] firstSlot:`, JSON.stringify(firstSlot));
+console-general@276: console.log(`[AppointmentCalendarService] Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`)...
+console-general@283: console.error(`[AppointmentCalendarService] Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime...
+console-general@314: console.warn(`[AppointmentCalendarService] Attendee ${attendee.id} has no email, skipping`);
+console-general@358: console.log(`[AppointmentCalendarService] Status sync not yet implemented for ${appointmentId}`);
 ```
 
 ### `server/src/scripts/flatten-input-config.mjs` [P0] (score: 19)
@@ -748,12 +488,44 @@ console-general@326: console.error(`[${context}] Calendar API Error:`, {
 console-general@335: console.error(`[${context}] Original error:`, error.originalError);
 ```
 
+### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 15)
+
+```
+console-in-catch@209: console.error('[CalendarRoutes] Error in POST /events:', error);
+console-in-catch@272: console.error('[CalendarRoutes] Error in /debug/events-cache:', error);
+console-in-catch@297: console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);
+```
+
 ### `server/src/routes/external/mapsRoutes.ts` [P0] (score: 15)
 
 ```
-console-in-catch@64: console.error('[MapsRoutes] Autocomplete error:', error);
-console-in-catch@117: console.error('[MapsRoutes] Place details error:', error);
-console-in-catch@237: console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);
+console-in-catch@66: console.error('[MapsRoutes] Autocomplete error:', error);
+console-in-catch@119: console.error('[MapsRoutes] Place details error:', error);
+console-in-catch@239: console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);
+```
+
+### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` [P0] (score: 15)
+
+```
+as-any@123: entityType: entityType as any,
+as-any@147: entityType: entityType as any,
+as-any@195: entityType: entityType as any,
+```
+
+### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` [P0] (score: 15)
+
+```
+as-any@113: entityType: entityType as any,
+as-any@137: entityType: entityType as any,
+as-any@185: entityType: entityType as any,
+```
+
+### `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` [P0] (score: 15)
+
+```
+as-any@49: return null as any
+as-any@67: ...existingValue as any,
+as-any@68: ...newValue as any,
 ```
 
 ### `server/src/scripts/fix-appointment-block-instances.mjs` [P0] (score: 15)
@@ -835,9 +607,9 @@ console-in-catch@42: console.error('Error checking metadata:', error);
 ### `server/src/services/computedAvailabilityService.ts` [P0] (score: 11)
 
 ```
-console-in-catch@175: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeTo for ${date}:`, error)
-console-in-catch@192: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeFrom for ${date}:`, error)
-console-general@350: console.log(`[ComputedAvailabilityService] Computed availability data in ${duration}ms`)
+console-in-catch@182: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeTo for ${date}:`, error)
+console-in-catch@199: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeFrom for ${date}:`, error)
+console-general@335: console.log(`[ComputedAvailabilityService] Computed availability data in ${duration}ms`)
 ```
 
 ### `client/src/components/AppNotification.vue` [P0] (score: 10)
@@ -870,4 +642,65 @@ catch-comment-only@146: } catch (err) {
 ```
 as-any@158: const currentCanHaveParts = (currentEntity as any).canHaveParts === true
 as-any@166: const currentIsStateControl = (currentEntity as any).isStateControl === true
+```
+
+### `client/src/utils/api/relationshipApiHelpers.ts` [P0] (score: 10)
+
+```
+catch-comment-only@25: } catch (error: unknown) {
+```
+
+### `client/src/utils/booking/mockGoogleCalendar.ts` [P0] (score: 10)
+
+```
+catch-comment-only@259: } catch (error) {
+```
+
+### `client/src/utils/dependencyCleanup.ts` [P0] (score: 10)
+
+```
+eslint-disable@47: /* eslint-disable @typescript-eslint/no-unused-vars */
+as-any@49: const config = null as any
+```
+
+### `client/src/utils/dev/formatDevPanelData.ts` [P0] (score: 10)
+
+```
+as-any@57: const startStr = formatDateTimeForDisplay(period.start as any, {
+as-any@65: const endStr = formatTimeForDisplay(period.end as any, {
+```
+
+### `client/src/views/admin/tabs/components/AppointmentsTable.vue` [P0] (score: 10)
+
+```
+as-any@111: (newAppointment.value as any).attendees = attendees
+as-any@143: (editedData.value as any).attendees = attendees
+```
+
+### `server/src/routes/helpers/routerErrorHandler.ts` [P0] (score: 10)
+
+```
+as-any@46: const validationError = error as any
+as-any@65: const validationError = error as any
+```
+
+### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` [P0] (score: 10)
+
+```
+as-any@215: entityType: entityType as any,
+as-any@217: metadataType: metadataType as any,
+```
+
+### `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` [P0] (score: 10)
+
+```
+as-any@103: entityType: entityType as any,
+as-any@105: metadataType: metadataType as any,
+```
+
+### `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` [P0] (score: 10)
+
+```
+as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
+as-any@110: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
 ```

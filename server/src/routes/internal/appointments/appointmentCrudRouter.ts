@@ -1,21 +1,14 @@
 /**
  * Appointment CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for appointments
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
+ * LEARNING: Refactored to use CRUD router factory pattern with complex POST logic in afterCreate hook
+ * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
+ * PATTERN: Factory-generated router with afterCreate hook for snapshots, attendees, and calendar events
  */
 
 import { Router, Request, Response } from 'express'
 import { Appointment } from '../../../config/app.js'
-import { 
-  fetchAll, 
-  fetchById, 
-  createRecord, 
-  updateRecord, 
-  patchRecord, 
-  deleteRecord
-} from '../../helpers/dataController.js'
+import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
 import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js'
 import { ERROR_MESSAGES } from './appointmentConstants.js'
@@ -29,86 +22,76 @@ import {
   getCalendarIdForAppointment,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
+import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('AppointmentRouter')
 
-const router = Router()
-
-/**
- * GET /appointments
- * List all appointments
- * 
- * LEARNING: Fetches all appointments with relationships
- * WHY: Provides complete appointment data with attendees and property information
- * PATTERN: Fetch all with includes, return JSON
- */
-router.get('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const appointments = await fetchAll(Appointment, {
-      includes: appointmentIncludes
-    })
-    res.json(appointments)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENTS, 'fetching appointments')
-  }
-})
-
-/**
- * GET /appointments/:id
- * Get single appointment by ID
- * 
- * LEARNING: Fetches single appointment by ID with relationships
- * WHY: Provides complete appointment data for a specific appointment
- * PATTERN: Fetch by ID with includes, return 404 if not found
- */
-router.get('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const appointment = await Appointment.findByPk(req.params.id, {
-      include: appointmentIncludes,
-    })
-    
-    if (!appointment) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id: req.params.id
+// Create base CRUD router using factory with custom handlers for includes
+const router = createCrudRouter({
+  model: Appointment,
+  resourceName: 'appointment',
+  errorMessages: {
+    FETCH_ALL: ERROR_MESSAGES.FETCH_APPOINTMENTS,
+    FETCH_ONE: ERROR_MESSAGES.FETCH_APPOINTMENT,
+    NOT_FOUND: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
+    CREATE: ERROR_MESSAGES.CREATE_APPOINTMENT,
+    UPDATE: ERROR_MESSAGES.UPDATE_APPOINTMENT,
+    PATCH: ERROR_MESSAGES.PATCH_APPOINTMENT,
+    DELETE: ERROR_MESSAGES.DELETE_APPOINTMENT,
+  },
+  defaultIncludes: appointmentIncludes,
+  customGetAllHandler: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const appointments = await Appointment.findAll({
+        include: appointmentIncludes,
       })
-      return
+      sendSuccess(res, appointments)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENTS, 'fetching appointments')
     }
+  },
+  customGetByIdHandler: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const appointment = await Appointment.findByPk(req.params.id, {
+        include: appointmentIncludes,
+      })
+      
+      if (!appointment) {
+        sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
+        return
+      }
+      
+      sendSuccess(res, appointment)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
+    }
+  },
+  sanitizeInput: (data: unknown): unknown => {
+    // Remove attendees from appointmentData before creating appointment
+    // (attendees are stored in separate table)
+    const appointmentData = data as { attendees?: AttendeeRequest[]; [key: string]: unknown }
+    const { attendees: _, ...appointmentFields } = appointmentData
+    return appointmentFields
+  },
+  afterCreate: async (record, req, res) => {
+    // LEARNING: Complex POST logic moved to afterCreate hook
+    // WHY: Keeps factory pattern clean while allowing domain-specific behavior
+    // PATTERN: Hook runs after record creation, handles side effects
     
-    res.json(appointment)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
-  }
-})
-
-/**
- * POST /appointments
- * Create a new appointment
- * 
- * LEARNING: Creates appointment with snapshots, attendees, and calendar integration
- * WHY: Enables appointment creation via API with full feature support
- * PATTERN: Create snapshots, validate, create appointment, create attendees, create calendar event
- */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
-  try {
     const appointmentData = req.body
     const attendeesData: AttendeeRequest[] = appointmentData.attendees || []
     
-    // Remove attendees from appointmentData before creating appointment
-    // (attendees are stored in separate table)
-    const { attendees: _, ...appointmentFields } = appointmentData
-    
     // Create snapshots for block instances
     const serviceSnapshotIds = await createSnapshotsForAppointment(
-      appointmentFields.selectedServiceIds || []
+      appointmentData.selectedServiceIds || []
     )
     const propertySnapshotIds = await createSnapshotsForAppointment(
-      appointmentFields.selectedPropertyIds || []
+      appointmentData.selectedPropertyIds || []
     )
     const optionSnapshotIds = await createSnapshotsForAppointment(
-      appointmentFields.selectedOptionIds || []
+      appointmentData.selectedOptionIds || []
     )
     
     // Validate snapshot IDs (redundant but defensive)
@@ -116,31 +99,25 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     await validateSnapshotIds(propertySnapshotIds)
     await validateSnapshotIds(optionSnapshotIds)
     
-    // Create the appointment
-    const appointment = await createRecord(Appointment, {
-      ...appointmentFields,
+    // Update appointment with snapshot IDs
+    await record.update({
       serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
       propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
       optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
     })
     
     // Create attendee records
-    // LEARNING: Attendees are created after appointment to have the appointmentId
-    // WHY: Junction table requires appointment to exist first
-    // SESSION: 2.1.3b - Appointment Attendees Architecture
-    await createAttendeeRecords(appointment.id, attendeesData)
+    await createAttendeeRecords(record.id, attendeesData)
     
-    // LEARNING: Trigger calendar event creation when appointment is submitted or confirmed
-    // WHY: Sends Google Calendar invitations to all attendees
-    // SESSION: 2.1.3b - Appointment Attendees Architecture
-    if (shouldCreateCalendarEvent(appointment.status)) {
+    // Create calendar event if status requires it
+    if (shouldCreateCalendarEvent(record.status)) {
       try {
-        logger.debug(`Creating calendar event for appointment ${appointment.id}`)
+        logger.debug(`Creating calendar event for appointment ${record.id}`)
         
         const calendarId = await getCalendarIdForAppointment()
         
         const calendarResult = await createCalendarEventForAppointment(
-          appointment.id,
+          record.id,
           calendarId
         )
         
@@ -154,66 +131,42 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         logger.error('Calendar event creation error:', calendarError)
       }
     } else {
-      logger.debug(`Skipping calendar event - status is '${appointment.status}' (not submitted/confirmed)`)
+      logger.debug(`Skipping calendar event - status is '${record.status}' (not submitted/confirmed)`)
     }
     
-    const appointmentWithRelations = await Appointment.findByPk(appointment.id, {
+    // Fetch appointment with relationships for response
+    const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,
     })
     
+    // Send response with full appointment data (override factory's default response)
     res.status(HTTP_STATUS_CODES.CREATED).json(appointmentWithRelations)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.CREATE_APPOINTMENT, 'creating appointment')
-  }
-})
-
-/**
- * PUT /appointments/:id
- * Update an appointment (full update)
- * 
- * LEARNING: Updates appointment record with full replacement
- * WHY: Enables full appointment updates via API
- * PATTERN: Update record, return 404 if not found, return updated record with includes
- */
-router.put('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const updatedRows = await updateRecord(Appointment, req.params.id, req.body)
+  },
+  afterUpdate: async (record, req, res) => {
+    // Fetch appointment with relationships for response
+    const appointmentWithRelations = await Appointment.findByPk(record.id, {
+      include: appointmentIncludes,
+    })
     
-    if (updatedRows === 0) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id: req.params.id
-      })
+    if (!appointmentWithRelations) {
+      sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, record.id)
       return
     }
     
-    const appointment = await Appointment.findByPk(req.params.id, {
-      include: appointmentIncludes,
-    })
-    
-    res.json(appointment)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.UPDATE_APPOINTMENT, 'updating appointment')
-  }
+    // Send response with full appointment data (override factory's default response)
+    res.json(appointmentWithRelations)
+  },
 })
 
-/**
- * PATCH /appointments/:id
- * Partially update an appointment
- * 
- * LEARNING: Updates appointment record with partial data
- * WHY: Enables partial appointment updates via API
- * PATTERN: Patch record, return 404 if not found, return updated record with includes
- */
+// Override PATCH to also return appointment with relationships
 router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
-    const updated = await patchRecord(Appointment, req.params.id, req.body)
+    const updated = await Appointment.update(req.body, {
+      where: { id: req.params.id },
+    })
     
-    if (!updated) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id: req.params.id
-      })
+    if (updated[0] === 0) {
+      sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
       return
     }
     
@@ -221,35 +174,14 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
       include: appointmentIncludes,
     })
     
-    res.json(appointment)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.PATCH_APPOINTMENT, 'patching appointment')
-  }
-})
-
-/**
- * DELETE /appointments/:id
- * Delete an appointment
- * 
- * LEARNING: Deletes appointment record
- * WHY: Enables appointment deletion via API
- * PATTERN: Delete record, return 404 if not found, return 204 on success
- */
-router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const deleted = await deleteRecord(Appointment, req.params.id)
-    
-    if (!deleted) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id: req.params.id
-      })
+    if (!appointment) {
+      sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
       return
     }
     
-    res.status(HTTP_STATUS_CODES.NO_CONTENT).send()
+    sendSuccess(res, appointment)
   } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.DELETE_APPOINTMENT, 'deleting appointment')
+    handleRouteError(error, res, ERROR_MESSAGES.PATCH_APPOINTMENT, 'patching appointment')
   }
 })
 
@@ -257,7 +189,7 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
  * GET /appointments/:id/versions
  * Get appointment versions (snapshots)
  * 
- * LEARNING: Fetches version snapshots for appointment block instances
+ * LEARNING: Extra route for fetching appointment version snapshots
  * WHY: Provides historical state of block instances at appointment creation time
  * PATTERN: Fetch appointment, load versions, return JSON
  */

@@ -10,14 +10,13 @@
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { calculateDurationFromBlockInstances } from '@/utils/timeSlotCalculations'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import { calculateDurationFromBlockInstances } from '@/utils/booking/durationCalculation'
+import { computeSlotAvailability, type BusyTimeRange } from '@/utils/booking/slotPipeline'
 import { hasValidDateRangeStructure, validateDateRange } from '@/utils/booking/dateRangeValidation'
 import type { PropertyDetails } from '@/types/availability'
 import { useNotification } from '@/composables/useNotification'
-import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityManager'
-import type { ComputedAvailabilityData, RangeConstraint, OverlapConstraint, CapacityConstraint } from '@shared/types/availabilityTypes'
+import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityOrchestrator'
+import type { ComputedAvailabilityData } from '@shared/types/availabilityTypes'
 
 const { error: showErrorNotification } = useNotification()
 
@@ -38,7 +37,6 @@ export function useAvailability(
   blockInstances: BookingBlockInstance[] | Ref<BookingBlockInstance[]> | ComputedRef<BookingBlockInstance[]>,
   dateRange: { start: string | null; end: string | null } | null | Ref<{ start: string | null; end: string | null } | null> | ComputedRef<{ start: string | null; end: string | null } | null>,
   propertyDetails?: PropertyDetails | null | Ref<PropertyDetails | null> | ComputedRef<PropertyDetails | null>,
-  _settings?: Ref<AvailabilitySettings | null> | ComputedRef<AvailabilitySettings | null>, // @deprecated Phase 12: Use prefetchedData.minuteIncrement instead (unused, kept for backward compat)
   // Phase 6: Optional pre-computed availability data from server orchestrator
   prefetchedData?: Ref<ComputedAvailabilityData | null> | ComputedRef<ComputedAvailabilityData | null>
 ) {
@@ -79,7 +77,6 @@ export function useAvailability(
 
       const blockInstances = blockInstancesValue.value
       const dateRange = dateRangeValue.value
-      const propertyDetails = propertyDetailsValue.value
 
       // WHY: Prevents calculation errors when data is incomplete
       // PATTERN: Early return with empty array fallback
@@ -130,9 +127,7 @@ export function useAvailability(
         }
         
         const busyTimes: BusyTimeRange[] = prefetched.busyPeriods
-        const rangeConstraints: RangeConstraint[] = prefetched.rangeConstraints
-        const overlapConstraints: OverlapConstraint[] = prefetched.overlapConstraints
-        const capacityConstraints: CapacityConstraint[] = prefetched.capacityConstraints
+        const constraints = prefetched.constraints
 
         // Phase 12: Use server-provided minuteIncrement instead of fetching settings
         // WHY: Server already includes minuteIncrement in ComputedAvailabilityData, eliminating redundant API call
@@ -140,26 +135,18 @@ export function useAvailability(
         const minuteIncrement = prefetched.minuteIncrement
 
         // WHY: Generates ALL slots and marks them as available/busy instead of filtering
-        // PATTERN: Use fitAllTimeSlotsWithAvailability for unified availability handling
+        // PATTERN: Use computeSlotAvailability for unified availability handling
         // Session 2.2.3: Pass calendar events and defaultLocation for drive time calculations
         // Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)
-        const result = fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
+        const result = computeSlotAvailability({
           startBoundary: validatedDateRange.start,
           endBoundary: validatedDateRange.end,
           duration,
           minuteIncrement,
           busyTimes,
           includeFlags: { major: false, minor: false, moveable: false }
-        }, rangeConstraints, overlapConstraints, capacityConstraints, {
-          // Phase 6: Pass pre-computed data from server orchestrator
-          precomputedDriveTimesByDate: prefetched.driveTimesByDate,
-          precomputedCapacityHours: prefetched.scheduledHoursByKey
-        })
+        }, constraints)
         if (signal.aborted) return
-
-        // PATTERN: Calculate adjustments and modify slots if needed
-        if (propertyDetails) {
-        }
 
         // WHY: UI can render busy slots as inactive instead of hiding them
         // PATTERN: Use slots from availability manager result

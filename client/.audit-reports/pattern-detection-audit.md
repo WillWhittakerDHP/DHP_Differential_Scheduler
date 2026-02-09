@@ -10,13 +10,13 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **622**
+- Files scanned: **719**
 - String literals found: **9** (showing those with 3+ occurrences)
-- Type definitions found: **526**
-- Enum patterns found: **2**
+- Type definitions found: **540**
+- Enum patterns found: **3**
 - Config locations found: **34**
-- Function patterns found: **341**
-- Common patterns found: **41**
+- Function patterns found: **362**
+- Common patterns found: **40**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -24,14 +24,14 @@ Showing string literals that appear 3 or more times:
 
 | Value | Occurrences | Locations |
 | --- | ---: | --- |
-| `hit` | 3 | `client/src/components/admin/dev/ApiDevPanel.vue:371`, `client/src/components/admin/dev/ApiDevPanel.vue:380`, `client/src/composables/booking/useApiCallStatus.ts:39` |
-| `OK` | 3 | `client/src/services/mapsApiService.ts:353`, `server/src/services/googleMapsService.ts:532`, `server/src/services/googleMapsService.ts:684` |
+| `OK` | 3 | `client/src/services/mapsApiService.ts:353`, `server/src/services/google/maps/mapsTypes.ts:94`, `server/src/services/google/maps/routesApiService.ts:121` |
 
 ## Type Definitions
 
 | Type Name | Kind | Definition Location |
 | --- | --- | --- |
 | `AddressComponents` | interface | `client/src/services/mapsApiService.ts:82` |
+| `AddressGeocodingCacheEntry` | interface | `server/src/services/addressGeocodingCache.ts:15` |
 | `AdminConfig` | interface | `client/src/configs/adminConfig.ts:158` |
 | `AdminEntityMap` | type | `client/src/types/admin/AdminEntity.ts:201` |
 | `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:32` |
@@ -45,6 +45,7 @@ Showing string literals that appear 3 or more times:
 | `AnnotationWithMetadata` | type | `client/src/types/annotations.ts:51` |
 | `ApiCallStatus` | type | `client/src/composables/booking/useApiCallStatus.ts:11` |
 | `ApiCallStatusState` | interface | `client/src/composables/booking/useApiCallStatus.ts:13` |
+| `ApiStatusValue` | type | `client/src/constants/apiStatus.ts:57` |
 | `AppLogger` | type | `client/src/utils/logger.ts:17` |
 | `AppointmentRequest` | interface | `client/src/types/appointment.ts:249` |
 | `AppointmentResponse` | interface | `client/src/types/appointment.ts:332` |
@@ -56,7 +57,7 @@ Showing string literals that appear 3 or more times:
 | `AttendeeRequest` | interface | `client/src/types/appointment.ts:237` |
 | `AttendeeResponse` | interface | `client/src/types/appointment.ts:309` |
 | `AutocompletePrediction` | interface | `client/src/services/mapsApiService.ts:71` |
-| `AutocompleteResponse` | interface | `server/src/services/googleMapsService.ts:92` |
+| `AutocompleteResponse` | interface | `server/src/services/google/maps/mapsTypes.ts:36` |
 | `AutocompleteValue` | type | `client/src/utils/autocomplete.ts:1` |
 | `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:268` |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts:209` |
@@ -84,19 +85,19 @@ Showing string literals that appear 3 or more times:
 | `BusinessData` | type | `client/src/utils/transformers/fetchToBusinessTransformer.ts:31` |
 | `BusinessDataCollectionEndpoints` | type | `client/src/composables/businessDataCollections/types.ts:36` |
 | `BusinessHoursConfig` | interface | `client/src/configs/availabilitySettings.ts:82` |
-| `BusinessHoursMap` | type | `client/src/utils/booking/timeSlotFitter.ts:64` |
+| `BusinessHoursMap` | type | `client/src/utils/booking/timeSlotTypes.ts:48` |
 | `BusinessRule` | interface | `client/src/composables/admin/useBusinessRules.ts:89` |
 | `BusinessRuleFormData` | interface | `client/src/composables/admin/useBusinessRules.ts:106` |
-| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotFitter.ts:66` |
+| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts:56` |
 | `CachedCalendarEvent` | interface | `server/src/services/calendarEventsCache.ts:19` |
-| `CalendarApiErrorType` | type | `client/src/services/calendarApiService.ts:66` |
-| `CalendarApiOptions` | interface | `client/src/services/calendarApiService.ts:42` |
+| `CalendarApiErrorType` | type | `client/src/services/calendarApiService.ts:52` |
+| `CalendarApiOptions` | interface | `client/src/services/calendarApiService.ts:43` |
 | `CalendarConfig` | interface | `client/src/configs/availabilitySettings.ts:242` |
 | `CalendarEntry` | interface | `client/src/configs/availabilitySettings.ts:227` |
 | `CalendarErrorType` | type | `server/src/services/calendarErrorHandler.ts:16` |
-| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:199` |
-| `CalendarEventResult` | interface | `server/src/services/appointmentCalendarService.ts:17` |
-| `CalendarEventsResponseWithMeta` | interface | `server/src/services/googleCalendarService.ts:222` |
+| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:185` |
+| `CalendarEventResult` | interface | `server/src/services/appointmentCalendarService.ts:18` |
+| `CalendarEventsResponseWithMeta` | interface | `server/src/services/google/calendar/calendarTypes.ts:16` |
 | `CalendarProvider` | type | `client/src/configs/availabilitySettings.ts:219` |
 | `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:23` |
 | `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:47` |
@@ -113,25 +114,23 @@ Showing string literals that appear 3 or more times:
 | `ContactsStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:33` |
 | `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts:10` |
 | `Coordinates` | interface | `client/src/configs/availabilitySettings.ts:187` |
-| `CreatedEventResponse` | interface | `server/src/services/googleCalendarService.ts:438` |
-| `CreateEventParams` | interface | `server/src/services/googleCalendarService.ts:422` |
+| `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts:56` |
+| `CreateEventParams` | interface | `server/src/services/google/calendar/calendarTypes.ts:40` |
 | `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts:50` |
 | `CrudDataTableModel` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:43` |
 | `CrudDataTableModelOptions` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:11` |
+| `CrudErrorMessages` | interface | `server/src/routes/helpers/createCrudRouter.ts:52` |
+| `CrudRouterConfig` | interface | `server/src/routes/helpers/createCrudRouter.ts:65` |
 | `CustomValidator` | type | `client/src/composables/booking/useStepValidation.ts:12` |
 | `DataCollectionCrudConfig` | interface | `client/src/composables/dataCollections/useDataCollectionActions.ts:18` |
 | `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts:103` |
+| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts:25` |
 | `DayOfWeek` | type | `client/src/types/datetime.ts:160` |
 | `DefaultLocation` | interface | `client/src/configs/availabilitySettings.ts:205` |
 | `DependentDelete` | type | `server/src/routes/helpers/dataController.ts:198` |
 | `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts:18` |
-| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:31` |
-| `DisplayedMonth` | interface | `client/src/composables/booking/useDateRangeDecider.ts:14` |
-| `DisplayFieldConfigMap` | type | `client/src/configs/field/display/fullFieldDisplayConfig.ts:41` |
-| `DisplayFieldType` | interface | `client/src/configs/field/display/fullFieldDisplayConfig.ts:16` |
-| `DistributionPreview` | interface | `client/src/types/component.ts:52` |
-| `DistributionStrategy` | type | `client/src/types/component.ts:12` |
-| ... | ... | (+426 more) |
+| `DevPanelTab` | type | `client/src/composables/dev/useDevPanelTabs.ts:11` |
+| ... | ... | (+440 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -139,6 +138,7 @@ Showing string literals that appear 3 or more times:
 | --- | --- | --- |
 | `BOOKING_MODES` | `standalone`, `addOn`, `both` | `client/src/constants/entities.ts:26` |
 | `BUSINESS_DATA_QUERY_KEY` | `businessData` | `client/src/composables/useBusiness.ts:18` |
+| `STATUSES_REQUIRING_CALENDAR_EVENT` | `submitted`, `confirmed` | `server/src/routes/internal/appointments/appointmentConstants.ts:44` |
 
 ## Config File Locations
 
@@ -189,7 +189,6 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `createPartFinals` | `create*` | 2 |
 | `createLogger` | `create*` | 2 |
 | `getComponentsRecursive` | `get*` | 2 |
-| `getAllCachedEntries` | `get*` | 2 |
 | `createLocalStatePlugin` | `create*` | 1 |
 | `createWizardStatePlugin` | `create*` | 1 |
 | `getFieldMetadata` | `get*` | 1 |
@@ -215,21 +214,22 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `createMultiClassDraggableChecker` | `create*` | 1 |
 | `createExpansionPanelDraggableChecker` | `create*` | 1 |
 | `useEntityCardActions` | `use*` | 1 |
-| ... | ... | (+311 more) |
+| `useEntityCardComputed` | `use*` | 1 |
+| ... | ... | (+332 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 41 occurrences of status workflow patterns:
+Found 40 occurrences of status workflow patterns:
 
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 1 occurrence(s)
 - `client/src/composables/booking/useAppointmentDataCollection.ts`: 2 occurrence(s)
 - `client/src/types/appointment.ts`: 10 occurrence(s)
 - `client/src/utils/appointmentFieldFormatters.ts`: 1 occurrence(s)
-- `client/src/utils/booking/timeAvailabilityManager.ts`: 5 occurrence(s)
+- `client/src/utils/booking/capacityConstraintChecker.ts`: 4 occurrence(s)
 - `server/src/db/models/booking/appointment.js`: 2 occurrence(s)
 - `server/src/db/models/booking/appointment.ts`: 3 occurrence(s)
-- `server/src/routes/internal/appointments/appointmentRouter.ts`: 1 occurrence(s)
+- `server/src/routes/internal/appointments/appointmentConstants.ts`: 1 occurrence(s)
 - `server/src/scripts/createAppointmentsFromCalendar.ts`: 4 occurrence(s)
 - `server/src/utils/availabilities/availabiltiesDbUtils.ts`: 12 occurrence(s)

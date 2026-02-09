@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-08T23:31:47.942Z",
-  "totalFiles": 1041,
+  "generatedAt": "2026-02-09T16:43:15.649Z",
+  "totalFiles": 1138,
   "thresholds": {
     "maxFanOut": 15,
     "maxFanIn": 20
@@ -70,11 +70,11 @@
       "length": 2
     },
     {
-      "key": "client/src/utils/booking/timeAvailabilityManager -> client/src/utils/booking/timeSlotFitter -> client/src/utils/booking/timeAvailabilityManager",
+      "key": "client/src/utils/booking/slotAvailabilityManager -> client/src/utils/booking/slotAvailabilityMarker -> client/src/utils/booking/slotAvailabilityManager",
       "chain": [
-        "client/src/utils/booking/timeAvailabilityManager",
-        "client/src/utils/booking/timeSlotFitter",
-        "client/src/utils/booking/timeAvailabilityManager"
+        "client/src/utils/booking/slotAvailabilityManager",
+        "client/src/utils/booking/slotAvailabilityMarker",
+        "client/src/utils/booking/slotAvailabilityManager"
       ],
       "length": 2
     },
@@ -115,6 +115,16 @@
         "client/src/utils/booking/BlockFinal",
         "client/src/utils/booking/partFinalizer",
         "client/src/types/appointment"
+      ],
+      "length": 3
+    },
+    {
+      "key": "client/src/utils/booking/overlapConstraintChecker -> client/src/utils/booking/slotAvailabilityManager -> client/src/utils/booking/slotAvailabilityMarker -> client/src/utils/booking/overlapConstraintChecker",
+      "chain": [
+        "client/src/utils/booking/overlapConstraintChecker",
+        "client/src/utils/booking/slotAvailabilityManager",
+        "client/src/utils/booking/slotAvailabilityMarker",
+        "client/src/utils/booking/overlapConstraintChecker"
       ],
       "length": 3
     }
@@ -163,20 +173,24 @@
       "fanIn": 75
     },
     {
+      "file": "client/src/types/appointment",
+      "fanIn": 52
+    },
+    {
+      "file": "client/src/utils/logger",
+      "fanIn": 51
+    },
+    {
       "file": "client/src/utils/transformers/globalToBookingTransformer",
       "fanIn": 49
     },
     {
-      "file": "client/src/types/appointment",
-      "fanIn": 48
-    },
-    {
-      "file": "client/src/utils/logger",
-      "fanIn": 46
-    },
-    {
       "file": "client/src/composables/useGlobal",
       "fanIn": 38
+    },
+    {
+      "file": "client/src/types/datetime",
+      "fanIn": 34
     },
     {
       "file": "client/src/types/entityMetadata",
@@ -191,8 +205,12 @@
       "fanIn": 31
     },
     {
-      "file": "client/src/types/datetime",
-      "fanIn": 30
+      "file": "server/src/config/app",
+      "fanIn": 28
+    },
+    {
+      "file": "server/src/constants/router",
+      "fanIn": 27
     },
     {
       "file": "client/src/utils/api",
@@ -232,6 +250,16 @@
       "priority": "P0"
     },
     {
+      "file": "client/src/utils/booking/slotAvailabilityManager",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/utils/booking/slotAvailabilityMarker",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
       "file": "client/src/components/admin/generic/EntityCard",
       "score": 13,
       "priority": "P1"
@@ -267,16 +295,6 @@
       "priority": "P1"
     },
     {
-      "file": "client/src/utils/booking/timeAvailabilityManager",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/utils/booking/timeSlotFitter",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
       "file": "client/src/components/admin/generic/fields/FieldRenderer",
       "score": 10,
       "priority": "P1"
@@ -293,6 +311,11 @@
     },
     {
       "file": "client/src/types/userTypes",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/booking/overlapConstraintChecker",
       "score": 10,
       "priority": "P1"
     },
@@ -337,17 +360,22 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/utils/transformers/globalToBookingTransformer",
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "file": "client/src/utils/logger",
       "score": 2,
       "priority": "P2"
     },
     {
+      "file": "client/src/utils/transformers/globalToBookingTransformer",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/composables/useGlobal",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/datetime",
       "score": 2,
       "priority": "P2"
     },
@@ -367,7 +395,12 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/types/datetime",
+      "file": "server/src/config/app",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/constants/router",
       "score": 2,
       "priority": "P2"
     },

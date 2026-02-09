@@ -13,14 +13,13 @@ import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
-import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
+import type { BusyTimeRange } from '@/utils/booking/slotPipeline'
 import type {
-  RangeConstraint,
-  OverlapConstraint,
-  CapacityConstraint,
+  Constraint,
   ComputedAvailabilityData,
   DurationRoundingConfig,
 } from '@shared/types/availabilityTypes'
+import { groupConstraintsByCategory } from '@shared/utils/constraintUtils'
 import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
 
@@ -47,20 +46,8 @@ export interface UseComputedAvailabilityReturn {
   /** Prefetched busy times for displayed month */
   busyTimes: Ref<BusyTimeRange[]>
   
-  /** Prefetched range constraints */
-  rangeConstraints: Ref<RangeConstraint[]>
-  
-  /** Prefetched overlap constraints */
-  overlapConstraints: Ref<OverlapConstraint[]>
-  
-  /** Prefetched capacity constraints */
-  capacityConstraints: Ref<CapacityConstraint[]>
-  
-  /** Precomputed drive times by date */
-  driveTimesByDate: Ref<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>>
-  
-  /** Precomputed scheduled hours by capacity key */
-  scheduledHoursByKey: Ref<Record<string, number>>
+  /** Prefetched constraints (unified array) */
+  constraints: Ref<Constraint[]>
   
   /** Complete computed availability data object (reconstructed from individual pieces) */
   computedData: ComputedRef<ComputedAvailabilityData | null>
@@ -104,11 +91,7 @@ export function useComputedAvailability(
   
   const calendarEvents = ref<CalendarEvent[]>([])
   const busyTimes = ref<BusyTimeRange[]>([])
-  const rangeConstraints = ref<RangeConstraint[]>([])
-  const overlapConstraints = ref<OverlapConstraint[]>([])
-  const capacityConstraints = ref<CapacityConstraint[]>([])
-  const driveTimesByDate = ref<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>>({})
-  const scheduledHoursByKey = ref<Record<string, number>>({})
+  const constraints = ref<Constraint[]>([])
   const minuteIncrement = ref<number>(15)
   const timezone = ref<string | undefined>(undefined)
   const durationRounding = ref<DurationRoundingConfig | undefined>(undefined)
@@ -176,27 +159,28 @@ export function useComputedAvailability(
       // Distribute returned data to existing refs
       calendarEvents.value = data.calendarEvents
       busyTimes.value = data.busyPeriods
-      rangeConstraints.value = data.rangeConstraints
-      overlapConstraints.value = data.overlapConstraints
-      capacityConstraints.value = data.capacityConstraints
-      driveTimesByDate.value = data.driveTimesByDate
-      scheduledHoursByKey.value = data.scheduledHoursByKey
+      constraints.value = data.constraints
       minuteIncrement.value = data.minuteIncrement
       timezone.value = data.timezone
       durationRounding.value = data.durationRounding
       outOfOfficeEvents.value = data.outOfOfficeEvents
       computedDataMeta.value = data._meta
       
+      const { range, overlap, capacity } = groupConstraintsByCategory(data.constraints)
+      // Derive scheduled hours count from enriched capacity constraints
+      const scheduledHoursCount = capacity.reduce((sum, c) => {
+        return sum + (c.scheduledHours ? Object.keys(c.scheduledHours).length : 0)
+      }, 0)
       logger.debug(
         '[useComputedAvailability] Computed data received:',
-        `rangeConstraints=${data.rangeConstraints.length}`,
-        `overlapConstraints=${data.overlapConstraints.length}`,
-        `capacityConstraints=${data.capacityConstraints.length}`,
+        `constraints=${data.constraints.length} total`,
+        `range=${range.length}`,
+        `overlap=${overlap.length}`,
+        `capacity=${capacity.length}`,
         `busyPeriods=${data.busyPeriods.length}`,
         `calendarEvents=${data.calendarEvents.length}`,
         `outOfOfficeEvents=${data.outOfOfficeEvents.length}`,
-        `driveTimesByDate=${Object.keys(data.driveTimesByDate).length} dates`,
-        `scheduledHoursByKey=${Object.keys(data.scheduledHoursByKey).length} keys`
+        `scheduledHours=${scheduledHoursCount} keys (enriched on constraints)`
       )
       
     } catch (err) {
@@ -207,11 +191,7 @@ export function useComputedAvailability(
       // Clear all data on error
       calendarEvents.value = []
       busyTimes.value = []
-      rangeConstraints.value = []
-      overlapConstraints.value = []
-      capacityConstraints.value = []
-      driveTimesByDate.value = {}
-      scheduledHoursByKey.value = {}
+      constraints.value = []
       minuteIncrement.value = 15
       timezone.value = undefined
       durationRounding.value = undefined
@@ -247,17 +227,13 @@ export function useComputedAvailability(
     }
     
     return {
-      rangeConstraints: rangeConstraints.value,
-      overlapConstraints: overlapConstraints.value,
-      capacityConstraints: capacityConstraints.value,
+      constraints: constraints.value,
       minuteIncrement: minuteIncrement.value,
       timezone: timezone.value,
       durationRounding: durationRounding.value,
       busyPeriods: busyTimes.value,
       calendarEvents: calendarEvents.value,
       outOfOfficeEvents: outOfOfficeEvents.value,
-      driveTimesByDate: driveTimesByDate.value,
-      scheduledHoursByKey: scheduledHoursByKey.value,
       _meta: computedDataMeta.value,
     }
   })
@@ -265,11 +241,7 @@ export function useComputedAvailability(
   return {
     calendarEvents,
     busyTimes,
-    rangeConstraints,
-    overlapConstraints,
-    capacityConstraints,
-    driveTimesByDate,
-    scheduledHoursByKey,
+    constraints,
     computedData,
     isLoading,
     error

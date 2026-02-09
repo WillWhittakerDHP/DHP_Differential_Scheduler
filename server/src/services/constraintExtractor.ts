@@ -14,29 +14,36 @@ import type {
   RangeConstraint,
   OverlapConstraint,
   CapacityConstraint,
+  Constraint,
   ConstraintEnforcement,
   DriveTimeApplyTo,
   RollingWeekDirection,
   BusinessHoursConfig,
   RFC3339DateTime,
-} from '@shared/types/availabilityTypes'
+} from '../../../shared/types/availabilityTypes.js'
+import {
+  RANGE_CONSTRAINT_TYPES,
+  TIME_BASIS_TYPES,
+} from '../../../shared/constants/constraintConstants.js'
 import type { 
   AvailabilitySettingsData,
   RangeConstraint as DbRangeConstraint,
 } from '../db/models/admin/business_settings'
 
-// Constraint type constants (matching client constants)
-const RANGE_CONSTRAINT_TYPES = {
-  BUSINESS_HOURS: 'businessHours' as const,
-  LEAD_TIME: 'leadTime' as const,
-  DATE_RANGE: 'dateRange' as const,
-} as const
-
-const TIME_BASIS_TYPES = {
-  DAILY: 'daily' as const,
-  CALENDAR_WEEK: 'calendarWeek' as const,
-  ROLLING_WEEK: 'rollingWeek' as const,
-} as const
+/**
+ * Require enforcement to be defined
+ * LEARNING: Centralized enforcement validation eliminates duplication
+ * WHY: Ensures consistent error messages and reduces repetition
+ * PATTERN: Helper function that throws if enforcement is undefined
+ * 
+ * @param enforcement - Enforcement value to validate
+ * @param label - Label for error message (e.g., "appointment buffer", "driveTimeTo buffer", "daily constraint")
+ */
+function requireEnforcement(enforcement: unknown, label: string): void {
+  if (enforcement === undefined) {
+    throw new Error(`Enforcement is required for ${label}. Must be 'off', 'flexible', or 'hard'.`)
+  }
+}
 
 /**
  * Convert database model RangeConstraint to shared RangeConstraint
@@ -58,6 +65,7 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
       }
     }
     return {
+      category: 'range',
       type: dbConstraint.type,
       enforcement: dbConstraint.enforcement,
       config: {
@@ -69,6 +77,7 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
   // For dateRange config, convert strings to RFC3339DateTime
   if (dbConstraint.type === 'dateRange' && 'start' in dbConstraint.config) {
     return {
+      category: 'range',
       type: dbConstraint.type,
       enforcement: dbConstraint.enforcement,
       config: {
@@ -79,7 +88,10 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
   }
   
   // For leadTime config, no conversion needed (just minutes)
-  return dbConstraint as RangeConstraint
+  return {
+    category: 'range',
+    ...dbConstraint,
+  } as RangeConstraint
 }
 
 /**
@@ -130,6 +142,35 @@ export function extractRangeConstraints(
  * WHY: Consolidates buffer checking into single pathway
  * PATTERN: Pure function that transforms settings into constraint array
  */
+/**
+ * Helper to extract a single drive time constraint
+ * LEARNING: Consolidates driveTimeTo/driveTimeFrom extraction logic
+ * WHY: Eliminates duplication between driveTimeTo and driveTimeFrom blocks
+ * PATTERN: Pure function that extracts constraint if valid
+ */
+function extractDriveTimeConstraint(
+  settings: AvailabilitySettingsData,
+  type: 'driveTimeTo' | 'driveTimeFrom',
+  placement: 'before' | 'after'
+): OverlapConstraint | null {
+  const driveTime = settings.buffers?.[type]
+  if (!driveTime || driveTime.applyTo === 'none' || driveTime.minutes <= 0) {
+    return null
+  }
+  
+  // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
+  requireEnforcement(driveTime.enforcement, `${type} buffer`)
+  
+  return {
+    category: 'overlap',
+    type,
+    placement,  // Implicit - driveTimeTo is always 'before', driveTimeFrom is always 'after'
+    enforcement: driveTime.enforcement,
+    minutes: driveTime.minutes,
+    applyTo: driveTime.applyTo
+  }
+}
+
 export function extractOverlapConstraints(
   settings: AvailabilitySettingsData
 ): OverlapConstraint[] {
@@ -145,12 +186,11 @@ export function extractOverlapConstraints(
     }
     
     // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
-    if (buffer.enforcement === undefined) {
-      throw new Error(`Buffer enforcement is required for ${bufferType} buffer. Must be 'off', 'flexible', or 'hard'.`)
-    }
+    requireEnforcement(buffer.enforcement, `${bufferType} buffer`)
     
     // PATTERN: After filtering out 'off', placement is guaranteed to be 'before' | 'after' | 'both'
     constraints.push({
+      category: 'overlap',
       type: bufferType,
       placement: buffer.placement as 'before' | 'after' | 'both',
       enforcement: buffer.enforcement,
@@ -158,39 +198,19 @@ export function extractOverlapConstraints(
     })
   })
   
-  // WHY: Handle driveTimeTo with implicit placement='before' and applyTo configuration
-  // PATTERN: driveTimeTo is semantic - always applied BEFORE the appointment (arrival time)
-  const driveTimeTo = settings.buffers?.driveTimeTo
-  if (driveTimeTo && driveTimeTo.applyTo !== 'none' && driveTimeTo.minutes > 0) {
-    if (driveTimeTo.enforcement === undefined) {
-      throw new Error(`Buffer enforcement is required for driveTimeTo buffer. Must be 'off', 'flexible', or 'hard'.`)
-    }
-    
-    constraints.push({
-      type: 'driveTimeTo',
-      placement: 'before',  // Implicit - always before (travel TO appointment)
-      enforcement: driveTimeTo.enforcement,
-      minutes: driveTimeTo.minutes,
-      applyTo: driveTimeTo.applyTo
-    })
-  }
+  // WHY: Handle drive time types with implicit placement and applyTo configuration
+  // PATTERN: Use loop pattern matching standard buffers for consistency
+  const driveTimeConfigs: Array<{ type: 'driveTimeTo' | 'driveTimeFrom'; placement: 'before' | 'after' }> = [
+    { type: 'driveTimeTo', placement: 'before' },   // Implicit - always before (travel TO appointment)
+    { type: 'driveTimeFrom', placement: 'after' }   // Implicit - always after (travel FROM appointment)
+  ]
   
-  // WHY: Handle driveTimeFrom with implicit placement='after' and applyTo configuration
-  // PATTERN: driveTimeFrom is semantic - always applied AFTER the appointment (departure time)
-  const driveTimeFrom = settings.buffers?.driveTimeFrom
-  if (driveTimeFrom && driveTimeFrom.applyTo !== 'none' && driveTimeFrom.minutes > 0) {
-    if (driveTimeFrom.enforcement === undefined) {
-      throw new Error(`Buffer enforcement is required for driveTimeFrom buffer. Must be 'off', 'flexible', or 'hard'.`)
+  driveTimeConfigs.forEach(({ type, placement }) => {
+    const constraint = extractDriveTimeConstraint(settings, type, placement)
+    if (constraint) {
+      constraints.push(constraint)
     }
-    
-    constraints.push({
-      type: 'driveTimeFrom',
-      placement: 'after',  // Implicit - always after (travel FROM appointment)
-      enforcement: driveTimeFrom.enforcement,
-      minutes: driveTimeFrom.minutes,
-      applyTo: driveTimeFrom.applyTo
-    })
-  }
+  })
   
   return constraints
 }
@@ -223,15 +243,14 @@ export function extractCapacityConstraints(
       }
       
       // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
-      if (filter.enforcement === undefined) {
-        throw new Error(`Capacity enforcement is required for ${type} constraint. Must be 'off', 'flexible', or 'hard'.`)
-      }
+      requireEnforcement(filter.enforcement, `${type} constraint`)
       
       if (filter.enforcement === 'off') {
         return null
       }
       
       return {
+        category: 'capacity',
         type,
         enforcement: filter.enforcement,
         maxHours: filter.maxHours,
@@ -250,6 +269,10 @@ export function extractCapacityConstraints(
  * LEARNING: Centralized validation for range constraints
  * WHY: Ensures consistent validation across all range constraint types
  * PATTERN: Type-specific validation with error logging
+ * 
+ * NOTE: Currently only used in tests. Consider:
+ * - Option 1: Wire into extraction pipeline (validate after extracting, before returning)
+ * - Option 2: Move to test helpers (if validation is only needed for tests)
  * 
  * @param constraint - Range constraint to validate
  * @returns Object with valid boolean and optional error message
@@ -291,6 +314,8 @@ export function validateRangeConstraint(constraint: RangeConstraint): { valid: b
  * WHY: Ensures consistent validation across all overlap constraint types
  * PATTERN: Type-specific validation with error logging
  * 
+ * NOTE: Currently only used in tests. See validateRangeConstraint for architectural decision notes.
+ * 
  * @param constraint - Overlap constraint to validate
  * @returns Object with valid boolean and optional error message
  */
@@ -325,6 +350,8 @@ export function validateOverlapConstraint(constraint: OverlapConstraint): { vali
  * WHY: Ensures consistent validation across all capacity constraint types
  * PATTERN: Type-specific validation with error logging
  * 
+ * NOTE: Currently only used in tests. See validateRangeConstraint for architectural decision notes.
+ * 
  * @param constraint - Capacity constraint to validate
  * @returns Object with valid boolean and optional error message
  */
@@ -339,4 +366,21 @@ export function validateCapacityConstraint(constraint: CapacityConstraint): { va
     }
   }
   return { valid: true }
+}
+
+/**
+ * Extract all constraints from availability settings
+ * LEARNING: Unified extraction function that combines all constraint types
+ * WHY: Enables single extraction call and unified constraint array
+ * PATTERN: Spreads results from individual extractors into single array
+ * 
+ * @param settings - Availability settings data
+ * @returns Unified array of all constraints
+ */
+export function extractConstraints(settings: AvailabilitySettingsData): Constraint[] {
+  return [
+    ...extractRangeConstraints(settings),
+    ...extractOverlapConstraints(settings),
+    ...extractCapacityConstraints(settings)
+  ]
 }

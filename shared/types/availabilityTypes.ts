@@ -36,6 +36,14 @@ export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
 export type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
+ * Constraint category type
+ * LEARNING: Declarative category field for type-safe constraint discrimination
+ * WHY: Enables type-safe narrowing without property checking, cleaner than 'config' in constraint
+ * PATTERN: String literal union type for discriminated union
+ */
+export type ConstraintCategory = 'range' | 'overlap' | 'capacity'
+
+/**
  * Range constraint type
  * LEARNING: Identifies the type of time-based restriction
  * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
@@ -114,6 +122,7 @@ export interface DateRangeConfig {
  * PATTERN: Interface with type, enforcement, and config
  */
 export interface RangeConstraint {
+  category: 'range'
   type: RangeConstraintType
   enforcement: ConstraintEnforcement
   config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig
@@ -129,6 +138,7 @@ export interface RangeConstraint {
  * The applyTo field controls WHEN the constraint is applied (first/last/all appointments)
  */
 export interface OverlapConstraint {
+  category: 'overlap'
   type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch'
   placement: 'off' | 'before' | 'after' | 'both'
   enforcement: ConstraintEnforcement
@@ -143,10 +153,31 @@ export interface OverlapConstraint {
  * PATTERN: Interface with type, enforcement, maxHours, and optional direction
  */
 export interface CapacityConstraint {
+  category: 'capacity'
   type: 'daily' | 'calendarWeek' | 'rollingWeek'
   enforcement: ConstraintEnforcement
   maxHours: number
   direction?: RollingWeekDirection  // Only for rollingWeek
+  scheduledHours?: Record<string, number>  // enriched by server: hours already scheduled, keyed by capacity key
+}
+
+/**
+ * Unified constraint type
+ * LEARNING: Discriminated union of all constraint types
+ * WHY: Enables type-safe constraint handling with single array
+ * PATTERN: Discriminated union with category field
+ */
+export type Constraint = RangeConstraint | OverlapConstraint | CapacityConstraint
+
+/**
+ * Standardized constraint check result
+ * LEARNING: Unifies "passes" and "available" into one concept
+ * WHY: Eliminates naming inconsistency between constraint checkers
+ * PATTERN: All constraint checkers return this shape
+ */
+export interface ConstraintCheckResult {
+  passes: boolean
+  violations: string[]
 }
 
 /**
@@ -156,14 +187,14 @@ export interface CapacityConstraint {
  *      busy period sources describe WHERE the blocking data came from (which API response)
  * PATTERN: Separate vocabulary from constraint types - sources are about data origin
  * 
- * - 'freeBusy': From Google Calendar FreeBusy API (calendar shows "busy" - could be any event type)
+ * - 'event': From Google Calendar Events API (regular calendar events with transparency='opaque')
  * - 'outOfOffice': From Google Calendar Events API (eventType: 'outOfOffice')
  * 
  * Future possibilities when server generates busy blocks for other constraint types:
  * - 'lunch': Server-generated lunch break blocks
  * - 'driveTime': Server-generated drive time blocks
  */
-export type BusyPeriodSource = 'freeBusy' | 'outOfOffice'
+export type BusyPeriodSource = 'event' | 'outOfOffice'
 
 /**
  * Work capacity filter configuration
@@ -236,7 +267,9 @@ export interface BusyTimeRange {
   start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
   placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
-  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'freeBusy' from Calendar API, 'outOfOffice' from Events API)
+  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'event' from Events API, 'outOfOffice' from Events API)
+  driveTimeTo?: number    // Optional drive time in minutes from default location to this event's location
+  driveTimeFrom?: number  // Optional drive time in minutes from this event's location to default location
 }
 
 /**
@@ -252,6 +285,7 @@ export interface CalendarEvent {
   placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
   summary: string | null   // Event title for context/debugging
   eventType?: string       // 'default' | 'outOfOffice' - distinguishes regular events from out-of-office events
+  transparency?: string    // 'opaque' | 'transparent' - whether event blocks time (opaque = busy, transparent = free)
 }
 
 /**
@@ -278,26 +312,15 @@ export interface ComputedAvailabilityRequest {
  */
 export interface ComputedAvailabilityData {
   // --- From admin settings (extracted server-side) ---
-  rangeConstraints: RangeConstraint[]
-  overlapConstraints: OverlapConstraint[]
-  capacityConstraints: CapacityConstraint[]
+  constraints: Constraint[]  // Unified array (replaces three separate arrays)
   minuteIncrement: number
   timezone?: string
   durationRounding?: DurationRoundingConfig
 
   // --- From Google Calendar API ---
-  busyPeriods: BusyTimeRange[]           // merged free-busy + out-of-office
+  busyPeriods: BusyTimeRange[]           // merged free-busy + out-of-office (enriched with drive times)
   calendarEvents: CalendarEvent[]         // regular events (with placeId where available)
   outOfOfficeEvents: CalendarEvent[]      // out-of-office events (separate for UI/debugging)
-
-  // --- From Google Maps Routes API ---
-  driveTimesByDate: Record<string, {      // keyed by YYYY-MM-DD
-    driveTimeTo?: number                  // minutes
-    driveTimeFrom?: number                // minutes
-  }>
-
-  // --- From Appointments DB (for capacity checking) ---
-  scheduledHoursByKey: Record<string, number>  // keyed by capacity key string
 
   // --- Metadata ---
   _meta: {
@@ -306,9 +329,7 @@ export interface ComputedAvailabilityData {
     defaultLocation?: DefaultLocation
     generatedAt: string
     cacheStatus: {
-      freeBusy: 'hit' | 'miss'
       events: 'hit' | 'miss'
-      driveTime: 'hit' | 'miss'
     }
   }
 }

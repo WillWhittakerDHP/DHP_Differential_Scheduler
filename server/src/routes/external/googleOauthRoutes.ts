@@ -1,5 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js';
+import { createLogger } from '../../utils/logger.js';
+
+const logger = createLogger('GoogleOAuthRoutes');
 
 /**
  * Google OAuth Routes
@@ -23,7 +26,7 @@ router.get('/', (_req: Request, res: Response) => {
     const authUrl = getAuthUrl();
     res.redirect(authUrl);
   } catch (error: any) {
-    console.error('[GoogleOAuthRoutes] Error generating auth URL:', error);
+    logger.error('Error generating auth URL:', error);
     res.status(500).json({
       error: 'Failed to generate authorization URL',
       message: error.message
@@ -45,7 +48,7 @@ router.get('/callback', async (req: Request, res: Response) => {
     
     // Handle authorization errors
     if (error) {
-      console.error('[GoogleOAuthRoutes] OAuth error:', error);
+      logger.error('OAuth error:', error);
       res.status(400).json({
         error: 'Authorization failed',
         message: `Google returned error: ${error}`
@@ -72,7 +75,7 @@ router.get('/callback', async (req: Request, res: Response) => {
     // SESSION: 2.1.3b - Persist tokens across server restarts
     saveTokensToFile(tokens);
     
-    console.log('[GoogleOAuthRoutes] OAuth authentication successful');
+    logger.info('OAuth authentication successful');
     
     // Return success response
     res.json({
@@ -84,7 +87,7 @@ router.get('/callback', async (req: Request, res: Response) => {
     });
     
   } catch (error: any) {
-    console.error('[GoogleOAuthRoutes] Error in callback:', error);
+    logger.error('Error in callback:', error);
     res.status(500).json({
       error: 'Authentication failed',
       message: error.message || 'An unexpected error occurred during authentication'
@@ -106,7 +109,7 @@ router.get('/status', (_req: Request, res: Response): void => {
       credentials = getCredentials();
       authenticated = hasCredentials();
     } catch (credError: any) {
-      console.error('[GoogleOAuthRoutes] Error getting credentials:', credError);
+      logger.error('Error getting credentials:', credError);
       // Return unauthenticated status if credentials check fails
       res.json({
         authenticated: false,
@@ -135,8 +138,8 @@ router.get('/status', (_req: Request, res: Response): void => {
     });
     
   } catch (error: any) {
-    console.error('[GoogleOAuthRoutes] Error checking status:', error);
-    console.error('[GoogleOAuthRoutes] Error stack:', error.stack);
+    logger.error('Error checking status:', error);
+    logger.error('Error stack:', error.stack);
     res.status(500).json({
       error: 'Failed to check authentication status',
       message: error.message || 'Unknown error',
@@ -160,7 +163,7 @@ router.get('/test-url', (_req: Request, res: Response) => {
       redirectUri: process.env.GOOGLE_REDIRECT_URI
     });
   } catch (error: any) {
-    console.error('[GoogleOAuthRoutes] Error generating test URL:', error);
+    logger.error('Error generating test URL:', error);
     res.status(500).json({
       error: 'Failed to generate authorization URL',
       message: error.message

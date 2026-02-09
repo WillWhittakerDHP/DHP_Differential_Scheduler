@@ -15,6 +15,9 @@ import {
   getAllCachedDriveTimes,
   clearDriveTimeCache
 } from '../../services/driveTimeCache.js';
+import { createLogger } from '../../utils/logger.js';
+
+const logger = createLogger('MapsRoutes');
 
 /**
  * Maps Routes
@@ -63,7 +66,7 @@ router.get('/autocomplete', async (req: Request, res: Response): Promise<void> =
     res.json({ predictions });
     
   } catch (error) {
-    console.error('[MapsRoutes] Autocomplete error:', error);
+    logger.error('Autocomplete error:', error);
     
     if (error instanceof MapsApiError) {
       const statusCode = getStatusCodeForError(error.type);
@@ -116,7 +119,7 @@ router.get('/place-details', async (req: Request, res: Response): Promise<void> 
     res.json(details);
     
   } catch (error) {
-    console.error('[MapsRoutes] Place details error:', error);
+    logger.error('Place details error:', error);
     
     if (error instanceof MapsApiError) {
       const statusCode = getStatusCodeForError(error.type);
@@ -236,7 +239,7 @@ router.get('/debug/drive-time-cache', (_req: Request, res: Response): void => {
       totalEntries: entries.size
     });
   } catch (error: any) {
-    console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);
+    logger.error('Error in /debug/drive-time-cache:', error);
     res.status(500).json({
       error: 'Internal server error',
       message: error.message || 'An unexpected error occurred'

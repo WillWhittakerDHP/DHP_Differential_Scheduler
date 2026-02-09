@@ -7,38 +7,31 @@
  */
 
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
-import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { fitAllTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusyTimeRange, type BusinessHoursMap } from '@/utils/booking/timeSlotFitter'
+import { computeSlotAvailability, DEFAULT_INCLUDE_FLAGS, type BusyTimeRange, type BusinessHoursMap } from '@/utils/booking/slotPipeline'
 import type { ISO8601Date, RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import type { TimeSlot } from '@/types/appointment'
 import { useNotification } from '@/composables/useNotification'
-import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityManager'
+import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityOrchestrator'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
 import type {
+  Constraint,
   RangeConstraint,
-  OverlapConstraint,
-  CapacityConstraint,
 } from '@shared/types/availabilityTypes'
+import { groupConstraintsByCategory } from '@shared/utils/constraintUtils'
 
 const { error: showErrorNotification } = useNotification()
 const logger = createLogger('useAvailableStartTimes')
 
 interface UseAvailableStartTimesParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  settings?: Ref<AvailabilitySettings | null> // @deprecated Phase 12: Use minuteIncrement parameter instead
   appointmentDuration?: Ref<number | null> // Optional: duration in minutes to filter start times (ensures end time <= day end)
   busyTimes?: Ref<BusyTimeRange[]> // Optional: calendar busy periods
   busyTimesLoading?: Ref<boolean> // Optional: whether busy times are currently loading
   prefetchedCalendarEvents?: Ref<CalendarEvent[]> // Optional: prefetched calendar events from orchestrator
-  // Phase 6: Pre-computed constraints from server orchestrator
-  prefetchedRangeConstraints?: Ref<RangeConstraint[]>
-  prefetchedOverlapConstraints?: Ref<OverlapConstraint[]>
-  prefetchedCapacityConstraints?: Ref<CapacityConstraint[]>
-  prefetchedDriveTimesByDate?: Ref<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>>
-  prefetchedScheduledHoursByKey?: Ref<Record<string, number>>
+  // Phase 6: Pre-computed constraints from server orchestrator (unified array, enriched with scheduledHours)
+  prefetchedConstraints?: Ref<Constraint[]>
   // Phase 12: Server-provided minuteIncrement (prevents redundant settings fetch)
   minuteIncrement?: Ref<number | null> | ComputedRef<number | null>
 }
@@ -56,84 +49,23 @@ export function useAvailableStartTimes(
 ): UseAvailableStartTimesReturn {
   const {
     selectedDate,
-    settings: externalSettings,
     appointmentDuration,
     busyTimes,
     busyTimesLoading,
     prefetchedCalendarEvents,
-    prefetchedRangeConstraints,
-    prefetchedOverlapConstraints,
-    prefetchedCapacityConstraints,
-    prefetchedDriveTimesByDate,
-    prefetchedScheduledHoursByKey,
+    prefetchedConstraints,
     minuteIncrement: externalMinuteIncrement,
   } = params
   
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
-  const internalSettings = ref<AvailabilitySettings | null>(null)
   
-  // Phase 12: Use server-provided minuteIncrement if available, otherwise fetch settings
+  // Phase 12: Use server-provided minuteIncrement if available
   // WHY: Prevents redundant API call when server already provides minuteIncrement
-  // PATTERN: Check for external minuteIncrement first, fall back to settings fetch only if needed
-  const minuteIncrementRef = ref<number | null>(null)
-  
-  watchEffect(async () => {
-    const externalMinuteIncrementValue = externalMinuteIncrement?.value ?? null
-    
-    // Phase 12: Use server-provided minuteIncrement if available
-    if (externalMinuteIncrementValue !== null && externalMinuteIncrementValue > 0) {
-      minuteIncrementRef.value = externalMinuteIncrementValue
-      // Still need settings for businessHours - but only if not provided via prefetchedRangeConstraints
-      // For now, keep the settings fetch for backward compatibility, but it's only used for businessHours
-      const external = externalSettings?.value
-      if (external) {
-        internalSettings.value = external
-        return
-      }
-      // If we have prefetchedRangeConstraints, we don't need settings at all
-      // But keep the fetch for now to avoid breaking changes
-      try {
-        isLoading.value = true
-        const settings = await getAvailabilitySettings()
-        internalSettings.value = settings
-        error.value = null
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
-        error.value = err instanceof Error ? err : new Error(errorMessage)
-        showErrorNotification(`Failed to load availability settings: ${errorMessage}`)
-      } finally {
-        isLoading.value = false
-      }
-      return
-    }
-    
-    // Fallback: fetch settings if minuteIncrement not provided
-    const external = externalSettings?.value
-    
-    if (external) {
-      internalSettings.value = external
-      minuteIncrementRef.value = external.minuteIncrement
-      return
-    }
-    
-    try {
-      isLoading.value = true
-      const settings = await getAvailabilitySettings()
-      internalSettings.value = settings
-      minuteIncrementRef.value = settings.minuteIncrement
-      error.value = null
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
-      error.value = err instanceof Error ? err : new Error(errorMessage)
-      showErrorNotification(`Failed to load availability settings: ${errorMessage}`)
-    } finally {
-      isLoading.value = false
-    }
-  })
+  const minuteIncrementRef = computed(() => externalMinuteIncrement?.value ?? null)
   
   // PATTERN: Ref with watchEffect to update asynchronously when dependencies change
-  // FIXED: Changed from computed to ref+watchEffect to handle async fitAllTimeSlotsWithAvailability
+  // FIXED: Changed from computed to ref+watchEffect to handle async slot generation
   const slotGenerationResult = ref<{ slots: TimeSlot[]; earliestCompletion: RFC3339DateTime | null }>({ slots: [], earliestCompletion: null })
 
   // PATTERN: WatchEffect tracks dependencies, calls async function to update ref
@@ -148,11 +80,6 @@ export function useAvailableStartTimes(
     // FIX: Skip slot generation while busy times are loading - watchEffect will re-run when loading completes
     if (busyTimesLoading?.value) {
       // Don't clear existing results - keep showing previous slots until new data is ready
-      return
-    }
-    
-    if (!internalSettings.value) {
-      slotGenerationResult.value = { slots: [], earliestCompletion: null }
       return
     }
     
@@ -178,13 +105,16 @@ export function useAvailableStartTimes(
     const dateUTC = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
     const dayOfWeek: DayOfWeek = dateUTC.getUTCDay() as DayOfWeek
     
-    // Phase 12: Use prefetchedRangeConstraints for businessHours instead of internalSettings
-    // WHY: Server already provides rangeConstraints, no need to fetch settings
-    // PATTERN: Extract businessHours from prefetched constraints, fallback to internalSettings for backward compat
-    const businessHoursConstraint = prefetchedRangeConstraints?.value?.find(c => c.type === 'businessHours') 
-      ?? internalSettings.value?.rangeConstraints?.businessHours
+    // Phase 12: Use prefetchedConstraints for businessHours
+    // WHY: Server already provides constraints, no need to fetch settings
+    // PATTERN: Extract businessHours from prefetched constraints
+    if (!prefetchedConstraints?.value) {
+      throw new Error('prefetchedConstraints must be provided')
+    }
+    const grouped = groupConstraintsByCategory(prefetchedConstraints.value)
+    const businessHoursConstraint = grouped.range.find(c => c.type === 'businessHours')
     if (!businessHoursConstraint || businessHoursConstraint.type !== 'businessHours') {
-      throw new Error('businessHours must be provided in rangeConstraints.businessHours')
+      throw new Error('businessHours must be provided in constraints')
     }
     const businessHours = (businessHoursConstraint.config as { hours: BusinessHoursMap }).hours
     if (!businessHours) {
@@ -234,11 +164,10 @@ export function useAvailableStartTimes(
     const duration = appointmentDuration?.value || 0
     const busyPeriods = busyTimes?.value || []
     
-    // Phase 6: Use pre-computed constraints from orchestrator if available, otherwise extract from settings
     // Phase 6: Use pre-computed constraints from server orchestrator (required)
     // WHY: All constraint extraction happens server-side, eliminating client-side extraction
     // PATTERN: Synchronous consumption of pre-computed constraints
-    if (!prefetchedRangeConstraints?.value || !prefetchedOverlapConstraints?.value || !prefetchedCapacityConstraints?.value) {
+    if (!prefetchedConstraints?.value) {
       // Pre-computed constraints are required - this composable should only be used with orchestrator data
       const errorMessage = 'useAvailableStartTimes requires pre-computed constraints from server orchestrator'
       error.value = new Error(errorMessage)
@@ -247,9 +176,9 @@ export function useAvailableStartTimes(
       return
     }
     
-    let rangeConstraints: RangeConstraint[] = prefetchedRangeConstraints.value
-    const overlapConstraints: OverlapConstraint[] = prefetchedOverlapConstraints.value
-    const capacityConstraints: CapacityConstraint[] = prefetchedCapacityConstraints.value
+    // Group constraints by category once, reuse for all operations
+    const groupedConstraints = groupConstraintsByCategory(prefetchedConstraints.value)
+    let rangeConstraints: RangeConstraint[] = groupedConstraints.range
     
     // Still need to ensure dateRange constraint is set for the selected date
     const dateRangeToSet = {
@@ -262,6 +191,7 @@ export function useAvailableStartTimes(
       rangeConstraints = [
         ...rangeConstraints,
         {
+          category: 'range',
           type: 'dateRange',
           enforcement: 'hard',
           config: {
@@ -271,6 +201,13 @@ export function useAvailableStartTimes(
         }
       ]
     }
+    
+    // Reconstruct unified constraints array with updated dateRange
+    const constraints: Constraint[] = [
+      ...rangeConstraints,
+      ...groupedConstraints.overlap,
+      ...groupedConstraints.capacity
+    ]
     
     // LEARNING: Use prefetched calendar events from orchestrator
     // WHY: Orchestrator prefetches events when placeId available or month changes
@@ -286,27 +223,21 @@ export function useAvailableStartTimes(
 
     try {
       // WHY: Generates ALL slots and marks them as available/busy using unified constraint system
-      // PATTERN: Pass constraint arrays to fitAllTimeSlotsWithAvailability
+      // PATTERN: Pass constraints to computeSlotAvailability
       // Session 2.2.3: Pass calendar events and defaultLocation for drive time calculations
       const slotGenParams = {
         startBoundary: startBoundaryUTC.toISOString() as RFC3339DateTime,
         endBoundary: endBoundaryUTC.toISOString() as RFC3339DateTime,
         duration,
-        minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,
+        minuteIncrement: minuteIncrementRef.value ?? 15,
         busyTimes: busyPeriods,
         includeFlags: DEFAULT_INCLUDE_FLAGS
       }
       // Phase 6: Function is now synchronous (all data pre-computed server-side)
-      const result = fitAllTimeSlotsWithAvailability(
+      // Capacity constraints are enriched with scheduledHours by the server
+      const result = computeSlotAvailability(
         slotGenParams, 
-        rangeConstraints, 
-        overlapConstraints, 
-        capacityConstraints,
-        {
-          // Phase 6: Pass pre-computed data from orchestrator (required)
-          precomputedDriveTimesByDate: prefetchedDriveTimesByDate?.value,
-          precomputedCapacityHours: prefetchedScheduledHoursByKey?.value,
-        }
+        constraints
       )
       
       slotGenerationResult.value = result

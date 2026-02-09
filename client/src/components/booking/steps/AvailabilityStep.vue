@@ -276,12 +276,8 @@ const {
   busyTimes: busyTimesForStartTimes,
   busyTimesLoading,
   prefetchedCalendarEvents,
-  // Phase 6: Pass pre-computed constraints from server
-  prefetchedRangeConstraints: computed(() => computedAvailability.rangeConstraints.value),
-  prefetchedOverlapConstraints: computed(() => computedAvailability.overlapConstraints.value),
-  prefetchedCapacityConstraints: computed(() => computedAvailability.capacityConstraints.value),
-  prefetchedDriveTimesByDate: computed(() => computedAvailability.driveTimesByDate.value),
-  prefetchedScheduledHoursByKey: computed(() => computedAvailability.scheduledHoursByKey.value),
+  // Phase 6: Pass pre-computed constraints from server (enriched with scheduledHours)
+  prefetchedConstraints: computed(() => computedAvailability.constraints.value),
   // Phase 12: Pass server-provided minuteIncrement to prevent redundant settings fetch
   minuteIncrement: serverMinuteIncrement,
 })

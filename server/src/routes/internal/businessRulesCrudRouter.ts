@@ -1,20 +1,86 @@
 /**
  * Business Rules CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for business rules
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
+ * LEARNING: Refactored to use CRUD router factory pattern with custom query filtering
+ * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
+ * PATTERN: Factory-generated router with custom GET / override for query filtering and extra route
  */
 
 import { Router, Request, Response } from 'express'
 import { BusinessRule } from '../../config/app.js'
-import { Op } from 'sequelize'
+import { createCrudRouter } from '../helpers/createCrudRouter.js'
 import { ERROR_MESSAGES } from './businessRulesConstants.js'
 import { handleRouteError } from './businessRulesErrorHandler.js'
 import { validateRequiredFields, validateRuleType } from './businessRulesValidators.js'
+import { sendSuccess, sendBadRequest } from '../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../constants/router.js'
+import { ValidationResult } from '../helpers/routerValidators.js'
 
-const router = Router()
+// Create base CRUD router using factory with custom GET / handler for query filtering
+const router = createCrudRouter({
+  model: BusinessRule,
+  resourceName: 'business rule',
+  errorMessages: {
+    FETCH_ALL: ERROR_MESSAGES.FETCH_BUSINESS_RULES,
+    FETCH_ONE: ERROR_MESSAGES.FETCH_BUSINESS_RULE,
+    NOT_FOUND: ERROR_MESSAGES.BUSINESS_RULE_NOT_FOUND,
+    CREATE: ERROR_MESSAGES.CREATE_BUSINESS_RULE,
+    UPDATE: ERROR_MESSAGES.UPDATE_BUSINESS_RULE,
+    DELETE: ERROR_MESSAGES.DELETE_BUSINESS_RULE,
+  },
+  defaultOrder: [['createdAt', 'DESC']],
+  customGetAllHandler: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { blockInstanceId, ruleType, active } = req.query
+      
+      const where: Record<string, unknown> = {}
+      if (blockInstanceId) where.blockInstanceId = blockInstanceId
+      if (ruleType) where.ruleType = ruleType
+      if (active !== undefined) where.active = active === 'true'
+      
+      const businessRules = await BusinessRule.findAll({
+        where,
+        order: [['createdAt', 'DESC']],
+      })
+      
+      sendSuccess(res, businessRules)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.FETCH_BUSINESS_RULES, 'fetching business rules')
+    }
+  },
+  validateRequest: (req: Request, method: 'create' | 'update' | 'patch'): ValidationResult => {
+    if (method === 'create' || method === 'update') {
+      const { blockInstanceId, ruleType, ruleConfig } = req.body
+      
+      // Validate required fields
+      const requiredFieldsValidation = validateRequiredFields({ blockInstanceId, ruleType, ruleConfig })
+      if (!requiredFieldsValidation.valid) {
+        return requiredFieldsValidation
+      }
+      
+      // Validate rule type
+      const ruleTypeValidation = validateRuleType(ruleType)
+      if (!ruleTypeValidation.valid) {
+        return ruleTypeValidation
+      }
+    }
+    
+    return { valid: true }
+  },
+  sanitizeInput: (data: unknown, method: 'create' | 'update' | 'patch'): unknown => {
+    const body = data as { validationMessageAnnotationId?: string; active?: boolean }
+    
+    if (method === 'create' || method === 'update') {
+      return {
+        ...body,
+        validationMessageAnnotationId: body.validationMessageAnnotationId || null,
+        active: body.active !== undefined ? body.active : true,
+      }
+    }
+    
+    return data
+  },
+})
 
 /**
  * GET /business-rules
@@ -45,38 +111,10 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 })
 
 /**
- * GET /business-rules/:id
- * Get single business rule by ID
- * 
- * LEARNING: Fetches single business rule by ID
- * WHY: Provides complete business rule data for a specific rule
- * PATTERN: Fetch by ID, return 404 if not found
- */
-router.get('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params
-    
-    const businessRule = await BusinessRule.findByPk(id)
-    
-    if (!businessRule) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.BUSINESS_RULE_NOT_FOUND,
-        id 
-      })
-      return
-    }
-    
-    res.json(businessRule)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.FETCH_BUSINESS_RULE, 'fetching business rule')
-  }
-})
-
-/**
  * GET /business-rules/block/:blockInstanceId
  * Get all active business rules for a specific block instance
  * 
- * LEARNING: Fetches active business rules for a block instance
+ * LEARNING: Extra route for block-specific business rules
  * WHY: Provides block-specific business rules for validation
  * PATTERN: Fetch with block instance filter and active filter, order by rule type
  */
@@ -92,166 +130,9 @@ router.get('/block/:blockInstanceId', async (req: Request, res: Response): Promi
       order: [['ruleType', 'ASC']],
     })
     
-    res.json(businessRules)
+    sendSuccess(res, businessRules)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_BUSINESS_RULES_FOR_BLOCK, 'fetching business rules for block')
-  }
-})
-
-/**
- * POST /business-rules
- * Create a new business rule
- * 
- * LEARNING: Creates a new business rule record
- * WHY: Enables business rule creation via API
- * PATTERN: Validate required fields and rule type, create record, return 201
- */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { blockInstanceId, ruleType, ruleConfig, validationMessageAnnotationId, active } = req.body
-    
-    // Validate required fields
-    const requiredFieldsValidation = validateRequiredFields({ blockInstanceId, ruleType, ruleConfig })
-    if (!requiredFieldsValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ 
-        error: requiredFieldsValidation.error,
-        ...requiredFieldsValidation.details
-      })
-      return
-    }
-    
-    // Validate rule type
-    const ruleTypeValidation = validateRuleType(ruleType)
-    if (!ruleTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ 
-        error: ruleTypeValidation.error,
-        ...ruleTypeValidation.details
-      })
-      return
-    }
-    
-    const businessRule = await BusinessRule.create({
-      blockInstanceId,
-      ruleType,
-      ruleConfig,
-      validationMessageAnnotationId: validationMessageAnnotationId || null,
-      active: active !== undefined ? active : true,
-    })
-    
-    res.status(HTTP_STATUS_CODES.CREATED).json(businessRule)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.CREATE_BUSINESS_RULE, 'creating business rule')
-  }
-})
-
-/**
- * PUT /business-rules/:id
- * Update a business rule (full update)
- * 
- * LEARNING: Updates a business rule record with full replacement
- * WHY: Enables full business rule updates via API
- * PATTERN: Validate required fields and rule type, update record, return updated record
- */
-router.put('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params
-    const { blockInstanceId, ruleType, ruleConfig, validationMessageAnnotationId, active } = req.body
-    
-    const businessRule = await BusinessRule.findByPk(id)
-    
-    if (!businessRule) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.BUSINESS_RULE_NOT_FOUND,
-        id 
-      })
-      return
-    }
-    
-    // Validate required fields
-    const requiredFieldsValidation = validateRequiredFields({ blockInstanceId, ruleType, ruleConfig })
-    if (!requiredFieldsValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ 
-        error: requiredFieldsValidation.error,
-        ...requiredFieldsValidation.details
-      })
-      return
-    }
-    
-    await businessRule.update({
-      blockInstanceId,
-      ruleType,
-      ruleConfig,
-      validationMessageAnnotationId: validationMessageAnnotationId || null,
-      active: active !== undefined ? active : true,
-    })
-    
-    res.json(businessRule)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.UPDATE_BUSINESS_RULE, 'updating business rule')
-  }
-})
-
-/**
- * PATCH /business-rules/:id
- * Partially update a business rule
- * 
- * LEARNING: Updates a business rule record with partial data
- * WHY: Enables partial business rule updates via API
- * PATTERN: Patch record, return 404 if not found, return updated record
- */
-router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params
-    const updates = req.body
-    
-    const businessRule = await BusinessRule.findByPk(id)
-    
-    if (!businessRule) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.BUSINESS_RULE_NOT_FOUND,
-        id 
-      })
-      return
-    }
-    
-    await businessRule.update(updates)
-    
-    res.json(businessRule)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.UPDATE_BUSINESS_RULE, 'updating business rule')
-  }
-})
-
-/**
- * DELETE /business-rules/:id
- * Delete a business rule
- * 
- * LEARNING: Deletes a business rule record
- * WHY: Enables business rule deletion via API
- * PATTERN: Delete record, return 404 if not found, return success message
- */
-router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params
-    
-    const businessRule = await BusinessRule.findByPk(id)
-    
-    if (!businessRule) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.BUSINESS_RULE_NOT_FOUND,
-        id 
-      })
-      return
-    }
-    
-    await businessRule.destroy()
-    
-    res.json({ 
-      message: 'Business rule deleted successfully',
-      id 
-    })
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.DELETE_BUSINESS_RULE, 'deleting business rule')
   }
 })
 

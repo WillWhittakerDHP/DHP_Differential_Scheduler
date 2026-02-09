@@ -27,6 +27,8 @@ import {
   validateAttendeeAssignmentEntities,
   updateComponentActiveStates,
 } from './relationshipHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 import { InstanceComponent } from '../../../config/app.js'
@@ -180,18 +182,13 @@ function buildRelationshipQueryOptions(
 router.get('/:relationshipType', async (req: Request, res: Response): Promise<void> => {
   const relationshipConfig = req.relationshipConfig
   if (!relationshipConfig) {
-    res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({ 
-      error: ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING 
-    })
+    sendError(res, ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     return
   }
   
   if (!relationshipConfig.model) {
     logger.error('Model is undefined for:', req.params.relationshipType)
-    res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({ 
-      error: ERROR_MESSAGES.MODEL_NOT_AVAILABLE.replace('{displayName}', relationshipConfig.displayName),
-      relationshipType: req.params.relationshipType
-    })
+    sendError(res, ERROR_MESSAGES.MODEL_NOT_AVAILABLE.replace('{displayName}', relationshipConfig.displayName), HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, undefined, req.params.relationshipType)
     return
   }
   
@@ -209,7 +206,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
     )
     
     const data = await relationshipConfig.model.findAll(options)
-    res.json(data)
+    sendSuccess(res, data)
   } catch (error) {
     logger.error('Error fetching relationships:', error)
     logger.error('Relationship kind:', req.params.relationshipType)
@@ -233,12 +230,13 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
  * WHY: Enables relationship creation via API with full feature support
  * PATTERN: Validate, check special cases, map fields, create record, update related entities
  */
-router.post('/:relationshipType', async (req: Request, res: Response): Promise<void> => {
+router.post(
+  '/:relationshipType',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   const relationshipConfig = req.relationshipConfig
   if (!relationshipConfig) {
-    res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({ 
-      error: ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING 
-    })
+    sendError(res, ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     return
   }
   
@@ -247,9 +245,7 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
   // Validate required fields
   const requiredFieldsValidation = validateRequiredFields({ parent_id, child_id })
   if (!requiredFieldsValidation.valid) {
-    res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ 
-      error: requiredFieldsValidation.error 
-    })
+    sendBadRequest(res, requiredFieldsValidation.error)
     return
   }
   
@@ -258,9 +254,7 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
     // Validate that parent and child are different
     const parentChildValidation = validateParentChildDifferent(parent_id, child_id)
     if (!parentChildValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: parentChildValidation.error,
-      })
+      sendBadRequest(res, parentChildValidation.error)
       return
     }
     
@@ -270,16 +264,12 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       const childExists = await BlockInstance.findByPk(child_id)
       
       if (!parentExists) {
-        res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
-          error: ERROR_MESSAGES.PARENT_NOT_FOUND.replace('{id}', parent_id),
-        })
+        sendNotFound(res, ERROR_MESSAGES.PARENT_NOT_FOUND.replace('{id}', parent_id), parent_id)
         return
       }
       
       if (!childExists) {
-        res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
-          error: ERROR_MESSAGES.CHILD_NOT_FOUND.replace('{id}', child_id),
-        })
+        sendNotFound(res, ERROR_MESSAGES.CHILD_NOT_FOUND.replace('{id}', child_id), child_id)
         return
       }
       
@@ -293,17 +283,11 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       logger.error('Error validating entities:', error)
       if (error instanceof Error) {
         if (error.message.includes('not found')) {
-          res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
-            error: error.message,
-          })
+          sendNotFound(res, error.message)
           return
         }
         if (error.message.includes('not composable') || error.message.includes('same BlockShape')) {
-          res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-            error: error.message,
-            blockShapeId: (error as any).blockShapeId,
-            blockShapeName: (error as any).blockShapeName,
-          })
+          sendBadRequest(res, error.message, undefined, (error as any).blockShapeId)
           return
         }
       }
@@ -315,9 +299,7 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       const hasCircular = await hasCircularReference(parent_id, child_id)
       
       if (hasCircular) {
-        res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-          error: ERROR_MESSAGES.CIRCULAR_REFERENCE,
-        })
+        sendBadRequest(res, ERROR_MESSAGES.CIRCULAR_REFERENCE)
         return
       }
     } catch (error) {
@@ -338,14 +320,10 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
         existing.disabled = false
         existing.orderIndex = order_index ?? existing.orderIndex
         await existing.save()
-        res.json(existing)
+        sendSuccess(res, existing)
         return
       } else {
-        res.status(HTTP_STATUS_CODES.CONFLICT).json({
-          error: ERROR_MESSAGES.COMPONENT_ALREADY_EXISTS,
-          parent_id: parent_id,
-          child_id: child_id,
-        })
+        sendError(res, ERROR_MESSAGES.COMPONENT_ALREADY_EXISTS, HTTP_STATUS_CODES.CONFLICT, undefined, parent_id)
         return
       }
     }
@@ -362,23 +340,15 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       } catch (error) {
         if (error instanceof Error) {
           if (error.message.includes('does not exist')) {
-            res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-              error: error.message.includes('EventShape') 
-                ? ERROR_MESSAGES.INVALID_PARENT_ENTITY
-                : ERROR_MESSAGES.INVALID_CHILD_ENTITY,
-              details: error.message,
-              relationshipType: req.params.relationshipType,
-            })
+            sendBadRequest(res, error.message.includes('EventShape') 
+              ? ERROR_MESSAGES.INVALID_PARENT_ENTITY
+              : ERROR_MESSAGES.INVALID_CHILD_ENTITY, error.message, req.params.relationshipType)
             return
           }
           if (error.message.includes('not a UserTypeBlock') || error.message.includes('non-existent BlockShape')) {
-            res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-              error: error.message.includes('non-existent') 
-                ? ERROR_MESSAGES.INVALID_BLOCK_SHAPE_REFERENCE
-                : ERROR_MESSAGES.INVALID_ATTENDEE_TYPE,
-              details: error.message,
-              relationshipType: req.params.relationshipType,
-            })
+            sendBadRequest(res, error.message.includes('non-existent') 
+              ? ERROR_MESSAGES.INVALID_BLOCK_SHAPE_REFERENCE
+              : ERROR_MESSAGES.INVALID_ATTENDEE_TYPE, error.message, req.params.relationshipType)
             return
           }
         }
@@ -404,7 +374,7 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       await updateComponentActiveStates(parent_id, child_id)
     }
     
-    res.status(HTTP_STATUS_CODES.CREATED).json(created)
+    sendCreated(res, created)
   } catch (error: any) {
     logger.error('Error creating relationship:', error)
     logger.error('Relationship type:', req.params.relationshipType)
@@ -422,7 +392,8 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
       child_id
     )
   }
-})
+  }
+)
 
 /**
  * DELETE /relationships/:relationshipType/:parentId/:childId
@@ -432,12 +403,13 @@ router.post('/:relationshipType', async (req: Request, res: Response): Promise<v
  * WHY: Enables relationship deletion via API
  * PATTERN: Map fields, delete record, return 404 if not found, return success message
  */
-router.delete('/:relationshipType/:parentId/:childId', async (req: Request, res: Response): Promise<void> => {
+router.delete(
+  '/:relationshipType/:parentId/:childId',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   const relationshipConfig = req.relationshipConfig
   if (!relationshipConfig) {
-    res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({ 
-      error: ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING 
-    })
+    sendError(res, ERROR_MESSAGES.RELATIONSHIP_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     return
   }
   
@@ -452,15 +424,11 @@ router.delete('/:relationshipType/:parentId/:childId', async (req: Request, res:
     })
     
     if (deletedCount === 0) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.RELATIONSHIP_NOT_FOUND.replace('{displayName}', relationshipConfig.displayName),
-        parent_id: parentId,
-        child_id: childId
-      })
+      sendNotFound(res, ERROR_MESSAGES.RELATIONSHIP_NOT_FOUND.replace('{displayName}', relationshipConfig.displayName), parentId)
       return
     }
     
-    res.json({ 
+    sendSuccess(res, { 
       message: `${relationshipConfig.displayName} deleted successfully`,
       deleted: deletedCount
     })
@@ -475,6 +443,7 @@ router.delete('/:relationshipType/:parentId/:childId', async (req: Request, res:
       req.params.relationshipType
     )
   }
-})
+  }
+)
 
 export { router as RelationshipCrudRouter }

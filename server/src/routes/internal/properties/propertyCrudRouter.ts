@@ -1,9 +1,9 @@
 /**
  * Property CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for properties
- * WHY: Separates CRUD operations from property types operations, improves maintainability
- * PATTERN: Express router with RESTful endpoints
+ * LEARNING: Refactored to use response helpers and security middleware
+ * WHY: Multi-table transaction POST requires custom logic, but benefits from standardization
+ * PATTERN: Express router with RESTful endpoints, security middleware on state-changing routes
  */
 
 import { Router, Request, Response } from 'express'
@@ -13,6 +13,9 @@ import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS } from './propertyConst
 import { handleRouteError } from './propertyErrorHandler.js'
 import { validateAddressFields } from './propertyValidators.js'
 import { findOrCreateAddress, getPropertyWithAssociations, getPropertyDetailsFromVersion } from './propertyHelpers.js'
+import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 
@@ -34,7 +37,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     })
 
     const properties = propertyVersions.map(transformPropertyVersion)
-    res.json(properties)
+    sendSuccess(res, properties)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_PROPERTIES, 'fetching properties')
   }
@@ -53,15 +56,12 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const propertyVersion = await getPropertyWithAssociations(req.params.id)
     
     if (!propertyVersion) {
-      res.status(404).json({ 
-        error: ERROR_MESSAGES.PROPERTY_NOT_FOUND,
-        id: req.params.id
-      })
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
       return
     }
     
     const property = transformPropertyVersion(propertyVersion)
-    res.json(property)
+    sendSuccess(res, property)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_PROPERTY, 'fetching property')
   }
@@ -75,38 +75,12 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
  * WHY: Ensures data integrity, all or nothing creation
  * PATTERN: Find or create Address, create PropertyVersion, create PropertyDetails
  */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const {
-      address,
-      unit,
-      city,
-      state,
-      zipCode,
-      placeId,
-      latitude,
-      longitude,
-      mlsNumber,
-      squareFootage,
-      bedrooms,
-      bathrooms,
-      foundationAccess,
-      additionalUnits,
-      source = DEFAULT_VALUES.SOURCE,
-    } = req.body
-
-    // Validate required address fields
-    const addressValidation = validateAddressFields({ address, city, state, zipCode })
-    if (!addressValidation.valid) {
-      res.status(400).json({
-        error: addressValidation.error,
-        required: REQUIRED_FIELDS.ADDRESS,
-      })
-      return
-    }
-
-    const result = await PropertyVersion.sequelize!.transaction(async (transaction) => {
-      const addressRecord = await findOrCreateAddress({
+router.post(
+  '/',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const {
         address,
         unit,
         city,
@@ -115,34 +89,61 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
         placeId,
         latitude,
         longitude,
+        mlsNumber,
+        squareFootage,
+        bedrooms,
+        bathrooms,
+        foundationAccess,
+        additionalUnits,
+        source = DEFAULT_VALUES.SOURCE,
+      } = req.body
+
+      // Validate required address fields
+      const addressValidation = validateAddressFields({ address, city, state, zipCode })
+      if (!addressValidation.valid) {
+        sendBadRequest(res, addressValidation.error, undefined, undefined)
+        return
+      }
+
+      const result = await PropertyVersion.sequelize!.transaction(async (transaction) => {
+        const addressRecord = await findOrCreateAddress({
+          address,
+          unit,
+          city,
+          state,
+          zipCode,
+          placeId,
+          latitude,
+          longitude,
+        })
+
+        const propertyVersion = await PropertyVersion.create({
+          addressId: addressRecord.id,
+        }, { transaction })
+
+        const propertyDetails = await PropertyDetails.create({
+          propertyVersionId: propertyVersion.id,
+          source: source as 'api' | 'manual' | 'client',
+          mlsNumber: mlsNumber || null,
+          squareFootage: squareFootage || null,
+          bedrooms: bedrooms || null,
+          bathrooms: bathrooms || null,
+          foundationAccess: foundationAccess || null,
+          additionalUnits: additionalUnits || null,
+        }, { transaction })
+
+        const completePropertyVersion = await getPropertyWithAssociations(propertyVersion.id, transaction)
+
+        return completePropertyVersion!
       })
 
-      const propertyVersion = await PropertyVersion.create({
-        addressId: addressRecord.id,
-      }, { transaction })
-
-      const propertyDetails = await PropertyDetails.create({
-        propertyVersionId: propertyVersion.id,
-        source: source as 'api' | 'manual' | 'client',
-        mlsNumber: mlsNumber || null,
-        squareFootage: squareFootage || null,
-        bedrooms: bedrooms || null,
-        bathrooms: bathrooms || null,
-        foundationAccess: foundationAccess || null,
-        additionalUnits: additionalUnits || null,
-      }, { transaction })
-
-      const completePropertyVersion = await getPropertyWithAssociations(propertyVersion.id, transaction)
-
-      return completePropertyVersion!
-    })
-
-    const property = transformPropertyVersion(result)
-    res.status(201).json(property)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.CREATE_PROPERTY, 'creating property')
+      const property = transformPropertyVersion(result)
+      sendCreated(res, property)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.CREATE_PROPERTY, 'creating property')
+    }
   }
-})
+)
 
 /**
  * PUT /properties/:id
@@ -152,55 +153,57 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
  * WHY: Allows complete property update in single request
  * PATTERN: Load property, update propertyDetails, reload with associations
  */
-router.put('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const propertyVersion = await getPropertyWithAssociations(req.params.id)
+router.put(
+  '/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const propertyVersion = await getPropertyWithAssociations(req.params.id)
 
-    if (!propertyVersion) {
-      res.status(404).json({ 
-        error: ERROR_MESSAGES.PROPERTY_NOT_FOUND,
-        id: req.params.id
+      if (!propertyVersion) {
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        return
+      }
+
+      const {
+        mlsNumber,
+        squareFootage,
+        bedrooms,
+        bathrooms,
+        foundationAccess,
+        additionalUnits,
+        source,
+      } = req.body
+
+      const propertyDetails = getPropertyDetailsFromVersion(propertyVersion)
+
+      if (propertyDetails) {
+        await propertyDetails.update({
+          mlsNumber: mlsNumber !== undefined ? mlsNumber : propertyDetails.mlsNumber,
+          squareFootage: squareFootage !== undefined ? squareFootage : propertyDetails.squareFootage,
+          bedrooms: bedrooms !== undefined ? bedrooms : propertyDetails.bedrooms,
+          bathrooms: bathrooms !== undefined ? bathrooms : propertyDetails.bathrooms,
+          foundationAccess: foundationAccess !== undefined ? foundationAccess : propertyDetails.foundationAccess,
+          additionalUnits: additionalUnits !== undefined ? additionalUnits : propertyDetails.additionalUnits,
+          source: source !== undefined ? source : propertyDetails.source,
+        })
+      }
+
+      await propertyVersion.reload({
+        include: [
+          { model: Address, as: 'address' },
+          { model: PropertyDetails, as: 'propertyDetails' },
+        ],
       })
-      return
+
+      const property = transformPropertyVersion(propertyVersion)
+      sendSuccess(res, property)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.UPDATE_PROPERTY, 'updating property')
     }
-
-    const {
-      mlsNumber,
-      squareFootage,
-      bedrooms,
-      bathrooms,
-      foundationAccess,
-      additionalUnits,
-      source,
-    } = req.body
-
-    const propertyDetails = getPropertyDetailsFromVersion(propertyVersion)
-
-    if (propertyDetails) {
-      await propertyDetails.update({
-        mlsNumber: mlsNumber !== undefined ? mlsNumber : propertyDetails.mlsNumber,
-        squareFootage: squareFootage !== undefined ? squareFootage : propertyDetails.squareFootage,
-        bedrooms: bedrooms !== undefined ? bedrooms : propertyDetails.bedrooms,
-        bathrooms: bathrooms !== undefined ? bathrooms : propertyDetails.bathrooms,
-        foundationAccess: foundationAccess !== undefined ? foundationAccess : propertyDetails.foundationAccess,
-        additionalUnits: additionalUnits !== undefined ? additionalUnits : propertyDetails.additionalUnits,
-        source: source !== undefined ? source : propertyDetails.source,
-      })
-    }
-
-    await propertyVersion.reload({
-      include: [
-        { model: Address, as: 'address' },
-        { model: PropertyDetails, as: 'propertyDetails' },
-      ],
-    })
-
-    const property = transformPropertyVersion(propertyVersion)
-    res.json(property)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.UPDATE_PROPERTY, 'updating property')
   }
-})
+)
 
 /**
  * PATCH /properties/:id
@@ -210,37 +213,39 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
  * WHY: Allows selective property update without full replacement
  * PATTERN: Load property, update propertyDetails with partial data, reload with associations
  */
-router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const propertyVersion = await getPropertyWithAssociations(req.params.id)
+router.patch(
+  '/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const propertyVersion = await getPropertyWithAssociations(req.params.id)
 
-    if (!propertyVersion) {
-      res.status(404).json({ 
-        error: ERROR_MESSAGES.PROPERTY_NOT_FOUND,
-        id: req.params.id
+      if (!propertyVersion) {
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        return
+      }
+
+      const propertyDetails = getPropertyDetailsFromVersion(propertyVersion)
+
+      if (propertyDetails) {
+        await propertyDetails.update(req.body)
+      }
+
+      await propertyVersion.reload({
+        include: [
+          { model: Address, as: 'address' },
+          { model: PropertyDetails, as: 'propertyDetails' },
+        ],
       })
-      return
+
+      const property = transformPropertyVersion(propertyVersion)
+      sendSuccess(res, property)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.PATCH_PROPERTY, 'patching property')
     }
-
-    const propertyDetails = getPropertyDetailsFromVersion(propertyVersion)
-
-    if (propertyDetails) {
-      await propertyDetails.update(req.body)
-    }
-
-    await propertyVersion.reload({
-      include: [
-        { model: Address, as: 'address' },
-        { model: PropertyDetails, as: 'propertyDetails' },
-      ],
-    })
-
-    const property = transformPropertyVersion(propertyVersion)
-    res.json(property)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.PATCH_PROPERTY, 'patching property')
   }
-})
+)
 
 /**
  * DELETE /properties/:id
@@ -250,24 +255,26 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
  * WHY: Removes property from system
  * PATTERN: Find by ID, destroy if found, return 204 on success
  */
-router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const propertyVersion = await PropertyVersion.findByPk(req.params.id)
-    
-    if (!propertyVersion) {
-      res.status(404).json({ 
-        error: ERROR_MESSAGES.PROPERTY_NOT_FOUND,
-        id: req.params.id
-      })
-      return
-    }
+router.delete(
+  '/:id',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const propertyVersion = await PropertyVersion.findByPk(req.params.id)
+      
+      if (!propertyVersion) {
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        return
+      }
 
-    await propertyVersion.destroy()
-    
-    res.status(204).send()
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.DELETE_PROPERTY, 'deleting property')
+      await propertyVersion.destroy()
+      
+      sendNoContent(res)
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.DELETE_PROPERTY, 'deleting property')
+    }
   }
-})
+)
 
 export { router as PropertyCrudRouter }

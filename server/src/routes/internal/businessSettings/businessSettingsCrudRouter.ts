@@ -12,6 +12,8 @@ import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsCon
 import { handleRouteError } from './businessSettingsErrorHandler.js'
 import { validateSettingKey, validateSettingValue, validateAvailabilitySettingsWithDetails } from './businessSettingsValidators.js'
 import { transformSettingToResponse, getSettingWithDefault, mergeSettingValues } from './businessSettingsHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent, sendError } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
@@ -35,16 +37,14 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 
       const settingWithDefault = getSettingWithDefault(setting, key)
       if (!settingWithDefault) {
-        res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-          error: ERROR_MESSAGES.SETTING_NOT_FOUND.replace('{key}', key)
-        })
+        sendNotFound(res, ERROR_MESSAGES.SETTING_NOT_FOUND.replace('{key}', key), key)
         return
       }
 
-      res.json(settingWithDefault)
+      sendSuccess(res, settingWithDefault)
     } else {
       const settings = await BusinessSettings.findAll()
-      res.json(settings.map(s => transformSettingToResponse(s)))
+      sendSuccess(res, settings.map(s => transformSettingToResponse(s)))
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_SETTINGS, 'fetching business settings')
@@ -69,13 +69,11 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
 
     const settingWithDefault = getSettingWithDefault(setting, key)
     if (!settingWithDefault) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.SETTING_NOT_FOUND.replace('{key}', key)
-      })
+      sendNotFound(res, ERROR_MESSAGES.SETTING_NOT_FOUND.replace('{key}', key), key)
       return
     }
 
-    res.json(settingWithDefault)
+    sendSuccess(res, settingWithDefault)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_SETTING, 'fetching business setting')
   }
@@ -89,31 +87,31 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
  * WHY: Enables setting creation via API
  * PATTERN: Validate, check if exists, create record, return 201
  */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
+router.post(
+  '/',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { setting_key, setting_value } = req.body
 
     // Validate setting key
     const keyValidation = validateSettingKey(setting_key)
     if (!keyValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: keyValidation.error })
+      sendBadRequest(res, keyValidation.error)
       return
     }
 
     // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: valueValidation.error })
+      sendBadRequest(res, valueValidation.error)
       return
     }
 
     // Validate availability_settings structure
     const availabilityValidation = validateAvailabilitySettingsWithDetails(setting_key, setting_value)
     if (!availabilityValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: availabilityValidation.error,
-        ...availabilityValidation.details
-      })
+      sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string)
       return
     }
 
@@ -122,9 +120,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     })
 
     if (existing) {
-      res.status(HTTP_STATUS_CODES.CONFLICT).json({ 
-        error: ERROR_MESSAGES.SETTING_ALREADY_EXISTS.replace('{key}', setting_key)
-      })
+      sendError(res, ERROR_MESSAGES.SETTING_ALREADY_EXISTS.replace('{key}', setting_key), HTTP_STATUS_CODES.CONFLICT)
       return
     }
 
@@ -133,11 +129,12 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       settingValue: setting_value,
     })
 
-    res.status(HTTP_STATUS_CODES.CREATED).json(transformSettingToResponse(setting))
+    sendCreated(res, transformSettingToResponse(setting))
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_SETTING, 'creating business setting')
   }
-})
+  }
+)
 
 /**
  * PUT /business-settings/:key
@@ -147,7 +144,11 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
  * WHY: Enables full setting updates via API
  * PATTERN: Validate, find or create, update, return JSON
  */
-router.put('/:key', async (req: Request, res: Response): Promise<void> => {
+router.put(
+  '/:key',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params
     const { setting_value } = req.body
@@ -155,17 +156,14 @@ router.put('/:key', async (req: Request, res: Response): Promise<void> => {
     // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: valueValidation.error })
+      sendBadRequest(res, valueValidation.error)
       return
     }
 
     // Validate availability_settings structure
     const availabilityValidation = validateAvailabilitySettingsWithDetails(key, setting_value)
     if (!availabilityValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: availabilityValidation.error,
-        ...availabilityValidation.details
-      })
+      sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string)
       return
     }
 
@@ -178,18 +176,19 @@ router.put('/:key', async (req: Request, res: Response): Promise<void> => {
         settingKey: key,
         settingValue: setting_value,
       })
-      res.status(HTTP_STATUS_CODES.CREATED).json(transformSettingToResponse(newSetting))
+      sendCreated(res, transformSettingToResponse(newSetting))
       return
     }
 
     setting.settingValue = setting_value
     await setting.save()
 
-    res.json(transformSettingToResponse(setting))
+    sendSuccess(res, transformSettingToResponse(setting))
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.UPDATE_SETTING, 'updating business setting')
   }
-})
+  }
+)
 
 /**
  * PATCH /business-settings/:key
@@ -199,7 +198,11 @@ router.put('/:key', async (req: Request, res: Response): Promise<void> => {
  * WHY: Enables partial setting updates via API
  * PATTERN: Patch record, merge values, validate, return 404 if not found, return updated record
  */
-router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
+router.patch(
+  '/:key',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params
     const { setting_value } = req.body
@@ -207,7 +210,7 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
     // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: valueValidation.error })
+      sendBadRequest(res, valueValidation.error)
       return
     }
 
@@ -216,9 +219,7 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
     })
 
     if (!setting) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.SETTING_NOT_FOUND_FOR_PATCH.replace('{key}', key)
-      })
+      sendNotFound(res, ERROR_MESSAGES.SETTING_NOT_FOUND_FOR_PATCH.replace('{key}', key), key)
       return
     }
 
@@ -227,10 +228,7 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
     // Validate availability_settings structure after merge
     const availabilityValidation = validateAvailabilitySettingsWithDetails(key, mergedValue)
     if (!availabilityValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: availabilityValidation.error,
-        ...availabilityValidation.details
-      })
+      sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string)
       return
     }
 
@@ -238,11 +236,12 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
     setting.settingValue = mergedValue as any
     await setting.save()
 
-    res.json(transformSettingToResponse(setting))
+    sendSuccess(res, transformSettingToResponse(setting))
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.PATCH_SETTING, 'patching business setting')
   }
-})
+  }
+)
 
 /**
  * DELETE /business-settings/:key
@@ -252,7 +251,11 @@ router.patch('/:key', async (req: Request, res: Response): Promise<void> => {
  * WHY: Enables setting deletion via API
  * PATTERN: Delete record, return 404 if not found, return 204 on success
  */
-router.delete('/:key', async (req: Request, res: Response): Promise<void> => {
+router.delete(
+  '/:key',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.params
 
@@ -273,6 +276,7 @@ router.delete('/:key', async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.DELETE_SETTING, 'deleting business setting')
   }
-})
+  }
+)
 
 export { router as BusinessSettingsCrudRouter }

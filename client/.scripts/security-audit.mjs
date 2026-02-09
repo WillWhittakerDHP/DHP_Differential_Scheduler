@@ -56,6 +56,10 @@ function toStableId(repoPath) {
 }
 
 function shouldExcludeDir(repoPath) {
+  // Exclude migration files (one-time scripts, security patterns are expected)
+  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
+    return true
+  }
   if (repoPath.includes('/__tests__/') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }

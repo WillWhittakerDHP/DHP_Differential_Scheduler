@@ -2,26 +2,21 @@
  * Slot Generator
  * 
  * LEARNING: Handles time slot generation based on boundaries, increments, and duration
- * WHY: Separated from slotAvailabilityManager to reduce complexity and improve maintainability
+ * WHY: Separated from slotAvailabilityOrchestrator to reduce complexity and improve maintainability
  * PATTERN: Pure utility functions - no side effects
  */
 
 import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
-import { validateSlotGenerationParams } from './slotGenerationValidation'
+import { validateSlotGenerationParams, type SlotGenerationParams as BaseSlotGenerationParams } from './slotGenerationValidation'
 
 /**
  * Parameters for slot generation
- * LEARNING: Structured parameters for slot generation
- * WHY: Type-safe parameter passing
- * PATTERN: Interface with required fields
+ * LEARNING: Extends validation params with includeFlags
+ * WHY: Slot generation needs includeFlags in addition to validation params
+ * PATTERN: Extend SlotGenerationParams from validation module
  */
-export interface GenerateSlotsWithAvailabilityParams {
-  startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
-  endBoundary: RFC3339DateTime           // RFC3339 datetime - latest possible end
-  duration: number                        // Required duration in minutes
-  minuteIncrement: number                 // Usually 15
-  busyTimes?: never                       // Not used in generation, only in availability checking
+export interface SlotGenerationParams extends BaseSlotGenerationParams {
   includeFlags: {
     major: boolean
     minor: boolean
@@ -33,21 +28,20 @@ export interface GenerateSlotsWithAvailabilityParams {
  * Generate days in range
  * LEARNING: Extracted day iteration logic
  * WHY: Reduces nesting and improves readability
- * PATTERN: Pure recursive function
+ * PATTERN: Iterative function with push (O(n) time, O(1) stack)
  * 
- * @param current - Current date
+ * @param start - Start date
  * @param end - End date
- * @param acc - Accumulator array
  * @returns Array of dates in range
  */
-function generateDaysInRange(current: Date, end: Date, acc: Date[] = []): Date[] {
-  if (current >= end) return acc
-  const next = new Date(Date.UTC(
-    current.getUTCFullYear(),
-    current.getUTCMonth(),
-    current.getUTCDate() + 1
-  ))
-  return generateDaysInRange(next, end, [...acc, new Date(current)])
+function generateDaysInRange(start: Date, end: Date): Date[] {
+  const days: Date[] = []
+  const current = new Date(start)
+  while (current < end) {
+    days.push(new Date(current))
+    current.setUTCDate(current.getUTCDate() + 1)
+  }
+  return days
 }
 
 /**
@@ -175,7 +169,7 @@ function generateSlotsForDay(
  * @param params - Parameters for slot generation
  * @returns Array of all possible slots (without availability flags)
  */
-export function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams): TimeSlot[] {
+export function generateAllTimeSlots(params: SlotGenerationParams): TimeSlot[] {
   const {
     startBoundary,
     endBoundary,
@@ -217,10 +211,10 @@ export function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams
     0, 0, 0, 0
   ))
 
-  // PATTERN: Generate array of days functionally using recursive helper, then reduce to slots array
+  // PATTERN: Generate array of days iteratively, then flatMap to slots array (O(n) instead of O(n^2))
   const days = generateDaysInRange(startDateOnly, endDateOnly)
   
-  const slots = days.reduce((acc, currentDate) => {
+  const slots = days.flatMap(currentDate => {
     // PATTERN: Use Date.UTC constructor to create new Date objects
     const dayStart = new Date(Date.UTC(
       currentDate.getUTCFullYear(),
@@ -241,7 +235,7 @@ export function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams
     
     const initialSlotStart = calculateInitialSlotStart(dayStart, slotStartBoundary, minuteIncrement)
     
-    const daySlots = generateSlotsForDay(
+    return generateSlotsForDay(
       initialSlotStart,
       slotEndBoundary,
       endBoundaryDate,
@@ -250,9 +244,7 @@ export function generateAllTimeSlots(params: GenerateSlotsWithAvailabilityParams
       includeFlags,
       []
     )
-    
-    return [...acc, ...daySlots]
-  }, [] as TimeSlot[])
+  })
 
   return slots
 }

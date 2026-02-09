@@ -8,7 +8,7 @@
  * Phase 4: Server-Side Computed Availability Data Refactor
  * - Fetches settings from database
  * - Extracts constraints server-side
- * - Fetches calendar data (free-busy, events)
+ * - Fetches calendar events (Events API only - derives busy periods from events)
  * - Calculates drive times
  * - Pre-computes capacity hours
  * - Returns ComputedAvailabilityData
@@ -17,32 +17,31 @@
 import type {
   ComputedAvailabilityData,
   ComputedAvailabilityRequest,
-  RangeConstraint,
-  OverlapConstraint,
+  Constraint,
   CapacityConstraint,
   BusyTimeRange,
   CalendarEvent,
   DefaultLocation,
   RFC3339DateTime,
-} from '@shared/types/availabilityTypes'
+} from '../../../shared/types/availabilityTypes.js'
 import { BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
 import {
-  extractRangeConstraints,
-  extractOverlapConstraints,
-  extractCapacityConstraints,
+  extractConstraints,
 } from './constraintExtractor.js'
-import { getFreeBusy } from './google/calendar/freeBusyService.js'
+import { groupConstraintsByCategory } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
 import { calculateDriveTime } from './google/maps/routesApiService.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
+import { createLogger } from '../utils/logger.js'
 
+const logger = createLogger('ComputedAvailabilityService')
 const AVAILABILITY_SETTINGS_KEY = 'availability_settings'
 
 /**
  * Extract calendar emails configured for reading (readFrom: true)
  * LEARNING: Returns emails from calendars marked for availability checking
- * WHY: Free-busy API calls need array of email strings for calendars to check
+ * WHY: Events API calls need array of email strings for calendars to check
  * PATTERN: Filter calendars by readFrom flag, return email array
  * 
  * @param calendarConfig - CalendarConfig object (optional)
@@ -86,152 +85,117 @@ function separateEventTypes(events: CalendarEvent[]): {
 }
 
 /**
- * Merge out-of-office events into busy periods
- * LEARNING: Converts out-of-office events to BusyTimeRange and merges with free-busy data
- * WHY: Out-of-office events represent unavailable time, same as busy periods
- * PATTERN: Convert events to BusyTimeRange format and combine arrays
+ * Convert calendar events to busy periods
+ * LEARNING: Converts opaque calendar events to BusyTimeRange, filtering out transparent events
+ * WHY: Events API provides transparency field - opaque events block time, transparent events don't
+ * PATTERN: Filter by transparency, tag by eventType
  * 
- * @param freeBusyPeriods - Busy periods from free-busy query
- * @param outOfOfficeEvents - Out-of-office calendar events
- * @returns Combined array of busy periods
+ * @param allEvents - All calendar events (regular + out-of-office)
+ * @returns Array of BusyTimeRange objects for events that block time
  */
-function mergeOutOfOfficeIntoBusyPeriods(
-  freeBusyPeriods: BusyTimeRange[],
-  outOfOfficeEvents: CalendarEvent[]
-): BusyTimeRange[] {
-  const outOfOfficePeriods: BusyTimeRange[] = outOfOfficeEvents.map(event => ({
-    start: event.start as RFC3339DateTime,
-    end: event.end as RFC3339DateTime,
-    placeId: event.placeId,
-    source: 'outOfOffice',  // Tag out-of-office events with their source
-  }))
-  
-  return [...freeBusyPeriods, ...outOfOfficePeriods]
-}
-
-/**
- * Calculate drive times for all dates in range
- * LEARNING: Pre-computes drive times between default location and first/last events per day
- * WHY: Eliminates client-side drive time API calls
- * PATTERN: Group events by date, calculate drive times per day
- * 
- * @param calendarEvents - Regular calendar events (with placeId)
- * @param defaultLocation - Default location (home/office)
- * @param placeId - Property placeId for drive time calculations
- * @param dateRange - Date range to calculate drive times for
- * @returns Record mapping date strings (YYYY-MM-DD) to drive time minutes
- */
-async function calculateDriveTimesForRange(
-  calendarEvents: CalendarEvent[],
-  defaultLocation: DefaultLocation | undefined,
-  placeId: string | undefined,
-  dateRange: { start: string; end: string }
-): Promise<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>> {
-  const driveTimesByDate: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }> = {}
-  
-  // If no placeId or defaultLocation, return empty
-  if (!placeId || !defaultLocation) {
-    return driveTimesByDate
-  }
-  
-  // Filter events to only those with placeId (needed for drive time calculations)
-  const eventsWithPlaceId = calendarEvents.filter(event => event.placeId)
-  
-  if (eventsWithPlaceId.length === 0) {
-    return driveTimesByDate
-  }
-  
-  // Group events by date
-  const eventsByDate = new Map<string, CalendarEvent[]>()
-  for (const event of eventsWithPlaceId) {
-    const date = event.start.split('T')[0]
-    if (!eventsByDate.has(date)) {
-      eventsByDate.set(date, [])
-    }
-    eventsByDate.get(date)!.push(event)
-  }
-  
-  // Calculate drive times for each date
-  for (const [date, events] of eventsByDate.entries()) {
-    // Sort events by start time
-    const sortedEvents = [...events].sort((a, b) => a.start.localeCompare(b.start))
-    
-    const firstEvent = sortedEvents[0]
-    const lastEvent = sortedEvents[sortedEvents.length - 1]
-    
-    const driveTimes: { driveTimeTo?: number; driveTimeFrom?: number } = {}
-    
-    // Calculate driveTimeTo (from default location to first event)
-    if (firstEvent.placeId) {
-      try {
-        const result = await calculateDriveTime(
-          { placeId: defaultLocation.placeId },
-          { placeId: firstEvent.placeId },
-          true // useTraffic
-        )
-        if (result) {
-          driveTimes.driveTimeTo = result.durationMinutes
-        }
-      } catch (error) {
-        console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeTo for ${date}:`, error)
-        // Continue without driveTimeTo
-      }
-    }
-    
-    // Calculate driveTimeFrom (from last event to default location)
-    if (lastEvent.placeId) {
-      try {
-        const result = await calculateDriveTime(
-          { placeId: lastEvent.placeId },
-          { placeId: defaultLocation.placeId },
-          true // useTraffic
-        )
-        if (result) {
-          driveTimes.driveTimeFrom = result.durationMinutes
-        }
-      } catch (error) {
-        console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeFrom for ${date}:`, error)
-        // Continue without driveTimeFrom
-      }
-    }
-    
-    if (driveTimes.driveTimeTo !== undefined || driveTimes.driveTimeFrom !== undefined) {
-      driveTimesByDate[date] = driveTimes
-    }
-  }
-  
-  return driveTimesByDate
-}
-
-/**
- * Convert free-busy response to BusyTimeRange array
- * LEARNING: Transforms Google Calendar API response format to BusyTimeRange[]
- * WHY: Standardizes busy period format for slot generation
- * PATTERN: Flatten calendar-specific busy arrays into single array
- * 
- * @param freeBusyResponse - Free-busy response from Google Calendar API
- * @returns Array of BusyTimeRange objects
- */
-function convertFreeBusyToBusyPeriods(freeBusyResponse: {
-  calendars: {
-    [email: string]: {
-      busy: Array<{ start: string; end: string }>
-    }
-  }
-}): BusyTimeRange[] {
+function convertEventsToBusyPeriods(allEvents: CalendarEvent[]): BusyTimeRange[] {
   const busyPeriods: BusyTimeRange[] = []
   
-  for (const calendarData of Object.values(freeBusyResponse.calendars)) {
-    for (const busyPeriod of calendarData.busy || []) {
-      busyPeriods.push({
-        start: busyPeriod.start as RFC3339DateTime,
-        end: busyPeriod.end as RFC3339DateTime,
-        source: 'freeBusy',  // From Google Calendar FreeBusy API - we only know "this time is busy"
-      })
+  for (const event of allEvents) {
+    // Skip transparent events - they don't block time (marked "Show as: Free")
+    // Default to 'opaque' if transparency is not set (backward compatibility)
+    if (event.transparency === 'transparent') {
+      continue
     }
+    
+    // Tag events by their type for violation attribution
+    const source: 'event' | 'outOfOffice' = event.eventType === 'outOfOffice' ? 'outOfOffice' : 'event'
+    
+    busyPeriods.push({
+      start: event.start as RFC3339DateTime,
+      end: event.end as RFC3339DateTime,
+      placeId: event.placeId,
+      source,
+    })
   }
   
   return busyPeriods
+}
+
+/**
+ * Calculate drive times for all unique placeIds in events
+ * LEARNING: Pre-computes drive times between default location and each unique event location
+ * WHY: Eliminates client-side drive time API calls, calculates for all events (not just first/last per date)
+ * PATTERN: Collect unique placeIds, calculate drive times in parallel per placeId
+ * 
+ * @param calendarEvents - Regular calendar events (with placeId)
+ * @param defaultLocation - Default location (home/office)
+ * @param placeId - Property placeId for drive time calculations (unused, kept for API compatibility)
+ * @returns Record mapping placeId strings to drive time minutes
+ */
+async function calculateDriveTimesForPlaceIds(
+  calendarEvents: CalendarEvent[],
+  defaultLocation: DefaultLocation | undefined,
+  placeId: string | undefined
+): Promise<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>> {
+  // If no defaultLocation, return empty
+  if (!defaultLocation) {
+    return {}
+  }
+  
+  // Collect unique placeIds from events
+  const uniquePlaceIds = [...new Set(
+    calendarEvents
+      .map(event => event.placeId)
+      .filter((placeId): placeId is string => !!placeId)
+  )]
+  
+  if (uniquePlaceIds.length === 0) {
+    return {}
+  }
+  
+  // Calculate drive times in parallel (cache handles deduplication)
+  const results = await Promise.all(
+    uniquePlaceIds.map(async (eventPlaceId) => {
+      try {
+        const [toResult, fromResult] = await Promise.all([
+          calculateDriveTime(
+            { placeId: defaultLocation.placeId },
+            { placeId: eventPlaceId },
+            true // useTraffic
+          ).catch((error) => {
+            logger.error(`Failed to calculate driveTimeTo for placeId ${eventPlaceId}:`, error)
+            return null
+          }),
+          calculateDriveTime(
+            { placeId: eventPlaceId },
+            { placeId: defaultLocation.placeId },
+            true // useTraffic
+          ).catch((error) => {
+            logger.error(`Failed to calculate driveTimeFrom for placeId ${eventPlaceId}:`, error)
+            return null
+          }),
+        ])
+        
+        return {
+          placeId: eventPlaceId,
+          driveTimeTo: toResult?.durationMinutes,
+          driveTimeFrom: fromResult?.durationMinutes,
+        }
+      } catch (error) {
+        logger.error(`Failed to calculate drive times for placeId ${eventPlaceId}:`, error)
+        return null
+      }
+    })
+  )
+  
+  // Build lookup record, filtering out null results
+  const driveTimesByPlaceId: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }> = {}
+  for (const result of results) {
+    if (result && (result.driveTimeTo !== undefined || result.driveTimeFrom !== undefined)) {
+      driveTimesByPlaceId[result.placeId] = {
+        driveTimeTo: result.driveTimeTo,
+        driveTimeFrom: result.driveTimeFrom,
+      }
+    }
+  }
+  
+  return driveTimesByPlaceId
 }
 
 /**
@@ -259,37 +223,30 @@ export async function computeAvailabilityData(
   
   const settings: AvailabilitySettingsData = setting.settingValue
   
-  // 2. Extract constraints server-side
-  const rangeConstraints = extractRangeConstraints(settings)
-  const overlapConstraints = extractOverlapConstraints(settings)
-  const capacityConstraints = extractCapacityConstraints(settings)
+  // 2. Extract constraints server-side (unified array)
+  const constraints = extractConstraints(settings)
   
-  // 3. Get calendar emails for free-busy query
+  // Group constraints by category for category-specific processing
+  const { capacity } = groupConstraintsByCategory(constraints)
+  
+  // 3. Get calendar emails for events query
   const calendarEmails = getReadFromCalendars(settings.calendarConfig)
   
-  // 4. Fetch calendar data (free-busy and events) in parallel
-  // LEARNING: FreeBusy accepts multiple emails, but Events API requires one call per calendar
-  // WHY: We need events from ALL calendars (for OOO detection, drive time placeIds, event details)
-  // PATTERN: Parallel fetch - one FreeBusy call + one Events call per calendar email
+  // 4. Fetch calendar events (Events API only - no FreeBusy needed)
+  // LEARNING: Events API provides transparency field to distinguish "busy" vs "free" events
+  // WHY: Single data source eliminates duplication and provides richer attribution
+  // PATTERN: One Events call per calendar email (all in parallel)
   const calendarEnabled = calendarEmails.length > 0 && settings.calendarConfig?.enabled
   
-  const [freeBusyResponse, ...eventsResponses] = await Promise.all([
-    // Free-busy query (accepts all calendar emails at once)
-    calendarEnabled
-      ? getFreeBusy(calendarEmails, request.dateRange.start, request.dateRange.end, request.dataSource === 'none')
-      : Promise.resolve({ calendars: {}, _meta: { source: 'empty' as const } }),
-    // Calendar events query - one call per calendar email (all in parallel)
-    ...calendarEmails.map(email =>
+  const eventsResponses = await Promise.all(
+    calendarEmails.map(email =>
       calendarEnabled
         ? getCalendarEvents(email, request.dateRange.start, request.dateRange.end)
         : Promise.resolve({ events: [], _meta: { source: 'empty' as const } })
-    ),
-  ])
+    )
+  )
   
-  // 5. Convert free-busy response to BusyTimeRange array
-  const freeBusyPeriods = convertFreeBusyToBusyPeriods(freeBusyResponse)
-  
-  // 6. Convert calendar events from ALL calendars to CalendarEvent array
+  // 5. Convert calendar events from ALL calendars to CalendarEvent array
   // LEARNING: Flatten events from all calendar responses, deduplicate by event ID
   // WHY: Same event might appear on multiple calendars (e.g., shared events)
   const seenEventIds = new Set<string>()
@@ -307,49 +264,69 @@ export async function computeAvailabilityData(
         placeId: event.placeId,
         summary: event.summary,
         eventType: event.eventType || 'default',
+        transparency: event.transparency,
       }))
   )
   
-  // 7. Separate event types
+  // 6. Convert events to busy periods (filters transparent events, tags by source)
+  const busyPeriods = convertEventsToBusyPeriods(allCalendarEvents)
+  
+  // 7. Separate event types (for drive time calculations and response structure)
   const { regularEvents, outOfOfficeEvents } = separateEventTypes(allCalendarEvents)
   
-  // 8. Merge out-of-office events into busy periods
-  const busyPeriods = mergeOutOfOfficeIntoBusyPeriods(freeBusyPeriods, outOfOfficeEvents)
-  
   // 9. Calculate drive times (if placeId provided)
-  const driveTimesByDate = await calculateDriveTimesForRange(
+  const driveTimesByPlaceId = await calculateDriveTimesForPlaceIds(
     regularEvents,
     settings.defaultLocation,
-    request.placeId,
-    request.dateRange
+    request.placeId
   )
   
-  // 10. Pre-compute capacity hours
+  // 10. Enrich busy periods with drive times
+  // LEARNING: Stamp drive time values directly onto each BusyTimeRange
+  // WHY: Unifies drive time data with busy period pipeline, eliminates separate data path
+  // PATTERN: Map over busy periods, look up drive times by placeId, attach to period
+  const enrichedBusyPeriods = busyPeriods.map(bp => {
+    if (!bp.placeId) return bp
+    const driveTimes = driveTimesByPlaceId[bp.placeId]
+    if (!driveTimes) return bp
+    return {
+      ...bp,
+      driveTimeTo: driveTimes.driveTimeTo,
+      driveTimeFrom: driveTimes.driveTimeFrom,
+    }
+  })
+  
+  // 11. Pre-compute capacity hours
   const scheduledHoursByKey = await computeScheduledHoursForRange(
     request.dateRange,
-    capacityConstraints
+    capacity
   )
   
-  // 11. Assemble and return ComputedAvailabilityData
+  // 12. Enrich capacity constraints with scheduled hours
+  const enrichedConstraints = constraints.map(constraint => {
+    if (constraint.category !== 'capacity') return constraint
+    // Filter hours to only keys matching this constraint's type
+    const relevantHours: Record<string, number> = {}
+    for (const [key, hours] of Object.entries(scheduledHoursByKey)) {
+      if (key.startsWith(constraint.type + ':')) {
+        relevantHours[key] = hours
+      }
+    }
+    return { ...constraint, scheduledHours: relevantHours }
+  })
+  
+  // 13. Assemble and return ComputedAvailabilityData
   const computedData: ComputedAvailabilityData = {
-    // Constraints (extracted server-side)
-    rangeConstraints,
-    overlapConstraints,
-    capacityConstraints,
+    // Constraints (extracted server-side, unified array, enriched with scheduled hours)
+    constraints: enrichedConstraints,
     minuteIncrement: settings.minuteIncrement,
     timezone: settings.timezone,
     durationRounding: settings.durationRounding,
     
-    // Calendar data
-    busyPeriods,
+    // Calendar data (busy periods enriched with drive times)
+    busyPeriods: enrichedBusyPeriods,
     calendarEvents: regularEvents,
     outOfOfficeEvents,
-    
-    // Drive times
-    driveTimesByDate,
-    
-    // Capacity hours
-    scheduledHoursByKey,
     
     // Metadata
     _meta: {
@@ -358,15 +335,13 @@ export async function computeAvailabilityData(
       defaultLocation: settings.defaultLocation,
       generatedAt: new Date().toISOString(),
       cacheStatus: {
-        freeBusy: freeBusyResponse._meta?.source === 'cache' ? 'hit' : 'miss',
         events: eventsResponses.every(r => r._meta?.source === 'cache') ? 'hit' : 'miss',
-        driveTime: 'miss', // Drive times are always calculated fresh (not cached separately)
       },
     },
   }
   
   const duration = Date.now() - startTime
-  console.log(`[ComputedAvailabilityService] Computed availability data in ${duration}ms`)
+  logger.info(`Computed availability data in ${duration}ms`)
   
   return computedData
 }

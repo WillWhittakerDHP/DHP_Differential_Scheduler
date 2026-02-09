@@ -1,4 +1,7 @@
 import app from "./app.js";
+import { createLogger } from "./utils/logger.js";
+
+const logger = createLogger('Server');
 
 // Convert to number since app.listen() expects a number
 const PORT = Number(process.env.SERVER_PORT || process.env.PORT || 3001);
@@ -9,7 +12,7 @@ app.listen(PORT, () => {
   const url = `http://localhost:${PORT}`;
   const apiUrl = `${url}/api`;
   
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`\n${url}`);
-  console.log(`${apiUrl}\n`);
+  logger.info(`🚀 Server running on port ${PORT}`);
+  logger.info(`\n${url}`);
+  logger.info(`${apiUrl}\n`);
 });

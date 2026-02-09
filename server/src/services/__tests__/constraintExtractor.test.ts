@@ -38,7 +38,7 @@ import type {
   OverlapConstraint,
   CapacityConstraint,
   RFC3339DateTime,
-} from '@shared/types/availabilityTypes'
+} from '../../../../shared/types/availabilityTypes.js'
 
 function createAvailabilitySettingsData(
   overrides: Partial<AvailabilitySettingsData> = {}
@@ -330,6 +330,7 @@ describe('constraintExtractor', () => {
   describe('validateRangeConstraint', () => {
     it('should validate businessHours constraint', () => {
       const constraint: RangeConstraint = {
+        category: 'range',
         type: 'businessHours',
         enforcement: 'hard',
         config: {
@@ -352,6 +353,7 @@ describe('constraintExtractor', () => {
 
     it('should validate leadTime constraint', () => {
       const constraint: RangeConstraint = {
+        category: 'range',
         type: 'leadTime',
         enforcement: 'hard',
         config: { minutes: 60 }
@@ -364,6 +366,7 @@ describe('constraintExtractor', () => {
 
     it('should validate dateRange constraint', () => {
       const constraint: RangeConstraint = {
+        category: 'range',
         type: 'dateRange',
         enforcement: 'hard',
         config: {
@@ -381,6 +384,7 @@ describe('constraintExtractor', () => {
   describe('validateOverlapConstraint', () => {
     it('should validate overlap constraint', () => {
       const constraint: OverlapConstraint = {
+        category: 'overlap',
         type: 'appointment',
         placement: 'before',
         enforcement: 'hard',
@@ -394,6 +398,7 @@ describe('constraintExtractor', () => {
 
     it('should validate driveTimeTo constraint with valid applyTo', () => {
       const constraint: OverlapConstraint = {
+        category: 'overlap',
         type: 'driveTimeTo',
         placement: 'before',
         enforcement: 'hard',
@@ -410,6 +415,7 @@ describe('constraintExtractor', () => {
   describe('validateCapacityConstraint', () => {
     it('should validate capacity constraint', () => {
       const constraint: CapacityConstraint = {
+        category: 'capacity',
         type: 'daily',
         enforcement: 'hard',
         maxHours: 8
@@ -422,6 +428,7 @@ describe('constraintExtractor', () => {
 
     it('should validate rollingWeek constraint with direction', () => {
       const constraint: CapacityConstraint = {
+        category: 'capacity',
         type: 'rollingWeek',
         enforcement: 'hard',
         maxHours: 40,

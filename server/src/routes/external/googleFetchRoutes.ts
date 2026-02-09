@@ -1,4 +1,7 @@
 import axios from "axios";
+import { createLogger } from '../../utils/logger.js';
+
+const logger = createLogger('GoogleFetchRoutes');
 
 interface DriveTimes {
   DriveTimeTo: number;
@@ -32,7 +35,7 @@ export async function fetchDriveTimes(
     });
 
     if (toRouteResponse.data.status !== "OK") {
-      console.error(
+      logger.error(
         `Google Maps API error for DriveTimeTo: ${toRouteResponse.data.status}`
       );
       throw new Error(`Google Maps API error for DriveTimeTo`);
@@ -53,7 +56,7 @@ export async function fetchDriveTimes(
       });
 
       if (fromRouteResponse.data.status !== "OK") {
-        console.error(
+        logger.error(
           `Google Maps API error for DriveTimeFrom: ${fromRouteResponse.data.status}`
         );
         throw new Error(`Google Maps API error for DriveTimeFrom`);
@@ -71,7 +74,7 @@ export async function fetchDriveTimes(
 
     return roundedDriveTimes;
   } catch (error) {
-    console.error("Error in fetchDriveTimes:", error);
+    logger.error("Error in fetchDriveTimes:", error);
     return {
       DriveTimeTo: 0, // Default values in case of an error
       DriveTimeFrom: 0,

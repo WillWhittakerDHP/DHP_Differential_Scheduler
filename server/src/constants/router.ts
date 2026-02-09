@@ -47,3 +47,11 @@ export const ERROR_MESSAGE_TEMPLATES = {
   NOT_FOUND: '{displayName} not found',
   VALIDATION_FAILED: 'Validation failed for {displayName}',
 } as const
+
+/**
+ * Simple validation error message (no placeholder)
+ * LEARNING: Used by error handlers for Sequelize validation errors
+ * WHY: Consistent validation error message across all routers
+ * PATTERN: Const string for validation errors
+ */
+export const VALIDATION_FAILED_MESSAGE = 'Validation failed'

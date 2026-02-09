@@ -13,6 +13,8 @@ import { ERROR_MESSAGES } from './adminRelationshipMetadataConstants.js'
 import { handleRouteError } from './adminRelationshipMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateInputConfig } from './adminRelationshipMetadataValidators.js'
 import { transformMetadataToRecord } from './adminRelationshipMetadataHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
@@ -32,10 +34,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -46,7 +45,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
     const metadataRecord = transformMetadataToRecord(metadata)
 
-    res.json(metadataRecord)
+    sendSuccess(res, metadataRecord)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_METADATA, 'fetching relationship metadata')
   }
@@ -60,7 +59,10 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
  * WHY: Enables relationship metadata management via API
  * PATTERN: Validate, find or create, return JSON
  */
-router.post('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
+router.post(
+  '/:entityType/:entityId',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId } = req.params
     const {
@@ -81,10 +83,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -98,20 +97,14 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
       displayOrder,
     })
     if (!requiredFieldsValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: requiredFieldsValidation.error,
-        ...requiredFieldsValidation.details
-      })
+      sendBadRequest(res, requiredFieldsValidation.error, requiredFieldsValidation.details?.message as string)
       return
     }
 
     // Validate inputConfig
     const inputConfigValidation = validateInputConfig(renderAs, inputConfig)
     if (!inputConfigValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: inputConfigValidation.error,
-        ...inputConfigValidation.details
-      })
+      sendBadRequest(res, inputConfigValidation.error, inputConfigValidation.details?.message as string)
       return
     }
 
@@ -138,7 +131,7 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         inputConfig,
       })
 
-      res.json(existing)
+      sendSuccess(res, existing)
     } else {
       const metadata = await AdminRelationshipMetadata.create({
         entityType: entityType as any,
@@ -157,12 +150,13 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
         inputConfig,
       })
 
-      res.status(HTTP_STATUS_CODES.CREATED).json(metadata)
+      sendCreated(res, metadata)
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_UPDATE_METADATA, 'creating/updating relationship metadata')
   }
-})
+  }
+)
 
 /**
  * DELETE /admin-relationship-metadata/:entityType/:entityId/:relationshipKey
@@ -172,17 +166,17 @@ router.post('/:entityType/:entityId', async (req: Request, res: Response): Promi
  * WHY: Enables relationship metadata deletion via API
  * PATTERN: Validate entity type, find metadata, delete, return 204
  */
-router.delete('/:entityType/:entityId/:relationshipKey', async (req: Request, res: Response): Promise<void> => {
+router.delete(
+  '/:entityType/:entityId/:relationshipKey',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { entityType, entityId, relationshipKey } = req.params
 
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
-      res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
-        error: entityTypeValidation.error,
-        ...entityTypeValidation.details
-      })
+      sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
       return
     }
 
@@ -195,21 +189,17 @@ router.delete('/:entityType/:entityId/:relationshipKey', async (req: Request, re
     })
 
     if (!metadata) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
-        error: ERROR_MESSAGES.METADATA_NOT_FOUND,
-        entityType,
-        entityId,
-        relationshipKey,
-      })
+      sendNotFound(res, ERROR_MESSAGES.METADATA_NOT_FOUND, `${entityType}/${entityId}/${relationshipKey}`)
       return
     }
 
     await metadata.destroy()
 
-    res.status(HTTP_STATUS_CODES.NO_CONTENT).send()
+    sendNoContent(res)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.DELETE_METADATA, 'deleting relationship metadata')
   }
-})
+  }
+)
 
 export { router as AdminRelationshipMetadataCrudRouter }

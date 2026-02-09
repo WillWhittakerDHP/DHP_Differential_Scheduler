@@ -11,11 +11,17 @@
  */
 
 import { Router } from 'express'
+import { RelationshipBatchRouter } from './relationshipBatchRouter.js'
 import { RelationshipCrudRouter } from './relationshipCrudRouter.js'
 import { RelationshipInstanceComponentRouter } from './relationshipInstanceComponentRouter.js'
 import { RelationshipAnnotationAssignmentRouter } from './relationshipAnnotationAssignmentRouter.js'
 
 const router = Router()
+
+// Mount batch router BEFORE CRUD routes to avoid :relationshipType param conflict
+// WHY: /batch route must be registered before /:relationshipType route
+// PATTERN: More specific routes (batch) before parameterized routes (relationshipType)
+router.use('/', RelationshipBatchRouter)
 
 // Mount CRUD routes (relationshipType param handler registered in RelationshipCrudRouter)
 router.use('/', RelationshipCrudRouter)

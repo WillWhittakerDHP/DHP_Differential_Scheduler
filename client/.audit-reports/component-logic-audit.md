@@ -6,15 +6,14 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **63**
+- Total files: **65**
 
 ## Top hotspots (by heuristic score)
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/components/admin/dev/ApiDevPanel.vue` | 6 | 1 | 14 | 1 | 1 | 0 | 7 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 17 | 4 | 0 | 0 | 0 | 1 | 0 |
 | `src/views/admin/tabs/BusinessControlsTab.vue` | 19 | 0 | 0 | 2 | 0 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 15 | 4 | 0 | 0 | 0 | 1 | 0 |
 | `src/views/admin/tabs/BusinessRulesTab.vue` | 6 | 2 | 7 | 3 | 0 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | 7 | 0 | 0 | 2 | 3 | 0 | 1 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -37,95 +36,11 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/TextInput.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `src/components/admin/PartInstanceBulkEditModal.vue` | 2 | 0 | 0 | 2 | 0 | 0 | 1 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `src/components/admin/dev/ApiDevPanel.vue`
-
-- counts: computed=6, ref=4, watch=1, async=7, await=7, map=0, reduce=1, dom=1, inlineConfig=0, console=7, alert=0
-
-```
-provideInject@10: import { ref, computed, watch, onMounted, inject, type Ref, type ComputedRef } from 'vue'
-provideInject@41: const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
-provideInject@44: const devPanelButtonsRef = inject<Ref<{
-ref@56: } | null>>('devPanelButtons', ref(null))
-computed@58: const devPanelButtons = computed(() => {
-computed@65: const hasDevPanelButtons = computed(() => {
-ref@81: const loading = ref({
-ref@88: const errors = ref({
-ref@112: const isCheckingAuth = ref(false)
-async@119: async function fetchOAuthStatus() {
-await@123: const response = await axios.get(`${API_BASE_URL}/api/v1/external/oauth/status`)
-console@127: console.error('[ApiDevPanel] Error fetching OAuth status:', error)
-async@136: async function fetchFreeBusyCache() {
-await@140: const response = await axios.get(`${API_BASE_URL}/api/v1/external/calendar/debug/freebusy-cache`)
-console@145: console.error('[ApiDevPanel] Error fetching free-busy cache:', error)
-async@154: async function fetchEventsCache() {
-await@158: const response = await axios.get(`${API_BASE_URL}/api/v1/external/calendar/debug/events-cache`)
-console@163: console.error('[ApiDevPanel] Error fetching events cache:', error)
-async@172: async function fetchRateLimitStats() {
-await@176: const [calendarResponse, mapsResponse] = await Promise.allSettled([
-console@184: console.error('[ApiDevPanel] Error fetching calendar rate limit:', calendarResponse.reason)
-console@190: console.error('[ApiDevPanel] Error fetching maps rate limit:', mapsResponse.reason)
-console@199: console.error('[ApiDevPanel] Error fetching rate limit stats:', error)
-async@208: async function fetchDriveTimeCache() {
-await@212: const response = await axios.get(`${API_BASE_URL}/api/v1/external/maps/debug/drive-time-cache`)
-console@217: console.error('[ApiDevPanel] Error fetching drive time cache:', error)
-async@226: async function fetchAll() {
-await@227: await Promise.all([
-async@237: const checkAuth = async () => {
-await@240: oauthStatusForFreeBusy.value = await checkOAuthStatus()
-watch@249: watch(activeTab, (newTab) => {
-computed@288: const calendarData = computed(() => {
-computed@324: const busyPeriods = computed(() => {
-computed@357: const totalBlockedMinutes = computed(() => {
-reduce@358: return busyPeriods.value.reduce((total, period) => {
-computed@366: const totalBlockedHours = computed(() => {
-filter@1159: {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
-filter@1164: v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
-dom@1285: :deep(.v-window-item) {
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: computed=17, ref=0, watch=4, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
-
-```
-provideInject@13: import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
-provideInject@45: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-provideInject@50: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
-provideInject@57: const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
-provideInject@67: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
-computed@75: const timeSlotsForDefaults = computed(() => {
-computed@80: const timeSlotsForLogic = computed(() => {
-computed@89: const isEffectivelyDifferentialForDefaults = computed(() => {
-computed@160: computed(() => computedAvailability.computedData.value) // Phase 6: Pass pre-computed availability data from server
-provideInject@185: // PATTERN: Parent provides, child updates via inject
-provideInject@186: const displayedMonth = inject<Ref<DisplayedMonth>>('displayedMonth')
-provideInject@187: const updateDisplayedMonth = inject<(month: DisplayedMonth) => void>('updateDisplayedMonth')
-watch@197: watch(vDatePickerDisplayDate, (newDate) => {
-provideInject@214: const appointmentDurationRef = inject<Ref<number | null>>('appointmentDuration')
-watch@221: watch(appointmentDuration, (newDuration) => {
-watch@230: watch(displayedMonth, (newMonth) => {
-watch@242: watch(selectedDate, (newDate) => {
-computed@258: const busyTimesForStartTimes = computed(() => computedAvailability.busyTimes.value)
-computed@259: const busyTimesLoading = computed(() => computedAvailability.isLoading.value)
-computed@263: const prefetchedCalendarEvents = computed(() => computedAvailability.calendarEvents.value)
-computed@267: const serverMinuteIncrement = computed(() => computedAvailability.computedData.value?.minuteIncrement ?? null)
-computed@280: prefetchedRangeConstraints: computed(() => computedAvailability.rangeConstraints.value),
-computed@281: prefetchedOverlapConstraints: computed(() => computedAvailability.overlapConstraints.value),
-computed@282: prefetchedCapacityConstraints: computed(() => computedAvailability.capacityConstraints.value),
-computed@283: prefetchedDriveTimesByDate: computed(() => computedAvailability.driveTimesByDate.value),
-computed@284: prefetchedScheduledHoursByKey: computed(() => computedAvailability.scheduledHoursByKey.value),
-computed@293: timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
-computed@304: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-computed@355: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@363: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-provideInject@414: // PATTERN: Composable provides reactive computed object via provide
-inlineConfig@556: :config="{
-```
 
 ### `src/views/admin/tabs/BusinessControlsTab.vue`
 
@@ -156,6 +71,43 @@ computed@520: const defaultLocationPlaceId = computed({
 computed@581: const saveButtonProps = computed(() => ({
 computed@616: const calendarEnabled = computed({
 computed@628: const calendarProvider = computed({
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- counts: computed=15, ref=0, watch=4, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
+
+```
+provideInject@13: import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
+provideInject@45: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+provideInject@50: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+provideInject@57: const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
+provideInject@67: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
+computed@75: const timeSlotsForDefaults = computed(() => {
+computed@80: const timeSlotsForLogic = computed(() => {
+computed@89: const isEffectivelyDifferentialForDefaults = computed(() => {
+computed@160: computed(() => computedAvailability.computedData.value) // Phase 6: Pass pre-computed availability data from server
+provideInject@185: // PATTERN: Parent provides, child updates via inject
+provideInject@186: const displayedMonth = inject<Ref<DisplayedMonth>>('displayedMonth')
+provideInject@187: const updateDisplayedMonth = inject<(month: DisplayedMonth) => void>('updateDisplayedMonth')
+watch@197: watch(vDatePickerDisplayDate, (newDate) => {
+provideInject@214: const appointmentDurationRef = inject<Ref<number | null>>('appointmentDuration')
+watch@221: watch(appointmentDuration, (newDuration) => {
+watch@230: watch(displayedMonth, (newMonth) => {
+watch@242: watch(selectedDate, (newDate) => {
+computed@258: const busyTimesForStartTimes = computed(() => computedAvailability.busyTimes.value)
+computed@259: const busyTimesLoading = computed(() => computedAvailability.isLoading.value)
+computed@263: const prefetchedCalendarEvents = computed(() => computedAvailability.calendarEvents.value)
+computed@267: const serverMinuteIncrement = computed(() => computedAvailability.computedData.value?.minuteIncrement ?? null)
+computed@280: prefetchedConstraints: computed(() => computedAvailability.constraints.value),
+computed@281: prefetchedDriveTimesByDate: computed(() => computedAvailability.driveTimesByDate.value),
+computed@282: prefetchedScheduledHoursByKey: computed(() => computedAvailability.scheduledHoursByKey.value),
+computed@291: timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
+computed@302: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+computed@353: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@361: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+provideInject@412: // PATTERN: Composable provides reactive computed object via provide
+inlineConfig@554: :config="{
 ```
 
 ### `src/views/admin/tabs/BusinessRulesTab.vue`
@@ -818,6 +770,18 @@ computed@41: instances: computed(() => wizard.availableUserTypeBlocks.value)
 computed@47: selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
 ```
 
+### `src/components/dev/DevPanelButtons.vue`
+
+- counts: computed=2, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@10: import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
+ref@28: const devPanelButtonsRef = inject<Ref<DevPanelButtons | null>>('devPanelButtons', ref(null))
+provideInject@28: const devPanelButtonsRef = inject<Ref<DevPanelButtons | null>>('devPanelButtons', ref(null))
+computed@30: const devPanelButtons = computed(() => {
+computed@37: const hasDevPanelButtons = computed(() => {
+```
+
 ### `src/components/booking/AppointmentSlotGrid.vue`
 
 - counts: computed=1, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -834,6 +798,17 @@ map@96: const slots = props.appointmentSlots.map(appointmentSlot => {
 ```
 map@33: {{ selectedPropertyTypes.map(pt => pt.name).join(', ') }}
 computed@138: const fullAddress = computed(() => {
+```
+
+### `src/components/admin/dev/ApiDevPanel.vue`
+
+- counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@12: import { ref, watch, inject } from 'vue'
+provideInject@39: const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+watch@71: watch(() => props.visible, (isVisible) => {
+dom@198: :deep(.v-window-item) {
 ```
 
 ### `src/components/admin/InstanceBulkEditModal.vue`
@@ -959,6 +934,15 @@ provideInject@36: *             Both provide date input with validation.
 ```
 ref@6: const isFallbackStateActive = ref(false)
 watch@13: watch([isFallbackStateActive, refLoadingIndicator], () => {
+```
+
+### `src/components/admin/dev/ApiDevPanelComputedTab.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+filter@100: {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
+filter@105: v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
 ```
 
 ### `src/components/admin/generic/fields/NumberInput.vue`

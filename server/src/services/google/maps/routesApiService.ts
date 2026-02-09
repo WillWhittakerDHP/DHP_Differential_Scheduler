@@ -12,6 +12,7 @@ import { withRetry } from '../shared/googleApiRetry.js'
 import { getGoogleMapsApiKey, ROUTES_API_BASE } from '../shared/googleApiConfig.js'
 import { MapsApiError } from './mapsErrorHandler.js'
 import { toRoutesWaypoint } from './mapsHelpers.js'
+import { getCachedDriveTime, cacheDriveTime } from '../../driveTimeCache.js'
 import type {
   RouteLocation,
   RouteMatrixResult,
@@ -68,8 +69,6 @@ export async function calculateRouteMatrix(
     
     const url = `${ROUTES_API_BASE}/distanceMatrix/v2:computeRouteMatrix`
     
-    logger.debug('Calculating route matrix', { originsCount: origins.length, destinationsCount: destinations.length })
-    
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -100,9 +99,6 @@ export async function calculateRouteMatrix(
       }
       
       const data = await response.json()
-      
-      // Log response for debugging
-      logger.debug('Routes API response', { count: Array.isArray(data) ? data.length : 'not array' })
       
       // Routes API returns an array of results
       if (!Array.isArray(data)) {
@@ -209,6 +205,18 @@ export async function calculateDriveTime(
     throw new MapsApiError('invalid', 'Destination location must have placeId, coordinates, or address')
   }
   
+  // Check cache first
+  const cached = getCachedDriveTime(origin, destination)
+  if (cached) {
+    return {
+      durationMinutes: Math.ceil(cached.durationSeconds / 60),
+      durationSeconds: cached.durationSeconds,
+      distanceMeters: cached.distanceMeters,
+      distanceMiles: Math.round(cached.distanceMeters / 1609.34 * 10) / 10,
+      source: 'cached'
+    }
+  }
+  
   // Attempt API call with retry for transient errors
   try {
     const results = await withRetry(
@@ -232,6 +240,9 @@ export async function calculateDriveTime(
     }
     
     const result = results[0]
+    
+    // Cache the result for future use
+    cacheDriveTime(origin, destination, result.durationSeconds, result.distanceMeters)
     
     return {
       durationMinutes: Math.ceil(result.durationSeconds / 60),

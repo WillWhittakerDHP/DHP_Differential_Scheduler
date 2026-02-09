@@ -1,29 +1,30 @@
 # Audit Meta Report (Generated)
 
-Generated at: 2026-02-08T23:31:55.243Z
+Generated at: 2026-02-09T16:43:28.285Z
 
 ## Audit Coverage
 
 | Audit | Files | Findings |
 | --- | ---: | ---: |
 | type-similarity | 0 | 0 |
-| component-logic | 63 | 63 |
-| composables-logic | 167 | 167 |
-| loop-mutation | 198 | 842 |
-| hardcoding | 212 | 1124 |
-| function-complexity | 356 | 356 |
+| component-logic | 65 | 65 |
+| composables-logic | 169 | 169 |
+| loop-mutation | 209 | 825 |
+| hardcoding | 244 | 1037 |
+| function-complexity | 385 | 385 |
 | pattern-detection | 0 | 0 |
 | duplication | 0 | 0 |
-| unused-code | 313 | 313 |
-| error-handling | 81 | 622 |
-| deprecation | 155 | 433 |
-| security | 78 | 78 |
-| todo-aging | 16 | 25 |
-| import-graph | 35 | 35 |
-| file-cohesion | 97 | 97 |
-| api-contract | 0 | 77 |
+| unused-code | 328 | 328 |
+| error-handling | 86 | 465 |
+| deprecation | 164 | 435 |
+| security | 19 | 19 |
+| todo-aging | 18 | 32 |
+| import-graph | 38 | 38 |
+| file-cohesion | 114 | 114 |
+| api-contract | 0 | 65 |
+| constants-consolidation | 85 | 211 |
 
-Audits loaded: 16 / 16
+Audits loaded: 17 / 17
 
 ## Top 10 Hotspot Files
 
@@ -31,37 +32,58 @@ Files appearing across the most audits with the highest combined weighted score.
 
 | File | Score | Audits | Which Audits |
 | --- | ---: | ---: | --- |
-| `server/src/routes/internal/properties/propertyRouter.ts` | 542.5 | 7 | hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract |
-| `server/src/routes/internal/entities/entityRouter.ts` | 482.5 | 7 | hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 463.5 | 7 | hardcoding, function-complexity, unused-code, error-handling, security, file-cohesion, api-contract |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | 362.0 | 7 | hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | 330.0 | 7 | loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, file-cohesion |
-| `server/src/services/googleMapsService.ts` | 310.0 | 7 | loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, file-cohesion |
-| `server/src/routes/internal/users/userRouter.ts` | 308.5 | 5 | hardcoding, error-handling, security, file-cohesion, api-contract |
-| `server/src/routes/internal/businessSettingsRouter.ts` | 257.0 | 6 | hardcoding, function-complexity, error-handling, security, file-cohesion, api-contract |
-| `server/src/scripts/fix-missing-layout-configs.mjs` | 238.0 | 5 | hardcoding, function-complexity, error-handling, security, file-cohesion |
-| `server/src/routes/internal/businessRulesRouter.ts` | 234.5 | 4 | hardcoding, error-handling, security, api-contract |
+| `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | 194.0 | 5 | function-complexity, error-handling, deprecation, security, file-cohesion |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 174.0 | 7 | loop-mutation, function-complexity, unused-code, error-handling, deprecation, file-cohesion, constants-consolidation |
+| `server/src/config/googleOAuth.ts` | 165.0 | 5 | loop-mutation, function-complexity, unused-code, error-handling, security |
+| `server/src/scripts/createAppointmentsFromCalendar.ts` | 158.5 | 5 | hardcoding, function-complexity, error-handling, deprecation, file-cohesion |
+| `server/src/scripts/fix-primitive-metadata-cleanup.mjs` | 157.0 | 5 | function-complexity, error-handling, deprecation, security, file-cohesion |
+| `client/src/configs/field/display/fullFieldDisplayConfig` | 150.0 | 1 | import-graph |
+| `server/src/scripts/manual-migrate-fieldmetadata.mjs` | 145.0 | 4 | function-complexity, error-handling, security, file-cohesion |
+| `server/src/app.ts` | 143.5 | 6 | hardcoding, function-complexity, unused-code, error-handling, security, constants-consolidation |
+| `server/src/services/google/maps/placesApiService.ts` | 140.5 | 5 | loop-mutation, hardcoding, function-complexity, error-handling, deprecation |
+| `client/src/views/admin/tabs/BusinessControlsTab.vue` | 135.5 | 7 | loop-mutation, hardcoding, function-complexity, unused-code, deprecation, todo-aging, file-cohesion |
+
+## Trend (vs previous run)
+
+- **type-similarity**: 0 → 0 (→ 0)
+- **component-logic**: 63 → 65 (↑ +2)
+- **composables-logic**: 167 → 169 (↑ +2)
+- **loop-mutation**: 842 → 825 (↓ -17)
+- **hardcoding**: 1055 → 1037 (↓ -18)
+- **function-complexity**: 371 → 385 (↑ +14)
+- **pattern-detection**: 0 → 0 (→ 0)
+- **duplication**: 0 → 0 (→ 0)
+- **unused-code**: 320 → 328 (↑ +8)
+- **error-handling**: 539 → 465 (↓ -74)
+- **deprecation**: 439 → 435 (↓ -4)
+- **security**: 82 → 19 (↓ -63)
+- **todo-aging**: 25 → 32 (↑ +7)
+- **import-graph**: 37 → 38 (↑ +1)
+- **file-cohesion**: 113 → 114 (↑ +1)
+- **api-contract**: 77 → 65 (↓ -12)
+- **constants-consolidation**: 190 → 211 (↑ +21)
 
 ## Exception Creep
 
-Total allowed exceptions across all audits: **1319**
+Total allowed exceptions across all audits: **1314**
+Previous run: 1319 (↓ -5)
 
 ## Cross-Audit Correlations
 
 Files that appear in 3+ different audits often have systemic issues:
 
-- `server/src/routes/internal/properties/propertyRouter.ts` (7 audits): hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract
-- `server/src/routes/internal/entities/entityRouter.ts` (7 audits): hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract
-- `server/src/routes/internal/relationships/relationshipRouter.ts` (7 audits): hardcoding, function-complexity, unused-code, error-handling, security, file-cohesion, api-contract
-- `server/src/routes/internal/appointments/appointmentRouter.ts` (7 audits): hardcoding, function-complexity, error-handling, deprecation, security, file-cohesion, api-contract
-- `client/src/utils/booking/timeAvailabilityManager.ts` (7 audits): loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, file-cohesion
-- `server/src/services/googleMapsService.ts` (7 audits): loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, file-cohesion
-- `server/src/routes/internal/users/userRouter.ts` (5 audits): hardcoding, error-handling, security, file-cohesion, api-contract
-- `server/src/routes/internal/businessSettingsRouter.ts` (6 audits): hardcoding, function-complexity, error-handling, security, file-cohesion, api-contract
-- `server/src/scripts/fix-missing-layout-configs.mjs` (5 audits): hardcoding, function-complexity, error-handling, security, file-cohesion
-- `server/src/routes/internal/businessRulesRouter.ts` (4 audits): hardcoding, error-handling, security, api-contract
-- `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` (5 audits): hardcoding, function-complexity, error-handling, security, api-contract
 - `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` (5 audits): function-complexity, error-handling, deprecation, security, file-cohesion
-- `server/src/scripts/importCalendarData.ts` (5 audits): hardcoding, function-complexity, error-handling, deprecation, file-cohesion
-- `client/src/components/admin/dev/ApiDevPanel.vue` (7 audits): loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, file-cohesion
-- `server/src/services/googleCalendarService.ts` (8 audits): loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation, security, file-cohesion
+- `client/src/utils/transformers/appointmentToWizardTransformer.ts` (7 audits): loop-mutation, function-complexity, unused-code, error-handling, deprecation, file-cohesion, constants-consolidation
+- `server/src/config/googleOAuth.ts` (5 audits): loop-mutation, function-complexity, unused-code, error-handling, security
+- `server/src/scripts/createAppointmentsFromCalendar.ts` (5 audits): hardcoding, function-complexity, error-handling, deprecation, file-cohesion
+- `server/src/scripts/fix-primitive-metadata-cleanup.mjs` (5 audits): function-complexity, error-handling, deprecation, security, file-cohesion
+- `server/src/scripts/manual-migrate-fieldmetadata.mjs` (4 audits): function-complexity, error-handling, security, file-cohesion
+- `server/src/app.ts` (6 audits): hardcoding, function-complexity, unused-code, error-handling, security, constants-consolidation
+- `server/src/services/google/maps/placesApiService.ts` (5 audits): loop-mutation, hardcoding, function-complexity, error-handling, deprecation
+- `client/src/views/admin/tabs/BusinessControlsTab.vue` (7 audits): loop-mutation, hardcoding, function-complexity, unused-code, deprecation, todo-aging, file-cohesion
+- `server/src/scripts/backfill-input-config-from-selectable.mjs` (5 audits): hardcoding, function-complexity, error-handling, security, constants-consolidation
+- `server/src/config/app.js` (5 audits): loop-mutation, function-complexity, unused-code, error-handling, file-cohesion
+- `server/src/services/calendarErrorHandler.ts` (6 audits): loop-mutation, hardcoding, function-complexity, unused-code, error-handling, deprecation
+- `server/src/services/constraintExtractor.ts` (5 audits): loop-mutation, hardcoding, function-complexity, unused-code, deprecation
+- `server/src/routes/helpers/createCrudRouter.ts` (7 audits): hardcoding, function-complexity, unused-code, error-handling, file-cohesion, api-contract, constants-consolidation
+- `server/src/test/setup/seedTestData.ts` (4 audits): hardcoding, function-complexity, unused-code, error-handling

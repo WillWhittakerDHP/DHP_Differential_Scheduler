@@ -11,12 +11,30 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { QueryClient } from '@tanstack/vue-query'
 import App from './App.vue'
-import { registerPlugins } from '@core/utils/plugins'
 import { setPiniaInstance } from './plugins/2.pinia'
 import { setQueryClient } from './plugins/3.vue-query'
 import { globalTransformer } from './utils/transformers/fetchToGlobalTransformer'
 import type { GlobalData } from './utils/transformers/fetchToGlobalTransformer'
 import { patchFormElements } from './utils/patchFormElements'
+import { createLogger } from './utils/logger'
+import router from '@/router'
+import { VueQueryPlugin } from '@tanstack/vue-query'
+import { createLayouts } from '@layouts'
+import { layoutConfig } from '@themeConfig'
+import type { PartialDeep } from 'type-fest'
+import { deepMerge } from '@antfu/utils'
+import { createVuetify } from 'vuetify'
+import { VBtn } from 'vuetify/components/VBtn'
+import { VVideo } from 'vuetify/labs/VVideo'
+import vuetifyDefaults from './plugins/5.vuetify/defaults'
+import { icons } from './plugins/5.vuetify/icons'
+import { staticPrimaryColor, staticPrimaryDarkenColor, themes } from './plugins/5.vuetify/theme'
+import { themeConfig } from '@themeConfig'
+import { resolveVuetifyTheme } from '@core/utils/vuetify'
+import { cookieRef } from '@layouts/stores/config'
+import '@core/scss/template/libs/vuetify/index.scss'
+import 'vuetify/styles'
+import '@layouts/styles/index.scss'
 
 import '@core/scss/template/index.scss'
 import '@styles/styles.scss'
@@ -120,6 +138,7 @@ const app = createApp(App)
 // LEARNING: Pinia is Vue's official state management library
 const pinia = createPinia()
 setPiniaInstance(pinia)
+app.use(pinia)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -130,6 +149,58 @@ const queryClient = new QueryClient({
   },
 })
 setQueryClient(queryClient)
+
+const logger = createLogger('main')
+
+// PATTERN: Register plugins directly (more explicit than auto-discovery)
+// WHY: Direct registration is clearer, easier to debug, and follows Vue best practices
+// LEARNING: Vue plugins are registered with app.use() - no need for auto-discovery magic
+
+// 1. Router
+app.use(router)
+
+// 2. Vue Query
+app.use(VueQueryPlugin, {
+  queryClient: queryClient,
+})
+
+// 3. Layouts (requires Pinia, so must come after)
+app.use(createLayouts(layoutConfig as PartialDeep<typeof layoutConfig, NonNullable<unknown>>))
+
+// 4. Vuetify (requires layouts for cookieRef, so must come after layouts)
+const cookieThemeValues = {
+  defaultTheme: resolveVuetifyTheme(themeConfig.app.theme),
+  themes: {
+    light: {
+      colors: {
+        'primary': cookieRef('lightThemePrimaryColor', staticPrimaryColor).value,
+        'primary-darken-1': cookieRef('lightThemePrimaryDarkenColor', staticPrimaryDarkenColor).value,
+      },
+    },
+    dark: {
+      colors: {
+        'primary': cookieRef('darkThemePrimaryColor', staticPrimaryColor).value,
+        'primary-darken-1': cookieRef('darkThemePrimaryDarkenColor', staticPrimaryDarkenColor).value,
+      },
+    },
+  },
+}
+
+const optionTheme = deepMerge({ themes }, cookieThemeValues)
+
+const vuetify = createVuetify({
+  aliases: {
+    IconBtn: VBtn,
+  },
+  components: {
+    VVideo,
+  },
+  defaults: vuetifyDefaults,
+  icons,
+  theme: optionTheme,
+})
+
+app.use(vuetify)
 
 // PATTERN: Use Vue transformer to fetch and transform configuration data
 const prefetchGlobalData = async () => {
@@ -145,20 +216,19 @@ const prefetchGlobalData = async () => {
   }
 }
 
-registerPlugins(app)
-
-// WHY: Mount app immediately for faster initial render
-// PATTERN: Mount app first, then prefetch data in background
-// LEARNING: Vue Query will deduplicate requests, so components calling useGlobal() 
-//           will either get cached data (if prefetch completes first) or share the same request
-//           (if components mount first). This provides instant UI with progressive data loading.
-app.mount('#app')
-
-// Start prefetch in background (non-blocking)
-// WHY: Pre-populate cache so components get data faster, but don't block UI rendering
-prefetchGlobalData().catch((error) => {
-  logger.error('Failed to prefetch global data', { error })
-  // Don't throw - app should continue working even if prefetch fails
-  // Components will fetch data themselves via useGlobal() if cache is empty
-})
+// WHY: Prefetch data before mounting to prevent race condition
+// PATTERN: Prefetch completes before components mount, ensuring cache is populated
+// LEARNING: This prevents duplicate API calls - components will read from cache instead of triggering new queries
+// FIX: Changed from mount-then-prefetch to prefetch-then-mount to eliminate race condition
+// PATTERN: Use async IIFE to handle async prefetch before mount
+(async () => {
+  try {
+    await prefetchGlobalData()
+    app.mount('#app')
+  } catch (error) {
+    logger.error('Failed to prefetch global data, mounting app anyway', { error })
+    // Mount app even if prefetch fails - components will fetch data themselves via useGlobal()
+    app.mount('#app')
+  }
+})()
 

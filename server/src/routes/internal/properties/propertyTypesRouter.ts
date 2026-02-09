@@ -13,6 +13,9 @@ import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS } from './propertyConst
 import { handleRouteError } from './propertyErrorHandler.js'
 import { validateRequiredField, validateBlockShape, validateBlockInstancesForPropertyTypes } from './propertyValidators.js'
 import { getBlockInstanceWithShape, buildPropertyTypeResponse, createPropertyTypesBulk, getPropertyTypesWithAssociations } from './propertyHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent, sendError } from '../../helpers/routerResponseHelpers.js'
+import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 
@@ -36,7 +39,7 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
       order: [['orderIndex', 'ASC']],
     })
     
-    res.json(propertyTypes)
+    sendSuccess(res, propertyTypes)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.FETCH_PROPERTY_TYPES, 'fetching property types')
   }
@@ -54,7 +57,10 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
  * WHY: Better error messages and prevents bad data from being attempted
  * PATTERN: Validate block_shape is "Properties" before attempting insert
  */
-router.post('/:id/types', async (req: Request, res: Response): Promise<void> => {
+router.post(
+  '/:id/types',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = req.params.id
     const { blockInstanceId, orderIndex = DEFAULT_VALUES.ORDER_INDEX } = req.body
@@ -62,38 +68,26 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
     // Validate required fields
     const fieldValidation = validateRequiredField(blockInstanceId, REQUIRED_FIELDS.PROPERTY_TYPE[0])
     if (!fieldValidation.valid) {
-      res.status(400).json({
-        error: fieldValidation.error,
-      })
+      sendBadRequest(res, fieldValidation.error)
       return
     }
     
     const propertyVersion = await PropertyVersion.findByPk(propertyVersionId)
     if (!propertyVersion) {
-      res.status(404).json({
-        error: ERROR_MESSAGES.PROPERTY_VERSION_NOT_FOUND,
-        propertyVersionId,
-      })
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_VERSION_NOT_FOUND, propertyVersionId)
       return
     }
     
     const blockInstance = await getBlockInstanceWithShape(blockInstanceId)
     
     if (!blockInstance) {
-      res.status(404).json({
-        error: ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND,
-        blockInstanceId,
-      })
+      sendNotFound(res, ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND, blockInstanceId)
       return
     }
     
     const blockShapeValidation = validateBlockShape(blockInstance, blockInstanceId)
     if (!blockShapeValidation.valid) {
-      res.status(400).json({
-        error: blockShapeValidation.error,
-        blockInstanceId,
-        ...blockShapeValidation.details,
-      })
+      sendBadRequest(res, blockShapeValidation.error, blockShapeValidation.details?.message as string, blockInstanceId)
       return
     }
     
@@ -105,28 +99,24 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
     
     const completePropertyType = await buildPropertyTypeResponse(propertyType.id)
     
-    res.status(201).json(completePropertyType)
+    sendCreated(res, completePropertyType)
   } catch (error) {
     // Handle database constraint errors
     if (error instanceof Error && error.message.includes('block_instance_id must reference')) {
-      res.status(400).json({
-        error: ERROR_MESSAGES.INVALID_BLOCK_SHAPE,
-        details: error.message,
-      })
+      sendBadRequest(res, ERROR_MESSAGES.INVALID_BLOCK_SHAPE, error.message)
       return
     }
     
     // Check for unique constraint violation
     if (error instanceof Error && error.message.includes('duplicate key')) {
-      res.status(409).json({
-        error: ERROR_MESSAGES.PROPERTY_TYPE_ALREADY_ASSIGNED,
-      })
+      sendError(res, ERROR_MESSAGES.PROPERTY_TYPE_ALREADY_ASSIGNED, HTTP_STATUS_CODES.CONFLICT)
       return
     }
     
     handleRouteError(error, res, ERROR_MESSAGES.ADD_PROPERTY_TYPE, 'adding property type')
   }
-})
+  }
+)
 
 /**
  * PATCH /properties/:id/types/:typeId
@@ -136,7 +126,11 @@ router.post('/:id/types', async (req: Request, res: Response): Promise<void> => 
  * WHY: Allows reordering of property types
  * PATTERN: Find by ID, update orderIndex, reload with associations
  */
-router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<void> => {
+router.patch(
+  '/:id/types/:typeId',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('propertyType', 'typeId'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { typeId } = req.params
     const { orderIndex } = req.body
@@ -144,10 +138,7 @@ router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<
     const propertyType = await PropertyVersionType.findByPk(typeId)
     
     if (!propertyType) {
-      res.status(404).json({
-        error: ERROR_MESSAGES.PROPERTY_TYPE_NOT_FOUND,
-        typeId,
-      })
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_TYPE_NOT_FOUND, typeId)
       return
     }
     
@@ -157,11 +148,12 @@ router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<
     
     const completePropertyType = await buildPropertyTypeResponse(propertyType.id)
     
-    res.json(completePropertyType)
+    sendSuccess(res, completePropertyType)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.UPDATE_PROPERTY_TYPE, 'updating property type')
   }
-})
+  }
+)
 
 /**
  * DELETE /properties/:id/types/:typeId
@@ -171,27 +163,29 @@ router.patch('/:id/types/:typeId', async (req: Request, res: Response): Promise<
  * WHY: Removes property type from property
  * PATTERN: Find by ID, destroy if found, return 204 on success
  */
-router.delete('/:id/types/:typeId', async (req: Request, res: Response): Promise<void> => {
+router.delete(
+  '/:id/types/:typeId',
+  csrfProtection, // Security middleware: CSRF protection
+  checkOwnership('propertyType', 'typeId'), // Security middleware: ownership check (stub)
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const { typeId } = req.params
     
     const propertyType = await PropertyVersionType.findByPk(typeId)
     
     if (!propertyType) {
-      res.status(404).json({
-        error: ERROR_MESSAGES.PROPERTY_TYPE_NOT_FOUND,
-        typeId,
-      })
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_TYPE_NOT_FOUND, typeId)
       return
     }
     
     await propertyType.destroy()
     
-    res.status(204).send()
+    sendNoContent(res)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.REMOVE_PROPERTY_TYPE, 'removing property type')
   }
-})
+  }
+)
 
 /**
  * PUT /properties/:id/types
@@ -206,17 +200,17 @@ router.delete('/:id/types/:typeId', async (req: Request, res: Response): Promise
  * 
  * NOTE: Complexity reduction will extract validation and bulk creation logic
  */
-router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
+router.put(
+  '/:id/types',
+  csrfProtection, // Security middleware: CSRF protection
+  async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = req.params.id
     const { blockInstanceIds = [] } = req.body
     
     const propertyVersion = await PropertyVersion.findByPk(propertyVersionId)
     if (!propertyVersion) {
-      res.status(404).json({
-        error: ERROR_MESSAGES.PROPERTY_VERSION_NOT_FOUND,
-        propertyVersionId,
-      })
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_VERSION_NOT_FOUND, propertyVersionId)
       return
     }
     
@@ -229,10 +223,8 @@ router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
       
       const validation = validateBlockInstancesForPropertyTypes(blockInstances, blockInstanceIds)
       if (!validation.valid) {
-        res.status(validation.details?.invalidBlockInstanceIds ? 400 : 404).json({
-          error: validation.error,
-          ...validation.details,
-        })
+        const statusCode = validation.details?.invalidBlockInstanceIds ? HTTP_STATUS_CODES.BAD_REQUEST : HTTP_STATUS_CODES.NOT_FOUND
+        sendError(res, validation.error, statusCode, validation.details?.message as string)
         return
       }
     }
@@ -244,10 +236,11 @@ router.put('/:id/types', async (req: Request, res: Response): Promise<void> => {
     
     const propertyTypes = await getPropertyTypesWithAssociations(propertyVersionId)
     
-    res.json(propertyTypes)
+    sendSuccess(res, propertyTypes)
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.REPLACE_PROPERTY_TYPES, 'replacing property types')
   }
-})
+  }
+)
 
 export { router as PropertyTypesRouter }

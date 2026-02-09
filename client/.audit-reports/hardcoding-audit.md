@@ -13,44 +13,44 @@ Exception handling:
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **212**
-- **Requiring review: 1124**
+- Total files scanned: **244**
+- **Requiring review: 1037**
 - Allowed (with justification): 224 (inline: 0, pattern: 224, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/googleMapsService.ts` | 99 | 0 | 0 | 0 | 0 | 16 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/dev/ApiDevPanel.vue` | 48 | 0 | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/maps/placesApiService.ts` | 51 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | 47 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipRouter.ts` | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyRouter.ts` | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/calendarErrorHandler.ts` | 39 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/external/calendarRoutes.ts` | 38 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/users/userRouter.ts` | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/relationships/relationshipConstants.ts` | 36 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/external/calendarRoutes.ts` | 35 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/external/mapsRoutes.ts` | 28 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/appointments/appointmentRouter.ts` | 28 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/entities/entityRouter.ts` | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/timeAvailabilityManager.ts` | 23 | 0 | 0 | 4 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/backfill-input-config-from-selectable.mjs` | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/overlapConstraintChecker.ts` | 22 | 0 | 0 | 4 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/maps/routesApiService.ts` | 22 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/properties/propertyConstants.ts` | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/admin/entityDisplayText.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/businessRulesRouter.ts` | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/businessSettingsRouter.ts` | 15 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/importCalendarData.ts` | 15 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
 | `client/src/composables/admin/useBusinessRules.ts` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/appointmentSlotBuilder.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/config/entityRegistry.ts` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/importCalendarData.ts` | 14 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
 | `client/src/components/admin/generic/EntityCard.vue` | 13 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/PropertyDetailsStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/external/googleOauthRoutes.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/test/setup/seedTestData.ts` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/fixUserRolesAndEmails.ts` | 12 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/services/computedAvailabilityService.ts` | 12 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -64,17 +64,11 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `server/src/services/googleMapsService.ts`
+### `server/src/services/google/maps/placesApiService.ts`
 
-- score: **99**
+- score: **51**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/admin/dev/ApiDevPanel.vue`
-
-- score: **48**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
 ### `client/src/views/admin/tabs/BusinessRulesTab.vue`
 
@@ -88,9 +82,15 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/utils/booking/timeAvailabilityManager.ts`
+### `client/src/utils/booking/overlapConstraintChecker.ts`
 
-- score: **23**
+- score: **22**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/services/google/maps/routesApiService.ts`
+
+- score: **22**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
@@ -106,17 +106,17 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
+### `server/src/scripts/importCalendarData.ts`
+
+- score: **15**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ### `client/src/layouts/components/NavSearchBar.vue`
 
 - score: **14**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `server/src/scripts/importCalendarData.ts`
-
-- score: **14**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/components/admin/generic/EntityCard.vue`
 
@@ -203,7 +203,7 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `server/src/scripts/fix-missing-layout-configs.mjs`
+### `server/src/services/google/maps/mapsHelpers.ts`
 
 - score: **6**
 
@@ -237,108 +237,47 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 Legend: `ruleId@lineNumber: line`
 
-### `server/src/services/googleMapsService.ts`
+### `server/src/services/google/maps/placesApiService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=16, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=51
-- requiring review: 67, allowed: 0
-
-```
-magicLabel@14: const logger = createLogger('GoogleMapsService');
-magicLabel@29: throw new MapsApiError('auth', 'Google Maps API key not configured');
-magicLabel@59: this.name = 'MapsApiError';
-magicLabel@208: logger.debug('Fetching autocomplete', { input });
-fieldMapping@224: logger.debug('Autocomplete API status', { status: data.status });
-magicLabel@224: logger.debug('Autocomplete API status', { status: data.status });
-fieldMapping@226: logger.error('API error_message', { errorMessage: data.error_message });
-magicLabel@231: throw new MapsApiError('auth', data.error_message || 'API key invalid or restricted');
-magicLabel@235: throw new MapsApiError('rate_limit', 'API quota exceeded', true);
-magicLabel@239: throw new MapsApiError('invalid', data.error_message || 'Invalid autocomplete request');
-fieldMapping@255: logger.debug('Found suggestions', { count: predictions.length });
-magicLabel@255: logger.debug('Found suggestions', { count: predictions.length });
-magicLabel@265: logger.error('Autocomplete error', { error });
-magicLabel@268: error instanceof Error ? error.message : 'Network error',
-magicLabel@290: throw new MapsApiError('invalid', 'Place ID is required');
-magicLabel@321: logger.debug('Fetching place details', { placeId });
-magicLabel@338: throw new MapsApiError('auth', 'API key invalid or restricted');
-magicLabel@342: throw new MapsApiError('rate_limit', 'API quota exceeded', true);
-magicLabel@346: throw new MapsApiError('not_found', 'Place not found');
-magicLabel@350: throw new MapsApiError('invalid', 'Invalid response from Places API');
-magicLabel@362: throw new MapsApiError('invalid', 'Place has no coordinates');
-fieldMapping@375: logger.debug('Got place details', { formattedAddress: placeDetails.formattedAddress });
-magicLabel@375: logger.debug('Got place details', { formattedAddress: placeDetails.formattedAddress });
-magicLabel@385: logger.error('Place details error', { error });
-magicLabel@388: error instanceof Error ? error.message : 'Network error',
-fieldMapping@436: logger.debug('Geocoding address to placeId', { address: address.substring(0, 50) });
-magicLabel@436: logger.debug('Geocoding address to placeId', { address: address.substring(0, 50) });
-fieldMapping@442: logger.warn('Geocoding HTTP error', { status: response.status });
-magicLabel@442: logger.warn('Geocoding HTTP error', { status: response.status });
-magicLabel@450: logger.warn('Geocoding denied - API key invalid or restricted');
-magicLabel@455: logger.warn('Geocoding quota exceeded');
-fieldMapping@460: logger.debug('No place found for address', { address: address.substring(0, 50) });
-magicLabel@460: logger.debug('No place found for address', { address: address.substring(0, 50) });
-fieldMapping@465: logger.warn('Geocoding error status', { status: data.status });
-magicLabel@465: logger.warn('Geocoding error status', { status: data.status });
-magicLabel@472: logger.debug('Geocoded address to placeId', { placeId });
-magicLabel@480: logger.warn('Geocoding error', { error: error instanceof Error ? error.message : 'Unknown error' });
-fieldMapping@549: return { placeId: location.placeId };
-fieldMapping@566: return { address: location.address };
-magicLabel@591: throw new MapsApiError('invalid', 'At least one origin is required');
-magicLabel@594: throw new MapsApiError('invalid', 'At least one destination is required');
-fieldMapping@630: logger.debug('Calculating route matrix', { originsCount: origins.length, destinationsCount: destinations.length });
-magicLabel@630: logger.debug('Calculating route matrix', { originsCount: origins.length, destinationsCount: destinations.length });
-magicLabel@636: 'Content-Type': 'application/json',
-magicLabel@637: 'X-Goog-Api-Key': apiKey,
-magicLabel@638: 'X-Goog-FieldMask': 'originIndex,destinationIndex,duration,distanceMeters,status,condition'
-fieldMapping@645: logger.error('Routes API HTTP error', { status: response.status, errorText });
-magicLabel@645: logger.error('Routes API HTTP error', { status: response.status, errorText });
-magicLabel@651: throw new MapsApiError('rate_limit', 'Routes API quota exceeded', true);
-fieldMapping@664: logger.debug('Routes API response', { count: Array.isArray(data) ? data.length : 'not array' });
-magicLabel@664: logger.debug('Routes API response', { count: Array.isArray(data) ? data.length : 'not array' });
-magicLabel@668: logger.error('Unexpected response format', { data });
-magicLabel@669: throw new MapsApiError('invalid', 'Unexpected response format from Routes API');
-fieldMapping@701: logger.debug('Route matrix complete', { resultsCount: results.length });
-magicLabel@701: logger.debug('Route matrix complete', { resultsCount: results.length });
-magicLabel@711: logger.error('Route matrix error', { error });
-magicLabel@714: error instanceof Error ? error.message : 'Network error',
-magicLabel@785: error instanceof Error ? error.message : 'Unknown error',
-fieldMapping@795: logger.error('Non-retryable error', { errorType: lastError.type, message: lastError.message });
-magicLabel@795: logger.error('Non-retryable error', { errorType: lastError.type, message: lastError.message });
-fieldMapping@801: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries });
-magicLabel@801: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries });
-magicLabel@807: logger.warn('Retrying after delay', {
-magicLabel@819: throw lastError || new MapsApiError('unknown', 'Retry failed');
-magicLabel@851: logger.warn('Missing origin location data');
-magicLabel@865: logger.warn('Missing destination location data');
-magicLabel@885: logger.warn('No route found between locations');
-```
-
-### `client/src/components/admin/dev/ApiDevPanel.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=9, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 21, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=8, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=27
+- requiring review: 35, allowed: 0
 
 ```
-magicLabel@126: errors.value.oauth = error.response?.data?.message || error.message || 'Failed to fetch OAuth status'
-magicLabel@144: errors.value.freebusy = error.response?.data?.message || error.message || 'Failed to fetch free-busy cache'
-magicLabel@162: errors.value.events = error.response?.data?.message || error.message || 'Failed to fetch events cache'
-magicLabel@195: errors.value.ratelimit = 'Failed to fetch rate limit stats for both APIs'
-magicLabel@198: errors.value.ratelimit = error.response?.data?.message || error.message || 'Failed to fetch rate limit stats'
-magicLabel@216: errors.value.drivetime = error.response?.data?.message || error.message || 'Failed to fetch drive time cache'
-caseString@251: case 'status':
-caseString@255: case 'freebusy':
-caseString@259: case 'drivetime':
-caseString@373: case 'hit': return 'success'
-caseString@374: case 'error': return 'error'
-caseString@375: case 'not_called': return 'default'
-caseString@382: case 'hit': return 'Hit'
-caseString@383: case 'error': return 'Error'
-caseString@384: case 'not_called': return 'Not Called'
-magicLabel@384: case 'not_called': return 'Not Called'
-magicLabel@747: {{ devPanelData.dateRange ? 'Date range available' : 'Waiting for date range' }}
-magicLabel@880: {{ entry.expired ? 'Expired' : 'Valid' }}
-magicLabel@972: {{ entry.expired ? 'Expired' : 'Valid' }}
-magicLabel@1044: {{ entry.expired ? 'Expired' : 'Valid' }}
-magicLabel@1345: font-family: 'Roboto Mono', monospace;
+magicLabel@22: const logger = createLogger('PlacesApiService')
+magicLabel@64: logger.debug('Fetching autocomplete', { input })
+fieldMapping@80: logger.debug('Autocomplete API status', { status: data.status })
+magicLabel@80: logger.debug('Autocomplete API status', { status: data.status })
+fieldMapping@82: logger.error('API error_message', { errorMessage: data.error_message })
+magicLabel@87: throw new MapsApiError('auth', data.error_message || 'API key invalid or restricted')
+magicLabel@91: throw new MapsApiError('rate_limit', 'API quota exceeded', true)
+magicLabel@95: throw new MapsApiError('invalid', data.error_message || 'Invalid autocomplete request')
+fieldMapping@111: logger.debug('Found suggestions', { count: predictions.length })
+magicLabel@111: logger.debug('Found suggestions', { count: predictions.length })
+magicLabel@121: logger.error('Autocomplete error', { error })
+magicLabel@124: error instanceof Error ? error.message : 'Network error',
+magicLabel@147: throw new MapsApiError('invalid', 'Place ID is required')
+magicLabel@168: logger.debug('Fetching place details', { placeId })
+magicLabel@185: throw new MapsApiError('auth', 'API key invalid or restricted')
+magicLabel@189: throw new MapsApiError('rate_limit', 'API quota exceeded', true)
+magicLabel@193: throw new MapsApiError('not_found', 'Place not found')
+magicLabel@197: throw new MapsApiError('invalid', 'Invalid response from Places API')
+magicLabel@209: throw new MapsApiError('invalid', 'Place has no coordinates')
+fieldMapping@222: logger.debug('Got place details', { formattedAddress: placeDetails.formattedAddress })
+magicLabel@222: logger.debug('Got place details', { formattedAddress: placeDetails.formattedAddress })
+magicLabel@232: logger.error('Place details error', { error })
+magicLabel@235: error instanceof Error ? error.message : 'Network error',
+magicLabel@263: logger.debug('Geocoding cache hit', {
+fieldMapping@278: logger.debug('Geocoding cache miss, calling API', { address: address.substring(0, 50) })
+fieldMapping@301: logger.warn('Geocoding HTTP error', { status: response.status })
+magicLabel@301: logger.warn('Geocoding HTTP error', { status: response.status })
+magicLabel@309: logger.warn('Geocoding denied - API key invalid or restricted')
+magicLabel@314: logger.warn('Geocoding quota exceeded')
+fieldMapping@319: logger.debug('No place found for address', { address: address.substring(0, 50) })
+magicLabel@319: logger.debug('No place found for address', { address: address.substring(0, 50) })
+fieldMapping@324: logger.warn('Geocoding error status', { status: data.status })
+magicLabel@324: logger.warn('Geocoding error status', { status: data.status })
+magicLabel@331: logger.debug('Geocoded address to placeId', {
+magicLabel@347: logger.warn('Geocoding error', { error: error instanceof Error ? error.message : 'Unknown error' })
 ```
 
 ### `client/src/views/admin/tabs/BusinessRulesTab.vue`
@@ -374,108 +313,6 @@ magicLabel@485: hint="Link to annotation instance for validation message"
 magicLabel@495: hint="Enable this rule for validation"
 ```
 
-### `server/src/routes/internal/relationships/relationshipRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=44
-- requiring review: 44, allowed: 0
-
-```
-magicLabel@52: displayName: 'Valid Cascade',
-magicLabel@58: displayName: 'Valid Part',
-magicLabel@64: displayName: 'Valid Annotation',
-magicLabel@70: displayName: 'Valid Event',
-magicLabel@76: displayName: 'Dependent Instance',
-magicLabel@82: displayName: 'Booking Cascade',
-magicLabel@88: displayName: 'Part Assignment',
-magicLabel@94: displayName: 'Annotation Assignment',
-magicLabel@100: displayName: 'Event Assignment',
-magicLabel@106: displayName: 'Attendee Assignment',
-magicLabel@112: displayName: 'Instance Component',
-magicLabel@264: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@378: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@387: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@404: error: 'Parent and child cannot be the same entity',
-magicLabel@437: error: 'BlockInstance not found',
-magicLabel@483: error: 'Components must have the same BlockShape as their parent',
-magicLabel@492: error: 'Error validating entities',
-magicLabel@493: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@510: error: 'Error checking circular references',
-magicLabel@511: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@532: error: 'Component relationship already exists',
-magicLabel@550: error: 'Invalid parent entity',
-magicLabel@560: error: 'Invalid child entity',
-magicLabel@573: error: 'Invalid block shape reference',
-magicLabel@581: error: 'Invalid attendee type',
-magicLabel@627: if (error?.name === 'SequelizeUniqueConstraintError' || error?.parent?.code === '23505') {
-magicLabel@629: error: 'Relationship already exists',
-magicLabel@639: if (error?.name === 'SequelizeForeignKeyConstraintError' || error?.parent?.code === '23503') {
-magicLabel@641: error: 'Invalid entity reference',
-magicLabel@642: details: error.message || 'One of the referenced entities does not exist',
-magicLabel@652: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@668: error: 'Instance component not found',
-magicLabel@688: error: 'Error updating instance component',
-magicLabel@689: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@702: error: 'Instance component not found',
-magicLabel@728: message: 'Instance component deleted successfully',
-magicLabel@734: error: 'Error deleting instance component',
-magicLabel@735: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@763: error: 'Annotation assignment not found',
-magicLabel@781: error: 'Error updating annotation assignment',
-magicLabel@782: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@790: res.status(500).json({ error: 'Relationship configuration missing' });
-magicLabel@821: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `server/src/routes/internal/properties/propertyRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=42
-- requiring review: 42, allowed: 0
-
-```
-magicLabel@66: error: 'Failed to fetch properties',
-magicLabel@67: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@83: error: 'Property not found',
-magicLabel@94: error: 'Error fetching property',
-magicLabel@95: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@131: error: 'Missing required fields',
-magicLabel@177: error: 'Failed to create property',
-magicLabel@178: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@194: error: 'Property not found',
-magicLabel@240: error: 'Failed to update property',
-magicLabel@241: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@257: error: 'Property not found',
-magicLabel@285: error: 'Failed to patch property',
-magicLabel@286: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@297: error: 'Property not found',
-magicLabel@309: error: 'Failed to delete property',
-magicLabel@310: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@341: error: 'Failed to fetch property types',
-magicLabel@342: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@352: * - blockInstanceId: UUID of the block_instance (must be "Properties" block_shape)
-magicLabel@357: * PATTERN: Validate block_shape is "Properties" before attempting insert
-magicLabel@375: error: 'Property version not found',
-magicLabel@387: error: 'Block instance not found',
-magicLabel@396: if (!blockShape || blockShape.name !== 'Properties') {
-magicLabel@398: error: 'Block instance must have "Properties" block_shape',
-magicLabel@419: error: 'Block instance must have "Properties" block_shape',
-magicLabel@428: error: 'Property type already assigned to this property version',
-magicLabel@435: error: 'Failed to add property type',
-magicLabel@436: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@450: error: 'Property type not found',
-magicLabel@468: error: 'Failed to update property type',
-magicLabel@469: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@482: error: 'Property type not found',
-magicLabel@494: error: 'Failed to remove property type',
-magicLabel@495: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@519: error: 'Property version not found',
-magicLabel@525: // Validate all blockInstanceIds have "Properties" block_shape
-magicLabel@533: !bi.block_shape || bi.block_shape.name !== 'Properties'
-magicLabel@538: error: 'All block instances must have "Properties" block_shape',
-magicLabel@549: error: 'Some block instances not found',
-magicLabel@584: error: 'Failed to replace property types',
-magicLabel@585: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
 ### `server/src/services/calendarErrorHandler.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
@@ -501,32 +338,6 @@ magicLabel@137: return new CalendarApiError('notFound', 'Resource not found', {
 magicLabel@145: return new CalendarApiError('rateLimit', 'Rate limit exceeded', {
 magicLabel@161: return new CalendarApiError('unknown', error.message || 'Unknown error', {
 magicLabel@254: throw lastError || new CalendarApiError('unknown', 'Retry failed');
-```
-
-### `server/src/routes/external/calendarRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 18, allowed: 0
-
-```
-switchTypeLike@30: switch (error.type) {
-caseString@31: case 'auth':
-caseString@33: case 'permission':
-caseString@35: case 'rateLimit':
-caseString@37: case 'notFound':
-caseString@39: case 'network':
-caseString@40: case 'timeout':
-caseString@42: case 'invalid':
-magicLabel@228: message: error.message || 'An unexpected error occurred'
-magicLabel@248: error: 'Debug endpoints are not available in production'
-magicLabel@275: error: 'Internal server error',
-magicLabel@276: message: error.message || 'An unexpected error occurred'
-magicLabel@289: error: 'Debug endpoints are not available in production'
-magicLabel@316: error: 'Internal server error',
-magicLabel@317: message: error.message || 'An unexpected error occurred'
-magicLabel@330: error: 'Debug endpoints are not available in production'
-magicLabel@341: error: 'Internal server error',
-magicLabel@342: message: error.message || 'An unexpected error occurred'
 ```
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue`
@@ -574,46 +385,71 @@ magicLabel@1606: label="Major State Label"
 magicLabel@1614: label="Minor State Label"
 ```
 
-### `server/src/routes/internal/users/userRouter.ts`
+### `server/src/routes/internal/relationships/relationshipConstants.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=34
-- requiring review: 34, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=36
+- requiring review: 36, allowed: 0
 
 ```
-magicLabel@21: error: 'Failed to fetch users',
-magicLabel@22: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@33: error: 'User not found',
-magicLabel@43: error: 'Error fetching user',
-magicLabel@44: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@59: (error.name === 'SequelizeValidationError' ||
-magicLabel@60: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@63: if (validationError.name === 'SequelizeUniqueConstraintError') {
-magicLabel@69: error: 'Validation failed',
-magicLabel@81: const message = err.message || 'Validation error';
-magicLabel@86: error: 'Validation failed',
-magicLabel@95: error: 'Failed to create user',
-magicLabel@96: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@107: error: 'User not found',
-magicLabel@120: (error.name === 'SequelizeValidationError' ||
-magicLabel@121: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@124: if (validationError.name === 'SequelizeUniqueConstraintError') {
-magicLabel@129: error: 'Validation failed',
-magicLabel@140: const message = err.message || 'Validation error';
-magicLabel@145: error: 'Validation failed',
-magicLabel@153: error: 'Failed to update user',
-magicLabel@154: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@165: error: 'User not found',
-magicLabel@178: (error.name === 'SequelizeValidationError' ||
-magicLabel@179: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@182: if (validationError.name === 'SequelizeUniqueConstraintError') {
-magicLabel@187: error: 'Validation failed',
-magicLabel@198: const message = err.message || 'Validation error';
-magicLabel@203: error: 'Validation failed',
-magicLabel@211: error: 'Failed to patch user',
-magicLabel@212: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@223: error: 'User not found',
-magicLabel@233: error: 'Failed to delete user',
-magicLabel@234: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@53: displayName: 'Valid Cascade',
+magicLabel@59: displayName: 'Valid Part',
+magicLabel@65: displayName: 'Valid Annotation',
+magicLabel@71: displayName: 'Valid Event',
+magicLabel@77: displayName: 'Dependent Instance',
+magicLabel@83: displayName: 'Booking Cascade',
+magicLabel@89: displayName: 'Part Assignment',
+magicLabel@95: displayName: 'Annotation Assignment',
+magicLabel@101: displayName: 'Event Assignment',
+magicLabel@107: displayName: 'Attendee Assignment',
+magicLabel@113: displayName: 'Instance Component',
+magicLabel@127: FETCH_RELATIONSHIPS: 'Failed to fetch relationships',
+magicLabel@128: CREATE_RELATIONSHIP: 'Error creating relationship',
+magicLabel@129: UPDATE_INSTANCE_COMPONENT: 'Error updating instance component',
+magicLabel@130: UPDATE_ANNOTATION_ASSIGNMENT: 'Error updating annotation assignment',
+magicLabel@131: DELETE_RELATIONSHIP: 'Error deleting relationship',
+magicLabel@132: DELETE_INSTANCE_COMPONENT: 'Error deleting instance component',
+magicLabel@135: UNKNOWN_RELATIONSHIP_KIND: 'Unknown relationship kind',
+magicLabel@136: RELATIONSHIP_CONFIG_MISSING: 'Relationship configuration missing',
+magicLabel@137: MODEL_NOT_AVAILABLE: 'Model not available',
+magicLabel@139: PARENT_CHILD_SAME: 'Parent and child cannot be the same entity',
+magicLabel@140: PARENT_NOT_FOUND: 'Parent BlockInstance not found',
+magicLabel@141: CHILD_NOT_FOUND: 'Child BlockInstance not found',
+magicLabel@142: BLOCK_INSTANCE_NOT_FOUND: 'BlockInstance not found',
+magicLabel@143: BLOCK_SHAPE_MISSING: 'BlockInstance missing BlockShape',
+magicLabel@145: DIFFERENT_BLOCK_SHAPES: 'Components must have the same BlockShape as their parent',
+magicLabel@147: COMPONENT_ALREADY_EXISTS: 'Component relationship already exists',
+magicLabel@148: INVALID_PARENT_ENTITY: 'Invalid parent entity',
+magicLabel@149: INVALID_CHILD_ENTITY: 'Invalid child entity',
+magicLabel@150: INVALID_BLOCK_SHAPE_REFERENCE: 'Invalid block shape reference',
+magicLabel@151: INVALID_ATTENDEE_TYPE: 'Invalid attendee type',
+magicLabel@152: RELATIONSHIP_ALREADY_EXISTS: 'Relationship already exists',
+magicLabel@153: INVALID_ENTITY_REFERENCE: 'Invalid entity reference',
+magicLabel@154: INSTANCE_COMPONENT_NOT_FOUND: 'Instance component not found',
+magicLabel@155: ANNOTATION_ASSIGNMENT_NOT_FOUND: 'Annotation assignment not found',
+magicLabel@156: RELATIONSHIP_NOT_FOUND: 'Relationship not found',
+```
+
+### `server/src/routes/external/calendarRoutes.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 15, allowed: 0
+
+```
+switchTypeLike@29: switch (error.type) {
+caseString@30: case 'auth':
+caseString@32: case 'permission':
+caseString@34: case 'rateLimit':
+caseString@36: case 'notFound':
+caseString@38: case 'network':
+caseString@39: case 'timeout':
+caseString@41: case 'invalid':
+magicLabel@227: message: error.message || 'An unexpected error occurred'
+magicLabel@247: error: 'Debug endpoints are not available in production'
+magicLabel@274: error: 'Internal server error',
+magicLabel@275: message: error.message || 'An unexpected error occurred'
+magicLabel@288: error: 'Debug endpoints are not available in production'
+magicLabel@299: error: 'Internal server error',
+magicLabel@300: message: error.message || 'An unexpected error occurred'
 ```
 
 ### `server/src/routes/external/mapsRoutes.ts`
@@ -622,105 +458,20 @@ magicLabel@234: details: error instanceof Error ? error.message : 'Unknown error
 - requiring review: 14, allowed: 0
 
 ```
-magicLabel@77: error: 'Internal server error',
-magicLabel@130: error: 'Internal server error',
-magicLabel@178: res.status(403).json({ error: 'Debug endpoints disabled in production' });
-magicLabel@205: res.status(403).json({ error: 'Debug endpoints disabled in production' });
-magicLabel@239: error: 'Internal server error',
-magicLabel@240: message: error.message || 'An unexpected error occurred'
-magicLabel@256: res.status(403).json({ error: 'Debug endpoints disabled in production' });
-magicLabel@261: res.json({ success: true, message: 'Drive time cache cleared' });
-switchTypeLike@269: switch (type) {
-caseString@270: case 'auth':
-caseString@272: case 'rate_limit':
-caseString@274: case 'invalid':
-caseString@276: case 'not_found':
-caseString@278: case 'network':
-```
-
-### `server/src/routes/internal/appointments/appointmentRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=25
-- requiring review: 26, allowed: 0
-
-```
-magicLabel@28: const logger = createLogger('AppointmentRouter');
-magicLabel@63: logger.debug('Calendar integration not enabled');
-fieldMapping@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email });
-magicLabel@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email });
-magicLabel@82: logger.debug('No writeTo calendar configured');
-magicLabel@85: logger.error('Error reading writeTo calendar from settings', { error });
-magicLabel@140: error: 'Failed to fetch appointments',
-magicLabel@141: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@154: error: 'Appointment not found',
-magicLabel@164: error: 'Error fetching appointment',
-magicLabel@165: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@199: throw new Error('One or more snapshot IDs are invalid');
-magicLabel@304: error: 'Failed to create appointment',
-magicLabel@305: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@316: error: 'Appointment not found',
-magicLabel@330: error: 'Failed to update appointment',
-magicLabel@331: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@342: error: 'Appointment not found',
-magicLabel@356: error: 'Failed to patch appointment',
-magicLabel@357: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@368: error: 'Appointment not found',
-magicLabel@378: error: 'Failed to delete appointment',
-magicLabel@379: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@390: error: 'Appointment not found',
-magicLabel@410: error: 'Error fetching appointment versions',
-magicLabel@411: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `server/src/routes/internal/entities/entityRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=27
-- requiring review: 27, allowed: 0
-
-```
-magicLabel@33: error: 'Failed to fetch entity configuration',
-magicLabel@34: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@61: return res.status(500).json({ error: 'Entity configuration error' });
-magicLabel@68: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@102: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@110: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@130: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@138: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@160: (error.name === 'SequelizeValidationError' ||
-magicLabel@161: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@165: if (validationError.name === 'SequelizeUniqueConstraintError') {
-magicLabel@181: const message = err.message || 'Validation error';
-magicLabel@203: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@211: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@322: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@330: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@347: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@367: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@377: error: 'Request body must be an array of update objects',
-magicLabel@417: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@425: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@534: error: 'Mutual exclusivity violation',
-magicLabel@544: (error.name === 'SequelizeValidationError' ||
-magicLabel@545: error.name === 'SequelizeUniqueConstraintError')) {
-magicLabel@558: details: error instanceof Error ? error.message : 'Unknown error'
-magicLabel@566: res.status(500).json({ error: 'Entity configuration missing' });
-magicLabel@607: details: error instanceof Error ? error.message : 'Unknown error'
-```
-
-### `client/src/utils/booking/timeAvailabilityManager.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=4, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 8, allowed: 0
-
-```
-caseString@119: case 'all':
-caseString@122: case 'skipDayStart':
-caseString@139: case 'skipDayEnd':
-caseString@156: case 'none':
-magicLabel@182: this.name = 'ConstraintValidationError'
-switchTypeLike@385: switch (constraint.type) {
-fieldMapping@512: { start: busy.start, end: busy.end }
-fieldMapping@588: { start: busy.start, end: busy.end }
+magicLabel@79: error: 'Internal server error',
+magicLabel@132: error: 'Internal server error',
+magicLabel@180: res.status(403).json({ error: 'Debug endpoints disabled in production' });
+magicLabel@207: res.status(403).json({ error: 'Debug endpoints disabled in production' });
+magicLabel@241: error: 'Internal server error',
+magicLabel@242: message: error.message || 'An unexpected error occurred'
+magicLabel@258: res.status(403).json({ error: 'Debug endpoints disabled in production' });
+magicLabel@263: res.json({ success: true, message: 'Drive time cache cleared' });
+switchTypeLike@271: switch (type) {
+caseString@272: case 'auth':
+caseString@274: case 'rate_limit':
+caseString@276: case 'invalid':
+caseString@278: case 'not_found':
+caseString@280: case 'network':
 ```
 
 ### `server/src/scripts/backfill-input-config-from-selectable.mjs`
@@ -752,6 +503,75 @@ magicLabel@162: affectedEntities: "Part Instances",
 magicLabel@180: selectType: "PartShape",
 magicLabel@181: selectMode: "Required",
 magicLabel@182: placeholder: "Select a part type",
+```
+
+### `client/src/utils/booking/overlapConstraintChecker.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=4, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 6, allowed: 0
+
+```
+caseString@88: case 'all':
+caseString@90: case 'skipDayStart':
+caseString@92: case 'skipDayEnd':
+caseString@94: case 'none':
+fieldMapping@180: { start: busy.start, end: busy.end }
+fieldMapping@250: { start: busy.start, end: busy.end }
+```
+
+### `server/src/services/google/maps/routesApiService.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
+- requiring review: 18, allowed: 0
+
+```
+magicLabel@22: const logger = createLogger('RoutesApiService')
+magicLabel@43: throw new MapsApiError('invalid', 'At least one origin is required')
+magicLabel@46: throw new MapsApiError('invalid', 'At least one destination is required')
+magicLabel@76: 'Content-Type': 'application/json',
+magicLabel@77: 'X-Goog-Api-Key': apiKey,
+magicLabel@78: 'X-Goog-FieldMask': 'originIndex,destinationIndex,duration,distanceMeters,status,condition'
+fieldMapping@85: logger.error('Routes API HTTP error', { status: response.status, errorText })
+magicLabel@85: logger.error('Routes API HTTP error', { status: response.status, errorText })
+magicLabel@91: throw new MapsApiError('rate_limit', 'Routes API quota exceeded', true)
+magicLabel@105: logger.error('Unexpected response format', { data })
+magicLabel@106: throw new MapsApiError('invalid', 'Unexpected response format from Routes API')
+fieldMapping@138: logger.debug('Route matrix complete', { resultsCount: results.length })
+magicLabel@138: logger.debug('Route matrix complete', { resultsCount: results.length })
+magicLabel@148: logger.error('Route matrix error', { error })
+magicLabel@151: error instanceof Error ? error.message : 'Network error',
+magicLabel@181: logger.warn('Missing origin location data')
+magicLabel@195: logger.warn('Missing destination location data')
+magicLabel@228: logger.warn('No route found between locations')
+```
+
+### `server/src/routes/internal/properties/propertyConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=21
+- requiring review: 21, allowed: 0
+
+```
+magicLabel@16: PROPERTIES: 'Properties',
+magicLabel@27: FETCH_PROPERTIES: 'Failed to fetch properties',
+magicLabel@28: FETCH_PROPERTY: 'Error fetching property',
+magicLabel@29: PROPERTY_NOT_FOUND: 'Property not found',
+magicLabel@30: CREATE_PROPERTY: 'Failed to create property',
+magicLabel@31: UPDATE_PROPERTY: 'Failed to update property',
+magicLabel@32: PATCH_PROPERTY: 'Failed to patch property',
+magicLabel@33: DELETE_PROPERTY: 'Failed to delete property',
+magicLabel@36: FETCH_PROPERTY_TYPES: 'Failed to fetch property types',
+magicLabel@37: PROPERTY_VERSION_NOT_FOUND: 'Property version not found',
+magicLabel@38: ADD_PROPERTY_TYPE: 'Failed to add property type',
+magicLabel@39: UPDATE_PROPERTY_TYPE: 'Failed to update property type',
+magicLabel@40: REMOVE_PROPERTY_TYPE: 'Failed to remove property type',
+magicLabel@41: REPLACE_PROPERTY_TYPES: 'Failed to replace property types',
+magicLabel@42: PROPERTY_TYPE_NOT_FOUND: 'Property type not found',
+magicLabel@43: PROPERTY_TYPE_ALREADY_ASSIGNED: 'Property type already assigned to this property version',
+magicLabel@46: MISSING_REQUIRED_FIELDS: 'Missing required fields',
+magicLabel@48: BLOCK_INSTANCE_NOT_FOUND: 'Block instance not found',
+magicLabel@49: INVALID_BLOCK_SHAPE: 'Block instance must have "Properties" block_shape',
+magicLabel@50: INVALID_BLOCK_SHAPES_BULK: 'All block instances must have "Properties" block_shape',
+magicLabel@51: BLOCK_INSTANCES_NOT_FOUND: 'Some block instances not found',
 ```
 
 ### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
@@ -870,48 +690,19 @@ magicLabel@163: label="Additional Units"
 magicLabel@182: No properties found. Click "Create Property" to add one.
 ```
 
-### `server/src/routes/internal/businessRulesRouter.ts`
+### `server/src/scripts/importCalendarData.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=15
-- requiring review: 15, allowed: 0
-
-```
-magicLabel@33: error: 'Failed to fetch business rules',
-magicLabel@47: error: 'Business rule not found',
-magicLabel@57: error: 'Failed to fetch business rule',
-magicLabel@80: error: 'Failed to fetch business rules for block',
-magicLabel@93: error: 'Missing required fields',
-magicLabel@102: error: 'Invalid ruleType',
-magicLabel@121: error: 'Failed to create business rule',
-magicLabel@136: error: 'Business rule not found',
-magicLabel@145: error: 'Missing required fields',
-magicLabel@163: error: 'Failed to update business rule',
-magicLabel@178: error: 'Business rule not found',
-magicLabel@190: error: 'Failed to update business rule',
-magicLabel@204: error: 'Business rule not found',
-magicLabel@213: message: 'Business rule deleted successfully',
-magicLabel@219: error: 'Failed to delete business rule',
-```
-
-### `server/src/routes/internal/businessSettingsRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 13, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=2
+- requiring review: 7, allowed: 0
 
 ```
-fieldEqualsString@306: if (key && typeof key === 'string') {
-magicLabel@336: error: 'Failed to fetch business settings',
-magicLabel@337: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@369: error: 'Failed to fetch business setting',
-magicLabel@370: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@421: error: 'Failed to create business setting',
-magicLabel@422: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@474: error: 'Failed to update business setting',
-magicLabel@475: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@525: error: 'Failed to patch business setting',
-magicLabel@526: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@550: error: 'Failed to delete business setting',
-magicLabel@551: details: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@22: const logger = createLogger('CalendarImport');
+fieldMapping@64: where: { email: client.email },
+fieldMapping@111: await existingAddress.update({ unit: addressData.unit });
+fieldMapping@246: const existingUser = await User.findOne({ where: { email: client.email } });
+magicLabel@364: throw new Error('No events provided in stdin');
+inlineLabelMap@371: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+inlineLabelMap@425: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/composables/admin/useBusinessRules.ts`
@@ -989,42 +780,6 @@ magicLabel@153: description: 'Event instance configurations with calendar event 
 magicLabel@158: displayName: 'Annotation Shape',
 magicLabel@164: displayName: 'Annotation Instance',
 magicLabel@165: description: 'Reusable annotation instances that can be assigned to block instances'
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=14
-- requiring review: 14, allowed: 0
-
-```
-magicLabel@98: error: 'Failed to fetch batch metadata',
-magicLabel@99: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@116: error: 'Invalid entityType',
-magicLabel@134: error: 'Failed to fetch metadata',
-magicLabel@135: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@171: error: 'Invalid entityType',
-magicLabel@180: error: 'Missing required fields',
-magicLabel@199: error: 'Invalid renderAs',
-magicLabel@211: error: 'Missing inputConfig',
-magicLabel@294: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@307: error: 'Invalid entityType',
-magicLabel@344: error: 'Metadata not found',
-magicLabel@359: error: 'Failed to delete metadata',
-magicLabel@360: details: error instanceof Error ? error.message : 'Unknown error',
-```
-
-### `server/src/scripts/importCalendarData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=1
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@174: firstName: firstName || 'Unknown',
-fieldMapping@198: where: { email: client.email },
-fieldMapping@245: await existingAddress.update({ unit: addressData.unit });
-fieldMapping@356: const existingUser = await User.findOne({ where: { email: client.email } });
-inlineLabelMap@418: console.log('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-inlineLabelMap@435: console.log('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/components/admin/generic/EntityCard.vue`
@@ -1138,26 +893,6 @@ caseString@95: case 'roundDown':
 caseString@97: case 'roundNearest':
 ```
 
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@67: error: 'Invalid entityType',
-magicLabel@99: error: 'Failed to fetch primitive metadata',
-magicLabel@100: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@129: error: 'Invalid entityType',
-magicLabel@138: error: 'Missing required fields',
-magicLabel@147: error: 'Invalid renderAs',
-magicLabel@159: error: 'Missing inputConfig',
-magicLabel@215: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@227: error: 'Invalid entityType',
-magicLabel@243: error: 'Primitive metadata not found',
-magicLabel@257: error: 'Failed to delete primitive metadata',
-magicLabel@258: details: error instanceof Error ? error.message : 'Unknown error',
-```
-
 ### `server/src/scripts/fixUserRolesAndEmails.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
@@ -1182,10 +917,10 @@ magicLabel@150: ? allUsers.find(u => u.id === updates.scheduledById)?.firstName 
 - requiring review: 4, allowed: 0
 
 ```
-fieldMapping@167: { placeId: defaultLocation.placeId },
-fieldMapping@168: { placeId: firstEvent.placeId },
-fieldMapping@184: { placeId: lastEvent.placeId },
-fieldMapping@185: { placeId: defaultLocation.placeId },
+fieldMapping@174: { placeId: defaultLocation.placeId },
+fieldMapping@175: { placeId: firstEvent.placeId },
+fieldMapping@191: { placeId: lastEvent.placeId },
+fieldMapping@192: { placeId: defaultLocation.placeId },
 ```
 
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
@@ -1252,25 +987,6 @@ magicLabel@637: label="Event Shape"
 magicLabel@650: label="Title Template"
 magicLabel@658: label="Description Template"
 magicLabel@666: label="Location Template"
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
-- requiring review: 11, allowed: 0
-
-```
-magicLabel@21: error: 'Invalid entityType',
-magicLabel@53: error: 'Failed to fetch relationship metadata',
-magicLabel@54: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@80: error: 'Invalid entityType',
-magicLabel@89: error: 'Missing required fields',
-magicLabel@101: error: 'Missing inputConfig',
-magicLabel@157: details: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@169: error: 'Invalid entityType',
-magicLabel@185: error: 'Relationship metadata not found',
-magicLabel@199: error: 'Failed to delete relationship metadata',
-magicLabel@200: details: error instanceof Error ? error.message : 'Unknown error',
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
@@ -1343,6 +1059,87 @@ magicLabel@130: comment: 'Panel name for expandedPanel visibility',
 magicLabel@137: comment: 'Whether field can be bulk edited',
 ```
 
+### `server/src/routes/internal/appointments/appointmentConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@17: FETCH_APPOINTMENTS: 'Failed to fetch appointments',
+magicLabel@18: FETCH_APPOINTMENT: 'Error fetching appointment',
+magicLabel@19: APPOINTMENT_NOT_FOUND: 'Appointment not found',
+magicLabel@20: CREATE_APPOINTMENT: 'Failed to create appointment',
+magicLabel@21: UPDATE_APPOINTMENT: 'Failed to update appointment',
+magicLabel@22: PATCH_APPOINTMENT: 'Failed to patch appointment',
+magicLabel@23: DELETE_APPOINTMENT: 'Failed to delete appointment',
+magicLabel@24: FETCH_APPOINTMENT_VERSIONS: 'Error fetching appointment versions',
+magicLabel@27: INVALID_SNAPSHOT_IDS: 'One or more snapshot IDs are invalid',
+```
+
+### `server/src/routes/internal/appointments/appointmentHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@16: const logger = createLogger('AppointmentRouter')
+magicLabel@51: logger.debug('Calendar integration not enabled')
+fieldMapping@66: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
+magicLabel@66: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
+magicLabel@70: logger.debug('No writeTo calendar configured')
+magicLabel@73: logger.error('Error reading writeTo calendar from settings', { error })
+magicLabel@147: throw new Error('One or more snapshot IDs are invalid')
+```
+
+### `server/src/routes/internal/businessRulesConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@19: FETCH_BUSINESS_RULES: 'Failed to fetch business rules',
+magicLabel@20: FETCH_BUSINESS_RULE: 'Failed to fetch business rule',
+magicLabel@21: FETCH_BUSINESS_RULES_FOR_BLOCK: 'Failed to fetch business rules for block',
+magicLabel@22: BUSINESS_RULE_NOT_FOUND: 'Business rule not found',
+magicLabel@23: CREATE_BUSINESS_RULE: 'Failed to create business rule',
+magicLabel@24: UPDATE_BUSINESS_RULE: 'Failed to update business rule',
+magicLabel@25: DELETE_BUSINESS_RULE: 'Failed to delete business rule',
+magicLabel@28: MISSING_REQUIRED_FIELDS: 'Missing required fields',
+magicLabel@29: INVALID_RULE_TYPE: 'Invalid ruleType',
+```
+
+### `server/src/routes/internal/businessSettings/businessSettingsConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
+- requiring review: 9, allowed: 0
+
+```
+magicLabel@75: FETCH_SETTINGS: 'Failed to fetch business settings',
+magicLabel@76: FETCH_SETTING: 'Failed to fetch business setting',
+magicLabel@77: SETTING_NOT_FOUND: 'Setting with key "{key}" not found',
+magicLabel@78: CREATE_SETTING: 'Failed to create business setting',
+magicLabel@79: UPDATE_SETTING: 'Failed to update business setting',
+magicLabel@80: PATCH_SETTING: 'Failed to patch business setting',
+magicLabel@81: DELETE_SETTING: 'Failed to delete business setting',
+magicLabel@87: SETTING_ALREADY_EXISTS: 'Setting with key "{key}" already exists. Use PUT or PATCH to update.',
+magicLabel@88: SETTING_NOT_FOUND_FOR_PATCH: 'Setting with key "{key}" not found. Use POST to create.',
+```
+
+### `server/src/services/google/calendar/eventCreationService.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@18: const logger = createLogger('EventCreationService')
+magicLabel@49: throw new CalendarApiError('invalid', 'Event start time must be before end time')
+magicLabel@93: logger.debug('Creating event', {
+magicLabel@108: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned')
+magicLabel@115: logger.debug('Invalidating caches after event creation', { calendarId })
+fieldMapping@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
+magicLabel@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
+```
+
 ### `client/src/utils/entityDefaults.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
@@ -1391,6 +1188,38 @@ magicLabel@97: comment: 'Layout within section',
 magicLabel@135: comment: 'Whether relationship field can be bulk edited',
 ```
 
+### `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
+- requiring review: 8, allowed: 0
+
+```
+magicLabel@47: FETCH_BATCH_METADATA: 'Failed to fetch batch metadata',
+magicLabel@48: FETCH_METADATA: 'Failed to fetch metadata',
+magicLabel@50: DELETE_METADATA: 'Failed to delete metadata',
+magicLabel@53: INVALID_ENTITY_TYPE: 'Invalid entityType',
+magicLabel@54: MISSING_REQUIRED_FIELDS: 'Missing required fields',
+magicLabel@55: INVALID_RENDER_AS: 'Invalid renderAs',
+magicLabel@56: MISSING_INPUT_CONFIG: 'Missing inputConfig',
+magicLabel@57: METADATA_NOT_FOUND: 'Metadata not found',
+```
+
+### `server/src/routes/internal/users/userConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
+- requiring review: 8, allowed: 0
+
+```
+magicLabel@17: FETCH_USERS: 'Failed to fetch users',
+magicLabel@18: FETCH_USER: 'Error fetching user',
+magicLabel@19: USER_NOT_FOUND: 'User not found',
+magicLabel@20: CREATE_USER: 'Failed to create user',
+magicLabel@21: UPDATE_USER: 'Failed to update user',
+magicLabel@22: PATCH_USER: 'Failed to patch user',
+magicLabel@23: DELETE_USER: 'Failed to delete user',
+magicLabel@26: VALIDATION_FAILED: 'Validation failed',
+```
+
 ### `server/src/scripts/importFromMCPEvents.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -1403,18 +1232,18 @@ fieldMapping@89: start: event.start ? { dateTime: event.start.dateTime || event.
 fieldMapping@90: end: event.end ? { dateTime: event.end.dateTime || event.end.date } : undefined,
 ```
 
-### `server/src/services/googleCalendarService.ts`
+### `server/src/services/google/shared/googleApiRetry.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
 - requiring review: 6, allowed: 0
 
 ```
-magicLabel@133: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');
-fieldMapping@142: busyPeriods: data.busy?.map(p => ({ start: p.start, end: p.end })) || []
-magicLabel@289: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');
-magicLabel@335: console.warn(`[GoogleCalendarService] Failed to geocode location "${event.location}" for event ${event.id}:`, error instanceof Error ? error.message : 'Unknown error');
-magicLabel@482: throw new CalendarApiError('invalid', 'Event start time must be before end time');
-magicLabel@547: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned');
+magicLabel@11: const logger = createLogger('GoogleApiRetry')
+magicLabel@96: logger.error('Non-retryable error', { errorType, message: (error as Error)?.message })
+fieldMapping@102: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
+magicLabel@102: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
+magicLabel@109: logger.warn('Retrying after delay', {
+magicLabel@121: throw lastError || new Error('Retry failed')
 ```
 
 ### `client/src/components/booking/dev/SlotConstraintOverlay.vue`
@@ -1423,7 +1252,7 @@ magicLabel@547: throw new CalendarApiError('invalid', 'Invalid response from Goo
 - requiring review: 7, allowed: 0
 
 ```
-magicLabel@164: 'freeBusy': 'Calendar Busy',
+magicLabel@164: 'event': 'Calendar Event',
 magicLabel@165: 'outOfOffice': 'Out of Office',
 magicLabel@166: 'appointment': 'Appointment Buffer',
 magicLabel@167: 'driveTimeTo': 'Drive Time To',
@@ -1458,20 +1287,50 @@ magicLabel@249: majorStateLabel?: string;  // State message when major perspecti
 magicLabel@250: minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
 ```
 
+### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@30: FETCH_METADATA: 'Failed to fetch primitive metadata',
+magicLabel@32: DELETE_METADATA: 'Failed to delete primitive metadata',
+magicLabel@35: INVALID_ENTITY_TYPE: 'Invalid entityType',
+magicLabel@36: MISSING_REQUIRED_FIELDS: 'Missing required fields',
+magicLabel@37: INVALID_RENDER_AS: 'Invalid renderAs',
+magicLabel@38: MISSING_INPUT_CONFIG: 'Missing inputConfig',
+magicLabel@39: METADATA_NOT_FOUND: 'Primitive metadata not found',
+```
+
+### `server/src/routes/internal/entities/entityConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
+- requiring review: 7, allowed: 0
+
+```
+magicLabel@19: FETCH_CONFIG: 'Failed to fetch entity configuration',
+magicLabel@20: CONFIGURATION_ERROR: 'Entity configuration error',
+magicLabel@34: INVALID_BULK_ARRAY: 'Request body must be an array of update objects',
+magicLabel@40: ENTITY_CONFIG_MISSING: 'Entity configuration missing',
+magicLabel@42: TEMPORARY_ID_DETAILS: 'Entity ID "{entityId}" is a temporary ID. Use POST to create the entity first.',
+magicLabel@45: MUTUAL_EXCLUSIVITY_VIOLATION: 'Mutual exclusivity violation',
+magicLabel@50: PART_ASSIGNMENT_CLEANUP_ERROR: 'Error disabling old partAssignments relationships',
+```
+
 ### `server/src/services/constraintExtractor.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
 - requiring review: 8, allowed: 0
 
 ```
-switchTypeLike@258: switch (constraint.type) {
-magicLabel@276: return { valid: false, error: 'Invalid dateRange constraint config' }
-magicLabel@281: return { valid: false, error: 'Invalid dateRange dates' }
-magicLabel@299: return { valid: false, error: 'Invalid overlap constraint minutes' }
-magicLabel@305: return { valid: false, error: 'Invalid overlap constraint placement' }
-magicLabel@314: return { valid: false, error: 'Invalid overlap constraint applyTo value' }
-magicLabel@333: return { valid: false, error: 'Invalid capacity constraint maxHours' }
-magicLabel@338: return { valid: false, error: 'Invalid capacity constraint direction' }
+switchTypeLike@281: switch (constraint.type) {
+magicLabel@299: return { valid: false, error: 'Invalid dateRange constraint config' }
+magicLabel@304: return { valid: false, error: 'Invalid dateRange dates' }
+magicLabel@324: return { valid: false, error: 'Invalid overlap constraint minutes' }
+magicLabel@330: return { valid: false, error: 'Invalid overlap constraint placement' }
+magicLabel@339: return { valid: false, error: 'Invalid overlap constraint applyTo value' }
+magicLabel@360: return { valid: false, error: 'Invalid capacity constraint maxHours' }
+magicLabel@365: return { valid: false, error: 'Invalid capacity constraint direction' }
 ```
 
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
@@ -1518,12 +1377,12 @@ magicLabel@47: subtitle: 'New order received from john',
 - requiring review: 6, allowed: 0
 
 ```
-magicLabel@84: this.name = 'CalendarApiError'
-magicLabel@140: 'OAuth authentication required',
-magicLabel@149: 'API rate limit exceeded'
-magicLabel@157: 'Calendar not found or inaccessible'
-magicLabel@172: axiosError.response?.data?.error || 'Invalid response from server'
-magicLabel@179: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@70: this.name = 'CalendarApiError'
+magicLabel@126: 'OAuth authentication required',
+magicLabel@135: 'API rate limit exceeded'
+magicLabel@143: 'Calendar not found or inaccessible'
+magicLabel@158: axiosError.response?.data?.error || 'Invalid response from server'
+magicLabel@165: error instanceof Error ? error.message : 'Unknown error'
 ```
 
 ### `client/src/views/admin/tabs/components/UsersTable.vue`
@@ -1540,14 +1399,32 @@ magicLabel@125: label="Login ID"
 magicLabel@144: No users found. Click "Create User" to add one.
 ```
 
-### `server/src/scripts/fix-missing-layout-configs.mjs`
+### `server/src/routes/helpers/createCrudRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 2, allowed: 0
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
 
 ```
-fieldMapping@95: replacements: { shapeId: blockShape.id, fieldKey },
-fieldMapping@206: replacements: { shapeId: partShape.id, fieldKey },
+magicLabel@16: *     FETCH_ALL: 'Failed to fetch users',
+magicLabel@17: *     FETCH_ONE: 'Error fetching user',
+magicLabel@18: *     NOT_FOUND: 'User not found',
+magicLabel@19: *     CREATE: 'Failed to create user',
+magicLabel@20: *     UPDATE: 'Failed to update user',
+magicLabel@21: *     DELETE: 'Failed to delete user',
+```
+
+### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 6, allowed: 0
+
+```
+magicLabel@30: FETCH_METADATA: 'Failed to fetch relationship metadata',
+magicLabel@32: DELETE_METADATA: 'Failed to delete relationship metadata',
+magicLabel@35: INVALID_ENTITY_TYPE: 'Invalid entityType',
+magicLabel@36: MISSING_REQUIRED_FIELDS: 'Missing required fields',
+magicLabel@37: MISSING_INPUT_CONFIG: 'Missing inputConfig',
+magicLabel@38: METADATA_NOT_FOUND: 'Relationship metadata not found',
 ```
 
 ### `server/src/services/appointmentCalendarService.ts`
@@ -1556,10 +1433,20 @@ fieldMapping@206: replacements: { shapeId: partShape.id, fieldKey },
 - requiring review: 4, allowed: 0
 
 ```
-fieldMapping@131: { where: { id: attendee.id } }
-magicLabel@150: error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
-magicLabel@159: error: error instanceof Error ? error.message : 'Unknown error',
-magicLabel@236: 'Home Inspection Appointment',
+fieldMapping@132: { where: { id: attendee.id } }
+magicLabel@151: error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
+magicLabel@160: error: error instanceof Error ? error.message : 'Unknown error',
+magicLabel@237: 'Home Inspection Appointment',
+```
+
+### `server/src/services/google/maps/mapsHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@63: return { placeId: location.placeId }
+fieldMapping@80: return { address: location.address }
 ```
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue`
@@ -1594,9 +1481,9 @@ magicLabel@321: const errorMessage = error instanceof Error ? error.message : 'F
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@127: `propertyDetailsStepData=${JSON.stringify(propertyDetailsStepData.value ? { address: propertyDetailsStepData.value.address, placeId: propertyDetailsStepData.value.placeId } : null)}`
-magicLabel@149: 'Will fetch when dateRange is available'
-magicLabel@203: const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+fieldMapping@118: `propertyDetailsStepData=${JSON.stringify(propertyDetailsStepData.value ? { address: propertyDetailsStepData.value.address, placeId: propertyDetailsStepData.value.placeId } : null)}`
+magicLabel@140: 'Will fetch when dateRange is available'
+magicLabel@194: const errorMessage = err instanceof Error ? err.message : 'Unknown error'
 ```
 
 ### `client/src/composables/booking/useWizardValidationErrors.ts`
@@ -1623,19 +1510,6 @@ magicLabel@51: const email = (message = 'Please enter a valid email address'): V
 magicLabel@66: const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
 magicLabel@144: const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
 magicLabel@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
-```
-
-### `client/src/main.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@27: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@38: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@47: if (errorString.includes('Cannot read properties of undefined') &&
-magicLabel@144: logger.error('Failed to prefetch global data', { error })
-magicLabel@160: logger.error('Failed to prefetch global data', { error })
 ```
 
 ### `client/src/router/index.ts`
@@ -1697,6 +1571,17 @@ magicLabel@69: comment: 'Order in which property types should be displayed',
 fieldMapping@13: dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 magicLabel@354: { email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
 magicLabel@355: { email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
+```
+
+### `server/src/scripts/fix-missing-layout-configs.mjs`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@40: const logger = createSimpleLogger('FixMissingLayoutConfigs');
+magicLabel@161: const shapeTypeName = shapeType === 'block' ? 'BlockShape' : 'PartShape';
+fieldMapping@209: replacements: { shapeId: shape.id, shapeType, fieldKey },
 ```
 
 ### `server/src/scripts/importRealCalendarEvents.ts`
@@ -1792,6 +1677,18 @@ magicLabel@35: { type: 'navItem', icon: 'tabler-file-dollar', title: 'Billing Pl
 magicLabel@37: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
 ```
 
+### `client/src/main.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@45: if (errorMessage.includes('Cannot read properties of undefined') &&
+magicLabel@56: if (errorMessage.includes('Cannot read properties of undefined') &&
+magicLabel@65: if (errorString.includes('Cannot read properties of undefined') &&
+magicLabel@215: logger.error('Failed to prefetch global data', { error })
+```
+
 ### `client/src/utils/booking/confirmationStepData.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -1826,6 +1723,52 @@ magicLabel@80: comment: 'Actual person with email for calendar invitations',
 magicLabel@97: comment: 'Whether this attendee should receive calendar invitation',
 magicLabel@104: comment: 'Status of calendar invitation for this attendee',
 magicLabel@110: comment: 'Google Calendar event ID for tracking invitation status',
+```
+
+### `server/src/routes/helpers/routerErrorHandler.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@13: const logger = createLogger('RouterErrorHandler')
+magicLabel@45: if (error.name === 'SequelizeUniqueConstraintError') {
+magicLabel@64: if (error.name === 'SequelizeValidationError') {
+magicLabel@71: const message = err.message || 'Validation error'
+```
+
+### `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@29: const logger = createLogger('AppointmentRouter')
+fieldMapping@165: where: { id: req.params.id },
+```
+
+### `server/src/routes/internal/relationships/relationshipCrudRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@37: const logger = createLogger('RelationshipRouter')
+magicLabel@294: handleRouteError(error, res, 'Error validating entities', 'validating entities')
+magicLabel@307: handleRouteError(error, res, 'Error checking circular references', 'checking circular references')
+magicLabel@343: sendBadRequest(res, error.message.includes('EventShape')
+```
+
+### `server/src/services/google/calendar/eventsService.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@19: const logger = createLogger('EventsService')
+magicLabel@58: logger.debug('Fetching events', { calendarEmail })
+magicLabel@70: throw new Error('Invalid response from Google Calendar API')
+magicLabel@76: logger.debug('Fetched events', { calendarEmail, count: events.length })
 ```
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue`
@@ -1963,9 +1906,9 @@ magicLabel@48: return 'Selected time slot is invalid'
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@102: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
-magicLabel@127: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
-magicLabel@320: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
+magicLabel@98: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+magicLabel@123: const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+magicLabel@325: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating slots'
 ```
 
 ### `client/src/composables/booking/useDateRangeDecider.ts`
@@ -2092,6 +2035,46 @@ magicLabel@97: comment: 'Whether this annotation instance should be shown by def
 fieldMapping@216: await dep.Entity.destroy({ where: dep.where });
 ```
 
+### `server/src/routes/internal/availabilityRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@32: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
+```
+
+### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldEqualsString@33: if (key && typeof key === 'string') {
+```
+
+### `server/src/routes/internal/properties/propertyTypesRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@53: * - blockInstanceId: UUID of the block_instance (must be "Properties" block_shape)
+magicLabel@58: * PATTERN: Validate block_shape is "Properties" before attempting insert
+magicLabel@217: // Validate all blockInstanceIds have "Properties" block_shape
+```
+
+### `server/src/routes/internal/relationships/relationshipErrorHandler.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@44: if (error.name === 'SequelizeUniqueConstraintError' ||
+magicLabel@83: if (error.name === 'SequelizeForeignKeyConstraintError' ||
+magicLabel@87: details: error.message || 'One of the referenced entities does not exist',
+```
+
 ### `server/src/scripts/fix-appointment-block-instances.mjs`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
@@ -2114,6 +2097,17 @@ magicLabel@30: "Investor's Inspection",
 magicLabel@31: "Investors Inspection" // Also check without apostrophe
 ```
 
+### `server/src/services/google/calendar/calendarHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@13: const logger = createLogger('CalendarHelpers')
+magicLabel@79: logger.warn('Failed to geocode location', {
+magicLabel@82: error: error instanceof Error ? error.message : 'Unknown error'
+```
+
 ### `server/src/services/rateLimiter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
@@ -2131,6 +2125,16 @@ fieldMapping@135: timestamps.push({ timestamp: Date.now() });
 ```
 magicLabel@28: label="Distribution Strategy"
 magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
+```
+
+### `client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@94: {{ entry.expired ? 'Expired' : 'Valid' }}
+magicLabel@166: {{ entry.expired ? 'Expired' : 'Valid' }}
 ```
 
 ### `client/src/components/admin/generic/fields/SelectInputs.vue`
@@ -2362,14 +2366,44 @@ magicLabel@69: onUpdate: 'CASCADE',
 magicLabel@70: onDelete: 'SET NULL',
 ```
 
-### `server/src/routes/internal/availabilityRouter.ts`
+### `server/src/routes/internal/dev/devStatusRouter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@43: error: 'Failed to compute availability data',
-magicLabel@44: details: error instanceof Error ? error.message : 'Unknown error'
+magicLabel@39: sendError(res, 'Debug endpoints are not available in production', HTTP_STATUS_CODES.FORBIDDEN)
+magicLabel@141: sendError(res, 'Failed to fetch dev status', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, error.message)
+```
+
+### `server/src/routes/internal/relationships/relationshipHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@167: throw new Error('BlockInstance not found')
+magicLabel@216: throw new Error('Components must have the same BlockShape as their parent')
+```
+
+### `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@17: const logger = createLogger('RelationshipRouter')
+magicLabel@90: message: 'Instance component deleted successfully',
+```
+
+### `server/src/scripts/helpers/calendarParsingHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@14: export const DEFAULT_FIRST_NAME = 'Unknown' as const
+magicLabel@129: * @param fullName - Full name string (may be "Last, First" or "First Last")
 ```
 
 ### `server/src/utils/userTypeMapping.ts`
@@ -2380,6 +2414,15 @@ magicLabel@44: details: error instanceof Error ? error.message : 'Unknown error'
 ```
 magicLabel@24: 'transaction_manager': 'Transaction Manager',
 magicLabel@26: 'inspector': 'Inspector',    // The service provider/technician
+```
+
+### `client/src/components/admin/dev/ApiDevPanel.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@258: font-family: 'Roboto Mono', monospace;
 ```
 
 ### `client/src/components/admin/generic/collections/PartsCollection.vue`
@@ -2433,7 +2476,7 @@ magicLabel@164: return parts.length > 0 ? parts.join(', ') : 'No address provide
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@453: aria-label="Select appointment date"
+magicLabel@451: aria-label="Select appointment date"
 ```
 
 ### `client/src/components/booking/TimeBasisButtonGrid.vue`
@@ -2625,6 +2668,15 @@ magicLabel@69: const errorMessage = error instanceof Error ? error.message : 'Fa
 magicLabel@90: if (!globalData) throw new Error('Global data not available')
 ```
 
+### `client/src/composables/dev/useApiDevPanelData.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@21: const logger = createLogger('ApiDevPanel')
+```
+
 ### `client/src/composables/fieldContext/useFieldContextState.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -2658,7 +2710,7 @@ magicLabel@14: export function getApiErrorMessage(error: unknown, fallbackMessag
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@177: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
+magicLabel@175: const errorMessage = err instanceof Error ? err.message : 'Unknown error generating time slots'
 ```
 
 ### `client/src/composables/useEntityForm.ts`
@@ -2796,13 +2848,22 @@ magicLabel@6: selectionGroup: 'VRadioGroup',
 magicLabel@8: return config.selectionGroup || 'VRadioGroup'
 ```
 
+### `client/src/utils/booking/slotAvailabilityManager.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@101: this.name = 'ConstraintValidationError'
+```
+
 ### `client/src/utils/booking/timeSlotFitter.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@97: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
+magicLabel@68: * Handles both 'YYYY-MM-DD' and ISO timestamp formats
 ```
 
 ### `client/src/utils/eventAttendeeUtils.ts`
@@ -3012,6 +3073,87 @@ magicLabel@88: comment: 'Order in which components should be displayed',
 magicLabel@55: onDelete: 'CASCADE',
 ```
 
+### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@29: const logger = createLogger('AdminMetadataRouter')
+```
+
+### `server/src/routes/internal/availabilityConstants.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@16: COMPUTE_FAILED: 'Failed to compute availability data',
+```
+
+### `server/src/routes/internal/entities/entityBatchRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@20: const logger = createLogger('EntityBatchRouter')
+```
+
+### `server/src/routes/internal/entities/entityCrudRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@30: const logger = createLogger('EntityRouter')
+```
+
+### `server/src/routes/internal/entities/entityHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@17: const logger = createLogger('EntityRouter')
+```
+
+### `server/src/routes/internal/entities/entityParamMiddleware.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@15: const logger = createLogger('EntityRouter')
+```
+
+### `server/src/routes/internal/properties/propertyValidators.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@59: * Validate block instance has "Properties" block shape
+```
+
+### `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@16: const logger = createLogger('RelationshipRouter')
+```
+
+### `server/src/routes/internal/relationships/relationshipBatchRouter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@25: const logger = createLogger('RelationshipBatchRouter')
+```
+
 ### `server/src/scripts/check-specific-shape.mjs`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -3028,6 +3170,24 @@ magicLabel@106: `SELECT name FROM "SequelizeMeta"
 
 ```
 magicLabel@71: name: "Single Family Home",
+```
+
+### `server/src/services/google/maps/mapsErrorHandler.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@24: this.name = 'MapsApiError'
+```
+
+### `server/src/services/google/shared/googleApiRateLimiter.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@12: const logger = createLogger('GoogleApiRateLimiter')
 ```
 
 ### `server/src/test/setup/testDb.ts`
@@ -3048,11 +3208,20 @@ magicLabel@45: throw new Error('Test database not initialized')
 magicLabel@14: if (typeName === 'VIRTUAL' || typeName.includes('VIRTUAL')) {
 ```
 
+### `client/src/utils/booking/rangeConstraintChecker.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+switchTypeLike@167: switch (constraint.type) {
+```
+
 ### `server/src/services/capacityComputer.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
 - requiring review: 1, allowed: 0
 
 ```
-switchTypeLike@165: switch (keyParts.type) {
+switchTypeLike@108: switch (keyParts.type) {
 ```

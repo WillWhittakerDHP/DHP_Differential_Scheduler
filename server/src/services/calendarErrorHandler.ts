@@ -8,6 +8,10 @@
  * SESSION: 2.1.5 - Error Handling & Fallbacks
  */
 
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('CalendarErrorHandler');
+
 /**
  * Calendar API error types
  * LEARNING: Discriminated union for different error scenarios
@@ -229,20 +233,20 @@ export async function withRetry<T>(
       
       // Don't retry non-retryable errors
       if (!classifiedError.retryable) {
-        console.error(`[CalendarErrorHandler] Non-retryable error (${classifiedError.type}):`, classifiedError.message);
+        logger.error(`Non-retryable error (${classifiedError.type}):`, classifiedError.message);
         throw classifiedError;
       }
       
       // Don't retry if we've exhausted all attempts
       if (attempt >= retryConfig.maxRetries) {
-        console.error(`[CalendarErrorHandler] All ${retryConfig.maxRetries} retries exhausted`);
+        logger.error(`All ${retryConfig.maxRetries} retries exhausted`);
         throw classifiedError;
       }
       
       // Calculate and wait for backoff delay
       const delay = calculateBackoffDelay(attempt, retryConfig);
-      console.warn(
-        `[CalendarErrorHandler] Retry ${attempt + 1}/${retryConfig.maxRetries} after ${delay}ms ` +
+      logger.warn(
+        `Retry ${attempt + 1}/${retryConfig.maxRetries} after ${delay}ms ` +
         `(error: ${classifiedError.type})`
       );
       
@@ -288,14 +292,14 @@ export async function withFallback<T>(
       ? error 
       : classifyError(error);
     
-    console.warn(
-      `[CalendarErrorHandler] Operation failed (${classifiedError.type}), checking cache fallback`
+    logger.warn(
+      `Operation failed (${classifiedError.type}), checking cache fallback`
     );
     
     // Try to return cached data
     const cachedData = getCached();
     if (cachedData !== null) {
-      console.log('[CalendarErrorHandler] Returning cached data as fallback');
+      logger.info('Returning cached data as fallback');
       return { 
         data: cachedData, 
         source: 'cache',
@@ -304,7 +308,7 @@ export async function withFallback<T>(
     }
     
     // No cache available - return default value
-    console.warn('[CalendarErrorHandler] No cache available, returning default value');
+    logger.warn('No cache available, returning default value');
     return { 
       data: defaultValue, 
       source: 'empty',
@@ -323,7 +327,7 @@ export function logCalendarError(
   error: CalendarApiError,
   additionalInfo?: Record<string, any>
 ): void {
-  console.error(`[${context}] Calendar API Error:`, {
+  logger.error(`${context} Calendar API Error:`, {
     type: error.type,
     message: error.message,
     statusCode: error.statusCode,
@@ -332,6 +336,6 @@ export function logCalendarError(
   });
   
   if (error.originalError) {
-    console.error(`[${context}] Original error:`, error.originalError);
+    logger.error(`${context} Original error:`, error.originalError);
   }
 }

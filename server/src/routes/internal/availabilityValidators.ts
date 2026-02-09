@@ -8,7 +8,7 @@
 
 import { ValidationResult } from '../helpers/routerValidators.js'
 import { ERROR_MESSAGES } from './availabilityConstants.js'
-import type { ComputedAvailabilityRequest } from '@shared/types/availabilityTypes'
+import type { ComputedAvailabilityRequest } from '../../../../shared/types/availabilityTypes.js'
 
 /**
  * Validate computed availability request

@@ -37,7 +37,7 @@ We use **Generate All Then Filter** approach.
 See:
 - `generateAllTimeSlots()` in `slotGenerator.ts`
 - `checkSlotAvailability()` in `overlapConstraintChecker.ts`
-- `markSlotAvailability()` in `slotAvailabilityMarker.ts`
+- `markSlotAvailability()` in `slotOverlapMarker.ts`
 
 ### Related Issues
 
@@ -68,7 +68,7 @@ We track **earliest completion of available slots only**.
 **Advantages:**
 - **UI Usefulness:** Shows when next appointment can actually be booked
 - **User Expectations:** Aligns with user question "When is the earliest I can schedule?"
-- **Consistency:** Both `fitTimeSlots()` and `generateSlotsWithAvailability()` use same behavior
+- **Consistency:** Both `computeSlotAvailability()` and `orchestrateSlotAvailability()` use same behavior
 - **Correctness:** More accurate representation of when scheduling can begin
 
 **Disadvantages of Alternative:**
@@ -80,8 +80,8 @@ We track **earliest completion of available slots only**.
 
 Both functions track earliest completion of available slots only:
 
-- `fitTimeSlots()` - Only updates `earliestCompletion` when `slot.isAvailable === true`
-- `generateSlotsWithAvailability()` - Filters to available slots before finding earliest completion
+- `computeSlotAvailability()` - Filters to available slots before finding earliest completion
+- `orchestrateSlotAvailability()` - Filters to available slots before finding earliest completion
 
 ### Related Issues
 

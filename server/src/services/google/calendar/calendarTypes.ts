@@ -9,32 +9,6 @@
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
 
 /**
- * Free-busy response structure from Google Calendar API
- */
-export interface FreeBusyResponse {
-  calendars: {
-    [email: string]: {
-      busy: Array<{
-        start: string
-        end: string
-      }>
-    }
-  }
-}
-
-/**
- * Free-busy response with fallback metadata
- * LEARNING: Extended response type that includes source information
- * WHY: Caller needs to know if data might be stale (from cache fallback)
- */
-export interface FreeBusyResponseWithMeta extends FreeBusyResponse {
-  _meta?: {
-    source: 'fresh' | 'cache' | 'empty'
-    error?: string
-  }
-}
-
-/**
  * Calendar events response with fallback metadata
  * LEARNING: Extended response type that includes source information
  * WHY: Caller needs to know if data might be stale (from cache fallback)

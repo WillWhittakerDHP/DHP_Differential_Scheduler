@@ -7,7 +7,7 @@ import type { AppointmentResponse } from '@/types/appointment'
 
 describe('appointmentToWizardTransformer', () => {
   describe('transformAppointmentToWizard', () => {
-    it('should transform appointment with single service', () => {
+    it('should transform appointment with single service', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -16,14 +16,14 @@ describe('appointmentToWizardTransformer', () => {
         id: 'apt-1',
         selectedServiceIds: ['block-1'],
         selectedDate: '2026-01-15',
-        selectedTimeSlots: [{ time: '2026-01-15T10:00:00Z', duration: 120 }],
+        selectedTimeSlots: [{ startTime: '2026-01-15T10:00:00Z', duration: 120 } as any],
         isQuoteMode: false,
         status: 'booked',
         createdAt: '2026-01-01T00:00:00Z',
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.services).toHaveLength(1)
@@ -32,7 +32,7 @@ describe('appointmentToWizardTransformer', () => {
       expect(result.availability.selectedTimeSlots).toBeDefined()
     })
     
-    it('should handle appointment with no services', () => {
+    it('should handle appointment with no services', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -46,13 +46,13 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.services).toHaveLength(0)
     })
     
-    it('should extract date from appointment selectedDate', () => {
+    it('should extract date from appointment selectedDate', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -67,12 +67,12 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result.availability.selectedDate.start).toBe('2026-01-15')
     })
     
-    it('should create time slots from appointment selectedTimeSlots', () => {
+    it('should create time slots from appointment selectedTimeSlots', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -90,16 +90,15 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result.availability.selectedTimeSlots).toBeDefined()
       expect(result.availability.selectedTimeSlots).toHaveLength(1)
-      expect(result.availability.selectedTimeSlots?.[0].startTime).toBe('2026-01-15T10:00:00Z')
-      expect(result.availability.selectedTimeSlots?.[0].endTime).toBe('2026-01-15T12:00:00Z')
+      expect(result.availability.selectedTimeSlots?.[0].time).toBe('2026-01-15T10:00:00Z')
       expect(result.availability.selectedTimeSlots?.[0].duration).toBe(120)
     })
     
-    it('should handle composite service appointment', () => {
+    it('should handle composite service appointment', async () => {
       const globalData = createCompositeBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -113,13 +112,13 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result.services).toBeDefined()
       expect(result.services.length).toBeGreaterThanOrEqual(0)
     })
     
-    it('should handle appointment with property type blocks', () => {
+    it('should handle appointment with property type blocks', async () => {
       const globalData = createCompositeBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -127,20 +126,20 @@ describe('appointmentToWizardTransformer', () => {
       const appointment: AppointmentResponse = {
         id: 'apt-1',
         selectedServiceIds: ['composite-1'],
-        selectedPropertyTypeBlockIds: ['component-1'],
+        selectedPropertyIds: ['component-1'],
         isQuoteMode: false,
         status: 'booked',
         createdAt: '2026-01-01T00:00:00Z',
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.propertyTypeBlocks).toBeDefined()
     })
     
-    it('should handle appointment with user type', () => {
+    it('should handle appointment with user type', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -148,20 +147,20 @@ describe('appointmentToWizardTransformer', () => {
       const appointment: AppointmentResponse = {
         id: 'apt-1',
         selectedServiceIds: ['block-1'],
-        userTypeBlockId: 'user-type-1',
+        userTypeId: 'user-type-1',
         isQuoteMode: false,
         status: 'booked',
         createdAt: '2026-01-01T00:00:00Z',
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.userTypeBlock).toBeDefined()
     })
     
-    it('should preserve appointment metadata', () => {
+    it('should preserve appointment metadata', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -169,14 +168,18 @@ describe('appointmentToWizardTransformer', () => {
       const appointment: AppointmentResponse = {
         id: 'apt-1',
         selectedServiceIds: ['block-1'],
-        propertyDetails: { notes: 'Test notes' },
+        propertyVersion: {
+          id: 'prop-1',
+          addressId: 'addr-1',
+          propertyDetails: [{ notes: 'Test notes' } as any],
+        },
         isQuoteMode: false,
         status: 'booked',
         createdAt: '2026-01-01T00:00:00Z',
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.propertyDetails).toBeDefined()
@@ -184,10 +187,10 @@ describe('appointmentToWizardTransformer', () => {
   })
   
   describe('edge cases', () => {
-    it('should handle empty BookingData', () => {
+    it('should handle empty BookingData', async () => {
       const bookingData = {
         blockInstances: [],
-      }
+      } as any
       
       const appointment: AppointmentResponse = {
         id: 'apt-1',
@@ -198,13 +201,13 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result).toBeDefined()
       expect(result.services).toHaveLength(0)
     })
     
-    it('should handle invalid date formats gracefully', () => {
+    it('should handle invalid date formats gracefully', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -219,10 +222,10 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      expect(() => transformAppointmentToWizard(appointment, bookingData)).not.toThrow()
+      await expect(transformAppointmentToWizard(appointment, bookingData)).resolves.toBeDefined()
     })
     
-    it('should handle appointment with multiple services', () => {
+    it('should handle appointment with multiple services', async () => {
       const globalData = createCompositeBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -236,7 +239,7 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      const result = transformAppointmentToWizard(appointment, bookingData)
+      const result = await transformAppointmentToWizard(appointment, bookingData)
       
       expect(result.services).toBeDefined()
       expect(Array.isArray(result.services)).toBe(true)
@@ -244,7 +247,7 @@ describe('appointmentToWizardTransformer', () => {
   })
   
   describe('data integrity', () => {
-    it('should not mutate original appointment', () => {
+    it('should not mutate original appointment', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -260,12 +263,12 @@ describe('appointmentToWizardTransformer', () => {
       }
       const originalSelectedDate = appointment.selectedDate
       
-      transformAppointmentToWizard(appointment, bookingData)
+      await transformAppointmentToWizard(appointment, bookingData)
       
       expect(appointment.selectedDate).toBe(originalSelectedDate)
     })
     
-    it('should not mutate BookingData', () => {
+    it('should not mutate BookingData', async () => {
       const globalData = createAtomicBlockGlobalData()
       const transformer = new BookingTransformer()
       const bookingData = transformer.transformGlobalToBooking(globalData)
@@ -280,7 +283,7 @@ describe('appointmentToWizardTransformer', () => {
         updatedAt: '2026-01-01T00:00:00Z',
       }
       
-      transformAppointmentToWizard(appointment, bookingData)
+      await transformAppointmentToWizard(appointment, bookingData)
       
       expect(bookingData.blockInstances.length).toBe(originalBlockCount)
     })

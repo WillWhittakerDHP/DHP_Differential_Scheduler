@@ -18,31 +18,34 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+16 more) | 24 |
-| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+49 more) | 108 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+201 more) | 208 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+19 more) | 28 |
+| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+55 more) | 122 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+203 more) | 210 |
 
 ### Repeated String Literals (across multiple files)
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
-| `hit` | `client/src/components/admin/dev/ApiDevPanel.vue`, `client/src/composables/booking/useApiCallStatus.ts` | 3 |
-| `OK` | `client/src/services/mapsApiService.ts`, `server/src/services/googleMapsService.ts` | 3 |
+| `OK` | `client/src/services/mapsApiService.ts`, `server/src/services/google/maps/mapsTypes.ts`, `server/src/services/google/maps/routesApiService.ts` | 3 |
 
 ## Summary
 
-- Files scanned: **475**
-- Groups (window=10 lines, minOccurrences=2): **392**
-- Candidate findings from pattern-detection: **5**
+- Files scanned: **544**
+- Groups (window=10 lines, minOccurrences=2): **405**
+- Candidate findings from pattern-detection: **4**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@81`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@35`, `server/src/utils/adminPrimitiveMetadataComposer.ts@50`, … |
-| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@82`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@36`, `server/src/utils/adminPrimitiveMetadataComposer.ts@51`, … |
+| `dup-23647ee852f7` | 5 | 5 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts@12`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts@12`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts@12`, … |
+| `dup-3cd31b02359f` | 5 | 5 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts@11`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts@11`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts@11`, … |
+| `dup-92552b3bde79` | 5 | 5 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts@14`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts@14`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts@14`, … |
+| `dup-e6066dad7651` | 5 | 5 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts@13`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts@13`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts@13`, … |
+| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@74`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@24`, `server/src/utils/adminPrimitiveMetadataComposer.ts@50`, … |
+| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@75`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@25`, `server/src/utils/adminPrimitiveMetadataComposer.ts@51`, … |
 | `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@14`, `server/src/utils/adminMetadataComposer.ts@128`, `server/src/utils/adminPrimitiveMetadataComposer.ts@15`, … |
-| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/admin/dev/ApiDevPanel.vue@46`, `client/src/components/booking/dev/DevPanelsContainer.vue@241`, `client/src/composables/booking/useWizardDevMode.ts@71` |
+| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@241`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@71` |
 | `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@146`, `server/src/utils/adminPrimitiveMetadataComposer.ts@129`, `server/src/utils/adminRelationshipMetadataComposer.ts@127` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
 | `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@346`, `server/src/scripts/importFromMCPEvents.ts@23`, `server/src/scripts/importRealCalendarEvents.ts@36` |
@@ -51,31 +54,123 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@331`, `server/src/scripts/importFromMCPEvents.ts@8`, `server/src/scripts/importRealCalendarEvents.ts@21` |
 | `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@332`, `server/src/scripts/importFromMCPEvents.ts@9`, `server/src/scripts/importRealCalendarEvents.ts@22` |
 | `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@145`, `server/src/utils/adminPrimitiveMetadataComposer.ts@128`, `server/src/utils/adminRelationshipMetadataComposer.ts@126` |
+| `dup-50a8f2834a9b` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
 | `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@349`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@39` |
 | `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@342`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@32` |
 | `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@329`, `server/src/scripts/importFromMCPEvents.ts@6`, `server/src/scripts/importRealCalendarEvents.ts@19` |
+| `dup-742168327377` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
 | `dup-870c24d7c6a2` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
+| `dup-8e6ee8bba1e8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
 | `dup-923c7320c59b` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
 | `dup-957d31420829` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@344`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@34` |
-| `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
-| `dup-b35c50fd2c1c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@334`, `server/src/scripts/importFromMCPEvents.ts@11`, `server/src/scripts/importRealCalendarEvents.ts@24` |
-| `dup-bd822504c01d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@336`, `server/src/scripts/importFromMCPEvents.ts@13`, `server/src/scripts/importRealCalendarEvents.ts@26` |
-| `dup-c03e46169b8e` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@339`, `server/src/scripts/importFromMCPEvents.ts@16`, `server/src/scripts/importRealCalendarEvents.ts@29` |
-| `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
-| `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@340`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@30` |
-| `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@330`, `server/src/scripts/importFromMCPEvents.ts@7`, `server/src/scripts/importRealCalendarEvents.ts@20` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-23647ee852f7`
+
+- unique files: **5**, occurrences: **5**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts` @ lines 12-69
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts` @ lines 12-69
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts` @ lines 12-69
+- `server/src/routes/internal/appointments/appointmentErrorHandler.ts` @ lines 12-69
+- `server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts` @ lines 12-69
+
+```
+handleGeneralError as sharedHandleGeneralError,
+handleRouteError as sharedHandleRouteError,
+} from '../../helpers/routerErrorHandler.js'
+export function handleSequelizeValidationError(
+return sharedHandleSequelizeValidationError(
+VALIDATION_FAILED_MESSAGE
+export function handleGeneralError(
+errorMessage: string,
+sharedHandleGeneralError(error, res, errorMessage, context)
+export function handleRouteError(
+```
+
+### Group `dup-3cd31b02359f`
+
+- unique files: **5**, occurrences: **5**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts` @ lines 11-55
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts` @ lines 11-55
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts` @ lines 11-55
+- `server/src/routes/internal/appointments/appointmentErrorHandler.ts` @ lines 11-55
+- `server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts` @ lines 11-55
+
+```
+handleSequelizeValidationError as sharedHandleSequelizeValidationError,
+handleGeneralError as sharedHandleGeneralError,
+handleRouteError as sharedHandleRouteError,
+} from '../../helpers/routerErrorHandler.js'
+export function handleSequelizeValidationError(
+return sharedHandleSequelizeValidationError(
+VALIDATION_FAILED_MESSAGE
+export function handleGeneralError(
+errorMessage: string,
+sharedHandleGeneralError(error, res, errorMessage, context)
+```
+
+### Group `dup-92552b3bde79`
+
+- unique files: **5**, occurrences: **5**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts` @ lines 14-75
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts` @ lines 14-75
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts` @ lines 14-75
+- `server/src/routes/internal/appointments/appointmentErrorHandler.ts` @ lines 14-75
+- `server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts` @ lines 14-75
+
+```
+} from '../../helpers/routerErrorHandler.js'
+export function handleSequelizeValidationError(
+return sharedHandleSequelizeValidationError(
+VALIDATION_FAILED_MESSAGE
+export function handleGeneralError(
+errorMessage: string,
+sharedHandleGeneralError(error, res, errorMessage, context)
+export function handleRouteError(
+errorMessage: string,
+sharedHandleRouteError(error, res, errorMessage, context)
+```
+
+### Group `dup-e6066dad7651`
+
+- unique files: **5**, occurrences: **5**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts` @ lines 13-72
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts` @ lines 13-72
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts` @ lines 13-72
+- `server/src/routes/internal/appointments/appointmentErrorHandler.ts` @ lines 13-72
+- `server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts` @ lines 13-72
+
+```
+handleRouteError as sharedHandleRouteError,
+} from '../../helpers/routerErrorHandler.js'
+export function handleSequelizeValidationError(
+return sharedHandleSequelizeValidationError(
+VALIDATION_FAILED_MESSAGE
+export function handleGeneralError(
+errorMessage: string,
+sharedHandleGeneralError(error, res, errorMessage, context)
+export function handleRouteError(
+errorMessage: string,
+```
 
 ### Group `dup-132c63251d30`
 
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 81-90
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 35-44
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 74-83
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts` @ lines 24-33
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 50-59
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 67-76
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 96-105
@@ -103,8 +198,8 @@ bulkEdit: meta.bulkEdit,
 - unique files: **4**, occurrences: **10**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` @ lines 82-91
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` @ lines 36-45
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 75-84
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts` @ lines 25-34
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 51-60
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 68-77
 - `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 97-106
@@ -155,8 +250,8 @@ inputConfig?: Record<string, unknown> | null;
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `client/src/components/admin/dev/ApiDevPanel.vue` @ lines 46-55
 - `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 241-250
+- `client/src/components/dev/DevPanelButtons.vue` @ lines 16-25
 - `client/src/composables/booking/useWizardDevMode.ts` @ lines 71-80
 
 ```
@@ -348,6 +443,28 @@ panel: meta.panel,
 bulkEdit: meta.bulkEdit,
 ```
 
+### Group `dup-50a8f2834a9b`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 53-73
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 53-73
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 53-73
+
+```
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
+missing: missingFields,
+return { valid: true }
+```
+
 ### Group `dup-687fcb72cc8c`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -412,114 +529,4 @@ summary: "Buyer's Inspection for Tom Miller",
 location: "730 24th St NW 803, Washington, DC 20037",
 start: { dateTime: "2024-12-04T09:00:00-05:00" },
 end: { dateTime: "2024-12-04T10:00:00-05:00" },
-```
-
-### Group `dup-870c24d7c6a2`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 56-85
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 54-83
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 58-87
-
-```
-type: DataTypes.VIRTUAL,
-return "blockInstance";
-type: DataTypes.VIRTUAL,
-return "blockInstance";
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-```
-
-### Group `dup-923c7320c59b`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 58-88
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 56-86
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 60-90
-
-```
-return "blockInstance";
-type: DataTypes.VIRTUAL,
-return "blockInstance";
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-```
-
-### Group `dup-957d31420829`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 344-357
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 21-34
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 34-47
-
-```
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
-end: { dateTime: "2024-12-06T16:00:00-05:00" },
-{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
-{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
-```
-
-### Group `dup-b310fa6a5478`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 76-101
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 74-99
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 78-103
-
-```
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
-underscored: true,
-```
-
-### Group `dup-b35c50fd2c1c`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 334-350
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 11-27
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 24-40
-
-```
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Buyer's Inspection for Tom Miller",
-location: "730 24th St NW 803, Washington, DC 20037",
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
 ```

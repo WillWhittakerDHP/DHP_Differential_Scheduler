@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 import Joi from "joi";
 import { Sequelize, ValidationError } from "sequelize";
 import { initializeModels } from "../db/models/index.js";
+import { createLogger } from "../utils/logger.js";
+
+const logger = createLogger('AppConfig');
 
 
 
@@ -9,7 +12,7 @@ const envFile = `./.env.${process.env.NODE_ENV || "development"}`;
 const result = dotenv.config({ path: envFile });
 
 if (result.error && process.env.NODE_ENV !== "development") {
-  console.warn(`⚠️  ${envFile} not found, falling back to .env.development`);
+  logger.warn(`⚠️  ${envFile} not found, falling back to .env.development`);
   dotenv.config({ path: "./.env.development" });
 }
 
@@ -28,8 +31,8 @@ const schema = Joi.object({
 const { error, value: config } = schema.validate(process.env);
 
 if (error) {
-  console.error("❌ Missing property in config:", error.message);
-  console.error("🟠 Current env variables:", process.env);
+  logger.error("❌ Missing property in config:", error.message);
+  logger.error("🟠 Current env variables:", process.env);
   process.exit(1);
 }
 
@@ -56,16 +59,16 @@ export const {
 // ✅ Database Connection - Migrations handle schema
 export const initializeDatabase = async () => {
   try {
-    console.log("📦 Connecting to Database...");
+    logger.info("📦 Connecting to Database...");
     await sequelize.authenticate();
-    console.log("✅ Database connection established.");
-    console.log("ℹ️  Run 'npm run migrate' to apply database migrations.");
+    logger.info("✅ Database connection established.");
+    logger.info("ℹ️  Run 'npm run migrate' to apply database migrations.");
     
   } catch (err) {
-    console.error("❌ Database Connection Error:", err);
+    logger.error("❌ Database Connection Error:", err);
 
     if (err instanceof ValidationError) {
-      console.error("Validation errors:", err.errors);
+      logger.error("Validation errors:", err.errors);
     }
 
     process.exit(1);

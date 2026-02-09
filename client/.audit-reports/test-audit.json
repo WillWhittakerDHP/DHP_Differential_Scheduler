@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-08T23:31:49.217Z",
+  "generatedAt": "2026-02-09T16:43:21.311Z",
   "summary": {
-    "totalSourceFiles": 701,
+    "totalSourceFiles": 798,
     "totalTestFiles": 127,
-    "untestedSourceFiles": 585,
+    "untestedSourceFiles": 682,
     "orphanedTestFiles": 10,
-    "coveragePercentage": 17
+    "coveragePercentage": 15
   },
   "untestedSource": [
     {
@@ -1389,7 +1389,52 @@
         "reliability": 4,
         "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 6,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelComputedTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelStatusTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
         "overall": 2.4,
         "bucket": "P2"
       }
@@ -2130,6 +2175,21 @@
         "roi": 0,
         "cognitiveLoad": 4,
         "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/dev/DevPanelButtons.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -4512,6 +4572,44 @@
       }
     },
     {
+      "repoPath": "client/src/composables/dev/useApiDevPanelData.ts",
+      "functions": [
+        "useApiDevPanelData"
+      ],
+      "classes": [],
+      "composables": [
+        "useApiDevPanelData"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.3,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/dev/useDevPanelTabs.ts",
+      "functions": [
+        "useDevPanelTabs"
+      ],
+      "classes": [],
+      "composables": [
+        "useDevPanelTabs"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/composables/entityCrud/index.ts",
       "functions": [],
       "classes": [],
@@ -5612,6 +5710,21 @@
       }
     },
     {
+      "repoPath": "client/src/constants/apiStatus.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/availabilitySettings.ts",
       "functions": [],
       "classes": [],
@@ -5663,11 +5776,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -5683,6 +5796,21 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/errorMessages.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -5904,10 +6032,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 2,
+        "independence": 0,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.2,
+        "cognitiveLoad": 2,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -6740,6 +6868,41 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/busyPeriodProcessor.ts",
+      "functions": [
+        "parseBusyPeriods",
+        "preprocessBusyPeriods"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.8,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
+      "functions": [
+        "applyCapacityFilters"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 6,
+        "cognitiveLoad": 1,
+        "overall": 5.7,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/dateRangeValidation.ts",
       "functions": [
         "hasValidDateRangeStructure",
@@ -6754,6 +6917,24 @@
         "roi": 8,
         "cognitiveLoad": 0,
         "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "functions": [
+        "checkSlotAvailability",
+        "shouldApplyDriveTimeConstraint"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 6,
+        "roi": 8,
+        "cognitiveLoad": 3,
+        "overall": 6.3,
         "bucket": "P1"
       }
     },
@@ -6816,6 +6997,40 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/rangeConstraintChecker.ts",
+      "functions": [
+        "checkRangeConstraints"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 9,
+        "roi": 6,
+        "cognitiveLoad": 1,
+        "overall": 6.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
+      "functions": [
+        "markSlotAvailability"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 7,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/slotGenerationValidation.ts",
       "functions": [
         "validateSlotGenerationParams"
@@ -6829,6 +7044,41 @@
         "roi": 6,
         "cognitiveLoad": 0,
         "overall": 5,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotGenerator.ts",
+      "functions": [
+        "generateAllTimeSlots"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 7,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 6.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
+      "functions": [
+        "parseBusinessHours",
+        "timeRangesOverlap"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -6942,6 +7192,27 @@
         "cognitiveLoad": 0,
         "overall": 3.6,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/dev/formatDevPanelData.ts",
+      "functions": [
+        "formatBusyPeriod",
+        "formatTTL",
+        "formatTimestamp",
+        "getApiStatusColor",
+        "getApiStatusLabel"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -7706,6 +7977,36 @@
       }
     },
     {
+      "repoPath": "server/src/constants/metadataDefaults.mjs",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/metadataDefaults.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/constants/relationshipTypes.ts",
       "functions": [],
       "classes": [],
@@ -7734,6 +8035,21 @@
         "roi": 1,
         "cognitiveLoad": 0,
         "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/router.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -8725,6 +9041,26 @@
       }
     },
     {
+      "repoPath": "server/src/middlewares/security.ts",
+      "functions": [
+        "checkOwnership",
+        "csrfProtection",
+        "requireAuth",
+        "requireSecureAccess"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/external/calendarRoutes.ts",
       "functions": [],
       "classes": [],
@@ -8809,10 +9145,25 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 6,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -8834,6 +9185,62 @@
       }
     },
     {
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerResponseHelpers.ts",
+      "functions": [
+        "sendBadRequest",
+        "sendCreated",
+        "sendError",
+        "sendNoContent",
+        "sendNotFound",
+        "sendSuccess"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 6,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerValidators.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/index.ts",
       "functions": [],
       "classes": [],
@@ -8849,7 +9256,7 @@
       }
     },
     {
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -8858,8 +9265,166 @@
         "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.4,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "functions": [
+        "buildBatchMetadataResult",
+        "buildMetadataWhereClause",
+        "determineMetadataType",
+        "getDefaultPanel",
+        "getDefaultRenderAs",
+        "resolveBlockInstanceMetadata"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 6,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRenderAs",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
+      "functions": [
+        "computeRenderAs",
+        "transformMetadataToRecord"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -8871,10 +9436,96 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRenderAs",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.3,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
+      "functions": [
+        "transformMetadataToRecord"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -8886,10 +9537,115 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.2,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "functions": [
+        "createAttendeeRecords",
+        "createSnapshotsForAppointment",
+        "getCalendarIdForAppointment",
+        "getWriteToCalendarFromSettings",
+        "shouldCreateCalendarEvent",
+        "validateSnapshotIds"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 6,
+      "priority": {
+        "reliability": 3,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 5,
+        "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/availabilityConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -8901,10 +9657,76 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/availabilityValidators.ts",
+      "functions": [
+        "validateComputedAvailabilityRequest"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -8915,12 +9737,118 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesValidators.ts",
+      "functions": [
+        "validateRequiredFields",
+        "validateRuleType"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.8,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+      "functions": [
+        "getSettingWithDefault",
+        "mergeSettingValues",
+        "transformSettingToResponse"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4.4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
+      "functions": [
+        "validateAvailabilitySettings",
+        "validateAvailabilitySettingsWithDetails",
+        "validateSettingKey",
+        "validateSettingValue"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 3,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 3,
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -8931,10 +9859,194 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBatchRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConfigRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.4,
+        "cognitiveLoad": 5,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityErrorHandler.ts",
+      "functions": [
+        "handleDatabaseConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityHelpers.ts",
+      "functions": [
+        "buildFetchOptions",
+        "handleBlockInstanceVersioning",
+        "handlePartInstanceCleanup",
+        "transformOrderIndexPayload"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 4,
+        "roi": 4,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityParamMiddleware.ts",
+      "functions": [
+        "entityTypeParamHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entitySanitizers.ts",
+      "functions": [
+        "sanitizeBookingModeFields",
+        "sanitizeEntityDataForCreate",
+        "sanitizeEntityDataForUpdate"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityValidators.ts",
+      "functions": [
+        "validateBulkUpdateArray",
+        "validateEntityId"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
         "bucket": "P2"
       }
     },
@@ -8946,10 +10058,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 9,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -8997,6 +10109,321 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyErrorHandler.ts",
+      "functions": [
+        "handleDatabaseConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
+      "functions": [
+        "buildPropertyTypeResponse",
+        "createPropertyTypesBulk",
+        "findOrCreateAddress",
+        "getBlockInstanceWithShape",
+        "getPropertyDetailsFromVersion",
+        "getPropertyTypesWithAssociations",
+        "getPropertyWithAssociations",
+        "isBlockInstanceWithShape",
+        "isPropertyVersionWithAssociations"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 9,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 3,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "functions": [
+        "validateAddressFields",
+        "validateBlockInstancesForPropertyTypes",
+        "validateBlockShape",
+        "validateRequiredField"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 0.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 3,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipErrorHandler.ts",
+      "functions": [
+        "handleForeignKeyConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError",
+        "handleUniqueConstraintError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "functions": [
+        "hasCircularReference",
+        "mapRelationshipFields",
+        "restoreComponentActiveState",
+        "updateComponentActiveStates",
+        "validateAttendeeAssignmentEntities",
+        "validateBlockInstancesWithShapes",
+        "validateBlockShapesComposable"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 7,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 6,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipParamMiddleware.ts",
+      "functions": [
+        "relationshipTypeParamHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipValidators.ts",
+      "functions": [
+        "isValidRelationshipKind",
+        "normalizeRelationshipKind",
+        "validateParentChildDifferent",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -9142,11 +10569,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 10,
+        "reliability": 2,
+        "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -9226,17 +10653,38 @@
       }
     },
     {
+      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "functions": [
+        "extractClients",
+        "extractPhone",
+        "extractProperty",
+        "parseAddress",
+        "parseName"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/scripts/importCalendarData.ts",
       "functions": [],
       "classes": [],
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 4,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.8,
+        "cognitiveLoad": 5,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -9298,6 +10746,28 @@
         "cognitiveLoad": 0,
         "overall": 2.8,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/addressGeocodingCache.ts",
+      "functions": [
+        "cachePlaceId",
+        "clearGeocodingCache",
+        "getAllCachedGeocodings",
+        "getCachedPlaceId",
+        "getGeocodingCacheStats",
+        "normalizeAddress"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 6,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -9437,69 +10907,253 @@
       }
     },
     {
-      "repoPath": "server/src/services/freeBusyCache.ts",
-      "functions": [
-        "cacheFreeBusy",
-        "clearCache",
-        "getAllCachedEntries",
-        "getCacheStats",
-        "getCachedFreeBusy",
-        "invalidateCache"
-      ],
+      "repoPath": "server/src/services/google/calendar/calendarConstants.ts",
+      "functions": [],
       "classes": [],
       "composables": [],
-      "exportCount": 6,
+      "exportCount": 0,
       "priority": {
-        "reliability": 3,
+        "reliability": 0,
         "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.9,
-        "bucket": "P1"
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/services/googleCalendarService.ts",
+      "repoPath": "server/src/services/google/calendar/calendarCredentials.ts",
       "functions": [
-        "createEvent",
-        "getCalendarEvents",
-        "getFreeBusy",
         "setCalendarCredentials"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 4,
-        "roi": 4,
-        "cognitiveLoad": 7,
-        "overall": 4.3,
-        "bucket": "P1"
+        "reliability": 0,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/services/googleMapsService.ts",
+      "repoPath": "server/src/services/google/calendar/calendarHelpers.ts",
       "functions": [
-        "calculateDriveTime",
-        "calculateRouteMatrix",
-        "generateSessionToken",
-        "geocodeAddressToPlaceId",
-        "getAutocompleteSuggestions",
-        "getPlaceDetails"
+        "transformEventsWithGeocoding"
       ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.9,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/calendarTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
+      "functions": [
+        "createEvent"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 4,
+        "independence": 9,
+        "roi": 1,
+        "cognitiveLoad": 1,
+        "overall": 3.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/eventsService.ts",
+      "functions": [
+        "getCalendarEvents"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsErrorHandler.ts",
+      "functions": [],
       "classes": [
         "MapsApiError"
       ],
       "composables": [],
-      "exportCount": 7,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "functions": [
+        "generateSessionToken",
+        "parseAddressComponents",
+        "toRoutesWaypoint"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
       "priority": {
         "reliability": 3,
-        "independence": 5,
-        "roi": 5,
-        "cognitiveLoad": 7,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
         "overall": 4.4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "functions": [
+        "geocodeAddressToPlaceId",
+        "getAutocompleteSuggestions",
+        "getPlaceDetails"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 5,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
+      "functions": [
+        "calculateDriveTime",
+        "calculateRouteMatrix"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 3,
+        "independence": 4,
+        "roi": 1,
+        "cognitiveLoad": 3,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiConfig.ts",
+      "functions": [
+        "getGoogleMapsApiKey"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRateLimiter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRetry.ts",
+      "functions": [
+        "calculateBackoffDelay"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -9966,9 +11620,9 @@
     },
     {
       "directory": "client/src/components/admin/dev",
-      "sourceCount": 1,
+      "sourceCount": 4,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 4
     },
     {
       "directory": "client/src/components/admin/generic",
@@ -10043,6 +11697,12 @@
       "untestedCount": 1
     },
     {
+      "directory": "client/src/components/dev",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
       "directory": "client/src/composables/_archived",
       "sourceCount": 1,
       "testCount": 0,
@@ -10095,6 +11755,12 @@
       "sourceCount": 1,
       "testCount": 0,
       "untestedCount": 1
+    },
+    {
+      "directory": "client/src/composables/dev",
+      "sourceCount": 2,
+      "testCount": 0,
+      "untestedCount": 2
     },
     {
       "directory": "client/src/composables/entityCrud",
@@ -10158,9 +11824,9 @@
     },
     {
       "directory": "client/src/constants",
-      "sourceCount": 9,
+      "sourceCount": 11,
       "testCount": 0,
-      "untestedCount": 9
+      "untestedCount": 11
     },
     {
       "directory": "client/src/layouts",
@@ -10266,9 +11932,9 @@
     },
     {
       "directory": "client/src/utils/booking",
-      "sourceCount": 31,
+      "sourceCount": 38,
       "testCount": 0,
-      "untestedCount": 9
+      "untestedCount": 16
     },
     {
       "directory": "client/src/utils/collections",
@@ -10284,6 +11950,12 @@
     },
     {
       "directory": "client/src/utils/debug",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
+      "directory": "client/src/utils/dev",
       "sourceCount": 1,
       "testCount": 0,
       "untestedCount": 1
@@ -10386,9 +12058,9 @@
     },
     {
       "directory": "server/src/constants",
-      "sourceCount": 3,
+      "sourceCount": 6,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 6
     },
     {
       "directory": "server/src/db/config",
@@ -10422,9 +12094,9 @@
     },
     {
       "directory": "server/src/middlewares",
-      "sourceCount": 3,
+      "sourceCount": 4,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 2
     },
     {
       "directory": "server/src/routes/external",
@@ -10434,9 +12106,9 @@
     },
     {
       "directory": "server/src/routes/helpers",
-      "sourceCount": 1,
+      "sourceCount": 5,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 5
     },
     {
       "directory": "server/src/routes",
@@ -10446,39 +12118,51 @@
     },
     {
       "directory": "server/src/routes/internal/admin-metadata",
-      "sourceCount": 1,
+      "sourceCount": 6,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 6
     },
     {
       "directory": "server/src/routes/internal/admin-primitive-metadata",
-      "sourceCount": 1,
+      "sourceCount": 6,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 6
     },
     {
       "directory": "server/src/routes/internal/admin-relationship-metadata",
-      "sourceCount": 1,
+      "sourceCount": 6,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 6
     },
     {
       "directory": "server/src/routes/internal/appointments",
-      "sourceCount": 1,
-      "testCount": 0,
-      "untestedCount": 0
-    },
-    {
-      "directory": "server/src/routes/internal",
-      "sourceCount": 4,
+      "sourceCount": 5,
       "testCount": 0,
       "untestedCount": 4
     },
     {
-      "directory": "server/src/routes/internal/entities",
+      "directory": "server/src/routes/internal",
+      "sourceCount": 10,
+      "testCount": 0,
+      "untestedCount": 10
+    },
+    {
+      "directory": "server/src/routes/internal/businessSettings",
+      "sourceCount": 5,
+      "testCount": 0,
+      "untestedCount": 5
+    },
+    {
+      "directory": "server/src/routes/internal/dev",
       "sourceCount": 1,
       "testCount": 0,
-      "untestedCount": 0
+      "untestedCount": 1
+    },
+    {
+      "directory": "server/src/routes/internal/entities",
+      "sourceCount": 11,
+      "testCount": 0,
+      "untestedCount": 10
     },
     {
       "directory": "server/src/routes/internal/participantRoutes",
@@ -10488,21 +12172,21 @@
     },
     {
       "directory": "server/src/routes/internal/properties",
-      "sourceCount": 1,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 0
+      "untestedCount": 6
     },
     {
       "directory": "server/src/routes/internal/relationships",
-      "sourceCount": 1,
+      "sourceCount": 10,
       "testCount": 0,
-      "untestedCount": 0
+      "untestedCount": 9
     },
     {
       "directory": "server/src/routes/internal/users",
-      "sourceCount": 1,
+      "sourceCount": 4,
       "testCount": 0,
-      "untestedCount": 0
+      "untestedCount": 3
     },
     {
       "directory": "server/src/scripts",
@@ -10511,10 +12195,34 @@
       "untestedCount": 20
     },
     {
-      "directory": "server/src/services",
-      "sourceCount": 13,
+      "directory": "server/src/scripts/helpers",
+      "sourceCount": 1,
       "testCount": 0,
-      "untestedCount": 12
+      "untestedCount": 1
+    },
+    {
+      "directory": "server/src/services",
+      "sourceCount": 11,
+      "testCount": 0,
+      "untestedCount": 10
+    },
+    {
+      "directory": "server/src/services/google/calendar",
+      "sourceCount": 6,
+      "testCount": 0,
+      "untestedCount": 6
+    },
+    {
+      "directory": "server/src/services/google/maps",
+      "sourceCount": 6,
+      "testCount": 0,
+      "untestedCount": 6
+    },
+    {
+      "directory": "server/src/services/google/shared",
+      "sourceCount": 3,
+      "testCount": 0,
+      "untestedCount": 3
     },
     {
       "directory": "server/src/test/setup",
@@ -12410,7 +14118,64 @@
         "reliability": 4,
         "independence": 1,
         "roi": 0,
-        "cognitiveLoad": 6,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelComputedTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/dev/ApiDevPanelComputedTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/admin/dev/ApiDevPanelStatusTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/dev/ApiDevPanelStatusTab.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
         "overall": 2.4,
         "bucket": "P2"
       }
@@ -13347,6 +15112,25 @@
         "roi": 0,
         "cognitiveLoad": 4,
         "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/components/dev/DevPanelButtons.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/dev/DevPanelButtons.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -17344,6 +19128,52 @@
       }
     },
     {
+      "repoPath": "client/src/composables/dev/useApiDevPanelData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/dev/useApiDevPanelData.ts",
+      "functions": [
+        "useApiDevPanelData"
+      ],
+      "classes": [],
+      "composables": [
+        "useApiDevPanelData"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 5,
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.3,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/dev/useDevPanelTabs.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/dev/useDevPanelTabs.ts",
+      "functions": [
+        "useDevPanelTabs"
+      ],
+      "classes": [],
+      "composables": [
+        "useDevPanelTabs"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/composables/entityCrud/index.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/index.ts",
       "functions": [],
@@ -19084,6 +20914,25 @@
       }
     },
     {
+      "repoPath": "client/src/constants/apiStatus.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/apiStatus.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/availabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/availabilitySettings.ts",
       "functions": [],
@@ -19151,11 +21000,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -19175,6 +21024,25 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/errorMessages.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/errorMessages.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -19456,10 +21324,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 2,
+        "independence": 0,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.2,
+        "cognitiveLoad": 2,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -20410,6 +22278,7 @@
         "getBlockInstanceAnnotationEndpoint",
         "getBlockInstanceAnnotationsEndpoint",
         "getBulkPatchEndpoint",
+        "getEntitiesBatchEndpoint",
         "getEntityByIdEndpoint",
         "getEntityEndpoint",
         "getOrderIndexEndpoint",
@@ -20417,6 +22286,7 @@
         "getPropertyEndpoint",
         "getRelationshipByParentChildEndpoint",
         "getRelationshipEndpoint",
+        "getRelationshipsBatchEndpoint",
         "getUserByIdEndpoint",
         "getUserEndpoint"
       ],
@@ -20425,7 +22295,7 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/__tests__/api.test.ts",
-      "exportCount": 20,
+      "exportCount": 22,
       "priority": {
         "reliability": 6,
         "independence": 7,
@@ -20659,6 +22529,49 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/busyPeriodProcessor.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/busyPeriodProcessor.ts",
+      "functions": [
+        "parseBusyPeriods",
+        "preprocessBusyPeriods"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.8,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/capacityConstraintChecker.ts",
+      "functions": [
+        "applyCapacityFilters"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 6,
+        "cognitiveLoad": 1,
+        "overall": 5.7,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/confirmationStepData.ts",
       "functions": [
@@ -20769,6 +22682,28 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/overlapConstraintChecker.ts",
+      "functions": [
+        "checkSlotAvailability",
+        "shouldApplyDriveTimeConstraint"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 6,
+        "roi": 8,
+        "cognitiveLoad": 3,
+        "overall": 6.3,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partFinalizer.ts",
       "functions": [
@@ -20835,6 +22770,27 @@
         "roi": 6,
         "cognitiveLoad": 0,
         "overall": 5.8,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/rangeConstraintChecker.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/rangeConstraintChecker.ts",
+      "functions": [
+        "checkRangeConstraints"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 9,
+        "roi": 6,
+        "cognitiveLoad": 1,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -21064,6 +23020,59 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/slotAvailabilityManager.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotAvailabilityManager.ts",
+      "functions": [
+        "generateSlotsWithAvailability"
+      ],
+      "classes": [
+        "ConstraintValidationError"
+      ],
+      "composables": [],
+      "classMethods": {
+        "ConstraintValidationError": [
+          "Boundaries",
+          "applyCapacityFilters",
+          "filter",
+          "for",
+          "if",
+          "map"
+        ]
+      },
+      "hasTest": true,
+      "testFile": "client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 7,
+        "roi": 8,
+        "cognitiveLoad": 3,
+        "overall": 6.9,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotAvailabilityMarker.ts",
+      "functions": [
+        "markSlotAvailability"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 6,
+        "independence": 7,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/slotGenerationValidation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotGenerationValidation.ts",
       "functions": [
@@ -21085,81 +23094,46 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeAvailabilityManager.ts",
+      "repoPath": "client/src/utils/booking/slotGenerator.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotGenerator.ts",
       "functions": [
-        "checkRangeConstraints",
-        "checkSlotAvailability",
-        "generateSlotsWithAvailability",
-        "markSlotAvailability",
-        "preprocessBusyPeriods",
-        "shouldApplyDriveTimeConstraint"
+        "generateAllTimeSlots"
       ],
-      "classes": [
-        "ConstraintValidationError"
-      ],
+      "classes": [],
       "composables": [],
-      "classMethods": {
-        "ConstraintValidationError": [
-          "Boundaries",
-          "applyCapacityFilters",
-          "buildCapacityKey",
-          "capacityKeyToString",
-          "catch",
-          "checkSlotAvailability",
-          "extractDateFromRFC3339",
-          "filter",
-          "for",
-          "generateAllTimeSlots",
-          "if",
-          "map",
-          "markSlotAvailability",
-          "mergeBusyPeriods",
-          "mergeViolations",
-          "parseBusyPeriods",
-          "preprocessBusyPeriods",
-          "shouldApplyDriveTimeConstraint",
-          "sortBusyPeriods",
-          "switch",
-          "validateBusyPeriod",
-          "validateConstraintArrays"
-        ]
-      },
-      "hasTest": true,
-      "testFile": "client/src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
-      "exportCount": 7,
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
       "priority": {
         "reliability": 7,
-        "independence": 2,
-        "roi": 10,
-        "cognitiveLoad": 9,
-        "overall": 7.1,
-        "bucket": "P0"
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
       "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotFitter.ts",
       "functions": [
-        "fitAllTimeSlotsWithAvailability",
-        "fitAvailableTimeSlots",
-        "parseBusinessHours",
+        "fitTimeSlotsWithAvailability",
         "parseTimeToMinutes",
-        "parseUTCDate",
-        "timeRangesOverlap"
+        "parseUTCDate"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/booking/__tests__/timeSlotFitter.test.ts",
-      "exportCount": 6,
+      "exportCount": 3,
       "priority": {
         "reliability": 8,
         "independence": 5,
-        "roi": 10,
-        "cognitiveLoad": 5,
-        "overall": 7.7,
+        "roi": 9,
+        "cognitiveLoad": 2,
+        "overall": 7.1,
         "bucket": "P0"
       }
     },
@@ -21183,6 +23157,28 @@
         "roi": 9,
         "cognitiveLoad": 2,
         "overall": 6.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotTypes.ts",
+      "functions": [
+        "parseBusinessHours",
+        "timeRangesOverlap"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -21387,6 +23383,31 @@
         "cognitiveLoad": 1,
         "overall": 2.9,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/dev/formatDevPanelData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/dev/formatDevPanelData.ts",
+      "functions": [
+        "formatBusyPeriod",
+        "formatTTL",
+        "formatTimestamp",
+        "getApiStatusColor",
+        "getApiStatusLabel"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.2,
+        "bucket": "P1"
       }
     },
     {
@@ -22115,7 +24136,9 @@
           "if",
           "map",
           "stageForHydration",
-          "transformApiRelationship"
+          "transformApiRelationship",
+          "transformBatchEntities",
+          "transformBatchRelationships"
         ]
       },
       "hasTest": true,
@@ -22125,8 +24148,8 @@
         "reliability": 10,
         "independence": 3,
         "roi": 8,
-        "cognitiveLoad": 7,
-        "overall": 7.7,
+        "cognitiveLoad": 5,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -22781,6 +24804,44 @@
       }
     },
     {
+      "repoPath": "server/src/constants/metadataDefaults.mjs",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/metadataDefaults.mjs",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/metadataDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/metadataDefaults.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/constants/relationshipTypes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/relationshipTypes.ts",
       "functions": [],
@@ -22817,6 +24878,25 @@
         "roi": 1,
         "cognitiveLoad": 0,
         "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/router.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/router.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -24256,6 +26336,30 @@
       }
     },
     {
+      "repoPath": "server/src/middlewares/security.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/middlewares/security.ts",
+      "functions": [
+        "checkOwnership",
+        "csrfProtection",
+        "requireAuth",
+        "requireSecureAccess"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/external/calendarRoutes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRoutes.ts",
       "functions": [],
@@ -24364,10 +26468,29 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/createCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 6,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -24393,6 +26516,74 @@
       }
     },
     {
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/routerErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerResponseHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/routerResponseHelpers.ts",
+      "functions": [
+        "sendBadRequest",
+        "sendCreated",
+        "sendError",
+        "sendNoContent",
+        "sendNotFound",
+        "sendSuccess"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 6,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/routerValidators.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/index.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/index.ts",
       "functions": [],
@@ -24412,8 +26603,8 @@
       }
     },
     {
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -24425,8 +26616,202 @@
         "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.4,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "functions": [
+        "buildBatchMetadataResult",
+        "buildMetadataWhereClause",
+        "determineMetadataType",
+        "getDefaultPanel",
+        "getDefaultRenderAs",
+        "resolveBlockInstanceMetadata"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 6,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRenderAs",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
+      "functions": [
+        "computeRenderAs",
+        "transformMetadataToRecord"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -24442,10 +26827,116 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRenderAs",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.3,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
+      "functions": [
+        "transformMetadataToRecord"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -24461,11 +26952,121 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "functions": [
+        "validateEntityType",
+        "validateInputConfig",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.2,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "functions": [
+        "createAttendeeRecords",
+        "createSnapshotsForAppointment",
+        "getCalendarIdForAppointment",
+        "getWriteToCalendarFromSettings",
+        "shouldCreateCalendarEvent",
+        "validateSnapshotIds"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 6,
+      "priority": {
+        "reliability": 3,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 5,
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -24479,12 +27080,31 @@
       "testFile": "server/src/routes/internal/appointments/__tests__/appointmentRouter.test.ts",
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
-        "independence": 6,
+        "reliability": 2,
+        "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 4.1,
-        "bucket": "P1"
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/availabilityConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/availabilityConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
       }
     },
     {
@@ -24499,10 +27119,92 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/availabilityValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/availabilityValidators.ts",
+      "functions": [
+        "validateComputedAvailabilityRequest"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -24517,12 +27219,142 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessRulesValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessRulesValidators.ts",
+      "functions": [
+        "validateRequiredFields",
+        "validateRuleType"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.8,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+      "functions": [
+        "getSettingWithDefault",
+        "mergeSettingValues",
+        "transformSettingToResponse"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4.4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
+      "functions": [
+        "validateAvailabilitySettings",
+        "validateAvailabilitySettingsWithDetails",
+        "validateSettingKey",
+        "validateSettingValue"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 3,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 3,
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -24537,10 +27369,193 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/dev/devStatusRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBatchRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityBatchRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityBulkRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConfigRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityConfigRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.4,
+        "cognitiveLoad": 5,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityErrorHandler.ts",
+      "functions": [
+        "handleDatabaseConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityHelpers.ts",
+      "functions": [
+        "buildFetchOptions",
+        "handleBlockInstanceVersioning",
+        "handlePartInstanceCleanup",
+        "transformOrderIndexPayload"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 4,
+        "roi": 4,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityParamMiddleware.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityParamMiddleware.ts",
+      "functions": [
+        "entityTypeParamHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -24556,10 +27571,55 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.2,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entitySanitizers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entitySanitizers.ts",
+      "functions": [
+        "sanitizeBookingModeFields",
+        "sanitizeEntityDataForCreate",
+        "sanitizeEntityDataForUpdate"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/entities/entityValidators.ts",
+      "functions": [
+        "validateBulkUpdateArray",
+        "validateEntityId"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
         "bucket": "P2"
       }
     },
@@ -24575,10 +27635,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 9,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -24642,6 +27702,97 @@
       }
     },
     {
+      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyErrorHandler.ts",
+      "functions": [
+        "handleDatabaseConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyHelpers.ts",
+      "functions": [
+        "buildPropertyTypeResponse",
+        "createPropertyTypesBulk",
+        "findOrCreateAddress",
+        "getBlockInstanceWithShape",
+        "getPropertyDetailsFromVersion",
+        "getPropertyTypesWithAssociations",
+        "getPropertyWithAssociations",
+        "isBlockInstanceWithShape",
+        "isPropertyVersionWithAssociations"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 9,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 3,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyRouter.ts",
       "functions": [],
@@ -24653,10 +27804,221 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyValidators.ts",
+      "functions": [
+        "validateAddressFields",
+        "validateBlockInstancesForPropertyTypes",
+        "validateBlockShape",
+        "validateRequiredField"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 4,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 0.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
         "independence": 5,
         "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 3,
+        "roi": 0,
+        "cognitiveLoad": 4,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipErrorHandler.ts",
+      "functions": [
+        "handleForeignKeyConstraintError",
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError",
+        "handleUniqueConstraintError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "functions": [
+        "hasCircularReference",
+        "mapRelationshipFields",
+        "restoreComponentActiveState",
+        "updateComponentActiveStates",
+        "validateAttendeeAssignmentEntities",
+        "validateBlockInstancesWithShapes",
+        "validateBlockShapesComposable"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 7,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 5,
         "cognitiveLoad": 6,
-        "overall": 2.4,
+        "overall": 4.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipParamMiddleware.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipParamMiddleware.ts",
+      "functions": [
+        "relationshipTypeParamHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -24671,11 +28033,96 @@
       "testFile": "server/src/routes/internal/relationships/__tests__/relationshipRouter.test.ts",
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 5,
+        "reliability": 2,
+        "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 1.6,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/relationships/relationshipValidators.ts",
+      "functions": [
+        "isValidRelationshipKind",
+        "normalizeRelationshipKind",
+        "validateParentChildDifferent",
+        "validateRequiredFields"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 1,
+        "independence": 8,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/users/userConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userCrudRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/users/userCrudRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/users/userErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/users/userErrorHandler.ts",
+      "functions": [
+        "handleGeneralError",
+        "handleRouteError",
+        "handleSequelizeValidationError"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -24690,11 +28137,11 @@
       "testFile": "server/src/routes/internal/users/__tests__/userRouter.test.ts",
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 7,
+        "reliability": 2,
+        "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.8,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -24880,11 +28327,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 10,
+        "reliability": 2,
+        "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -24984,6 +28431,31 @@
       }
     },
     {
+      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "functions": [
+        "extractClients",
+        "extractPhone",
+        "extractProperty",
+        "parseAddress",
+        "parseName"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/scripts/importCalendarData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importCalendarData.ts",
       "functions": [],
@@ -24994,11 +28466,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 4,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.8,
+        "cognitiveLoad": 5,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -25076,6 +28548,32 @@
         "cognitiveLoad": 0,
         "overall": 2.8,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/addressGeocodingCache.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/addressGeocodingCache.ts",
+      "functions": [
+        "cachePlaceId",
+        "clearGeocodingCache",
+        "getAllCachedGeocodings",
+        "getCachedPlaceId",
+        "getGeocodingCacheStats",
+        "normalizeAddress"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 6,
+      "priority": {
+        "reliability": 1,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -25233,6 +28731,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/constraintExtractor.ts",
       "functions": [
         "extractCapacityConstraints",
+        "extractConstraints",
         "extractOverlapConstraints",
         "extractRangeConstraints",
         "validateCapacityConstraint",
@@ -25244,7 +28743,7 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "server/src/services/__tests__/constraintExtractor.test.ts",
-      "exportCount": 6,
+      "exportCount": 7,
       "priority": {
         "reliability": 3,
         "independence": 10,
@@ -25281,38 +28780,28 @@
       }
     },
     {
-      "repoPath": "server/src/services/freeBusyCache.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/freeBusyCache.ts",
-      "functions": [
-        "cacheFreeBusy",
-        "clearCache",
-        "getAllCachedEntries",
-        "getCacheStats",
-        "getCachedFreeBusy",
-        "invalidateCache"
-      ],
+      "repoPath": "server/src/services/google/calendar/calendarConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/calendarConstants.ts",
+      "functions": [],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 6,
+      "exportCount": 0,
       "priority": {
-        "reliability": 3,
+        "reliability": 0,
         "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.9,
-        "bucket": "P1"
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/services/googleCalendarService.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/googleCalendarService.ts",
+      "repoPath": "server/src/services/google/calendar/calendarCredentials.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/calendarCredentials.ts",
       "functions": [
-        "createEvent",
-        "getCalendarEvents",
-        "getFreeBusy",
         "setCalendarCredentials"
       ],
       "classes": [],
@@ -25320,59 +28809,288 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 4,
-        "roi": 4,
-        "cognitiveLoad": 7,
-        "overall": 4.3,
-        "bucket": "P1"
+        "reliability": 0,
+        "independence": 8,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.9,
+        "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/services/googleMapsService.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/googleMapsService.ts",
+      "repoPath": "server/src/services/google/calendar/calendarHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/calendarHelpers.ts",
       "functions": [
-        "calculateDriveTime",
-        "calculateRouteMatrix",
-        "generateSessionToken",
-        "geocodeAddressToPlaceId",
-        "getAutocompleteSuggestions",
-        "getPlaceDetails"
+        "transformEventsWithGeocoding"
       ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.9,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/calendarTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/calendarTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/eventCreationService.ts",
+      "functions": [
+        "createEvent"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 4,
+        "independence": 9,
+        "roi": 1,
+        "cognitiveLoad": 1,
+        "overall": 3.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/eventsService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/eventsService.ts",
+      "functions": [
+        "getCalendarEvents"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/mapsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsErrorHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/mapsErrorHandler.ts",
+      "functions": [],
       "classes": [
         "MapsApiError"
       ],
       "composables": [],
       "classMethods": {
         "MapsApiError": [
-          "calculateBackoffDelay",
-          "calculateDriveTime",
-          "calculateRouteMatrix",
-          "catch",
-          "for",
-          "generateSessionToken",
-          "geocodeAddressToPlaceId",
-          "getApiKey",
-          "getAutocompleteSuggestions",
-          "getPlaceDetails",
-          "getUserMessage",
-          "if",
-          "parseAddressComponents",
-          "toRoutesWaypoint"
+          "getUserMessage"
         ]
       },
       "hasTest": false,
       "testFile": null,
-      "exportCount": 7,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/mapsHelpers.ts",
+      "functions": [
+        "generateSessionToken",
+        "parseAddressComponents",
+        "toRoutesWaypoint"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
       "priority": {
         "reliability": 3,
-        "independence": 5,
-        "roi": 5,
-        "cognitiveLoad": 7,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
         "overall": 4.4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/mapsTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/mapsTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/placesApiService.ts",
+      "functions": [
+        "geocodeAddressToPlaceId",
+        "getAutocompleteSuggestions",
+        "getPlaceDetails"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 5,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/routesApiService.ts",
+      "functions": [
+        "calculateDriveTime",
+        "calculateRouteMatrix"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 3,
+        "independence": 4,
+        "roi": 1,
+        "cognitiveLoad": 3,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiConfig.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/shared/googleApiConfig.ts",
+      "functions": [
+        "getGoogleMapsApiKey"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRateLimiter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/shared/googleApiRateLimiter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/google/shared/googleApiRetry.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/shared/googleApiRetry.ts",
+      "functions": [
+        "calculateBackoffDelay"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 3,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -35396,23 +39114,8 @@
       "sourceFile": "client/src/utils/booking/serviceSelectionConfigBuilders.ts"
     },
     {
-      "repoPath": "client/src/utils/booking/__tests__/testDateHelpers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/testDateHelpers.ts",
-      "testedItems": [],
-      "testPatterns": [],
-      "quality": {
-        "hasBehavioralTests": true,
-        "hasEdgeCases": false,
-        "hasMocking": false,
-        "hasSetup": true,
-        "qualityScore": 3
-      },
-      "hasSource": false,
-      "sourceFile": null
-    },
-    {
-      "repoPath": "client/src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/timeAvailabilityManager.test.ts",
+      "repoPath": "client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
       "testedItems": [
         "describe",
         "it",
@@ -35698,7 +39401,22 @@
         "qualityScore": 6
       },
       "hasSource": true,
-      "sourceFile": "client/src/utils/booking/timeAvailabilityManager.ts"
+      "sourceFile": "client/src/utils/booking/slotAvailabilityManager.ts"
+    },
+    {
+      "repoPath": "client/src/utils/booking/__tests__/testDateHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/testDateHelpers.ts",
+      "testedItems": [],
+      "testPatterns": [],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": false,
+        "hasMocking": false,
+        "hasSetup": true,
+        "qualityScore": 3
+      },
+      "hasSource": false,
+      "sourceFile": null
     },
     {
       "repoPath": "client/src/utils/booking/__tests__/timeSlotFitter.test.ts",

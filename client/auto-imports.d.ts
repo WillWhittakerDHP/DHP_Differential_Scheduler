@@ -129,6 +129,7 @@ declare global {
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
   const getDescriptionByIdEndpoint: typeof import('./src/utils/api').getDescriptionByIdEndpoint
   const getDescriptionEndpoint: typeof import('./src/utils/api').getDescriptionEndpoint
+  const getEntitiesBatchEndpoint: typeof import('./src/utils/api').getEntitiesBatchEndpoint
   const getEntityByIdEndpoint: typeof import('./src/utils/api').getEntityByIdEndpoint
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
   const getEntityEndpoint: typeof import('./src/utils/api').getEntityEndpoint
@@ -156,6 +157,7 @@ declare global {
   const getRelationshipByIdEndpoint: typeof import('./src/utils/api').getRelationshipByIdEndpoint
   const getRelationshipByParentChildEndpoint: typeof import('./src/utils/api').getRelationshipByParentChildEndpoint
   const getRelationshipEndpoint: typeof import('./src/utils/api').getRelationshipEndpoint
+  const getRelationshipsBatchEndpoint: typeof import('./src/utils/api').getRelationshipsBatchEndpoint
   const getShapeFieldMetadataByIdEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataByIdEndpoint
   const getShapeFieldMetadataEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataEndpoint
   const getShapeLayoutConfigByIdEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByIdEndpoint
@@ -610,7 +612,6 @@ declare module 'vue' {
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>
     readonly betweenValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['betweenValidator']>
-    readonly calculateDurationFromBlockInstances: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['calculateDurationFromBlockInstances']>
     readonly calculateMajorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMajorStartTime']>
     readonly calculateMinorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTime']>
     readonly calculateMinorStartTimeFromMajor: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTimeFromMajor']>
@@ -655,7 +656,6 @@ declare module 'vue' {
     readonly formatDate: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDate']>
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateIncrementedName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['generateIncrementedName']>
-    readonly generateTimeSlots: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['generateTimeSlots']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getAdminMetadataBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataBatchEndpoint']>
     readonly getAdminMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataEndpoint']>
@@ -679,6 +679,7 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
+    readonly getEntitiesBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntitiesBatchEndpoint']>
     readonly getEntityByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityByIdEndpoint']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
@@ -690,6 +691,7 @@ declare module 'vue' {
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>
     readonly getRelationshipByParentChildEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipByParentChildEndpoint']>
     readonly getRelationshipEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipEndpoint']>
+    readonly getRelationshipsBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipsBatchEndpoint']>
     readonly getStateControlBlockInstanceOptions: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstanceOptions']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
     readonly getUserByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserByIdEndpoint']>
@@ -777,7 +779,6 @@ declare module 'vue' {
     readonly rfc3339ToLocalHHmm: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalHHmm']>
     readonly rfc3339ToLocalMinutesFromMidnight: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalMinutesFromMidnight']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
-    readonly roundUpToIncrement: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['roundUpToIncrement']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>

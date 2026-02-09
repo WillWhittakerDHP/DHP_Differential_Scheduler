@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T23:31:41.862Z",
+  "generatedAt": "2026-02-09T16:43:07.529Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1041,
+  "totalScanned": 1138,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 622,
+    "totalRequiresReview": 465,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -24,283 +24,6 @@
     }
   },
   "files": [
-    {
-      "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 35,
-          "line": "console.error('[RelationshipRouter] Missing models:', {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 269,
-          "line": "console.error('[RelationshipRouter] Model is undefined for:', req.params.relationshipType);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 296,
-          "line": "console.warn(`[RelationshipRouter] Invalid parent_id format: ${parent_id}. Expected UUID, ignoring filter.`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 309,
-          "line": "console.warn(`[RelationshipRouter] Invalid blockInstanceId format: ${blockInstanceId}. Expected UUID, ignoring filter.`)..."
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 373,
-          "line": "console.error('[RelationshipRouter] Error fetching relationships:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 374,
-          "line": "console.error('[RelationshipRouter] Relationship kind:', req.params.relationshipType);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 375,
-          "line": "console.error('[RelationshipRouter] Model:', relationshipConfig.model?.name);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 443,
-          "line": "const parentBlockInstanceWithShape = parentBlockInstance as any;"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 453,
-          "line": "const childBlockInstanceWithShape = childBlockInstance as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 490,
-          "line": "console.error('[RelationshipRouter] Error validating entities:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 508,
-          "line": "console.error('[RelationshipRouter] Error checking circular references:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 621,
-          "line": "console.error('[RelationshipRouter] Error creating relationship:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 622,
-          "line": "console.error('[RelationshipRouter] Relationship type:', req.params.relationshipType);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 623,
-          "line": "console.error('[RelationshipRouter] Create data:', createData ? JSON.stringify(createData, null, 2) : 'undefined');"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 624,
-          "line": "console.error('[RelationshipRouter] Error details:', error instanceof Error ? error.stack : String(error));"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 686,
-          "line": "console.error('[RelationshipRouter] Error updating instance component:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 732,
-          "line": "console.error('[RelationshipRouter] Error deleting instance component:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 779,
-          "line": "console.error('[RelationshipRouter] Error updating annotation assignment:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 818,
-          "line": "console.error('[RelationshipRouter] Error:', error);"
-        }
-      ],
-      "score": 79,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__properties__propertyRouter.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 64,
-          "line": "console.error('[PropertyRouter] Error fetching properties:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 92,
-          "line": "console.error('[PropertyRouter] Error fetching property:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 175,
-          "line": "console.error('[PropertyRouter] Error creating property:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 210,
-          "line": "// PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 211,
-          "line": "const propertyVersionWithAssociations = propertyVersion as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 238,
-          "line": "console.error('[PropertyRouter] Error updating property:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 263,
-          "line": "// PATTERN: Use 'as any' cast to access Sequelize associations (similar to relationshipRouter.ts)"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 264,
-          "line": "const propertyVersionWithAssociations = propertyVersion as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 283,
-          "line": "console.error('[PropertyRouter] Error patching property:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 307,
-          "line": "console.error('[PropertyRouter] Error deleting property:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 339,
-          "line": "console.error('[PropertyRouter] Error fetching property types:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 393,
-          "line": "const blockInstanceWithShape = blockInstance as any;"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 433,
-          "line": "console.error('[PropertyRouter] Error adding property type:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 466,
-          "line": "console.error('[PropertyRouter] Error updating property type:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 492,
-          "line": "console.error('[PropertyRouter] Error removing property type:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 582,
-          "line": "console.error('[PropertyRouter] Error replacing property types:', error);"
-        }
-      ],
-      "score": 76,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__entities__entityRouter.ts",
-      "repoPath": "server/src/routes/internal/entities/entityRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 30,
-          "line": "console.error('[EntityRouter] Error fetching config:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 31,
-          "line": "console.error('[EntityRouter] Error details:', error instanceof Error ? error.stack : error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 60,
-          "line": "console.error('[EntityRouter] Configuration error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 99,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 127,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 163,
-          "line": "const validationError = error as any;"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 200,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 310,
-          "line": "console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 319,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 344,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 414,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 455,
-          "line": "console.log(`[EntityRouter] PATCH: ${entityConfig.displayName} ${entityId}`, {"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 514,
-          "line": "console.error('[EntityRouter] Error disabling old partAssignments relationships:', versioningError);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 555,
-          "line": "console.error('[EntityRouter] PATCH Error:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 604,
-          "line": "console.error('[EntityRouter] Error:', error);"
-        }
-      ],
-      "score": 63,
-      "priority": "P0"
-    },
     {
       "id": "server__src__test__setup__seedTestData.ts",
       "repoPath": "server/src/test/setup/seedTestData.ts",
@@ -373,313 +96,6 @@
         }
       ],
       "score": 61,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__scripts__importCalendarData.ts",
-      "repoPath": "server/src/scripts/importCalendarData.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 384,
-          "line": "const existingPropertyVersion = existingAddress && (existingAddress as any).propertyVersions?.[0];"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 403,
-          "line": "console.log('📅 Starting calendar data import...');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 413,
-          "line": "console.log(`📆 Processing ${eventsToProcess.length} calendar events...`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 416,
-          "line": "console.log('⚠️  No events provided.');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 417,
-          "line": "console.log('📖 Usage options:');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 418,
-          "line": "console.log('  1. Pipe JSON events: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 419,
-          "line": "console.log('  2. Use AI assistant with MCP to fetch and import events');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 420,
-          "line": "console.log('  3. Call importCalendarData([events]) programmatically');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 432,
-          "line": "console.log(`📆 Processing ${eventsToProcess.length} calendar events from input...`);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 434,
-          "line": "console.error('❌ Failed to parse JSON input:', parseError);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 435,
-          "line": "console.log('💡 Usage: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 439,
-          "line": "console.log('⚠️  No events provided in stdin.');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 446,
-          "line": "console.log('⚠️  No events to process.');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 452,
-          "line": "console.log('\\n📊 Import Summary:');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 453,
-          "line": "console.log(`  ✅ Clients imported: ${stats.clientsImported}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 454,
-          "line": "console.log(`  🔄 Clients updated: ${stats.clientsUpdated}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 455,
-          "line": "console.log(`  ✅ Properties imported: ${stats.propertiesImported}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 456,
-          "line": "console.log(`  🔄 Properties updated: ${stats.propertiesUpdated}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 457,
-          "line": "console.log(`  📝 Total events processed: ${eventsToProcess.length}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 459,
-          "line": "console.log('\\n✅ Calendar import completed successfully!');"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 462,
-          "line": "console.error('❌ Error during calendar import:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 480,
-          "line": "console.log('✅ Calendar import process completed.');"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 484,
-          "line": "console.error('❌ Calendar import failed:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 488,
-          "line": "console.error('❌ Failed to parse --events JSON:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 497,
-          "line": "console.error('❌ Calendar import failed:', error);"
-        }
-      ],
-      "score": 57,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-metadata__adminMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 29,
-          "line": "console.log('[AdminMetadataRouter] GET /admin-metadata/batch');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 92,
-          "line": "console.log(`[AdminMetadataRouter] Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).l..."
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 96,
-          "line": "console.error('[AdminMetadataRouter] Error fetching batch metadata:', error);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 109,
-          "line": "console.log(`[AdminMetadataRouter] GET /admin-metadata/${entityType}/${entityId}`, {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 128,
-          "line": "console.log(`[AdminMetadataRouter] Returning ${Object.keys(metadataRecord).length} metadata entries`);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 132,
-          "line": "console.error('[AdminMetadataRouter] Error fetching metadata:', error);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 228,
-          "line": "console.log(`[AdminMetadataRouter] POST /admin-metadata/${entityType}/${entityId}`, {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 235,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 237,
-          "line": "metadataType: metadataType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 270,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 272,
-          "line": "metadataType: metadataType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 291,
-          "line": "console.error('[AdminMetadataRouter] Error creating/updating metadata:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 326,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 328,
-          "line": "metadataType: metadataType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 357,
-          "line": "console.error('[AdminMetadataRouter] Error deleting metadata:', error);"
-        }
-      ],
-      "score": 55,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__appointments__appointmentRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 138,
-          "line": "console.error('[AppointmentRouter] Error fetching appointments:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 162,
-          "line": "console.error('[AppointmentRouter] Error fetching appointment:', error);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 240,
-          "line": "console.log(`[AppointmentRouter] Creating ${attendeesData.length} attendee records`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 258,
-          "line": "console.log(`[AppointmentRouter] Created attendee records for appointment ${appointment.id}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 260,
-          "line": "console.log(`[AppointmentRouter] No attendees provided for appointment ${appointment.id}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 268,
-          "line": "console.log(`[AppointmentRouter] Creating calendar event for appointment ${appointment.id}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 275,
-          "line": "console.warn(`[AppointmentRouter] No writeTo calendar configured, using default: ${calendarId}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 284,
-          "line": "console.log(`[AppointmentRouter] Calendar event created: ${calendarResult.eventId}, ${calendarResult.attendeesUpdated} a..."
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 286,
-          "line": "console.error(`[AppointmentRouter] Calendar event creation failed: ${calendarResult.error}`);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 290,
-          "line": "console.error(`[AppointmentRouter] Calendar event creation error:`, calendarError);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 293,
-          "line": "console.log(`[AppointmentRouter] Skipping calendar event - status is '${appointment.status}' (not submitted/confirmed)`)..."
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 302,
-          "line": "console.error('[AppointmentRouter] Error creating appointment:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 328,
-          "line": "console.error('[AppointmentRouter] Error updating appointment:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 354,
-          "line": "console.error('[AppointmentRouter] Error patching appointment:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 376,
-          "line": "console.error('[AppointmentRouter] Error deleting appointment:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 408,
-          "line": "console.error('[AppointmentRouter] Error fetching appointment versions:', error);"
-        }
-      ],
-      "score": 52,
       "priority": "P0"
     },
     {
@@ -774,175 +190,6 @@
         }
       ],
       "score": 49,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__scripts__fix-missing-layout-configs.mjs",
-      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 28,
-          "line": "console.log('✅ Connected to database\\n');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 45,
-          "line": "console.log(`Found ${blockShapesNeedingMigration.length} BlockShapes needing migration\\n`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 52,
-          "line": "console.log(`Processing BlockShape: ${blockShape.name} (${blockShape.id})`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 56,
-          "line": "console.log(`  ⚠️  Invalid field_metadata, skipping\\n`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 61,
-          "line": "console.log(`  Found ${fieldKeys.length} fields in field_metadata`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 66,
-          "line": "console.log(`    ⚠️  Invalid config for ${fieldKey}, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 83,
-          "line": "console.log(`    ⚠️  No canonical metadata for ${fieldKey}, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 101,
-          "line": "console.log(`    ⏭️  Layout config for ${fieldKey} already exists, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 131,
-          "line": "console.log(`    ✅ Created layout config for ${fieldKey}`);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 134,
-          "line": "console.error(`    ❌ Error migrating ${fieldKey}:`, error.message);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 142,
-          "line": "console.log('');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 160,
-          "line": "console.log(`Found ${partShapesNeedingMigration.length} PartShapes needing migration\\n`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 163,
-          "line": "console.log(`Processing PartShape: ${partShape.name} (${partShape.id})`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 167,
-          "line": "console.log(`  ⚠️  Invalid field_metadata, skipping\\n`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 172,
-          "line": "console.log(`  Found ${fieldKeys.length} fields in field_metadata`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 177,
-          "line": "console.log(`    ⚠️  Invalid config for ${fieldKey}, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 194,
-          "line": "console.log(`    ⚠️  No canonical metadata for ${fieldKey}, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 212,
-          "line": "console.log(`    ⏭️  Layout config for ${fieldKey} already exists, skipping`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 242,
-          "line": "console.log(`    ✅ Created layout config for ${fieldKey}`);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 245,
-          "line": "console.error(`    ❌ Error migrating ${fieldKey}:`, error.message);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 253,
-          "line": "console.log('');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 256,
-          "line": "console.log('='.repeat(60));"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 257,
-          "line": "console.log('📊 Summary');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 258,
-          "line": "console.log('='.repeat(60));"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 259,
-          "line": "console.log(`Layout configs created: ${totalCreated}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 260,
-          "line": "console.log(`Fields skipped: ${totalSkipped}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 261,
-          "line": "console.log(`Errors: ${errors.length}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 263,
-          "line": "console.log('\\nErrors:');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 265,
-          "line": "console.log(`  ${i + 1}. ${err.shape} - ${err.field}: ${err.error}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 268,
-          "line": "console.log('='.repeat(60));"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 271,
-          "line": "console.error('❌ Error:', error.message);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 279,
-          "line": "console.error('Fatal error:', error);"
-        }
-      ],
-      "score": 48,
       "priority": "P0"
     },
     {
@@ -1042,60 +289,6 @@
         }
       ],
       "score": 46,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__users__userRouter.ts",
-      "repoPath": "server/src/routes/internal/users/userRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 19,
-          "line": "console.error('[UserRouter] Error fetching users:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 41,
-          "line": "console.error('[UserRouter] Error fetching user:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 54,
-          "line": "console.error('[UserRouter] Error creating user:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 61,
-          "line": "const validationError = error as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 116,
-          "line": "console.error('[UserRouter] Error updating user:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 122,
-          "line": "const validationError = error as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 174,
-          "line": "console.error('[UserRouter] Error patching user:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 180,
-          "line": "const validationError = error as any;"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 231,
-          "line": "console.error('[UserRouter] Error deleting user:', error);"
-        }
-      ],
-      "score": 45,
       "priority": "P0"
     },
     {
@@ -1392,60 +585,6 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__components__admin__dev__ApiDevPanel.vue",
-      "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 127,
-          "line": "console.error('[ApiDevPanel] Error fetching OAuth status:', error)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 145,
-          "line": "console.error('[ApiDevPanel] Error fetching free-busy cache:', error)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 163,
-          "line": "console.error('[ApiDevPanel] Error fetching events cache:', error)"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 184,
-          "line": "console.error('[ApiDevPanel] Error fetching calendar rate limit:', calendarResponse.reason)"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 190,
-          "line": "console.error('[ApiDevPanel] Error fetching maps rate limit:', mapsResponse.reason)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 199,
-          "line": "console.error('[ApiDevPanel] Error fetching rate limit stats:', error)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 217,
-          "line": "console.error('[ApiDevPanel] Error fetching drive time cache:', error)"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 340,
-          "line": "const startStr = formatDateTimeForDisplay(period.start as any, {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 348,
-          "line": "const endStr = formatTimeForDisplay(period.end as any, {"
-        }
-      ],
-      "score": 37,
-      "priority": "P0"
-    },
-    {
       "id": "server__src__config__app.js",
       "repoPath": "server/src/config/app.js",
       "allowed": [],
@@ -1487,159 +626,6 @@
         }
       ],
       "score": 35,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__businessRulesRouter.ts",
-      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 31,
-          "line": "console.error('Error fetching business rules:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 55,
-          "line": "console.error('Error fetching business rule:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 78,
-          "line": "console.error('Error fetching business rules for block:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 119,
-          "line": "console.error('Error creating business rule:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 161,
-          "line": "console.error('Error updating business rule:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 188,
-          "line": "console.error('Error updating business rule:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 217,
-          "line": "console.error('Error deleting business rule:', error);"
-        }
-      ],
-      "score": 35,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__services__googleCalendarService.ts",
-      "repoPath": "server/src/services/googleCalendarService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 83,
-          "line": "console.log(`[GoogleCalendarService] Cache hit for ${calendarEmails.length} calendars:`, {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 95,
-          "line": "console.log(`[GoogleCalendarService] skipCache=true, bypassing cache check`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 104,
-          "line": "console.warn(`[GoogleCalendarService] Rate limit exceeded, waiting...`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 121,
-          "line": "console.log(`[GoogleCalendarService] Fetching free-busy for ${calendarEmails.length} calendars`, {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 137,
-          "line": "console.log(`[GoogleCalendarService] Raw API response received:`, {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 158,
-          "line": "console.warn(`[GoogleCalendarService] Filtered out ${rawBusyPeriods.length - filteredBusyPeriods.length} invalid busy pe..."
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 167,
-          "line": "console.log(`[GoogleCalendarService] Processed ${busyPeriods.length} busy periods for ${email}:`,"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 179,
-          "line": "console.log(`[GoogleCalendarService] Final transformed response: ${totalBusyPeriods} total busy periods across ${Object...."
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 184,
-          "line": "console.log(`[GoogleCalendarService] Successfully fetched free-busy data`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 256,
-          "line": "console.log(`[GoogleCalendarService] Events cache hit for ${calendarEmail}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 266,
-          "line": "console.warn(`[GoogleCalendarService] Rate limit exceeded, waiting...`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 276,
-          "line": "console.log(`[GoogleCalendarService] Fetching events for ${calendarEmail}`);"
-        },
-        {
-          "ruleId": "catch-comment-only",
-          "lineNumber": 333,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 335,
-          "line": "console.warn(`[GoogleCalendarService] Failed to geocode location \"${event.location}\" for event ${event.id}:`, error inst..."
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 361,
-          "line": "console.log(`[GoogleCalendarService] Successfully fetched ${events.length} events (with placeIds)`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 491,
-          "line": "console.warn('[GoogleCalendarService] Rate limit exceeded, waiting...');"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 536,
-          "line": "console.log(`[GoogleCalendarService] Creating event on calendar: ${calendarId}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 537,
-          "line": "console.log(`[GoogleCalendarService] Event: \"${summary}\" from ${startDate.toISOString()} to ${endDate.toISOString()}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 554,
-          "line": "console.log(`[GoogleCalendarService] Invalidating caches for calendar: ${calendarId}`);"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 562,
-          "line": "console.log(`[GoogleCalendarService] Successfully created event: ${createdEvent.id}`);"
-        }
-      ],
-      "score": 33,
       "priority": "P0"
     },
     {
@@ -1776,117 +762,39 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "id": "server__src__routes__helpers__createCrudRouter.ts",
+      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "console-in-catch",
-          "lineNumber": 97,
-          "line": "console.error('[AdminPrimitiveMetadataRouter] Error fetching metadata:', error);"
+          "ruleId": "as-any",
+          "lineNumber": 165,
+          "line": "options.includes = defaultIncludes as any[]"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 169,
-          "line": "entityType: entityType as any,"
+          "lineNumber": 173,
+          "line": "? (defaultOrder as any[])"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 193,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 212,
-          "line": "console.error('[AdminPrimitiveMetadataRouter] Error creating/updating metadata:', error);"
+          "lineNumber": 174,
+          "line": ": [defaultOrder as any]"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 235,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 255,
-          "line": "console.error('[AdminPrimitiveMetadataRouter] Error deleting metadata:', error);"
-        }
-      ],
-      "score": 30,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 51,
-          "line": "console.error('[AdminRelationshipMetadataRouter] Error fetching metadata:', error);"
+          "lineNumber": 266,
+          "line": "const record = await createRecord(model, data as any)"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 111,
-          "line": "entityType: entityType as any,"
+          "lineNumber": 333,
+          "line": "const updatedCount = await updateRecord(model, id, data as any)"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 135,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 154,
-          "line": "console.error('[AdminRelationshipMetadataRouter] Error creating/updating metadata:', error);"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 177,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 197,
-          "line": "console.error('[AdminRelationshipMetadataRouter] Error deleting metadata:', error);"
-        }
-      ],
-      "score": 30,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__businessSettingsRouter.ts",
-      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 334,
-          "line": "console.error('[BusinessSettingsRouter] Error fetching settings:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 367,
-          "line": "console.error('[BusinessSettingsRouter] Error fetching setting:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 419,
-          "line": "console.error('[BusinessSettingsRouter] Error creating setting:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 472,
-          "line": "console.error('[BusinessSettingsRouter] Error updating setting:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 523,
-          "line": "console.error('[BusinessSettingsRouter] Error patching setting:', error);"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 548,
-          "line": "console.error('[BusinessSettingsRouter] Error deleting setting:', error);"
+          "lineNumber": 413,
+          "line": "const updatedCount = await patchRecord(model, id, data as any)"
         }
       ],
       "score": 30,
@@ -2579,29 +1487,29 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__routes__external__calendarRoutes.ts",
-      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "id": "server__src__routes__internal__properties__propertyHelpers.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "console-in-catch",
-          "lineNumber": 210,
-          "line": "console.error('[CalendarRoutes] Error in POST /events:', error);"
+          "ruleId": "as-any",
+          "lineNumber": 5,
+          "line": "* WHY: Improves code reusability, eliminates `as any` casts, improves type safety"
         },
         {
-          "ruleId": "console-in-catch",
-          "lineNumber": 273,
-          "line": "console.error('[CalendarRoutes] Error in /debug/freebusy-cache:', error);"
+          "ruleId": "as-any",
+          "lineNumber": 14,
+          "line": "* WHY: Replaces `as any` casts with type-safe checks"
         },
         {
-          "ruleId": "console-in-catch",
-          "lineNumber": 314,
-          "line": "console.error('[CalendarRoutes] Error in /debug/events-cache:', error);"
+          "ruleId": "as-any",
+          "lineNumber": 32,
+          "line": "* WHY: Replaces `as any` casts with type-safe checks"
         },
         {
-          "ruleId": "console-in-catch",
-          "lineNumber": 339,
-          "line": "console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);"
+          "ruleId": "as-any",
+          "lineNumber": 49,
+          "line": "* WHY: Replaces `as any` pattern with proper type handling"
         }
       ],
       "score": 20,
@@ -2703,62 +1611,62 @@
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 84,
+          "lineNumber": 85,
           "line": "console.log(`[AppointmentCalendarService] Creating calendar event for appointment ${appointmentId}`);"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 135,
+          "lineNumber": 136,
           "line": "console.error(`[AppointmentCalendarService] Failed to update attendee ${attendee.id}:`, error);"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 139,
+          "lineNumber": 140,
           "line": "console.log(`[AppointmentCalendarService] Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 156,
+          "lineNumber": 157,
           "line": "console.error('[AppointmentCalendarService] Error creating calendar event:', error);"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 260,
+          "lineNumber": 261,
           "line": "console.error(`[AppointmentCalendarService] No time slots found for appointment ${appointment.id}`);"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 261,
+          "lineNumber": 262,
           "line": "console.error(`[AppointmentCalendarService] selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 266,
+          "lineNumber": 267,
           "line": "console.error(`[AppointmentCalendarService] Time slot missing startTime/endTime for appointment ${appointment.id}`);"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 267,
+          "lineNumber": 268,
           "line": "console.error(`[AppointmentCalendarService] firstSlot:`, JSON.stringify(firstSlot));"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 275,
+          "lineNumber": 276,
           "line": "console.log(`[AppointmentCalendarService] Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`)..."
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 282,
+          "lineNumber": 283,
           "line": "console.error(`[AppointmentCalendarService] Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime..."
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 313,
+          "lineNumber": 314,
           "line": "console.warn(`[AppointmentCalendarService] Attendee ${attendee.id} has no email, skipping`);"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 357,
+          "lineNumber": 358,
           "line": "console.log(`[AppointmentCalendarService] Status sync not yet implemented for ${appointmentId}`);"
         }
       ],
@@ -2908,24 +1816,120 @@
       "priority": "P0"
     },
     {
+      "id": "server__src__routes__external__calendarRoutes.ts",
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 209,
+          "line": "console.error('[CalendarRoutes] Error in POST /events:', error);"
+        },
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 272,
+          "line": "console.error('[CalendarRoutes] Error in /debug/events-cache:', error);"
+        },
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 297,
+          "line": "console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);"
+        }
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__routes__external__mapsRoutes.ts",
       "repoPath": "server/src/routes/external/mapsRoutes.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 64,
+          "lineNumber": 66,
           "line": "console.error('[MapsRoutes] Autocomplete error:', error);"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 117,
+          "lineNumber": 119,
           "line": "console.error('[MapsRoutes] Place details error:', error);"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 237,
+          "lineNumber": 239,
           "line": "console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);"
+        }
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 123,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 147,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 195,
+          "line": "entityType: entityType as any,"
+        }
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 113,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 137,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 185,
+          "line": "entityType: entityType as any,"
+        }
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__businessSettings__businessSettingsHelpers.ts",
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 49,
+          "line": "return null as any"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 67,
+          "line": "...existingValue as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 68,
+          "line": "...newValue as any,"
         }
       ],
       "score": 15,
@@ -3222,17 +2226,17 @@
       "requiresReview": [
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 175,
+          "lineNumber": 182,
           "line": "console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeTo for ${date}:`, error)"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 192,
+          "lineNumber": 199,
           "line": "console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeFrom for ${date}:`, error)"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 350,
+          "lineNumber": 335,
           "line": "console.log(`[ComputedAvailabilityService] Computed availability data in ${duration}ms`)"
         }
       ],
@@ -3367,6 +2371,25 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__dev__formatDevPanelData.ts",
+      "repoPath": "client/src/utils/dev/formatDevPanelData.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 57,
+          "line": "const startStr = formatDateTimeForDisplay(period.start as any, {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 65,
+          "line": "const endStr = formatTimeForDisplay(period.end as any, {"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__views__admin__tabs__components__AppointmentsTable.vue",
       "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
       "allowed": [],
@@ -3386,13 +2409,184 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__services__googleMapsService.ts",
-      "repoPath": "server/src/services/googleMapsService.ts",
+      "id": "server__src__routes__helpers__routerErrorHandler.ts",
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 46,
+          "line": "const validationError = error as any"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 65,
+          "line": "const validationError = error as any"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 215,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 217,
+          "line": "metadataType: metadataType as any,"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataHelpers.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 103,
+          "line": "entityType: entityType as any,"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 105,
+          "line": "metadataType: metadataType as any,"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataValidators.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 22,
+          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 110,
+          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataValidators.ts",
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 22,
+          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 110,
+          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataValidators.ts",
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 22,
+          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 87,
+          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyValidators.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 72,
+          "line": "const blockShape = (blockInstance as any).block_shape"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 104,
+          "line": "const blockShape = (bi as any).block_shape"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipErrorHandler.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipErrorHandler.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 45,
+          "line": "(error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 84,
+          "line": "(error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipHelpers.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 171,
+          "line": "const parentBlockInstanceWithShape = parentBlockInstance as any"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 178,
+          "line": "const childBlockInstanceWithShape = childBlockInstance as any"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__services__google__maps__placesApiService.ts",
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "catch-comment-only",
-          "lineNumber": 478,
+          "lineNumber": 345,
           "line": "} catch (error) {"
         }
       ],
@@ -3689,14 +2883,70 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__routes__internal__availabilityRouter.ts",
-      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
+      "id": "server__src__routes__internal__appointments__appointmentHelpers.ts",
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 214,
+          "line": "return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__routes__internal__businessSettings__businessSettingsCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 236,
+          "line": "setting.settingValue = mergedValue as any"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__routes__internal__dev__devStatusRouter.ts",
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 41,
-          "line": "console.error('[AvailabilityRouter] Error computing availability data:', error);"
+          "lineNumber": 140,
+          "line": "console.error('[DevStatusRouter] Error in /status:', error)"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 290,
+          "line": "sendBadRequest(res, error.message, undefined, (error as any).blockShapeId)"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__scripts__importCalendarData.ts",
+      "repoPath": "server/src/scripts/importCalendarData.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 48,
+          "line": "* WHY: Replaces unsafe `as any` cast with type-safe interface"
         }
       ],
       "score": 5,
@@ -3729,6 +2979,35 @@
       ],
       "score": 5,
       "priority": "P1"
+    },
+    {
+      "id": "server__src__scripts__fix-missing-layout-configs.mjs",
+      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "console-general",
+          "lineNumber": 33,
+          "line": "info: (...args) => console.log(prefix, ...args),"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 34,
+          "line": "warn: (...args) => console.warn(prefix, ...args),"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 35,
+          "line": "error: (...args) => console.error(prefix, ...args),"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 36,
+          "line": "debug: (...args) => console.log(prefix, ...args),"
+        }
+      ],
+      "score": 4,
+      "priority": "P2"
     },
     {
       "id": "client__src__composables__booking__useWizardFilteredOptions.ts",
@@ -3800,25 +3079,6 @@
         }
       ],
       "score": 3,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__timeAvailabilityManager.ts",
-      "repoPath": "client/src/utils/booking/timeAvailabilityManager.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 300,
-          "line": "console.warn(`[preprocessBusyPeriods] Filtered out ${invalidCount} invalid busy periods (${busyTimes.length} -> ${validB..."
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 311,
-          "line": "console.log(`[preprocessBusyPeriods] Merged ${sortedBusyTimes.length} periods into ${mergedBusyTimes.length} periods`)"
-        }
-      ],
-      "score": 2,
       "priority": "P2"
     },
     {
