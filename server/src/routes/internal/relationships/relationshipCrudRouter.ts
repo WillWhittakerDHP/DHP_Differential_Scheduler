@@ -30,10 +30,16 @@ import {
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 import { InstanceComponent } from '../../../config/app.js'
+import { relationshipTypeParamHandler } from './relationshipParamMiddleware.js'
 
 const logger = createLogger('RelationshipRouter')
 
 const router = Router()
+
+// Register param handler for relationshipType parameter
+// LEARNING: router.param() must be registered on the router that defines routes with :relationshipType
+// WHY: Express param callbacks only fire for params on routes defined on that specific router
+router.param('relationshipType', relationshipTypeParamHandler)
 
 /**
  * Build where clause for relationship queries

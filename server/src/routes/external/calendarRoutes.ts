@@ -1,10 +1,10 @@
 import { Router, Request, Response } from 'express';
-import { 
-  createEvent, 
-  setCalendarCredentials,
-  type CreateEventParams,
-  type EventAttendee 
-} from '../../services/googleCalendarService.js';
+import { createEvent } from '../../services/google/calendar/eventCreationService.js';
+import { setCalendarCredentials } from '../../services/google/calendar/calendarCredentials.js';
+import type {
+  CreateEventParams,
+  EventAttendee
+} from '../../services/google/calendar/calendarTypes.js';
 import { getCredentials } from '../../config/googleOAuth.js';
 import { getCacheStats, getAllCachedEntries as getAllFreeBusyEntries } from '../../services/freeBusyCache.js';
 import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';

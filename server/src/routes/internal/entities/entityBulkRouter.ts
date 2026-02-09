@@ -15,8 +15,14 @@ import { validateBulkUpdateArray } from './entityValidators.js'
 import { transformOrderIndexPayload, handleBlockInstanceVersioning } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js'
+import { entityTypeParamHandler } from './entityParamMiddleware.js'
 
 const router = Router()
+
+// Register param handler for entityType parameter
+// LEARNING: router.param() must be registered on the router that defines routes with :entityType
+// WHY: Express param callbacks only fire for params on routes defined on that specific router
+router.param('entityType', entityTypeParamHandler)
 
 /**
  * PATCH /entities/:entityType/order_index

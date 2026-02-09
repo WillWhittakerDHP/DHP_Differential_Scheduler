@@ -8,7 +8,8 @@
  * SESSION: 2.1.3b - Appointment Attendees Architecture
  */
 
-import { createEvent, type CreateEventParams, type EventAttendee } from './googleCalendarService.js';
+import { createEvent } from './google/calendar/eventCreationService.js';
+import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
 
 /**

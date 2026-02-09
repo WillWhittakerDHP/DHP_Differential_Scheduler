@@ -7,8 +7,8 @@
  */
 
 import { Response } from 'express'
-import { createLogger } from '../../../utils/logger.js'
-import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
+import { createLogger } from '../../utils/logger.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 
 const logger = createLogger('RouterErrorHandler')
 

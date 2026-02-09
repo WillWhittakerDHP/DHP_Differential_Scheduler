@@ -32,8 +32,9 @@ import {
   extractOverlapConstraints,
   extractCapacityConstraints,
 } from './constraintExtractor.js'
-import { getFreeBusy, getCalendarEvents } from './googleCalendarService.js'
-import { calculateDriveTime } from './googleMapsService.js'
+import { getFreeBusy } from './google/calendar/freeBusyService.js'
+import { getCalendarEvents } from './google/calendar/eventsService.js'
+import { calculateDriveTime } from './google/maps/routesApiService.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
 
 const AVAILABILITY_SETTINGS_KEY = 'availability_settings'

@@ -10,7 +10,7 @@
  * CRITICAL: Cache reduces API calls - Routes API charges per element
  */
 
-import type { RouteLocation } from './googleMapsService.js';
+import type { RouteLocation } from './google/maps/mapsTypes.js';
 
 /**
  * Cached drive time entry

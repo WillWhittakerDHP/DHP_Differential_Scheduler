@@ -1,4 +1,5 @@
 import { EntityConfig } from '../config/entityRegistry';
+import { RelationshipConfig } from '../routes/internal/relationships/relationshipConstants';
 
 interface AnnotationConfig {
   model: any;
@@ -18,6 +19,7 @@ declare global {
       entityConfig?: EntityConfig;
       annotationConfig?: AnnotationConfig;
       eventConfig?: EventConfig;
+      relationshipConfig?: RelationshipConfig;
     }
   }
 }

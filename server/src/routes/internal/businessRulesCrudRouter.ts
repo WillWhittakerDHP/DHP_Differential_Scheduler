@@ -7,12 +7,12 @@
  */
 
 import { Router, Request, Response } from 'express'
-import { BusinessRule } from '../../../config/app.js'
+import { BusinessRule } from '../../config/app.js'
 import { Op } from 'sequelize'
 import { ERROR_MESSAGES } from './businessRulesConstants.js'
 import { handleRouteError } from './businessRulesErrorHandler.js'
 import { validateRequiredFields, validateRuleType } from './businessRulesValidators.js'
-import { HTTP_STATUS_CODES } from '../../../constants/router.js'
+import { HTTP_STATUS_CODES } from '../../constants/router.js'
 
 const router = Router()
 

@@ -2,11 +2,13 @@ import { Router, Request, Response } from 'express';
 import { 
   getAutocompleteSuggestions, 
   getPlaceDetails,
-  generateSessionToken,
-  MapsApiError,
-  type AutocompletePrediction,
-  type PlaceDetails
-} from '../../services/googleMapsService.js';
+  generateSessionToken
+} from '../../services/google/maps/placesApiService.js';
+import { MapsApiError } from '../../services/google/maps/mapsErrorHandler.js';
+import type {
+  AutocompletePrediction,
+  PlaceDetails
+} from '../../services/google/maps/mapsTypes.js';
 import { getRateLimitStats } from '../../services/rateLimiter.js';
 import { 
   getDriveTimeCacheStats,

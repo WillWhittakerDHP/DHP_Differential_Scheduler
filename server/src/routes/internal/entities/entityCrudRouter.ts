@@ -22,10 +22,16 @@ import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './enti
 import { buildFetchOptions, handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { createLogger } from '../../../utils/logger.js'
+import { entityTypeParamHandler } from './entityParamMiddleware.js'
 
 const logger = createLogger('EntityRouter')
 
 const router = Router()
+
+// Register param handler for entityType parameter
+// LEARNING: router.param() must be registered on the router that defines routes with :entityType
+// WHY: Express param callbacks only fire for params on routes defined on that specific router
+router.param('entityType', entityTypeParamHandler)
 
 /**
  * GET /entities/:entityType
