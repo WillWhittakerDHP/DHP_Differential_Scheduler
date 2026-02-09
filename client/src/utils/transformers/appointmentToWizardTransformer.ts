@@ -421,12 +421,22 @@ export async function transformAppointmentToWizard(
     return null
   }
   
+  const extractedPlaceId = typeof address?.placeId === 'string' ? address.placeId : undefined
+  const extractedCoordinates = (address?.latitude != null && address?.longitude != null)
+    ? { lat: Number(address.latitude), lng: Number(address.longitude) }
+    : undefined
+  
   const propertyDetails = {
     address: address?.address ?? '',
     unit: address?.unit ?? '',
     city: address?.city ?? '',
     state: address?.state ?? '',
     zipCode: address?.zipCode ?? '',
+    // LEARNING: Extract placeId and coordinates from address object
+    // WHY: These are needed for drive time calculations and API orchestrator
+    // PATTERN: Extract from address object if available, otherwise undefined
+    placeId: extractedPlaceId,
+    coordinates: extractedCoordinates,
     
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,

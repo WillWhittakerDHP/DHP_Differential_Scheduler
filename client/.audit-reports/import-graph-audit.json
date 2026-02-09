@@ -1,0 +1,380 @@
+{
+  "generatedAt": "2026-02-08T23:31:47.942Z",
+  "totalFiles": 1041,
+  "thresholds": {
+    "maxFanOut": 15,
+    "maxFanIn": 20
+  },
+  "cycles": [
+    {
+      "key": "client/src/composables/booking/useConfirmationStepData -> client/src/utils/booking/confirmationStepData -> client/src/composables/booking/useConfirmationStepData",
+      "chain": [
+        "client/src/composables/booking/useConfirmationStepData",
+        "client/src/utils/booking/confirmationStepData",
+        "client/src/composables/booking/useConfirmationStepData"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
+      "chain": [
+        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
+        "client/src/configs/field/display/fullFieldDisplayConfig",
+        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/configs/field/display/appliedDisplay/blockShapeDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
+      "chain": [
+        "client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
+        "client/src/configs/field/display/fullFieldDisplayConfig",
+        "client/src/configs/field/display/appliedDisplay/blockShapeDisplays"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/configs/field/display/appliedDisplay/partInstanceDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
+      "chain": [
+        "client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
+        "client/src/configs/field/display/fullFieldDisplayConfig",
+        "client/src/configs/field/display/appliedDisplay/partInstanceDisplays"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/configs/field/display/appliedDisplay/partShapeDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/partShapeDisplays",
+      "chain": [
+        "client/src/configs/field/display/appliedDisplay/partShapeDisplays",
+        "client/src/configs/field/display/fullFieldDisplayConfig",
+        "client/src/configs/field/display/appliedDisplay/partShapeDisplays"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/types/annotations -> client/src/types/entities -> client/src/types/annotations",
+      "chain": [
+        "client/src/types/annotations",
+        "client/src/types/entities",
+        "client/src/types/annotations"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/utils/booking/BlockFinal -> client/src/utils/booking/partFinalizer -> client/src/utils/booking/BlockFinal",
+      "chain": [
+        "client/src/utils/booking/BlockFinal",
+        "client/src/utils/booking/partFinalizer",
+        "client/src/utils/booking/BlockFinal"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/utils/booking/timeAvailabilityManager -> client/src/utils/booking/timeSlotFitter -> client/src/utils/booking/timeAvailabilityManager",
+      "chain": [
+        "client/src/utils/booking/timeAvailabilityManager",
+        "client/src/utils/booking/timeSlotFitter",
+        "client/src/utils/booking/timeAvailabilityManager"
+      ],
+      "length": 2
+    },
+    {
+      "key": "client/src/components/admin/generic/EntityCard -> client/src/components/admin/generic/fields/FieldRenderer -> client/src/components/admin/generic/collections/RelationshipCollection -> client/src/components/admin/generic/EntityCard",
+      "chain": [
+        "client/src/components/admin/generic/EntityCard",
+        "client/src/components/admin/generic/fields/FieldRenderer",
+        "client/src/components/admin/generic/collections/RelationshipCollection",
+        "client/src/components/admin/generic/EntityCard"
+      ],
+      "length": 3
+    },
+    {
+      "key": "client/src/configs/field/display/appliedDisplay/baseEntityDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockInstanceDisplays -> client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
+      "chain": [
+        "client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
+        "client/src/configs/field/display/fullFieldDisplayConfig",
+        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
+        "client/src/configs/field/display/appliedDisplay/baseEntityDisplays"
+      ],
+      "length": 3
+    },
+    {
+      "key": "client/src/types/annotations -> client/src/types/userTypes -> client/src/types/entities -> client/src/types/annotations",
+      "chain": [
+        "client/src/types/annotations",
+        "client/src/types/userTypes",
+        "client/src/types/entities",
+        "client/src/types/annotations"
+      ],
+      "length": 3
+    },
+    {
+      "key": "client/src/types/appointment -> client/src/utils/booking/BlockFinal -> client/src/utils/booking/partFinalizer -> client/src/types/appointment",
+      "chain": [
+        "client/src/types/appointment",
+        "client/src/utils/booking/BlockFinal",
+        "client/src/utils/booking/partFinalizer",
+        "client/src/types/appointment"
+      ],
+      "length": 3
+    }
+  ],
+  "fanOutViolations": [
+    {
+      "file": "server/src/db/models/index",
+      "fanOut": 31
+    },
+    {
+      "file": "client/src/components/booking/steps/AvailabilityStep",
+      "fanOut": 30
+    },
+    {
+      "file": "client/src/components/booking/BookingWizard",
+      "fanOut": 24
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard",
+      "fanOut": 22
+    },
+    {
+      "file": "client/src/views/admin/tabs/InstancesTab",
+      "fanOut": 22
+    },
+    {
+      "file": "client/src/components/admin/generic/fields/SelectInputs",
+      "fanOut": 21
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyDetailsStep",
+      "fanOut": 17
+    }
+  ],
+  "fanInViolations": [
+    {
+      "file": "client/src/constants/entities",
+      "fanIn": 125
+    },
+    {
+      "file": "client/src/types/entities",
+      "fanIn": 123
+    },
+    {
+      "file": "client/src/constants/primitives",
+      "fanIn": 75
+    },
+    {
+      "file": "client/src/utils/transformers/globalToBookingTransformer",
+      "fanIn": 49
+    },
+    {
+      "file": "client/src/types/appointment",
+      "fanIn": 48
+    },
+    {
+      "file": "client/src/utils/logger",
+      "fanIn": 46
+    },
+    {
+      "file": "client/src/composables/useGlobal",
+      "fanIn": 38
+    },
+    {
+      "file": "client/src/types/entityMetadata",
+      "fanIn": 33
+    },
+    {
+      "file": "client/src/components/booking/types/selectionCardTypes",
+      "fanIn": 32
+    },
+    {
+      "file": "client/src/composables/useFieldContext",
+      "fanIn": 31
+    },
+    {
+      "file": "client/src/types/datetime",
+      "fanIn": 30
+    },
+    {
+      "file": "client/src/utils/api",
+      "fanIn": 25
+    }
+  ],
+  "crossBoundary": [],
+  "files": [
+    {
+      "file": "client/src/configs/field/display/fullFieldDisplayConfig",
+      "score": 50,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/types/entities",
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/types/annotations",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/utils/booking/BlockFinal",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/utils/booking/partFinalizer",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard",
+      "score": 13,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/types/appointment",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/booking/useConfirmationStepData",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/booking/confirmationStepData",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/configs/field/display/appliedDisplay/partShapeDisplays",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/booking/timeAvailabilityManager",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/booking/timeSlotFitter",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/components/admin/generic/fields/FieldRenderer",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/components/admin/generic/collections/RelationshipCollection",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/types/userTypes",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "server/src/db/models/index",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/steps/AvailabilityStep",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/BookingWizard",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/views/admin/tabs/InstancesTab",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/admin/generic/fields/SelectInputs",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyDetailsStep",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/constants/entities",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/constants/primitives",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/transformers/globalToBookingTransformer",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/logger",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useGlobal",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/entityMetadata",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/types/selectionCardTypes",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useFieldContext",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/datetime",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/api",
+      "score": 2,
+      "priority": "P2"
+    }
+  ]
+}

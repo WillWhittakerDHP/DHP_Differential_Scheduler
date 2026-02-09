@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/forms/
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject, type Ref } from 'vue'
 import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
@@ -22,9 +22,17 @@ import BusinessRulesTab from './BusinessRulesTab.vue'
 import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 
 /**
- * LEARNING: Use availability settings composable
- * WHY: All logic moved to composable - component is pure rendering
- * PATTERN: Composable handles all state, API calls, and validation
+ * LEARNING: Check if this tab is active via injected parent tab state
+ * WHY: Only load settings when tab is active to prevent unnecessary API calls
+ * PATTERN: Inject parent tab state and compute if this tab is active
+ */
+const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
+const isTabActive = computed(() => adminCurrentTab?.value === 'business' ?? false)
+
+/**
+ * LEARNING: Use availability settings composable with conditional loading
+ * WHY: Only load settings when tab is active, preventing API calls on initial page load
+ * PATTERN: Pass enabled computed ref to composable to control when loading happens
  */
 const {
   formData,
@@ -33,7 +41,9 @@ const {
   error,
   success,
   saveSettings
-} = useAvailabilitySettings()
+} = useAvailabilitySettings({
+  enabled: isTabActive
+})
 
 const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = useLocalTime()
 
@@ -408,7 +418,7 @@ const ensureDriveTimeTo = createEnsureNested(
   () => ({
     minutes: 30,
     enforcement: 'hard' as const,
-    applyTo: 'first_only' as const
+    applyTo: 'skipDayStart' as const  // Session 2.2.3: Fixed to match DriveTimeApplyTo type
   } as DriveTimeConfig)
 )
 
@@ -418,7 +428,7 @@ const ensureDriveTimeFrom = createEnsureNested(
   () => ({
     minutes: 15,
     enforcement: 'hard' as const,
-    applyTo: 'last_only' as const
+    applyTo: 'skipDayEnd' as const  // Session 2.2.3: Fixed to match DriveTimeApplyTo type
   } as DriveTimeConfig)
 )
 

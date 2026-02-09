@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T21:38:21.993Z",
+  "generatedAt": "2026-02-08T23:28:49.643Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 463,
+  "fileCount": 475,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -29,8 +29,10 @@
           "client/src/composables/admin/useDragAndDropHelpers.ts",
           "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
           "client/src/utils/api/relationshipApiHelpers.ts",
+          "client/src/utils/booking/BlockFinal.ts",
           "client/src/utils/booking/PartFinal.ts",
           "client/src/utils/booking/appointmentSlotBuilder.ts",
+          "client/src/utils/booking/blockFinalizer.ts",
           "client/src/utils/booking/partFinalizer.ts",
           "client/src/utils/booking/partShapeAggregator.ts",
           "client/src/utils/booking/wizardValidation.ts",
@@ -38,9 +40,10 @@
           "client/src/utils/logger.ts",
           "server/src/services/appointmentCalendarService.ts",
           "server/src/services/googleCalendarService.ts",
-          "server/src/services/instanceVersioning.ts"
+          "server/src/services/instanceVersioning.ts",
+          "server/src/utils/logger.ts"
         ],
-        "patternCount": 22
+        "patternCount": 24
       },
       {
         "prefix": "get",
@@ -55,6 +58,7 @@
           "client/src/configs/eventPerspectiveLabels.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/services/calendarApiService.ts",
+          "client/src/services/mapsApiService.ts",
           "client/src/types/datetime.ts",
           "client/src/utils/admin/entityDisplayText.ts",
           "client/src/utils/annotationUtils.ts",
@@ -78,7 +82,6 @@
           "client/src/utils/forms/getFieldKeys.ts",
           "client/src/utils/iconMapper.ts",
           "client/src/utils/time/timeFormatting.ts",
-          "client/src/utils/timeSlotCalculations.ts",
           "client/src/utils/transformers/annotationTransformers.ts",
           "client/src/utils/transformers/componentAggregator.ts",
           "client/src/utils/transformers/relationshipTransformers.ts",
@@ -86,8 +89,10 @@
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
           "server/src/services/calendarEventsCache.ts",
+          "server/src/services/driveTimeCache.ts",
           "server/src/services/freeBusyCache.ts",
           "server/src/services/googleCalendarService.ts",
+          "server/src/services/googleMapsService.ts",
           "server/src/services/rateLimiter.ts",
           "server/src/test/setup/testDb.ts",
           "server/src/utils/adminMetadataComposer.ts",
@@ -96,7 +101,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 102
+        "patternCount": 108
       },
       {
         "prefix": "use",
@@ -112,6 +117,7 @@
           "client/src/composables/admin/useAvailabilitySettings.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
           "client/src/composables/admin/useBusinessRules.ts",
+          "client/src/composables/admin/useCalendarEntries.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDragAndDrop.ts",
@@ -191,6 +197,7 @@
           "client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
+          "client/src/composables/booking/useApiCallStatus.ts",
           "client/src/composables/booking/useAppointmentDataCollection.ts",
           "client/src/composables/booking/useAppointmentDropdown.ts",
           "client/src/composables/booking/useAppointmentDuration.ts",
@@ -210,17 +217,17 @@
           "client/src/composables/booking/useAvailableStartTimes.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
-          "client/src/composables/booking/useBusyTimes.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
+          "client/src/composables/booking/useComputedAvailability.ts",
           "client/src/composables/booking/useConfirmationStepData.ts",
           "client/src/composables/booking/useContactsStepData.ts",
           "client/src/composables/booking/useContactsValidation.ts",
+          "client/src/composables/booking/useDateRangeDecider.ts",
           "client/src/composables/booking/useDependentInstances.ts",
           "client/src/composables/booking/useDevPanelsComputed.ts",
           "client/src/composables/booking/useDurationRounding.ts",
           "client/src/composables/booking/useDynamicGridConfig.ts",
           "client/src/composables/booking/useElementDimensions.ts",
-          "client/src/composables/booking/useFreeBusyDataSource.ts",
           "client/src/composables/booking/useInstanceComponents.ts",
           "client/src/composables/booking/useInstanceComponentsList.ts",
           "client/src/composables/booking/useInstanceDescriptions.ts",
@@ -293,6 +300,7 @@
           "client/src/composables/useLayoutLoading.ts",
           "client/src/composables/useLoadingIndicator.ts",
           "client/src/composables/useLocalTime.ts",
+          "client/src/composables/useMapsSessionToken.ts",
           "client/src/composables/useNotification.ts",
           "client/src/composables/usePartInstanceData.ts",
           "client/src/composables/useProperty.ts",
@@ -303,10 +311,27 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 205
+        "patternCount": 208
       }
     ],
-    "repeatedStringFiles": []
+    "repeatedStringFiles": [
+      {
+        "value": "hit",
+        "files": [
+          "client/src/components/admin/dev/ApiDevPanel.vue",
+          "client/src/composables/booking/useApiCallStatus.ts"
+        ],
+        "occurrences": 3
+      },
+      {
+        "value": "OK",
+        "files": [
+          "client/src/services/mapsApiService.ts",
+          "server/src/services/googleMapsService.ts"
+        ],
+        "occurrences": 3
+      }
+    ]
   },
   "groups": [
     {
@@ -511,6 +536,39 @@
         }
       ],
       "score": 34,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-0d3194f54d5e",
+      "hash": "0d3194f54d5e",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 46,
+          "endLine": 55,
+          "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 241,
+          "endLine": 250,
+          "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
+          "startLine": 71,
+          "endLine": 80,
+          "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
+          "target": "client/src/composables/booking/useWizardDevMode.ts"
+        }
+      ],
+      "score": 33,
       "priority": "P0"
     },
     {
@@ -1240,6 +1298,39 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-faf7bc22dbba",
+      "hash": "faf7bc22dbba",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 47,
+          "endLine": 56,
+          "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 242,
+          "endLine": 251,
+          "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
+          "startLine": 72,
+          "endLine": 81,
+          "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
+          "target": "client/src/composables/booking/useWizardDevMode.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-2e12e6687052",
       "hash": "2e12e6687052",
       "uniqueFiles": 2,
@@ -1340,6 +1431,32 @@
           "endLine": 233,
           "windowText": "end: { dateTime: \"2025-01-05T16:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Todd Litchfield\",\nlocation: \"8319 Carnegie Dr, Vienna, VA 22180\",\nstart: { dateTime: \"2025-01-16T12:30:00-05:00\" },\nend: { dateTime: \"2025-01-16T14:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Nezam Hamiki\",",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-012f8e607c7e",
+      "hash": "012f8e607c7e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "normalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 36,
+          "endLine": 68,
+          "windowText": "normalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 36,
+          "endLine": 68,
+          "windowText": "normalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -1563,8 +1680,8 @@
       "locations": [
         {
           "repoPath": "server/src/services/calendarEventsCache.ts",
-          "startLine": 86,
-          "endLine": 105,
+          "startLine": 90,
+          "endLine": 109,
           "windowText": "const maxTime = typeof timeMax === 'string' ? new Date(timeMax).getTime() : timeMax.getTime();\nconst sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);\nconst isNearTerm = minTime < sevenDaysFromNow || maxTime < sevenDaysFromNow;\nreturn isNearTerm ? DEFAULT_TTL_NEAR_TERM : DEFAULT_TTL_FUTURE;\nfunction cleanExpiredEntries(): void {\nconst now = Date.now();\nfor (const [key, entry] of cache.entries()) {\nconst age = now - entry.timestamp;\nif (age > entry.ttl) {\ncache.delete(key);",
           "target": "server/src/services/calendarEventsCache.ts"
         },
@@ -1600,6 +1717,32 @@
           "endLine": 213,
           "windowText": "end: { dateTime: \"2025-01-04T14:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for George Lima\",\nlocation: \"1002 9th St NE, Washington, DC 20002\",\nstart: { dateTime: \"2025-01-05T09:00:00-05:00\" },\nend: { dateTime: \"2025-01-05T10:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Jason Townsend\",",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-0865f1a90261",
+      "hash": "0865f1a90261",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "normalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 34,
+          "endLine": 66,
+          "windowText": "normalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 34,
+          "endLine": 66,
+          "windowText": "normalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -1762,26 +1905,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-0d3194f54d5e",
-      "hash": "0d3194f54d5e",
+      "groupId": "dup-0cf931042961",
+      "hash": "0cf931042961",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
+      "windowText": "handleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value",
       "locations": [
         {
-          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 398,
-          "endLine": 407,
-          "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
-          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 51,
+          "endLine": 63,
+          "windowText": "handleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
         },
         {
-          "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
-          "startLine": 71,
-          "endLine": 80,
-          "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
-          "target": "client/src/composables/booking/useWizardDevMode.ts"
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 246,
+          "endLine": 258,
+          "windowText": "handleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         }
       ],
       "score": 22,
@@ -1834,6 +1977,32 @@
           "endLine": 135,
           "windowText": "organizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Ryan Tyndall\",\nlocation: \"2325 42nd St NW 412, Washington, DC 20007\",\nstart: { dateTime: \"2024-12-21T09:00:00-05:00\" },\nend: { dateTime: \"2024-12-21T11:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Emma MacEachern\",\nlocation: \"1867 Park Rd NW 3, Washington, DC 20010\",\nstart: { dateTime: \"2024-12-21T15:30:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-1153c9a07551",
+      "hash": "1153c9a07551",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "let cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {\nif (cachedDebugScopes === undefined) {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 60,
+          "endLine": 73,
+          "windowText": "let cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {\nif (cachedDebugScopes === undefined) {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 60,
+          "endLine": 73,
+          "windowText": "let cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {\nif (cachedDebugScopes === undefined) {",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -1944,6 +2113,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-1402d0eab6c7",
+      "hash": "1402d0eab6c7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 50,
+          "endLine": 60,
+          "windowText": "fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 245,
+          "endLine": 255,
+          "windowText": "fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-1653bdb56e9b",
       "hash": "1653bdb56e9b",
       "uniqueFiles": 2,
@@ -1990,6 +2185,32 @@
           "endLine": 114,
           "windowText": "type: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: true,\nmodelName: 'annotation_assignment',\ntableName: 'annotation_assignments',\nfields: ['block_instance_id', 'annotation_id', 'user_type_block_instance_id'],\nname: 'unique_block_instance_annotation_user_type',\nfields: ['block_instance_id'],",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-170c9613a9b4",
+      "hash": "170c9613a9b4",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "console.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupEnd()",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 132,
+          "endLine": 144,
+          "windowText": "console.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupEnd()",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 135,
+          "endLine": 147,
+          "windowText": "console.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupEnd()",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -2083,8 +2304,8 @@
       "locations": [
         {
           "repoPath": "server/src/services/calendarEventsCache.ts",
-          "startLine": 83,
-          "endLine": 102,
+          "startLine": 87,
+          "endLine": 106,
           "windowText": "function getTTL(timeMin: string | Date, timeMax: string | Date): number {\nconst now = Date.now();\nconst minTime = typeof timeMin === 'string' ? new Date(timeMin).getTime() : timeMin.getTime();\nconst maxTime = typeof timeMax === 'string' ? new Date(timeMax).getTime() : timeMax.getTime();\nconst sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);\nconst isNearTerm = minTime < sevenDaysFromNow || maxTime < sevenDaysFromNow;\nreturn isNearTerm ? DEFAULT_TTL_NEAR_TERM : DEFAULT_TTL_FUTURE;\nfunction cleanExpiredEntries(): void {\nconst now = Date.now();\nfor (const [key, entry] of cache.entries()) {",
           "target": "server/src/services/calendarEventsCache.ts"
         },
@@ -2250,6 +2471,32 @@
           "endLine": 253,
           "windowText": "end: { dateTime: \"2025-01-16T16:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Renee Peres\",\nlocation: \"2001 12th St NW 412, Washington, DC 20009\",\nstart: { dateTime: \"2025-01-17T16:00:00-05:00\" },\nend: { dateTime: \"2025-01-17T17:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Jill Judge\",",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-21a75cb7636d",
+      "hash": "21a75cb7636d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 131,
+          "endLine": 143,
+          "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 134,
+          "endLine": 146,
+          "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -2770,6 +3017,32 @@
           "endLine": 306,
           "windowText": "summary: \"Walk & Talk for Ryan Tyndall\",\nlocation: \"4522 Garrison St NW, Washington, DC 20016\",\nstart: { dateTime: \"2025-01-26T09:30:00-05:00\" },\nend: { dateTime: \"2025-01-26T11:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Alison Scimeca\",\nlocation: \"1705 Euclid St NW 1, Washington, DC 20009\",\nstart: { dateTime: \"2025-01-26T12:00:00-05:00\" },\nend: { dateTime: \"2025-01-26T13:00:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-2ed2bd4bbdc7",
+      "hash": "2ed2bd4bbdc7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "groupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 22,
+          "endLine": 36,
+          "windowText": "groupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 22,
+          "endLine": 36,
+          "windowText": "groupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -3556,6 +3829,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-3f58b83a17d5",
+      "hash": "3f58b83a17d5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 116,
+          "endLine": 128,
+          "windowText": "const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 119,
+          "endLine": 131,
+          "windowText": "const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-40b2865e1777",
       "hash": "40b2865e1777",
       "uniqueFiles": 2,
@@ -3576,6 +3875,32 @@
           "endLine": 102,
           "windowText": "field: 'user_type_block_instance_id',\nmodel: 'block_instances',\ncomment: 'Optional user type override for this specific relationship (BlockInstance ID representing user type)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-415cb3926ae7",
+      "hash": "415cb3926ae7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "if (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 29,
+          "endLine": 60,
+          "windowText": "if (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 29,
+          "endLine": 60,
+          "windowText": "if (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -3877,8 +4202,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 164,
-          "endLine": 180,
+          "startLine": 161,
+          "endLine": 177,
           "windowText": "const selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -3914,6 +4239,32 @@
           "endLine": 107,
           "windowText": "type: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,\nmodelName: 'part_assignment',\ntableName: 'part_assignments',\nfields: [\"parent_id\", \"child_id\"]\nfreezeTableName: true,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-4989e9c11648",
+      "hash": "4989e9c11648",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "backoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);\nreturn Math.round(baseDelay + jitter);",
+      "locations": [
+        {
+          "repoPath": "server/src/services/calendarErrorHandler.ts",
+          "startLine": 175,
+          "endLine": 200,
+          "windowText": "backoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);\nreturn Math.round(baseDelay + jitter);",
+          "target": "server/src/services/calendarErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/services/googleMapsService.ts",
+          "startLine": 730,
+          "endLine": 755,
+          "windowText": "backoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);\nreturn Math.round(baseDelay + jitter);",
+          "target": "server/src/services/googleMapsService.ts"
         }
       ],
       "score": 22,
@@ -3966,6 +4317,32 @@
           "endLine": 168,
           "windowText": "VALUES (:id, :shapeId, :shapeType, :fieldKey, :visibility, :layout, :order, :section, :renderAs, :statusButtonColor, :panel, :bulkEdit, :createdAt, :updatedAt)`,\nshapeId: partShape.id,\nshapeType: 'part',\nfieldKey: fieldKey,\nvisibility: config.visibility || 'hidden',\nlayout: config.layout || 'stacked',\norder: config.order !== undefined ? config.order : 0,\nrenderAs: config.renderAs || 'field',\nstatusButtonColor: config.statusButtonColor || null,\npanel: config.panel || 'none',",
           "target": "server/src/scripts/manual-migrate-fieldmetadata.mjs"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-4aa5341ce55e",
+      "hash": "4aa5341ce55e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "normalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 33,
+          "endLine": 64,
+          "windowText": "normalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 33,
+          "endLine": 64,
+          "windowText": "normalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -4154,6 +4531,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-5295d294d7e8",
+      "hash": "5295d294d7e8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "function shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 108,
+          "endLine": 122,
+          "windowText": "function shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 111,
+          "endLine": 125,
+          "windowText": "function shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-52aeb7b2409b",
+      "hash": "52aeb7b2409b",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "console.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 128,
+          "endLine": 140,
+          "windowText": "console.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 131,
+          "endLine": 143,
+          "windowText": "console.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-53059bcbd189",
       "hash": "53059bcbd189",
       "uniqueFiles": 2,
@@ -4189,8 +4618,8 @@
       "locations": [
         {
           "repoPath": "client/src/utils/booking/partFinalizer.ts",
-          "startLine": 33,
-          "endLine": 56,
+          "startLine": 37,
+          "endLine": 60,
           "windowText": "parts: BookingPartInstance[]\n): Map<string, BookingPartInstance[]> {\nreturn parts.reduce((grouped, part) => {\nconst partShape = part.partShape || ''\nif (!grouped.has(partShape)) {\ngrouped.set(partShape, [])\ngrouped.get(partShape)!.push(part)\n}, new Map<string, BookingPartInstance[]>())\nexport function createPartFinals(\nparts: BookingPartInstance[],",
           "target": "client/src/utils/booking/partFinalizer.ts"
         },
@@ -4293,8 +4722,8 @@
       "locations": [
         {
           "repoPath": "server/src/services/calendarEventsCache.ts",
-          "startLine": 85,
-          "endLine": 104,
+          "startLine": 89,
+          "endLine": 108,
           "windowText": "const minTime = typeof timeMin === 'string' ? new Date(timeMin).getTime() : timeMin.getTime();\nconst maxTime = typeof timeMax === 'string' ? new Date(timeMax).getTime() : timeMax.getTime();\nconst sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);\nconst isNearTerm = minTime < sevenDaysFromNow || maxTime < sevenDaysFromNow;\nreturn isNearTerm ? DEFAULT_TTL_NEAR_TERM : DEFAULT_TTL_FUTURE;\nfunction cleanExpiredEntries(): void {\nconst now = Date.now();\nfor (const [key, entry] of cache.entries()) {\nconst age = now - entry.timestamp;\nif (age > entry.ttl) {",
           "target": "server/src/services/calendarEventsCache.ts"
         },
@@ -4423,8 +4852,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 139,
-          "endLine": 159,
+          "startLine": 136,
+          "endLine": 156,
           "windowText": "const shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0\nreturn shape.slotShape",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -4544,6 +4973,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-5be0c8b6059f",
+      "hash": "5be0c8b6059f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "if (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 123,
+          "endLine": 135,
+          "windowText": "if (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 126,
+          "endLine": 138,
+          "windowText": "if (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-5cdea5a5f126",
       "hash": "5cdea5a5f126",
       "uniqueFiles": 2,
@@ -4590,6 +5045,32 @@
           "endLine": 208,
           "windowText": "location: \"1006 Florida Ave NE 402, Washington, DC 20002\",\nstart: { dateTime: \"2025-01-04T12:00:00-05:00\" },\nend: { dateTime: \"2025-01-04T14:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for George Lima\",\nlocation: \"1002 9th St NE, Washington, DC 20002\",\nstart: { dateTime: \"2025-01-05T09:00:00-05:00\" },\nend: { dateTime: \"2025-01-05T10:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-5da3f186ceef",
+      "hash": "5da3f186ceef",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "initialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),",
+      "locations": [
+        {
+          "repoPath": "server/src/services/calendarErrorHandler.ts",
+          "startLine": 173,
+          "endLine": 193,
+          "windowText": "initialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),",
+          "target": "server/src/services/calendarErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/services/googleMapsService.ts",
+          "startLine": 728,
+          "endLine": 748,
+          "windowText": "initialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),",
+          "target": "server/src/services/googleMapsService.ts"
         }
       ],
       "score": 22,
@@ -4683,8 +5164,8 @@
       "locations": [
         {
           "repoPath": "client/src/utils/booking/partFinalizer.ts",
-          "startLine": 34,
-          "endLine": 57,
+          "startLine": 38,
+          "endLine": 61,
           "windowText": "): Map<string, BookingPartInstance[]> {\nreturn parts.reduce((grouped, part) => {\nconst partShape = part.partShape || ''\nif (!grouped.has(partShape)) {\ngrouped.set(partShape, [])\ngrouped.get(partShape)!.push(part)\n}, new Map<string, BookingPartInstance[]>())\nexport function createPartFinals(\nparts: BookingPartInstance[],\nsettings?: AvailabilitySettings | null",
           "target": "client/src/utils/booking/partFinalizer.ts"
         },
@@ -4694,6 +5175,32 @@
           "endLine": 49,
           "windowText": "): Map<string, BookingPartInstance[]> {\nreturn parts.reduce((grouped, part) => {\nconst partShape = part.partShape || ''\nif (!grouped.has(partShape)) {\ngrouped.set(partShape, [])\ngrouped.get(partShape)!.push(part)\n}, new Map<string, BookingPartInstance[]>())\nexport function createPartFinals(\nparts: BookingPartInstance[],\nsettings?: AvailabilitySettings | null",
           "target": "client/src/utils/booking/partShapeAggregator.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-64d3c320aac5",
+      "hash": "64d3c320aac5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "maxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);",
+      "locations": [
+        {
+          "repoPath": "server/src/services/calendarErrorHandler.ts",
+          "startLine": 174,
+          "endLine": 198,
+          "windowText": "maxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);",
+          "target": "server/src/services/calendarErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/services/googleMapsService.ts",
+          "startLine": 729,
+          "endLine": 753,
+          "windowText": "maxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(\nconfig.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),\nconst jitter = baseDelay * 0.25 * (Math.random() * 2 - 1);",
+          "target": "server/src/services/googleMapsService.ts"
         }
       ],
       "score": 22,
@@ -4752,6 +5259,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-661fd351ede7",
+      "hash": "661fd351ede7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "info: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 19,
+          "endLine": 33,
+          "windowText": "info: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 19,
+          "endLine": 33,
+          "windowText": "info: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-66778200529c",
       "hash": "66778200529c",
       "uniqueFiles": 2,
@@ -4798,6 +5331,32 @@
           "endLine": 164,
           "windowText": "{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Tom Miller\",\nlocation: \"20751 Heron Landing Dr, Sterling, VA 20166\",\nstart: { dateTime: \"2024-12-23T09:30:00-05:00\" },\nend: { dateTime: \"2024-12-23T15:45:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Ryan Tyndall\",\nlocation: \"5210 Saratoga Ave, Chevy Chase, MD 20815\",",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-67a28d0e7cc3",
+      "hash": "67a28d0e7cc3",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "info: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 126,
+          "endLine": 138,
+          "windowText": "info: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 129,
+          "endLine": 141,
+          "windowText": "info: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -5064,6 +5623,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-6f61f8f71b42",
+      "hash": "6f61f8f71b42",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "loadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 48,
+          "endLine": 57,
+          "windowText": "loadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 243,
+          "endLine": 252,
+          "windowText": "loadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-700cfe1ca890",
       "hash": "700cfe1ca890",
       "uniqueFiles": 2,
@@ -5188,6 +5773,32 @@
           "endLine": 175,
           "windowText": "organizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Ryan Tyndall\",\nlocation: \"5210 Saratoga Ave, Chevy Chase, MD 20815\",\nstart: { dateTime: \"2024-12-26T14:00:00-05:00\" },\nend: { dateTime: \"2024-12-26T15:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Ryan Tyndall\",\nlocation: \"647 G St SE 4, Washington, DC 20003\",\nstart: { dateTime: \"2024-12-29T10:00:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7440b900d77e",
+      "hash": "7440b900d77e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 130,
+          "endLine": 142,
+          "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 133,
+          "endLine": 145,
+          "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -5324,6 +5935,84 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-786c6113291a",
+      "hash": "786c6113291a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 117,
+          "endLine": 130,
+          "windowText": "const infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 120,
+          "endLine": 133,
+          "windowText": "const infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7a21483ef7eb",
+      "hash": "7a21483ef7eb",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 49,
+          "endLine": 59,
+          "windowText": "isLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 244,
+          "endLine": 254,
+          "windowText": "isLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7a8b0909418a",
+      "hash": "7a8b0909418a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 127,
+          "endLine": 139,
+          "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 130,
+          "endLine": 142,
+          "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-7b2113180e2d",
       "hash": "7b2113180e2d",
       "uniqueFiles": 2,
@@ -5396,6 +6085,32 @@
           "endLine": 196,
           "windowText": "summary: \"Buyer's Inspection for Fernando Garcia\",\nlocation: \"2145 California St NW 103, Washington, DC 20008\",\nstart: { dateTime: \"2025-01-02T12:30:00-05:00\" },\nend: { dateTime: \"2025-01-02T13:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Leslie Brenowitz\",\nlocation: \"1006 Florida Ave NE 402, Washington, DC 20002\",\nstart: { dateTime: \"2025-01-04T12:00:00-05:00\" },\nend: { dateTime: \"2025-01-04T14:30:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7d9fbf46e5bb",
+      "hash": "7d9fbf46e5bb",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 118,
+          "endLine": 131,
+          "windowText": "const warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 121,
+          "endLine": 134,
+          "windowText": "const warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -5526,6 +6241,32 @@
           "endLine": 58,
           "windowText": "declare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(\ntype: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.VIRTUAL,\nreturn \"partAssignments\";\ntype: DataTypes.VIRTUAL,\nreturn \"blockInstance\";\ntype: DataTypes.VIRTUAL,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-83503ffea37c",
+      "hash": "83503ffea37c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "debug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 122,
+          "endLine": 134,
+          "windowText": "debug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 125,
+          "endLine": 137,
+          "windowText": "debug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -5786,6 +6527,32 @@
           "endLine": 296,
           "windowText": "summary: \"Buyer's Inspection for Alex Fox\",\nlocation: \"400 massachusetts ave 720, washington , dc 20001\",\nstart: { dateTime: \"2025-01-22T10:00:00-05:00\" },\nend: { dateTime: \"2025-01-22T12:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Ryan Tyndall\",\nlocation: \"4522 Garrison St NW, Washington, DC 20016\",\nstart: { dateTime: \"2025-01-26T09:30:00-05:00\" },\nend: { dateTime: \"2025-01-26T11:00:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8b6279c61a3d",
+      "hash": "8b6279c61a3d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "warn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 20,
+          "endLine": 34,
+          "windowText": "warn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 20,
+          "endLine": 34,
+          "windowText": "warn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -6260,6 +7027,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-93e0dd55b86d",
+      "hash": "93e0dd55b86d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "normalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 32,
+          "endLine": 63,
+          "windowText": "normalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 32,
+          "endLine": 63,
+          "windowText": "normalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-9672aec5ee25",
       "hash": "9672aec5ee25",
       "uniqueFiles": 2,
@@ -6581,8 +7374,8 @@
       "locations": [
         {
           "repoPath": "server/src/services/calendarEventsCache.ts",
-          "startLine": 84,
-          "endLine": 103,
+          "startLine": 88,
+          "endLine": 107,
           "windowText": "const now = Date.now();\nconst minTime = typeof timeMin === 'string' ? new Date(timeMin).getTime() : timeMin.getTime();\nconst maxTime = typeof timeMax === 'string' ? new Date(timeMax).getTime() : timeMax.getTime();\nconst sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);\nconst isNearTerm = minTime < sevenDaysFromNow || maxTime < sevenDaysFromNow;\nreturn isNearTerm ? DEFAULT_TTL_NEAR_TERM : DEFAULT_TTL_FUTURE;\nfunction cleanExpiredEntries(): void {\nconst now = Date.now();\nfor (const [key, entry] of cache.entries()) {\nconst age = now - entry.timestamp;",
           "target": "server/src/services/calendarEventsCache.ts"
         },
@@ -6728,6 +7521,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-9ec6c4555813",
+      "hash": "9ec6c4555813",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "groupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 23,
+          "endLine": 43,
+          "windowText": "groupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 23,
+          "endLine": 43,
+          "windowText": "groupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-9f4b87df22d4",
       "hash": "9f4b87df22d4",
       "uniqueFiles": 2,
@@ -6774,6 +7593,32 @@
           "endLine": 89,
           "windowText": "shapeId: blockShape.id,\nshapeType: 'block',\nfieldKey: fieldKey,\nvisibility: config.visibility || 'hidden',\nlayout: config.layout || 'stacked',\norder: config.order !== undefined ? config.order : 0,\nrenderAs: config.renderAs || 'field',\nstatusButtonColor: config.statusButtonColor || null,\npanel: config.panel || 'none',\nbulkEdit: config.bulkEdit !== undefined ? config.bulkEdit : false,",
           "target": "server/src/scripts/manual-migrate-fieldmetadata.mjs"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-a003e948a6aa",
+      "hash": "a003e948a6aa",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 114,
+          "endLine": 127,
+          "windowText": "const prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 117,
+          "endLine": 130,
+          "windowText": "const prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -7040,6 +7885,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-a571b2429628",
+      "hash": "a571b2429628",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const devPanelButtonsRef = inject<Ref<{\nselectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 45,
+          "endLine": 54,
+          "windowText": "const devPanelButtonsRef = inject<Ref<{\nselectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 240,
+          "endLine": 249,
+          "windowText": "const devPanelButtonsRef = inject<Ref<{\nselectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-a70f55660fc9",
       "hash": "a70f55660fc9",
       "uniqueFiles": 2,
@@ -7138,6 +8009,58 @@
           "endLine": 80,
           "windowText": "start: { dateTime: \"2024-12-09T08:30:00-05:00\" },\nend: { dateTime: \"2024-12-09T11:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for David Park\",\nlocation: \"1013 17th Pl NE 6, Washington, DC 20002\",\nstart: { dateTime: \"2024-12-18T11:00:00-05:00\" },\nend: { dateTime: \"2024-12-18T13:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-aa0673e4a618",
+      "hash": "aa0673e4a618",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "console.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 124,
+          "endLine": 136,
+          "windowText": "console.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 127,
+          "endLine": 139,
+          "windowText": "console.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-ac0c8bcb9ef7",
+      "hash": "ac0c8bcb9ef7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "export function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 112,
+          "endLine": 124,
+          "windowText": "export function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 115,
+          "endLine": 127,
+          "windowText": "export function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -7491,8 +8414,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 166,
-          "endLine": 182,
+          "startLine": 163,
+          "endLine": 179,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -7502,6 +8425,32 @@
           "endLine": 119,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/composables/booking/useDevPanelsComputed.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b77d2a944d21",
+      "hash": "b77d2a944d21",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "handleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {\nreturn devPanelButtons.value !== null",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 53,
+          "endLine": 67,
+          "windowText": "handleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {\nreturn devPanelButtons.value !== null",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 248,
+          "endLine": 262,
+          "windowText": "handleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {\nreturn devPanelButtons.value !== null",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         }
       ],
       "score": 22,
@@ -7606,6 +8555,32 @@
           "endLine": 255,
           "windowText": "organizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Renee Peres\",\nlocation: \"2001 12th St NW 412, Washington, DC 20009\",\nstart: { dateTime: \"2025-01-17T16:00:00-05:00\" },\nend: { dateTime: \"2025-01-17T17:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Walk & Talk for Jill Judge\",\nlocation: \"4388 Queens Chapel Terrace NE, Washington, DC 20018\",\nstart: { dateTime: \"2025-01-18T12:00:00-05:00\" },",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-ba5bb428de6e",
+      "hash": "ba5bb428de6e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "handleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "startLine": 52,
+          "endLine": 66,
+          "windowText": "handleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {",
+          "target": "client/src/components/admin/dev/ApiDevPanel.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 247,
+          "endLine": 261,
+          "windowText": "handleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null\n} | null>>('devPanelButtons', ref(null))\nconst devPanelButtons = computed(() => {\nif (!devPanelButtonsRef || !devPanelButtonsRef.value) {\nreturn devPanelButtonsRef.value\nconst hasDevPanelButtons = computed(() => {",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         }
       ],
       "score": 22,
@@ -7846,6 +8821,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-c0ed0d0f6bd8",
+      "hash": "c0ed0d0f6bd8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "error: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 21,
+          "endLine": 35,
+          "windowText": "error: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 21,
+          "endLine": 35,
+          "windowText": "error: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-c2594dc2139e",
       "hash": "c2594dc2139e",
       "uniqueFiles": 2,
@@ -7907,8 +8908,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 138,
-          "endLine": 155,
+          "startLine": 135,
+          "endLine": 152,
           "windowText": "const finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -7944,6 +8945,32 @@
           "endLine": 178,
           "windowText": "location: \"5210 Saratoga Ave, Chevy Chase, MD 20815\",\nstart: { dateTime: \"2024-12-26T14:00:00-05:00\" },\nend: { dateTime: \"2024-12-26T15:30:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }\norganizer: { email: \"will@districthomepro.com\", displayName: \"Will\" }\nsummary: \"Buyer's Inspection for Ryan Tyndall\",\nlocation: \"647 G St SE 4, Washington, DC 20003\",\nstart: { dateTime: \"2024-12-29T10:00:00-05:00\" },\nend: { dateTime: \"2024-12-29T13:00:00-05:00\" },\n{ email: \"will@districthomepro.com\", displayName: \"Will\", responseStatus: \"accepted\" }",
           "target": "server/src/scripts/importRealCalendarEvents.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c4bf4c36371c",
+      "hash": "c4bf4c36371c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 119,
+          "endLine": 132,
+          "windowText": "const errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 122,
+          "endLine": 135,
+          "windowText": "const errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -8011,8 +9038,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 134,
-          "endLine": 154,
+          "startLine": 131,
+          "endLine": 151,
           "windowText": "partCount: block.partInstances?.length || 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -8022,6 +9049,32 @@
           "endLine": 89,
           "windowText": "partCount: block.partInstances?.length || 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
           "target": "client/src/composables/booking/useDevPanelsComputed.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c927166d7ba6",
+      "hash": "c927166d7ba6",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 30,
+          "endLine": 62,
+          "windowText": "const normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 30,
+          "endLine": 62,
+          "windowText": "const normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -8548,6 +9601,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-d51a76184eba",
+      "hash": "d51a76184eba",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "function parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 28,
+          "endLine": 59,
+          "windowText": "function parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 28,
+          "endLine": 59,
+          "windowText": "function parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-d587befbc796",
       "hash": "d587befbc796",
       "uniqueFiles": 2,
@@ -8730,6 +9809,84 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-dfce6ec36d3f",
+      "hash": "dfce6ec36d3f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "debug: (...args: unknown[]) => void\ninfo: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 18,
+          "endLine": 32,
+          "windowText": "debug: (...args: unknown[]) => void\ninfo: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 18,
+          "endLine": 32,
+          "windowText": "debug: (...args: unknown[]) => void\ninfo: (...args: unknown[]) => void\nwarn: (...args: unknown[]) => void\nerror: (...args: unknown[]) => void\ngroupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e09e0d444595",
+      "hash": "e09e0d444595",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "let cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 59,
+          "endLine": 72,
+          "windowText": "let cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 59,
+          "endLine": 72,
+          "windowText": "let cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e1a6e03d7f3a",
+      "hash": "e1a6e03d7f3a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 109,
+          "endLine": 123,
+          "windowText": "return levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 112,
+          "endLine": 126,
+          "windowText": "return levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-e230a8633608",
       "hash": "e230a8633608",
       "uniqueFiles": 2,
@@ -8906,6 +10063,32 @@
           "endLine": 159,
           "windowText": "type: DataTypes.STRING,\nfield: 'inherits_from_entity_type',\ncomment: 'For instances: parent entity type (blockShape or partShape)',\ninheritsFromEntityId: {\ntype: DataTypes.UUID,\nfield: 'inherits_from_entity_id',\ncomment: 'For instances: parent entity ID (shape ID)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',",
           "target": "server/src/db/models/admin/adminRelationshipMetadata.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e5b2fcfb4c12",
+      "hash": "e5b2fcfb4c12",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "function levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 43,
+          "endLine": 69,
+          "windowText": "function levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 43,
+          "endLine": 69,
+          "windowText": "function levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -9250,6 +10433,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-f64b1e963ecf",
+      "hash": "f64b1e963ecf",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return cachedLogLevel\nfunction shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 105,
+          "endLine": 119,
+          "windowText": "return cachedLogLevel\nfunction shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 108,
+          "endLine": 122,
+          "windowText": "return cachedLogLevel\nfunction shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {\nreturn levelToNumber(messageLevel) >= levelToNumber(configured)\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-f7015108f21b",
       "hash": "f7015108f21b",
       "uniqueFiles": 2,
@@ -9467,8 +10676,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 163,
-          "endLine": 179,
+          "startLine": 160,
+          "endLine": 176,
           "windowText": "const slots = appointmentData.value.appointmentSlots\nconst selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -9536,26 +10745,52 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-faf7bc22dbba",
-      "hash": "faf7bc22dbba",
+      "groupId": "dup-fbba05bd59fa",
+      "hash": "fbba05bd59fa",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
+      "windowText": "const configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {",
       "locations": [
         {
-          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 399,
-          "endLine": 408,
-          "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
-          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 113,
+          "endLine": 126,
+          "windowText": "const configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {",
+          "target": "client/src/utils/logger.ts"
         },
         {
-          "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
-          "startLine": 72,
-          "endLine": 81,
-          "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
-          "target": "client/src/composables/booking/useWizardDevMode.ts"
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 116,
+          "endLine": 129,
+          "windowText": "const configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`\nconst debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...args)\ninfo: (...args: unknown[]): void => {",
+          "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-fc98913933df",
+      "hash": "fc98913933df",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
+      "locations": [
+        {
+          "repoPath": "client/src/utils/logger.ts",
+          "startLine": 35,
+          "endLine": 67,
+          "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
+          "target": "client/src/utils/logger.ts"
+        },
+        {
+          "repoPath": "server/src/utils/logger.ts",
+          "startLine": 35,
+          "endLine": 67,
+          "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
+          "target": "server/src/utils/logger.ts"
         }
       ],
       "score": 22,
@@ -9582,6 +10817,32 @@
           "endLine": 88,
           "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nfield: 'annotation_id',\nmodel: 'annotation_instances',\nuserTypeBlockInstanceId: {\ntype: DataTypes.UUID,\nfield: 'user_type_block_instance_id',\nmodel: 'block_instances',\ncomment: 'Optional user type override for this specific relationship (BlockInstance ID representing user type)',\ntype: DataTypes.DATE,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-ff884c4e42d0",
+      "hash": "ff884c4e42d0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "maxRetries: number;\ninitialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(",
+      "locations": [
+        {
+          "repoPath": "server/src/services/calendarErrorHandler.ts",
+          "startLine": 172,
+          "endLine": 192,
+          "windowText": "maxRetries: number;\ninitialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(",
+          "target": "server/src/services/calendarErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/services/googleMapsService.ts",
+          "startLine": 727,
+          "endLine": 747,
+          "windowText": "maxRetries: number;\ninitialDelayMs: number;\nmaxDelayMs: number;\nbackoffMultiplier: number;\nconst DEFAULT_RETRY_CONFIG: RetryConfig = {\ninitialDelayMs: 1000,\nmaxDelayMs: 30000,\nbackoffMultiplier: 2,\nfunction calculateBackoffDelay(attempt: number, config: RetryConfig): number {\nconst baseDelay = Math.min(",
+          "target": "server/src/services/googleMapsService.ts"
         }
       ],
       "score": 22,

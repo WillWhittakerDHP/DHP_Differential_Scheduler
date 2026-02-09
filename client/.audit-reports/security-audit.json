@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T21:41:06.866Z",
+  "generatedAt": "2026-02-08T23:31:46.494Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -13,8 +13,8 @@
     ]
   },
   "summary": {
-    "totalErrors": 48,
-    "totalWarnings": 263,
+    "totalErrors": 49,
+    "totalWarnings": 266,
     "byCategory": {
       "dependencies": {
         "errors": 0,
@@ -22,14 +22,14 @@
       },
       "secrets": {
         "errors": 0,
-        "warnings": 263
+        "warnings": 266
       },
       "config": {
         "errors": 0,
         "warnings": 0
       },
       "csrf": {
-        "errors": 44,
+        "errors": 45,
         "warnings": 0
       },
       "auth": {
@@ -1896,9 +1896,30 @@
           "pattern": "Console.log with secret",
           "issue": "Potential console.log with secret found",
           "severity": "warning"
+        },
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 146,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 175,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
         }
       ],
-      "score": 1315,
+      "score": 1330,
       "fileIssues": {
         "server/src/app.ts": [
           {
@@ -3866,6 +3887,31 @@
             "issue": "Potential console.log with secret found",
             "severity": "warning"
           }
+        ],
+        "server/src/services/driveTimeCache.ts": [
+          {
+            "file": "server/src/services/driveTimeCache.ts",
+            "line": 146,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          },
+          {
+            "file": "server/src/services/driveTimeCache.ts",
+            "line": 175,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
+        ],
+        "server/src/services/googleCalendarService.ts": [
+          {
+            "file": "server/src/services/googleCalendarService.ts",
+            "line": 179,
+            "pattern": "Console.log with secret",
+            "issue": "Potential console.log with secret found",
+            "severity": "warning"
+          }
         ]
       },
       "priority": "P0"
@@ -3892,16 +3938,16 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 73,
-          "route": "/freebusy",
+          "line": 86,
+          "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
           "severity": "error"
         },
         {
-          "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 293,
-          "route": "/events",
+          "file": "server/src/routes/external/mapsRoutes.ts",
+          "line": 253,
+          "route": "/debug/clear-drive-time-cache",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
           "severity": "error"
@@ -3956,7 +4002,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 139,
+          "line": 203,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -3964,7 +4010,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 237,
+          "line": 310,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -3972,7 +4018,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 263,
+          "line": 336,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -3980,10 +4026,18 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 289,
+          "line": 362,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/availabilityRouter.ts",
+          "line": 21,
+          "route": "/computed-data",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
           "severity": "error"
         },
         {
@@ -4020,7 +4074,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 344,
+          "line": 375,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -4028,7 +4082,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 396,
+          "line": 427,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -4036,7 +4090,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 449,
+          "line": 480,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -4044,7 +4098,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 500,
+          "line": 531,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -4100,7 +4154,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 102,
+          "line": 108,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -4108,7 +4162,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 174,
+          "line": 183,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -4116,7 +4170,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 237,
+          "line": 246,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -4124,7 +4178,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 282,
+          "line": 291,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -4132,7 +4186,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 350,
+          "line": 359,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -4140,7 +4194,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 432,
+          "line": 441,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -4148,7 +4202,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 465,
+          "line": 474,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -4156,7 +4210,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 502,
+          "line": 511,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -4236,7 +4290,7 @@
         }
       ],
       "warnings": [],
-      "score": 528,
+      "score": 540,
       "fileIssues": {
         "server/src/api/api.routes.ts": [
           {
@@ -4251,16 +4305,18 @@
         "server/src/routes/external/calendarRoutes.ts": [
           {
             "file": "server/src/routes/external/calendarRoutes.ts",
-            "line": 73,
-            "route": "/freebusy",
+            "line": 86,
+            "route": "/events",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
             "severity": "error"
-          },
+          }
+        ],
+        "server/src/routes/external/mapsRoutes.ts": [
           {
-            "file": "server/src/routes/external/calendarRoutes.ts",
-            "line": 293,
-            "route": "/events",
+            "file": "server/src/routes/external/mapsRoutes.ts",
+            "line": 253,
+            "route": "/debug/clear-drive-time-cache",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
             "severity": "error"
@@ -4323,7 +4379,7 @@
         "server/src/routes/internal/appointments/appointmentRouter.ts": [
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 139,
+            "line": 203,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4331,7 +4387,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 237,
+            "line": 310,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4339,7 +4395,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 263,
+            "line": 336,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4347,10 +4403,20 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-            "line": 289,
+            "line": 362,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
+            "severity": "error"
+          }
+        ],
+        "server/src/routes/internal/availabilityRouter.ts": [
+          {
+            "file": "server/src/routes/internal/availabilityRouter.ts",
+            "line": 21,
+            "route": "/computed-data",
+            "method": "POST",
+            "issue": "Missing CSRF protection on POST route",
             "severity": "error"
           }
         ],
@@ -4391,7 +4457,7 @@
         "server/src/routes/internal/businessSettingsRouter.ts": [
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 344,
+            "line": 375,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4399,7 +4465,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 396,
+            "line": 427,
             "route": "/:key",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4407,7 +4473,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 449,
+            "line": 480,
             "route": "/:key",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4415,7 +4481,7 @@
           },
           {
             "file": "server/src/routes/internal/businessSettingsRouter.ts",
-            "line": 500,
+            "line": 531,
             "route": "/:key",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4475,7 +4541,7 @@
         "server/src/routes/internal/properties/propertyRouter.ts": [
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 102,
+            "line": 108,
             "route": "/",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4483,7 +4549,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 174,
+            "line": 183,
             "route": "/:id",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -4491,7 +4557,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 237,
+            "line": 246,
             "route": "/:id",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4499,7 +4565,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 282,
+            "line": 291,
             "route": "/:id",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4507,7 +4573,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 350,
+            "line": 359,
             "route": "/:id/types",
             "method": "POST",
             "issue": "Missing CSRF protection on POST route",
@@ -4515,7 +4581,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 432,
+            "line": 441,
             "route": "/:id/types/:typeId",
             "method": "PATCH",
             "issue": "Missing CSRF protection on PATCH route",
@@ -4523,7 +4589,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 465,
+            "line": 474,
             "route": "/:id/types/:typeId",
             "method": "DELETE",
             "issue": "Missing CSRF protection on DELETE route",
@@ -4531,7 +4597,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyRouter.ts",
-            "line": 502,
+            "line": 511,
             "route": "/:id/types",
             "method": "PUT",
             "issue": "Missing CSRF protection on PUT route",
@@ -9120,6 +9186,70 @@
       "priority": "P0"
     },
     {
+      "id": "server__src__services__driveTimeCache.ts",
+      "repoPath": "server/src/services/driveTimeCache.ts",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 146,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 175,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 146,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/driveTimeCache.ts",
+          "line": 175,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__services__googleCalendarService.ts",
+      "repoPath": "server/src/services/googleCalendarService.ts",
+      "categories": [
+        "secrets"
+      ],
+      "issues": [
+        {
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        },
+        {
+          "file": "server/src/services/googleCalendarService.ts",
+          "line": 179,
+          "pattern": "Console.log with secret",
+          "issue": "Potential console.log with secret found",
+          "severity": "warning"
+        }
+      ],
+      "score": 6,
+      "priority": "P2"
+    },
+    {
       "id": "server__src__api__api.routes.ts",
       "repoPath": "server/src/api/api.routes.ts",
       "categories": [
@@ -9155,15 +9285,7 @@
       "issues": [
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 73,
-          "route": "/freebusy",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 293,
+          "line": 86,
           "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9171,22 +9293,41 @@
         },
         {
           "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 73,
-          "route": "/freebusy",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/external/calendarRoutes.ts",
-          "line": 293,
+          "line": 86,
           "route": "/events",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
           "severity": "error"
         }
       ],
-      "score": 40,
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__external__mapsRoutes.ts",
+      "repoPath": "server/src/routes/external/mapsRoutes.ts",
+      "categories": [
+        "csrf"
+      ],
+      "issues": [
+        {
+          "file": "server/src/routes/external/mapsRoutes.ts",
+          "line": 253,
+          "route": "/debug/clear-drive-time-cache",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/external/mapsRoutes.ts",
+          "line": 253,
+          "route": "/debug/clear-drive-time-cache",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        }
+      ],
+      "score": 20,
       "priority": "P0"
     },
     {
@@ -9285,7 +9426,7 @@
       "issues": [
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 139,
+          "line": 203,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9293,7 +9434,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 237,
+          "line": 310,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9301,7 +9442,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 263,
+          "line": 336,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9309,7 +9450,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 289,
+          "line": 362,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9317,7 +9458,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 139,
+          "line": 203,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9325,7 +9466,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 237,
+          "line": 310,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9333,7 +9474,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 263,
+          "line": 336,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9341,7 +9482,7 @@
         },
         {
           "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
-          "line": 289,
+          "line": 362,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9365,6 +9506,33 @@
         }
       ],
       "score": 100,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__availabilityRouter.ts",
+      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
+      "categories": [
+        "csrf"
+      ],
+      "issues": [
+        {
+          "file": "server/src/routes/internal/availabilityRouter.ts",
+          "line": 21,
+          "route": "/computed-data",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/availabilityRouter.ts",
+          "line": 21,
+          "route": "/computed-data",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        }
+      ],
+      "score": 20,
       "priority": "P0"
     },
     {
@@ -9451,7 +9619,7 @@
       "issues": [
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 344,
+          "line": 375,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9459,7 +9627,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 396,
+          "line": 427,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9467,7 +9635,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 449,
+          "line": 480,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9475,7 +9643,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 500,
+          "line": 531,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9483,7 +9651,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 344,
+          "line": 375,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9491,7 +9659,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 396,
+          "line": 427,
           "route": "/:key",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9499,7 +9667,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 449,
+          "line": 480,
           "route": "/:key",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9507,7 +9675,7 @@
         },
         {
           "file": "server/src/routes/internal/businessSettingsRouter.ts",
-          "line": 500,
+          "line": 531,
           "route": "/:key",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9651,7 +9819,7 @@
       "issues": [
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 102,
+          "line": 108,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9659,7 +9827,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 174,
+          "line": 183,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9667,7 +9835,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 237,
+          "line": 246,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9675,7 +9843,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 282,
+          "line": 291,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9683,7 +9851,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 350,
+          "line": 359,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9691,7 +9859,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 432,
+          "line": 441,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9699,7 +9867,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 465,
+          "line": 474,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9707,7 +9875,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 502,
+          "line": 511,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9715,7 +9883,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 102,
+          "line": 108,
           "route": "/",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9723,7 +9891,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 174,
+          "line": 183,
           "route": "/:id",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",
@@ -9731,7 +9899,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 237,
+          "line": 246,
           "route": "/:id",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9739,7 +9907,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 282,
+          "line": 291,
           "route": "/:id",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9747,7 +9915,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 350,
+          "line": 359,
           "route": "/:id/types",
           "method": "POST",
           "issue": "Missing CSRF protection on POST route",
@@ -9755,7 +9923,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 432,
+          "line": 441,
           "route": "/:id/types/:typeId",
           "method": "PATCH",
           "issue": "Missing CSRF protection on PATCH route",
@@ -9763,7 +9931,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 465,
+          "line": 474,
           "route": "/:id/types/:typeId",
           "method": "DELETE",
           "issue": "Missing CSRF protection on DELETE route",
@@ -9771,7 +9939,7 @@
         },
         {
           "file": "server/src/routes/internal/properties/propertyRouter.ts",
-          "line": 502,
+          "line": 511,
           "route": "/:id/types",
           "method": "PUT",
           "issue": "Missing CSRF protection on PUT route",

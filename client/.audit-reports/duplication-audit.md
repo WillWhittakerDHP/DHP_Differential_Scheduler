@@ -18,15 +18,22 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+13 more) | 22 |
-| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+47 more) | 102 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+198 more) | 205 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+16 more) | 24 |
+| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+49 more) | 108 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+201 more) | 208 |
+
+### Repeated String Literals (across multiple files)
+
+| Value | Files | Occurrences |
+| --- | --- | ---: |
+| `hit` | `client/src/components/admin/dev/ApiDevPanel.vue`, `client/src/composables/booking/useApiCallStatus.ts` | 3 |
+| `OK` | `client/src/services/mapsApiService.ts`, `server/src/services/googleMapsService.ts` | 3 |
 
 ## Summary
 
-- Files scanned: **463**
-- Groups (window=10 lines, minOccurrences=2): **345**
-- Candidate findings from pattern-detection: **3**
+- Files scanned: **475**
+- Groups (window=10 lines, minOccurrences=2): **392**
+- Candidate findings from pattern-detection: **5**
 
 ## Top duplication groups (by leverage)
 
@@ -35,6 +42,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@81`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@35`, `server/src/utils/adminPrimitiveMetadataComposer.ts@50`, … |
 | `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts@82`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts@36`, `server/src/utils/adminPrimitiveMetadataComposer.ts@51`, … |
 | `dup-a95a81e0c832` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@14`, `server/src/utils/adminMetadataComposer.ts@128`, `server/src/utils/adminPrimitiveMetadataComposer.ts@15`, … |
+| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/admin/dev/ApiDevPanel.vue@46`, `client/src/components/booking/dev/DevPanelsContainer.vue@241`, `client/src/composables/booking/useWizardDevMode.ts@71` |
 | `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@146`, `server/src/utils/adminPrimitiveMetadataComposer.ts@129`, `server/src/utils/adminRelationshipMetadataComposer.ts@127` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
 | `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@346`, `server/src/scripts/importFromMCPEvents.ts@23`, `server/src/scripts/importRealCalendarEvents.ts@36` |
@@ -56,7 +64,6 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
 | `dup-c6a6995e461d` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@340`, `server/src/scripts/importFromMCPEvents.ts@17`, `server/src/scripts/importRealCalendarEvents.ts@30` |
 | `dup-e6b94ea82365` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@330`, `server/src/scripts/importFromMCPEvents.ts@7`, `server/src/scripts/importRealCalendarEvents.ts@20` |
-| `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 
 ## Per-group details (top)
 
@@ -141,6 +148,28 @@ statusButtonColor?: string | null;
 panel: 'none' | 'parts' | 'relationships' | 'annotations';
 bulkEdit: boolean;
 inputConfig?: Record<string, unknown> | null;
+```
+
+### Group `dup-0d3194f54d5e`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `client/src/components/admin/dev/ApiDevPanel.vue` @ lines 46-55
+- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 241-250
+- `client/src/composables/booking/useWizardDevMode.ts` @ lines 71-80
+
+```
+selectedAppointmentId: Ref<string | null>
+appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
+loadedAppointmentId: Ref<string | null>
+isLoadingAppointment: Ref<boolean>
+fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
+handleLoadAppointment: (id: string | null) => Promise<void>
+handleUpdateAppointment: () => Promise<void>
+handleResetWizard: () => void
+handleResetMocks: () => void
+updateAppointment: { isPending: Ref<boolean> }
 ```
 
 ### Group `dup-0df82f50465a`
@@ -493,26 +522,4 @@ end: { dateTime: "2024-12-04T10:00:00-05:00" },
 organizer: { email: "will@districthomepro.com", displayName: "Will" }
 summary: "Home Inspection Results Meeting for Royi & Lucciola",
 location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-```
-
-### Group `dup-bd822504c01d`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 336-351
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 13-28
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 26-41
-
-```
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Buyer's Inspection for Tom Miller",
-location: "730 24th St NW 803, Washington, DC 20037",
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
 ```

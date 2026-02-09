@@ -2,13 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 /**
- * Deprecation Audit Summary Script
+ * Deprecation & Legacy Accommodation Audit Summary Script
  *
- * Generates a condensed summary report from the deprecation audit JSON output.
- * Useful for quick review and integration with other audit summaries.
+ * Generates a condensed summary from the expanded deprecation audit JSON output.
+ * Covers both annotated deprecations and runtime legacy accommodation patterns.
  */
 
-// Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
 const CLIENT_AUDIT = path.join(CWD, '.audit-reports')
 const PROJECT_ROOT_AUDIT = path.join(CWD, 'client', '.audit-reports')
@@ -23,81 +22,60 @@ function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
 }
 
-function loadJson() {
-  const raw = fs.readFileSync(AUDIT_JSON, 'utf8')
-  return JSON.parse(raw)
-}
-
 function render(data) {
   const files = Array.isArray(data.files) ? data.files : []
-  const issues = Array.isArray(data.issues) ? data.issues : []
-  const summary = data.summary || {}
+  const summary = data.exceptionSummary || {}
+  const MAX_ROWS = 30
 
   const lines = []
-  lines.push('# Deprecation Audit Summary (Generated)')
+  lines.push('# Deprecation & Legacy Accommodation Audit Summary (Generated)')
   lines.push('')
   lines.push(`Generated from \`${toRepoPath(AUDIT_JSON)}\`.`)
   lines.push('')
-  lines.push('## Summary')
-  lines.push('')
-  lines.push(`- Files scanned: **${summary.totalFiles || 0}**`)
-  lines.push(`- Files with deprecations: **${files.length}**`)
-  lines.push(`- Total deprecation markers: **${summary.totalDeprecations || issues.length}**`)
-  lines.push(`- With replacement suggestion: **${summary.withReplacement || 0}**`)
-  lines.push(`- Without replacement: **${summary.withoutReplacement || 0}**`)
+  lines.push(`- Files with findings: **${files.length}**`)
+  lines.push(`- Requiring review: **${summary.totalRequiresReview || 0}**`)
+  lines.push(`- Allowed exceptions: ${summary.totalAllowed || 0}`)
   lines.push('')
 
-  // Quick actions section
-  const withReplacement = issues.filter(i => i.replacement)
-  if (withReplacement.length > 0) {
-    lines.push('## Quick Wins (ready for cleanup)')
-    lines.push('')
-    lines.push('| Deprecated | Replace With | File | Line |')
-    lines.push('| --- | --- | --- | ---: |')
-    
-    // Show top 15 quick wins
-    for (const issue of withReplacement.slice(0, 15)) {
-      const item = issue.deprecatedItem || '(unknown)'
-      lines.push(`| \`${item}\` | \`${issue.replacement}\` | \`${issue.file}\` | ${issue.line} |`)
+  // Count by section across all files
+  let annotationCount = 0
+  let legacyCount = 0
+  for (const f of files) {
+    const review = Array.isArray(f.requiresReview) ? f.requiresReview : []
+    for (const m of review) {
+      if (m.section === 'annotation') annotationCount++
+      else legacyCount++
     }
-    
-    if (withReplacement.length > 15) {
-      lines.push('')
-      lines.push(`*... and ${withReplacement.length - 15} more. See full report.*`)
-    }
-    lines.push('')
   }
 
-  lines.push('## Files by Priority')
+  lines.push(`- Annotated deprecations: **${annotationCount}**`)
+  lines.push(`- Runtime legacy accommodation: **${legacyCount}**`)
   lines.push('')
-  lines.push('| File | Priority | Score | Deprecations | Ready |')
+
+  lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked by score)`)
+  lines.push('')
+  lines.push('| File | Priority | Score | Annotations | Legacy/Compat |')
   lines.push('| --- | --- | ---: | ---: | ---: |')
 
-  // Sort files by priority, then by score
-  const priorityOrder = { P0: 0, P1: 1, P2: 2 }
-  const sortedFiles = files.sort((a, b) => {
-    const aPriority = priorityOrder[a.priority] ?? 2
-    const bPriority = priorityOrder[b.priority] ?? 2
-    if (aPriority !== bPriority) return aPriority - bPriority
-    return b.score - a.score
-  })
+  const shown = files.slice(0, MAX_ROWS)
+  for (const f of shown) {
+    const review = Array.isArray(f.requiresReview) ? f.requiresReview : []
+    const ann = review.filter(m => m.section === 'annotation').length
+    const leg = review.filter(m => m.section === 'legacy-accommodation').length
+    lines.push(`| \`${f.repoPath}\` | ${f.priority || 'P2'} | ${f.score || 0} | ${ann} | ${leg} |`)
+  }
 
-  for (const f of sortedFiles) {
-    const priority = f.priority || 'P2'
-    const readyCount = f.issues ? f.issues.filter(i => i.replacement).length : 0
-    lines.push(
-      `| \`${f.repoPath}\` | ${priority} | ${f.score || 0} | ${f.issues?.length || 0} | ${readyCount} |`
-    )
+  if (files.length > MAX_ROWS) {
+    lines.push('')
+    lines.push(`*...and ${files.length - MAX_ROWS} more files. See full report for details.*`)
   }
 
   lines.push('')
   lines.push('## Notes')
   lines.push('')
-  lines.push('- This is a *signal* index. Use the full report for details: `client/.audit-reports/deprecation-audit.md`.')
-  lines.push('- **Ready**: Deprecations with explicit replacement suggestions (safe to clean up)')
-  lines.push('- **P0**: High deprecation density (cleanup soon)')
-  lines.push('- **P1**: Moderate deprecations (schedule cleanup)')
-  lines.push('- **P2**: Low priority (cleanup when convenient)')
+  lines.push('- **Annotations**: `@deprecated`, `// Deprecated`, `(deprecated)`, `// LEGACY:`, compat markers')
+  lines.push('- **Legacy/Compat**: Runtime keywords, `|| \'\'`, `?? \'\'`, default params, chaining fallbacks')
+  lines.push('- See full report: `client/.audit-reports/deprecation-audit.md`')
   lines.push('')
   return lines.join('\n')
 }
@@ -108,11 +86,12 @@ function main() {
     process.exitCode = 0
     return
   }
-  
-  const data = loadJson()
+
+  const raw = fs.readFileSync(AUDIT_JSON, 'utf8')
+  const data = JSON.parse(raw)
   fs.writeFileSync(OUT_MD, render(data))
   const files = Array.isArray(data.files) ? data.files : []
-  console.log(`Wrote: ${toRepoPath(OUT_MD)} (files with deprecations: ${files.length})`)
+  console.log(`Wrote: ${toRepoPath(OUT_MD)} (files: ${files.length})`)
   process.exitCode = 0
 }
 

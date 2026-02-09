@@ -9,18 +9,18 @@ Scope:
 
 ## Summary
 
-- Total errors: **48**
-- Total warnings: **263**
-- Files with issues: **74**
+- Total errors: **49**
+- Total warnings: **266**
+- Files with issues: **78**
 
 ## Categories
 
 | Category | Priority | Score | Errors | Warnings |
 | --- | --- | ---: | ---: | ---: |
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
-| Exposed Secrets | P0 | 1315 | 0 | 263 |
+| Exposed Secrets | P0 | 1330 | 0 | 266 |
 | Security Configuration | P2 | 0 | 0 | 0 |
-| CSRF Protection | P0 | 528 | 44 | 0 |
+| CSRF Protection | P0 | 540 | 45 | 0 |
 | Authentication Patterns | P2 | 0 | 0 | 0 |
 | IDOR Vulnerabilities | P0 | 48 | 4 | 0 |
 
@@ -30,37 +30,37 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 ### `server/src/routes/internal/properties/propertyRouter.ts` [P0] (score: 180)
 
-- ❌ **Missing CSRF protection on POST route** (line 102)
+- ❌ **Missing CSRF protection on POST route** (line 108)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 174)
+- ❌ **Missing CSRF protection on PUT route** (line 183)
   - Route: /:id (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 237)
+- ❌ **Missing CSRF protection on PATCH route** (line 246)
   - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 282)
+- ❌ **Missing CSRF protection on DELETE route** (line 291)
   - Route: /:id (DELETE)
-- ❌ **Missing CSRF protection on POST route** (line 350)
+- ❌ **Missing CSRF protection on POST route** (line 359)
   - Route: /:id/types (POST)
-- ❌ **Missing CSRF protection on PATCH route** (line 432)
+- ❌ **Missing CSRF protection on PATCH route** (line 441)
   - Route: /:id/types/:typeId (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 465)
+- ❌ **Missing CSRF protection on DELETE route** (line 474)
   - Route: /:id/types/:typeId (DELETE)
-- ❌ **Missing CSRF protection on PUT route** (line 502)
+- ❌ **Missing CSRF protection on PUT route** (line 511)
   - Route: /:id/types (PUT)
-- ❌ **Missing CSRF protection on POST route** (line 102)
+- ❌ **Missing CSRF protection on POST route** (line 108)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 174)
+- ❌ **Missing CSRF protection on PUT route** (line 183)
   - Route: /:id (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 237)
+- ❌ **Missing CSRF protection on PATCH route** (line 246)
   - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 282)
+- ❌ **Missing CSRF protection on DELETE route** (line 291)
   - Route: /:id (DELETE)
-- ❌ **Missing CSRF protection on POST route** (line 350)
+- ❌ **Missing CSRF protection on POST route** (line 359)
   - Route: /:id/types (POST)
-- ❌ **Missing CSRF protection on PATCH route** (line 432)
+- ❌ **Missing CSRF protection on PATCH route** (line 441)
   - Route: /:id/types/:typeId (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 465)
+- ❌ **Missing CSRF protection on DELETE route** (line 474)
   - Route: /:id/types/:typeId (DELETE)
-- ❌ **Missing CSRF protection on PUT route** (line 502)
+- ❌ **Missing CSRF protection on PUT route** (line 511)
   - Route: /:id/types (PUT)
 - ❌ **ID parameters detected without authorization checks** (line 1)
 - ❌ **ID parameters detected without authorization checks** (line 1)
@@ -96,21 +96,21 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 ### `server/src/routes/internal/appointments/appointmentRouter.ts` [P0] (score: 100)
 
-- ❌ **Missing CSRF protection on POST route** (line 139)
+- ❌ **Missing CSRF protection on POST route** (line 203)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 237)
+- ❌ **Missing CSRF protection on PUT route** (line 310)
   - Route: /:id (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 263)
+- ❌ **Missing CSRF protection on PATCH route** (line 336)
   - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 289)
+- ❌ **Missing CSRF protection on DELETE route** (line 362)
   - Route: /:id (DELETE)
-- ❌ **Missing CSRF protection on POST route** (line 139)
+- ❌ **Missing CSRF protection on POST route** (line 203)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 237)
+- ❌ **Missing CSRF protection on PUT route** (line 310)
   - Route: /:id (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 263)
+- ❌ **Missing CSRF protection on PATCH route** (line 336)
   - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 289)
+- ❌ **Missing CSRF protection on DELETE route** (line 362)
   - Route: /:id (DELETE)
 - ❌ **ID parameters detected without authorization checks** (line 1)
 - ❌ **ID parameters detected without authorization checks** (line 1)
@@ -215,21 +215,21 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 ### `server/src/routes/internal/businessSettingsRouter.ts` [P0] (score: 80)
 
-- ❌ **Missing CSRF protection on POST route** (line 344)
+- ❌ **Missing CSRF protection on POST route** (line 375)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 396)
+- ❌ **Missing CSRF protection on PUT route** (line 427)
   - Route: /:key (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 449)
+- ❌ **Missing CSRF protection on PATCH route** (line 480)
   - Route: /:key (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 500)
+- ❌ **Missing CSRF protection on DELETE route** (line 531)
   - Route: /:key (DELETE)
-- ❌ **Missing CSRF protection on POST route** (line 344)
+- ❌ **Missing CSRF protection on POST route** (line 375)
   - Route: / (POST)
-- ❌ **Missing CSRF protection on PUT route** (line 396)
+- ❌ **Missing CSRF protection on PUT route** (line 427)
   - Route: /:key (PUT)
-- ❌ **Missing CSRF protection on PATCH route** (line 449)
+- ❌ **Missing CSRF protection on PATCH route** (line 480)
   - Route: /:key (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 500)
+- ❌ **Missing CSRF protection on DELETE route** (line 531)
   - Route: /:key (DELETE)
 
 ### `server/src/db/migrations/20250130_rename_profile_to_instance.js` [P0] (score: 72)
@@ -546,17 +546,6 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ⚠️ **Potential console.log with secret found** (line 188)
 - ⚠️ **Potential console.log with secret found** (line 232)
 
-### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 40)
-
-- ❌ **Missing CSRF protection on POST route** (line 73)
-  - Route: /freebusy (POST)
-- ❌ **Missing CSRF protection on POST route** (line 293)
-  - Route: /events (POST)
-- ❌ **Missing CSRF protection on POST route** (line 73)
-  - Route: /freebusy (POST)
-- ❌ **Missing CSRF protection on POST route** (line 293)
-  - Route: /events (POST)
-
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` [P0] (score: 40)
 
 - ❌ **Missing CSRF protection on POST route** (line 105)
@@ -721,6 +710,27 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ❌ **Missing CSRF protection on POST route** (line 10)
   - Route: /post (POST)
 
+### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 20)
+
+- ❌ **Missing CSRF protection on POST route** (line 86)
+  - Route: /events (POST)
+- ❌ **Missing CSRF protection on POST route** (line 86)
+  - Route: /events (POST)
+
+### `server/src/routes/external/mapsRoutes.ts` [P0] (score: 20)
+
+- ❌ **Missing CSRF protection on POST route** (line 253)
+  - Route: /debug/clear-drive-time-cache (POST)
+- ❌ **Missing CSRF protection on POST route** (line 253)
+  - Route: /debug/clear-drive-time-cache (POST)
+
+### `server/src/routes/internal/availabilityRouter.ts` [P0] (score: 20)
+
+- ❌ **Missing CSRF protection on POST route** (line 21)
+  - Route: /computed-data (POST)
+- ❌ **Missing CSRF protection on POST route** (line 21)
+  - Route: /computed-data (POST)
+
 ### `server/src/db/migrations/20260108_rename_relationships_to_domain_terms.mjs` [P0] (score: 18)
 
 - ⚠️ **Potential console.log with secret found** (line 56)
@@ -880,6 +890,13 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ⚠️ **Potential console.log with secret found** (line 51)
 - ⚠️ **Potential console.log with secret found** (line 87)
 
+### `server/src/services/driveTimeCache.ts` [P1] (score: 12)
+
+- ⚠️ **Potential console.log with secret found** (line 146)
+- ⚠️ **Potential console.log with secret found** (line 175)
+- ⚠️ **Potential console.log with secret found** (line 146)
+- ⚠️ **Potential console.log with secret found** (line 175)
+
 ### `server/src/db/migrations/20250127_02_add_type_to_annotations.mjs` [P2] (score: 6)
 
 - ⚠️ **Potential console.log with secret found** (line 173)
@@ -959,3 +976,8 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 
 - ⚠️ **Potential console.log with secret found** (line 43)
 - ⚠️ **Potential console.log with secret found** (line 43)
+
+### `server/src/services/googleCalendarService.ts` [P2] (score: 6)
+
+- ⚠️ **Potential console.log with secret found** (line 179)
+- ⚠️ **Potential console.log with secret found** (line 179)

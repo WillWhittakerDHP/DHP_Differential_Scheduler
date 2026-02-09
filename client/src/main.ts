@@ -147,9 +147,18 @@ const prefetchGlobalData = async () => {
 
 registerPlugins(app)
 
-// WHY: Composables read from cache on mount, so data must be prefetched first
-prefetchGlobalData().then(() => {
-  // PATTERN: Mount to #app element in index.html
-  app.mount('#app')
+// WHY: Mount app immediately for faster initial render
+// PATTERN: Mount app first, then prefetch data in background
+// LEARNING: Vue Query will deduplicate requests, so components calling useGlobal() 
+//           will either get cached data (if prefetch completes first) or share the same request
+//           (if components mount first). This provides instant UI with progressive data loading.
+app.mount('#app')
+
+// Start prefetch in background (non-blocking)
+// WHY: Pre-populate cache so components get data faster, but don't block UI rendering
+prefetchGlobalData().catch((error) => {
+  logger.error('Failed to prefetch global data', { error })
+  // Don't throw - app should continue working even if prefetch fails
+  // Components will fetch data themselves via useGlobal() if cache is empty
 })
 

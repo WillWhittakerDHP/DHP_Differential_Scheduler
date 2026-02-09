@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 import InstancesTab from './tabs/InstancesTab.vue'
 import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
@@ -28,6 +28,13 @@ useAdmin()
  * PATTERN: Use ref for reactive primitive values in Vue 3 Composition API
  */
 const currentTab = ref('instances')
+
+/**
+ * LEARNING: Provide currentTab to child components
+ * WHY: Allows child tabs to know if they're active and conditionally load data
+ * PATTERN: Provide/inject pattern for cross-component communication
+ */
+provide('adminCurrentTab', currentTab)
 </script>
 
 <template>

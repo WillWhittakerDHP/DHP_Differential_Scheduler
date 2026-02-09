@@ -354,44 +354,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
       variant="outlined"
       color="info"
     >
-      <!-- Button Row Above Tabs -->
-      <VCardText v-if="hasDevPanelButtons" class="pa-2 pb-1">
-        <VRow v-if="devPanelButtons" dense no-gutters>
-          <VCol cols="12" class="d-flex gap-2 mb-2 align-center">
-            <VBtn
-              color="primary"
-              variant="outlined"
-              size="small"
-              prepend-icon="tabler-file-upload"
-              :loading="(devPanelButtons?.fetchAll?.isLoading?.value || devPanelButtons?.isLoadingAppointment?.value) ?? false"
-              @click="devPanelButtons?.handleLoadAppointment('random')"
-            >
-              LOAD RANDOM APPOINTMENT
-            </VBtn>
-            <VBtn
-              color="success"
-              variant="outlined"
-              size="small"
-              prepend-icon="tabler-device-floppy"
-              :loading="devPanelButtons?.updateAppointment?.isPending?.value ?? false"
-              :disabled="(devPanelButtons?.updateAppointment?.isPending?.value || !devPanelButtons?.loadedAppointmentId?.value) ?? false"
-              @click="devPanelButtons?.handleUpdateAppointment"
-            >
-              UPDATE APPOINTMENT
-            </VBtn>
-            <VBtn
-              color="secondary"
-              variant="outlined"
-              size="small"
-              prepend-icon="tabler-refresh"
-              @click="devPanelButtons?.handleResetWizard"
-            >
-              RESET WIZARD
-            </VBtn>
-          </VCol>
-        </VRow>
-      </VCardText>
-      
       <VTabs v-model="activeTab" density="compact" color="info" class="flexible-tabs">
         <VTab value="slotShape">
           <VIcon size="small" class="mr-2">tabler-chart-bar</VIcon>

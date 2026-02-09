@@ -515,6 +515,9 @@ function main() {
 
   const overlap = findOverlapGroups(scanned)
 
+  // Filter out zero-score files from JSON output to reduce report bloat
+  const filesWithFindings = scanned.filter(f => f.complexityScore > 0 || f.matches.length > 0)
+
   fs.writeFileSync(
     OUT_JSON,
     JSON.stringify(
@@ -524,8 +527,9 @@ function main() {
           included: ['client/src/composables/**/*.{ts,js}'],
           excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*'],
         },
+        totalScanned: scanned.length,
         overlap,
-        files: scanned,
+        files: filesWithFindings,
       },
       null,
       2

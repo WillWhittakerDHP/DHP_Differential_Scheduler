@@ -1,0 +1,32 @@
+{
+  "$comment": "Configuration for todo-aging-audit.mjs",
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "**/__tests__/**",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded"
+      },
+      {
+        "glob": "**/*.test.*",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded"
+      },
+      {
+        "glob": "**/@core/**",
+        "ruleIds": ["*"],
+        "reason": "Core library files excluded"
+      },
+      {
+        "glob": "**/@layouts/**",
+        "ruleIds": ["*"],
+        "reason": "Layout library files excluded"
+      }
+    ],
+    "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 15,
+    "p1MinSeverityScore": 7
+  }
+}

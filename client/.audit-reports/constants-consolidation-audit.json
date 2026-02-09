@@ -1,0 +1,2828 @@
+{
+  "generatedAt": "2026-02-09T00:20:47.378Z",
+  "scope": {
+    "included": [
+      "client/src/**/*.{ts,js}",
+      "server/src/**/*.{ts,mjs}"
+    ],
+    "excluded": [
+      "**/__tests__/**",
+      "**/*.test.*",
+      "**/*.spec.*"
+    ]
+  },
+  "totalScanned": 562,
+  "totalConstantsFiles": 3,
+  "totalExportsScanned": 13,
+  "exceptionSummary": {
+    "totalAllowed": 0,
+    "totalRequiresReview": 178,
+    "bySource": {
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0
+    }
+  },
+  "constantsFiles": [
+    "client/src/components/admin/generic/entityCardConstants.ts",
+    "server/src/routes/internal/entities/entityConstants.ts",
+    "server/src/routes/internal/properties/propertyConstants.ts"
+  ],
+  "consolidationGroups": [
+    {
+      "id": "hoist-string-Unknown-error",
+      "classification": "HOIST",
+      "description": "Identical string value 'Unknown error' in 2 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "UNKNOWN_ERROR_MESSAGE",
+          "line": 127,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "UNKNOWN_ERROR_MESSAGE",
+          "line": 82,
+          "inline": false
+        }
+      ],
+      "score": 16,
+      "priority": "P1",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-client",
+      "classification": "HOIST",
+      "description": "Value 'client' defined in constants but used inline in 33 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "DEFAULT_VALUES",
+          "line": 71,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
+          "export": null,
+          "line": 29,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+          "export": null,
+          "line": 23,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+          "export": null,
+          "line": 154,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+          "export": null,
+          "line": 159,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+          "export": null,
+          "line": 185,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+          "export": null,
+          "line": 190,
+          "inline": true
+        },
+        {
+          "file": "client/src/plugins/1.router/additional-routes.ts",
+          "export": null,
+          "line": 15,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/appointment.ts",
+          "export": null,
+          "line": 242,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/appointment.ts",
+          "export": null,
+          "line": 297,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/property.ts",
+          "export": null,
+          "line": 23,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/property.ts",
+          "export": null,
+          "line": 44,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/user.ts",
+          "export": null,
+          "line": 13,
+          "inline": true
+        },
+        {
+          "file": "client/src/types/user.ts",
+          "export": null,
+          "line": 23,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/appointmentFieldFormatters.ts",
+          "export": null,
+          "line": 83,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/eventAttendeeUtils.ts",
+          "export": null,
+          "line": 129,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+          "export": null,
+          "line": 453,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+          "export": null,
+          "line": 462,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_details.ts",
+          "export": null,
+          "line": 24,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_details.ts",
+          "export": null,
+          "line": 54,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_details.ts",
+          "export": null,
+          "line": 56,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/participantModels/Users.ts",
+          "export": null,
+          "line": 20,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/participantModels/Users.ts",
+          "export": null,
+          "line": 57,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+          "export": null,
+          "line": 126,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
+          "export": null,
+          "line": 6,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
+          "export": null,
+          "line": 32,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
+          "export": null,
+          "line": 71,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
+          "export": null,
+          "line": 118,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/importCalendarData.ts",
+          "export": null,
+          "line": 204,
+          "inline": true
+        },
+        {
+          "file": "server/src/scripts/importCalendarData.ts",
+          "export": null,
+          "line": 298,
+          "inline": true
+        },
+        {
+          "file": "server/src/utils/userTypeMapping.ts",
+          "export": null,
+          "line": 5,
+          "inline": true
+        },
+        {
+          "file": "server/src/utils/userTypeMapping.ts",
+          "export": null,
+          "line": 17,
+          "inline": true
+        },
+        {
+          "file": "server/src/utils/userTypeMapping.ts",
+          "export": null,
+          "line": 22,
+          "inline": true
+        },
+        {
+          "file": "server/src/utils/userTypeMapping.ts",
+          "export": null,
+          "line": 51,
+          "inline": true
+        }
+      ],
+      "score": 140,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-new-",
+      "classification": "HOIST",
+      "description": "Value 'new-' defined in constants but used inline in 9 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "TEMPORARY_ID_PATTERNS",
+          "line": 70,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
+          "export": null,
+          "line": 35,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/admin/useSelectFiltering.ts",
+          "export": null,
+          "line": 182,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/admin/useSelectFiltering.ts",
+          "export": null,
+          "line": 296,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/admin/useSelectFiltering.ts",
+          "export": null,
+          "line": 375,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContextActions.ts",
+          "export": null,
+          "line": 51,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContextState.ts",
+          "export": null,
+          "line": 74,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/formFields/useFormFieldsContext.ts",
+          "export": null,
+          "line": 65,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/entities/entityTypeMapping.ts",
+          "export": null,
+          "line": 65,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/entities/entityTypeMapping.ts",
+          "export": null,
+          "line": 66,
+          "inline": true
+        }
+      ],
+      "score": 44,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-standalone",
+      "classification": "HOIST",
+      "description": "Value 'standalone' defined in constants but used inline in 13 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "DEFAULT_VALUES",
+          "line": 59,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/admin/useInstanceFiltering.ts",
+          "export": null,
+          "line": 74,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/admin/useInstanceFiltering.ts",
+          "export": null,
+          "line": 89,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useDependentInstances.ts",
+          "export": null,
+          "line": 113,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/useDependentInstances.ts",
+          "export": null,
+          "line": 132,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts",
+          "export": null,
+          "line": 94,
+          "inline": true
+        },
+        {
+          "file": "client/src/constants/entities.ts",
+          "export": null,
+          "line": 26,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+          "export": null,
+          "line": 186,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+          "export": null,
+          "line": 128,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+          "export": null,
+          "line": 152,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+          "export": null,
+          "line": 316,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.ts",
+          "export": null,
+          "line": 23,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.ts",
+          "export": null,
+          "line": 69,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.ts",
+          "export": null,
+          "line": 71,
+          "inline": true
+        }
+      ],
+      "score": 60,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-orderIndex",
+      "classification": "HOIST",
+      "description": "Value 'orderIndex' defined in constants but used inline in 20 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
+          "export": null,
+          "line": 138,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
+          "export": null,
+          "line": 160,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
+          "export": null,
+          "line": 59,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+          "export": null,
+          "line": 47,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/annotationShapeFields.ts",
+          "export": null,
+          "line": 37,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts",
+          "export": null,
+          "line": 27,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts",
+          "export": null,
+          "line": 27,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/eventInstanceFields.ts",
+          "export": null,
+          "line": 69,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+          "export": null,
+          "line": 37,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts",
+          "export": null,
+          "line": 27,
+          "inline": true
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts",
+          "export": null,
+          "line": 27,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/forms/getFieldKeys.ts",
+          "export": null,
+          "line": 17,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/admin/block_shape.ts",
+          "export": null,
+          "line": 87,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/admin/part_shape.ts",
+          "export": null,
+          "line": 55,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.ts",
+          "export": null,
+          "line": 122,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/part_instance.ts",
+          "export": null,
+          "line": 95,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/helpers/dataController.ts",
+          "export": null,
+          "line": 43,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+          "export": null,
+          "line": 220,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+          "export": null,
+          "line": 36,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 321,
+          "inline": true
+        }
+      ],
+      "score": 88,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Unknown-error",
+      "classification": "HOIST",
+      "description": "Value 'Unknown error' defined in constants but used inline in 47 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "UNKNOWN_ERROR_MESSAGE",
+          "line": 127,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "UNKNOWN_ERROR_MESSAGE",
+          "line": 82,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/booking/useComputedAvailability.ts",
+          "export": null,
+          "line": 203,
+          "inline": true
+        },
+        {
+          "file": "client/src/services/calendarApiService.ts",
+          "export": null,
+          "line": 179,
+          "inline": true
+        },
+        {
+          "file": "client/src/services/mapsApiService.ts",
+          "export": null,
+          "line": 292,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
+          "export": null,
+          "line": 142,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "export": null,
+          "line": 99,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "export": null,
+          "line": 135,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "export": null,
+          "line": 294,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "export": null,
+          "line": 360,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+          "export": null,
+          "line": 100,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+          "export": null,
+          "line": 215,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+          "export": null,
+          "line": 258,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+          "export": null,
+          "line": 54,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+          "export": null,
+          "line": 157,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+          "export": null,
+          "line": 200,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 141,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 165,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 305,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 331,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 357,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 379,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentRouter.ts",
+          "export": null,
+          "line": 411,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/availabilityRouter.ts",
+          "export": null,
+          "line": 44,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 337,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 370,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 422,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 475,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 526,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessSettingsRouter.ts",
+          "export": null,
+          "line": 551,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 378,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 493,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 511,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 652,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 689,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 735,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 782,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipRouter.ts",
+          "export": null,
+          "line": 821,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 22,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 44,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 96,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 154,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 212,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/users/userRouter.ts",
+          "export": null,
+          "line": 234,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/appointmentCalendarService.ts",
+          "export": null,
+          "line": 159,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/calendarErrorHandler.ts",
+          "export": null,
+          "line": 161,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/googleCalendarService.ts",
+          "export": null,
+          "line": 335,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/googleMapsService.ts",
+          "export": null,
+          "line": 480,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/googleMapsService.ts",
+          "export": null,
+          "line": 785,
+          "inline": true
+        }
+      ],
+      "score": 204,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-00000000-0000-0000-0000-000000000000",
+      "classification": "HOIST",
+      "description": "Value '00000000-0000-0000-0000-000000000000' defined in constants but used inline in 2 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "TEMPORARY_ID_PATTERNS",
+          "line": 70,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContextActions.ts",
+          "export": null,
+          "line": 52,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/entities/entityTypeMapping.ts",
+          "export": null,
+          "line": 62,
+          "inline": true
+        }
+      ],
+      "score": 16,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-bookingMode",
+      "classification": "HOIST",
+      "description": "Value 'bookingMode' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts",
+          "export": null,
+          "line": 91,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-createdAt",
+      "classification": "HOIST",
+      "description": "Value 'createdAt' defined in constants but used inline in 4 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/forms/getFieldKeys.ts",
+          "export": null,
+          "line": 17,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "export": null,
+          "line": 26,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/instanceVersioning.ts",
+          "export": null,
+          "line": 115,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/instanceVersioning.ts",
+          "export": null,
+          "line": 149,
+          "inline": true
+        }
+      ],
+      "score": 24,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-1-0-0",
+      "classification": "HOIST",
+      "description": "Value '1.0.0' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "DEFAULT_VALUES",
+          "line": 59,
+          "inline": false
+        },
+        {
+          "file": "server/src/app.ts",
+          "export": null,
+          "line": 116,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-order-index",
+      "classification": "HOIST",
+      "description": "Value 'order_index' defined in constants but used inline in 12 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/admin/block_shape.js",
+          "export": null,
+          "line": 76,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/admin/part_shape.js",
+          "export": null,
+          "line": 65,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/active_annotation.js",
+          "export": null,
+          "line": 89,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/active_annotation.js",
+          "export": null,
+          "line": 137,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/annotation_instance.ts",
+          "export": null,
+          "line": 81,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/annotation_shape.ts",
+          "export": null,
+          "line": 60,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.js",
+          "export": null,
+          "line": 40,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.js",
+          "export": null,
+          "line": 104,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/event_instance.ts",
+          "export": null,
+          "line": 94,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/event_shape.ts",
+          "export": null,
+          "line": 62,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/instance_component.ts",
+          "export": null,
+          "line": 87,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 68,
+          "inline": true
+        }
+      ],
+      "score": 56,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-isStateControl-and-canHaveParts-cannot-both-be-true--They-are-mutually-exclusive-",
+      "classification": "HOIST",
+      "description": "Value 'isStateControl and canHaveParts cannot both be true. They are mutually exclusive.' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "ERROR_MESSAGES",
+          "line": 17,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/admin/block_shape.ts",
+          "export": null,
+          "line": 100,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-booking-mode",
+      "classification": "HOIST",
+      "description": "Value 'booking_mode' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/booking/block_instance.ts",
+          "export": null,
+          "line": 72,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Properties",
+      "classification": "HOIST",
+      "description": "Value 'Properties' defined in constants but used inline in 8 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "BLOCK_SHAPE_NAMES",
+          "line": 15,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 15,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 17,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 21,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 62,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+          "export": null,
+          "line": 50,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+          "export": null,
+          "line": 55,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+          "export": null,
+          "line": 223,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyValidators.ts",
+          "export": null,
+          "line": 59,
+          "inline": true
+        }
+      ],
+      "score": 40,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Missing-required-fields",
+      "classification": "HOIST",
+      "description": "Value 'Missing required fields' defined in constants but used inline in 5 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "ERROR_MESSAGES",
+          "line": 25,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+          "export": null,
+          "line": 180,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+          "export": null,
+          "line": 138,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+          "export": null,
+          "line": 89,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "export": null,
+          "line": 93,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "export": null,
+          "line": 145,
+          "inline": true
+        }
+      ],
+      "score": 28,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-DESC",
+      "classification": "HOIST",
+      "description": "Value 'DESC' defined in constants but used inline in 3 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "SORT_ORDERS",
+          "line": 116,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/businessRulesRouter.ts",
+          "export": null,
+          "line": 26,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/instanceVersioning.ts",
+          "export": null,
+          "line": 115,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/instanceVersioning.ts",
+          "export": null,
+          "line": 149,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    }
+  ],
+  "files": [
+    {
+      "id": "server__src__routes__internal__entities__entityConstants.ts",
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "score": 68.48048142333856,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 127,
+          "line": "export: UNKNOWN_ERROR_MESSAGE"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 70,
+          "line": "export: TEMPORARY_ID_PATTERNS"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 59,
+          "line": "export: DEFAULT_VALUES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "export: FIELD_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 127,
+          "line": "export: UNKNOWN_ERROR_MESSAGE"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 70,
+          "line": "export: TEMPORARY_ID_PATTERNS"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "export: FIELD_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "export: FIELD_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 59,
+          "line": "export: DEFAULT_VALUES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "export: FIELD_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
+          "line": "export: ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "export: FIELD_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 116,
+          "line": "export: SORT_ORDERS"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipRouter.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "score": 37.496598639455776,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 321,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 378,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 493,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 511,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 652,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 689,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 735,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 782,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 821,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__appointments__appointmentRouter.ts",
+      "repoPath": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "score": 29.14285714285714,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 141,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 165,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 305,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 331,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 357,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 379,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 411,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyConstants.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
+      "score": 25.392023476057087,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 82,
+          "line": "export: UNKNOWN_ERROR_MESSAGE"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 71,
+          "line": "export: DEFAULT_VALUES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 82,
+          "line": "export: UNKNOWN_ERROR_MESSAGE"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "export: BLOCK_SHAPE_NAMES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 25,
+          "line": "export: ERROR_MESSAGES"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__businessSettingsRouter.ts",
+      "repoPath": "server/src/routes/internal/businessSettingsRouter.ts",
+      "score": 24.97959183673469,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 337,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 370,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 422,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 475,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 526,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 551,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__users__userRouter.ts",
+      "repoPath": "server/src/routes/internal/users/userRouter.ts",
+      "score": 24.97959183673469,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 22,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 44,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 96,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 154,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 212,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 234,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__block_instance.ts",
+      "repoPath": "server/src/db/models/booking/block_instance.ts",
+      "score": 23.047619047619047,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 69,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 71,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 122,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 72,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__property_version_type.ts",
+      "repoPath": "server/src/db/models/booking/property_version_type.ts",
+      "score": 22.085470085470085,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 68,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 21,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 62,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "score": 21.319727891156464,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 99,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 135,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 294,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 360,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 180,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "score": 20.588235294117645,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 154,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 159,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 185,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 190,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__instanceVersioning.ts",
+      "repoPath": "server/src/services/instanceVersioning.ts",
+      "score": 19.6,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 115,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 149,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 115,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 149,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__businessRulesRouter.ts",
+      "repoPath": "server/src/routes/internal/businessRulesRouter.ts",
+      "score": 19.133333333333333,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 26,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 93,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 145,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 26,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyTypesRouter.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "score": 17.523809523809526,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 36,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 55,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 223,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "score": 17.156462585034014,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 100,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 215,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 258,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 138,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+      "score": 17.156462585034014,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 54,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 157,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 200,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 89,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__scripts__fixUserRolesAndEmails.ts",
+      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
+      "score": 16.470588235294116,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 6,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 32,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 71,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 118,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__utils__userTypeMapping.ts",
+      "repoPath": "server/src/utils/userTypeMapping.ts",
+      "score": 16.470588235294116,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 5,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 22,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 51,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__blockInstancePrimitiveFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts",
+      "score": 14.476190476190476,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 94,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 27,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 91,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__entities__entityTypeMapping.ts",
+      "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
+      "score": 14.133333333333333,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 65,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 66,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 62,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__useSelectFiltering.ts",
+      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
+      "score": 13.200000000000001,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 182,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 296,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 375,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "score": 12.857142857142858,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 128,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 152,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 316,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__appointmentToWizardTransformer.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "score": 12.521008403361343,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 453,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 462,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 186,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__property_details.ts",
+      "repoPath": "server/src/db/models/booking/property_details.ts",
+      "score": 12.352941176470587,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 24,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 54,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 56,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__block_shape.ts",
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "score": 10.19047619047619,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 87,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 100,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__fieldContext__useFieldContextActions.ts",
+      "repoPath": "client/src/composables/fieldContext/useFieldContextActions.ts",
+      "score": 9.733333333333334,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 51,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 52,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__forms__getFieldKeys.ts",
+      "repoPath": "client/src/utils/forms/getFieldKeys.ts",
+      "score": 8.99047619047619,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__active_annotation.js",
+      "repoPath": "server/src/db/models/booking/active_annotation.js",
+      "score": 8.615384615384615,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 89,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 137,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__block_instance.js",
+      "repoPath": "server/src/db/models/booking/block_instance.js",
+      "score": 8.615384615384615,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 40,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 104,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__useInstanceFiltering.ts",
+      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
+      "score": 8.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 74,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 89,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__useDependentInstances.ts",
+      "repoPath": "client/src/composables/booking/useDependentInstances.ts",
+      "score": 8.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 113,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 132,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__useRelationshipCollectionData.ts",
+      "repoPath": "client/src/composables/admin/useRelationshipCollectionData.ts",
+      "score": 8.380952380952381,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 138,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 160,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__googleMapsService.ts",
+      "repoPath": "server/src/services/googleMapsService.ts",
+      "score": 8.326530612244898,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 480,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 785,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__types__appointment.ts",
+      "repoPath": "client/src/types/appointment.ts",
+      "score": 8.235294117647058,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 242,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 297,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__types__property.ts",
+      "repoPath": "client/src/types/property.ts",
+      "score": 8.235294117647058,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 44,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__types__user.ts",
+      "repoPath": "client/src/types/user.ts",
+      "score": 8.235294117647058,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 13,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__participantModels__Users.ts",
+      "repoPath": "server/src/db/models/participantModels/Users.ts",
+      "score": 8.235294117647058,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 20,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 57,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__scripts__importCalendarData.ts",
+      "repoPath": "server/src/scripts/importCalendarData.ts",
+      "score": 8.235294117647058,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 204,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 298,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__app.ts",
+      "repoPath": "server/src/app.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 116,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyValidators.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "score": 4.444444444444445,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 59,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__useFieldContextMetadataEntity.ts",
+      "repoPath": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 35,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__fieldContext__useFieldContextState.ts",
+      "repoPath": "client/src/composables/fieldContext/useFieldContextState.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 74,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__formFields__useFormFieldsContext.ts",
+      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 65,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__block_shape.js",
+      "repoPath": "server/src/db/models/admin/block_shape.js",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 76,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__part_shape.js",
+      "repoPath": "server/src/db/models/admin/part_shape.js",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 65,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__annotation_instance.ts",
+      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__annotation_shape.ts",
+      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 60,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__event_instance.ts",
+      "repoPath": "server/src/db/models/booking/event_instance.ts",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 94,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__event_shape.ts",
+      "repoPath": "server/src/db/models/booking/event_shape.ts",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 62,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__instance_component.ts",
+      "repoPath": "server/src/db/models/booking/instance_component.ts",
+      "score": 4.3076923076923075,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 87,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__constants__entities.ts",
+      "repoPath": "client/src/constants/entities.ts",
+      "score": 4.285714285714286,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 26,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__display__selectableDisplayConfig.ts",
+      "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 59,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__annotationInstanceFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 47,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__annotationShapeFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/annotationShapeFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 37,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__blockShapePrimitiveFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 27,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__eventInstanceFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/eventInstanceFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 69,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__eventShapeFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 37,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__partInstancePrimitiveFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 27,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__partShapePrimitiveFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 27,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__part_shape.ts",
+      "repoPath": "server/src/db/models/admin/part_shape.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 55,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__part_instance.ts",
+      "repoPath": "server/src/db/models/booking/part_instance.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 95,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__helpers__dataController.ts",
+      "repoPath": "server/src/routes/helpers/dataController.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 43,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyHelpers.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
+      "score": 4.190476190476191,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 220,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__useComputedAvailability.ts",
+      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 203,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__services__calendarApiService.ts",
+      "repoPath": "client/src/services/calendarApiService.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 179,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__services__mapsApiService.ts",
+      "repoPath": "client/src/services/mapsApiService.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 292,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__external__googleOauthRoutes.ts",
+      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 142,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__availabilityRouter.ts",
+      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 44,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__appointmentCalendarService.ts",
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 159,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__calendarErrorHandler.ts",
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 161,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__googleCalendarService.ts",
+      "repoPath": "server/src/services/googleCalendarService.ts",
+      "score": 4.163265306122449,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 335,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__tables__useUsersTableModel.ts",
+      "repoPath": "client/src/composables/admin/tables/useUsersTableModel.ts",
+      "score": 4.117647058823529,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 29,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__plugins__1.router__additional-routes.ts",
+      "repoPath": "client/src/plugins/1.router/additional-routes.ts",
+      "score": 4.117647058823529,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__appointmentFieldFormatters.ts",
+      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
+      "score": 4.117647058823529,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 83,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__eventAttendeeUtils.ts",
+      "repoPath": "client/src/utils/eventAttendeeUtils.ts",
+      "score": 4.117647058823529,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 129,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "score": 4.117647058823529,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 126,
+          "line": "inline: value"
+        }
+      ]
+    }
+  ]
+}

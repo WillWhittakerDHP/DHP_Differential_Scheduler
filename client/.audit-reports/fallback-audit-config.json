@@ -1,9 +1,0 @@
-{
-  "$comment": "Configuration for fallback-audit.mjs",
-  "$schema": "Priority thresholds for fallback audit",
-  
-  "priorities": {
-    "p0MinSeverityScore": 5,
-    "p1MinSeverityScore": 2
-  }
-}

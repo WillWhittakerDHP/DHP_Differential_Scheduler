@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-01T21:41:15.709Z
+Generated at: 2026-02-08T23:31:49.217Z
 
 ## Summary
 
-- **Total source files**: 690
-- **Total test files**: 128
-- **Untested source files**: 573
+- **Total source files**: 701
+- **Total test files**: 127
+- **Untested source files**: 585
 - **Orphaned test files**: 10
 - **Coverage**: 17%
 
@@ -19,28 +19,31 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | **8.0** | 10 | 8 | 8 | 0 | 4 |
-| `client/src/utils/booking/partFinalizer.ts` | **7.9** | 9 | 9 | 6 | 4 | 4 |
 | `client/src/composables/booking/useAvailabilityEmptyState.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useTimeBasisHandler.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
+| `client/src/utils/booking/partFinalizer.ts` | **7.7** | 9 | 9 | 5 | 4 | 4 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | **7.5** | 10 | 7 | 6 | 2 | 2 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
-| `client/src/composables/booking/useFreeBusyDataSource.ts` | **7.4** | 10 | 8 | 5 | 0 | 3 |
 | `client/src/utils/booking/partShapeAggregator.ts` | **7.4** | 7 | 10 | 8 | 0 | 5 |
 | `client/src/composables/booking/useDurationRounding.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useTimeSlotDurations.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useWizardStepDataRefs.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/admin/useAvailabilitySettings.ts` | **7.1** | 10 | 6 | 5 | 3 | 3 |
 | `client/src/composables/booking/useAppointmentDuration.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
-| `client/src/composables/booking/useAvailableStartTimes.ts` | **7.1** | 10 | 7 | 4 | 2 | 2 |
-| `client/src/composables/booking/useAppointmentSlots.ts` | **7.0** | 10 | 7 | 3 | 3 | 2 |
+| `client/src/composables/booking/useAvailableStartTimes.ts` | **7.1** | 10 | 7 | 3 | 4 | 2 |
+| `client/src/composables/admin/useCalendarEntries.ts` | **6.9** | 9 | 5 | 8 | 2 | 2 |
 | `client/src/composables/booking/dev/usePanelPosition.ts` | **6.9** | 9 | 7 | 6 | 0 | 2 |
+| `client/src/composables/booking/useComputedAvailability.ts` | **6.9** | 10 | 7 | 4 | 0 | 2 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | **6.9** | 7 | 9 | 7 | 0 | 3 |
 | `client/src/composables/booking/useWizardDevMode.ts` | **6.7** | 9 | 7 | 5 | 0 | 2 |
-| `client/src/composables/booking/useBusyTimes.ts` | **6.6** | 9 | 7 | 4 | 1 | 2 |
+| `client/src/composables/booking/useApiCallStatus.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilitySlotColor.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
+| `client/src/composables/booking/useDateRangeDecider.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useDynamicGridConfig.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useMockCalendarRefresh.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/usePerspectiveMapping.ts` | **6.5** | 7 | 7 | 8 | 0 | 2 |
+| `client/src/utils/booking/blockFinalizer.ts` | **6.4** | 5 | 8 | 10 | 0 | 2 |
 | `client/src/composables/admin/tables/useAppointmentHelpers.ts` | **6.3** | 7 | 5 | 10 | 0 | 2 |
 | `client/src/composables/admin/useInstanceFiltering.ts` | **6.3** | 8 | 5 | 8 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceCollection.ts` | **6.3** | 10 | 5 | 4 | 0 | 2 |
@@ -52,6 +55,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/useSelectDomTargets.ts` | **5.9** | 7 | 5 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | **5.9** | 7 | 7 | 5 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentLoader.ts` | **5.9** | 7 | 7 | 5 | 0 | 2 |
+| `client/src/utils/booking/BlockFinal.ts` | **5.8** | 6 | 6 | 8 | 0 | 1 |
 | `client/src/utils/booking/PartFinal.ts` | **5.8** | 6 | 6 | 8 | 0 | 1 |
 | `client/src/utils/booking/partsTotals.ts` | **5.8** | 5 | 6 | 10 | 0 | 1 |
 | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
@@ -63,10 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | **5.5** | 7 | 5 | 6 | 0 | 2 |
 | `client/src/composables/admin/useEntityList.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 | `client/src/composables/admin/useFieldMetadataUpdate.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `client/src/composables/admin/useInstanceSaveHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `client/src/composables/admin/useInstanceTabHandlers.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `client/src/composables/admin/usePartInstanceExpansion.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
-| `client/src/composables/admin/useShapeDeletion.ts` | **5.5** | 5 | 5 | 10 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 
@@ -112,13 +112,13 @@ These test files may not have corresponding source files, or the mapping failed.
 | `server/src/routes/internal/properties/__tests__` | 0 | 0 | 0 | 100% |
 | `server/src/routes/internal/relationships/__tests__` | 0 | 0 | 0 | 100% |
 | `server/src/routes/internal/users/__tests__` | 0 | 0 | 0 | 100% |
+| `server/src/services/__tests__` | 0 | 0 | 0 | 100% |
 | `client/src/@core/libs/apex-chart` | 1 | 0 | 1 | 0% |
 | `client/src/@core/libs/chartjs` | 1 | 0 | 1 | 0% |
 | `client/src/@core/stores` | 1 | 0 | 1 | 0% |
 | `client/src/@layouts/plugins` | 1 | 0 | 1 | 0% |
 | `client/src/@layouts/stores` | 1 | 0 | 1 | 0% |
 | `client/src/components/admin/component` | 1 | 0 | 1 | 0% |
-| `client/src/components/admin/dev` | 1 | 0 | 1 | 0% |
 
 ## Recommendations
 

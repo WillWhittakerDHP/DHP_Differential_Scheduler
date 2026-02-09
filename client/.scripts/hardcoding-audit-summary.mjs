@@ -34,17 +34,24 @@ function render(data) {
   lines.push('')
   lines.push(`- Entity keys: ${entityKeys.length ? entityKeys.map(k => `\`${k}\``).join(', ') : '(none detected)'}`)
   lines.push('')
-  lines.push('## Full index (ranked)')
+  const MAX_ROWS = 30
+  lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked)`)
   lines.push('')
   lines.push('| File | Priority | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |')
   lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
-  for (const f of files) {
+  const shown = files.slice(0, MAX_ROWS)
+  for (const f of shown) {
     const c = f.counts || {}
     const priority = f.priority || 'P2'
     lines.push(
       `| \`${f.repoPath}\` | ${priority} | ${f.score || 0} | ${c.switchEntityKey || 0} | ${c.entityKeyString || 0} | ${c.caseString || 0} | ${c.fieldEqualsString || 0} | ${c.omitFieldsArray || 0} | ${c.headersArray || 0} | ${c.inlineLabelMap || 0} |`
     )
+  }
+
+  if (files.length > MAX_ROWS) {
+    lines.push('')
+    lines.push(`*...and ${files.length - MAX_ROWS} more files. See full report for details.*`)
   }
 
   lines.push('')

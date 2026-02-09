@@ -1,0 +1,791 @@
+{
+  "generatedAt": "2026-02-08T23:31:48.412Z",
+  "clientEndpoints": 0,
+  "serverEndpoints": 77,
+  "sharedTypes": [
+    {
+      "name": "RFC3339DateTime",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "ConstraintEnforcement",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "RollingWeekDirection",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "RangeConstraintType",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DriveTimeApplyTo",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DayHours",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BusinessHoursConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "LeadTimeConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DateRangeConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "RangeConstraint",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "OverlapConstraint",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "CapacityConstraint",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BusyPeriodSource",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "WorkCapacityFilter",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "RollingWeekCapacityFilter",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "Coordinates",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DefaultLocation",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DurationRoundingConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BusyTimeRange",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "CalendarEvent",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "ComputedAvailabilityRequest",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "ComputedAvailabilityData",
+      "file": "shared/types/availabilityTypes.ts"
+    }
+  ],
+  "score": 77,
+  "findings": [
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /events has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/calendarRoutes.ts",
+      "url": "/events",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /debug/freebusy-cache has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/calendarRoutes.ts",
+      "url": "/debug/freebusy-cache",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /debug/events-cache has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/calendarRoutes.ts",
+      "url": "/debug/events-cache",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /debug/rate-limit has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/calendarRoutes.ts",
+      "url": "/debug/rate-limit",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /callback has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "url": "/callback",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /status has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "url": "/status",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /test-url has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "url": "/test-url",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /autocomplete has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/autocomplete",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /place-details has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/place-details",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /session-token has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/session-token",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /debug/rate-limit has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/debug/rate-limit",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /debug/drive-time-cache has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/debug/drive-time-cache",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /debug/clear-drive-time-cache has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "url": "/debug/clear-drive-time-cache",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /batch has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "url": "/batch",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:entityType/:entityId/:fieldKey has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataRouter.ts",
+      "url": "/:entityType/:entityId/:fieldKey",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:entityType/:entityId/:fieldKey has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
+      "url": "/:entityType/:entityId/:fieldKey",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:entityType/:entityId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+      "url": "/:entityType/:entityId",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:entityType/:entityId/:relationshipKey has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
+      "url": "/:entityType/:entityId/:relationshipKey",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/:id",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/:id",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/:id",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id/versions has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/appointments/appointmentRouter.ts",
+      "url": "/:id/versions",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /computed-data has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/availabilityRouter.ts",
+      "url": "/computed-data",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/:id",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /block/:blockInstanceId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/block/:blockInstanceId",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/:id",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessRulesRouter.ts",
+      "url": "/:id",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:key has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/:key",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:key has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/:key",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:key has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/:key",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:key has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/businessSettingsRouter.ts",
+      "url": "/:key",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /config has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/config",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:entityType has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:entityType/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/:id",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:entityType has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:entityType/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/:id",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:entityType/order_index has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/order_index",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:entityType/bulk has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/bulk",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:entityType/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:entityType/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/entities/entityRouter.ts",
+      "url": "/:entityType/:id",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id/types has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id/types",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:id/types has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id/types",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:id/types/:typeId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id/types/:typeId",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:id/types/:typeId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id/types/:typeId",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:id/types has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/properties/propertyRouter.ts",
+      "url": "/:id/types",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:relationshipType has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/:relationshipType",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST /:relationshipType has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/:relationshipType",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /instanceComponents/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/instanceComponents/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /instanceComponents/:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/instanceComponents/:id",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /annotationAssignments/:blockInstanceId/:annotationId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/annotationAssignments/:blockInstanceId/:annotationId",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:relationshipType/:parentId/:childId has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/relationships/relationshipRouter.ts",
+      "url": "/:relationshipType/:parentId/:childId",
+      "method": "DELETE"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route GET /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/:id",
+      "method": "GET"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route POST / has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/",
+      "method": "POST"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PUT /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/:id",
+      "method": "PUT"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route PATCH /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/:id",
+      "method": "PATCH"
+    },
+    {
+      "type": "orphan-server-route",
+      "severity": "info",
+      "message": "Server route DELETE /:id has no client caller found",
+      "clientFile": null,
+      "serverFile": "server/src/routes/internal/users/userRouter.ts",
+      "url": "/:id",
+      "method": "DELETE"
+    }
+  ]
+}

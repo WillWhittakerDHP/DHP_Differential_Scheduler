@@ -5,7 +5,7 @@ Generated from `.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - **Coverage**: 17%
-- **Untested**: 573 files
+- **Untested**: 585 files
 - **Orphaned**: 10 tests
 
 ## Top Untested Files (by Priority Score)
@@ -16,12 +16,12 @@ Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independ
 | --- | --- | ---: | ---: | ---: | ---: |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | P0 | 8.1 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | P0 | 8.0 | 10 | 8 | 4 |
-| `client/src/utils/booking/partFinalizer.ts` | P0 | 7.9 | 9 | 9 | 4 |
 | `client/src/composables/booking/useAvailabilityEmptyState.ts` | P0 | 7.7 | 10 | 7 | 2 |
 | `client/src/composables/booking/useTimeBasisHandler.ts` | P0 | 7.7 | 9 | 7 | 2 |
+| `client/src/utils/booking/partFinalizer.ts` | P0 | 7.7 | 9 | 9 | 4 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 7.5 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | P0 | 7.5 | 10 | 7 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | P0 | 7.5 | 10 | 7 | 2 |
-| `client/src/composables/booking/useFreeBusyDataSource.ts` | P0 | 7.4 | 10 | 8 | 3 |
 | `client/src/utils/booking/partShapeAggregator.ts` | P0 | 7.4 | 7 | 10 | 5 |
 | `client/src/composables/booking/useDurationRounding.ts` | P0 | 7.3 | 9 | 7 | 2 |
 | `client/src/composables/booking/useTimeSlotDurations.ts` | P0 | 7.3 | 9 | 7 | 2 |
@@ -29,11 +29,11 @@ Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independ
 | `client/src/composables/admin/useAvailabilitySettings.ts` | P0 | 7.1 | 10 | 6 | 3 |
 | `client/src/composables/booking/useAppointmentDuration.ts` | P0 | 7.1 | 9 | 7 | 2 |
 | `client/src/composables/booking/useAvailableStartTimes.ts` | P0 | 7.1 | 10 | 7 | 2 |
-| `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 7.0 | 10 | 7 | 2 |
+| `client/src/composables/admin/useCalendarEntries.ts` | P1 | 6.9 | 9 | 5 | 2 |
 | `client/src/composables/booking/dev/usePanelPosition.ts` | P1 | 6.9 | 9 | 7 | 2 |
+| `client/src/composables/booking/useComputedAvailability.ts` | P1 | 6.9 | 10 | 7 | 2 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | P1 | 6.9 | 7 | 9 | 3 |
 | `client/src/composables/booking/useWizardDevMode.ts` | P1 | 6.7 | 9 | 7 | 2 |
-| `client/src/composables/booking/useBusyTimes.ts` | P1 | 6.6 | 9 | 7 | 2 |
 
 ## Full Report
 

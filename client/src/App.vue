@@ -24,8 +24,8 @@
         PATTERN: Conditionally render based on route
       -->
       <template v-if="isDevMode && !isAdminRoute">
-        <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <ApiDevPanel :visible="apiDevPanelVisible" @close="apiDevPanelVisible = false" />
+        <DevPanelsContainer :visible="debugPanelVisible" @close="debugPanelVisible = false" />
         <DevPanelToggle @toggle="handleSlotPanelToggle" />
         <VBtn
           color="error"

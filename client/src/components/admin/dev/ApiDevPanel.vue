@@ -7,18 +7,20 @@
  * PATTERN: Tabbed interface matching slot dev panel styling, unified API debugging
  */
 
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, inject, type Ref, type ComputedRef } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import axios from 'axios'
-import { useFreeBusyDataSource, type FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
-import { useDriveTimeDataSource, type DriveTimeDataSource } from '@/composables/booking/useDriveTimeDataSource'
+// Phase 8: Removed useFreeBusyDataSource and useDriveTimeDataSource - data source now controlled by server request parameter
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { checkOAuthStatus, getOAuthUrl } from '@/services/calendarApiService'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { BusyTimeRange } from '@/utils/booking/timeSlotFitter'
-import { getMockBusyTimesSync } from '@/utils/timeSlotCalculations'
+import type { AppointmentResponse } from '@/types/appointment'
+import type { useBookingWizard } from '@/composables/useBookingWizard'
+import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
+import type { CalendarEvent as SharedCalendarEvent } from '@shared/types/availabilityTypes'
 
 interface Props {
   visible: boolean
@@ -32,8 +34,37 @@ defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
-const activeTab = ref<'status' | 'freebusy' | 'drivetime'>('status')
+const activeTab = ref<'status' | 'freebusy' | 'drivetime' | 'computed'>('status')
 const panelRef = ref<HTMLElement | null>(null)
+
+// Phase 7: Inject computed availability data for display
+const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+
+// Inject dev panel buttons for appointment loading
+const devPanelButtonsRef = inject<Ref<{
+  selectedAppointmentId: Ref<string | null>
+  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
+  loadedAppointmentId: Ref<string | null>
+  isLoadingAppointment: Ref<boolean>
+  fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
+  handleLoadAppointment: (id: string | null) => Promise<void>
+  handleUpdateAppointment: () => Promise<void>
+  handleResetWizard: () => void
+  handleResetMocks: () => void
+  updateAppointment: { isPending: Ref<boolean> }
+  wizard: ReturnType<typeof useBookingWizard> | null
+} | null>>('devPanelButtons', ref(null))
+
+const devPanelButtons = computed(() => {
+  if (!devPanelButtonsRef || !devPanelButtonsRef.value) {
+    return null
+  }
+  return devPanelButtonsRef.value
+})
+
+const hasDevPanelButtons = computed(() => {
+  return devPanelButtons.value !== null
+})
 
 // API data state
 const oauthStatus = ref<any>(null)
@@ -68,16 +99,7 @@ const { apiStatus } = useApiCallStatus()
 // API base URL for external routes
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
-// Free/Busy data source
-const { 
-  dataSource: freeBusyDataSource, 
-  calendarEmails: configuredCalendarEmails,
-  forceRefresh: triggerForceRefresh,
-  settingsLoaded: calendarSettingsLoaded
-} = useFreeBusyDataSource()
-
-// DriveTime data source
-const { dataSource: driveTimeDataSource } = useDriveTimeDataSource()
+// Phase 8: Data source toggles removed - now controlled by server request parameter in orchestrator
 
 // Dev panel data for live busy periods
 const devPanelData = useDevPanelData()
@@ -89,20 +111,7 @@ const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
 const oauthStatusForFreeBusy = ref<{ authenticated: boolean; authUrl?: string }>({ authenticated: false })
 const isCheckingAuth = ref(false)
 
-// Data source options
-const freeBusyDataSourceOptions: { title: string; value: FreeBusyDataSource }[] = [
-  { title: 'Mock', value: 'mock' },
-  { title: 'API', value: 'real' },
-  { title: 'Both', value: 'both' },
-  { title: 'None', value: 'none' }
-]
-
-const driveTimeDataSourceOptions: { title: string; value: DriveTimeDataSource }[] = [
-  { title: 'Default', value: 'default' },
-  { title: 'API', value: 'api' },
-  { title: 'Both', value: 'both' },
-  { title: 'None', value: 'none' }
-]
+// Phase 8: Data source options removed - data source now controlled by server request parameter
 
 /**
  * Fetch OAuth status
@@ -224,17 +233,15 @@ async function fetchAll() {
   ])
 }
 
-// Check OAuth status for Free/Busy tab
+// Phase 8: OAuth check simplified - always check (data source now controlled server-side)
 const checkAuth = async () => {
-  if (freeBusyDataSource.value === 'real' || freeBusyDataSource.value === 'both') {
-    isCheckingAuth.value = true
-    try {
-      oauthStatusForFreeBusy.value = await checkOAuthStatus()
-    } catch (error) {
-      oauthStatusForFreeBusy.value = { authenticated: false, authUrl: getOAuthUrl() }
-    } finally {
-      isCheckingAuth.value = false
-    }
+  isCheckingAuth.value = true
+  try {
+    oauthStatusForFreeBusy.value = await checkOAuthStatus()
+  } catch (error) {
+    oauthStatusForFreeBusy.value = { authenticated: false, authUrl: getOAuthUrl() }
+  } finally {
+    isCheckingAuth.value = false
   }
 }
 
@@ -256,10 +263,7 @@ watch(activeTab, (newTab) => {
   }
 })
 
-// Watch free/busy data source changes
-watch(freeBusyDataSource, () => {
-  checkAuth()
-})
+// Phase 8: Removed watch on freeBusyDataSource - data source now controlled server-side
 
 // Fetch OAuth status on mount
 onMounted(() => {
@@ -318,16 +322,14 @@ const calendarData = computed(() => {
 })
 
 const busyPeriods = computed(() => {
-  if (calendarData.value.busyPeriods && calendarData.value.busyPeriods.length > 0) {
-    return calendarData.value.busyPeriods
-  }
-  
+  // Phase 9: Removed getMockBusyTimesSync fallback - all busy times come from server-side orchestrator
+  // WHY: Busy times are now fetched server-side via ComputedAvailabilityData
   if (!calendarData.value.dateRange) {
     return []
   }
   
-  const result = getMockBusyTimesSync(calendarData.value.dateRange)
-  return result
+  // Return busy periods from orchestrator if available
+  return calendarData.value.busyPeriods || []
 })
 
 const formatBusyPeriod = (period: { start: RFC3339DateTime; end: RFC3339DateTime }): string => {
@@ -403,6 +405,44 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
         />
       </VCardTitle>
 
+      <!-- Button Row Above Tabs -->
+      <VCardText v-if="hasDevPanelButtons" class="pa-2 pb-1">
+        <VRow v-if="devPanelButtons" dense no-gutters>
+          <VCol cols="12" class="d-flex gap-2 mb-2 align-center">
+            <VBtn
+              color="primary"
+              variant="outlined"
+              size="small"
+              prepend-icon="tabler-file-upload"
+              :loading="(devPanelButtons?.fetchAll?.isLoading?.value || devPanelButtons?.isLoadingAppointment?.value) ?? false"
+              @click="devPanelButtons?.handleLoadAppointment('random')"
+            >
+              LOAD RANDOM APPOINTMENT
+            </VBtn>
+            <VBtn
+              color="success"
+              variant="outlined"
+              size="small"
+              prepend-icon="tabler-device-floppy"
+              :loading="devPanelButtons?.updateAppointment?.isPending?.value ?? false"
+              :disabled="(devPanelButtons?.updateAppointment?.isPending?.value || !devPanelButtons?.loadedAppointmentId?.value) ?? false"
+              @click="devPanelButtons?.handleUpdateAppointment"
+            >
+              UPDATE APPOINTMENT
+            </VBtn>
+            <VBtn
+              color="secondary"
+              variant="outlined"
+              size="small"
+              prepend-icon="tabler-refresh"
+              @click="devPanelButtons?.handleResetWizard"
+            >
+              RESET WIZARD
+            </VBtn>
+          </VCol>
+        </VRow>
+      </VCardText>
+
       <VCardText class="pa-0">
         <!-- Tab Navigation -->
         <VTabs v-model="activeTab" density="compact" color="info" class="flexible-tabs px-3">
@@ -417,6 +457,10 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
           <VTab value="drivetime">
             <VIcon size="small" class="mr-2">tabler-route</VIcon>
             DriveTime
+          </VTab>
+          <VTab value="computed" :disabled="!computedAvailability">
+            <VIcon size="small" class="mr-2">tabler-calculator</VIcon>
+            Computed Data
           </VTab>
         </VTabs>
 
@@ -625,33 +669,9 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
           <!-- Free/Busy Tab -->
           <VWindowItem value="freebusy">
             <div class="pa-3">
-              <!-- Data Source Toggle -->
+              <!-- Phase 8: Data source toggle removed - now controlled server-side -->
               <div class="mb-4">
-                <div class="text-subtitle-2 mb-2">Data Source</div>
-                <VRadioGroup
-                  v-model="freeBusyDataSource"
-                  inline
-                  density="compact"
-                  hide-details
-                >
-                  <VRadio
-                    v-for="option in freeBusyDataSourceOptions"
-                    :key="option.value"
-                    :label="option.title"
-                    :value="option.value"
-                  />
-                </VRadioGroup>
-                
-                <div class="d-flex gap-2 mt-2">
-                  <VBtn
-                    variant="outlined"
-                    size="small"
-                    color="primary"
-                    prepend-icon="tabler-refresh"
-                    @click="triggerForceRefresh"
-                  >
-                    Force Refresh
-                  </VBtn>
+                <div class="d-flex gap-2">
                   <VBtn
                     variant="outlined"
                     size="small"
@@ -665,7 +685,7 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
 
               <!-- OAuth Warning -->
               <VAlert
-                v-if="(freeBusyDataSource === 'real' || freeBusyDataSource === 'both') && !oauthStatusForFreeBusy.authenticated && !isCheckingAuth"
+                v-if="!oauthStatusForFreeBusy.authenticated && !isCheckingAuth"
                 type="warning"
                 variant="tonal"
                 density="compact"
@@ -694,33 +714,61 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
                 <span class="text-caption">Checking authentication...</span>
               </div>
 
-              <!-- Calendar Configuration Info -->
-              <VAlert
-                v-if="freeBusyDataSource !== 'mock' && freeBusyDataSource !== 'none'"
-                :type="configuredCalendarEmails.length > 0 ? 'success' : (calendarSettingsLoaded ? 'info' : 'warning')"
-                variant="tonal"
-                density="compact"
-                class="mb-4"
-              >
-                <template #prepend>
-                  <VIcon v-if="!calendarSettingsLoaded">tabler-loader</VIcon>
-                  <VIcon v-else-if="configuredCalendarEmails.length > 0">tabler-check</VIcon>
-                  <VIcon v-else>tabler-info-circle</VIcon>
-                </template>
-                <div class="text-caption">
-                  <template v-if="!calendarSettingsLoaded">
-                    Loading calendar settings...
-                  </template>
-                  <template v-else-if="configuredCalendarEmails.length > 0">
-                    <strong>Configured calendars:</strong> {{ configuredCalendarEmails.join(', ') }}
-                  </template>
-                  <template v-else>
-                    No calendars configured. Go to Admin → Controls → Calendar → Integration to add calendars.
-                  </template>
-                </div>
-              </VAlert>
-
               <VDivider class="my-3" />
+
+              <!-- Debugging Information -->
+              <VExpansionPanels variant="accordion" class="mb-4">
+                <VExpansionPanel>
+                  <VExpansionPanelTitle>
+                    <VIcon class="mr-2">tabler-bug</VIcon>
+                    Debugging Information
+                  </VExpansionPanelTitle>
+                  <VExpansionPanelText>
+                    <VList density="compact">
+                      <!-- Phase 8: Data source and calendar emails removed - now controlled server-side -->
+                      <VListItem v-if="calendarData.dateRange">
+                        <VListItemTitle class="text-caption text-medium-emphasis">Date Range (UTC)</VListItemTitle>
+                        <VListItemSubtitle>
+                          {{ calendarData.dateRange.start }} → {{ calendarData.dateRange.end }}
+                        </VListItemSubtitle>
+                      </VListItem>
+                      <VListItem v-else>
+                        <VListItemTitle class="text-caption text-medium-emphasis">Date Range</VListItemTitle>
+                        <VListItemSubtitle class="text-warning">Not set - select a date in booking wizard</VListItemSubtitle>
+                      </VListItem>
+                      <VListItem>
+                        <VListItemTitle class="text-caption text-medium-emphasis">Orchestrator Status</VListItemTitle>
+                        <VListItemSubtitle>
+                          <VChip
+                            :color="devPanelData.dateRange ? 'success' : 'warning'"
+                            size="small"
+                            variant="tonal"
+                          >
+                            {{ devPanelData.dateRange ? 'Date range available' : 'Waiting for date range' }}
+                          </VChip>
+                        </VListItemSubtitle>
+                      </VListItem>
+                      <VListItem>
+                        <VListItemTitle class="text-caption text-medium-emphasis">Free-Busy Fetch Status</VListItemTitle>
+                        <VListItemSubtitle class="text-caption">
+                          <span v-if="!calendarData.dateRange" class="text-warning">
+                            ⚠️ No date range - select a date in booking wizard
+                          </span>
+                          <span v-else class="text-success">
+                            ✓ Free-busy fetched automatically by orchestrator
+                          </span>
+                        </VListItemSubtitle>
+                      </VListItem>
+                      <VListItem>
+                        <VListItemTitle class="text-caption text-medium-emphasis">Note</VListItemTitle>
+                        <VListItemSubtitle class="text-caption">
+                          Free-busy queries don't require placeId. Calendar events require placeId for geocoding. Check browser console for detailed logs.
+                        </VListItemSubtitle>
+                      </VListItem>
+                    </VList>
+                  </VExpansionPanelText>
+                </VExpansionPanel>
+              </VExpansionPanels>
 
               <!-- Live Busy Periods -->
               <div v-if="!calendarData.dateRange" class="text-body-2 text-medium-emphasis mb-4">
@@ -750,12 +798,23 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
 
                 <!-- Busy Periods List -->
                 <div v-if="busyPeriods.length === 0" class="text-body-2 text-medium-emphasis mb-4">
-                  No busy periods for this date range
-                  <span v-if="freeBusyDataSource === 'none'" class="text-caption">(data source is "None")</span>
+                  <VAlert type="info" variant="tonal" density="compact" class="mb-2">
+                    <template #prepend>
+                      <VIcon>tabler-info-circle</VIcon>
+                    </template>
+                      <div>
+                        <div class="text-body-2 mb-1">No busy periods for this date range</div>
+                        <div class="text-caption">
+                          Check browser console for API logs. Orchestrator may be waiting for placeId.
+                        </div>
+                      </div>
+                  </VAlert>
                 </div>
 
                 <VList v-else density="compact" class="mb-4">
-                  <VListSubheader>Blocked Time Periods</VListSubheader>
+                  <VListSubheader>
+                    Blocked Time Periods ({{ busyPeriods.length }})
+                  </VListSubheader>
                   <VListItem
                     v-for="(period, index) in busyPeriods"
                     :key="index"
@@ -764,10 +823,14 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
                     color="warning"
                   >
                     <template #subtitle>
-                      <span class="text-caption">
-                        {{ new Date(period.start).toISOString() }} → 
-                        {{ new Date(period.end).toISOString() }}
-                      </span>
+                      <div class="d-flex flex-column gap-1 mt-1">
+                        <span class="text-caption">
+                          UTC: {{ new Date(period.start).toISOString() }} → {{ new Date(period.end).toISOString() }}
+                        </span>
+                        <span class="text-caption text-medium-emphasis">
+                          Duration: {{ Math.round((new Date(period.end).getTime() - new Date(period.start).getTime()) / (1000 * 60)) }} minutes
+                        </span>
+                      </div>
                     </template>
                   </VListItem>
                 </VList>
@@ -846,22 +909,8 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
             <div class="pa-3">
               <!-- Data Source Toggle -->
               <div class="mb-4">
-                <div class="text-subtitle-2 mb-2">Data Source</div>
-                <VRadioGroup
-                  v-model="driveTimeDataSource"
-                  inline
-                  density="compact"
-                  hide-details
-                >
-                  <VRadio
-                    v-for="option in driveTimeDataSourceOptions"
-                    :key="option.value"
-                    :label="option.title"
-                    :value="option.value"
-                  />
-                </VRadioGroup>
-                
-                <div class="d-flex gap-2 mt-2">
+                <!-- Phase 8: Drive time data source toggle removed - now controlled server-side -->
+                <div class="d-flex gap-2 mb-2">
                   <VBtn
                     variant="outlined"
                     size="small"
@@ -1024,6 +1073,171 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
               </div>
             </div>
           </VWindowItem>
+
+          <!-- Phase 7: Computed Data Tab -->
+          <VWindowItem value="computed">
+            <div class="pa-3">
+              <div v-if="!computedAvailability" class="text-center pa-4">
+                <VIcon size="large" color="warning" class="mb-2">tabler-alert-circle</VIcon>
+                <p class="text-body-2">API Orchestrator not available. This tab is only available in the booking wizard.</p>
+              </div>
+              
+              <div v-else>
+                <!-- Loading State -->
+                <div v-if="computedAvailability.isLoading.value" class="text-center pa-4">
+                  <VProgressCircular indeterminate color="primary" />
+                  <p class="text-body-2 mt-2">Loading computed availability data...</p>
+                </div>
+
+                <!-- Error State -->
+                <div v-else-if="computedAvailability.error.value" class="text-center pa-4">
+                  <VIcon size="large" color="error" class="mb-2">tabler-alert-circle</VIcon>
+                  <p class="text-body-2 text-error">{{ computedAvailability.error.value.message }}</p>
+                </div>
+
+                <!-- Computed Data Display -->
+                <div v-else>
+                  <!-- Constraints Summary -->
+                  <div class="mb-4">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">Constraints</h3>
+                    <VCard variant="outlined" class="pa-2">
+                      <div class="d-flex justify-space-between mb-1">
+                        <span>Range Constraints:</span>
+                        <VChip size="small" color="primary">{{ computedAvailability.rangeConstraints.value.length }}</VChip>
+                      </div>
+                      <div class="d-flex justify-space-between mb-1">
+                        <span>Overlap Constraints:</span>
+                        <VChip size="small" color="secondary">{{ computedAvailability.overlapConstraints.value.length }}</VChip>
+                      </div>
+                      <div class="d-flex justify-space-between">
+                        <span>Capacity Constraints:</span>
+                        <VChip size="small" color="info">{{ computedAvailability.capacityConstraints.value.length }}</VChip>
+                      </div>
+                    </VCard>
+                  </div>
+
+                  <!-- Calendar Events -->
+                  <div class="mb-4">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">
+                      Calendar Events
+                      <VChip size="small" class="ml-2">{{ computedAvailability.calendarEvents.value.length }}</VChip>
+                    </h3>
+                    <VCard variant="outlined" class="pa-2" style="max-height: 200px; overflow-y: auto;">
+                      <div v-if="computedAvailability.calendarEvents.value.length === 0" class="text-center pa-2 text-caption text-medium-emphasis">
+                        No calendar events
+                      </div>
+                      <div v-else>
+                        <div
+                          v-for="(event, idx) in computedAvailability.calendarEvents.value.slice(0, 10)"
+                          :key="idx"
+                          class="mb-2 pa-2"
+                          style="border-left: 3px solid rgb(var(--v-theme-primary)); background: rgba(var(--v-theme-primary), 0.05);"
+                        >
+                          <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
+                          <div class="text-caption text-medium-emphasis">
+                            {{ formatDateTimeForDisplay(event.start as any) }} - {{ formatTimeForDisplay(event.end as any) }}
+                          </div>
+                          <div v-if="event.placeId" class="text-caption text-medium-emphasis">
+                            📍 Place ID: {{ event.placeId.substring(0, 20) }}...
+                          </div>
+                          <VChip v-if="(event as SharedCalendarEvent).eventType === 'outOfOffice'" size="x-small" color="warning" class="mt-1">
+                            Out of Office
+                          </VChip>
+                        </div>
+                        <div v-if="computedAvailability.calendarEvents.value.length > 10" class="text-center pa-2 text-caption text-medium-emphasis">
+                          ... and {{ computedAvailability.calendarEvents.value.length - 10 }} more
+                        </div>
+                      </div>
+                    </VCard>
+                  </div>
+
+                  <!-- Out-of-Office Events -->
+                  <div class="mb-4" v-if="computedAvailability.calendarEvents.value.some((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">
+                      Out-of-Office Events
+                      <VChip size="small" color="warning" class="ml-2">
+                        {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
+                      </VChip>
+                    </h3>
+                    <VCard variant="outlined" class="pa-2" style="max-height: 150px; overflow-y: auto;">
+                      <div
+                        v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
+                        :key="idx"
+                        class="mb-2 pa-2"
+                        style="border-left: 3px solid rgb(var(--v-theme-warning)); background: rgba(var(--v-theme-warning), 0.05);"
+                      >
+                        <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
+                        <div class="text-caption text-medium-emphasis">
+                          {{ formatDateTimeForDisplay(event.start as any) }} - {{ formatTimeForDisplay(event.end as any) }}
+                        </div>
+                      </div>
+                    </VCard>
+                  </div>
+
+                  <!-- Busy Periods -->
+                  <div class="mb-4">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">
+                      Busy Periods
+                      <VChip size="small" class="ml-2">{{ computedAvailability.busyTimes.value.length }}</VChip>
+                    </h3>
+                    <VCard variant="outlined" class="pa-2" style="max-height: 200px; overflow-y: auto;">
+                      <div v-if="computedAvailability.busyTimes.value.length === 0" class="text-center pa-2 text-caption text-medium-emphasis">
+                        No busy periods
+                      </div>
+                      <div v-else>
+                        <div
+                          v-for="(period, idx) in computedAvailability.busyTimes.value.slice(0, 10)"
+                          :key="idx"
+                          class="mb-1 text-caption"
+                        >
+                          {{ formatBusyPeriod(period) }}
+                        </div>
+                        <div v-if="computedAvailability.busyTimes.value.length > 10" class="text-center pa-2 text-caption text-medium-emphasis">
+                          ... and {{ computedAvailability.busyTimes.value.length - 10 }} more
+                        </div>
+                      </div>
+                    </VCard>
+                  </div>
+
+                  <!-- Drive Times -->
+                  <div class="mb-4" v-if="Object.keys(computedAvailability.driveTimesByDate.value).length > 0">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">
+                      Pre-computed Drive Times
+                      <VChip size="small" class="ml-2">{{ Object.keys(computedAvailability.driveTimesByDate.value).length }} dates</VChip>
+                    </h3>
+                    <VCard variant="outlined" class="pa-2" style="max-height: 150px; overflow-y: auto;">
+                      <div
+                        v-for="(driveTimes, date) in computedAvailability.driveTimesByDate.value"
+                        :key="date"
+                        class="mb-1 text-caption"
+                      >
+                        <strong>{{ date }}:</strong>
+                        <span v-if="driveTimes.driveTimeTo"> To: {{ driveTimes.driveTimeTo }}min</span>
+                        <span v-if="driveTimes.driveTimeFrom"> From: {{ driveTimes.driveTimeFrom }}min</span>
+                      </div>
+                    </VCard>
+                  </div>
+
+                  <!-- Capacity Hours -->
+                  <div class="mb-4" v-if="Object.keys(computedAvailability.scheduledHoursByKey.value).length > 0">
+                    <h3 class="text-subtitle-1 font-weight-bold mb-2">
+                      Pre-computed Capacity Hours
+                      <VChip size="small" class="ml-2">{{ Object.keys(computedAvailability.scheduledHoursByKey.value).length }} keys</VChip>
+                    </h3>
+                    <VCard variant="outlined" class="pa-2" style="max-height: 150px; overflow-y: auto;">
+                      <div
+                        v-for="(hours, key) in computedAvailability.scheduledHoursByKey.value"
+                        :key="key"
+                        class="mb-1 text-caption"
+                      >
+                        <strong>{{ key }}:</strong> {{ hours.toFixed(2) }} hours
+                      </div>
+                    </VCard>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </VWindowItem>
         </VWindow>
       </VCardText>
 
@@ -1057,7 +1271,7 @@ function getApiStatusLabel(status: 'hit' | 'error' | 'not_called'): string {
   max-width: calc(100vw - 48px);
   max-height: 60vh;
   overflow: auto;
-  z-index: 1000;
+  z-index: 1001; /* Higher than slot panel to appear on top */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   border: 2px dashed rgb(var(--v-theme-error));
   background-color: rgb(var(--v-theme-surface)) !important;

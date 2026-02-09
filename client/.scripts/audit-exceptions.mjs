@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { execSync } from 'node:child_process'
 
 /**
  * Audit Exception Utility
@@ -403,4 +404,43 @@ export function summarizeExceptions(allFiles) {
   }
   
   return { totalAllowed, totalRequiresReview, bySource }
+}
+
+/**
+ * Parse --changed-only and --base=<ref> flags from process.argv
+ * 
+ * When --changed-only is present, runs `git diff --name-only <baseRef>` to get the list
+ * of changed files. Audit scripts can use the returned set to filter their file scan.
+ * 
+ * Usage in audit scripts:
+ *   const delta = parseChangedOnlyFlag(process.argv)
+ *   // In file scan loop:
+ *   if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
+ * 
+ * CLI examples:
+ *   npm run audit:hardcoding -- --changed-only
+ *   npm run audit:hardcoding -- --changed-only --base=main
+ * 
+ * @param {string[]} argv - process.argv
+ * @param {string} [projectRoot] - Project root for resolving repo-relative paths
+ * @returns {{ enabled: boolean, baseRef: string, changedFiles: Set<string> }}
+ */
+export function parseChangedOnlyFlag(argv, projectRoot) {
+  const enabled = argv.includes('--changed-only')
+  if (!enabled) {
+    return { enabled: false, baseRef: '', changedFiles: new Set() }
+  }
+
+  const baseFlag = argv.find(a => a.startsWith('--base='))
+  const baseRef = baseFlag ? baseFlag.split('=')[1] : 'HEAD~1'
+
+  try {
+    const cwd = projectRoot || process.cwd()
+    const output = execSync(`git diff --name-only ${baseRef}`, { cwd, encoding: 'utf8' })
+    const files = output.trim().split('\n').filter(Boolean)
+    return { enabled: true, baseRef, changedFiles: new Set(files) }
+  } catch (err) {
+    console.warn(`Warning: --changed-only failed (git diff ${baseRef}): ${err.message}`)
+    return { enabled: true, baseRef, changedFiles: new Set() }
+  }
 }

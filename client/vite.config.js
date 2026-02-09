@@ -48,6 +48,7 @@ export default defineConfig({
             '@styles': fileURLToPath(new URL('./src/assets/styles/', import.meta.url)),
             '@configured-variables': fileURLToPath(new URL('./src/assets/styles/variables/_template.scss', import.meta.url)),
             'vue-i18n': fileURLToPath(new URL('./src/shims/vue-i18n', import.meta.url)),
+            '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
         },
     },
     css: {

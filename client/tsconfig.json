@@ -31,7 +31,8 @@
       "@core": ["./src/@core"],
       "@images/*": ["./src/assets/images/*"],
       "@styles/*": ["./src/assets/styles/*"],
-      "vue-i18n": ["./src/shims/vue-i18n"]
+      "vue-i18n": ["./src/shims/vue-i18n"],
+      "@shared/*": ["../shared/*"]
     }
   },
   "include": [

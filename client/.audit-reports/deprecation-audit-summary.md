@@ -1,60 +1,53 @@
-# Deprecation Audit Summary (Generated)
+# Deprecation & Legacy Accommodation Audit Summary (Generated)
 
 Generated from `.audit-reports/deprecation-audit.json`.
 
-## Summary
+- Files with findings: **155**
+- Requiring review: **433**
+- Allowed exceptions: 0
 
-- Files scanned: **600**
-- Files with deprecations: **30**
-- Total deprecation markers: **40**
-- With replacement suggestion: **1**
-- Without replacement: **39**
+- Annotated deprecations: **36**
+- Runtime legacy accommodation: **397**
 
-## Quick Wins (ready for cleanup)
+## Top 30 files (ranked by score)
 
-| Deprecated | Replace With | File | Line |
-| --- | --- | --- | ---: |
-| `(unknown)` | `FieldMetadata` | `client/src/configs/field/form/fullFieldFormConfig.ts` | 37 |
-
-## Files by Priority
-
-| File | Priority | Score | Deprecations | Ready |
+| File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/configs/field/form/fullFieldFormConfig.ts` | P1 | 6 | 3 | 1 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | P2 | 3 | 3 | 0 |
-| `client/src/components/booking/TimeSlotGrid.vue` | P2 | 2 | 2 | 0 |
-| `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 2 | 2 | 0 |
-| `client/src/composables/booking/useAppointmentTimes.ts` | P2 | 2 | 2 | 0 |
-| `client/src/composables/useAdmin.ts` | P2 | 2 | 2 | 0 |
-| `client/src/composables/useRelationship.ts` | P2 | 2 | 2 | 0 |
-| `client/src/utils/transformers/annotationTransformers.ts` | P2 | 2 | 2 | 0 |
-| `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 1 | 1 | 0 |
-| `client/src/components/booking/types/selectionCardTypes.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/admin/useShapeEditModal.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/admin/useStatusButtonToggle.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/selectionCard/useSelectionCardConfig.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useAppointmentDuration.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useBookingWizardStepValidators.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useTimeSlotCalculations.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useWizardDisplay.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/booking/useWizardFilteredOptions.ts` | P2 | 1 | 1 | 0 |
-| `client/src/composables/useBookingWizard.ts` | P2 | 1 | 1 | 0 |
-| `client/src/types/annotations.ts` | P2 | 1 | 1 | 0 |
-| `client/src/types/property.ts` | P2 | 1 | 1 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 1 | 1 | 0 |
-| `client/src/utils/differentialScheduling.ts` | P2 | 1 | 1 | 0 |
-| `client/src/utils/iconMapper.ts` | P2 | 1 | 1 | 0 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P2 | 1 | 1 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P2 | 1 | 1 | 0 |
-| `server/src/db/models/booking/annotation_instance.ts` | P2 | 1 | 1 | 0 |
-| `server/src/routes/internal/index.ts` | P2 | 1 | 1 | 0 |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 56 | 1 | 29 |
+| `client/src/composables/booking/useContactsStepData.ts` | P0 | 30 | 0 | 15 |
+| `client/src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 23 | 0 | 13 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 21 | 1 | 10 |
+| `server/src/services/googleCalendarService.ts` | P0 | 20 | 0 | 12 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 18 | 2 | 8 |
+| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 18 | 2 | 8 |
+| `client/src/composables/booking/useTimeSlotCalculations.ts` | P0 | 15 | 1 | 9 |
+| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 14 | 0 | 7 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 14 | 0 | 7 |
+| `server/src/scripts/importCalendarData.ts` | P0 | 14 | 0 | 7 |
+| `client/src/utils/differentialScheduling.ts` | P0 | 13 | 1 | 8 |
+| `client/src/utils/blockInstanceUtils.ts` | P0 | 12 | 0 | 6 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 11 | 0 | 6 |
+| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P0 | 10 | 0 | 5 |
+| `client/src/composables/booking/useWizardFilteredOptions.ts` | P0 | 10 | 0 | 6 |
+| `client/src/types/admin/AdminEntity.ts` | P0 | 10 | 0 | 5 |
+| `client/src/utils/booking/timeAvailabilityManager.ts` | P0 | 10 | 0 | 5 |
+| `client/src/composables/booking/useAvailableStartTimes.ts` | P1 | 9 | 2 | 4 |
+| `server/src/routes/internal/appointments/appointmentRouter.ts` | P1 | 9 | 0 | 5 |
+| `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 8 | 0 | 4 |
+| `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
+| `client/src/composables/formFields/useFormFieldsStandardLayout.ts` | P1 | 8 | 0 | 4 |
+| `client/src/utils/booking/partFinalizer.ts` | P1 | 8 | 0 | 4 |
+| `client/src/utils/eventAttendeeUtils.ts` | P1 | 8 | 0 | 4 |
+| `client/src/views/admin/tabs/BusinessRulesTab.vue` | P1 | 8 | 0 | 4 |
+| `server/src/services/appointmentSnapshotLoader.ts` | P1 | 8 | 0 | 4 |
+| `server/src/services/googleMapsService.ts` | P1 | 8 | 0 | 5 |
+| `client/src/components/admin/generic/EntityFormContent.vue` | P1 | 7 | 1 | 3 |
+| `client/src/composables/useBookingWizard.ts` | P1 | 7 | 1 | 3 |
+
+*...and 125 more files. See full report for details.*
 
 ## Notes
 
-- This is a *signal* index. Use the full report for details: `client/.audit-reports/deprecation-audit.md`.
-- **Ready**: Deprecations with explicit replacement suggestions (safe to clean up)
-- **P0**: High deprecation density (cleanup soon)
-- **P1**: Moderate deprecations (schedule cleanup)
-- **P2**: Low priority (cleanup when convenient)
+- **Annotations**: `@deprecated`, `// Deprecated`, `(deprecated)`, `// LEGACY:`, compat markers
+- **Legacy/Compat**: Runtime keywords, `|| ''`, `?? ''`, default params, chaining fallbacks
+- See full report: `client/.audit-reports/deprecation-audit.md`

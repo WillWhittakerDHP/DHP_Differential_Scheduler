@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag } from './audit-exceptions.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -304,6 +304,7 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
   
   // Load priority config
   let priorityConfig = {}
@@ -319,6 +320,7 @@ function main() {
 
   for (const abs of vueFilesAbs) {
     const repoPath = toRepoPath(abs)
+    if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
     if (isExcluded(repoPath, configAllowlist)) continue
 
     const contents = fs.readFileSync(abs, 'utf8')
@@ -342,8 +344,13 @@ function main() {
 
   scanned.sort(compareCounts)
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify({ generatedAt: new Date().toISOString(), files: scanned }, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned))
+  // Filter out zero-score files from JSON output to reduce report bloat
+  const filesWithFindings = scanned.filter(f => f.score > 0 || f.matches.length > 0)
+
+  const jsonOutput = { generatedAt: new Date().toISOString(), totalScanned: scanned.length, files: filesWithFindings }
+  if (delta.enabled) { jsonOutput.deltaMode = true; jsonOutput.baseRef = delta.baseRef }
+  fs.writeFileSync(OUT_JSON, JSON.stringify(jsonOutput, null, 2))
+  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings))
 
    
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${scanned.length}`)

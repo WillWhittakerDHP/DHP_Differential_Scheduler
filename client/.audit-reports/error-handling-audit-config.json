@@ -1,0 +1,37 @@
+{
+  "$comment": "Configuration for error-handling-audit.mjs (merged from fallback-audit + error-logging-audit)",
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "**/__tests__/**",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from error handling scanning"
+      },
+      {
+        "glob": "**/*.test.*",
+        "ruleIds": ["*"],
+        "reason": "Test files excluded from error handling scanning"
+      },
+      {
+        "glob": "**/*.spec.*",
+        "ruleIds": ["*"],
+        "reason": "Spec files excluded from error handling scanning"
+      },
+      {
+        "glob": "**/@core/**",
+        "ruleIds": ["*"],
+        "reason": "Core library files excluded"
+      },
+      {
+        "glob": "**/@layouts/**",
+        "ruleIds": ["*"],
+        "reason": "Layout library files excluded"
+      }
+    ],
+    "specific": []
+  },
+  "priorities": {
+    "p0MinSeverityScore": 10,
+    "p1MinSeverityScore": 5
+  }
+}

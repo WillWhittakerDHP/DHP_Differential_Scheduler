@@ -6,6 +6,7 @@ import {
   renderAllowedExceptionsSection,
   summarizeExceptions,
   checkConfigAllowlist,
+  parseChangedOnlyFlag,
 } from './audit-exceptions.mjs'
 
 /**
@@ -396,6 +397,7 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
   
   // Load priority config
   let priorityConfig = {}
@@ -413,6 +415,7 @@ function main() {
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
+    if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
     if (isExcluded(repoPath, configAllowlist)) continue
     // Double-check exclusion
     if (shouldExcludeDir(repoPath)) continue
@@ -453,15 +456,20 @@ function main() {
   // Calculate exception summary
   const exceptionSummary = summarizeExceptions(scanned)
 
+  // Filter out zero-score files from JSON output to reduce report bloat
+  const filesWithFindings = scanned.filter(f => f.score > 0 || f.requiresReview.length > 0)
+
   const out = {
     generatedAt: new Date().toISOString(),
     scope: {
       included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
       excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
     },
+    totalScanned: scanned.length,
+    ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     exceptionSummary,
     entityKeys,
-    files: scanned,
+    files: filesWithFindings,
   }
 
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))

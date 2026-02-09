@@ -587,9 +587,6 @@ declare global {
   export type { LogLevel, AppLogger, Logger } from './src/utils/logger'
   import('./src/utils/logger')
   // @ts-ignore
-  export type { GetCalendarAvailabilityOptions, FreeBusyDataSource } from './src/utils/timeSlotCalculations'
-  import('./src/utils/timeSlotCalculations')
-  // @ts-ignore
   export type { WizardInstance, WizardStateField, WizardFieldConfig } from './src/utils/wizardStateFieldConfig'
   import('./src/utils/wizardStateFieldConfig')
 }
@@ -678,7 +675,6 @@ declare module 'vue' {
     readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
-    readonly getCalendarAvailability: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getCalendarAvailability']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
@@ -689,7 +685,6 @@ declare module 'vue' {
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
-    readonly getMockBusyTimesSync: UnwrapRef<typeof import('./src/utils/timeSlotCalculations')['getMockBusyTimesSync']>
     readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
     readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
     readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>

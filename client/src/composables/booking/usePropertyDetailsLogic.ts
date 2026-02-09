@@ -190,6 +190,8 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     formData.zipCode.value = addressComponents.postalCode || ''
     
     // Store location data for drive time calculations
+    // DEBUG: Log placeId being set
+    console.log('[usePropertyDetailsLogic] Setting placeId:', placeId, 'from place-selected event')
     formData.placeId.value = placeId
     formData.coordinates.value = coordinates
     

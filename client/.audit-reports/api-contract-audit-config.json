@@ -1,0 +1,7 @@
+{
+  "$comment": "Configuration for api-contract-audit.mjs",
+  "priorities": {
+    "p0MinSeverityScore": 15,
+    "p1MinSeverityScore": 6
+  }
+}

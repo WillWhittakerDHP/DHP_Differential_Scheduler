@@ -43,6 +43,11 @@ export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['b
   )
 }
 
+export interface UseAvailabilitySettingsOptions {
+  /** Only load settings when this ref is true (e.g., when tab is active) */
+  enabled?: Ref<boolean>
+}
+
 export interface UseAvailabilitySettingsReturn {
   formData: Ref<AvailabilitySettings | null>
   loading: Ref<boolean>
@@ -58,8 +63,12 @@ export interface UseAvailabilitySettingsReturn {
  * Composable for managing availability settings
  * WHY: Centralizes all availability settings logic (API calls, validation, state)
  * PATTERN: Returns reactive state and functions for settings management
+ * 
+ * LEARNING: Conditional loading based on enabled state
+ * WHY: Prevents API calls until tab is active, improving initial page load performance
+ * PATTERN: Watch enabled ref and only load when true
  */
-export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
+export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions): UseAvailabilitySettingsReturn {
   const formData = ref<AvailabilitySettings | null>(null)
   const loading = ref(false)
   const saving = ref(false)
@@ -309,13 +318,30 @@ export function useAvailabilitySettings(): UseAvailabilitySettingsReturn {
   }
 
   /**
-   * LEARNING: Load settings when composable is used
-   * WHY: Populates form with current configuration on page load
-   * PATTERN: onMounted lifecycle hook for initialization
+   * LEARNING: Load settings conditionally based on enabled state
+   * WHY: Prevents API calls until tab is active, improving initial page load performance
+   * PATTERN: Watch enabled ref and only load when true
    */
-  onMounted(() => {
+  const enabled = options?.enabled
+  if (enabled) {
+    // LEARNING: Watch enabled state and load when tab becomes active
+    // WHY: Only fetch settings when user navigates to BusinessControlsTab
+    // PATTERN: Watch ref and call loadSettings when enabled becomes true
+    watch(
+      enabled,
+      (isEnabled) => {
+        if (isEnabled && !formData.value && !loading.value) {
+          loadSettings()
+        }
+      },
+      { immediate: true } // Check immediately in case enabled starts as true
+    )
+  } else {
+    // LEARNING: Fallback - load immediately if no enabled option provided
+    // WHY: Maintains backward compatibility for components that don't need conditional loading
+    // PATTERN: Call loadSettings immediately if no enabled option
     loadSettings()
-  })
+  }
 
   return {
     formData,

@@ -66,17 +66,33 @@ export interface FreeBusyResponseWithMeta extends FreeBusyResponse {
 export async function getFreeBusy(
   calendarEmails: string[],
   timeMin: Date | string,
-  timeMax: Date | string
+  timeMax: Date | string,
+  skipCache: boolean = false
 ): Promise<FreeBusyResponseWithMeta> {
   // Normalize time inputs
   const timeMinDate = typeof timeMin === 'string' ? new Date(timeMin) : timeMin;
   const timeMaxDate = typeof timeMax === 'string' ? new Date(timeMax) : timeMax;
   
-  // Check cache first (before any API call)
-  const cachedData = getCachedFreeBusy(calendarEmails, timeMinDate, timeMaxDate);
-  if (cachedData) {
-    console.log(`[GoogleCalendarService] Cache hit for ${calendarEmails.length} calendars`);
-    return { ...cachedData, _meta: { source: 'cache' } };
+  // Check cache first (before any API call) unless skipCache is true
+  if (!skipCache) {
+    const cachedData = getCachedFreeBusy(calendarEmails, timeMinDate, timeMaxDate);
+    if (cachedData) {
+      // DEBUG: Log cache contents
+      const totalCachedPeriods = Object.values(cachedData.calendars || {})
+        .reduce((sum: number, cal: any) => sum + (cal.busy?.length || 0), 0);
+      console.log(`[GoogleCalendarService] Cache hit for ${calendarEmails.length} calendars:`, {
+        calendarCount: Object.keys(cachedData.calendars || {}).length,
+        totalBusyPeriods: totalCachedPeriods,
+        calendars: Object.entries(cachedData.calendars || {}).map(([email, data]: [string, any]) => ({
+          email,
+          busyCount: data.busy?.length || 0,
+          busyPeriods: data.busy?.map((p: any) => `${p.start} to ${p.end}`) || []
+        }))
+      });
+      return { ...cachedData, _meta: { source: 'cache' } };
+    }
+  } else {
+    console.log(`[GoogleCalendarService] skipCache=true, bypassing cache check`);
   }
   
   // Define the API operation
@@ -102,7 +118,11 @@ export async function getFreeBusy(
       items: calendarEmails.map(email => ({ id: email }))
     };
     
-    console.log(`[GoogleCalendarService] Fetching free-busy for ${calendarEmails.length} calendars`);
+    console.log(`[GoogleCalendarService] Fetching free-busy for ${calendarEmails.length} calendars`, {
+      timeMin: timeMinDate.toISOString(),
+      timeMax: timeMaxDate.toISOString(),
+      calendars: calendarEmails
+    });
     
     // Make API call
     const response = await calendar.freebusy.query({
@@ -113,6 +133,16 @@ export async function getFreeBusy(
       throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API');
     }
     
+    // DEBUG: Log raw API response
+    console.log(`[GoogleCalendarService] Raw API response received:`, {
+      calendarCount: Object.keys(response.data.calendars).length,
+      calendars: Object.entries(response.data.calendars).map(([email, data]) => ({
+        email,
+        busyCount: data.busy?.length || 0,
+        busyPeriods: data.busy?.map(p => ({ start: p.start, end: p.end })) || []
+      }))
+    });
+    
     // Transform response to our format
     const freeBusyData: FreeBusyResponse = {
       calendars: {}
@@ -120,17 +150,33 @@ export async function getFreeBusy(
     
     for (const [email, calendarData] of Object.entries(response.data.calendars)) {
       // Filter out null/undefined busy periods and ensure start/end are strings
-      const busyPeriods = (calendarData.busy || [])
-        .filter(period => period.start && period.end)
-        .map(period => ({
-          start: period.start!,
-          end: period.end!
-        }));
+      const rawBusyPeriods = calendarData.busy || [];
+      const filteredBusyPeriods = rawBusyPeriods.filter(period => period.start && period.end);
+      
+      // DEBUG: Log filtering results
+      if (rawBusyPeriods.length !== filteredBusyPeriods.length) {
+        console.warn(`[GoogleCalendarService] Filtered out ${rawBusyPeriods.length - filteredBusyPeriods.length} invalid busy periods for ${email}`);
+      }
+      
+      const busyPeriods = filteredBusyPeriods.map(period => ({
+        start: period.start!,
+        end: period.end!
+      }));
+      
+      // DEBUG: Log busy periods per calendar
+      console.log(`[GoogleCalendarService] Processed ${busyPeriods.length} busy periods for ${email}:`, 
+        busyPeriods.map(p => `${p.start} to ${p.end}`)
+      );
       
       freeBusyData.calendars[email] = {
         busy: busyPeriods
       };
     }
+    
+    // DEBUG: Log final transformed response
+    const totalBusyPeriods = Object.values(freeBusyData.calendars)
+      .reduce((sum, cal) => sum + (cal.busy?.length || 0), 0);
+    console.log(`[GoogleCalendarService] Final transformed response: ${totalBusyPeriods} total busy periods across ${Object.keys(freeBusyData.calendars).length} calendars`);
     
     // Cache the response
     cacheFreeBusy(calendarEmails, timeMinDate, timeMaxDate, freeBusyData);
@@ -260,10 +306,11 @@ export async function getCalendarEvents(
           start: startTime,
           end: endTime,
           location: event.location || null, // Temporary - will be geocoded to placeId
-          summary: event.summary || null
+          summary: event.summary || null,
+          eventType: event.eventType || 'default' // Extract eventType from Google Calendar API
         };
       })
-      .filter((event): event is { id: string; start: string; end: string; location: string | null; summary: string | null } => event !== null);
+      .filter((event): event is { id: string; start: string; end: string; location: string | null; summary: string | null; eventType: string } => event !== null);
     
     // Geocode addresses to placeIds
     // LEARNING: Convert address strings to placeIds for accurate drive time calculations
@@ -280,7 +327,8 @@ export async function getCalendarEvents(
               start: event.start,
               end: event.end,
               placeId: placeId || undefined, // Store placeId if found, undefined if not
-              summary: event.summary
+              summary: event.summary,
+              eventType: event.eventType || 'default'
             };
           } catch (error) {
             // Log warning but continue - geocoding failure shouldn't break event fetching
@@ -290,7 +338,8 @@ export async function getCalendarEvents(
               start: event.start,
               end: event.end,
               placeId: undefined, // No placeId if geocoding failed
-              summary: event.summary
+              summary: event.summary,
+              eventType: event.eventType || 'default'
             };
           }
         }
@@ -300,7 +349,8 @@ export async function getCalendarEvents(
           start: event.start,
           end: event.end,
           placeId: undefined,
-          summary: event.summary
+          summary: event.summary,
+          eventType: event.eventType || 'default'
         };
       })
     );

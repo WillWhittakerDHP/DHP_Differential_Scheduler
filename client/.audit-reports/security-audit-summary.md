@@ -4,16 +4,16 @@ Generated from `.audit-reports/security-audit.json`.
 
 ## Summary
 
-- Total errors: **48**
-- Total warnings: **263**
-- Files with issues: **74**
+- Total errors: **49**
+- Total warnings: **266**
+- Files with issues: **78**
 
 ## Categories (sorted by priority)
 
 | Category | Priority | Score | Errors | Warnings |
 | --- | --- | ---: | ---: | ---: |
-| Exposed Secrets | P0 | 1315 | 0 | 263 |
-| CSRF Protection | P0 | 528 | 44 | 0 |
+| Exposed Secrets | P0 | 1330 | 0 | 266 |
+| CSRF Protection | P0 | 540 | 45 | 0 |
 | IDOR Vulnerabilities | P0 | 48 | 4 | 0 |
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
 | Security Configuration | P2 | 0 | 0 | 0 |
@@ -45,7 +45,6 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/routes/internal/admin-metadata/adminMetadataRouter.ts` | P0 | 52 | secrets, csrf | 8 |
 | `server/src/db/migrations/20260115_migrate_field_metadata_to_new_tables.mjs` | P0 | 48 | secrets | 16 |
 | `server/src/db/migrations/20260201_update_constituents_to_parts_in_relationship_metadata.mjs` | P0 | 48 | secrets | 16 |
-| `server/src/routes/external/calendarRoutes.ts` | P0 | 40 | csrf | 4 |
 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` | P0 | 40 | csrf | 4 |
 | `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` | P0 | 40 | csrf | 4 |
 | `server/src/db/migrations/20251202_rename_annotation_tables_to_shape_instance_pattern.mjs` | P0 | 36 | secrets | 12 |
@@ -60,6 +59,9 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/db/migrations/20260204_000016_standardize_event_assignments_to_parent_child.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/db/migrations/20260204_000020_remove_legacy_attendee_columns.mjs` | P0 | 24 | secrets | 8 |
 | `server/src/api/api.routes.ts` | P0 | 20 | csrf | 2 |
+| `server/src/routes/external/calendarRoutes.ts` | P0 | 20 | csrf | 2 |
+| `server/src/routes/external/mapsRoutes.ts` | P0 | 20 | csrf | 2 |
+| `server/src/routes/internal/availabilityRouter.ts` | P0 | 20 | csrf | 2 |
 | `server/src/db/migrations/20260108_rename_relationships_to_domain_terms.mjs` | P0 | 18 | secrets | 6 |
 | `server/src/db/migrations/20260130_fix_all_active_assignments_in_metadata.mjs` | P0 | 18 | secrets | 6 |
 | `server/src/db/migrations/20260130_fix_dependent_instance_naming.mjs` | P0 | 18 | secrets | 6 |
@@ -81,6 +83,7 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/db/migrations/20260204_000017_create_event_shape_attendees.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/db/migrations/20260204_000018_create_appointment_attendees.mjs` | P1 | 12 | secrets | 4 |
 | `server/src/scripts/fix-validConstituents.mjs` | P1 | 12 | secrets | 4 |
+| `server/src/services/driveTimeCache.ts` | P1 | 12 | secrets | 4 |
 | `server/src/db/migrations/20250127_02_add_type_to_annotations.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/db/migrations/20250127_add_type_to_annotations.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/db/migrations/20260106_04_update_appointments_property_reference.mjs` | P2 | 6 | secrets | 2 |
@@ -97,6 +100,7 @@ Generated from `.audit-reports/security-audit.json`.
 | `server/src/db/migrations/20260204_000021_remove_email_unique_constraint_in_dev.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/scripts/check-layout-configs.mjs` | P2 | 6 | secrets | 2 |
 | `server/src/scripts/fix-valid-events-render-as.mjs` | P2 | 6 | secrets | 2 |
+| `server/src/services/googleCalendarService.ts` | P2 | 6 | secrets | 2 |
 
 ## Notes
 

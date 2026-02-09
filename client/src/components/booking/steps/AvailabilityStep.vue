@@ -10,7 +10,9 @@
  * Session 6.9: Integrated with useBookingWizard for cascading availability options
  */
 
-import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
+import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
+import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
+import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { TimeSlot } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAvailability } from '@/composables/useAvailability'
@@ -27,8 +29,6 @@ import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePar
 import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
 import { useTimeSlotDurations } from '@/composables/booking/useTimeSlotDurations'
 import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
-import { useBusyTimes } from '@/composables/booking/useBusyTimes'
-import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
 import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
@@ -50,6 +50,13 @@ if (!wizard) {
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 if (!loadedWizardState) {
   throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
+}
+
+// LEARNING: Inject server-computed availability data from parent (early injection for useAvailability)
+// WHY: Consume prefetched calendar events, busy times, constraints, and drive times
+const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
+if (!computedAvailability) {
+  throw new Error('computedAvailability must be provided by BookingWizard')
 }
 
 // LEARNING: Use time formatting composable for time operations
@@ -107,6 +114,20 @@ const {
   isDifferentialService: isEffectivelyDifferentialForDefaults
 })
 
+// LEARNING: Track displayed month for VDatePicker
+// WHY: VDatePicker's display-date prop controls which month is shown
+// PATTERN: Initialize with default date, will be updated by watch after displayedMonth is injected
+// WHY: getTodayDate() returns ISO8601Date string, so create Date object directly
+const today = new Date()
+const vDatePickerDisplayDate = ref<Date>(new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1)))
+
+// Watch VDatePicker display-date and update parent's displayedMonth
+// LEARNING: When user navigates months in calendar, update parent's displayedMonth
+// WHY: Triggers API orchestrator to prefetch data for new month
+// WHY: Guard against recursive updates - only update if month actually changed
+// NOTE: displayedMonth is injected later, so this watch will be set up after injection
+// The watch callback will only execute after displayedMonth is available
+
 // LEARNING: Use availability logic composable
 // PATTERN: Composable provides reactive computed properties for availability logic
 const {
@@ -134,9 +155,12 @@ const {
 const { timeSlots } = useAvailability(
   accumulatedBlockInstances,
   dateRangeForApi,
-  propertyDetails as ComputedRef<Record<string, unknown> | null>
+  propertyDetails as ComputedRef<Record<string, unknown> | null>,
+  undefined, // settings (optional)
+  computed(() => computedAvailability.computedData.value) // Phase 6: Pass pre-computed availability data from server
 )
 
+// WHY: Assign the computed ref directly - timeSlotsForLogic will unwrap it via .value
 timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
  
 // LEARNING: Use availability option selection composable
@@ -156,28 +180,91 @@ const { appointmentDuration } = useAppointmentDuration({
 // PATTERN: Composable manages refresh key and reset functionality
 const { mockRefreshKey } = useMockCalendarRefresh()
 
-// Session 2.1.2: Use free/busy data source composable
-// PATTERN: Shared state for data source selection across components
-const { 
-  dataSource: freeBusyDataSource, 
-  calendarEmails, 
-  skipCache,
-  refreshKey: freeBusyRefreshKey 
-} = useFreeBusyDataSource()
+// LEARNING: Inject displayedMonth and updateDisplayedMonth from parent (BookingWizard)
+// WHY: Tracks which month is displayed in calendar widget, triggers API prefetching
+// PATTERN: Parent provides, child updates via inject
+const displayedMonth = inject<Ref<DisplayedMonth>>('displayedMonth')
+const updateDisplayedMonth = inject<(month: DisplayedMonth) => void>('updateDisplayedMonth')
 
-// LEARNING: Use busy times composable
-// PATTERN: Composable provides computed property for busy times with loading/error states
-// Session 2.1.2: Updated to support data source modes
-const { 
-  busyTimes: busyTimesForStartTimes,
-  isLoading: busyTimesLoading
-} = useBusyTimes({
-  dateRangeForApi,
-  dataSource: freeBusyDataSource,
-  calendarEmails,
-  skipCache,
-  refreshKey: freeBusyRefreshKey
+if (!displayedMonth || !updateDisplayedMonth) {
+  throw new Error('displayedMonth and updateDisplayedMonth must be provided by BookingWizard')
+}
+
+// Watch VDatePicker display-date and update parent's displayedMonth
+// LEARNING: When user navigates months in calendar, update parent's displayedMonth
+// WHY: Triggers API orchestrator to prefetch data for new month
+// WHY: Guard against recursive updates - only update if month actually changed
+watch(vDatePickerDisplayDate, (newDate) => {
+  if (!isNaN(newDate.getTime()) && displayedMonth && updateDisplayedMonth) {
+    const newMonth: DisplayedMonth = {
+      year: newDate.getUTCFullYear(),
+      month: newDate.getUTCMonth()
+    }
+    const currentMonth = displayedMonth.value
+    // Only update if the month/year actually changed to prevent recursive loop
+    if (currentMonth.year !== newMonth.year || currentMonth.month !== newMonth.month) {
+      updateDisplayedMonth(newMonth)
+    }
+  }
 })
+
+// LEARNING: Inject appointment duration ref from parent and sync computed duration to it
+// WHY: Parent needs actual duration for accurate capacity calculations in server fetch
+// PATTERN: Watch computed duration and update parent ref reactively
+const appointmentDurationRef = inject<Ref<number | null>>('appointmentDuration')
+
+if (!appointmentDurationRef) {
+  throw new Error('appointmentDuration must be provided by BookingWizard')
+}
+
+// Sync computed duration back to parent ref
+watch(appointmentDuration, (newDuration) => {
+  appointmentDurationRef.value = newDuration
+}, { immediate: true })
+
+// Watch displayedMonth from parent and update VDatePicker display-date
+// LEARNING: Update VDatePicker when displayedMonth changes from parent
+// WHY: Keeps calendar widget in sync with parent's displayed month
+// PATTERN: Watch injected displayedMonth and update local ref
+// WHY: Guard against recursive updates - only update if month actually changed
+watch(displayedMonth, (newMonth) => {
+  const newDate = new Date(Date.UTC(newMonth.year, newMonth.month, 1))
+  const currentDate = vDatePickerDisplayDate.value
+  // Only update if the month/year actually changed to prevent recursive loop
+  if (currentDate.getUTCFullYear() !== newMonth.year || currentDate.getUTCMonth() !== newMonth.month) {
+    vDatePickerDisplayDate.value = newDate
+  }
+}, { immediate: true })
+
+// LEARNING: Track displayed month from selectedDate
+// WHY: When user selects a date, update displayedMonth to match that month
+// PATTERN: Watch selectedDate and extract month, update parent's displayedMonth
+watch(selectedDate, (newDate) => {
+  if (newDate?.start) {
+    const date = new Date(newDate.start)
+    if (!isNaN(date.getTime())) {
+      const month: DisplayedMonth = {
+        year: date.getUTCFullYear(),
+        month: date.getUTCMonth()
+      }
+      updateDisplayedMonth(month)
+    }
+  }
+}, { immediate: true })
+
+// Phase 8: Use server-computed data directly (no legacy composables)
+// WHY: Server provides all pre-computed data including busy times
+// PATTERN: Consume computed availability data directly
+const busyTimesForStartTimes = computed(() => computedAvailability.busyTimes.value)
+const busyTimesLoading = computed(() => computedAvailability.isLoading.value)
+
+// LEARNING: Get prefetched calendar events from server
+// WHY: Pass to useAvailableStartTimes so it doesn't need to fetch
+const prefetchedCalendarEvents = computed(() => computedAvailability.calendarEvents.value)
+
+// Phase 12: Extract minuteIncrement from server-computed data
+// WHY: Prevents redundant getAvailabilitySettings() API call in useAvailableStartTimes
+const serverMinuteIncrement = computed(() => computedAvailability.computedData.value?.minuteIncrement ?? null)
 
 const {
   availableStartTimes,
@@ -187,7 +274,16 @@ const {
   selectedDate,
   appointmentDuration,
   busyTimes: busyTimesForStartTimes,
-  busyTimesLoading
+  busyTimesLoading,
+  prefetchedCalendarEvents,
+  // Phase 6: Pass pre-computed constraints from server
+  prefetchedRangeConstraints: computed(() => computedAvailability.rangeConstraints.value),
+  prefetchedOverlapConstraints: computed(() => computedAvailability.overlapConstraints.value),
+  prefetchedCapacityConstraints: computed(() => computedAvailability.capacityConstraints.value),
+  prefetchedDriveTimesByDate: computed(() => computedAvailability.driveTimesByDate.value),
+  prefetchedScheduledHoursByKey: computed(() => computedAvailability.scheduledHoursByKey.value),
+  // Phase 12: Pass server-provided minuteIncrement to prevent redundant settings fetch
+  minuteIncrement: serverMinuteIncrement,
 })
 
 // LEARNING: Use time slot durations composable
@@ -346,6 +442,7 @@ useAvailabilityDevPanel({
         <div class="calendar-container">
           <VDatePicker
             v-model="selectedDateSingle"
+            :display-date="vDatePickerDisplayDate"
             :min="getTodayDate()"
             :show-adjacent-months="false"
             :first-day-of-week="0"
@@ -355,6 +452,7 @@ useAvailabilityDevPanel({
             class="availability-calendar"
             aria-label="Select appointment date"
             @update:model-value="handleDateChange"
+            @update:display-date="vDatePickerDisplayDate = $event"
           />
 
           <div v-if="fieldErrors.selectedDate" class="text-error text-caption mt-2">

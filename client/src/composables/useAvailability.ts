@@ -10,18 +10,14 @@
 import { computed, ref, watch, type Ref, type ComputedRef, unref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { calculateDurationFromBlockInstances, getCalendarAvailability } from '@/utils/timeSlotCalculations'
-import type { FreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
-import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
+import { calculateDurationFromBlockInstances } from '@/utils/timeSlotCalculations'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { fitAllTimeSlotsWithAvailability, type BusyTimeRange } from '@/utils/booking/timeSlotFitter'
-import { preprocessBusyPeriods } from '@/utils/booking/timeAvailabilityManager'
 import { hasValidDateRangeStructure, validateDateRange } from '@/utils/booking/dateRangeValidation'
 import type { PropertyDetails } from '@/types/availability'
 import { useNotification } from '@/composables/useNotification'
-import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
-import { ensureDateRangeInSettings, extractAllConstraints } from '@/utils/booking/constraintHelpers'
-import { fetchCalendarEvents, type CalendarEvent } from '@/services/calendarApiService'
-import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
+import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityManager'
+import type { ComputedAvailabilityData, RangeConstraint, OverlapConstraint, CapacityConstraint } from '@shared/types/availabilityTypes'
 
 const { error: showErrorNotification } = useNotification()
 
@@ -42,7 +38,9 @@ export function useAvailability(
   blockInstances: BookingBlockInstance[] | Ref<BookingBlockInstance[]> | ComputedRef<BookingBlockInstance[]>,
   dateRange: { start: string | null; end: string | null } | null | Ref<{ start: string | null; end: string | null } | null> | ComputedRef<{ start: string | null; end: string | null } | null>,
   propertyDetails?: PropertyDetails | null | Ref<PropertyDetails | null> | ComputedRef<PropertyDetails | null>,
-  settings?: Ref<AvailabilitySettings | null> | ComputedRef<AvailabilitySettings | null> // P2-1: Optional shared settings
+  _settings?: Ref<AvailabilitySettings | null> | ComputedRef<AvailabilitySettings | null>, // @deprecated Phase 12: Use prefetchedData.minuteIncrement instead (unused, kept for backward compat)
+  // Phase 6: Optional pre-computed availability data from server orchestrator
+  prefetchedData?: Ref<ComputedAvailabilityData | null> | ComputedRef<ComputedAvailabilityData | null>
 ) {
   // PATTERN: Ref with watch to update asynchronously when dependencies change
   const timeSlots = ref<TimeSlot[]>([])
@@ -59,15 +57,22 @@ export function useAvailability(
   const blockInstancesValue = computed(() => unref(blockInstances))
   const dateRangeValue = computed(() => unref(dateRange))
   const propertyDetailsValue = computed(() => unref(propertyDetails))
+  
+  // Phase 12: Add prefetchedData to watch dependencies so watch re-fires when server data arrives
+  // WHY: prefetchedData arrives asynchronously from server, watch must re-trigger when it becomes available
+  // PATTERN: Computed wrapper ensures reactivity
+  const prefetchedDataValue = computed(() => prefetchedData?.value ?? null)
 
   // PATTERN: Create new AbortController for each watch execution, abort previous one
   let abortController: AbortController | null = null
 
-  // PATTERN: Watch multiple dependencies, call async function to update ref
+  // PATTERN: Watch multiple dependencies, call synchronous function to update ref
   // P0-1: Added AbortController to prevent race conditions
+  // Phase 12: Added prefetchedDataValue to watch array so watch re-fires when server data arrives
+  // Phase 12: Function is now synchronous - all data is pre-computed server-side
   watch(
-    [blockInstancesValue, dateRangeValue, propertyDetailsValue],
-    async () => {
+    [blockInstancesValue, dateRangeValue, propertyDetailsValue, prefetchedDataValue],
+    () => {
       abortController?.abort()
       abortController = new AbortController()
       const { signal } = abortController
@@ -110,80 +115,45 @@ export function useAvailability(
         }
         if (signal.aborted) return
 
-        // WHY: Allows parent to provide settings via provide/inject pattern
-        // PATTERN: Use provided settings or fetch if not available
-        let settingsValue: AvailabilitySettings
-        if (settings?.value) {
-          settingsValue = settings.value
-        } else {
-          settingsValue = await getAvailabilitySettings()
+        // Phase 12: Use pre-computed data from server orchestrator (required)
+        // WHY: All data fetching and constraint extraction happens server-side
+        // PATTERN: Synchronous consumption of pre-computed data
+        const prefetched = prefetchedData?.value
+        if (!prefetched) {
+          // Pre-computed data is required - this composable should only be used with orchestrator data
+          const errorMessage = 'useAvailability requires pre-computed availability data from server orchestrator'
+          error.value = new Error(errorMessage)
+          showErrorNotification(errorMessage)
+          timeSlots.value = []
+          isLoading.value = false
+          return
         }
-        if (signal.aborted) return
-
-        // WHY: Mark slots that conflict with existing appointments as unavailable
-        // PATTERN: Use async getCalendarAvailability with mock data source for consistency
-        const rawBusyTimes = await getCalendarAvailability(
-          {
-            start: validatedDateRange.start,
-            end: validatedDateRange.end
-          },
-          {
-            dataSource: 'mock' as FreeBusyDataSource,
-            calendarEmails: ['primary', 'work', 'personal'],
-            skipCache: false
-          }
-        )
-        // PATTERN: Use preprocessBusyPeriods to validate, sort, and merge
-        const busyTimes = preprocessBusyPeriods(rawBusyTimes as BusyTimeRange[])
-        if (signal.aborted) return
-
-        // LEARNING: Fetch calendar events with locations for drive time calculations
-        // WHY: Drive time constraints need event locations to calculate travel times
-        // PATTERN: Fetch events in parallel with busy times, use cached data from server
-        // Session 2.2.3: Added calendar event fetching for drive time integration
-        let calendarEvents: CalendarEvent[] = []
-        const { calendarEmails, dataSource } = useFreeBusyDataSource()
         
-        // Only fetch events if using real calendar data (not mock)
-        if (dataSource.value === 'real' && calendarEmails.value.length > 0) {
-          try {
-            // Fetch events for all calendars and merge
-            const eventPromises = calendarEmails.value.map(email =>
-              fetchCalendarEvents(email, validatedDateRange.start, validatedDateRange.end)
-            )
-            const eventArrays = await Promise.all(eventPromises)
-            calendarEvents = eventArrays.flat()
-          } catch (err) {
-            // Log error but don't fail - drive times will use static fallback
-            console.warn('[useAvailability] Failed to fetch calendar events for drive time calculation:', err)
-          }
-        }
-        if (signal.aborted) return
+        const busyTimes: BusyTimeRange[] = prefetched.busyPeriods
+        const rangeConstraints: RangeConstraint[] = prefetched.rangeConstraints
+        const overlapConstraints: OverlapConstraint[] = prefetched.overlapConstraints
+        const capacityConstraints: CapacityConstraint[] = prefetched.capacityConstraints
 
-        // WHY: No fallbacks - all constraints must be in structured format
-        // PATTERN: Use helper function to set dateRange in rangeConstraints if not already present
-        const settingsWithDateRange = ensureDateRangeInSettings(settingsValue, {
-          start: validatedDateRange.start,
-          end: validatedDateRange.end
-        })
-
-        // WHY: DRY principle - eliminates duplication across composables
-        // PATTERN: Use extractAllConstraints helper to extract all constraint types at once
-        const { rangeConstraints, overlapConstraints, capacityConstraints } = extractAllConstraints(settingsWithDateRange)
+        // Phase 12: Use server-provided minuteIncrement instead of fetching settings
+        // WHY: Server already includes minuteIncrement in ComputedAvailabilityData, eliminating redundant API call
+        // PATTERN: Direct use of pre-computed data makes function synchronous
+        const minuteIncrement = prefetched.minuteIncrement
 
         // WHY: Generates ALL slots and marks them as available/busy instead of filtering
         // PATTERN: Use fitAllTimeSlotsWithAvailability for unified availability handling
         // Session 2.2.3: Pass calendar events and defaultLocation for drive time calculations
-        const result = await fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
+        // Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)
+        const result = fitAllTimeSlotsWithAvailability({  // P3-6: Renamed for clarity
           startBoundary: validatedDateRange.start,
           endBoundary: validatedDateRange.end,
           duration,
-          minuteIncrement: settingsValue.minuteIncrement,
+          minuteIncrement,
           busyTimes,
           includeFlags: { major: false, minor: false, moveable: false }
         }, rangeConstraints, overlapConstraints, capacityConstraints, {
-          defaultLocation: settingsValue.defaultLocation,
-          calendarEvents
+          // Phase 6: Pass pre-computed data from server orchestrator
+          precomputedDriveTimesByDate: prefetched.driveTimesByDate,
+          precomputedCapacityHours: prefetched.scheduledHoursByKey
         })
         if (signal.aborted) return
 

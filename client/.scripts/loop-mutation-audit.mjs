@@ -5,6 +5,7 @@ import {
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
+  parseChangedOnlyFlag,
 } from './audit-exceptions.mjs'
 
 /**
@@ -208,7 +209,7 @@ function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, _repoPa
   }
   
   // Set/Map operations - legitimate for Set/Map data structures
-  if (mutationRuleId === 'assignProp' && /\.(add|set|delete|clear)\s*\(/.test(mutationLine)) {
+  if (/\.(add|set|delete|clear|has)\s*\(/.test(mutationLine)) {
     return true
   }
   
@@ -217,13 +218,28 @@ function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, _repoPa
     return true
   }
   
+  // Object spread operations - functional pattern, not mutation
+  if (mutationRuleId === 'assignProp' && /\{.*\.\.\..*\}/.test(mutationLine)) {
+    return true
+  }
+  
   // Filter/map operations on ref.value - functional patterns
   if (mutationRuleId === 'assignProp' && /\.value\s*=\s*.*\.(filter|map|reduce|flatMap)\s*\(/.test(mutationLine)) {
     return true
   }
   
-  // Set.add operations are legitimate for building Sets
-  if (mutationRuleId === 'assignProp' && /\.add\s*\(/.test(mutationLine)) {
+  // Array.from() + spread patterns - functional construction, not mutation
+  if (/Array\.from\s*\(/.test(mutationLine)) {
+    return true
+  }
+  
+  // Pinia/store reactive state updates (.value = on store refs)
+  if (mutationRuleId === 'assignProp' && /store.*\.value\s*=|\.state\.\w+\s*=/.test(mutationLine)) {
+    return true
+  }
+  
+  // Map constructor and WeakMap/WeakSet operations
+  if (/new\s+(Map|Set|WeakMap|WeakSet)\s*\(/.test(mutationLine)) {
     return true
   }
   
@@ -413,6 +429,7 @@ function main() {
   
   // Load exception config
   const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
   
   // Load priority config
   let priorityConfig = {}
@@ -430,6 +447,7 @@ function main() {
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
+    if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
     if (isExcluded(repoPath, configAllowlist)) continue
     // Double-check exclusion
     if (shouldExcludeDir(repoPath)) continue
@@ -473,6 +491,9 @@ function main() {
   // Calculate exception summary
   const exceptionSummary = summarizeExceptions(scanned)
 
+  // Filter out zero-score files from JSON output to reduce report bloat
+  const filesWithFindings = scanned.filter(f => f.score > 0 || f.requiresReview.length > 0)
+
   fs.writeFileSync(
     OUT_JSON,
     JSON.stringify(
@@ -482,14 +503,16 @@ function main() {
           included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
           excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
         },
+        totalScanned: scanned.length,
+        ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
         exceptionSummary,
-        files: scanned,
+        files: filesWithFindings,
       },
       null,
       2
     )
   )
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, exceptionSummary))
+  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings, exceptionSummary))
 
   const clientFilesCount = clientFiles.length
   const serverFilesCount = serverFiles.length

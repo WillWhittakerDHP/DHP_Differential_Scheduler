@@ -1,0 +1,24 @@
+{
+  "$comment": "Configuration for function-complexity-audit.mjs",
+  "allowlist": {
+    "patterns": [
+      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files excluded" },
+      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files excluded" },
+      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Core library files excluded" },
+      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" }
+    ],
+    "specific": []
+  },
+  "thresholds": {
+    "maxNesting": 3,
+    "maxBranches": 8,
+    "maxFunctionLines": 50,
+    "maxScriptSetupLines": 100,
+    "maxParams": 4,
+    "maxReturns": 4
+  },
+  "priorities": {
+    "p0MinSeverityScore": 12,
+    "p1MinSeverityScore": 5
+  }
+}

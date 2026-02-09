@@ -12,13 +12,22 @@ import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import {
   generateSlotsWithAvailability
-} from './timeAvailabilityManager'
-import type { RangeConstraint, OverlapConstraint, CapacityConstraint, BusyPeriodSource } from '@shared/types/availabilityTypes'
+} from './slotAvailabilityManager'
+import type { RangeConstraint, OverlapConstraint, CapacityConstraint } from '@shared/types/availabilityTypes'
 import { createLogger } from '@/utils/logger'
 import { validateSlotGenerationParams } from './slotGenerationValidation'
-import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
+import {
+  type BusinessHoursMap,
+  type BusyTimeRange,
+  type DayBusinessHours,
+  timeRangesOverlap,
+  parseBusinessHours
+} from './timeSlotTypes'
 
 const logger = createLogger('timeSlotFitter')
+
+// Re-export types for backward compatibility
+export type { BusinessHoursMap, BusyTimeRange, DayBusinessHours }
 
 /**
  * Default include flags for TimeSlot objects
@@ -32,43 +41,7 @@ export const DEFAULT_INCLUDE_FLAGS = {
   moveable: false
 } as const
 
-/**
- * Business hours configuration for a single day
- * LEARNING: Uses RFC3339 format internally (with reference date for time-of-day)
- * WHY: Consistent format throughout codebase, matches Google Calendar API
- * PATTERN: RFC3339 datetime using fixed reference date (2000-01-01)
- */
-interface DayBusinessHours {
-  start: RFC3339DateTime  // RFC3339 format with reference date (e.g., "2000-01-01T08:00:00Z" for "08:00")
-  end: RFC3339DateTime    // RFC3339 format with reference date (e.g., "2000-01-01T17:00:00Z" for "17:00")
-}
-
-/**
- * Business hours by day of week (0 = Sunday, 6 = Saturday)
- * 
- * LEARNING: Days can be omitted to represent closed days
- * WHY: Not all businesses operate 7 days per week
- * PATTERN: Partial record - missing keys indicate closed days
- * 
- * @example
- * // Open Monday-Friday only
- * const businessHours: BusinessHoursMap = {
- *   1: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   2: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   3: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   4: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   5: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" }
- *   // Saturday (6) and Sunday (0) omitted = closed
- * }
- */
-export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>
-
-export interface BusyTimeRange {
-  start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
-  end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
-  placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
-  source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'freeBusy' from Calendar API, 'outOfOffice' from Events API)
-}
+// Types moved to timeSlotTypes.ts to break circular dependency
 
 export interface FitTimeSlotsParams {
   startBoundary: RFC3339DateTime         // RFC3339 datetime - earliest possible start
@@ -163,78 +136,7 @@ export function parseTimeToMinutes(timeString: string): number {
 }
 
 
-/**
- * Check if two time ranges overlap
- * 
- * LEARNING: Extracted overlap detection for reuse
- * WHY: Used by fitTimeSlots and potentially other utilities
- * PATTERN: Two ranges overlap if one starts before the other ends
- */
-export function timeRangesOverlap(
-  range1: { start: Date; end: Date },
-  range2: { start: Date; end: Date }
-): boolean {
-  return (range1.start < range2.end && range1.end > range2.start)
-}
-
-/**
- * Parse business hours for a day and return time components
- * LEARNING: Shared business hours parsing logic
- * WHY: Eliminates duplication between fitTimeSlots and generateAllTimeSlots (Issue #20)
- * PATTERN: Pure function that extracts and validates business hours
- * 
- * ARCHITECTURE DECISION: Eliminate Round-Trip Conversion (Issue #13)
- * -----------------------------------------------------------------------
- * This function now parses RFC3339 directly to minutes without converting
- * to HH:mm first. This eliminates the round-trip conversion:
- * 
- * Before: RFC3339 → HH:mm → parse → minutes
- * After:  RFC3339 → parse → minutes
- * 
- * RELATED: See Issue #13 in AVAILABILITY_REFACTOR_ANALYSIS.md
- * 
- * @param dayHours - Business hours for the day (RFC3339DateTime format only)
- * @param dayOfWeek - Day of week (for error messages)
- * @returns Parsed time components or null if invalid
- */
-export function parseBusinessHours(
-  dayHours: DayBusinessHours | { start: string; end: string },
-  dayOfWeek: number
-): { startHour: number; startMinute: number; endHour: number; endMinute: number; dayStartMinutes: number; dayEndMinutes: number } | null {
-  // LEARNING: Only accept RFC3339 format - no HH:mm support
-  // PATTERN: Parse RFC3339 directly, extract UTC hours/minutes
-  const startDate = new Date(dayHours.start as RFC3339DateTime)
-  const endDate = new Date(dayHours.end as RFC3339DateTime)
-  
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    logger.warn(`Invalid RFC3339 datetime for day ${dayOfWeek}:`, dayHours)
-    return null
-  }
-  
-  // LEARNING: Business hours RFC3339 strings represent LOCAL time-of-day, not UTC
-  // WHY: Admin sets business hours in their local timezone (e.g., "9 AM" = 9 AM local)
-  // PATTERN: Use useLocalTime composable to extract local time-of-day
-  const startTime = extractBusinessHoursMinutes(dayHours.start as RFC3339DateTime)
-  const endTime = extractBusinessHoursMinutes(dayHours.end as RFC3339DateTime)
-  const startHour = startTime.hours
-  const startMinute = startTime.minutes
-  const endHour = endTime.hours
-  const endMinute = endTime.minutes
-
-  if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {
-    return null
-  }
-
-  const dayStartMinutes = startHour * 60 + startMinute
-  const dayEndMinutes = endHour * 60 + endMinute
-
-  // Validate end time is after start time
-  if (dayEndMinutes <= dayStartMinutes) {
-    return null
-  }
-
-  return { startHour, startMinute, endHour, endMinute, dayStartMinutes, dayEndMinutes }
-}
+// Functions moved to timeSlotTypes.ts to break circular dependency
 
 /**
  * Fit available time slots of a given duration into available time between boundaries

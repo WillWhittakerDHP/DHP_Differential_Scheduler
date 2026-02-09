@@ -1,110 +1,162 @@
 # Audit Execution Order - Rationale and Recommendations
 
-## Current Order (package.json)
+## Current Order (package.json `audit:all`)
 
 ```
-1. typecheck:audit
-2. audit:component-logic
-3. audit:composables-logic
-4. audit:loop-mutations
-5. audit:hardcoding
-6. audit:duplication
-7. audit:test
-8. audit:fallback
-9. audit:unused-code
+Phase 0: Type Governance
+  0. audit:type-similarity
+
+Phase 1: Type Safety
+  1. typecheck:audit
+
+Phase 2: Code Quality
+  2. audit:component-logic
+  3. audit:composables-logic
+  4. audit:loop-mutations
+  5. audit:hardcoding
+  6. audit:function-complexity     ← NEW
+
+Phase 3: Code Cleanup
+  7. audit:pattern-detection
+  8. audit:duplication
+  9. audit:unused-code
+ 10. audit:error-handling          ← NEW (merged from fallback + error-logging)
+ 11. audit:deprecation             ← EXPANDED (now includes runtime legacy/compat)
+ 12. audit:security
+ 13. audit:todo-aging              ← NEW
+
+Phase 4: Structure
+ 14. audit:import-graph            ← NEW
+ 15. audit:file-cohesion           ← NEW
+ 16. audit:api-contract            ← NEW
+
+Phase 5: Testing
+ 17. audit:test
+
+Cross-Audit
+ 18. audit:meta                    ← NEW (reads all audit JSONs)
 ```
 
-## Recommended Order
+## Phase Descriptions
+
+### Phase 0: Type Governance (Structural Similarity)
+- **audit:type-similarity** - Find structurally identical/similar types BEFORE typechecking
+  - Recommends UNIFY, BRAND, EXTEND, or REVIEW for each group
+  - Catch structural duplication before it causes type errors
 
 ### Phase 1: Foundational (Type Safety)
-1. **typecheck:audit** - Fix type errors first (foundational - everything depends on types)
+- **typecheck:audit** - Fix type errors (informed by Phase 0's findings)
 
 ### Phase 2: Code Quality (Logic & Patterns)
-2. **audit:component-logic** - Fix component complexity
-3. **audit:composables-logic** - Fix composable complexity
-4. **audit:loop-mutations** - Refactor mutations to functional patterns
-5. **audit:hardcoding** - Extract hardcoded values to constants
+- **audit:component-logic** - Fix component complexity (Vue SFCs with too much logic)
+- **audit:composables-logic** - Fix composable complexity
+- **audit:loop-mutations** - Refactor mutations to functional patterns (map/reduce/filter)
+- **audit:hardcoding** - Extract hardcoded values to constants/config
+- **audit:function-complexity** - Nesting depth, branch count, function length, parameter count
 
-### Phase 3: Code Cleanup (Duplication & Unused Code)
-6. **audit:duplication** - Remove duplicated code
-7. **audit:unused-code** - Remove unused exports/types
-8. **audit:fallback** - Review and fix fallback patterns
+### Phase 3: Code Cleanup
+- **audit:pattern-detection** - Detect naming/pattern duplicates
+- **audit:duplication** - Remove duplicated code blocks
+- **audit:unused-code** - Remove unused exports/types
+- **audit:error-handling** - Silent catches, console in catch, type suppressions, general console
+- **audit:deprecation** - Annotated deprecations + runtime legacy accommodation (keywords, unhelpful defaults)
+- **audit:security** - Security-sensitive patterns
+- **audit:todo-aging** - TODO/FIXME/HACK aging via git blame, orphaned markers
 
-### Phase 4: Testing (Write Tests Last)
-9. **audit:test** - Write tests for cleaned-up code
+### Phase 4: Structure (Architecture)
+- **audit:import-graph** - Circular dependencies, fan-in/fan-out hotspots, cross-boundary imports
+- **audit:file-cohesion** - Oversized files, high export counts, mixed concerns
+- **audit:api-contract** - Client/server type mismatches, unvalidated request bodies
+
+### Phase 5: Testing
+- **audit:test** - Write tests for cleaned-up code
+
+### Cross-Audit: Meta Report
+- **audit:meta** - Unified dashboard: health scores, hotspots, trends, exception creep
 
 ## Rationale
 
-### Why Typecheck First?
-- Type errors prevent other audits from running correctly
-- Type safety is foundational - other improvements depend on correct types
-- Type errors can cascade and create false positives in other audits
+### Why Type Similarity Before Typecheck?
+- Identifies duplicate types whose drift CAUSES type errors
+- Unifying duplicates can eliminate entire typecheck error pools
+- Informs whether typecheck errors are from duplication vs actual logic bugs
+- Recommends branding for structurally identical but semantically different types
 
 ### Why Code Quality Before Cleanup?
 - Fix logic/complexity issues before removing duplication
 - Removing duplicated bad code is wasteful - fix it first, then deduplicate
 - Hardcoding removal should happen before duplication (constants can be reused)
 
-### Why Cleanup Before Tests?
-- Don't write tests for code you're going to delete
-- Don't write tests for duplicated code (write once after deduplication)
-- Tests should cover the final, cleaned-up codebase
+### Why Structure After Cleanup?
+- Architecture-level analysis (imports, file size, API contracts) is most meaningful after
+  code quality and cleanup have been addressed
+- Circular dependencies and mixed concerns show patterns that emerge from cleanup
 
 ### Why Tests Last?
 - Tests should validate the final, cleaned-up code
 - Writing tests before cleanup means rewriting tests after cleanup
 - Test coverage is more meaningful when code is stable
 
-## Proposed New Order
+### Why Meta Report After Everything?
+- It aggregates results from ALL other audits
+- Provides the unified dashboard and trend tracking
+- Shows cross-audit correlations (files appearing in many audits)
 
+## Features Available to All Audits
+
+### Delta Mode (`--changed-only`)
+Run any audit on only changed files:
 ```bash
-"audit:all": "npm run typecheck:audit && npm run audit:component-logic && npm run audit:composables-logic && npm run audit:loop-mutations && npm run audit:hardcoding && npm run audit:duplication && npm run audit:unused-code && npm run audit:fallback && npm run audit:test && npm run typecheck:summary && npm run audit:component-logic:summary && npm run audit:composables-logic:summary && npm run audit:loop-mutations:summary && npm run audit:hardcoding:summary && npm run audit:duplication:summary && npm run audit:unused-code:summary && npm run audit:test:summary"
+npm run audit:hardcoding -- --changed-only
+npm run audit:hardcoding -- --changed-only --base=main
 ```
 
-## Benefits
-
-1. **Efficiency**: Fix issues in order of dependency
-2. **Accuracy**: Later audits see cleaner code (fewer false positives)
-3. **Test Quality**: Tests written for final code, not intermediate states
-4. **Reduced Rework**: Don't write tests for code that gets deleted/refactored
+### Exception Handling
+- Inline: `// @audit-allow:<audit-type>:<ruleId> - <reason>`
+- Config: `.audit-reports/<audit-name>-audit-config.json` (allowlist patterns/specific)
 
 ## Execution Flow
 
 ```
-Typecheck → Code Quality → Cleanup → Tests
-    ↓            ↓            ↓         ↓
-  Types      Logic       Dedupe    Coverage
-  Errors     Patterns    Unused    Validation
+Type Governance → Typecheck → Code Quality → Cleanup → Structure → Tests → Meta
+      ↓               ↓           ↓             ↓          ↓          ↓       ↓
+  Structural       Types       Logic        Dedupe     Architecture Coverage Dashboard
+  Similarity       Errors      Patterns     Legacy     Imports      Valid.   Health
+  (UNIFY/BRAND)               Complexity   Security   Cohesion              Trends
+                              Func-Cmplx   TODO-Age   API-Contract          Hotspots
 ```
 
 ## Alternative: Parallel Execution Groups
 
-For faster execution, audits within phases could run in parallel:
+For faster execution, audits within phases can run in parallel:
 
 ```bash
-# Phase 1: Typecheck (must run first)
+# Phase 0
+npm run audit:type-similarity
+
+# Phase 1
 npm run typecheck:audit
 
-# Phase 2: Code Quality (can run in parallel)
-npm run audit:component-logic & \
-npm run audit:composables-logic & \
-npm run audit:loop-mutations & \
-npm run audit:hardcoding & \
-wait
+# Phase 2 (parallel)
+npm run audit:component-logic & npm run audit:composables-logic & \
+npm run audit:loop-mutations & npm run audit:hardcoding & \
+npm run audit:function-complexity & wait
 
-# Phase 3: Cleanup (can run in parallel)
-npm run audit:duplication & \
-npm run audit:unused-code & \
-npm run audit:fallback & \
-wait
+# Phase 3 (parallel)
+npm run audit:pattern-detection & npm run audit:duplication & \
+npm run audit:unused-code & npm run audit:error-handling & \
+npm run audit:deprecation & npm run audit:security & \
+npm run audit:todo-aging & wait
 
-# Phase 4: Tests (run last)
+# Phase 4 (parallel)
+npm run audit:import-graph & npm run audit:file-cohesion & \
+npm run audit:api-contract & wait
+
+# Phase 5
 npm run audit:test
 
-# Summaries (can run in parallel)
-npm run typecheck:summary & \
-npm run audit:component-logic:summary & \
-...
+# Meta (must be last)
+npm run audit:meta
 ```
 
-However, sequential execution is safer and easier to debug.
+However, sequential execution (`audit:all`) is safer and easier to debug.

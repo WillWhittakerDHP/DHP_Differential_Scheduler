@@ -1,0 +1,25 @@
+{
+  "$comment": "Configuration for file-cohesion-audit.mjs",
+  "allowlist": {
+    "patterns": [
+      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files excluded" },
+      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files excluded" },
+      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Core library files excluded" },
+      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" }
+    ],
+    "specific": []
+  },
+  "thresholds": {
+    "components": 500,
+    "composables": 400,
+    "utils": 300,
+    "services": 400,
+    "routes": 400,
+    "general": 350,
+    "maxExports": 10
+  },
+  "priorities": {
+    "p0MinSeverityScore": 10,
+    "p1MinSeverityScore": 4
+  }
+}

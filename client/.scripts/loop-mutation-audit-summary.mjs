@@ -27,12 +27,14 @@ function render(files) {
   lines.push('')
   lines.push(`Generated from \`${toRepoPath(AUDIT_JSON)}\`.`)
   lines.push('')
-  lines.push('## Full index (ranked)')
+  const MAX_ROWS = 30
+  lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked)`)
   lines.push('')
   lines.push('| File | Priority | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |')
   lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |')
 
-  for (const f of files) {
+  const shown = files.slice(0, MAX_ROWS)
+  for (const f of shown) {
     const c = f.counts || {}
     const forLoops = (c.forLoop || 0) + (c.forOf || 0) + (c.forIn || 0) + (c.while || 0) + (c.doWhile || 0)
     const mutators = (c.push || 0) + (c.splice || 0) + (c.sort || 0) + (c.reverse || 0) + (c.pop || 0) + (c.shift || 0) + (c.unshift || 0)
@@ -40,6 +42,11 @@ function render(files) {
     const hits = Array.isArray(f.forEachMutationHits) ? f.forEachMutationHits.length : 0
     const priority = f.priority || 'P2'
     lines.push(`| \`${f.repoPath}\` | ${priority} | ${f.score || 0} | ${c.forEach || 0} | ${forLoops} | ${mutators} | ${assigns} | ${hits} |`)
+  }
+
+  if (files.length > MAX_ROWS) {
+    lines.push('')
+    lines.push(`*...and ${files.length - MAX_ROWS} more files. See full report for details.*`)
   }
 
   lines.push('')

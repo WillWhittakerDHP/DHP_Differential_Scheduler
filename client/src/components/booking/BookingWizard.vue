@@ -8,7 +8,7 @@
  * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
-import { computed, provide } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -31,6 +31,8 @@ import { useWizardAppointmentManagement } from '@/composables/booking/useWizardA
 import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDropdown'
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { useDateRangeDecider, type DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
+import { useComputedAvailability } from '@/composables/booking/useComputedAvailability'
 
 const wizard = useBookingWizard()
 provide('wizard', wizard)
@@ -215,6 +217,44 @@ const { handleSubmit } = useWizardSubmission({
 
 provide('loadedWizardState', loadedWizardState)
 
+// LEARNING: Initialize displayed month for API orchestrator
+// WHY: Tracks which month is displayed in calendar widget, triggers API prefetching
+// PATTERN: Defaults to current month, Step 3 can update via inject
+const now = new Date()
+const displayedMonth = ref<DisplayedMonth>({
+  year: now.getUTCFullYear(),
+  month: now.getUTCMonth()
+})
+
+// Allow Step 3 to update displayedMonth via provide/inject
+provide('displayedMonth', displayedMonth)
+provide('updateDisplayedMonth', (month: DisplayedMonth) => {
+  displayedMonth.value = month
+})
+
+// LEARNING: Create date range decider for displayed month
+// WHY: Single source of truth for date range used by all API composables
+const dateRange = useDateRangeDecider(displayedMonth)
+
+// LEARNING: Create appointment duration ref for computed availability
+// WHY: Duration is computed in AvailabilityStep, but needs to flow back to parent for accurate capacity calculations
+// PATTERN: Provide/inject pattern allows child to update parent ref reactively
+const appointmentDurationRef = ref<number | null>(null)
+provide('appointmentDuration', appointmentDurationRef)
+
+// LEARNING: Fetch server-computed availability data in parent component
+// WHY: Data persists across step navigation, fetched as soon as dateRange is available
+// NOTE: Duration defaults to 60 minutes on server if not provided, but will re-fetch with actual duration when AvailabilityStep computes it
+const computedAvailability = useComputedAvailability({
+  propertyDetailsStepData,
+  dateRange,
+  activeStep,
+  duration: appointmentDurationRef // Duration will be updated by AvailabilityStep when computed
+})
+
+// Provide computed availability data for all steps
+provide('computedAvailability', computedAvailability)
+
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 const isDevMode = isDevModeEnabled()
 // LEARNING: Dev mode composable called for side effects, handleResetMocks not currently used
@@ -291,7 +331,7 @@ useWizardDevMode({
                   @click="toggleQuoteMode"
                   class="quote-mode-button"
                 >
-                  {{ isQuoteMode ? 'I want to book' : 'I only want a quote' }}
+                  {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
                 </VBtn>
               </VCol>
             </VRow>

@@ -1,0 +1,88 @@
+/**
+ * Admin Primitive Metadata Router Helper Functions
+ * 
+ * LEARNING: Extracted helper functions for admin primitive metadata operations
+ * WHY: Improves code reusability, testability, and maintainability
+ * PATTERN: Pure functions for complex logic
+ */
+
+import type { FieldMetadataEntry } from '../../../utils/adminPrimitiveMetadataComposer.js'
+
+/**
+ * Auto-compute renderAs based on dataType and inputConfig
+ * LEARNING: renderAs should be automatically determined, not manually configured
+ * WHY: Provides sensible defaults based on field characteristics
+ * PATTERN: Compute renderAs from field characteristics (matches client-side logic)
+ * 
+ * @param dataType - Data type of the field
+ * @param inputConfig - Input configuration object
+ * @param fieldKey - Field key (special case for 'icon')
+ * @returns Computed renderAs value
+ */
+export function computeRenderAs(
+  dataType: string | undefined,
+  inputConfig: Record<string, unknown> | null | undefined,
+  fieldKey: string
+): 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection' {
+  if (fieldKey === 'icon') {
+    return 'iconSelect'
+  }
+  
+  if (inputConfig && typeof inputConfig === 'object') {
+    const selectType = inputConfig.selectType as string | undefined
+    if (selectType === 'partsCollectionSelect') {
+      return 'relationshipCollection'
+    }
+    const selectMode = inputConfig.selectMode as string | undefined
+    if (selectMode === 'multiple') {
+      return 'multiselect'
+    }
+    if (inputConfig.targetMode === 'relationship') {
+      return 'reference'
+    }
+    return 'select'
+  }
+  
+  // LEARNING: Ternary fields use 'boolean' dataType but render as statusButton
+  // WHY: Ternary is a boolean variant with three states, still renders as status button
+  if (dataType === 'boolean' || dataType === 'ternary') {
+    return 'statusButton'
+  }
+  if (dataType === 'number') {
+    return 'number'
+  }
+  if (dataType === 'array') {
+    return 'reference'
+  }
+  
+  return 'text'
+}
+
+/**
+ * Transform metadata array to record format
+ * LEARNING: Transforms array of metadata to keyed record
+ * WHY: Provides consistent format for metadata responses
+ * PATTERN: Map array to record with fieldKey as key
+ * 
+ * @param metadata - Array of metadata records
+ * @returns Record keyed by fieldKey
+ */
+export function transformMetadataToRecord(metadata: FieldMetadataEntry[]): Record<string, unknown> {
+  const metadataRecord: Record<string, unknown> = {}
+  for (const meta of metadata) {
+    metadataRecord[meta.fieldKey] = {
+      dataType: meta.dataType,
+      label: meta.label,
+      isRequired: meta.isRequired,
+      visibility: meta.visibility,
+      layout: meta.layout,
+      displayOrder: meta.displayOrder,
+      renderAs: meta.renderAs,
+      statusButtonColor: meta.statusButtonColor,
+      panel: meta.panel,
+      bulkEdit: meta.bulkEdit,
+      inputConfig: meta.inputConfig || null,
+    }
+  }
+  return metadataRecord
+}

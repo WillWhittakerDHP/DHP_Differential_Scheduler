@@ -35,9 +35,9 @@ We use **Generate All Then Filter** approach.
 ### Implementation
 
 See:
-- `generateAllTimeSlots()` in `timeAvailabilityManager.ts`
-- `checkSlotAvailability()` in `timeAvailabilityManager.ts`
-- `markSlotAvailability()` in `timeAvailabilityManager.ts`
+- `generateAllTimeSlots()` in `slotGenerator.ts`
+- `checkSlotAvailability()` in `overlapConstraintChecker.ts`
+- `markSlotAvailability()` in `slotAvailabilityMarker.ts`
 
 ### Related Issues
 

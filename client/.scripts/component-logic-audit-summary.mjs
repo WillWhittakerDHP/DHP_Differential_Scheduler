@@ -32,17 +32,24 @@ function renderIndex(files) {
   lines.push('')
   lines.push(`Generated from \`${toRepoPath(AUDIT_JSON)}\`.`)
   lines.push('')
-  lines.push('## Full index (all files)')
+  const MAX_ROWS = 30
+  lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked by score)`)
   lines.push('')
   lines.push('| File | Priority | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |')
   lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
 
-  for (const f of files) {
+  const shown = files.slice(0, MAX_ROWS)
+  for (const f of shown) {
     const c = f.counts || {}
     const priority = f.priority || 'P2'
     lines.push(
       `| \`${f.repoPath}\` | ${priority} | ${score(c)} | ${c.computed || 0} | ${c.ref || 0} | ${c.watch || 0} | ${c.async || 0} | ${c.await || 0} | ${c.map || 0} | ${c.reduce || 0} | ${c.dom || 0} | ${c.inlineConfig || 0} | ${c.console || 0} | ${c.alert || 0} |`
     )
+  }
+
+  if (files.length > MAX_ROWS) {
+    lines.push('')
+    lines.push(`*...and ${files.length - MAX_ROWS} more files. See full report for details.*`)
   }
 
   lines.push('')

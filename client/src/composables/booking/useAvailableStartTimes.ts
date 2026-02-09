@@ -13,23 +13,34 @@ import { fitAllTimeSlotsWithAvailability, DEFAULT_INCLUDE_FLAGS, type BusyTimeRa
 import type { ISO8601Date, RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import type { TimeSlot } from '@/types/appointment'
 import { useNotification } from '@/composables/useNotification'
-import { ConstraintValidationError } from '@/utils/booking/timeAvailabilityManager'
-import { extractAllConstraints, ensureDateRangeInSettings } from '@/utils/booking/constraintHelpers'
+import { ConstraintValidationError } from '@/utils/booking/slotAvailabilityManager'
 import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
-import { fetchCalendarEvents, type CalendarEvent } from '@/services/calendarApiService'
-import { useFreeBusyDataSource } from '@/composables/booking/useFreeBusyDataSource'
-import { useDriveTimeDataSource } from '@/composables/booking/useDriveTimeDataSource'
+import type { CalendarEvent } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
+import type {
+  RangeConstraint,
+  OverlapConstraint,
+  CapacityConstraint,
+} from '@shared/types/availabilityTypes'
 
 const { error: showErrorNotification } = useNotification()
 const logger = createLogger('useAvailableStartTimes')
 
 interface UseAvailableStartTimesParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  settings?: Ref<AvailabilitySettings | null> // Optional: can be passed in or fetched internally
+  settings?: Ref<AvailabilitySettings | null> // @deprecated Phase 12: Use minuteIncrement parameter instead
   appointmentDuration?: Ref<number | null> // Optional: duration in minutes to filter start times (ensures end time <= day end)
   busyTimes?: Ref<BusyTimeRange[]> // Optional: calendar busy periods
   busyTimesLoading?: Ref<boolean> // Optional: whether busy times are currently loading
+  prefetchedCalendarEvents?: Ref<CalendarEvent[]> // Optional: prefetched calendar events from orchestrator
+  // Phase 6: Pre-computed constraints from server orchestrator
+  prefetchedRangeConstraints?: Ref<RangeConstraint[]>
+  prefetchedOverlapConstraints?: Ref<OverlapConstraint[]>
+  prefetchedCapacityConstraints?: Ref<CapacityConstraint[]>
+  prefetchedDriveTimesByDate?: Ref<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>>
+  prefetchedScheduledHoursByKey?: Ref<Record<string, number>>
+  // Phase 12: Server-provided minuteIncrement (prevents redundant settings fetch)
+  minuteIncrement?: Ref<number | null> | ComputedRef<number | null>
 }
 
 interface UseAvailableStartTimesReturn {
@@ -43,19 +54,66 @@ interface UseAvailableStartTimesReturn {
 export function useAvailableStartTimes(
   params: UseAvailableStartTimesParams
 ): UseAvailableStartTimesReturn {
-  const { selectedDate, settings: externalSettings, appointmentDuration, busyTimes, busyTimesLoading } = params
+  const {
+    selectedDate,
+    settings: externalSettings,
+    appointmentDuration,
+    busyTimes,
+    busyTimesLoading,
+    prefetchedCalendarEvents,
+    prefetchedRangeConstraints,
+    prefetchedOverlapConstraints,
+    prefetchedCapacityConstraints,
+    prefetchedDriveTimesByDate,
+    prefetchedScheduledHoursByKey,
+    minuteIncrement: externalMinuteIncrement,
+  } = params
   
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
   const internalSettings = ref<AvailabilitySettings | null>(null)
   
-  // WHY: Allows composable to work standalone or with pre-fetched settings
-  // PATTERN: Watch for settings changes, fetch if needed
+  // Phase 12: Use server-provided minuteIncrement if available, otherwise fetch settings
+  // WHY: Prevents redundant API call when server already provides minuteIncrement
+  // PATTERN: Check for external minuteIncrement first, fall back to settings fetch only if needed
+  const minuteIncrementRef = ref<number | null>(null)
+  
   watchEffect(async () => {
+    const externalMinuteIncrementValue = externalMinuteIncrement?.value ?? null
+    
+    // Phase 12: Use server-provided minuteIncrement if available
+    if (externalMinuteIncrementValue !== null && externalMinuteIncrementValue > 0) {
+      minuteIncrementRef.value = externalMinuteIncrementValue
+      // Still need settings for businessHours - but only if not provided via prefetchedRangeConstraints
+      // For now, keep the settings fetch for backward compatibility, but it's only used for businessHours
+      const external = externalSettings?.value
+      if (external) {
+        internalSettings.value = external
+        return
+      }
+      // If we have prefetchedRangeConstraints, we don't need settings at all
+      // But keep the fetch for now to avoid breaking changes
+      try {
+        isLoading.value = true
+        const settings = await getAvailabilitySettings()
+        internalSettings.value = settings
+        error.value = null
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
+        error.value = err instanceof Error ? err : new Error(errorMessage)
+        showErrorNotification(`Failed to load availability settings: ${errorMessage}`)
+      } finally {
+        isLoading.value = false
+      }
+      return
+    }
+    
+    // Fallback: fetch settings if minuteIncrement not provided
     const external = externalSettings?.value
     
     if (external) {
       internalSettings.value = external
+      minuteIncrementRef.value = external.minuteIncrement
       return
     }
     
@@ -63,6 +121,7 @@ export function useAvailableStartTimes(
       isLoading.value = true
       const settings = await getAvailabilitySettings()
       internalSettings.value = settings
+      minuteIncrementRef.value = settings.minuteIncrement
       error.value = null
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load availability settings'
@@ -119,9 +178,11 @@ export function useAvailableStartTimes(
     const dateUTC = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
     const dayOfWeek: DayOfWeek = dateUTC.getUTCDay() as DayOfWeek
     
-    // LEARNING: Extract businessHours from structured rangeConstraints
-    // WHY: No top-level businessHours fallback - must use structured format
-    const businessHoursConstraint = internalSettings.value.rangeConstraints?.businessHours
+    // Phase 12: Use prefetchedRangeConstraints for businessHours instead of internalSettings
+    // WHY: Server already provides rangeConstraints, no need to fetch settings
+    // PATTERN: Extract businessHours from prefetched constraints, fallback to internalSettings for backward compat
+    const businessHoursConstraint = prefetchedRangeConstraints?.value?.find(c => c.type === 'businessHours') 
+      ?? internalSettings.value?.rangeConstraints?.businessHours
     if (!businessHoursConstraint || businessHoursConstraint.type !== 'businessHours') {
       throw new Error('businessHours must be provided in rangeConstraints.businessHours')
     }
@@ -173,42 +234,54 @@ export function useAvailableStartTimes(
     const duration = appointmentDuration?.value || 0
     const busyPeriods = busyTimes?.value || []
     
-    // WHY: No fallbacks - all constraints must be in structured format
-    // PATTERN: Use helper function to set dateRange in rangeConstraints if not already present
+    // Phase 6: Use pre-computed constraints from orchestrator if available, otherwise extract from settings
+    // Phase 6: Use pre-computed constraints from server orchestrator (required)
+    // WHY: All constraint extraction happens server-side, eliminating client-side extraction
+    // PATTERN: Synchronous consumption of pre-computed constraints
+    if (!prefetchedRangeConstraints?.value || !prefetchedOverlapConstraints?.value || !prefetchedCapacityConstraints?.value) {
+      // Pre-computed constraints are required - this composable should only be used with orchestrator data
+      const errorMessage = 'useAvailableStartTimes requires pre-computed constraints from server orchestrator'
+      error.value = new Error(errorMessage)
+      logger.error('[useAvailableStartTimes]', errorMessage)
+      slotGenerationResult.value = { slots: [], earliestCompletion: null }
+      return
+    }
+    
+    let rangeConstraints: RangeConstraint[] = prefetchedRangeConstraints.value
+    const overlapConstraints: OverlapConstraint[] = prefetchedOverlapConstraints.value
+    const capacityConstraints: CapacityConstraint[] = prefetchedCapacityConstraints.value
+    
+    // Still need to ensure dateRange constraint is set for the selected date
     const dateRangeToSet = {
       start: startBoundaryUTC.toISOString(),
       end: endBoundaryUTC.toISOString()
     }
-    const settingsWithDateRange = ensureDateRangeInSettings(internalSettings.value, dateRangeToSet)
-
-    // WHY: DRY principle - eliminates duplication across composables
-    // PATTERN: Use extractAllConstraints helper to extract all constraint types at once
-    const { rangeConstraints, overlapConstraints, capacityConstraints } = extractAllConstraints(settingsWithDateRange)
-
-    // LEARNING: Fetch calendar events with locations for drive time calculations
-    // WHY: Drive time constraints need event locations to calculate travel times
-    // PATTERN: Fetch events in parallel, use cached data from server
-    // Session 2.2.3: Added calendar event fetching for drive time integration
-    let calendarEvents: CalendarEvent[] = []
-    const { calendarEmails, dataSource } = useFreeBusyDataSource()
+    // Check if dateRange constraint exists, add if missing
+    const hasDateRangeConstraint = rangeConstraints.some(c => c.type === 'dateRange')
+    if (!hasDateRangeConstraint) {
+      rangeConstraints = [
+        ...rangeConstraints,
+        {
+          type: 'dateRange',
+          enforcement: 'hard',
+          config: {
+            start: dateRangeToSet.start,
+            end: dateRangeToSet.end
+          }
+        }
+      ]
+    }
     
-    // Only fetch events if using real calendar data (not mock)
-    if (dataSource.value === 'real' && calendarEmails.value.length > 0) {
-      try {
-        // Fetch events for all calendars and merge
-        const eventPromises = calendarEmails.value.map(email =>
-          fetchCalendarEvents(
-            email, 
-            startBoundaryUTC.toISOString() as RFC3339DateTime,
-            endBoundaryUTC.toISOString() as RFC3339DateTime
-          )
-        )
-        const eventArrays = await Promise.all(eventPromises)
-        calendarEvents = eventArrays.flat()
-      } catch (err) {
-        // Log error but don't fail - drive times will use static fallback
-        logger.warn('Failed to fetch calendar events for drive time calculation', { error: err })
-      }
+    // LEARNING: Use prefetched calendar events from orchestrator
+    // WHY: Orchestrator prefetches events when placeId available or month changes
+    // PATTERN: Consume prefetched data, no API calls here
+    // Session 2.2.3: Refactored to consume prefetched data instead of fetching
+    const calendarEvents: CalendarEvent[] = prefetchedCalendarEvents?.value ?? []
+    
+    if (prefetchedCalendarEvents) {
+      logger.debug('[useAvailableStartTimes] Using prefetched calendar events', calendarEvents.length)
+    } else {
+      logger.debug('[useAvailableStartTimes] No prefetched calendar events available, using empty array')
     }
 
     try {
@@ -219,22 +292,20 @@ export function useAvailableStartTimes(
         startBoundary: startBoundaryUTC.toISOString() as RFC3339DateTime,
         endBoundary: endBoundaryUTC.toISOString() as RFC3339DateTime,
         duration,
-        minuteIncrement: internalSettings.value.minuteIncrement,
+        minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,
         busyTimes: busyPeriods,
         includeFlags: DEFAULT_INCLUDE_FLAGS
       }
-      // Get drive time data source
-      const { dataSource: driveTimeDataSource } = useDriveTimeDataSource()
-      
-      const result = await fitAllTimeSlotsWithAvailability(
+      // Phase 6: Function is now synchronous (all data pre-computed server-side)
+      const result = fitAllTimeSlotsWithAvailability(
         slotGenParams, 
         rangeConstraints, 
         overlapConstraints, 
         capacityConstraints,
         {
-          defaultLocation: internalSettings.value.defaultLocation,
-          calendarEvents,
-          driveTimeDataSource: driveTimeDataSource.value
+          // Phase 6: Pass pre-computed data from orchestrator (required)
+          precomputedDriveTimesByDate: prefetchedDriveTimesByDate?.value,
+          precomputedCapacityHours: prefetchedScheduledHoursByKey?.value,
         }
       )
       
