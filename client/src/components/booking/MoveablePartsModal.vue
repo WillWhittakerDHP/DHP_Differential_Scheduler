@@ -240,7 +240,7 @@ function handleCancel() {
 }
 
 function formatEarliestCompletion(isoDate: string): string {
-  return formatDateTimeForDisplay(isoDate as any, {
+  return formatDateTimeForDisplay(isoDate as import('@/types/datetime').RFC3339DateTime, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',

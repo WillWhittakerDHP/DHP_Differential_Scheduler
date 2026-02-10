@@ -23,17 +23,6 @@ const { recordApiCall } = useApiCallStatus()
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
 /**
- * OAuth authentication status from server
- * LEARNING: Matches server response from /api/v1/external/oauth/status
- */
-export interface OAuthStatus {
-  authenticated: boolean
-  hasRefreshToken?: boolean
-  expiryDate?: number
-  authUrl?: string
-}
-
-/**
  * Options for calendar API calls
  * LEARNING: Allows bypassing server cache for force refresh
  */
@@ -68,42 +57,7 @@ export class CalendarApiError extends Error {
   }
 }
 
-// Phase 9: Removed getErrorMessage - no longer used
-
-/**
- * Check OAuth authentication status
- * 
- * LEARNING: First check before making any calendar API calls
- * WHY: Don't attempt API calls if not authenticated
- * PATTERN: Pre-flight check to avoid unnecessary errors
- * 
- * @returns OAuth status including authentication state and auth URL
- */
-export async function checkOAuthStatus(): Promise<OAuthStatus> {
-  try {
-    const response = await axios.get<OAuthStatus>(
-      `${API_BASE_URL}/api/v1/external/oauth/status`
-    )
-    
-    logger.debug('[checkOAuthStatus] Status:', response.data)
-    
-    return {
-      ...response.data,
-      authUrl: response.data.authUrl || '/api/v1/external/oauth'
-    }
-  } catch (error) {
-    logger.error('[checkOAuthStatus] Error:', error)
-    
-    // Return unauthenticated status on error
-    return {
-      authenticated: false,
-      authUrl: '/api/v1/external/oauth'
-    }
-  }
-}
-
-// Phase 9: Removed fetchFreeBusy and transformFreeBusyResponse
-// WHY: Calendar events data is now fetched server-side via fetchComputedAvailabilityData
+// Phase 9: Removed getErrorMessage, checkOAuthStatus, getOAuthUrl - no current callers; OAuth status via dev panel / internal status
 
 /**
  * Handle API errors and convert to CalendarApiError
@@ -161,16 +115,6 @@ function handleApiError(error: unknown): CalendarApiError {
     'unknown',
     error instanceof Error ? error.message : 'Unknown error'
   )
-}
-
-/**
- * Get the full OAuth authorization URL
- * 
- * LEARNING: Constructs full URL for OAuth redirect
- * WHY: Client needs to redirect user to Google consent screen
- */
-export function getOAuthUrl(): string {
-  return `${API_BASE_URL}/api/v1/external/oauth`
 }
 
 /**

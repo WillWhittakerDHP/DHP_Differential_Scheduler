@@ -41,12 +41,12 @@ const timeout = computed(() => notification.value?.timeout || 4000)
     @update:model-value="(value) => !value && close()"
   >
     {{ message }}
-    <template #actions="{ close: snackbarClose }">
+    <template #actions>
       <VBtn
         icon="tabler-x"
         variant="text"
         density="comfortable"
-        @click="() => { snackbarClose(); close() }"
+        @click="close"
       />
     </template>
   </VSnackbar>

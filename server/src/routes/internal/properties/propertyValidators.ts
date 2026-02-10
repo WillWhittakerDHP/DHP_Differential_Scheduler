@@ -6,7 +6,6 @@
  * PATTERN: Pure validation functions that return validation results
  */
 
-import { BlockInstance, BlockShape } from '../../../config/app.js'
 import { BLOCK_SHAPE_NAMES, ERROR_MESSAGES, REQUIRED_FIELDS } from './propertyConstants.js'
 
 /**

@@ -6,7 +6,7 @@
  */
 
 import { computed, type Ref } from 'vue'
-import type { CalendarEntry, CalendarConfig, AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { CalendarEntry, AvailabilitySettings } from '@/configs/availabilitySettings'
 import { DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 
 export interface UseCalendarEntriesReturn {

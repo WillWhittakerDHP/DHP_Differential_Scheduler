@@ -81,7 +81,7 @@ export class CalendarApiError extends Error {
  * Map CalendarErrorType to HTTP status code
  * LEARNING: Re-export for route handlers that receive error type
  */
-export function getStatusCodeForError(errorType: CalendarErrorType): number {
+function _getStatusCodeForError(errorType: CalendarErrorType): number {
   return CALENDAR_ERROR_TO_STATUS[errorType] ?? 500
 }
 
@@ -199,7 +199,7 @@ export async function withRetry<T>(
  * LEARNING: Indicates whether result is fresh or from cache
  * WHY: Caller needs to know if data might be stale
  */
-export interface FallbackResult<T> {
+interface FallbackResult<T> {
   data: T
   source: 'fresh' | 'cache' | 'empty'
   error?: CalendarApiError

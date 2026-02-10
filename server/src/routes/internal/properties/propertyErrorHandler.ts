@@ -47,7 +47,7 @@ export function handleSequelizeValidationError(
 export function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
-  entityId?: string
+  _entityId?: string
 ): boolean {
   if (!(error instanceof Error)) {
     return false

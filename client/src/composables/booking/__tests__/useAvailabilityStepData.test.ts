@@ -56,7 +56,7 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      selectedTimeSlots.value
+      void selectedTimeSlots.value
 
       expect(buildSelectedTimeSlots).toHaveBeenCalledWith({
         selectedDateStart: '2026-01-15',
@@ -148,7 +148,7 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      stepData.value
+      void stepData.value
 
       expect(buildAvailabilityStepData).toHaveBeenCalledWith({
         selectedDate: { start: '2026-01-15', end: null },
@@ -211,11 +211,11 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      selectedTimeSlots.value
+      void selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(1)
 
       selectedDate.value = { start: '2026-01-16', end: null }
-      selectedTimeSlots.value
+      void selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(2)
       expect(buildSelectedTimeSlots).toHaveBeenLastCalledWith(
         expect.objectContaining({
@@ -239,14 +239,14 @@ describe('useAvailabilityStepData', () => {
         presentationDuration,
       })
 
-      selectedTimeSlots.value
+      void selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(1)
 
       inspectorTimeSlot.value = {
         slotStart: '2026-01-15T09:00:00',
         slotEnd: '2026-01-15T11:00:00',
       }
-      selectedTimeSlots.value
+      void selectedTimeSlots.value
       expect(buildSelectedTimeSlots).toHaveBeenCalledTimes(2)
     })
   })

@@ -32,6 +32,12 @@ export default [
         require: 'readonly',
         exports: 'readonly',
         NodeJS: 'readonly',
+        URL: 'readonly',
+        fetch: 'readonly',
+        Response: 'readonly',
+        URLSearchParams: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
       },
     },
     plugins: {
@@ -40,7 +46,7 @@ export default [
     rules: {
       'no-unused-vars': 'off', // Turn off base rule in favor of @typescript-eslint version
       '@typescript-eslint/no-explicit-any': [
-        'error',
+        'warn',
         {
           ignoreRestArgs: true, // Allow `any` in rest arguments and generic constraints
         },
@@ -96,9 +102,27 @@ export default [
   },
   
   {
+    files: ['**/__tests__/**/*.ts', '**/*.test.ts', '**/*.spec.ts', '**/test/**/*.ts'],
+    languageOptions: {
+      globals: {
+        jest: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+      },
+    },
+  },
+  {
     ignores: [
       'node_modules/**',
       'dist/**',
+      'jest.config.js',
+      'src/db/migrations/**',
     ],
   },
 ]

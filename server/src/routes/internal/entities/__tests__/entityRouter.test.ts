@@ -3,7 +3,6 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
 import express, { Express } from 'express'
 import { EntityRouter as entityRouter } from '../entityRouter'
-import { getTestDb } from '../../../../test/setup/testDb'
 import { BlockInstance, BlockShape, PartInstance, PartShape } from '../../../../config/app'
 
 jest.mock('../../../../routes/helpers/dataController', () => ({
@@ -123,7 +122,7 @@ describe('Entity Router Integration Tests', () => {
     })
 
     it('should return 404 for invalid entity type', async () => {
-      const response = await request(app)
+      await request(app)
         .get('/api/entities/invalidType/block-1')
         .expect(404)
     })
@@ -145,7 +144,7 @@ describe('Entity Router Integration Tests', () => {
     })
 
     it('should return 404 for invalid entity type', async () => {
-      const response = await request(app)
+      await request(app)
         .post('/api/entities/invalidType')
         .send({ name: 'Test' })
         .expect(404)
@@ -180,7 +179,7 @@ describe('Entity Router Integration Tests', () => {
     })
 
     it('should return 404 for invalid entity type', async () => {
-      const response = await request(app)
+      await request(app)
         .put('/api/entities/invalidType/block-1')
         .send({ name: 'Test' })
         .expect(404)
@@ -215,7 +214,7 @@ describe('Entity Router Integration Tests', () => {
     })
 
     it('should return 404 for invalid entity type', async () => {
-      const response = await request(app)
+      await request(app)
         .patch('/api/entities/invalidType/block-1')
         .send({ name: 'Test' })
         .expect(404)
@@ -235,7 +234,7 @@ describe('Entity Router Integration Tests', () => {
     })
 
     it('should return 404 for invalid entity type', async () => {
-      const response = await request(app)
+      await request(app)
         .delete('/api/entities/invalidType/block-1')
         .expect(404)
     })

@@ -17,8 +17,6 @@
 import type {
   ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
-  Constraint,
-  CapacityConstraint,
   CalendarEvent,
   BusinessHoursConfig,
 } from '../../../shared/types/availabilityTypes.js'

@@ -6,7 +6,6 @@
  * PATTERN: Pure functions for complex logic
  */
 
-import { BusinessSettings } from '../../../config/app.js'
 import { AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js'
 
 /**

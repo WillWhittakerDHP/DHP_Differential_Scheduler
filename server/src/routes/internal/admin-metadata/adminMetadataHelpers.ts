@@ -7,9 +7,8 @@
  */
 
 import { Op } from 'sequelize'
-import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { isRelationshipKey } from '../../../constants/relationships.js'
-import { GLOBAL_CONFIG_IDS, RENDER_AS_REQUIRING_INPUT_CONFIG } from './adminMetadataConstants.js'
+import { GLOBAL_CONFIG_IDS } from './adminMetadataConstants.js'
 
 /**
  * Determine metadata type from field key

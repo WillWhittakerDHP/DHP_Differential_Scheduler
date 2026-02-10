@@ -36,7 +36,7 @@ export const DEFAULT_RETRY_CONFIG: RetryConfig = {
  * Error type that indicates if an error is retryable
  * LEARNING: Interface for errors that can be retried
  */
-export interface RetryableError {
+interface RetryableError {
   retryable: boolean
   type?: string
   message: string
@@ -51,7 +51,7 @@ export interface RetryableError {
  * @param config - Retry configuration
  * @returns Delay in milliseconds
  */
-export function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
+function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
   // Calculate base delay with exponential backoff
   const baseDelay = Math.min(
     config.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),

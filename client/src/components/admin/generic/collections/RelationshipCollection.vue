@@ -133,7 +133,7 @@ export type CollectionType = 'parts' | 'annotations' | 'events'
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   collectionType?: CollectionType
-  bulkEditModalComponent?: any
+  bulkEditModalComponent?: unknown
   nameGenerator?: (
     parentName: string,
     shapeName: string,

@@ -6,7 +6,7 @@
  * PATTERN: Factory-generated router with afterCreate hook for snapshots, attendees, and calendar events
  */
 
-import { Router, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { Appointment } from '../../../config/app.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'

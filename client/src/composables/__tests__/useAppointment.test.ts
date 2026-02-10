@@ -55,15 +55,11 @@ vi.mock('../useBusiness', () => ({
 vi.mock('@tanstack/vue-query', () => ({
   useMutation: vi.fn((config: { mutationFn: (...args: unknown[]) => Promise<unknown>; onSuccess?: (data: unknown, ...args: unknown[]) => Promise<unknown> | void }) => {
     const mutateAsync = async (...args: unknown[]): Promise<unknown> => {
-      try {
-        const result = await config.mutationFn(...args)
-        if (config.onSuccess) {
-          await config.onSuccess(result, ...args, undefined)
-        }
-        return result
-      } catch (error) {
-        throw error
+      const result = await config.mutationFn(...args)
+      if (config.onSuccess) {
+        await config.onSuccess(result, ...args, undefined)
       }
+      return result
     }
     return {
       mutate: vi.fn(),

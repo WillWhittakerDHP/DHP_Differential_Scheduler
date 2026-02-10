@@ -1,4 +1,4 @@
-import { Model, ModelStatic, UpdateOptions, DestroyOptions, WhereOptions, Attributes } from "sequelize";
+import { Model, ModelStatic, UpdateOptions, DestroyOptions, WhereOptions, Attributes, Includeable, Order, FindOptions } from "sequelize";
 import { MakeNullishOptional } from "sequelize/types/utils";
 import { getModelAttributes, isModelUnderscored } from "../../utils/sequelizeHelpers.js";
 import { createLogger } from "../../utils/logger.js";
@@ -60,12 +60,12 @@ type WhereById<T extends Model> = {
 const fetchAll = async <T extends Model>(
   Entity: ModelStatic<T>,
   options?: {
-    includes?: any[];
+    includes?: Includeable[];
     attributes?: string[];
-    order?: any[];
+    order?: Order;
   }
 ): Promise<T[]> => {
-  const queryOptions: any = {};
+  const queryOptions: FindOptions<T> = {};
   
   if (options?.includes && options.includes.length > 0) {
     queryOptions.include = options.includes;
@@ -85,8 +85,8 @@ const fetchAll = async <T extends Model>(
       }
     }
   
-  if (options?.order && options.order.length > 0) {
-    queryOptions.order = options.order;
+  if (options?.order) {
+    queryOptions.order = Array.isArray(options.order) ? options.order : [options.order];
   }
   
   const result = await Entity.findAll(queryOptions);
@@ -111,7 +111,7 @@ const fetchById = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string
 ): Promise<T | null> => {
-  const options: any = {};
+  const options: FindOptions<T> = {};
   
   if (isModelUnderscored(Entity)) {
     options.attributes = getModelAttributes(Entity);

@@ -4,6 +4,7 @@ import { createLogger } from '../../utils/logger.js'
 import {
   OAUTH_ERROR_MESSAGES,
   OAUTH_SUCCESS_MESSAGES,
+  ROUTE_PATHS,
 } from '../../constants/appConstants.js'
 
 /**
@@ -31,7 +32,7 @@ const router = Router()
  * - error: Error code if authorization failed
  * - error_description: Description of authorization error
  */
-router.get('/oauth2callback', async (req: Request, res: Response) => {
+router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
   logger.debug('Callback route hit')
   logger.debug('Query params:', JSON.stringify(req.query))
   logger.debug('Full URL:', req.url)

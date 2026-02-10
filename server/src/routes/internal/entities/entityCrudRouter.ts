@@ -23,7 +23,7 @@ import { buildFetchOptions, handleBlockInstanceVersioning, handlePartInstanceCle
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
-import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 

@@ -8,7 +8,7 @@
  * NOTE: Renamed from DevPanelsContainer to distinguish from ApiDevPanel
  */
 
-import { ref, inject, computed, onMounted, onUnmounted, watch, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
+import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -105,7 +105,7 @@ const appointmentData = computed<AppointmentData>(() => {
 
 // LEARNING: Use useLocalTime composable for UI-boundary formatting
 // WHY: All local time conversions must go through useLocalTime composable
-const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
+const { formatDateTimeForDisplay } = useLocalTime()
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
 
@@ -187,7 +187,7 @@ const timeSlotResults = computed(() => {
 // WHY: Converts ISO strings to readable format
 const formatTime = (isoString: string | null): string => {
   if (!isoString) return 'N/A'
-  return formatDateTimeForDisplay(isoString as any, {
+  return formatDateTimeForDisplay(isoString as import('@/types/datetime').RFC3339DateTime, {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
@@ -255,10 +255,6 @@ const devPanelButtons = computed(() => {
     return null
   }
   return devPanelButtonsRef.value
-})
-
-const hasDevPanelButtons = computed(() => {
-  return devPanelButtons.value !== null
 })
 
 const wizard = computed(() => {

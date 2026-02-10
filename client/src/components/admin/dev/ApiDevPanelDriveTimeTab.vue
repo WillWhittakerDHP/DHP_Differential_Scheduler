@@ -8,10 +8,19 @@
  */
 
 import { formatTTL } from '@/utils/dev/formatDevPanelData'
+import type { DevPanelCacheShape, DevPanelCacheEntry } from '@/composables/dev/useApiDevPanelData'
+
+function driveTimeEntryData(entry: DevPanelCacheEntry): Record<string, unknown> | undefined {
+  return entry.data as Record<string, unknown> | undefined
+}
+
+function eventsEntryData(entry: DevPanelCacheEntry): unknown[] | undefined {
+  return Array.isArray(entry.data) ? entry.data : undefined
+}
 
 interface Props {
-  eventsCache: any
-  driveTimeCache: any
+  eventsCache: DevPanelCacheShape | null
+  driveTimeCache: DevPanelCacheShape | null
   loading: {
     events: boolean
     drivetime: boolean
@@ -96,17 +105,17 @@ defineProps<Props>()
                 </VExpansionPanelTitle>
                 <VExpansionPanelText>
                   <div class="mb-2">
-                    <strong>Events:</strong> {{ entry.data?.length || 0 }}
+                    <strong>Events:</strong> {{ eventsEntryData(entry)?.length ?? 0 }}
                   </div>
                   <div class="mb-2">
-                    <strong>Age:</strong> {{ Math.round(entry.age / 1000) }}s
+                    <strong>Age:</strong> {{ Math.round((entry.age ?? 0) / 1000) }}s
                   </div>
                   <div class="mb-2">
-                    <strong>TTL:</strong> {{ formatTTL(entry.ttl) }}
+                    <strong>TTL:</strong> {{ formatTTL(entry.ttl ?? 0) }}
                   </div>
-                  <div v-if="entry.data && entry.data.length > 0">
+                  <div v-if="eventsEntryData(entry) && eventsEntryData(entry)!.length > 0">
                     <strong>Sample Events (first 3):</strong>
-                    <pre class="mt-2" style="max-height: 200px; overflow-y: auto; font-size: 0.75rem;">{{ JSON.stringify(entry.data.slice(0, 3), null, 2) }}</pre>
+                    <pre class="mt-2" style="max-height: 200px; overflow-y: auto; font-size: 0.75rem;">{{ JSON.stringify(eventsEntryData(entry)!.slice(0, 3), null, 2) }}</pre>
                   </div>
                 </VExpansionPanelText>
               </VExpansionPanel>
@@ -141,8 +150,8 @@ defineProps<Props>()
             <ul>
               <li>Total Entries: {{ driveTimeCache.stats?.totalEntries || 0 }}</li>
               <li>Memory Usage: ~{{ Math.round((driveTimeCache.stats?.memoryUsage || 0) / 1024) }} KB</li>
-              <li v-if="driveTimeCache.stats?.oldestEntryAge !== null">
-                Oldest Entry: {{ driveTimeCache.stats.oldestEntryAge }} minutes old
+              <li v-if="driveTimeCache.stats?.oldestEntryAge != null">
+                Oldest Entry: {{ driveTimeCache.stats?.oldestEntryAge }} minutes old
               </li>
             </ul>
           </div>
@@ -168,13 +177,13 @@ defineProps<Props>()
                 </VExpansionPanelTitle>
                 <VExpansionPanelText>
                   <div class="mb-2">
-                    <strong>Duration:</strong> {{ entry.data.durationMinutes }} min ({{ entry.data.durationSeconds }}s)
+                    <strong>Duration:</strong> {{ driveTimeEntryData(entry)?.durationMinutes }} min ({{ driveTimeEntryData(entry)?.durationSeconds }}s)
                   </div>
                   <div class="mb-2">
-                    <strong>Distance:</strong> {{ entry.data.distanceMiles }} miles ({{ entry.data.distanceMeters }}m)
+                    <strong>Distance:</strong> {{ driveTimeEntryData(entry)?.distanceMiles }} miles ({{ driveTimeEntryData(entry)?.distanceMeters }}m)
                   </div>
                   <div class="mb-2">
-                    <strong>Age:</strong> {{ Math.round(entry.age / 1000) }}s ({{ Math.round(entry.age / 60000) }} min)
+                    <strong>Age:</strong> {{ Math.round((entry.age ?? 0) / 1000) }}s ({{ Math.round((entry.age ?? 0) / 60000) }} min)
                   </div>
                   <div class="mb-2">
                     <strong>TTL:</strong> 24 hours

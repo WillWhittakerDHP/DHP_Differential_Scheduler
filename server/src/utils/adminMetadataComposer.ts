@@ -29,13 +29,11 @@ export async function getAdminMetadata(
   entityId: string,
   blockShapeRef?: string | null
 ): Promise<Record<string, Omit<FieldMetadataEntry, 'fieldKey'>>> {
-  const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
-  const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
   const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
   const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
 
   // PATTERN: Query directly by entityType and entityId
-  const whereClause: any = {
+  const whereClause: Record<string, unknown> = {
     entityType: entityType,
     entityId: entityId,
   };

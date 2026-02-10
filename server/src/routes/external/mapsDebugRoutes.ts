@@ -6,6 +6,7 @@
  */
 
 import { Router, Request, Response } from 'express'
+import { csrfProtection } from '../../middlewares/security.js'
 import { getRateLimitStats } from '../../services/rateLimiter.js'
 import {
   getDriveTimeCacheStats,
@@ -70,7 +71,7 @@ router.get('/drive-time-cache', (_req: Request, res: Response): void => {
   }
 })
 
-router.post('/clear-drive-time-cache', (_req: Request, res: Response): void => {
+router.post('/clear-drive-time-cache', csrfProtection, (_req: Request, res: Response): void => {
   if (rejectProduction(_req, res)) return
   clearDriveTimeCache()
   res.json({ success: true, message: MAPS_ROUTE_MESSAGES.DRIVE_TIME_CACHE_CLEARED })

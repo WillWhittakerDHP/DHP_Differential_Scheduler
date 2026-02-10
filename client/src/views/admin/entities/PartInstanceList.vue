@@ -85,7 +85,7 @@ async function handleDelete(id: GlobalEntityId) {
   if (confirm('Are you sure you want to delete this part instance?')) {
     try {
       await remove(id)
-    } catch (err) {
+    } catch (_err) {
       alert('Failed to delete part instance')
     }
   }

@@ -26,10 +26,11 @@ import {
   sendBadRequest,
 } from './routerResponseHelpers.js'
 import type { CrudHandlerContext } from './crudRouterTypes.js'
+import type { Includeable, Order } from 'sequelize'
 
 type FetchAllOptions = {
-  includes?: unknown[]
-  order?: unknown[]
+  includes?: Includeable[]
+  order?: Order
 }
 
 function buildFetchAllOptions<T extends Model>(context: CrudHandlerContext<T>): FetchAllOptions | undefined {
@@ -42,7 +43,7 @@ function buildFetchAllOptions<T extends Model>(context: CrudHandlerContext<T>): 
     options.includes = defaultIncludes
   }
   if (defaultOrder) {
-    options.order = Array.isArray(defaultOrder) ? [...defaultOrder] : [defaultOrder]
+    options.order = (Array.isArray(defaultOrder) ? [...defaultOrder] : [defaultOrder]) as Order
   }
   return options
 }

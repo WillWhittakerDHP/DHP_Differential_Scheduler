@@ -10,6 +10,9 @@
 import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import type { GlobalEntityId } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useBusinessRules')
 
 /**
  * Rule Type Enumeration

@@ -1,6 +1,9 @@
 import { google } from 'googleapis'
 import { createLogger } from '../utils/logger.js'
-import { saveTokensToFile, loadTokensFromFile } from './googleOAuthTokenPersistence.js'
+import {
+  saveTokensToFile as saveTokensToFileImpl,
+  loadTokensFromFile as loadTokensFromFileImpl
+} from './googleOAuthTokenPersistence.js'
 
 /**
  * Google OAuth Configuration
@@ -114,13 +117,20 @@ export function getCredentials() {
 // TOKEN PERSISTENCE (Development)
 // =============================================================================
 
+/** Re-export for backward compatibility; persistence has no dependency on this module. */
+export const saveTokensToFile = saveTokensToFileImpl
+
 /**
- * Re-export token persistence functions for backward compatibility
- * LEARNING: Maintains existing import paths while extracting complexity
- * WHY: Callers can continue importing from googleOAuth.ts
- * PATTERN: Re-export pattern for module organization
+ * Load tokens from file and set on oauth2Client
+ * LEARNING: Breaks import cycle by doing credential application here
+ * WHY: Persistence module only reads/writes file; this module owns oauth2Client
  */
-export { saveTokensToFile, loadTokensFromFile }
+export function loadTokensFromFile(): boolean {
+  const tokens = loadTokensFromFileImpl()
+  if (!tokens) return false
+  oauth2Client.setCredentials(tokens)
+  return true
+}
 
 /**
  * Check if we have valid credentials (either in memory or on file)

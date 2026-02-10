@@ -3,7 +3,6 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
 import express, { Express } from 'express'
 import { UserRouter as userRouter } from '../userRouter'
-import { User } from '../../../../config/app'
 
 jest.mock('../../../../routes/helpers/dataController', () => ({
   fetchAll: jest.fn(),

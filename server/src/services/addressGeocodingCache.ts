@@ -29,7 +29,7 @@ const cache: Map<string, AddressGeocodingCacheEntry> = new Map();
  * WHY: Long TTL reduces API calls while still allowing for address corrections
  */
 const DEFAULT_TTL_DAYS = 30;
-const DEFAULT_TTL = DEFAULT_TTL_DAYS * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+const _DEFAULT_TTL = DEFAULT_TTL_DAYS * 24 * 60 * 60 * 1000; // 30 days in milliseconds (reserved for future use)
 
 /**
  * Configuration from environment

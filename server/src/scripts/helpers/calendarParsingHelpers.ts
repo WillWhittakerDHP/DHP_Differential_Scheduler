@@ -11,8 +11,8 @@
  * LEARNING: Named constants replace magic strings
  * WHY: Eliminates hardcoding audit findings, provides single source of truth
  */
-export const DEFAULT_FIRST_NAME = 'Unknown' as const
-export const DEFAULT_LAST_NAME = 'Client' as const
+const DEFAULT_FIRST_NAME = 'Unknown' as const
+const DEFAULT_LAST_NAME = 'Client' as const
 
 /**
  * Calendar Event interface
@@ -87,9 +87,9 @@ function createEmptyProperty(address: string): ParsedProperty {
   return {
     address,
     unit: null,
-    city: '', // Explicit empty string (not `|| ''` fallback)
-    state: '', // Explicit empty string (not `|| ''` fallback)
-    zipCode: '', // Explicit empty string (not `|| ''` fallback)
+    city: '',
+    state: '',
+    zipCode: '',
     mlsNumber: null,
     squareFootage: null,
     bedrooms: null,
@@ -161,7 +161,7 @@ export function parseName(fullName: string): { firstName: string; lastName: stri
  * @param text - Text that may contain a phone number
  * @returns Formatted phone number (XXX-XXX-XXXX) or null
  */
-export function extractPhone(text: string | undefined): string | null {
+function extractPhone(text: string | undefined): string | null {
   if (!text) return null;
   
   const phoneRegex = /(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/;
@@ -191,9 +191,9 @@ export function parseAddress(addressString: string): ParsedProperty | null {
     const parts = addressString.split(',').map(p => p.trim());
     if (parts.length >= 2) {
       const property = createEmptyProperty(parts[0]);
-      property.city = parts[1] || ''; // Explicit empty string
-      property.state = parts[2]?.substring(0, 2).toUpperCase() || ''; // Explicit empty string
-      property.zipCode = parts[parts.length - 1]?.match(/\d{5}/)?.[0] || ''; // Explicit empty string
+      property.city = parts[1] ?? '';
+      property.state = parts[2]?.substring(0, 2).toUpperCase() ?? '';
+      property.zipCode = parts[parts.length - 1]?.match(/\d{5}/)?.[0] ?? '';
       return property;
     }
     
@@ -207,9 +207,9 @@ export function parseAddress(addressString: string): ParsedProperty | null {
   
   const property = createEmptyProperty(address);
   property.unit = unit;
-  property.city = city || ''; // Explicit empty string
-  property.state = state?.toUpperCase() || ''; // Explicit empty string
-  property.zipCode = zipCode || ''; // Explicit empty string
+  property.city = city ?? '';
+  property.state = state?.toUpperCase() ?? '';
+  property.zipCode = zipCode ?? '';
   
   return property;
 }

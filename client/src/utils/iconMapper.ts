@@ -51,6 +51,7 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 export function getIcon(iconString: string | null | undefined): string {
   if (!iconString || iconString.trim() === '') {
     if (isDevModeEnabled()) {
+      // Dev-only: could log missing icon here
     }
     return DEFAULT_ICON
   }

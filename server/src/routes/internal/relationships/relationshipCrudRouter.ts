@@ -16,7 +16,7 @@ import {
 } from '../../../config/app.js'
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
-import { ERROR_MESSAGES, RELATIONSHIP_REGISTRY, type RelationshipConfig } from './relationshipConstants.js'
+import { ERROR_MESSAGES, type RelationshipConfig } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { validateRequiredFields, validateParentChildDifferent, normalizeRelationshipKind } from './relationshipValidators.js'
 import {

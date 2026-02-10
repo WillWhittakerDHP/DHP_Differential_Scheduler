@@ -6,7 +6,7 @@
   RESOURCE: https://vuetifyjs.com/en/components/dialogs/
 -->
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, type Ref } from 'vue'
 import { useBusinessRules, type BusinessRule, type BusinessRuleFormData, type RuleType } from '@/composables/admin/useBusinessRules'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntityId } from '@/types/entities'
@@ -175,18 +175,22 @@ const formatRuleType = (ruleType: RuleType): string => {
 
 const formatRuleConfig = (rule: BusinessRule): string => {
   switch (rule.ruleType) {
-    case 'required_fields':
+    case 'required_fields': {
       const reqFields = rule.ruleConfig as { fields: string[]; condition?: string }
       return `Fields: ${reqFields.fields.join(', ')}${reqFields.condition ? ` (Condition: ${reqFields.condition})` : ''}`
-    case 'requires_agent':
+    }
+    case 'requires_agent': {
       const reqAgent = rule.ruleConfig as { requiresAgent: boolean }
       return `Requires Agent: ${reqAgent.requiresAgent ? 'Yes' : 'No'}`
-    case 'conditional_validation':
+    }
+    case 'conditional_validation': {
       const condVal = rule.ruleConfig as { field: string; dependsOn: string; condition: string; value: unknown }
       return `${condVal.field} ${condVal.condition} ${condVal.value} (depends on ${condVal.dependsOn})`
-    case 'validation_message':
+    }
+    case 'validation_message': {
       const valMsg = rule.ruleConfig as { field: string; messageType: string }
       return `Field: ${valMsg.field}, Type: ${valMsg.messageType}`
+    }
     default:
       return JSON.stringify(rule.ruleConfig)
   }

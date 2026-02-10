@@ -51,7 +51,7 @@ const DEFAULT_TTL_FUTURE = 15 * 60 * 1000; // 15 minutes for dates beyond 7 days
  * Configuration from environment
  */
 const CACHE_TTL_MINUTES = parseInt(process.env.GOOGLE_CALENDAR_CACHE_TTL_MINUTES || '5', 10);
-const DEFAULT_TTL = CACHE_TTL_MINUTES * 60 * 1000; // Convert minutes to milliseconds
+const _DEFAULT_TTL = CACHE_TTL_MINUTES * 60 * 1000; // Convert minutes to milliseconds (reserved for future use)
 
 /**
  * Generate cache key from calendar email and time range

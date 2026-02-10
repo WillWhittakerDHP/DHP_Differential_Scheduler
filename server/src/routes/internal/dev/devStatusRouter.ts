@@ -16,6 +16,7 @@ import { getDriveTimeCacheStats, getAllCachedDriveTimes } from '../../../service
 import { sendSuccess, sendError } from '../../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
+import { CALENDAR_ROUTE_MESSAGES } from '../../external/calendarRouteConstants.js'
 
 const logger = createLogger('DevStatusRouter')
 
@@ -53,13 +54,13 @@ router.get('/status', (_req: Request, res: Response): void => {
       oauthStatus = {
         authenticated,
         hasRefreshToken: !!credentials?.refresh_token,
-        expiryDate: credentials?.expiry_date || null,
-        authUrl: '/api/v1/external/oauth'
+        expiryDate: credentials?.expiry_date ?? null,
+        authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL
       }
     } catch (credError: any) {
       oauthStatus = {
         authenticated: false,
-        authUrl: '/api/v1/external/oauth',
+        authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
         error: credError.message
       }
     }

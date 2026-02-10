@@ -18,6 +18,9 @@ import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from './entityCrud/useSharedMutationHandlers'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useRelationship')
 
 /**
  * Relationship CRUD composable
@@ -77,11 +80,7 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
     return transformGlobalRelationshipsToFetched(data.relationships[relationshipKey])
   })
   
-  // For backward compatibility, provide isLoading and error (always false/undefined since we're reading from cache)
-  const isLoading = computed(() => false)
-  const error = computed(() => undefined)
-  
-  // WHY: Eliminates duplication of common refetch pattern
+// WHY: Eliminates duplication of common refetch pattern
   // PATTERN: Extract shared handler to utility function
   const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
   

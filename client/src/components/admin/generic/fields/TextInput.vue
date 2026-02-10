@@ -1,11 +1,11 @@
 <template>
   <BaseInput
-    v-if="fieldContext"
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    v-if="resolvedFieldContext"
+    :field-key="String(resolvedFieldContext.fieldKey)"
+    :display-config="resolvedFieldContext.displayConfig"
+    :error="resolvedFieldContext.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="resolvedFieldContext.isDisabled.value"
   >
     <!-- LEARNING: When readonly, display as plain text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - plain text is clearer -->
@@ -15,27 +15,27 @@
       class="readonly-text"
       :class="{ 'readonly-text-empty': !fieldValue || fieldValue === '' }"
     >
-      {{ fieldValue || fieldContext?.displayConfig.placeholder || '' }}
+      {{ fieldValue || resolvedFieldContext?.displayConfig.placeholder || '' }}
     </span>
     
     <!-- LEARNING: Conditionally render textarea for long content when editable -->
     <!-- WHY: Long text is better displayed in multi-line textarea -->
     <!-- PATTERN: Check content length and newlines to determine if textarea is needed -->
     <AppTextarea
-      v-else-if="shouldUseTextarea && fieldContext"
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
+      v-else-if="shouldUseTextarea && resolvedFieldContext"
+      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
+      :name="String(resolvedFieldContext.fieldKey)"
       :model-value="fieldValue"
-      :label="fieldContext.displayConfig.label"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
+      :label="resolvedFieldContext.displayConfig.label"
+      :placeholder="resolvedFieldContext.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.displayConfig.disabled"
+      :readonly="resolvedFieldContext.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.error?.value"
+      :error-messages="resolvedFieldContext.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
       :auto-grow="true"
       :rows="1"
-      :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -43,18 +43,18 @@
       @keydown="handleKeydown"
     />
     <AppTextField
-      v-else-if="fieldContext"
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
+      v-else-if="resolvedFieldContext"
+      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
+      :name="String(resolvedFieldContext.fieldKey)"
       :model-value="fieldValue"
-      :label="fieldContext.displayConfig.label"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
+      :label="resolvedFieldContext.displayConfig.label"
+      :placeholder="resolvedFieldContext.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.displayConfig.disabled"
+      :readonly="resolvedFieldContext.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.error?.value"
+      :error-messages="resolvedFieldContext.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
-      :autofocus="entityCardSaveContext?.isNew && fieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -107,7 +107,7 @@ const props = withDefaults(defineProps<Props>(), {
 // WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
 const fieldContextRef = toRef(props, 'fieldContext')
 
-const fieldContext = computed(() => {
+const resolvedFieldContext = computed(() => {
   const context = fieldContextRef.value
   if (!context) return undefined
   return context
@@ -119,7 +119,7 @@ const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE
 
 // FIX: Handle Vue's prop unwrapping - context.value may be unwrapped to the actual value
 const fieldValue = computed(() => {
-  const context = fieldContext.value
+  const context = resolvedFieldContext.value
   if (!context) {
     return '' as ValidAdminValue
   }
@@ -134,8 +134,8 @@ const fieldValue = computed(() => {
 
 // LEARNING: Computed property to reactively track readOnly state
 const isReadOnly = computed(() => {
-  // PATTERN: Access fieldContext.value, then nested properties, to establish reactivity dependency
-  const context = fieldContext.value
+  // PATTERN: Access resolvedFieldContext.value, then nested properties, to establish reactivity dependency
+  const context = resolvedFieldContext.value
   if (!context) return false
   const displayConfig = context.displayConfig
   const readOnly = displayConfig.readOnly
@@ -164,14 +164,14 @@ const shouldUseTextarea = computed(() => {
 // WHY: Field context manages form state and validation
 // PATTERN: Delegate to field context for state management
 const handleChange = (value: string) => {
-  const context = fieldContext.value
+  const context = resolvedFieldContext.value
   if (!context) return
   context.setValue(value)
 }
 
 // FIX: Use shared field input handlers from composable
 const handlers = computed(() => {
-  const context = fieldContext.value
+  const context = resolvedFieldContext.value
   if (!context) {
     return {
       handleFocus: () => {},
@@ -180,7 +180,7 @@ const handlers = computed(() => {
     }
   }
   return useFieldInputHandlers({
-    fieldContext: context,
+    fieldContext: resolvedFieldContext.value,
     disableAutoSave,
     entityCardSaveContext
   })
@@ -196,7 +196,7 @@ const handleKeydown = (event: KeyboardEvent): void => {
     return
   }
   
-  const context = fieldContext.value
+  const context = resolvedFieldContext.value
   if (!context) {
     return
   }

@@ -42,7 +42,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -68,7 +68,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -95,7 +95,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -119,7 +119,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -143,7 +143,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -168,7 +168,7 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
 
       expect(buildBookingWizardStepValidators).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -218,11 +218,11 @@ describe('useBookingWizardStepValidators', () => {
         contactsStepValidate: null,
       })
 
-      stepValidators.value
+      void stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(1)
 
       selectedServiceTypeBlocks.value = [{ id: 'service-1' } as BookingBlockInstance]
-      stepValidators.value
+      void stepValidators.value
       expect(buildBookingWizardStepValidators).toHaveBeenCalledTimes(2)
     })
   })

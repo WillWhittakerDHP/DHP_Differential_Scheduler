@@ -6,7 +6,7 @@
  * PATTERN: Transformer class that handles entity and relationship transformation
  */
 
-import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
+import apiClient, { getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
@@ -57,8 +57,8 @@ function buildFieldClassificationSets(
     .filter(
       ([fieldKey, fieldMetadata]) =>
         fieldMetadata.dataType === 'boolean' &&
-        !schemaNonNullableBooleansSet.has(fieldKey) &&
-        !schemaNullableBooleansSet.has(fieldKey)
+        !(schemaNonNullableBooleansSet as Set<string>).has(fieldKey) &&
+        !(schemaNullableBooleansSet as Set<string>).has(fieldKey)
     )
     .reduce(
       (acc, [fieldKey, fieldMetadata]) => {
@@ -75,7 +75,7 @@ function buildFieldClassificationSets(
       ([fieldKey, fieldMetadata]) =>
         fieldMetadata.dataType === 'number' &&
         fieldMetadata.isRequired &&
-        !schemaRequiredNumbersSet.has(fieldKey)
+        !(schemaRequiredNumbersSet as Set<string>).has(fieldKey)
     )
     .map(([fieldKey]) => fieldKey)
 

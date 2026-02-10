@@ -17,6 +17,9 @@ import { getRelationshipByParentChildEndpoint, getRelationshipEndpoint } from '@
 import apiClient from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { UseFieldContextStateReturn } from './useFieldContextState'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldContextSaveHelpers')
 
 export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   state: UseFieldContextStateReturn<GE, FieldKey>

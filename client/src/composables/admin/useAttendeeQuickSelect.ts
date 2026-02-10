@@ -15,6 +15,9 @@
 import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAttendeeQuickSelect')
 
 export interface UseAttendeeQuickSelectReturn {
   isLoading: Ref<boolean>

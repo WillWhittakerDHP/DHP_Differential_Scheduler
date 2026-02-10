@@ -17,13 +17,11 @@ import {
   CapacityKeyParts,
   buildCapacityKey,
   capacityKeyToString,
-  extractDateFromRFC3339
 } from '../../../shared/utils/capacityKeyUtils.js'
 import {
   sumWorkHoursForDay,
   sumWorkHoursForCalendarWeek,
   sumWorkHoursForRollingWeek,
-  type RollingWeekDirection
 } from '../utils/availabilities/availabiltiesDbUtils.js'
 
 /**

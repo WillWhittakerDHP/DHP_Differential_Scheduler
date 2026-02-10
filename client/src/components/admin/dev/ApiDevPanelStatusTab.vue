@@ -9,12 +9,13 @@
 
 import { formatTimestamp, getApiStatusColor, getApiStatusLabel } from '@/utils/dev/formatDevPanelData'
 import type { ApiStatusValue } from '@/constants/apiStatus'
+import type { OAuthStatusShape, RateLimitShape } from '@/composables/dev/useApiDevPanelData'
 
 interface Props {
-  oauthStatus: any
+  oauthStatus: OAuthStatusShape | null
   rateLimitStats: {
-    calendar: any | null
-    maps: any | null
+    calendar: RateLimitShape | null
+    maps: RateLimitShape | null
   }
   apiStatus: {
     events: ApiStatusValue
@@ -131,12 +132,12 @@ defineProps<Props>()
           <div class="mb-2">
             <strong>Utilization:</strong> 
             <VProgressLinear
-              :model-value="rateLimitStats.calendar.utilizationPercent"
-              :color="rateLimitStats.calendar.utilizationPercent > 80 ? 'error' : rateLimitStats.calendar.utilizationPercent > 60 ? 'warning' : 'success'"
+              :model-value="(rateLimitStats.calendar?.utilizationPercent) ?? 0"
+              :color="((rateLimitStats.calendar?.utilizationPercent) ?? 0) > 80 ? 'error' : ((rateLimitStats.calendar?.utilizationPercent) ?? 0) > 60 ? 'warning' : 'success'"
               height="20"
               class="mt-1"
             >
-              {{ Math.round(rateLimitStats.calendar.utilizationPercent) }}%
+              {{ Math.round((rateLimitStats.calendar?.utilizationPercent) ?? 0) }}%
             </VProgressLinear>
           </div>
         </VCardText>
@@ -158,12 +159,12 @@ defineProps<Props>()
           <div class="mb-2">
             <strong>Utilization:</strong> 
             <VProgressLinear
-              :model-value="rateLimitStats.maps.utilizationPercent"
-              :color="rateLimitStats.maps.utilizationPercent > 80 ? 'error' : rateLimitStats.maps.utilizationPercent > 60 ? 'warning' : 'success'"
+              :model-value="(rateLimitStats.maps?.utilizationPercent) ?? 0"
+              :color="((rateLimitStats.maps?.utilizationPercent) ?? 0) > 80 ? 'error' : ((rateLimitStats.maps?.utilizationPercent) ?? 0) > 60 ? 'warning' : 'success'"
               height="20"
               class="mt-1"
             >
-              {{ Math.round(rateLimitStats.maps.utilizationPercent) }}%
+              {{ Math.round((rateLimitStats.maps?.utilizationPercent) ?? 0) }}%
             </VProgressLinear>
           </div>
         </VCardText>

@@ -84,7 +84,7 @@ async function handleDelete(id: GlobalEntityId) {
   if (confirm('Are you sure you want to delete this part type?')) {
     try {
       await remove(id)
-    } catch (err) {
+    } catch (_err) {
       alert('Failed to delete part type')
     }
   }

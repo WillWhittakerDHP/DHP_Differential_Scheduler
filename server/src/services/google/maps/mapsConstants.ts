@@ -42,3 +42,16 @@ export const ERROR_MESSAGES = {
   NETWORK: 'Could not reach address lookup service.',
   UNKNOWN: 'An unexpected error occurred.',
 } as const
+
+/** Routes API response condition value for missing route */
+export const ROUTES_CONDITION_NOT_FOUND = 'ROUTE_NOT_FOUND' as const
+
+/** Google Places address_components type values (single source of truth) */
+export const ADDRESS_COMPONENT_TYPES = {
+  STREET_NUMBER: 'street_number',
+  ROUTE: 'route',
+  LOCALITY: 'locality',
+  ADMINISTRATIVE_AREA_LEVEL_1: 'administrative_area_level_1',
+  POSTAL_CODE: 'postal_code',
+  COUNTRY: 'country',
+} as const

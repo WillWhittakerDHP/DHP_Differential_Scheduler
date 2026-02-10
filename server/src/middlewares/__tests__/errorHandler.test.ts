@@ -117,7 +117,7 @@ describe('errorHandler', () => {
 
   it('should handle errors without stack trace', () => {
     const error = new Error('Test error')
-    delete (error as any).stack
+    delete (error as Error & { stack?: string }).stack
     
     errorHandler(
       error,
@@ -134,7 +134,7 @@ describe('errorHandler', () => {
   })
 
   it('should handle non-Error objects', () => {
-    const error = { message: 'Custom error' } as any
+    const error = Object.assign(new Error('Custom error'), { message: 'Custom error' })
     
     errorHandler(
       error,

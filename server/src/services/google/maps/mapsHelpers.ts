@@ -17,7 +17,7 @@ import {
   RouteLocation
 } from './mapsTypes.js'
 import { MapsApiError } from './mapsErrorHandler.js'
-import { GOOGLE_API_STATUS } from './mapsConstants.js'
+import { GOOGLE_API_STATUS, ADDRESS_COMPONENT_TYPES } from './mapsConstants.js'
 
 /** Raw Google Places Autocomplete API prediction shape */
 interface RawAutocompletePrediction {
@@ -161,7 +161,7 @@ export function transformPlaceResult(
 /**
  * Build Find Place from Text API URL
  */
-export function buildFindPlaceUrl(address: string, apiKey: string): string {
+function buildFindPlaceUrl(address: string, apiKey: string): string {
   const params = new URLSearchParams({
     input: address.trim(),
     inputtype: 'textquery',
@@ -213,32 +213,22 @@ export async function executeGeocodeApiCall(address: string): Promise<string | n
  * @param components - Array of address components from Google Places API
  * @returns Parsed address components
  */
-export function parseAddressComponents(components: Array<{
+function parseAddressComponents(components: Array<{
   types: string[]
   long_name: string
   short_name: string
 }>): AddressComponents {
-  const result: AddressComponents = {}
-  
-  for (const component of components) {
+  return components.reduce<AddressComponents>((acc, component) => {
     const types = component.types
-    
-    if (types.includes('street_number')) {
-      result.streetNumber = component.long_name
-    } else if (types.includes('route')) {
-      result.streetName = component.long_name
-    } else if (types.includes('locality')) {
-      result.city = component.long_name
-    } else if (types.includes('administrative_area_level_1')) {
-      result.state = component.short_name // Use abbreviation for state
-    } else if (types.includes('postal_code')) {
-      result.postalCode = component.long_name
-    } else if (types.includes('country')) {
-      result.country = component.short_name // Use country code
-    }
-  }
-  
-  return result
+    const T = ADDRESS_COMPONENT_TYPES
+    if (types.includes(T.STREET_NUMBER)) return { ...acc, streetNumber: component.long_name }
+    if (types.includes(T.ROUTE)) return { ...acc, streetName: component.long_name }
+    if (types.includes(T.LOCALITY)) return { ...acc, city: component.long_name }
+    if (types.includes(T.ADMINISTRATIVE_AREA_LEVEL_1)) return { ...acc, state: component.short_name }
+    if (types.includes(T.POSTAL_CODE)) return { ...acc, postalCode: component.long_name }
+    if (types.includes(T.COUNTRY)) return { ...acc, country: component.short_name }
+    return acc
+  }, {})
 }
 
 /**

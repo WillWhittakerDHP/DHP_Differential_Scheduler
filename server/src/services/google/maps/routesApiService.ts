@@ -10,6 +10,7 @@ import { createLogger } from '../../../utils/logger.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
 import { withRetry } from '../shared/googleApiRetry.js'
 import { getGoogleMapsApiKey, ROUTES_API_BASE } from '../shared/googleApiConfig.js'
+import { GOOGLE_API_STATUS, ROUTES_CONDITION_NOT_FOUND } from './mapsConstants.js'
 import { MapsApiError } from './mapsErrorHandler.js'
 import { toRoutesWaypoint } from './mapsHelpers.js'
 import { getCachedDriveTime, cacheDriveTime } from '../../driveTimeCache.js'
@@ -20,6 +21,35 @@ import type {
 } from './mapsTypes.js'
 
 const logger = createLogger('RoutesApiService')
+
+function parseRouteMatrixItem(item: { duration?: string; distanceMeters?: number; originIndex?: number; destinationIndex?: number; condition?: string }): RouteMatrixResult {
+  let durationSeconds = 0
+  if (item.duration) {
+    const match = item.duration.match(/^(\d+)s$/)
+    if (match) durationSeconds = parseInt(match[1], 10)
+  }
+  let status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' = GOOGLE_API_STATUS.OK
+  if (item.condition === ROUTES_CONDITION_NOT_FOUND) status = GOOGLE_API_STATUS.NOT_FOUND
+  else if (!item.distanceMeters || durationSeconds === 0) status = GOOGLE_API_STATUS.ZERO_RESULTS
+  return {
+    originIndex: item.originIndex ?? 0,
+    destinationIndex: item.destinationIndex ?? 0,
+    durationSeconds,
+    distanceMeters: item.distanceMeters ?? 0,
+    status,
+    condition: item.condition
+  }
+}
+
+function toDriveTimeResult(durationSeconds: number, distanceMeters: number, source: 'calculated' | 'estimated' | 'cached'): DriveTimeResult {
+  return {
+    durationMinutes: Math.ceil(durationSeconds / 60),
+    durationSeconds,
+    distanceMeters,
+    distanceMiles: Math.round(distanceMeters / 1609.34 * 10) / 10,
+    source
+  }
+}
 
 /**
  * Calculate route matrix using Google Routes API
@@ -106,34 +136,9 @@ export async function calculateRouteMatrix(
         throw new MapsApiError('invalid', 'Unexpected response format from Routes API')
       }
       
-      // Transform results to our format
-      const results: RouteMatrixResult[] = data.map((item: any) => {
-        // Parse duration (comes as "123s" string)
-        let durationSeconds = 0
-        if (item.duration) {
-          const match = item.duration.match(/^(\d+)s$/)
-          if (match) {
-            durationSeconds = parseInt(match[1], 10)
-          }
-        }
-        
-        // Determine status
-        let status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' = 'OK'
-        if (item.condition === 'ROUTE_NOT_FOUND') {
-          status = 'NOT_FOUND'
-        } else if (!item.distanceMeters || durationSeconds === 0) {
-          status = 'ZERO_RESULTS'
-        }
-        
-        return {
-          originIndex: item.originIndex ?? 0,
-          destinationIndex: item.destinationIndex ?? 0,
-          durationSeconds,
-          distanceMeters: item.distanceMeters ?? 0,
-          status,
-          condition: item.condition
-        }
-      })
+      const results: RouteMatrixResult[] = data.map((item: Record<string, unknown>) =>
+        parseRouteMatrixItem(item as { duration?: string; distanceMeters?: number; originIndex?: number; destinationIndex?: number; condition?: string })
+      )
       
       logger.debug('Route matrix complete', { resultsCount: results.length })
       
@@ -177,45 +182,19 @@ export async function calculateDriveTime(
   fallbackMinutes?: number
 ): Promise<DriveTimeResult | null> {
   // Validate location data before attempting API call
+  const fallbackResult = fallbackMinutes !== undefined ? toDriveTimeResult(fallbackMinutes * 60, 0, 'estimated') : null
   if (!origin.placeId && !origin.coordinates && !origin.address) {
     logger.warn('Missing origin location data')
-    if (fallbackMinutes !== undefined) {
-      return {
-        durationMinutes: fallbackMinutes,
-        durationSeconds: fallbackMinutes * 60,
-        distanceMeters: 0, // Unknown distance when using fallback
-        distanceMiles: 0,
-        source: 'estimated'
-      }
-    }
+    if (fallbackResult) return fallbackResult
     throw new MapsApiError('invalid', 'Origin location must have placeId, coordinates, or address')
   }
-  
   if (!destination.placeId && !destination.coordinates && !destination.address) {
     logger.warn('Missing destination location data')
-    if (fallbackMinutes !== undefined) {
-      return {
-        durationMinutes: fallbackMinutes,
-        durationSeconds: fallbackMinutes * 60,
-        distanceMeters: 0,
-        distanceMiles: 0,
-        source: 'estimated'
-      }
-    }
+    if (fallbackResult) return fallbackResult
     throw new MapsApiError('invalid', 'Destination location must have placeId, coordinates, or address')
   }
-  
-  // Check cache first
   const cached = getCachedDriveTime(origin, destination)
-  if (cached) {
-    return {
-      durationMinutes: Math.ceil(cached.durationSeconds / 60),
-      durationSeconds: cached.durationSeconds,
-      distanceMeters: cached.distanceMeters,
-      distanceMiles: Math.round(cached.distanceMeters / 1609.34 * 10) / 10,
-      source: 'cached'
-    }
-  }
+  if (cached) return toDriveTimeResult(cached.durationSeconds, cached.distanceMeters, 'cached')
   
   // Attempt API call with retry for transient errors
   try {
@@ -224,51 +203,22 @@ export async function calculateDriveTime(
       (error) => error instanceof MapsApiError && error.retryable
     )
     
-    if (results.length === 0 || results[0].status !== 'OK') {
+    if (results.length === 0 || results[0].status !== GOOGLE_API_STATUS.OK) {
       logger.warn('No route found between locations')
-      // Use fallback if available
-      if (fallbackMinutes !== undefined) {
-        return {
-          durationMinutes: fallbackMinutes,
-          durationSeconds: fallbackMinutes * 60,
-          distanceMeters: 0,
-          distanceMiles: 0,
-          source: 'estimated'
-        }
-      }
+      if (fallbackMinutes !== undefined) return toDriveTimeResult(fallbackMinutes * 60, 0, 'estimated')
       return null
     }
-    
     const result = results[0]
-    
-    // Cache the result for future use
     cacheDriveTime(origin, destination, result.durationSeconds, result.distanceMeters)
-    
-    return {
-      durationMinutes: Math.ceil(result.durationSeconds / 60),
-      durationSeconds: result.durationSeconds,
-      distanceMeters: result.distanceMeters,
-      distanceMiles: Math.round(result.distanceMeters / 1609.34 * 10) / 10,
-      source: 'calculated'
-    }
-    
+    return toDriveTimeResult(result.durationSeconds, result.distanceMeters, 'calculated')
   } catch (error) {
-    // API failed - use fallback if available
     if (fallbackMinutes !== undefined) {
       logger.warn('API failed, using fallback', {
         errorType: error instanceof MapsApiError ? error.type : 'unknown',
         fallbackMinutes
       })
-      return {
-        durationMinutes: fallbackMinutes,
-        durationSeconds: fallbackMinutes * 60,
-        distanceMeters: 0,
-        distanceMiles: 0,
-        source: 'estimated'
-      }
+      return toDriveTimeResult(fallbackMinutes * 60, 0, 'estimated')
     }
-    
-    // No fallback available - rethrow error
     throw error
   }
 }

@@ -9,13 +9,12 @@
 import { Router, Request, Response } from 'express'
 import { PropertyVersion, PropertyDetails, Address } from '../../../config/app.js'
 import { transformPropertyVersion } from '../../../utils/propertyTransformers.js'
-import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS } from './propertyConstants.js'
+import { ERROR_MESSAGES, DEFAULT_VALUES } from './propertyConstants.js'
 import { handleRouteError } from './propertyErrorHandler.js'
 import { validateAddressFields } from './propertyValidators.js'
 import { findOrCreateAddress, getPropertyWithAssociations, getPropertyDetailsFromVersion } from './propertyHelpers.js'
 import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
-import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 
@@ -121,7 +120,7 @@ router.post(
           addressId: addressRecord.id,
         }, { transaction })
 
-        const propertyDetails = await PropertyDetails.create({
+        await PropertyDetails.create({
           propertyVersionId: propertyVersion.id,
           source: source as 'api' | 'manual' | 'client',
           mlsNumber: mlsNumber || null,

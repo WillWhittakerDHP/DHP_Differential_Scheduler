@@ -19,7 +19,6 @@ import {
 } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
 
@@ -178,11 +177,8 @@ export function calculateSlotShape(
                 
                 // PATTERN: Just log event processing, offset calculation happens after all events are processed
                 if (useAttendeeBasedLogic) {
-                  const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-                  const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
-                  // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
-                  // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
-                  const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+                  getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+                  getMinorEventShape(eventShapeEntities, minorAttendeeIds)
                 }
               }
             } else {
@@ -192,9 +188,8 @@ export function calculateSlotShape(
               
               // PATTERN: Just log event processing, offset calculation happens after all events are processed
               if (useAttendeeBasedLogic) {
-                const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-                const minorEventShape = getMinorEventShape(eventShapeEntities, minorAttendeeIds)
-                const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+                getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+                getMinorEventShape(eventShapeEntities, minorAttendeeIds)
               }
             }
           }
@@ -287,15 +282,6 @@ export function calculateSlotShape(
     eventFinals,
     rawDifferentialOffset,
     roundedDifferentialOffset
-  }
-  let logMajorEventShape: EventShapeEntity | null = null
-  let logMinorEventShape: EventShapeEntity | null = null
-  if (useAttendeeBasedLogic) {
-    logMajorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-    const eventShapesExcludingMajorForLog = logMajorEventShape 
-      ? eventShapeEntities.filter(es => es.id !== logMajorEventShape!.id)
-      : eventShapeEntities
-    logMinorEventShape = getMinorEventShape(eventShapesExcludingMajorForLog, minorAttendeeIds)
   }
   return result
 }

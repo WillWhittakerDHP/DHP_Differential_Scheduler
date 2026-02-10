@@ -11,7 +11,14 @@
 import fs from 'fs'
 import path from 'path'
 import { createLogger } from '../utils/logger.js'
-import { oauth2Client } from './googleOAuth.js'
+import { CALENDAR_ROUTE_MESSAGES } from '../routes/external/calendarRouteConstants.js'
+
+/** Token shape for persistence; shared so callers can set credentials. */
+export interface TokenData {
+  access_token?: string | null
+  refresh_token?: string | null
+  expiry_date?: number | null
+}
 
 const logger = createLogger('googleOAuth')
 
@@ -21,16 +28,7 @@ const logger = createLogger('googleOAuth')
  * WHY: Avoids re-authentication on every server restart
  * PATTERN: File stored in server root, gitignored for security
  */
-export const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')
-
-/**
- * Token data structure
- */
-export interface TokenData {
-  access_token?: string | null
-  refresh_token?: string | null
-  expiry_date?: number | null
-}
+const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')
 
 /**
  * Validate that token file exists
@@ -42,7 +40,7 @@ export interface TokenData {
 function validateTokenFile(filePath: string): string | null {
   if (!fs.existsSync(filePath)) {
     logger.info('No saved tokens found - authentication required')
-    logger.info('Visit http://localhost:3001/api/v1/external/oauth to authenticate')
+    logger.info(`Visit http://localhost:3001${CALENDAR_ROUTE_MESSAGES.AUTH_URL} to authenticate`)
     return null
   }
   return filePath
@@ -129,24 +127,15 @@ export function saveTokensToFile(tokens: object): void {
  * - validateTokens: Check required fields
  * - logTokenStatus: Log status information
  * 
- * @returns true if tokens were loaded, false otherwise
+ * @returns Loaded token data or null if not found/invalid (caller sets credentials)
  */
-export function loadTokensFromFile(): boolean {
+export function loadTokensFromFile(): TokenData | null {
   const filePath = validateTokenFile(TOKEN_FILE)
-  if (!filePath) {
-    return false
-  }
+  if (!filePath) return null
 
   const tokens = parseTokenFile(filePath)
-  if (!tokens) {
-    return false
-  }
+  if (!tokens || !validateTokens(tokens)) return null
 
-  if (!validateTokens(tokens)) {
-    return false
-  }
-
-  oauth2Client.setCredentials(tokens)
   logTokenStatus(tokens)
-  return true
+  return tokens
 }

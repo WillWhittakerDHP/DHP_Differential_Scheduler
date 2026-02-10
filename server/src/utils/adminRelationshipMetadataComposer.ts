@@ -37,8 +37,6 @@ export async function getAdminRelationshipMetadata(
 
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
-    const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001';
-    const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002';
     const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
     const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
     

@@ -12,7 +12,6 @@
  */
 
 import { Request, Response, NextFunction } from 'express'
-import { HTTP_STATUS_CODES } from '../constants/router.js'
 
 /**
  * CSRF Protection Middleware (Stub)
@@ -88,8 +87,8 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
  */
 export function checkOwnership(
   modelName: string,
-  paramKey: string = 'id',
-  ownerField: string = 'userId'
+  _paramKey: string = 'id',
+  _ownerField: string = 'userId'
 ) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Implement ownership verification when authentication is added

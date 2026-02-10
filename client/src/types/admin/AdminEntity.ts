@@ -31,7 +31,7 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   // PATTERN: Index signature enables type-safe property access while allowing dynamic keys
   // Note: Methods are implemented separately and TypeScript should exclude them, but we use 'any' for the function type
   // to avoid conflicts with specific method signatures
-  [key: string]: any
+  [key: string]: unknown
   
   constructor(admin: GlobalEntity<GE>, displayConfig: AdminEntity<GE>['displayConfig']) {
     this.id = admin.id

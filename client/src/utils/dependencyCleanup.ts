@@ -15,6 +15,9 @@ import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('dependencyCleanup')
 
 /**
  * Clean up invalid active relationships based on dependencyImpact config
@@ -46,12 +49,13 @@ export async function cleanupInvalidActiveRelationships(
   
    
   const adminComp = useAdmin()
-  const config = null as any
-  if (!config || !config.dependencyImpact) {
+  interface DependencyImpact { affectedEntityKey: GlobalEntityKey; affectedField: string; linkingField: string }
+  const config = null as { dependencyImpact?: DependencyImpact } | null
+  if (!config?.dependencyImpact) {
     return // No dependency impact configured
   }
-  
-  const { affectedEntityKey, affectedField, linkingField } = config.dependencyImpact
+  const impact = config!.dependencyImpact!
+  const { affectedEntityKey, affectedField, linkingField } = impact
   
   const affectedEntities = adminComp.getEntitiesByKey(affectedEntityKey).filter(
     (entity) => {

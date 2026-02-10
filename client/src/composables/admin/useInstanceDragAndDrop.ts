@@ -175,7 +175,7 @@ export function useInstanceDragAndDrop(
             },
           }))
         } catch (error) {
-          logger.debug('Failed to initialize drag and drop for group', { error, groupKey })
+          logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
         }
       })
     })

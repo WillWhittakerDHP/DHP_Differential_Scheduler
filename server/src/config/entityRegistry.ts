@@ -22,8 +22,8 @@ export async function isBlockInstanceComposable(blockInstanceId: string): Promis
     }
     
     // PATTERN: Cast to any to access association, then cast association to proper type
-    const blockInstanceWithShape = blockInstance as any;
-    const blockShape = blockInstanceWithShape.block_shape as InstanceType<typeof BlockShape> | undefined;
+    const blockInstanceWithShape = blockInstance as { block_shape?: InstanceType<typeof BlockShape> };
+    const blockShape = blockInstanceWithShape.block_shape;
     
     if (!blockShape) {
       return false;

@@ -15,6 +15,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 import type { PlaceDetails } from '@/services/mapsApiService'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePropertyDetailsLogic')
 
 // FIX: Use shared PropertyDetailsData type from propertyForm.ts
 

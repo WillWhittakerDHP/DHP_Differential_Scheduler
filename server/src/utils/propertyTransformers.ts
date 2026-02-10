@@ -38,14 +38,23 @@ export const PROPERTY_FIELD_MAPPINGS = {
  * WHY: Maintains backward compatibility with existing API consumers
  * PATTERN: Pure function that transforms nested structure to flat object
  */
-export function transformPropertyVersion(propertyVersion: any) {
-  const address = propertyVersion.address
-  const propertyDetails = propertyVersion.propertyDetails?.[0] || propertyVersion.propertyDetails // Handle array or single object
+export function transformPropertyVersion(propertyVersion: unknown): Record<string, unknown> {
+  const pv = propertyVersion as Record<string, unknown> & {
+    id?: string
+    addressId?: string
+    address?: Record<string, unknown>
+    propertyDetails?: Record<string, unknown> | Record<string, unknown>[]
+    createdAt?: unknown
+    updatedAt?: unknown
+  }
+  const address = pv.address
+  const rawDetails = pv.propertyDetails
+  const propertyDetails = Array.isArray(rawDetails) ? rawDetails[0] : rawDetails as Record<string, unknown> | undefined
 
   return {
-    id: propertyVersion.id,
-    [PROPERTY_FIELD_MAPPINGS.PROPERTY_VERSION_ID]: propertyVersion.id,
-    [PROPERTY_FIELD_MAPPINGS.ADDRESS_ID]: propertyVersion.addressId,
+    id: pv.id,
+    [PROPERTY_FIELD_MAPPINGS.PROPERTY_VERSION_ID]: pv.id,
+    [PROPERTY_FIELD_MAPPINGS.ADDRESS_ID]: pv.addressId,
     [PROPERTY_FIELD_MAPPINGS.ADDRESS]: address?.[PROPERTY_FIELD_MAPPINGS.ADDRESS],
     [PROPERTY_FIELD_MAPPINGS.UNIT]: address?.[PROPERTY_FIELD_MAPPINGS.UNIT],
     [PROPERTY_FIELD_MAPPINGS.CITY]: address?.[PROPERTY_FIELD_MAPPINGS.CITY],
@@ -58,7 +67,7 @@ export function transformPropertyVersion(propertyVersion: any) {
     [PROPERTY_FIELD_MAPPINGS.FOUNDATION_ACCESS]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.FOUNDATION_ACCESS],
     [PROPERTY_FIELD_MAPPINGS.ADDITIONAL_UNITS]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.ADDITIONAL_UNITS],
     [PROPERTY_FIELD_MAPPINGS.SOURCE]: propertyDetails?.[PROPERTY_FIELD_MAPPINGS.SOURCE],
-    createdAt: propertyVersion.createdAt,
-    updatedAt: propertyVersion.updatedAt,
+    createdAt: pv.createdAt,
+    updatedAt: pv.updatedAt,
   }
 }

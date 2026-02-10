@@ -6,6 +6,9 @@ import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/useEntity'
 import { useAdmin } from '@/composables/useAdmin'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldContextState')
 import { useComponentEntity } from '@/composables/useComponentEntity'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'

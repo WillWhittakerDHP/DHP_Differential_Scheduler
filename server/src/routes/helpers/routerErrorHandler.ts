@@ -12,6 +12,20 @@ import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 
 const logger = createLogger('RouterErrorHandler')
 
+/** Sequelize validation error with optional fields/errors (runtime shape) */
+interface SequelizeValidationErrorShape {
+  name?: string
+  fields?: Record<string, unknown>
+  errors?: Array<{ path?: string; message?: string }>
+}
+
+/** JSON error response body */
+interface ErrorResponseBody {
+  error: string
+  details: string
+  id?: string
+}
+
 /**
  * Handle Sequelize validation errors
  * LEARNING: Extracted Sequelize error handling logic
@@ -43,13 +57,13 @@ export function handleSequelizeValidationError(
 
   // Handle SequelizeUniqueConstraintError
   if (error.name === 'SequelizeUniqueConstraintError') {
-    const validationError = error as any
+    const validationError = error as SequelizeValidationErrorShape
     const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field'
     const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : ''
     
-    const response: any = {
+    const response: ErrorResponseBody = {
       error: finalErrorMessage,
-      details: `${fieldName} "${fieldValue}" already exists. Please use a unique value.`,
+      details: `${fieldName} "${String(fieldValue)}" already exists. Please use a unique value.`,
     }
     
     if (entityId) {
@@ -62,17 +76,17 @@ export function handleSequelizeValidationError(
 
   // Handle SequelizeValidationError
   if (error.name === 'SequelizeValidationError') {
-    const validationError = error as any
+    const validationError = error as SequelizeValidationErrorShape
     
     // Extract field errors from errors array
     if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
-      const fieldErrors = validationError.errors.map((err: any) => {
+      const fieldErrors = validationError.errors.map((err: { path?: string; message?: string }) => {
         const fieldName = err.path || 'field'
         const message = err.message || 'Validation error'
         return `${fieldName}: ${message}`
       }).join('; ')
       
-      const response: any = {
+      const response: ErrorResponseBody = {
         error: finalErrorMessage,
         details: fieldErrors,
       }
@@ -86,7 +100,7 @@ export function handleSequelizeValidationError(
     }
     
     // Fallback to error message
-    const response: any = {
+    const response: ErrorResponseBody = {
       error: finalErrorMessage,
       details: error.message,
     }
@@ -129,7 +143,7 @@ export function handleGeneralError(
     ? errorMessage.replace('{displayName}', displayName)
     : errorMessage
   
-  const response: any = {
+  const response: ErrorResponseBody = {
     error: finalMessage,
     details: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
   }

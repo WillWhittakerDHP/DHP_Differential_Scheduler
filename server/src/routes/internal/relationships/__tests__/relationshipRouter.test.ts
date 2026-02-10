@@ -3,15 +3,7 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
 import express, { Express } from 'express'
 import { RelationshipRouter as relationshipRouter } from '../relationshipRouter'
-import {
-  ValidCascade,
-  ValidPart,
-  DependentInstance,
-  BookingCascade,
-  PartAssignment,
-  InstanceComponent,
-  BlockInstance,
-} from '../../../../config/app'
+import { PartAssignment, BlockInstance } from '../../../../config/app'
 
 jest.mock('../../../../config/app', () => ({
   ValidCascade: {
@@ -130,7 +122,7 @@ describe('Relationship Router Integration Tests', () => {
     })
 
     it('should return 400 for invalid relationship kind', async () => {
-      const response = await request(app)
+      await request(app)
         .get('/api/relationships/invalidKind/block-1/part-1')
         .expect(400)
     })
@@ -159,7 +151,7 @@ describe('Relationship Router Integration Tests', () => {
     })
 
     it('should return 400 for invalid relationship kind', async () => {
-      const response = await request(app)
+      await request(app)
         .post('/api/relationships/invalidKind')
         .send({
           parent_id: 'block-1',
@@ -224,7 +216,7 @@ describe('Relationship Router Integration Tests', () => {
     })
 
     it('should return 400 for invalid relationship kind', async () => {
-      const response = await request(app)
+      await request(app)
         .delete('/api/relationships/invalidKind/block-1/part-1')
         .expect(400)
     })
@@ -264,7 +256,7 @@ describe('Relationship Router Integration Tests', () => {
       }
 
       for (const kind of validKinds) {
-        const response = await request(app)
+        await request(app)
           .get(`/api/relationships/${kind}`)
           .expect((res) => {
             if (res.status === 400) {

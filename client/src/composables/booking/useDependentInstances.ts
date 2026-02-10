@@ -103,19 +103,23 @@ export function useDependentInstances(
     for (const id of ids) {
       const entity = getGlobalEntityById('blockInstance', id)
       if (entity) {
+        const entityRecord = entity as unknown as Record<string, unknown>
+        const blockShapeRef = (entityRecord.blockShapeRef as string) || ''
+        const blockShapeEntity = blockShapeRef ? getGlobalEntityById('blockShape', blockShapeRef) : null
+        const blockShape = (blockShapeEntity as { name?: string } | null)?.name ?? ''
         const instance: BookingBlockInstance = {
           id: entity.id,
           entityKey: 'blockInstance',
           name: entity.name,
-          baseSqFt: (entity as unknown as Record<string, unknown>).baseSqFt as number || 0,
-          icon: (entity as unknown as Record<string, unknown>).icon as string || '',
-          active: (entity as unknown as Record<string, unknown>).active as boolean ?? true,
+          baseSqFt: (entityRecord.baseSqFt as number) || 0,
+          icon: (entityRecord.icon as string) || '',
+          active: (entityRecord.active as boolean) ?? true,
           bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
-          // LEARNING: Convert boolean to TernaryBoolean for differential property
-          differential: ((entity as unknown as Record<string, unknown>).differential as boolean ?? false) ? 'true' as const : 'false' as const,
+          differential: ((entityRecord.differential as boolean) ?? false) ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
-          blockShapeRef: (entity as unknown as Record<string, unknown>).blockShapeRef as string || '',
-          activeBlockIds: (entity as unknown as Record<string, unknown>).activeBlockIds as string[] || [],
+          blockShape,
+          blockShapeRef,
+          activeBlockIds: (entityRecord.activeBlockIds as string[]) || [],
           partInstances: [],
           allowMultiple: (entity as unknown as { allowMultiple?: boolean }).allowMultiple === true,
           requiresUnitNumber:

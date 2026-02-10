@@ -20,8 +20,9 @@ import type { RFC3339DateTime } from '@/types/datetime'
  * @param timestamp - Unix timestamp in milliseconds
  * @returns Formatted date/time string
  */
-export function formatTimestamp(timestamp: number): string {
-  return new Date(timestamp).toLocaleString()
+export function formatTimestamp(timestamp: number | string): string {
+  const ms = typeof timestamp === 'string' ? new Date(timestamp).getTime() : timestamp
+  return new Date(ms).toLocaleString()
 }
 
 /**
@@ -47,14 +48,14 @@ export function formatTTL(ttl: number): string {
  */
 export function formatBusyPeriod(
   period: { start: RFC3339DateTime; end: RFC3339DateTime },
-  formatDateTimeForDisplay: (date: RFC3339DateTime, options?: any) => string,
-  formatTimeForDisplay: (date: RFC3339DateTime, options?: any) => string
+  formatDateTimeForDisplay: (date: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string,
+  formatTimeForDisplay: (date: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string
 ): string {
   const start = new Date(period.start)
   const end = new Date(period.end)
   const durationMinutes = Math.round((end.getTime() - start.getTime()) / (1000 * 60))
   
-  const startStr = formatDateTimeForDisplay(period.start as any, {
+  const startStr = formatDateTimeForDisplay(period.start, {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
@@ -62,7 +63,7 @@ export function formatBusyPeriod(
     hour12: true
   })
   
-  const endStr = formatTimeForDisplay(period.end as any, {
+  const endStr = formatTimeForDisplay(period.end, {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true

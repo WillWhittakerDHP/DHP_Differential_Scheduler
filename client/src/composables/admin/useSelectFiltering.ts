@@ -385,6 +385,7 @@ export function useSelectFiltering(
               }
             }
           } catch {
+            // Ignore form value read errors
           }
         }
       }

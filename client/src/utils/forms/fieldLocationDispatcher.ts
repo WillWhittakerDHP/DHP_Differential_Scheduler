@@ -128,7 +128,7 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
         return { type: 'directStacked', reason: 'expandedDirect' }
       }
 
-    case FIELD_VISIBILITY.EXPANDED_PANEL:
+    case FIELD_VISIBILITY.EXPANDED_PANEL: {
       // PATTERN: Check expansion state, then determine which panel
       if (!isExpanded) {
         return { type: 'hidden', reason: 'notExpanded' }
@@ -150,6 +150,7 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
 
       // PATTERN: Return hidden - panel assignment is required for expandedPanel visibility
       return { type: 'hidden', reason: 'notConfigured' }
+    }
 
     default:
       // PATTERN: Return hidden with notConfigured reason

@@ -86,7 +86,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     propertyDetailsStepData,
     wizard,
     timeSlots,
-    loadedWizardState
+    loadedWizardState: _loadedWizardState
   } = params
   
   // PATTERN: Get settings for rounding configuration

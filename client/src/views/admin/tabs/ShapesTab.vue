@@ -216,7 +216,8 @@ const handleAnnotationShapeCreate = async () => {
     isCreatingAnnotationShape.value = false
     newAnnotationShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-  } catch (error) {
+  } catch (_error) {
+    // Error already surfaced via notification
   } finally {
     isCreatingAnnotationShapeLoading.value = false
   }

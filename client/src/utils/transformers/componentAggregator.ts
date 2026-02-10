@@ -16,6 +16,9 @@ import type { GlobalData } from './fetchToGlobalTransformer'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('componentAggregator')
 
 /**
  * Convert GlobalRelationship[] to InstanceComponent[] format
@@ -157,6 +160,7 @@ export function composeProperties<GE extends GlobalEntityKey>(
   )
   
   if (entityKind === 'blockInstance') {
+    // Block instance composition handled above
   }
   
   return composed as Partial<GlobalEntity<GE>>

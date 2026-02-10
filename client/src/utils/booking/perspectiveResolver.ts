@@ -131,7 +131,7 @@ export function derivePerspective(
   }
 
   if (perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
-    return slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
+    return majorEventName != null ? (slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange) : slot.totalTimeRange
   }
   if (perspective === EVENT_PERSPECTIVE_KEYS.MINOR) {
     if (!minorEventShape || !minorEventName) {
@@ -140,7 +140,7 @@ export function derivePerspective(
     return slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
   }
   if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL) {
-    return slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
+    return majorEventName != null ? (slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange) : slot.totalTimeRange
   }
 
   return null

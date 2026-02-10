@@ -8,11 +8,11 @@
 
 import { Router, Request, Response } from 'express'
 import { BusinessSettings } from '../../../config/app.js'
-import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsConstants.js'
+import { ERROR_MESSAGES } from './businessSettingsConstants.js'
 import { handleRouteError } from './businessSettingsErrorHandler.js'
 import { validateSettingKey, validateSettingValue, validateAvailabilitySettingsWithDetails } from './businessSettingsValidators.js'
 import { transformSettingToResponse, getSettingWithDefault, mergeSettingValues } from './businessSettingsHelpers.js'
-import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent, sendError } from '../../helpers/routerResponseHelpers.js'
+import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 

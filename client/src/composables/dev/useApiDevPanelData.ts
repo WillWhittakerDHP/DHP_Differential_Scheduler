@@ -20,6 +20,12 @@ import {
 
 const logger = createLogger('ApiDevPanel')
 
+export interface OAuthStatusShape { authenticated?: boolean; hasRefreshToken?: boolean; expiryDate?: string; authUrl?: string }
+export interface RateLimitShape { requestsPerMinute?: number; currentRequests?: number; remainingRequests?: number; utilizationPercent?: number }
+export interface DevPanelCacheEntry { key: string; expired?: boolean; data?: unknown; age?: number; ttl?: number }
+export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }
+export interface DevPanelCacheShape { stats?: DevPanelCacheStats; entries?: DevPanelCacheEntry[] }
+
 /**
  * Handle rate limit response from Promise.allSettled
  * LEARNING: Extracted helper to reduce fetchRateLimitStats complexity
@@ -30,13 +36,13 @@ const logger = createLogger('ApiDevPanel')
  * @param rateLimitStats - Reactive ref to update
  */
 function handleRateLimitResponse(
-  response: PromiseSettledResult<any>,
+  response: PromiseSettledResult<unknown>,
   apiType: 'calendar' | 'maps',
-  rateLimitStats: Ref<{ calendar: any | null; maps: any | null }>
+  rateLimitStats: Ref<{ calendar: RateLimitShape | null; maps: RateLimitShape | null }>
 ): void {
-  if (response.status === 'fulfilled') {
-    rateLimitStats.value[apiType] = response.value.data
-  } else {
+  if (response.status === 'fulfilled' && response.value && typeof response.value === 'object' && 'data' in response.value) {
+    rateLimitStats.value[apiType] = (response.value as { data: RateLimitShape }).data
+  } else if (response.status === 'rejected') {
     logger.error(`Error fetching ${apiType} rate limit:`, response.reason)
   }
 }
@@ -51,8 +57,8 @@ function handleRateLimitResponse(
  * @returns True if both failed
  */
 function checkBothRateLimitsFailed(
-  calendarResponse: PromiseSettledResult<any>,
-  mapsResponse: PromiseSettledResult<any>
+  calendarResponse: PromiseSettledResult<unknown>,
+  mapsResponse: PromiseSettledResult<unknown>
 ): boolean {
   return calendarResponse.status === 'rejected' && mapsResponse.status === 'rejected'
 }
@@ -67,16 +73,16 @@ function checkBothRateLimitsFailed(
  */
 export function useApiDevPanelData(apiBaseUrl: string) {
   // API data state
-  const oauthStatus = ref<any>(null)
-  const eventsCache = ref<any>(null)
+  const oauthStatus = ref<OAuthStatusShape | null>(null)
+  const eventsCache = ref<DevPanelCacheShape | null>(null)
   const rateLimitStats = ref<{
-    calendar: any | null
-    maps: any | null
+    calendar: RateLimitShape | null
+    maps: RateLimitShape | null
   }>({
     calendar: null,
     maps: null
   })
-  const driveTimeCache = ref<any>(null)
+  const driveTimeCache = ref<DevPanelCacheShape | null>(null)
   
   const loading = ref({
     oauth: false,
@@ -101,8 +107,9 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/v1/external/oauth/status`)
       oauthStatus.value = response.data
-    } catch (error: any) {
-      errors.value.oauth = error.response?.data?.message || error.message || ERROR_FETCH_OAUTH_STATUS
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      errors.value.oauth = err.response?.data?.message || err.message || ERROR_FETCH_OAUTH_STATUS
       logger.error('Error fetching OAuth status:', error)
     } finally {
       loading.value.oauth = false
@@ -118,8 +125,9 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/v1/external/calendar/debug/events-cache`)
       eventsCache.value = response.data
-    } catch (error: any) {
-      errors.value.events = error.response?.data?.message || error.message || ERROR_FETCH_EVENTS_CACHE
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      errors.value.events = err.response?.data?.message || err.message || ERROR_FETCH_EVENTS_CACHE
       logger.error('Error fetching events cache:', error)
     } finally {
       loading.value.events = false
@@ -146,8 +154,9 @@ export function useApiDevPanelData(apiBaseUrl: string) {
       if (checkBothRateLimitsFailed(calendarResponse, mapsResponse)) {
         errors.value.ratelimit = ERROR_FETCH_RATE_LIMIT_BOTH
       }
-    } catch (error: any) {
-      errors.value.ratelimit = error.response?.data?.message || error.message || ERROR_FETCH_RATE_LIMIT
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      errors.value.ratelimit = err.response?.data?.message || err.message || ERROR_FETCH_RATE_LIMIT
       logger.error('Error fetching rate limit stats:', error)
     } finally {
       loading.value.ratelimit = false
@@ -163,8 +172,9 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/v1/external/maps/debug/drive-time-cache`)
       driveTimeCache.value = response.data
-    } catch (error: any) {
-      errors.value.drivetime = error.response?.data?.message || error.message || ERROR_FETCH_DRIVE_TIME_CACHE
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      errors.value.drivetime = err.response?.data?.message || err.message || ERROR_FETCH_DRIVE_TIME_CACHE
       logger.error('Error fetching drive time cache:', error)
     } finally {
       loading.value.drivetime = false
@@ -198,8 +208,9 @@ export function useApiDevPanelData(apiBaseUrl: string) {
       // Extract cache data (for use when tabs are opened)
       eventsCache.value = data.caches.events
       driveTimeCache.value = data.caches.driveTime
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || ERROR_FETCH_DEV_STATUS
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      const errorMessage = err.response?.data?.message || err.message || ERROR_FETCH_DEV_STATUS
       errors.value.oauth = errorMessage
       errors.value.ratelimit = errorMessage
       logger.error('Error fetching dev status:', error)

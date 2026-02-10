@@ -15,7 +15,6 @@ import { validateEntityType, validateRequiredFields, validateInputConfig } from 
 import { transformMetadataToRecord } from './adminRelationshipMetadataHelpers.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
-import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 

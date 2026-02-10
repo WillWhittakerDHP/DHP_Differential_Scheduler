@@ -1,6 +1,7 @@
-import { Router, Request, Response } from 'express';
-import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js';
-import { createLogger } from '../../utils/logger.js';
+import { Router, Request, Response } from 'express'
+import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js'
+import { createLogger } from '../../utils/logger.js'
+import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js'
 
 const logger = createLogger('GoogleOAuthRoutes');
 
@@ -113,7 +114,7 @@ router.get('/status', (_req: Request, res: Response): void => {
       // Return unauthenticated status if credentials check fails
       res.json({
         authenticated: false,
-        authUrl: '/api/v1/external/oauth',
+        authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
         message: 'Visit the authUrl to authenticate with Google',
         error: credError.message
       });
@@ -133,9 +134,9 @@ router.get('/status', (_req: Request, res: Response): void => {
     
     res.json({
       authenticated: false,
-      authUrl: '/api/v1/external/oauth',
+      authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
       message: 'Visit the authUrl to authenticate with Google'
-    });
+    })
     
   } catch (error: any) {
     logger.error('Error checking status:', error);

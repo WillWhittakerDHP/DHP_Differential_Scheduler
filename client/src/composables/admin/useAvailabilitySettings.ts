@@ -4,7 +4,7 @@
  * PATTERN: Composable handles all availability settings logic
  */
 
-import { ref, onMounted, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import type { 
   AvailabilitySettings,
@@ -143,7 +143,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         // OOO enforcement: Load overlapSources for out-of-office toggle
         overlapSources: rawSettings.overlapSources
       } as AvailabilitySettings
-    } catch (err: any) {
+    } catch (err: unknown) {
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
       throw err
     } finally {
@@ -318,8 +318,9 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       setTimeout(() => {
         success.value = null
       }, 3000)
-    } catch (err: any) {
-      error.value = err.response?.data?.error || 'Failed to save settings. Please try again.'
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: string } } }
+      error.value = axiosErr.response?.data?.error || 'Failed to save settings. Please try again.'
     } finally {
       saving.value = false
     }

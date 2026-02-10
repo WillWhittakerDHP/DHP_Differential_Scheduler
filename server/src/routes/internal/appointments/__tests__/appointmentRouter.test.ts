@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import request from 'supertest'
 import express, { Express } from 'express'
 import { AppointmentRouter as appointmentRouter } from '../appointmentRouter'
-import { Appointment, PropertyVersion, Address, PropertyDetails, User } from '../../../../config/app'
+import { Appointment } from '../../../../config/app'
 
 type AppointmentType = { id: string; startTime: Date; endTime?: Date }
 

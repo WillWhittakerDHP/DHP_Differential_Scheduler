@@ -63,7 +63,7 @@ export function calculateBlockInstanceFee(
 ): BlockInstanceFeeResult {
   // PATTERN: Create BlockFinal for consistency with new architecture
   // LEARNING: Uses createBlockFinal to finalize the block instance
-  const blockFinal = createBlockFinal(blockInstance, null)
+  const blockFinal = createBlockFinal(blockInstance)
   const nonZeroedFinalizedParts = filterZeroedParts(blockFinal.finalizedParts)
   
   // PATTERN: Flat map sourcePartInstances from non-zeroed finalized parts

@@ -7,7 +7,7 @@
  */
 
 import { Op } from 'sequelize'
-import { BusinessSettings, BlockInstanceVersion, AppointmentAttendee, Appointment, PropertyVersion, Address, PropertyDetails, User, BlockInstance } from '../../../config/app.js'
+import { BusinessSettings, BlockInstanceVersion, AppointmentAttendee, PropertyVersion, Address, PropertyDetails, User, BlockInstance } from '../../../config/app.js'
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'

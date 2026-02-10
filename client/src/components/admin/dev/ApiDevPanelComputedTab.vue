@@ -10,11 +10,12 @@
 import { computed } from 'vue'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { CalendarEvent as SharedCalendarEvent } from '@shared/types/availabilityTypes'
+import type { RFC3339DateTime } from '@/types/datetime'
 
 interface Props {
   computedAvailability: UseComputedAvailabilityReturn | null
-  formatDateTimeForDisplay: (date: any, options?: any) => string
-  formatTimeForDisplay: (date: any, options?: any) => string
+  formatDateTimeForDisplay: (date: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string
+  formatTimeForDisplay: (date: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string
 }
 
 const props = defineProps<Props>()

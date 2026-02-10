@@ -6,14 +6,13 @@
  * PATTERN: Factory-generated router with custom GET / override for query filtering and extra route
  */
 
-import { Router, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { BusinessRule } from '../../config/app.js'
 import { createCrudRouter } from '../helpers/createCrudRouter.js'
 import { ERROR_MESSAGES } from './businessRulesConstants.js'
 import { handleRouteError } from './businessRulesErrorHandler.js'
 import { validateRequiredFields, validateRuleType } from './businessRulesValidators.js'
-import { sendSuccess, sendBadRequest } from '../helpers/routerResponseHelpers.js'
-import { HTTP_STATUS_CODES } from '../../constants/router.js'
+import { sendSuccess } from '../helpers/routerResponseHelpers.js'
 import { ValidationResult } from '../helpers/routerValidators.js'
 
 // Create base CRUD router using factory with custom GET / handler for query filtering

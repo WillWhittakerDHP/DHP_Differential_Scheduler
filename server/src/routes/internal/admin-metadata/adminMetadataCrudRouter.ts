@@ -7,7 +7,6 @@
  */
 
 import { Router, Request, Response } from 'express'
-import { Op } from 'sequelize'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { getAdminMetadata } from '../../../utils/adminMetadataComposer.js'
 import { ERROR_MESSAGES } from './adminMetadataConstants.js'
@@ -21,10 +20,10 @@ import {
   buildMetadataWhereClause,
   buildBatchMetadataResult,
 } from './adminMetadataHelpers.js'
-import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess, sendCreated, sendNoContent, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const logger = createLogger('AdminMetadataRouter')
 

@@ -40,7 +40,7 @@ export function getModelAttributesExcluding<T extends Model>(
 export function isModelUnderscored<T extends Model>(
   ModelClass: ModelStatic<T>
 ): boolean {
-  const modelOptions = (ModelClass as any).options;
+  const modelOptions = (ModelClass as { options?: { underscored?: boolean } }).options;
   return modelOptions?.underscored === true;
 }
 

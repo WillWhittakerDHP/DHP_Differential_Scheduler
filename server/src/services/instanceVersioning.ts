@@ -1,6 +1,5 @@
 import { Op, Model } from 'sequelize';
-import type { InferAttributes } from 'sequelize';
-import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion, PartAssignment } from '../config/app.js';
+import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
 
 /**
  * Instance Versioning Service

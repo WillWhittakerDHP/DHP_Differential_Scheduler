@@ -12,12 +12,10 @@ import type { AppointmentShape } from '@/types/appointment'
 import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useGlobal } from '@/composables/useGlobal'
-import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity, EventShapeEntity } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAppointmentShape')
@@ -69,23 +67,11 @@ export function useAppointmentShape(
       // WHY: Relationships are transformed to nested format with parent and children arrays
       // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
       if (attendeeAssignmentsRelationships.length > 0) {
-        // PATTERN: Find major/minor event shapes once, then use for all event shapes
-        const majorEventShape = settings.value?.differentialPerspectives?.majorAttendees && globalData
-          ? getMajorEventShape(eventShapes as EventShapeEntity[], settings.value.differentialPerspectives.majorAttendees)
-          : null
-        const eventShapesExcludingMajor = majorEventShape
-          ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
-          : (eventShapes as EventShapeEntity[])
-        const minorEventShape = settings.value?.differentialPerspectives?.minorAttendees && globalData
-          ? getMinorEventShape(eventShapesExcludingMajor, settings.value.differentialPerspectives.minorAttendees)
-          : null
-        
         eventShapes = eventShapes.map(eventShape => {
           const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
           const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
           // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
           // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
-          const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
           return { ...eventShape, attendees }
         })
       } else {

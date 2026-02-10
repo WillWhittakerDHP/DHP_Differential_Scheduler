@@ -92,6 +92,7 @@ export function useSelectFieldValue(
         
         // PATTERN: Check if missing entities actually exist before warning
         if (isDevModeEnabled() && normalized.length !== validValues.length) {
+          // Dev-only: could log missing entity ids here
         }
         
         return validValues

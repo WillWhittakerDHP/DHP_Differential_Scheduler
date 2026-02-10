@@ -130,8 +130,8 @@ const vDatePickerDisplayDate = ref<Date>(new Date(Date.UTC(today.getUTCFullYear(
 const {
   accumulatedBlockInstances,
   dateRangeForApi,
-  propertyDetails,
-  timeSlotsPerDay,
+  propertyDetails: _propertyDetails,
+  timeSlotsPerDay: _timeSlotsPerDay,
   selectedDateSingle,
   isEffectivelyDifferential
 } = useAvailabilityLogic({

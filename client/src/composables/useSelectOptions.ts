@@ -287,7 +287,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         return result
       } catch (error) {
-        logger.debug('Failed to group select options', { error, entityKey: String(optionEntityKey.value) })
+        logger.debug('Failed to group select options', { error, groupByKey: config.groupByKey })
       }
     }
     

@@ -427,12 +427,8 @@ async function importCalendarData(events?: CalendarEvent[]): Promise<void> {
         logger.info('  3. Call importCalendarData([events]) programmatically');
         return;
       } else {
-        try {
-          eventsToProcess = await readEventsFromStdin();
-          logger.info(`📆 Processing ${eventsToProcess.length} calendar events from input...`);
-        } catch (error) {
-          throw error;
-        }
+        eventsToProcess = await readEventsFromStdin();
+        logger.info(`📆 Processing ${eventsToProcess.length} calendar events from input...`);
       }
     }
     

@@ -6,7 +6,7 @@
  * PATTERN: Simple state management composable
  */
 
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export type DevPanelTab = 'status' | 'drivetime' | 'computed'
 

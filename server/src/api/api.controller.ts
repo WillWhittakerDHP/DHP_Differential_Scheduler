@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const apiGet = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json({ msg: "🚀 hello from v1 api" });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "An error occurred" });
   }
 };
@@ -11,7 +11,7 @@ const apiGet = async (req: Request, res: Response): Promise<void> => {
 const apiPost = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json({ msg: req.body });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "An error occurred" });
   }
 };

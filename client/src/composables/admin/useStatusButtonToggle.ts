@@ -18,6 +18,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import type { TernaryBoolean } from '@/types/ternary'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useStatusButtonToggle')
 
 export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
   entityKey: GE
@@ -155,7 +158,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       
       if (entityKey === 'blockShape' && newValue === true) {
         if (fieldKey === 'isStateControl') {
-          const currentCanHaveParts = (currentEntity as any).canHaveParts === true
+          const currentCanHaveParts = (currentEntity as unknown as Record<string, unknown>).canHaveParts === true
           if (currentCanHaveParts) {
             updatePayload.push({
               admin: { key: 'canHaveParts', value: false },
@@ -163,7 +166,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
             })
           }
         } else if (fieldKey === 'canHaveParts') {
-          const currentIsStateControl = (currentEntity as any).isStateControl === true
+          const currentIsStateControl = (currentEntity as unknown as Record<string, unknown>).isStateControl === true
           if (currentIsStateControl) {
             updatePayload.push({
               admin: { key: 'isStateControl', value: false },

@@ -100,7 +100,6 @@ function filterAndSortBlockInstances(
     .filter((blockInstance) => {
       const isActive = isEntityActive(blockInstance as unknown as Record<string, unknown>)
       const isComponentChild = componentIds.has(blockInstance.id)
-      const bookingMode = getBookingMode(blockInstance)
       return isActive && !isComponentChild && predicate(blockInstance)
     })
     .map((blockInstance) =>
@@ -185,7 +184,7 @@ function transformBlockInstance(
   bookingCascadesRelationships: GlobalRelationship[],
   instanceComponentsRelationships: GlobalRelationship[],
   partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
-  blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
+  _blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
   partShapeById: Map<string, GlobalEntity<'partShape'>>
 ): BookingBlockInstance {
   const partInstanceIds = resolvePartInstanceIds(
@@ -229,6 +228,8 @@ function transformBlockInstance(
   }
 
   const differential = convertDifferentialToTernary(blockInstanceWithProps.differential)
+  const blockShapeEntity = _blockShapeById.get(blockShapeRef)
+  const blockShape = blockShapeEntity?.name ?? ''
 
   return {
     id: blockInstance.id,
@@ -240,6 +241,7 @@ function transformBlockInstance(
     bookingMode: (blockInstanceWithProps.bookingMode ?? DEFAULT_BOOKING_MODE) as import('@/constants/entities').BookingMode,
     differential,
     orderIndex: blockInstance.orderIndex,
+    blockShape,
     blockShapeRef,
     activeBlockIds,
     partInstances,

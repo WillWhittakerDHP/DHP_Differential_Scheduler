@@ -6,7 +6,7 @@
  * PATTERN: Shared state composable with persistent refs
  */
 
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 
 export type ApiCallStatus = 'hit' | 'error' | 'not_called'
 

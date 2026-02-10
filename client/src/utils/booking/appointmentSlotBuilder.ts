@@ -7,7 +7,6 @@
  */
 
 import type {
-  TimeRange,
   AppointmentShape,
   AppointmentSlot
 } from '@/types/appointment'

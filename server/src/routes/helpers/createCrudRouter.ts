@@ -25,7 +25,7 @@
  * ```
  */
 
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
 import { Model } from 'sequelize'
 import { csrfProtection, checkOwnership } from '../../middlewares/security.js'
 import type { CrudRouterConfig, CrudHandlerContext } from './crudRouterTypes.js'

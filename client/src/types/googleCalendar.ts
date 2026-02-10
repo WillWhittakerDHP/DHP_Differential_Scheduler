@@ -19,7 +19,7 @@ export interface GoogleCalendarBusyPeriod {
   end: string    // RFC3339 format
 }
 
-export interface GoogleCalendarError {
+interface GoogleCalendarError {
   domain: string  // Error domain (e.g., "global")
   reason: string   // Error reason (e.g., "notFound", "groupTooBig")
 }
@@ -30,12 +30,12 @@ export interface GoogleCalendarError {
  * WHY: Google Calendar API returns busy periods per calendar
  * PATTERN: busy array contains all busy periods, errors array is optional
  */
-export interface GoogleCalendarFreeBusy {
+interface GoogleCalendarFreeBusy {
   busy: GoogleCalendarBusyPeriod[]
   errors?: GoogleCalendarError[]
 }
 
-export interface GoogleCalendarGroup {
+interface GoogleCalendarGroup {
   calendars: string[]
   errors?: GoogleCalendarError[]
 }

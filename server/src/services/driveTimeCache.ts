@@ -36,7 +36,7 @@ const cache: Map<string, DriveTimeCacheEntry> = new Map();
  * LEARNING: Routes don't change often, 24 hour cache is reasonable
  * WHY: Traffic patterns change, but basic route structure is stable
  */
-const DEFAULT_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const _DEFAULT_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds (reserved for future use)
 
 /**
  * Configuration from environment

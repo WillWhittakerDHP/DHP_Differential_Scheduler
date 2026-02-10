@@ -26,7 +26,6 @@ import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import type { PropertyDetailsStepData } from '@/types/wizard'
-import { MapsApiError } from '@/services/mapsApiService'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('PropertyDetailsStep')

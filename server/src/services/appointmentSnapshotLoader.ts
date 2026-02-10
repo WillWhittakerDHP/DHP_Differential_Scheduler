@@ -1,7 +1,5 @@
-import type { InferAttributes } from 'sequelize';
 import { Model } from 'sequelize';
 import { BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
-import { Op } from 'sequelize';
 import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('SnapshotLoader');
@@ -14,7 +12,6 @@ const logger = createLogger('SnapshotLoader');
  * PATTERN: Transform versions to BookingBlockInstance format
  */
 
-type BlockInstanceVersionType = InstanceType<typeof BlockInstanceVersion>;
 type PartInstanceVersionType = InstanceType<typeof PartInstanceVersion>;
 
 /**
