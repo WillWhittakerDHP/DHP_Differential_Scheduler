@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-09T16:43:15.649Z",
-  "totalFiles": 1138,
+  "generatedAt": "2026-02-10T13:52:16.111Z",
+  "totalFiles": 1129,
   "thresholds": {
     "maxFanOut": 15,
     "maxFanIn": 20
@@ -70,11 +70,11 @@
       "length": 2
     },
     {
-      "key": "client/src/utils/booking/slotAvailabilityManager -> client/src/utils/booking/slotAvailabilityMarker -> client/src/utils/booking/slotAvailabilityManager",
+      "key": "server/src/config/googleOAuth -> server/src/config/googleOAuthTokenPersistence -> server/src/config/googleOAuth",
       "chain": [
-        "client/src/utils/booking/slotAvailabilityManager",
-        "client/src/utils/booking/slotAvailabilityMarker",
-        "client/src/utils/booking/slotAvailabilityManager"
+        "server/src/config/googleOAuth",
+        "server/src/config/googleOAuthTokenPersistence",
+        "server/src/config/googleOAuth"
       ],
       "length": 2
     },
@@ -117,16 +117,6 @@
         "client/src/types/appointment"
       ],
       "length": 3
-    },
-    {
-      "key": "client/src/utils/booking/overlapConstraintChecker -> client/src/utils/booking/slotAvailabilityManager -> client/src/utils/booking/slotAvailabilityMarker -> client/src/utils/booking/overlapConstraintChecker",
-      "chain": [
-        "client/src/utils/booking/overlapConstraintChecker",
-        "client/src/utils/booking/slotAvailabilityManager",
-        "client/src/utils/booking/slotAvailabilityMarker",
-        "client/src/utils/booking/overlapConstraintChecker"
-      ],
-      "length": 3
     }
   ],
   "fanOutViolations": [
@@ -136,7 +126,7 @@
     },
     {
       "file": "client/src/components/booking/steps/AvailabilityStep",
-      "fanOut": 30
+      "fanOut": 27
     },
     {
       "file": "client/src/components/booking/BookingWizard",
@@ -155,42 +145,46 @@
       "fanOut": 21
     },
     {
+      "file": "client/src/views/admin/tabs/BusinessControlsTab",
+      "fanOut": 19
+    },
+    {
       "file": "client/src/components/booking/steps/PropertyDetailsStep",
       "fanOut": 17
     }
   ],
   "fanInViolations": [
     {
-      "file": "client/src/constants/entities",
+      "file": "client/src/types/entities",
       "fanIn": 125
     },
     {
-      "file": "client/src/types/entities",
-      "fanIn": 123
+      "file": "client/src/constants/entities",
+      "fanIn": 125
     },
     {
       "file": "client/src/constants/primitives",
       "fanIn": 75
     },
     {
-      "file": "client/src/types/appointment",
-      "fanIn": 52
-    },
-    {
       "file": "client/src/utils/logger",
-      "fanIn": 51
+      "fanIn": 49
     },
     {
       "file": "client/src/utils/transformers/globalToBookingTransformer",
       "fanIn": 49
     },
     {
-      "file": "client/src/composables/useGlobal",
-      "fanIn": 38
+      "file": "client/src/types/appointment",
+      "fanIn": 47
     },
     {
-      "file": "client/src/types/datetime",
-      "fanIn": 34
+      "file": "server/src/utils/logger",
+      "fanIn": 45
+    },
+    {
+      "file": "client/src/composables/useGlobal",
+      "fanIn": 38
     },
     {
       "file": "client/src/types/entityMetadata",
@@ -206,15 +200,23 @@
     },
     {
       "file": "server/src/config/app",
-      "fanIn": 28
+      "fanIn": 26
     },
     {
       "file": "server/src/constants/router",
-      "fanIn": 27
+      "fanIn": 26
     },
     {
       "file": "client/src/utils/api",
       "fanIn": 25
+    },
+    {
+      "file": "client/src/types/datetime",
+      "fanIn": 25
+    },
+    {
+      "file": "client/src/utils/transformers/fetchToGlobalTransformer",
+      "fanIn": 21
     }
   ],
   "crossBoundary": [],
@@ -246,16 +248,6 @@
     },
     {
       "file": "client/src/utils/booking/partFinalizer",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/utils/booking/slotAvailabilityManager",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/utils/booking/slotAvailabilityMarker",
       "score": 20,
       "priority": "P0"
     },
@@ -295,6 +287,16 @@
       "priority": "P1"
     },
     {
+      "file": "server/src/config/googleOAuth",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "server/src/config/googleOAuthTokenPersistence",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "file": "client/src/components/admin/generic/fields/FieldRenderer",
       "score": 10,
       "priority": "P1"
@@ -311,11 +313,6 @@
     },
     {
       "file": "client/src/types/userTypes",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/utils/booking/overlapConstraintChecker",
       "score": 10,
       "priority": "P1"
     },
@@ -345,6 +342,11 @@
       "priority": "P2"
     },
     {
+      "file": "client/src/views/admin/tabs/BusinessControlsTab",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/components/booking/steps/PropertyDetailsStep",
       "score": 3,
       "priority": "P2"
@@ -370,12 +372,12 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/composables/useGlobal",
+      "file": "server/src/utils/logger",
       "score": 2,
       "priority": "P2"
     },
     {
-      "file": "client/src/types/datetime",
+      "file": "client/src/composables/useGlobal",
       "score": 2,
       "priority": "P2"
     },
@@ -406,6 +408,16 @@
     },
     {
       "file": "client/src/utils/api",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/datetime",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/transformers/fetchToGlobalTransformer",
       "score": 2,
       "priority": "P2"
     }

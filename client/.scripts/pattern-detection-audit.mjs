@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Pattern Detection Audit Script
@@ -87,6 +87,8 @@ function shouldExcludeDir(repoPath) {
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding with intentional patterns)
+  if (isSeedScript(repoPath)) return true
   // Exclude @core and @layouts for client files only
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
     return true
@@ -119,7 +121,7 @@ function listFilesRecursive(dir) {
       out.push(...listFilesRecursive(abs))
       continue
     }
-    if (e.isFile() && isScannable(abs)) out.push(abs)
+    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
   }
   return out
 }

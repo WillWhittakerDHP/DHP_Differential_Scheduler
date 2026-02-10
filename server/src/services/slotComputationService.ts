@@ -33,6 +33,8 @@ interface EventWithDrive {
   start: Date
   end: Date
   source: 'event' | 'outOfOffice'
+  /** Per-event enforcement level (defaults to 'hard' if omitted) */
+  enforcement?: 'flexible' | 'hard'
   placeId?: string
   driveToMinutes?: number
   driveFromMinutes?: number
@@ -136,7 +138,12 @@ function checkOverlapConstraints(
     if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
       const source = event.source === 'outOfOffice' ? 'outOfOffice' : 'event'
       violations.push(`overlap.${source}.direct`)
-      hasHardOverlap = true
+      // LEARNING: Flexible-enforcement events produce violations but don't hard-block the slot
+      // WHY: Allows admin to see OOO conflicts as warnings without preventing booking
+      const eventEnforcement = event.enforcement ?? 'hard'
+      if (eventEnforcement === 'hard') {
+        hasHardOverlap = true
+      }
     }
 
     if (event.source !== 'event') continue
@@ -214,11 +221,13 @@ function attachDriveTimesToEvents(
   regularEvents: CalendarEvent[],
   outOfOfficeEvents: CalendarEvent[],
   driveTimesByPlaceId: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>,
-  onlyOpaque: boolean
+  onlyOpaque: boolean,
+  /** Enforcement level for out-of-office events (defaults to 'hard') */
+  oooEnforcement: 'flexible' | 'hard' = 'hard'
 ): EventWithDrive[] {
   const result: EventWithDrive[] = []
 
-  const process = (event: CalendarEvent, source: 'event' | 'outOfOffice') => {
+  const process = (event: CalendarEvent, source: 'event' | 'outOfOffice', enforcement?: 'flexible' | 'hard') => {
     if (onlyOpaque && event.transparency === 'transparent') return
 
     const driveTo = event.placeId ? driveTimesByPlaceId[event.placeId]?.driveToCandidate : undefined
@@ -228,6 +237,7 @@ function attachDriveTimesToEvents(
       start: new Date(event.start),
       end: new Date(event.end),
       source,
+      enforcement,
       placeId: event.placeId,
       driveToMinutes: source === 'event' ? driveTo : undefined,
       driveFromMinutes: source === 'event' ? driveFrom : undefined,
@@ -235,7 +245,7 @@ function attachDriveTimesToEvents(
   }
 
   for (const e of regularEvents) process(e, 'event')
-  for (const e of outOfOfficeEvents) process(e, 'outOfOffice')
+  for (const e of outOfOfficeEvents) process(e, 'outOfOffice', oooEnforcement)
   return result
 }
 
@@ -252,7 +262,9 @@ export function computeSlotsForDateRange(
   driveTimesByPlaceId: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>,
   businessHoursConfig: BusinessHoursConfig,
   _timezone: string, // Pass-through for client/UI; server uses UTC/RFC3339 only
-  now: Date = new Date()
+  now: Date = new Date(),
+  /** Enforcement level for out-of-office events (defaults to 'hard') */
+  oooEnforcement: 'flexible' | 'hard' = 'hard'
 ): Record<string, ComputedSlot[]> {
   const active = filterActiveConstraints(constraints)
   const { range: rangeConstraints, overlap: overlapConstraints, capacity: capacityConstraints } =
@@ -270,7 +282,8 @@ export function computeSlotsForDateRange(
     regularEvents,
     outOfOfficeEvents,
     driveTimesByPlaceId,
-    true
+    true,
+    oooEnforcement
   )
 
   // Minimum slot start: now + lead time (or now if no lead time). Slots before this are not generated.

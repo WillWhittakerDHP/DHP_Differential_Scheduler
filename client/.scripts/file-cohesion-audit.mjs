@@ -4,6 +4,8 @@ import {
   loadConfigAllowlist,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
+  isCompiledJsFile,
+  isSeedScript,
 } from './audit-exceptions.mjs'
 
 /**
@@ -59,6 +61,7 @@ function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.s
 function isExcluded(repoPath, configAllowlist) {
   if (repoPath.includes('/migrations/') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) return true
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) return true
+  if (isSeedScript(repoPath)) return true
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) return true
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) return true
   if (repoPath.includes('.scripts/') || repoPath.includes('.audit-reports/')) return true
@@ -80,7 +83,7 @@ function listFilesRecursive(dirPath) {
       const rp = toRepoPath(full)
       if (rp.includes('node_modules') || rp.includes('/dist/') || rp.includes('.git/')) continue
       if (e.isDirectory()) files.push(...listFilesRecursive(full))
-      else if (e.isFile() && isScannable(full)) files.push(full)
+      else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files

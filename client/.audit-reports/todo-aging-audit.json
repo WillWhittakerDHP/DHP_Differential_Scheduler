@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-02-09T16:43:15.311Z",
-  "totalScanned": 1138,
+  "generatedAt": "2026-02-10T13:52:15.885Z",
+  "totalScanned": 1129,
   "totals": {
-    "totalScanned": 1138,
-    "totalMarkers": 32,
+    "totalScanned": 1129,
+    "totalMarkers": 30,
     "fresh": 1,
     "aging": 0,
     "stale": 0,
-    "ancient": 31,
-    "orphaned": 32
+    "ancient": 29,
+    "orphaned": 30
   },
   "files": [
     {
@@ -140,7 +140,7 @@
       "repoPath": "client/src/utils/booking/PartFinal.ts",
       "markers": [
         {
-          "lineNumber": 73,
+          "lineNumber": 66,
           "marker": "TODO",
           "line": "major: 'false' as const, // TODO: Compute from eventAssignments relationships",
           "category": "ancient",
@@ -148,7 +148,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 74,
+          "lineNumber": 67,
           "marker": "TODO",
           "line": "minor: 'false' as const, // TODO: Compute from eventAssignments relationships",
           "category": "ancient",
@@ -156,7 +156,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 75,
+          "lineNumber": 68,
           "marker": "TODO",
           "line": "moveable: false, // TODO: Compute from eventAssignments relationships",
           "category": "ancient",
@@ -166,29 +166,6 @@
       ],
       "score": 21,
       "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "markers": [
-        {
-          "lineNumber": 786,
-          "marker": "TODO",
-          "line": "<!-- TODO: Implement Date Range Constraint UI",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 1143,
-          "marker": "TODO",
-          "line": "<!-- TODO: Implement Lunch Buffer UI",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 14,
-      "priority": "P1"
     },
     {
       "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
@@ -262,24 +239,9 @@
       "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
       "markers": [
         {
-          "lineNumber": 114,
+          "lineNumber": 136,
           "marker": "TODO",
           "line": "* TODO: Update to use orderIndex-based matching when AppointmentSlots are available",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
-      "markers": [
-        {
-          "lineNumber": 164,
-          "marker": "TODO",
-          "line": "dataSource: 'real', // TODO: Support dataSource toggle from dev panel",
           "category": "ancient",
           "days": 999,
           "orphaned": true
@@ -334,12 +296,27 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/utils/booking/partShapeAggregator.ts",
+      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
       "markers": [
         {
-          "lineNumber": 145,
+          "lineNumber": 249,
           "marker": "TODO",
-          "line": "eventFinals: [], // TODO: Convert eventDurations to eventFinals array format",
+          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Lunch Buffer UI -->",
+          "category": "ancient",
+          "days": 999,
+          "orphaned": true
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
+      "markers": [
+        {
+          "lineNumber": 90,
+          "marker": "TODO",
+          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->",
           "category": "ancient",
           "days": 999,
           "orphaned": true
@@ -367,7 +344,7 @@
       "repoPath": "server/src/services/appointmentCalendarService.ts",
       "markers": [
         {
-          "lineNumber": 355,
+          "lineNumber": 358,
           "marker": "TODO",
           "line": "// TODO: Implement status sync from Google Calendar",
           "category": "ancient",
@@ -386,7 +363,7 @@
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
           "category": "fresh",
-          "days": 8,
+          "days": 9,
           "orphaned": true
         }
       ],

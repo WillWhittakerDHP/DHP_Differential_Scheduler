@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-02-09T16:43:07.882Z",
+  "generatedAt": "2026-02-10T13:52:11.109Z",
   "check": "Deprecation",
-  "totalScanned": 1111,
+  "totalScanned": 1113,
   "exceptionSummary": {
-    "totalAllowed": 0,
-    "totalRequiresReview": 435,
+    "totalAllowed": 3,
+    "totalRequiresReview": 394,
     "bySource": {
-      "inline": 0,
+      "inline": 3,
       "pattern": 0,
       "specific": 0
     }
@@ -18,187 +18,133 @@
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 89,
-          "line": "differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 97,
-          "line": "onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 98,
-          "line": "clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 195,
-          "line": "// LEARNING: Convert boolean to TernaryBoolean for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 210,
-          "line": "name: pi.name || '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 217,
-          "line": "orderIndex: currentPart?.orderIndex ?? 0,",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 218,
-          "line": "partShape: currentPart?.partShape || '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 228,
-          "line": "icon: version.icon || '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 265,
-          "line": "const fallback = findBlockInstanceById(bookingData, userTypeId)",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 266,
-          "line": "if (fallback) {",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 288,
-          "line": "const serviceIds = appointment.selectedServiceIds || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 325,
-          "line": "const propertyTypeBlockIds = appointment.selectedPropertyIds || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 353,
-          "line": "const optionTypeBlockIds = appointment.selectedOptionIds || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 378,
-          "line": "const lineItemBlockIds = (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds || []",
-          "section": "legacy-accommodation"
-        },
-        {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 430,
+          "lineNumber": 136,
           "line": "address: address?.address ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 431,
+          "lineNumber": 137,
           "line": "unit: address?.unit ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 432,
+          "lineNumber": 138,
           "line": "city: address?.city ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 433,
+          "lineNumber": 139,
           "line": "state: address?.state ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 434,
+          "lineNumber": 140,
           "line": "zipCode: address?.zipCode ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 464,
-          "line": ") || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 178,
+          "line": ") ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 470,
-          "line": "firstName: user?.firstName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 184,
+          "line": "firstName: user?.firstName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 471,
-          "line": "lastName: user?.lastName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 185,
+          "line": "lastName: user?.lastName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 472,
-          "line": "email: user?.email || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 186,
+          "line": "email: user?.email ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 479,
-          "line": "firstName: clientAttendee?.user?.firstName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 193,
+          "line": "firstName: clientAttendee?.user?.firstName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 480,
-          "line": "lastName: clientAttendee?.user?.lastName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 194,
+          "line": "lastName: clientAttendee?.user?.lastName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 481,
-          "line": "email: clientAttendee?.user?.email || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 195,
+          "line": "email: clientAttendee?.user?.email ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 484,
-          "line": "firstName: agentAttendee?.user?.firstName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 198,
+          "line": "firstName: agentAttendee?.user?.firstName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 485,
-          "line": "lastName: agentAttendee?.user?.lastName || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 199,
+          "line": "lastName: agentAttendee?.user?.lastName ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 486,
-          "line": "email: agentAttendee?.user?.email || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 200,
+          "line": "email: agentAttendee?.user?.email ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 500,
-          "line": "time: (slot.startTime as RFC3339DateTime) || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 261,
+          "line": "const serviceIds = appointment.selectedServiceIds ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 271,
+          "line": "const propertyTypeBlockIds = appointment.selectedPropertyIds ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 281,
+          "line": "const optionTypeBlockIds = appointment.selectedOptionIds ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 292,
+          "line": "(appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 326,
+          "line": "const fallback = findBlockInstanceById(bookingData, userTypeId)",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 327,
+          "line": "if (fallback) {",
           "section": "legacy-accommodation"
         }
       ],
-      "score": 56,
+      "score": 40,
       "priority": "P0"
     },
     {
@@ -306,172 +252,85 @@
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 38,
-          "line": "const rawEntities = batchResponse[entityKey] || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 87,
-          "line": "const rawRelationships = batchResponse[relationshipKey] || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 42,
+          "line": "ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS] ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 153,
+          "lineNumber": 44,
+          "line": "ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS] ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 46,
+          "line": "ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS] ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 166,
+          "line": "const rawEntities = batchResponse[entityKey] ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 212,
+          "line": "const rawRelationships = batchResponse[relationshipKey] ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 278,
           "line": "const parentKind = config?.parentEntity ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 154,
+          "lineNumber": 279,
           "line": "const childKind = config?.childEntity ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 181,
+          "lineNumber": 306,
           "line": "id: (raw.id ?? '') as GlobalEntityId,",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 185,
+          "lineNumber": 310,
           "line": "parent_id: (parentId ?? '') as GlobalEntityId,",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 186,
+          "lineNumber": 311,
           "line": "child_id: (childId ?? '') as GlobalEntityId,",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "compat-marker",
-          "lineNumber": 274,
+          "lineNumber": 400,
           "line": "// Attach instanceComponents arrays to entities (for backward compatibility)",
           "section": "annotation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 277,
-          "line": "const entityList = staged.fetchedEntities[entityKey] || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 403,
+          "line": "const entityList = staged.fetchedEntities[entityKey] ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 284,
-          "line": "const existing = map.get(rel.parent_id) || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 396,
-          "line": "const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 397,
-          "line": "const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 398,
-          "line": "const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 410,
+          "line": "const existing = map.get(rel.parent_id) ?? []",
           "section": "legacy-accommodation"
         }
       ],
       "score": 25,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__views__admin__tabs__BusinessControlsTab.vue",
-      "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 117,
-          "line": "get: () => formData.value?.differentialPerspectives?.majorAttendees || [],",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 128,
-          "line": "get: () => formData.value?.differentialPerspectives?.minorAttendees || [],",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 139,
-          "line": "get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 150,
-          "line": "get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 161,
-          "line": "get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 172,
-          "line": "get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 183,
-          "line": "get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 227,
-          "line": "return current || {}",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 361,
-          "line": "return current || {}",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 472,
-          "line": "get: () => formData.value?.defaultLocation?.address ?? '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 484,
-          "line": "get: () => formData.value?.defaultLocation?.label ?? '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 514,
-          "line": "get: () => formData.value?.defaultLocation?.placeId ?? '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 528,
-          "line": "return current || {}",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 23,
       "priority": "P0"
     },
     {
@@ -556,141 +415,66 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
-      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 116,
-          "line": "const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 167,
-          "line": ".flatMap(bi => bi.partInstances || [])",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 219,
-          "line": "// PATTERN: Extract finalizedParts from BlockFinals for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 236,
-          "line": "eventAssignmentsRelationships || [],",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 250,
-          "line": "const slotShape = calculateSlotShape(nonZeroedBlockFinals, eventAssignmentsByPartShape, eventShapes || [], globalData, s...",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 254,
-          "line": "finalizedParts: nonZeroedParts,  // Derived from finalizedBlocks for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 301,
-          "line": "const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 302,
-          "line": "const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 383,
-          "line": "const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 384,
-          "line": "const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 18,
-      "priority": "P0"
-    },
-    {
       "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 49,
+          "lineNumber": 55,
           "line": "blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)",
           "section": "annotation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 92,
-          "line": "const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 239,
+          "line": "icon: blockInstanceWithProps.icon ?? '',",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 93,
-          "line": "const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 301,
+          "line": "const blockShapes = (entities.blockShape ?? []) as GlobalEntity<'blockShape'>[]",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 94,
-          "line": "const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 302,
+          "line": "const blockInstances = (entities.blockInstance ?? []) as GlobalEntity<'blockInstance'>[]",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 95,
-          "line": "const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 303,
+          "line": "const partShapes = (entities.partShape ?? []) as GlobalEntity<'partShape'>[]",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 96,
-          "line": "const partAssignmentsRelationships = relationships.partAssignments || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 304,
+          "line": "const partInstances = (entities.partInstance ?? []) as GlobalEntity<'partInstance'>[]",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 97,
-          "line": "const bookingCascadesRelationships = relationships.bookingCascades || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 305,
+          "line": "const partAssignmentsRelationships = relationships.partAssignments ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 98,
-          "line": "const instanceComponentsRelationships = relationships.instanceComponents || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 306,
+          "line": "const bookingCascadesRelationships = relationships.bookingCascades ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 300,
-          "line": "// LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 315,
-          "line": "icon: blockInstanceWithProps.icon || '',",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 307,
+          "line": "const instanceComponentsRelationships = relationships.instanceComponents ?? []",
           "section": "legacy-accommodation"
         }
       ],
-      "score": 18,
+      "score": 17,
       "priority": "P0"
     },
     {
@@ -814,57 +598,6 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__transformers__relationshipTransformers.ts",
-      "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 50,
-          "line": "const existing = map.get(rel.parent_id) || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 58,
-          "line": "const parentEntity = findById(entities[config.parentEntity] || [], parentId)",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 64,
-          "line": "const childEntityArray = entities[config.childEntity] || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 135,
-          "line": "const existing = map.get(rel.parent_id) || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 148,
-          "line": "const existing = map.get(rel.parent!.id) || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 258,
-          "line": "const { resolved: components } = resolveByIds(entities[entityKind] || [], componentIds)",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 279,
-          "line": "const composerEntity = findById(entities[entityKind] || [], composerId)",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 14,
-      "priority": "P0"
-    },
-    {
       "id": "client__src__utils__differentialScheduling.ts",
       "repoPath": "client/src/utils/differentialScheduling.ts",
       "allowed": [],
@@ -934,87 +667,42 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 40,
+          "lineNumber": 43,
           "line": "const blockShapes = bookingData.blockShapes ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 64,
+          "lineNumber": 67,
           "line": "const blockInstances = bookingData.blockInstances ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 77,
+          "lineNumber": 80,
           "line": "const blockShapes = bookingData.blockShapes ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 89,
+          "lineNumber": 92,
           "line": "const blockShapes = bookingData.blockShapes ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 100,
+          "lineNumber": 103,
           "line": "const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 104,
+          "lineNumber": 107,
           "line": "const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]",
           "section": "legacy-accommodation"
         }
       ],
       "score": 12,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__booking__useAppointmentSlots.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 43,
-          "line": "timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fallback",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 102,
-          "line": "const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 103,
-          "line": "const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 123,
-          "line": "const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 235,
-          "line": "const majorAttendeeIds = availabilitySettingsValue.differentialPerspectives.majorAttendees || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 236,
-          "line": "const minorAttendeeIds = availabilitySettingsValue.differentialPerspectives.minorAttendees || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 11,
       "priority": "P0"
     },
     {
@@ -1141,49 +829,43 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__composables__booking__useAvailableStartTimes.ts",
-      "repoPath": "client/src/composables/booking/useAvailableStartTimes.ts",
+      "id": "client__src__utils__transformers__relationshipTransformers.ts",
+      "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "jsdoc-deprecated",
-          "lineNumber": 31,
-          "line": "settings?: Ref<AvailabilitySettings | null> // @deprecated Phase 12: Use minuteIncrement parameter instead",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 84,
-          "line": "// For now, keep the settings fetch for backward compatibility, but it's only used for businessHours",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 234,
-          "line": "const duration = appointmentDuration?.value || 0",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 235,
-          "line": "const busyPeriods = busyTimes?.value || []",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 50,
+          "line": "const existing = map.get(rel.parent_id) ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 286,
-          "line": "const calendarEvents: CalendarEvent[] = prefetchedCalendarEvents?.value ?? []",
+          "lineNumber": 58,
+          "line": "const parentEntity = findById(entities[config.parentEntity] ?? [], parentId)",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 302,
-          "line": "minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 64,
+          "line": "const childEntityArray = entities[config.childEntity] ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 186,
+          "line": "const { resolved: components } = resolveByIds(entities[entityKind] ?? [], componentIds)",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 207,
+          "line": "const composerEntity = findById(entities[entityKind] ?? [], composerId)",
           "section": "legacy-accommodation"
         }
       ],
-      "score": 9,
-      "priority": "P1"
+      "score": 10,
+      "priority": "P0"
     },
     {
       "id": "client__src__components__admin__PartInstanceBulkEditModal.vue",
@@ -1212,6 +894,39 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 102,
           "line": "partShapeRef: partShapeRef.value || '',",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__admin__useDifferentialPerspectives.ts",
+      "repoPath": "client/src/composables/admin/useDifferentialPerspectives.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "get: () => formData.value?.differentialPerspectives?.majorAttendees ?? [],",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 69,
+          "line": "get: () => formData.value?.differentialPerspectives?.minorAttendees ?? [],",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 111,
+          "line": "get: () => formData.value?.differentialPerspectives?.majorStateLabel ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 121,
+          "line": "get: () => formData.value?.differentialPerspectives?.minorStateLabel ?? '',",
           "section": "legacy-accommodation"
         }
       ],
@@ -1285,31 +1000,64 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
+      "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 58,
+          "line": ".flatMap(bi => bi.partInstances ?? [])",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 145,
+          "line": "eventShapes ?? [],",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 192,
+          "line": "const majorAttendeeIds = differentialPerspectives?.majorAttendees ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 193,
+          "line": "const minorAttendeeIds = differentialPerspectives?.minorAttendees ?? []",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__utils__booking__partFinalizer.ts",
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 40,
+          "lineNumber": 41,
           "line": "const partShape = part.partShape || ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 135,
+          "lineNumber": 131,
           "line": "majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 136,
+          "lineNumber": 132,
           "line": "minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 155,
+          "lineNumber": 150,
           "line": "const events = eventAssignmentsByPartShape[part.partShape] || []",
           "section": "legacy-accommodation"
         }
@@ -1423,26 +1171,59 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 25,
+          "lineNumber": 28,
           "line": "const partVersions = versionData.partInstanceVersions || [];",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 98,
+          "lineNumber": 101,
           "line": "loadAppointmentVersions(appointment.serviceSnapshotIds || []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 99,
+          "lineNumber": 102,
           "line": "loadAppointmentVersions(appointment.propertySnapshotIds || []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 100,
+          "lineNumber": 103,
           "line": "loadAppointmentVersions(appointment.optionSnapshotIds || []),",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__services__google__maps__mapsHelpers.ts",
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 69,
+          "line": "const { throwOnZeroResults = false, invalidRequestAsNotFound = false } = options ?? {}",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 118,
+          "line": "secondaryText: p.structured_formatting?.secondary_text ?? ''",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 152,
+          "line": "const addressComponents = parseAddressComponents(result.address_components ?? [])",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 155,
+          "line": "formattedAddress: result.formatted_address ?? '',",
           "section": "legacy-accommodation"
         }
       ],
@@ -1516,32 +1297,57 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__scripts__cleanup-relationship-keys-from-primitive-metadata.mjs",
-      "repoPath": "server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs",
-      "allowed": [],
-      "requiresReview": [
+      "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "allowed": [
         {
           "ruleId": "legacy-keyword",
-          "lineNumber": 24,
-          "line": "'dependentInstanceOptions', // Old name - catch legacy data",
-          "section": "legacy-accommodation"
+          "lineNumber": 28,
+          "line": "differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
+          "source": "inline"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 34,
-          "line": "const dbPassword = process.env.DB_PASSWORD || process.env.DB_PASS || '';",
-          "section": "legacy-accommodation"
+          "ruleId": "legacy-keyword",
+          "lineNumber": 37,
+          "line": "onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
+          "source": "inline"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 40,
-          "line": "password: String(dbPassword || ''),",
+          "ruleId": "legacy-keyword",
+          "lineNumber": 39,
+          "line": "clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
+          "source": "inline"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 133,
+          "line": "name: pi.name ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 98,
-          "line": "const remainingCount = remaining?.[0]?.count || 0;",
+          "lineNumber": 140,
+          "line": "orderIndex: currentPart?.orderIndex ?? 0,",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 141,
+          "line": "partShape: currentPart?.partShape ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 151,
+          "line": "icon: version.icon ?? '',",
           "section": "legacy-accommodation"
         }
       ],
@@ -1576,31 +1382,85 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__composables__admin__useDefaultLocation.ts",
+      "repoPath": "client/src/composables/admin/useDefaultLocation.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 23,
+          "line": "get: () => formData.value?.defaultLocation?.address ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 35,
+          "line": "get: () => formData.value?.defaultLocation?.label ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "get: () => formData.value?.defaultLocation?.placeId ?? '',",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__booking__useAppointmentShape.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentShape.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 64,
+          "line": "const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 65,
+          "line": "const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 85,
+          "line": "const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__composables__booking__useAppointmentTimes.ts",
       "repoPath": "client/src/composables/booking/useAppointmentTimes.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 102,
+          "lineNumber": 113,
           "line": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
           "section": "annotation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 132,
+          "lineNumber": 143,
           "line": "const eventTimeRanges = transformed.eventTimeRanges || {}",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "compat-marker",
-          "lineNumber": 156,
+          "lineNumber": 167,
           "line": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
           "section": "annotation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 180,
+          "lineNumber": 191,
           "line": "const eventTimeRanges = transformed.eventTimeRanges || {}",
           "section": "legacy-accommodation"
         }
@@ -1804,33 +1664,6 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__services__google__maps__placesApiService.ts",
-      "repoPath": "server/src/services/google/maps/placesApiService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 108,
-          "line": "secondaryText: p.structured_formatting?.secondary_text || ''",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 213,
-          "line": "const addressComponents = parseAddressComponents(result.address_components || [])",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 217,
-          "line": "formattedAddress: result.formatted_address || '',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "id": "server__src__services__rateLimiter.ts",
       "repoPath": "server/src/services/rateLimiter.ts",
       "allowed": [],
@@ -1996,6 +1829,39 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 149,
+          "line": "get: () => formData.value?.durationRounding?.increment ?? 15,",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 155,
+          "line": "get: () => formData.value?.durationRounding?.method ?? 'roundNearest',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 162,
+          "line": "get: () => formData.value?.timezone ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 169,
+          "line": "get: () => formData.value?.minuteIncrement ?? 15,",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__components__admin__InstanceBulkEditModal.vue",
       "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
       "allowed": [],
@@ -2079,6 +1945,27 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 185,
           "line": "blockShapeRef: entity.blockShapeRef || '',",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__admin__useBufferSettings.ts",
+      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 94,
+          "line": "const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 194,
+          "line": "current ?? {}",
           "section": "legacy-accommodation"
         }
       ],
@@ -2212,26 +2099,20 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__composables__booking__useAppointmentDuration.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentDuration.ts",
+      "id": "client__src__composables__booking__useAppointmentSlots.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 56,
-          "line": "const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 133,
+          "line": "const majorAttendeeIds = availabilitySettingsValue.differentialPerspectives.majorAttendees ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 75,
-          "line": "// NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 78,
-          "line": "const majorRoundedDuration = majorEventFinal?.roundedDuration || 0",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 134,
+          "line": "const minorAttendeeIds = availabilitySettingsValue.differentialPerspectives.minorAttendees ?? []",
           "section": "legacy-accommodation"
         }
       ],
@@ -2245,19 +2126,19 @@
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 104,
+          "lineNumber": 100,
           "line": "const moveableDuration = moveableEventFinal?.roundedDuration ?? 0",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 112,
+          "lineNumber": 108,
           "line": "return moveableEventFinal?.roundedDuration ?? 0",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 129,
+          "lineNumber": 125,
           "line": "const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []",
           "section": "legacy-accommodation"
         }
@@ -2350,6 +2231,27 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__utils__booking__perspectiveResolver.ts",
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 118,
+          "line": "const majorAttendeeIds = differentialPerspectives.majorAttendees ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 119,
+          "line": "const minorAttendeeIds = differentialPerspectives.minorAttendees ?? []",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__utils__optimistic__listByIdOptimistic.ts",
       "repoPath": "client/src/utils/optimistic/listByIdOptimistic.ts",
       "allowed": [],
@@ -2398,54 +2300,6 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__scripts__createAppointmentsFromCalendar.ts",
-      "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 74,
-          "line": "const city = parts[1] || '';",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 75,
-          "line": "const lastPart = parts[parts.length - 1] || '';",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__services__calendarErrorHandler.ts",
-      "repoPath": "server/src/services/calendarErrorHandler.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 121,
-          "line": "const message = error.message?.toLowerCase() || '';",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 292,
-          "line": "`[CalendarErrorHandler] Operation failed (${classifiedError.type}), checking cache fallback`",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 298,
-          "line": "console.log('[CalendarErrorHandler] Returning cached data as fallback');",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
       "id": "client__src__components__admin__generic__fields__FieldRenderer.vue",
       "repoPath": "client/src/components/admin/generic/fields/FieldRenderer.vue",
       "allowed": [],
@@ -2481,27 +2335,6 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 321,
           "line": "const events = shape.eventAssignmentsByPartShape[partShapeName] || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__booking__dev__SlotConstraintOverlay.vue",
-      "repoPath": "client/src/components/booking/dev/SlotConstraintOverlay.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "legacy-marker",
-          "lineNumber": 60,
-          "line": "'overlap.appointment.direct': '#1565C0',    // Legacy: appointment direct overlap",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 117,
-          "line": "const violations = slot.flexibleViolations || []",
           "section": "legacy-accommodation"
         }
       ],
@@ -2585,8 +2418,35 @@
         {
           "ruleId": "comment-deprecated",
           "lineNumber": 307,
-          "line": "// driveTime?: BufferConfig     // DEPRECATED: Use driveTimeTo/driveTimeFrom instead",
+          "line": "// driveTime?: BufferConfig     // DEPRECATED: Use driveToCandidate/driveFromCandidate instead",
           "section": "annotation"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__configs__businessControlsTabStrings.ts",
+      "repoPath": "client/src/configs/businessControlsTabStrings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 150,
+          "line": "calculatedRoutesCaption: 'Drive times are calculated using Google Maps Routes API based on your default location and app...",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 151,
+          "line": "staticTitle: 'Static Drive Times (Fallback Only)',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 154,
+          "line": "fallbackMinutesLabel: 'Fallback Minutes',",
+          "section": "legacy-accommodation"
         }
       ],
       "score": 3,
@@ -2613,27 +2473,6 @@
           "ruleId": "fallback-keyword",
           "lineNumber": 56,
           "line": "patchFormElements(fallback)",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__fix-primitive-metadata-cleanup.mjs",
-      "repoPath": "server/src/scripts/fix-primitive-metadata-cleanup.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 37,
-          "line": "'dependentInstanceOptions', // Old name - catch legacy data",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 122,
-          "line": "console.log(`   Relationship keys in admin_primitive_metadata: ${remaining[0]?.count || 0}`);",
           "section": "legacy-accommodation"
         }
       ],
@@ -2716,6 +2555,21 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__components__booking__steps__AvailabilityStep.vue",
+      "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 158,
+          "line": "return computedAvailability.slotsByDay.value.get(day) ?? []",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__components__booking__TimeBasisButtonGrid.vue",
       "repoPath": "client/src/components/booking/TimeBasisButtonGrid.vue",
       "allowed": [],
@@ -2766,6 +2620,21 @@
           "ruleId": "legacy-keyword",
           "lineNumber": 112,
           "line": "endTime: slot.time, // NOTE: endTime not available in legacy format, using startTime",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useCapacitySettings.ts",
+      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "current ?? {}",
           "section": "legacy-accommodation"
         }
       ],
@@ -3001,14 +2870,14 @@
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 133,
-          "line": "const currentDuration = duration?.value || 60 // Default to 60 minutes if duration not available",
+          "lineNumber": 98,
+          "line": "const currentDuration = duration?.value ?? 60",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 139,
-          "line": "`dateRange=${currentDateRange?.start || '(none)'} to ${currentDateRange?.end || '(none)'}`,",
+          "lineNumber": 149,
+          "line": "const dur = duration?.value ?? 60",
           "section": "legacy-accommodation"
         }
       ],
@@ -3040,21 +2909,6 @@
           "lineNumber": 107,
           "line": "const appointments = businessData.value?.appointments || []",
           "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__useAvailability.ts",
-      "repoPath": "client/src/composables/useAvailability.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "jsdoc-deprecated",
-          "lineNumber": 41,
-          "line": "_settings?: Ref<AvailabilitySettings | null> | ComputedRef<AvailabilitySettings | null>, // @deprecated Phase 12: Use pr...",
-          "section": "annotation"
         }
       ],
       "score": 2,
@@ -3097,13 +2951,13 @@
       "requiresReview": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 159,
+          "lineNumber": 167,
           "line": "* PATTERN: finalizedBlocks is source of truth, finalizedParts is derived for backward compatibility",
           "section": "annotation"
         },
         {
           "ruleId": "compat-marker",
-          "lineNumber": 168,
+          "lineNumber": 176,
           "line": "finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility",
           "section": "annotation"
         }
@@ -3133,23 +2987,8 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 56,
+          "lineNumber": 52,
           "line": "const partInstances = blockInstance.partInstances || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__capacityConstraintChecker.ts",
-      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 124,
-          "line": "const slotKeys = slotKeysMap.get(slot.startTime) || []",
           "section": "legacy-accommodation"
         }
       ],
@@ -3165,21 +3004,6 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 295,
           "line": ".flatMap(calendar => calendar.busy || [])",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__partShapeAggregator.ts",
-      "repoPath": "client/src/utils/booking/partShapeAggregator.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 28,
-          "line": "const partShape = part.partShape || ''",
           "section": "legacy-accommodation"
         }
       ],
@@ -3225,21 +3049,6 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 12,
           "line": "const cols = config.gridColumns || {}",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__slotAvailabilityMarker.ts",
-      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 129,
-          "line": "} = options || {}",
           "section": "legacy-accommodation"
         }
       ],
@@ -3371,7 +3180,7 @@
         {
           "ruleId": "comment-deprecated",
           "lineNumber": 230,
-          "line": "// driveTime?: BufferConfig;      // DEPRECATED: Use driveTimeTo/driveTimeFrom instead",
+          "line": "// driveTime?: BufferConfig;      // DEPRECATED: Use driveToCandidate/driveFromCandidate instead",
           "section": "annotation"
         }
       ],
@@ -3457,89 +3266,14 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__scripts__check-layout-configs.mjs",
-      "repoPath": "server/src/scripts/check-layout-configs.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 16,
-          "line": "password: process.env.DB_PASS || '',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__check-specific-shape.mjs",
-      "repoPath": "server/src/scripts/check-specific-shape.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 18,
-          "line": "password: process.env.DB_PASS || '',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__importFromMCPEvents.ts",
-      "repoPath": "server/src/scripts/importFromMCPEvents.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 61,
-          "line": "const clientName = extractClientNameFromSummary(event.summary || '');",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__importRealCalendarEvents.ts",
-      "repoPath": "server/src/scripts/importRealCalendarEvents.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 348,
-          "line": "...(event.attendees || []),",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "id": "server__src__services__appointmentCalendarService.ts",
       "repoPath": "server/src/services/appointmentCalendarService.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 122,
+          "lineNumber": 125,
           "line": "const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) || [];",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__constraintExtractor.ts",
-      "repoPath": "server/src/services/constraintExtractor.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 110,
-          "line": "throw new Error(`Legacy top-level businessHours field detected. Use rangeConstraints.${RANGE_CONSTRAINT_TYPES.BUSINESS_H...",
           "section": "legacy-accommodation"
         }
       ],
@@ -3775,7 +3509,7 @@
       "requiresReview": [
         {
           "ruleId": "fallback-keyword",
-          "lineNumber": 139,
+          "lineNumber": 140,
           "line": "const propertyVersionId = createdProperty.propertyVersionId || createdProperty.id // Use propertyVersionId, fallback to ...",
           "section": "legacy-accommodation"
         }
@@ -3895,7 +3629,7 @@
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 158,
+          "lineNumber": 155,
           "line": "axiosError.response?.data?.error || 'Invalid response from server'",
           "section": "legacy-accommodation"
         }
@@ -3910,8 +3644,8 @@
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 285,
-          "line": "axiosError.response?.data?.error || 'Invalid response from server'",
+          "lineNumber": 206,
+          "line": "axiosError.response?.data?.error ?? 'Invalid response from server'",
           "section": "legacy-accommodation"
         }
       ],
@@ -3949,28 +3683,13 @@
       "priority": "P2"
     },
     {
-      "id": "client__src__utils__booking__timeSlotFitter.ts",
-      "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 29,
-          "line": "// Re-export types for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "id": "client__src__utils__booking__timeSlotTypes.ts",
       "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 16,
+          "lineNumber": 12,
           "line": "// Re-export types for backward compatibility",
           "section": "annotation"
         }
@@ -3988,6 +3707,21 @@
           "lineNumber": 56,
           "line": "export function toBoolean(value: TernaryBoolean, mode: 'strict' | 'inclusive' = 'strict'): boolean {",
           "section": "legacy-accommodation"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__config__googleOAuth.ts",
+      "repoPath": "server/src/config/googleOAuth.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "compat-marker",
+          "lineNumber": 118,
+          "line": "* Re-export token persistence functions for backward compatibility",
+          "section": "annotation"
         }
       ],
       "score": 1,
@@ -4047,51 +3781,6 @@
           "ruleId": "chaining-fallback",
           "lineNumber": 80,
           "line": "actualBlockShape: blockShape?.name || 'NULL'",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__addPropertySizesToAppointments.mjs",
-      "repoPath": "server/src/scripts/addPropertySizesToAppointments.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 80,
-          "line": "const missingCount = stillMissing[0]?.count || 0;",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__fixUserRolesAndEmails.ts",
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 150,
-          "line": "? allUsers.find(u => u.id === updates.scheduledById)?.firstName || 'Unknown'",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__scripts__flatten-input-config.mjs",
-      "repoPath": "server/src/scripts/flatten-input-config.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "chaining-fallback",
-          "lineNumber": 70,
-          "line": "const wrappedCount = verify[0]?.wrapped_count || 0",
           "section": "legacy-accommodation"
         }
       ],

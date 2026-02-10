@@ -6,6 +6,8 @@ import {
   summarizeExceptions,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
+  isCompiledJsFile,
+  isSeedScript,
 } from './audit-exceptions.mjs'
 
 /**
@@ -186,6 +188,7 @@ function toStableId(repoPath) {
 function isExcluded(repoPath, configAllowlist) {
   if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) return true
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) return true
+  if (isSeedScript(repoPath)) return true
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) return true
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) return true
   if (repoPath.includes('.scripts/') || repoPath.includes('.audit-reports/')) return true
@@ -210,7 +213,7 @@ function listFilesRecursive(dirPath) {
       if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) continue
       if (entry.isDirectory()) {
         files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath)) {
+      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
         files.push(fullPath)
       }
     }

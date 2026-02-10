@@ -8,7 +8,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **237**
+- Total composable files scanned: **241**
 
 ## Top hotspots (heuristic)
 
@@ -25,20 +25,20 @@ Scope:
 | `src/composables/componentEntity/useComponentEntityActions.ts` | 17 | 6 | 0 | 0 | 10 | 0 | 0 |
 | `src/composables/admin/useSelectHandlers.ts` | 17 | 0 | 0 | 1 | 6 | 0 | 0 |
 | `src/composables/booking/dev/usePanelPosition.ts` | 17 | 0 | 1 | 2 | 2 | 6 | 1 |
-| `src/composables/booking/useAvailableStartTimes.ts` | 16 | 0 | 2 | 4 | 6 | 0 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
 | `src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `src/composables/admin/useAvailabilitySettings.ts` | 14 | 0 | 1 | 2 | 4 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
-| `src/composables/booking/useMoveablePartsScheduling.ts` | 14 | 0 | 1 | 5 | 3 | 0 | 0 |
 | `src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
 | `src/composables/useSelectOptions.ts` | 14 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/composables/fieldContext/useFieldContextState.ts` | 13.5 | 3 | 0 | 11 | 0 | 0 | 0 |
 | `src/composables/admin/useBlockInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `src/composables/admin/usePartInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
-| `src/composables/booking/useAppointmentSlots.ts` | 13 | 0 | 0 | 4 | 0 | 0 | 0 |
+| `src/composables/booking/useMoveablePartsScheduling.ts` | 13 | 0 | 1 | 5 | 3 | 0 | 0 |
 | `src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
+| `src/composables/admin/useSelectInputsAsync.ts` | 12 | 0 | 0 | 1 | 8 | 0 | 0 |
+| `src/composables/booking/useAvailabilityLogic.ts` | 12 | 0 | 1 | 8 | 0 | 0 | 0 |
 
 ## Redundancy candidates (heuristic)
 
@@ -153,6 +153,13 @@ Legend:
 
 - **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
+### `src/composables/booking/useAppointmentShape.ts`
+
+- exports: `useAppointmentShape`
+- score: **6**
+
+- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
+
 ### `src/composables/useGlobal.ts`
 
 - exports: `useGlobal`
@@ -200,20 +207,6 @@ Legend:
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
 
-### `src/composables/booking/useAppointmentDuration.ts`
-
-- exports: `useAppointmentDuration`
-- score: **1**
-
-- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
-
-### `src/composables/booking/useTimeSlotDurations.ts`
-
-- exports: `useTimeSlotDurations`
-- score: **1**
-
-- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
-
 ### `src/composables/_archived/useFieldMetadata.ts`
 
 - exports: (none detected)
@@ -225,6 +218,22 @@ Legend:
 
 - exports: (none detected)
 - score: **0**
+
+- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
+
+### `src/composables/admin/useBufferSettings.ts`
+
+- exports: `useBufferSettings`
+- score: **0**
+- return keys (first return): `buffersAppointmentEnforcement`, `buffersAppointmentMinutes`, `buffersAppointmentPlacement`, `buffersDriveFromCandidateApplyTo`, `buffersDriveFromCandidateEnforcement`, `buffersDriveFromCandidateMinutes`, `buffersDriveToCandidateApplyTo`, `buffersDriveToCandidateEnforcement`, `buffersDriveToCandidateMinutes`
+
+- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
+
+### `src/composables/admin/useCapacitySettings.ts`
+
+- exports: `useCapacitySettings`
+- score: **0**
+- return keys (first return): `direction`, `rollingWeek`
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
 
@@ -367,6 +376,13 @@ Legend:
 - exports: `useApiCallStatus`
 - score: **0**
 - return keys (first return): `apiStatus`, `recordApiCall`
+
+- **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
+
+### `src/composables/booking/useAppointmentDuration.ts`
+
+- exports: `useAppointmentDuration`
+- score: **0**
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
 
@@ -1041,29 +1057,6 @@ timers@171: setTimeout(() => {
 timers@179: setTimeout(() => {
 ```
 
-### `src/composables/booking/useAvailableStartTimes.ts`
-
-- counts: vueQuery=0, watch=2, computed=3, ref=1, async=4, await=2, dom=0, console=0
-
-```
-ref@68: const isLoading = ref(false)
-watchEffect@77: watchEffect(async () => {
-async@77: watchEffect(async () => {
-await@94: const settings = await getAvailabilitySettings()
-await@118: const settings = await getAvailabilitySettings()
-async@132: // FIXED: Changed from computed to ref+watchEffect to handle async slot generation
-async@135: // PATTERN: WatchEffect tracks dependencies, calls async function to update ref
-watchEffect@136: watchEffect(async () => {
-async@136: watchEffect(async () => {
-map@162: const [year, month, day] = dateString.split('-').map(Number)
-computed@334: const availableStartTimes = computed(() => {
-map@335: return slotGenerationResult.value.slots.map(slot => slot.startTime)
-computed@339: const slotAvailability = computed(() => {
-map@343: result.slots.map(slot => [slot.startTime, slot.isAvailable])
-computed@349: const slotViolations = computed(() => {
-map@353: result.slots.map(slot => [slot.startTime, slot.flexibleViolations])
-```
-
 ### `src/composables/booking/useContactsValidation.ts`
 
 - counts: vueQuery=0, watch=0, computed=16, ref=0, async=0, await=0, dom=0, console=0
@@ -1115,20 +1108,20 @@ computed@382: const optionLabelKey = computed(() => {
 
 ```
 async@97: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
-await@138: const createdProperty = await createProperty.mutateAsync(propertyData)
-await@156: const createdClient = await createUser.mutateAsync(clientUserData)
-await@171: const createdAgent = await createUser.mutateAsync(agentUserData)
-await@187: const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
-await@204: const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
-await@221: const createdSeller = await createUser.mutateAsync(sellerData)
-map@231: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
-map@242: ? availability.selectedTimeSlots.map(slot => ({
-reduce@268: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
-reduce@276: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
-reduce@284: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
-map@295: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
-map@298: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
-map@302: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
+await@139: const createdProperty = await createProperty.mutateAsync(propertyData)
+await@157: const createdClient = await createUser.mutateAsync(clientUserData)
+await@172: const createdAgent = await createUser.mutateAsync(agentUserData)
+await@188: const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
+await@205: const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
+await@222: const createdSeller = await createUser.mutateAsync(sellerData)
+map@232: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
+map@245: ? availability.candidateTimeSlots.map(slot => ({
+reduce@271: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
+reduce@279: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
+reduce@287: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
+map@298: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
+map@301: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
+map@305: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
 ```
 
 ### `src/composables/admin/useAvailabilitySettings.ts`
@@ -1171,27 +1164,6 @@ filter@427: .filter((bs: GlobalEntity<'blockShape'>) => {
 map@431: .map((bs: GlobalEntity<'blockShape'>) => bs.id)
 filter@437: const filtered = allEntities.value.filter((candidate) => {
 filter@448: return allEntities.value.filter((candidate) =>
-```
-
-### `src/composables/booking/useMoveablePartsScheduling.ts`
-
-- counts: vueQuery=0, watch=1, computed=3, ref=2, async=2, await=1, dom=0, console=0
-
-```
-ref@90: const showModal = ref(false)
-async@96: // Moveable options (computed via watchEffect since it's async)
-ref@98: const isLoadingOptions = ref(false)
-computed@100: const hasMoveableParts = computed(() => {
-computed@108: const moveableDuration = computed(() => {
-watchEffect@116: watchEffect(async () => {
-async@116: watchEffect(async () => {
-map@131: const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-map@152: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
-map@154: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-await@173: const settings = await getAvailabilitySettings()
-map@195: const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
-filter@195: const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
-computed@250: moveableOptions: computed(() => moveableOptions.value),
 ```
 
 ### `src/composables/dev/useApiDevPanelData.ts`
@@ -1298,24 +1270,24 @@ lifecycle@227: * PATTERN: Call loadEntity in onMounted hook
 lifecycle@229: onMounted(() => {
 ```
 
-### `src/composables/booking/useAppointmentSlots.ts`
+### `src/composables/booking/useMoveablePartsScheduling.ts`
 
-- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=0, watch=1, computed=3, ref=2, async=2, await=1, dom=0, console=0
 
 ```
-computed@89: const appointmentShape = computed(() => {
-map@108: // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
-filter@115: ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
-map@121: eventShapes = eventShapes.map(eventShape => {
-map@123: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
-map@130: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
-map@135: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
-computed@157: const appointmentSlots = computed(() => {
-map@177: const slots = times.map((time, index) => {
-computed@205: const selectedSlot = computed(() => {
-computed@221: const graphBars = computed(() => {
-map@243: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-filter@249: ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+ref@86: const showModal = ref(false)
+async@92: // Moveable options (computed via watchEffect since it's async)
+ref@94: const isLoadingOptions = ref(false)
+computed@96: const hasMoveableParts = computed(() => {
+computed@104: const moveableDuration = computed(() => {
+watchEffect@112: watchEffect(async () => {
+async@112: watchEffect(async () => {
+map@127: const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+map@148: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
+map@150: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
+await@169: const settings = await getAvailabilitySettings()
+map@179: const availableSlots: MoveableSlot[] = slots.map((slot) => ({
+computed@235: moveableOptions: computed(() => moveableOptions.value),
 ```
 
 ### `src/composables/admin/useInstanceDragAndDrop.ts`
@@ -1361,18 +1333,18 @@ await@84: await handleChange(allIds)
 - counts: vueQuery=0, watch=1, computed=8, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@95: const dateRangeForApi = computed(() => {
-computed@169: const propertyDetails = computed(() => {
-computed@185: const accumulatedBlockInstances = computed(() => {
-map@235: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
-map@243: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
-computed@264: const isDifferentialService = computed(() => {
-computed@274: const hasDifferentialOverride = computed(() => {
-computed@296: const isEffectivelyDifferential = computed(() => {
-watch@312: watch([timeSlots, selectedDate], ([slots, date]) => {
-map@335: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-computed@354: const selectedDateSingle = computed({
-computed@380: const currentAppointmentSlots = computed(() => {
+computed@100: const dateRangeForApi = computed(() => {
+computed@174: const propertyDetails = computed(() => {
+computed@190: const accumulatedBlockInstances = computed(() => {
+map@240: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
+map@256: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+computed@277: const isDifferentialService = computed(() => {
+computed@287: const hasDifferentialOverride = computed(() => {
+computed@309: const isEffectivelyDifferential = computed(() => {
+watch@325: watch([timeSlots, selectedDate], ([slots, date]) => {
+map@348: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+computed@367: const selectedDateSingle = computed({
+computed@393: const currentAppointmentSlots = computed(() => {
 ```
 
 ### `src/composables/booking/useElementDimensions.ts`
@@ -1394,25 +1366,6 @@ timers@127: setTimeout(() => {
 lifecycle@140: onUnmounted(() => {
 ```
 
-### `src/composables/useAvailability.ts`
-
-- counts: vueQuery=0, watch=1, computed=8, ref=1, async=2, await=0, dom=0, console=0
-
-```
-async@52: // LEARNING: Loading state for async operations
-ref@54: const isLoading = ref(false)
-computed@57: const blockInstancesValue = computed(() => unref(blockInstances))
-computed@58: const dateRangeValue = computed(() => unref(dateRange))
-computed@59: const propertyDetailsValue = computed(() => unref(propertyDetails))
-computed@64: const prefetchedDataValue = computed(() => prefetchedData?.value ?? null)
-watch@73: watch(
-async@143: // Phase 12: Function is now synchronous (all data pre-computed server-side, no async settings fetch)
-computed@190: timeSlots: computed(() => timeSlots.value), // Return as computed for consistency
-computed@191: error: computed(() => error.value), // P1-3: Expose error state
-computed@192: hasError: computed(() => error.value !== null), // P1-3: Convenience computed for error check
-computed@193: isLoading: computed(() => isLoading.value) // P1-3: Expose loading state
-```
-
 ### `src/composables/booking/useAppointmentLoader.ts`
 
 - counts: vueQuery=2, watch=0, computed=0, ref=1, async=2, await=4, dom=0, console=1
@@ -1431,6 +1384,24 @@ timers@40: await new Promise(resolve => setTimeout(resolve, 500))
 await@43: await new Promise(resolve => setTimeout(resolve, 0))
 timers@43: await new Promise(resolve => setTimeout(resolve, 0))
 console@47: console.error('[useAppointmentLoader] Error loading appointment:', error)
+```
+
+### `src/composables/admin/useDifferentialPerspectives.ts`
+
+- counts: vueQuery=0, watch=0, computed=8, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@33: const availableUserTypeBlocks = computed(() => {
+map@41: .map((id) => blockInstances.find((bi) => bi.id === id))
+filter@42: .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
+map@43: .map((bi) => ({
+computed@58: const majorAttendees = computed({
+computed@68: const minorAttendees = computed({
+computed@78: const majorLabel = computed({
+computed@88: const minorLabel = computed({
+computed@98: const differentialGraphDefaultLabel = computed({
+computed@110: const majorStateLabel = computed({
+computed@120: const minorStateLabel = computed({
 ```
 
 ### `src/composables/admin/useDragAndDrop.ts`
@@ -1546,13 +1517,13 @@ computed@134: totalRateOverBaseTime: computed(() => totals.value.totalRateOverBa
 computed@48: const blockInstancesRef = computed(() => {
 computed@52: const baseStartTimeRef = computed(() => {
 computed@61: const isDifferentialServiceRef = computed(() => {
-computed@74: const appointmentSlots = computed(() => {
-computed@88: const majorTimeSlots = computed(() => {
-map@100: return slots.map(appointmentSlot => {
-filter@104: }).filter((slot): slot is TimeSlot => slot !== null)
-computed@112: const minorTimeSlots = computed(() => {
-map@128: return slots.map(appointmentSlot => {
-filter@135: }).filter((slot): slot is TimeSlot => slot !== null)
+computed@77: const appointmentSlots = computed(() => {
+computed@99: const majorTimeSlots = computed(() => {
+map@111: return slots.map(appointmentSlot => {
+filter@115: }).filter((slot): slot is TimeSlot => slot !== null)
+computed@123: const minorTimeSlots = computed(() => {
+map@139: return slots.map(appointmentSlot => {
+filter@146: }).filter((slot): slot is TimeSlot => slot !== null)
 ```
 
 ### `src/composables/componentEntity/useComponentEntityDomain.ts`
@@ -1898,6 +1869,21 @@ await@106: await saveRelationshipField({
 await@113: await saveRegularField({
 ```
 
+### `src/composables/useAvailability.ts`
+
+- counts: vueQuery=0, watch=1, computed=6, ref=1, async=0, await=0, dom=0, console=0
+
+```
+ref@30: const isLoading = ref(false)
+computed@32: const blockInstancesValue = computed(() => unref(_blockInstances))
+computed@33: const dateRangeValue = computed(() => unref(dateRange))
+watch@35: watch(
+computed@61: timeSlots: computed(() => timeSlots.value),
+computed@62: error: computed(() => error.value),
+computed@63: hasError: computed(() => error.value !== null),
+computed@64: isLoading: computed(() => isLoading.value),
+```
+
 ### `src/composables/useLoadingIndicator.ts`
 
 - counts: vueQuery=0, watch=1, computed=0, ref=4, async=0, await=0, dom=0, console=0
@@ -2006,13 +1992,13 @@ computed@99: const hasCascades = computed((): boolean => {
 - counts: vueQuery=0, watch=2, computed=2, ref=1, async=1, await=1, dom=0, console=0
 
 ```
-computed@86: const placeId = computed(() => propertyDetailsStepData.value?.placeId)
-computed@94: const canFetchAvailability = computed(() => {
-ref@108: const isLoading = ref(false)
-watch@112: watch(placeId, (newPlaceId, oldPlaceId) => {
-async@130: const fetchComputedAvailability = async (): Promise<void> => {
-await@157: const data = await fetchComputedAvailabilityData({
-watch@221: watch(
+computed@66: const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
+computed@68: const canFetchAvailability = computed(() => !!dateRange.value?.start && !!dateRange.value?.end)
+ref@78: const isLoading = ref(false)
+async@93: const fetchWithRange = async (
+await@106: const data = await fetchComputedAvailabilityData({
+watch@143: watch(
+watch@163: watch(
 ```
 
 ### `src/composables/booking/usePropertyFormState.ts`
@@ -2097,6 +2083,45 @@ computed@39: const shapeRef = computed(() => {
 computed@50: const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {
 computed@60: const partShape = computed((): import('@/types/entities').PartShapeEntity | null => {
 computed@70: const shape = computed(() => {
+```
+
+### `src/composables/booking/useAppointmentShape.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+```
+map@70: // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
+filter@77: ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
+map@83: eventShapes = eventShapes.map(eventShape => {
+map@85: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+map@92: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
+map@97: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+```
+
+### `src/composables/booking/useAppointmentSlots.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@73: const appointmentSlots = computed(() => {
+map@83: return serverSlots.map((serverSlot, index) => {
+computed@106: const selectedSlot = computed(() => {
+computed@123: const graphBars = computed(() => {
+map@138: const eventShapeEntities = shape.slotShape.eventFinals.map(
+filter@146: ? eventShapeEntities.filter((es) => es.id !== majorEventShape.id)
+```
+
+### `src/composables/booking/useAvailabilityDefaults.ts`
+
+- counts: vueQuery=0, watch=4, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@94: const appointmentSlotOrderIndex = computed({
+watch@119: watch(loadedWizardState, () => {
+watch@138: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
+map@147: const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
+watch@168: watch(timeSlots, (slots) => {
+watch@198: watch(isDifferentialService, (isEffectivelyDifferential) => {
 ```
 
 ### `src/composables/booking/useDevPanelsComputed.ts`
@@ -2235,18 +2260,6 @@ lifecycle@32: onMounted(() => {
 watch@36: watch(
 ```
 
-### `src/composables/booking/useAvailabilityDefaults.ts`
-
-- counts: vueQuery=0, watch=4, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-```
-watch@97: watch(loadedWizardState, () => {
-watch@116: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-map@125: const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
-watch@146: watch(timeSlots, (slots) => {
-watch@176: watch(isDifferentialService, (isEffectivelyDifferential) => {
-```
-
 ### `src/composables/booking/useContactsStepData.ts`
 
 - counts: vueQuery=0, watch=1, computed=1, ref=3, async=0, await=0, dom=0, console=0
@@ -2305,6 +2318,17 @@ computed@87: const writeToIndex = computed(() => {
 filter@212: const currentWriteToCount = entries.value.filter(e => e.writeTo).length
 filter@259: const writeToCount = entries.value.filter(entry => entry.writeTo).length
 computed@275: const isValid = computed(() => validationError.value === null)
+```
+
+### `src/composables/admin/useDefaultLocation.ts`
+
+- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@22: const defaultLocationAddress = computed({
+computed@34: const defaultLocationLabel = computed({
+computed@46: const defaultLocationCoordinates = computed({
+computed@58: const defaultLocationPlaceId = computed({
 ```
 
 ### `src/composables/admin/useFieldComponent.ts`
@@ -2371,7 +2395,7 @@ computed@78: const requiresUnitNumber = computed(() => {
 computed@86: const isMultiFamily = computed(() => {
 computed@120: const propertyTypeBlocksWithComponents = computed(() => {
 map@121: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
-console@194: console.log('[usePropertyDetailsLogic] Setting placeId:', placeId, 'from place-selected event')
+console@194: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
 ```
 
 ### `src/composables/booking/useWizardStepSync.ts`
@@ -2956,12 +2980,12 @@ computed@43: const resolvedLabel = computed(() => {
 filter@56: expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== shapeId)
 ```
 
-### `src/composables/booking/useAppointmentDuration.ts`
+### `src/composables/admin/utils/nestedComputedFactory.ts`
 
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-map@60: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+computed@24: return computed({
 ```
 
 ### `src/composables/booking/useAvailabilityUI.ts`
@@ -2986,14 +3010,6 @@ computed@56: selectedDate: computed(() => selectedDate.value.start)
 
 ```
 computed@40: return computed(() => {
-```
-
-### `src/composables/booking/useTimeSlotDurations.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-```
-map@53: daySlots.inspectorTimeSlots.map(slot => [slot.startTime, slot.duration])
 ```
 
 ### `src/composables/booking/useWizardDevMode.ts`
@@ -3059,6 +3075,18 @@ computed@34: return computed(() => {
 - (no matches)
 
 ### `src/composables/admin/tables/useAppointmentHelpers.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `src/composables/admin/useBufferSettings.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `src/composables/admin/useCapacitySettings.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
@@ -3173,6 +3201,12 @@ computed@34: return computed(() => {
 - (no matches)
 
 ### `src/composables/booking/useApiCallStatus.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `src/composables/booking/useAppointmentDuration.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 

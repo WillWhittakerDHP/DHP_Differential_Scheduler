@@ -270,10 +270,45 @@ const { perspective } = usePerspectiveMapping({
 const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
 
 // LEARNING: Use availability slot color composable
-// PATTERN: Composable provides computed property for slot color
-const { slotColor } = useAvailabilitySlotColor({
-  startTimeType
+// PATTERN: Composable provides slot color, calendar date availability, and first available date
+const { slotColor, allowedDates, firstAvailableDate } = useAvailabilitySlotColor({
+  startTimeType,
+  slotsByDay: computedAvailability.slotsByDay
 })
+
+// LEARNING: Auto-navigate calendar to the first available date when it's not today
+// WHY: If today is fully booked, the user shouldn't have to hunt through the calendar
+// PATTERN: Watch firstAvailableDate, update selectedDate only if user hasn't manually picked a different date
+const firstAvailableNotice = ref<string | null>(null)
+
+watch(firstAvailableDate, (firstDate) => {
+  if (!firstDate) return
+
+  const today = getTodayDate()
+
+  // LEARNING: Only auto-navigate if the user is still on the default "today" selection
+  // WHY: Respects manual user selection — don't override their choice
+  if (selectedDate.value.start !== today) return
+
+  if (firstDate === today) {
+    // Today has availability — clear any stale notice
+    firstAvailableNotice.value = null
+    return
+  }
+
+  // LEARNING: First available date is in the future — navigate and notify
+  // WHY: User needs to know why the calendar jumped and that today is fully booked
+  selectedDate.value = { start: firstDate, end: null }
+
+  // PATTERN: Format the date for a human-readable notification message
+  const dateObj = new Date(firstDate + 'T00:00:00')
+  const formatted = dateObj.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
+  firstAvailableNotice.value = `Today is fully booked. Showing ${formatted} — the earliest date with available slots.`
+}, { immediate: true })
 
 // LEARNING: Use appointment slots composable (server slots + client shape; no client constraint re-check)
 const {
@@ -401,12 +436,32 @@ useAvailabilityDevPanel({
         </div>
       </VCol>
 
+      <!-- LEARNING: Notification when calendar auto-navigates to first available date -->
+      <!-- WHY: Tells the user why the calendar didn't open on today -->
+      <!-- PATTERN: VAlert with info type, dismissible, appears only when firstAvailableNotice is set -->
+      <VCol v-if="firstAvailableNotice" cols="12" class="pt-0 pb-2">
+        <VAlert
+          type="info"
+          variant="tonal"
+          closable
+          density="compact"
+          class="first-available-notice"
+          @click:close="firstAvailableNotice = null"
+        >
+          {{ firstAvailableNotice }}
+        </VAlert>
+      </VCol>
+
       <VCol cols="12" class="calendar-col">
         <div class="calendar-container">
+          <!-- LEARNING: allowed-dates disables calendar days with no available slots -->
+          <!-- WHY: Gives users immediate visual feedback about which days have openings -->
+          <!-- PATTERN: allowedDates function from useAvailabilitySlotColor checks slotsByDay data -->
           <VDatePicker
             v-model="selectedDateSingle"
             :display-date="vDatePickerDisplayDate"
             :min="getTodayDate()"
+            :allowed-dates="allowedDates"
             :show-adjacent-months="false"
             :first-day-of-week="0"
             color="primary"
@@ -563,6 +618,11 @@ useAvailabilityDevPanel({
 .calendar-grid-row {
 }
 
+// LEARNING: Notification when first available date is not today
+// WHY: Subtle info banner that doesn't dominate the layout
+.first-available-notice {
+  font-size: 0.8125rem;
+}
 
 .calendar-col {
   margin-bottom: 1.5rem;
@@ -678,11 +738,18 @@ useAvailabilityDevPanel({
       color: rgba(var(--v-theme-on-surface), 0.7);
     }
     
-    // PATTERN: Style disabled date buttons
+    // LEARNING: Disabled dates come from two sources:
+    //   1. Past dates → disabled by VDatePicker's :min prop
+    //   2. Fully-booked dates → disabled by :allowed-dates (no available slots)
+    // WHY: Both share Vuetify's --disabled class; the reduced opacity + not-allowed cursor
+    //       gives users clear visual feedback that these days cannot be selected
+    // PATTERN: Style disabled date buttons with reduced opacity and muted text
     .v-date-picker-month__day--disabled {
       .v-btn {
-        opacity: 0.4;
+        opacity: 0.35;
         cursor: not-allowed;
+        text-decoration: line-through;
+        text-decoration-color: rgba(var(--v-theme-on-surface), 0.3);
       }
     }
   }

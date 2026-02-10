@@ -12,7 +12,7 @@
  * - Manage selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
  */
 
-import { ref, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
@@ -78,14 +78,36 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   const startTimeType = ref<'major' | 'minor' | 'nonDifferential'>('major')
 
   /**
-   * Appointment slot order index state
-   * LEARNING: Tracks selected appointment slot by orderIndex (position in availability grid)
-   * WHY: Selection persists across perspective changes - same button, only display time and color change
-   * PATTERN: ref for number (orderIndex) or null
-   * NOTE: For differential services, major and minor may see different times at same position,
-   *       but it's the same appointment slot button. Selection state persists when switching perspectives.
+   * Per-date slot selection storage
+   * LEARNING: Stores slot selections keyed by date string (ISO 8601)
+   * WHY: Each day should remember its own slot selection independently
+   * PATTERN: Internal map backing a writable computed for a clean public interface
    */
-  const appointmentSlotOrderIndex = ref<number | null>(null)
+  const slotSelectionsByDate = ref<Record<string, number>>({})
+
+  /**
+   * Appointment slot order index (writable computed)
+   * LEARNING: Reads/writes the slot selection for the current selectedDate
+   * WHY: Consumers still see a simple Ref<number | null> but selections are per-date
+   * PATTERN: Writable computed backed by a keyed record -- WritableComputedRef satisfies Ref<T>
+   */
+  const appointmentSlotOrderIndex = computed({
+    get: (): number | null => {
+      const currentDate = selectedDate.value.start
+      if (!currentDate) return null
+      return slotSelectionsByDate.value[currentDate] ?? null
+    },
+    set: (value: number | null) => {
+      const currentDate = selectedDate.value.start
+      if (!currentDate) return
+      if (value === null) {
+        const { [currentDate]: _, ...rest } = slotSelectionsByDate.value
+        slotSelectionsByDate.value = rest
+      } else {
+        slotSelectionsByDate.value = { ...slotSelectionsByDate.value, [currentDate]: value }
+      }
+    }
+  })
 
   /**
    * Watch loaded wizard state and reset selectedDate to today

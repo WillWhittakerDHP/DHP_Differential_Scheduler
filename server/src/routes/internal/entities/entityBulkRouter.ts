@@ -8,14 +8,13 @@
 
 import { Router, Request, Response } from 'express'
 import { bulkPatch } from '../../helpers/dataController.js'
-import { BlockInstance, PartInstance } from '../../../config/app.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateBulkUpdateArray } from './entityValidators.js'
-import { transformOrderIndexPayload, handleBlockInstanceVersioning } from './entityHelpers.js'
-import { ENTITY_KEYS } from '../../../constants/entities.js'
-import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js'
+import { transformOrderIndexPayload, ensureBlockInstanceVersionsBeforeBulkUpdate } from './entityHelpers.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
+import { csrfProtection } from '../../../middlewares/security.js'
+import { ENTITY_KEYS } from '../../../constants/entities.js'
 
 const router = Router()
 
@@ -32,7 +31,7 @@ router.param('entityType', entityTypeParamHandler)
  * WHY: More efficient than individual PATCH requests (1 request vs N requests)
  * PATTERN: Transform payload, bulk update, return count
  */
-router.patch('/:entityType/order_index', async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/order_index', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
@@ -63,17 +62,16 @@ router.patch('/:entityType/order_index', async (req: Request, res: Response): Pr
  * 
  * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
  */
-router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/bulk', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
     return
   }
-  
+
   try {
     const updates = req.body
-    
-    // Validate request body is an array
+
     const validation = validateBulkUpdateArray(updates)
     if (!validation.valid) {
       res.status(400).json({
@@ -82,35 +80,13 @@ router.patch('/:entityType/bulk', async (req: Request, res: Response): Promise<v
       })
       return
     }
-    
-    // CRITICAL: For block instances, capture old state BEFORE update for versioning
-    if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
-      // Fetch old instances with part instances for versioning
-      const blockInstanceIds = updates.map((update: { id: string }) => update.id)
-      
-      // PATTERN: Map IDs to versioning operations, then execute in parallel
-      await Promise.all(
-        blockInstanceIds.map(async (blockInstanceId: string) => {
-          const oldInstance = await BlockInstance.findByPk(blockInstanceId, {
-            include: [
-              {
-                model: PartInstance,
-                as: 'part_assignment_instances',
-                through: {
-                  where: { disabled: false },
-                },
-              }
-            ]
-          })
-          
-          if (oldInstance) {
-            // Create version with OLD data if referenced by appointments
-            await createBlockInstanceVersionIfReferenced(blockInstanceId, oldInstance)
-          }
-        })
-      )
+
+    const entityType = req.params.entityType
+    const isBlockInstance = entityType === ENTITY_KEYS.BLOCK_INSTANCE
+    if (isBlockInstance) {
+      await ensureBlockInstanceVersionsBeforeBulkUpdate(updates)
     }
-    
+
     const updatedCount = await bulkPatch(entityConfig.model, updates)
     res.json({ updated: updatedCount })
   } catch (error) {

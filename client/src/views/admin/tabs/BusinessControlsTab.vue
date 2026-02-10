@@ -1,39 +1,35 @@
 <!--
   LEARNING: Business Controls Tab Component
   WHY: Allows admin to configure availability settings (business hours, time increments, lead time)
-  PATTERN: Form with validation, API integration for loading/saving settings
-  COMPARISON: React uses Ant Design Form. Vue uses Vuetify VForm with validation
-  RESOURCE: https://vuetifyjs.com/en/components/forms/
+  PATTERN: Form with validation, API integration; delegates to panel components and composables
 -->
 <script setup lang="ts">
 import { computed, inject, type Ref } from 'vue'
 import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
-import { DAY_NAMES, TIME_INCREMENT_OPTIONS, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
+import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
+import { useBufferSettings } from '@/composables/admin/useBufferSettings'
+import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
+import { useDifferentialPerspectives } from '@/composables/admin/useDifferentialPerspectives'
+import { DAY_NAMES, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig, AvailabilitySettings, CalendarProvider, DriveTimeApplyTo, DriveTimeConfig, Coordinates, CalendarEntry } from '@/configs/availabilitySettings'
+import type { BusinessHoursConfig } from '@/configs/availabilitySettings'
 import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
-import { useGlobal } from '@/composables/useGlobal'
-import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
-import type { GlobalEntityId } from '@/types/entities'
+import type { CalendarProvider, DriveTimeApplyTo } from '@/configs/availabilitySettings'
+import RangeConstraintsPanel from './components/RangeConstraintsPanel.vue'
+import CapacityConstraintsPanel from './components/CapacityConstraintsPanel.vue'
+import OverlapConstraintsPanel from './components/OverlapConstraintsPanel.vue'
+import CalendarIntegrationPanel from './components/CalendarIntegrationPanel.vue'
+import DurationRoundingPanel from './components/DurationRoundingPanel.vue'
+import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
+import GridConfigPanel from './components/GridConfigPanel.vue'
 import BusinessRulesTab from './BusinessRulesTab.vue'
-import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 
-/**
- * LEARNING: Check if this tab is active via injected parent tab state
- * WHY: Only load settings when tab is active to prevent unnecessary API calls
- * PATTERN: Inject parent tab state and compute if this tab is active
- */
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
-const isTabActive = computed(() => adminCurrentTab?.value === 'business' ?? false)
+const isTabActive = computed(() => adminCurrentTab?.value === 'business')
 
-/**
- * LEARNING: Use availability settings composable with conditional loading
- * WHY: Only load settings when tab is active, preventing API calls on initial page load
- * PATTERN: Pass enabled computed ref to composable to control when loading happens
- */
 const {
   formData,
   loading,
@@ -46,18 +42,11 @@ const {
 })
 
 const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = useLocalTime()
-
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-// WHY: Time inputs expect HH:mm format, but formData stores RFC3339 internally
 const businessHoursForUI = computed(() => {
-  if (!formData.value) {
-    return {} as Record<number, { start: string; end: string }>
-  }
-  
+  if (!formData.value) return {} as Record<number, { start: string; end: string }>
   const currentFormData = formData.value
-  
-  // PATTERN: Array.from with map to create new object
   return Object.fromEntries(
     Array.from({ length: 7 }, (_, day) => {
       const dayHours = currentFormData.businessHours[day as keyof typeof currentFormData.businessHours]
@@ -72,547 +61,34 @@ const businessHoursForUI = computed(() => {
   ) as Record<number, { start: string; end: string }>
 })
 
-const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
-  return 'hours' in config
-}
+const isBusinessHoursConfig = (
+  config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }
+): config is BusinessHoursConfig => 'hours' in config
 
-// LEARNING: Watch for changes in UI business hours and update RFC3339 formData
 const updateBusinessHours = (day: number, field: 'start' | 'end', value: string): void => {
   if (!formData.value) return
-  
   const rfc3339Value = businessHoursHHmmToRfc3339(value)
-  // PATTERN: Update both locations to ensure consistency with type narrowing
   formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
-  
   const businessHoursConstraint = formData.value.rangeConstraints?.businessHours
   if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
     businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
   }
 }
 
-// PATTERN: Use tab navigation composable for state management
 const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
-
-// PATTERN: Use tab navigation composable for state management
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
-
-// PATTERN: Use tab navigation composable for state management
-// Session 2.0.2: Changed default to 'integration' for calendar integration tab
 const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integration' })
-
-// PATTERN: Use useGlobal composable to access global entities
-const { getGlobalData, getGlobalEntities } = useGlobal()
-
-const availableUserTypeBlocks = computed(() => {
-  const globalData = getGlobalData()
-  if (!globalData) return []
-  
-  const userTypeBlockIds = getAllUserTypeBlockIds(globalData)
-  const blockInstances = getGlobalEntities('blockInstance')
-  
-  return userTypeBlockIds
-    .map(id => blockInstances.find(bi => bi.id === id))
-    .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
-    .map(bi => ({
-      id: bi.id,
-      title: bi.name || `Block ${bi.id}`,
-      value: bi.id
-    }))
-})
-
-const majorAttendees = computed({
-  get: () => formData.value?.differentialPerspectives?.majorAttendees || [],
-  set: (value: GlobalEntityId[]) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.majorAttendees = value
-  }
-})
-
-const minorAttendees = computed({
-  get: () => formData.value?.differentialPerspectives?.minorAttendees || [],
-  set: (value: GlobalEntityId[]) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.minorAttendees = value
-  }
-})
-
-const majorLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
-  set: (value: string) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.majorLabel = value
-  }
-})
-
-const minorLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
-  set: (value: string) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.minorLabel = value
-  }
-})
-
-const differentialGraphDefaultLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
-  set: (value: string) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.differentialGraphDefaultLabel = value
-  }
-})
-
-const majorStateLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
-  set: (value: string) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.majorStateLabel = value
-  }
-})
-
-const minorStateLabel = computed({
-  get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
-  set: (value: string) => {
-    if (!formData.value) return
-    if (!formData.value.differentialPerspectives) {
-      formData.value.differentialPerspectives = {}
-    }
-    formData.value.differentialPerspectives.minorStateLabel = value
-  }
-})
 
 const maxBusinessHours = computed(() => {
   if (!formData.value) return 0
   return calculateMaxBusinessHours(formData.value.businessHours)
 })
 
-// PATTERN: Factory function that generates computed properties with consistent get/set pattern
-function createNestedComputed<TValue, TParent>(
-  options: {
-    getValue: () => TValue | undefined
-    getDefault: () => TValue
-    getCurrentParent: () => TParent | undefined
-    ensureParent: (current: TParent | undefined) => TParent
-    updateWithValue: (ensuredParent: TParent, value: TValue) => TParent
-    setParent: (parent: TParent) => void
-  }
-) {
-  return computed({
-    get: () => {
-      const value = options.getValue()
-      return value !== undefined ? value : options.getDefault()
-    },
-    set: (value: TValue) => {
-      if (!formData.value) return
-      const currentParent = options.getCurrentParent()
-      const ensuredParent = options.ensureParent(currentParent)
-      const updatedParent = options.updateWithValue(ensuredParent, value)
-      options.setParent(updatedParent)
-    }
-  })
-}
+const capacity = useCapacitySettings({ formData, maxBusinessHours })
+const buffers = useBufferSettings({ formData })
+const location = useDefaultLocation({ formData })
+const differential = useDifferentialPerspectives({ formData })
 
-// LEARNING: Helper functions to initialize capacity filters using functional patterns
-type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
-const ensureMaxWorkHours = (current: MaxWorkHours | undefined) => {
-  return current || {}
-}
-
-function createEnsureNested<TParent extends Record<string, unknown>>(
-  ensureParent: (current: TParent | undefined) => TParent,
-  key: string,
-  createDefault: () => unknown,
-  ensureAdditional?: (current: TParent) => TParent
-) {
-  return (current: TParent | undefined): TParent => {
-    const parent = ensureParent(current)
-    if (!parent[key]) {
-      const updated = {
-        ...parent,
-        [key]: createDefault()
-      } as TParent
-      return ensureAdditional ? ensureAdditional(updated) : updated
-    }
-    return ensureAdditional ? ensureAdditional(parent) : parent
-  }
-}
-
-// PATTERN: Factory function that handles maxWorkHours parent/setter pattern
-function createMaxWorkHoursComputed<TValue, TFilter extends 'day' | 'calendarWeek' | 'rollingWeek'>(
-  filter: TFilter,
-  property: string,
-  getDefault: () => TValue,
-  ensureFunction: (current: MaxWorkHours | undefined) => MaxWorkHours
-) {
-  return createNestedComputed<TValue, MaxWorkHours>({
-    getValue: () => {
-      const filterValue = formData.value?.maxWorkHours?.[filter]
-      if (!filterValue) return undefined
-      return (filterValue as unknown as Record<string, TValue>)[property]
-    },
-    getDefault,
-    getCurrentParent: () => formData.value?.maxWorkHours,
-    ensureParent: ensureFunction,
-    updateWithValue: (parent, value) => ({
-      ...parent,
-      [filter]: {
-        ...parent[filter]!,
-        [property]: value
-      } as MaxWorkHours[TFilter]
-    }),
-    setParent: (parent) => {
-      if (formData.value) formData.value.maxWorkHours = parent
-    }
-  })
-}
-
-const ensureWorkHoursPerDay = createEnsureNested(
-  ensureMaxWorkHours,
-  'day',
-  () => ({
-    maxHours: maxBusinessHours.value,
-    enforcement: 'off' as const
-  })
-)
-
-const ensureCalendarWeekLimit = createEnsureNested(
-  ensureMaxWorkHours,
-  'calendarWeek',
-  () => ({
-    maxHours: maxBusinessHours.value * 7,
-    enforcement: 'off' as const
-  })
-)
-
-const ensureRollingWeekLimit = createEnsureNested(
-  ensureMaxWorkHours,
-  'rollingWeek',
-  () => ({
-    maxHours: maxBusinessHours.value * 7,
-    enforcement: 'off' as const,
-    direction: 'past' as const
-  }),
-  (parent) => {
-    if (parent.rollingWeek && !parent.rollingWeek.direction) {
-      return {
-        ...parent,
-        rollingWeek: {
-          ...parent.rollingWeek,
-          direction: 'past' as const
-        }
-      }
-    }
-    return parent
-  }
-)
-
-const maxWorkHoursDayMaxHours = createMaxWorkHoursComputed('day', 'maxHours', () => maxBusinessHours.value, ensureWorkHoursPerDay)
-const maxWorkHoursDayEnforcement = createMaxWorkHoursComputed('day', 'enforcement', () => 'off' as const, ensureWorkHoursPerDay)
-
-const maxWorkHoursCalendarWeekMaxHours = createMaxWorkHoursComputed('calendarWeek', 'maxHours', () => maxBusinessHours.value * 7, ensureCalendarWeekLimit)
-const maxWorkHoursCalendarWeekEnforcement = createMaxWorkHoursComputed('calendarWeek', 'enforcement', () => 'off' as const, ensureCalendarWeekLimit)
-
-const maxWorkHoursRollingWeekMaxHours = createMaxWorkHoursComputed('rollingWeek', 'maxHours', () => maxBusinessHours.value * 7, ensureRollingWeekLimit)
-const maxWorkHoursRollingWeekEnforcement = createMaxWorkHoursComputed('rollingWeek', 'enforcement', () => 'off' as const, ensureRollingWeekLimit)
-const maxWorkHoursRollingWeekDirection = createMaxWorkHoursComputed('rollingWeek', 'direction', () => 'past' as const, ensureRollingWeekLimit)
-
-const enforcementOptions = [
-  { title: 'Off', value: 'off' },
-  { title: 'Flexible', value: 'flexible' },
-  { title: 'Hard', value: 'hard' }
-]
-
-const rollingWeekDirectionOptions = [
-  { title: 'Past 7 days', value: 'past' },
-  { title: 'Centered (3 before + day + 3 after)', value: 'centered' },
-  { title: 'Future 7 days', value: 'future' }
-]
-
-const bufferPlacementOptions = [
-  { title: 'Off', value: 'off' },
-  { title: 'Before', value: 'before' },
-  { title: 'After', value: 'after' },
-  { title: 'Both', value: 'both' }
-]
-
-// LEARNING: Drive time applyTo options for boundary exclusion rules
-// WHY: Allows admin to configure when drive time buffers apply (all slots vs. excluding day start/end)
-// PATTERN: Array of options matching DriveTimeApplyTo type
-// Session 2.2.3: Changed from first_only/last_only to skipDayStart/skipDayEnd for exclusionary logic
-const driveTimeApplyToOptions: { title: string; value: DriveTimeApplyTo }[] = [
-  { title: 'All Slots', value: 'all' },
-  { title: 'Skip Day Start', value: 'skipDayStart' },
-  { title: 'Skip Day End', value: 'skipDayEnd' },
-  { title: 'None (Disabled)', value: 'none' }
-]
-
-// LEARNING: Helper functions to initialize buffers using functional patterns
-type Buffers = NonNullable<AvailabilitySettings['buffers']>
-const ensureBuffers = (current: Buffers | undefined) => {
-  return current || {}
-}
-
-// PATTERN: Factory function that handles buffers parent/setter pattern
-function createBuffersComputed<TValue>(
-  bufferType: keyof Buffers,
-  property: string,
-  getDefault: () => TValue,
-  ensureFunction: (current: Buffers | undefined) => Buffers
-) {
-  return createNestedComputed<TValue, Buffers>({
-    getValue: () => {
-      const bufferValue = formData.value?.buffers?.[bufferType]
-      if (!bufferValue) return undefined
-      return (bufferValue as unknown as Record<string, TValue>)[property]
-    },
-    getDefault,
-    getCurrentParent: () => formData.value?.buffers,
-    ensureParent: ensureFunction,
-    updateWithValue: (parent, value) => ({
-      ...parent,
-      [bufferType]: {
-        ...parent[bufferType]!,
-        [property]: value
-      }
-    } as Buffers),
-    setParent: (parent) => {
-      if (formData.value) formData.value.buffers = parent
-    }
-  })
-}
-
-const ensureAppointmentBuffer = createEnsureNested(
-  ensureBuffers,
-  'appointment',
-  () => ({
-    type: 'appointment' as const,
-    minutes: 0,
-    placement: 'off' as const,
-    enforcement: 'hard' as const
-  })
-)
-
-// LEARNING: Ensure functions for new drive time buffer structure
-// WHY: driveToCandidate/driveFromCandidate replace legacy driveTime with semantic meaning and applyTo rules
-// PATTERN: createEnsureNested with DriveTimeConfig defaults
-
-const ensureDriveToCandidate = createEnsureNested(
-  ensureBuffers,
-  'driveToCandidate',
-  () => ({
-    minutes: 30,
-    enforcement: 'hard' as const,
-    applyTo: 'skipDayStart' as const  // Session 2.2.3: Fixed to match DriveTimeApplyTo type
-  } as DriveTimeConfig)
-)
-
-const ensureDriveFromCandidate = createEnsureNested(
-  ensureBuffers,
-  'driveFromCandidate',
-  () => ({
-    minutes: 15,
-    enforcement: 'hard' as const,
-    applyTo: 'skipDayEnd' as const  // Session 2.2.3: Fixed to match DriveTimeApplyTo type
-  } as DriveTimeConfig)
-)
-
-// PATTERN: Factory function for drive time buffer computed properties
-// WHY: DriveTimeConfig doesn't have 'placement', uses different fields than BufferConfig
-function createDriveTimeComputed<TValue>(
-  bufferType: 'driveToCandidate' | 'driveFromCandidate',
-  property: keyof DriveTimeConfig,
-  getDefault: () => TValue,
-  ensureFunction: (current: Buffers | undefined) => Buffers
-) {
-  return createNestedComputed<TValue, Buffers>({
-    getValue: () => {
-      const bufferValue = formData.value?.buffers?.[bufferType]
-      if (!bufferValue) return undefined
-      return (bufferValue as unknown as Record<string, TValue>)[property]
-    },
-    getDefault,
-    getCurrentParent: () => formData.value?.buffers,
-    ensureParent: ensureFunction,
-    updateWithValue: (parent, value) => ({
-      ...parent,
-      [bufferType]: {
-        ...parent[bufferType]!,
-        [property]: value
-      }
-    } as Buffers),
-    setParent: (parent) => {
-      if (formData.value) formData.value.buffers = parent
-    }
-  })
-}
-
-// Computed properties for driveToCandidate
-const buffersDriveToCandidateMinutes = createDriveTimeComputed('driveToCandidate', 'minutes', () => 30, ensureDriveToCandidate)
-const buffersDriveToCandidateEnforcement = createDriveTimeComputed('driveToCandidate', 'enforcement', () => 'hard' as const, ensureDriveToCandidate)
-const buffersDriveToCandidateApplyTo = createDriveTimeComputed('driveToCandidate', 'applyTo', () => 'skipDayStart' as const, ensureDriveToCandidate)  // Session 2.2.3: Updated default
-
-// Computed properties for driveFromCandidate
-const buffersDriveFromCandidateMinutes = createDriveTimeComputed('driveFromCandidate', 'minutes', () => 15, ensureDriveFromCandidate)
-const buffersDriveFromCandidateEnforcement = createDriveTimeComputed('driveFromCandidate', 'enforcement', () => 'hard' as const, ensureDriveFromCandidate)
-const buffersDriveFromCandidateApplyTo = createDriveTimeComputed('driveFromCandidate', 'applyTo', () => 'skipDayEnd' as const, ensureDriveFromCandidate)  // Session 2.2.3: Updated default
-
-// Computed properties for defaultLocation
-// LEARNING: defaultLocation is at root level of AvailabilitySettings, not nested in buffers
-// WHY: Used for drive time calculations but conceptually separate from buffer configs
-const defaultLocationAddress = computed({
-  get: () => formData.value?.defaultLocation?.address ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { placeId: '' }
-      }
-      formData.value.defaultLocation.address = value
-    }
-  }
-})
-
-const defaultLocationLabel = computed({
-  get: () => formData.value?.defaultLocation?.label ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { placeId: '' }
-      }
-      formData.value.defaultLocation.label = value
-    }
-  }
-})
-
-// LEARNING: Computed property for default location coordinates
-// WHY: AddressAutocomplete extracts coordinates from Google Places API
-// PATTERN: Coordinates stored alongside placeId for drive time calculations
-const defaultLocationCoordinates = computed({
-  get: () => formData.value?.defaultLocation?.coordinates,
-  set: (value: Coordinates | undefined) => {
-    if (formData.value) {
-      if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { placeId: '' }
-      }
-      formData.value.defaultLocation.coordinates = value
-    }
-  }
-})
-
-// LEARNING: Computed property for default location Place ID (Session 2.2.2)
-// WHY: placeId is primary location identifier throughout codebase (address only at UI boundary)
-// PATTERN: placeId is required, address is optional for UI display
-const defaultLocationPlaceId = computed({
-  get: () => formData.value?.defaultLocation?.placeId ?? '',
-  set: (value: string) => {
-    if (formData.value) {
-      if (!formData.value.defaultLocation) {
-        formData.value.defaultLocation = { placeId: '' }
-      }
-      formData.value.defaultLocation.placeId = value
-    }
-  }
-})
-
-// LEARNING: Helper functions to initialize range constraints using functional patterns
-type RangeConstraints = NonNullable<AvailabilitySettings['rangeConstraints']>
-const ensureRangeConstraints = (current: RangeConstraints | undefined) => {
-  return current || {}
-}
-
-const ensureLeadTimeConstraint = createEnsureNested(
-  ensureRangeConstraints,
-  'leadTime',
-  () => ({
-    type: 'leadTime' as const,
-    enforcement: 'hard' as const,
-    config: {
-      minutes: 60 // Default 1 hour
-    }
-  })
-)
-
-const rangeConstraintsLeadTimeMinutes = createNestedComputed({
-  getValue: () => {
-    const leadTime = formData.value?.rangeConstraints?.leadTime
-    if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {
-      return leadTime.config.minutes
-    }
-    return undefined
-  },
-  getDefault: () => 60, // Default 1 hour
-  getCurrentParent: () => formData.value?.rangeConstraints,
-  ensureParent: ensureLeadTimeConstraint,
-  updateWithValue: (parent, value) => ({
-    ...parent,
-    leadTime: {
-      ...parent.leadTime!,
-      type: 'leadTime' as const,
-      enforcement: parent.leadTime!.enforcement,
-      config: {
-        minutes: value
-      }
-    }
-  }),
-  setParent: (parent) => {
-    if (formData.value) formData.value.rangeConstraints = parent
-  }
-})
-
-const buffersAppointmentMinutes = createBuffersComputed('appointment', 'minutes', () => 0, ensureAppointmentBuffer)
-const buffersAppointmentPlacement = createBuffersComputed('appointment', 'placement', () => 'off' as const, ensureAppointmentBuffer)
-const buffersAppointmentEnforcement = createBuffersComputed('appointment', 'enforcement', () => 'hard' as const, ensureAppointmentBuffer)
-
-const saveButtonProps = computed(() => ({
-  type: 'submit' as const,
-  color: 'primary' as const,
-  loading: saving.value,
-  disabled: saving.value
-}))
-
-const dayNames = DAY_NAMES
-const timeIncrementOptions = TIME_INCREMENT_OPTIONS
-const timezoneOptions = TIMEZONE_OPTIONS
-
-const roundingIncrementOptions = [
-  { title: '5 minutes', value: 5 },
-  { title: '10 minutes', value: 10 },
-  { title: '15 minutes', value: 15 },
-  { title: '30 minutes', value: 30 },
-  { title: '60 minutes', value: 60 }
-]
-
-const roundingMethodOptions = [
-  { title: 'Round Up', value: 'roundUp' },
-  { title: 'Round Down', value: 'roundDown' },
-  { title: 'Round Nearest', value: 'roundNearest' }
-]
-
-// Calendar Integration options
-// Session 2.0.2: Added for Google Calendar API integration
-const calendarProviderOptions: { title: string; value: CalendarProvider }[] = [
-  { title: 'None', value: 'none' },
-  { title: 'Google Calendar', value: 'google' },
-  { title: 'Microsoft Outlook', value: 'outlook' }
-]
-
-// Calendar config computed properties with defaults
-// PATTERN: Ensure calendarConfig exists before accessing
 const calendarEnabled = computed({
   get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
   set: (value: boolean) => {
@@ -626,7 +102,7 @@ const calendarEnabled = computed({
 })
 
 const calendarProvider = computed({
-  get: () => formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider,
+  get: () => (formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider) as CalendarProvider,
   set: (value: CalendarProvider) => {
     if (formData.value) {
       if (!formData.value.calendarConfig) {
@@ -637,9 +113,6 @@ const calendarProvider = computed({
   }
 })
 
-// Calendar entries management composable
-// LEARNING: Extracts calendar entry logic to composable
-// WHY: Provides clean separation of concerns and enforces business rules
 const {
   entries: calendarEntries,
   addEntry: addCalendarEntry,
@@ -649,991 +122,251 @@ const {
   setWriteTo,
   writeToIndex,
   validationError: calendarValidationError,
-  isValid: calendarIsValid
+  isValid: _calendarIsValid
 } = useCalendarEntries(formData, calendarEnabled, calendarProvider)
 
-// Email validation rules
-// PATTERN: Returns true if valid, or error message string if invalid
 const emailValidationRule = (value: string): true | string => {
-  if (!value || value.trim() === '') return true // Empty is OK (optional)
-  return isValidCalendarEmail(value) ? true : 'Please enter a valid email address'
+  if (!value || value.trim() === '') return true
+  return isValidCalendarEmail(value) ? true : UI_STRINGS.validation.emailInvalid
+}
+
+const saveButtonProps = computed(() => ({
+  type: 'submit' as const,
+  color: 'primary' as const,
+  loading: saving.value,
+  disabled: saving.value
+}))
+
+const clearError = (): void => {
+  error.value = null
+}
+
+const dayNames = DAY_NAMES
+const timezoneOptions = TIMEZONE_OPTIONS
+
+const durationRoundingEnabled = computed({
+  get: () => formData.value?.durationRounding?.enabled ?? false,
+  set: (v: boolean) => {
+    if (formData.value?.durationRounding) formData.value.durationRounding.enabled = v
+  }
+})
+const durationRoundingIncrement = computed({
+  get: () => formData.value?.durationRounding?.increment ?? 15,
+  set: (v: number) => {
+    if (formData.value?.durationRounding) formData.value.durationRounding.increment = v
+  }
+})
+const durationRoundingMethod = computed({
+  get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
+  set: (v: string) => {
+    if (formData.value?.durationRounding) formData.value.durationRounding.method = v as 'roundUp' | 'roundDown' | 'roundNearest'
+  }
+})
+
+const timezone = computed({
+  get: () => formData.value?.timezone ?? '',
+  set: (v: string) => {
+    if (formData.value) formData.value.timezone = v
+  }
+})
+
+const minuteIncrement = computed({
+  get: () => formData.value?.minuteIncrement ?? 15,
+  set: (v: number) => {
+    if (formData.value) formData.value.minuteIncrement = v
+  }
+})
+
+function setCalendarProvider(v: string): void {
+  calendarProvider.value = v as CalendarProvider
+}
+function setTimezone(v: string): void {
+  timezone.value = v
+}
+function setMinuteIncrement(v: number): void {
+  minuteIncrement.value = v
 }
 </script>
 
 <template>
   <div class="business-controls-tab">
-    <!-- Loading state -->
     <div v-if="loading" class="text-center py-4">
       <VProgressCircular indeterminate color="primary" />
       <div class="mt-2">{{ UI_STRINGS.loading }}</div>
     </div>
-    
-    <!-- Form -->
+
     <VForm v-else @submit.prevent="saveSettings">
-      <!-- Success message -->
-      <VAlert
-        v-if="success"
-        type="success"
-        dismissible
-        class="mb-4"
-      >
+      <VAlert v-if="success" type="success" dismissible class="mb-4">
         {{ success }}
       </VAlert>
-      
-      <!-- Error message -->
       <VAlert
         v-if="error"
         type="error"
         dismissible
         class="mb-4"
-        @click:close="error = null"
+        @click:close="clearError"
       >
         {{ error }}
       </VAlert>
-      
-      <!-- LEARNING: Main tabs for Controls sections -->
-      <!-- WHY: Provides tabbed interface for switching between Constraints and Calendar -->
-      <!-- PATTERN: VTabs/VWindow pattern matching DataManagementTab and other admin tabs -->
+
       <VTabs v-model="currentMainTab" class="mb-4">
         <VTab value="constraints">{{ UI_STRINGS.tabs.constraints }}</VTab>
         <VTab value="calendar">{{ UI_STRINGS.tabs.calendar }}</VTab>
-        <VTab value="rules">Rules</VTab>
+        <VTab value="rules">{{ UI_STRINGS.tabs.rules }}</VTab>
       </VTabs>
-      
+
       <VWindow v-model="currentMainTab">
-        <!-- Constraints Tab -->
         <VWindowItem key="constraints" value="constraints">
-          <!-- LEARNING: Subtabs for Constraints sections -->
-          <!-- WHY: Provides tabbed interface for switching between different constraint types -->
-          <!-- PATTERN: VTabs/VWindow pattern matching DataManagementTab -->
           <VTabs v-model="currentSubTab" class="mb-4">
             <VTab value="range">{{ UI_STRINGS.tabs.range }}</VTab>
             <VTab value="capacity">{{ UI_STRINGS.tabs.capacity }}</VTab>
             <VTab value="overlap">{{ UI_STRINGS.tabs.overlap }}</VTab>
           </VTabs>
-          
+
           <VWindow v-model="currentSubTab">
-              <!-- Range Tab -->
-              <VWindowItem key="range" value="range">
-                <!-- Range Constraints Expansion Panels -->
-                <VExpansionPanels class="mb-4">
-                  <!-- Business Hours -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.businessHours">
-                    <VExpansionPanelText>
-                      <div
-                        v-for="day in 7"
-                        :key="day - 1"
-                        class="mb-4"
-                      >
-                        <div class="text-subtitle-2 mb-2">{{ dayNames[day - 1] }}</div>
-                        <VRow>
-                          <VCol cols="12" sm="6" md="4">
-                            <VTextField
-                              :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI]?.start"
-                              @update:model-value="(v: string) => updateBusinessHours(day - 1, 'start', v)"
-                              :label="UI_STRINGS.labels.startTime"
-                              type="time"
-                              required
-                              :rules="[
-                                (v: string) => !!v || UI_STRINGS.validation.startTimeRequired,
-                                (v: string) => /^\d{2}:\d{2}$/.test(v) || UI_STRINGS.validation.invalidTimeFormat,
-                              ]"
-                            />
-                          </VCol>
-                          <VCol cols="12" sm="6" md="4">
-                            <VTextField
-                              :model-value="businessHoursForUI[(day - 1) as keyof typeof businessHoursForUI]?.end"
-                              @update:model-value="(v: string) => updateBusinessHours(day - 1, 'end', v)"
-                              :label="UI_STRINGS.labels.endTime"
-                              type="time"
-                              required
-                              :rules="[
-                                (v: string) => !!v || UI_STRINGS.validation.endTimeRequired,
-                                (v: string) => /^\d{2}:\d{2}$/.test(v) || UI_STRINGS.validation.invalidTimeFormat,
-                              ]"
-                            />
-                          </VCol>
-                        </VRow>
-                      </div>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Lead Time Constraint -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.leadTimeConstraint">
-                    <VExpansionPanelText>
-                      <VTextField
-                        v-model.number="rangeConstraintsLeadTimeMinutes"
-                        :label="UI_STRINGS.labels.minimumLeadTime"
-                        type="number"
-                        min="0"
-                        required
-                        :rules="[
-                          (v: number) => v !== null && v !== undefined || UI_STRINGS.validation.leadTimeRequired,
-                          (v: number) => v >= 0 || UI_STRINGS.validation.leadTimeMin,
-                        ]"
-                      />
-                      <div class="text-caption mt-2">
-                        {{ UI_STRINGS.help.leadTimeDescription }} {{ rangeConstraintsLeadTimeMinutes }} {{ UI_STRINGS.help.leadTimeMinutes }}
-                        ({{ Math.round(rangeConstraintsLeadTimeMinutes / 60 * 10) / 10 }} {{ UI_STRINGS.help.leadTimeHours }})
-                      </div>
-                      <div class="text-caption mt-1" style="color: rgba(0,0,0,0.6);">
-                        {{ UI_STRINGS.help.leadTimeFilter }}
-                      </div>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Date Range Constraint -->
-                  <!-- TODO: Implement Date Range Constraint UI
-                    * When implementing, follow the pattern used for Lead Time Constraint above
-                    * Use ensureRangeConstraints() and ensureDateRangeConstraint() helper functions (create if needed)
-                    * Create computed properties with getters/setters for dateRange start/end dates (similar to rangeConstraintsLeadTimeMinutes)
-                    * Use VTextField with type="datetime-local" or VDatePicker/VTimePicker components for date/time input
-                    * Convert between RFC3339 format (stored in formData) and local datetime format (for UI)
-                    * See: client/src/configs/availabilitySettings.ts for DateRangeConfig interface (start: string, end: string RFC3339)
-                    * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
-                  -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.dateRangeConstraint">
-                    <VExpansionPanelText>
-                      <VAlert type="info" variant="tonal">
-                        <div class="text-body-2">{{ UI_STRINGS.help.dateRangeNotSetup }}</div>
-                        <div class="text-caption mt-1">
-                          {{ UI_STRINGS.help.dateRangeDescription }}
-                        </div>
-                      </VAlert>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                </VExpansionPanels>
-                
-                <!-- Help text -->
-                <div class="text-caption mt-2 pa-2" style="background-color: rgba(0,0,0,0.05); border-radius: 4px; font-size: 0.75rem;">
-                  {{ UI_STRINGS.help.rangeConstraints }}
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
-              
-              <!-- Capacity Tab -->
-              <VWindowItem key="capacity" value="capacity">
-                <!-- Capacity Constraints Expansion Panels -->
-                <VExpansionPanels class="mb-4">
-                  <!-- Per Day Limit -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.perDayLimit">
-                    <VExpansionPanelText>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="4">
-                          <VTextField
-                            v-model.number="maxWorkHoursDayMaxHours"
-                            :label="UI_STRINGS.labels.maximumHoursPerDay"
-                            type="number"
-                            min="0"
-                            max="24"
-                            step="0.5"
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater,
-                              (v: number) => v <= 24 || UI_STRINGS.validation.cannotExceed24Hours,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="4">
-                          <VSelect
-                            v-model="maxWorkHoursDayEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.enforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Calendar Week Limit -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.calendarWeekLimit">
-                    <VExpansionPanelText>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="4">
-                          <VTextField
-                            v-model.number="maxWorkHoursCalendarWeekMaxHours"
-                            :label="UI_STRINGS.labels.maximumHoursPerWeek"
-                            type="number"
-                            min="0"
-                            step="0.5"
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="4">
-                          <VSelect
-                            v-model="maxWorkHoursCalendarWeekEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.enforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Rolling Week Limit -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.rollingWeekLimit">
-                    <VExpansionPanelText>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="3">
-                          <VTextField
-                            v-model.number="maxWorkHoursRollingWeekMaxHours"
-                            :label="UI_STRINGS.labels.maximumHours7Days"
-                            type="number"
-                            min="0"
-                            step="0.5"
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="maxWorkHoursRollingWeekEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.enforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="maxWorkHoursRollingWeekDirection"
-                            :items="rollingWeekDirectionOptions"
-                            :label="UI_STRINGS.labels.direction"
-                            :hint="UI_STRINGS.hints.direction"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                </VExpansionPanels>
-                
-                <!-- Help text -->
-                <div class="text-caption mt-2 pa-2" style="background-color: rgba(0,0,0,0.05); border-radius: 4px; font-size: 0.75rem;">
-                  {{ UI_STRINGS.help.enforcement }}
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
-              
-              <!-- Overlap Tab -->
-              <VWindowItem key="overlap" value="overlap">
-                <!-- Overlap Constraints Expansion Panels -->
-                <VExpansionPanels class="mb-4">
-                  <!-- Appointment Buffers -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.appointmentBuffers">
-                    <VExpansionPanelText>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="3">
-                          <VTextField
-                            v-model.number="buffersAppointmentMinutes"
-                            :label="UI_STRINGS.labels.bufferTime"
-                            type="number"
-                            min="0"
-                            step="5"
-                            :hint="UI_STRINGS.hints.bufferTime"
-                            persistent-hint
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersAppointmentPlacement"
-                            :items="bufferPlacementOptions"
-                            :label="UI_STRINGS.labels.placement"
-                            :hint="UI_STRINGS.hints.placement"
-                            persistent-hint
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersAppointmentEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.bufferEnforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Drive Time To Buffer (Arrival) -->
-                  <!-- LEARNING: Travel time TO arrive at appointment, applied BEFORE start time -->
-                  <!-- WHY: Ensures enough time to travel to the appointment location -->
-                  <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.driveToCandidateBuffer">
-                    <VExpansionPanelText>
-                      <!-- Session 2.2.3: Drive time source indicator -->
-                      <VAlert
-                        v-if="defaultLocationPlaceId"
-                        type="success"
-                        variant="tonal"
-                        density="compact"
-                        class="mb-4"
-                      >
-                        <template #prepend>
-                          <VIcon>mdi-map-marker-check</VIcon>
-                        </template>
-                        <div class="text-body-2">
-                          <strong>Calculated Drive Times</strong>
-                        </div>
-                        <div class="text-caption">
-                          Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.
-                        </div>
-                      </VAlert>
-                      <VAlert
-                        v-else
-                        type="info"
-                        variant="tonal"
-                        density="compact"
-                        class="mb-4"
-                      >
-                        <template #prepend>
-                          <VIcon>mdi-information</VIcon>
-                        </template>
-                        <div class="text-body-2">
-                          <strong>Estimated Drive Times</strong>
-                        </div>
-                        <div class="text-caption">
-                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.
-                        </div>
-                      </VAlert>
-                      <div class="text-body-2 mb-4 text-medium-emphasis">
-                        {{ UI_STRINGS.help.driveToCandidateDescription }}
-                      </div>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="3">
-                          <VTextField
-                            v-model.number="buffersDriveToCandidateMinutes"
-                            :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
-                            type="number"
-                            min="0"
-                            step="5"
-                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveToCandidateMinutes"
-                            persistent-hint
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersDriveToCandidateApplyTo"
-                            :items="driveTimeApplyToOptions"
-                            :label="UI_STRINGS.labels.applyTo"
-                            :hint="UI_STRINGS.hints.driveTimeApplyTo"
-                            persistent-hint
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersDriveToCandidateEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.bufferEnforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Drive Time From Buffer (Departure) -->
-                  <!-- LEARNING: Travel time FROM appointment, applied AFTER end time -->
-                  <!-- WHY: Ensures enough time to travel from the appointment to the next location -->
-                  <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.driveFromCandidateBuffer">
-                    <VExpansionPanelText>
-                      <!-- Session 2.2.3: Drive time source indicator -->
-                      <VAlert
-                        v-if="defaultLocationPlaceId"
-                        type="success"
-                        variant="tonal"
-                        density="compact"
-                        class="mb-4"
-                      >
-                        <template #prepend>
-                          <VIcon>mdi-map-marker-check</VIcon>
-                        </template>
-                        <div class="text-body-2">
-                          <strong>Calculated Drive Times (Routes API Active)</strong>
-                        </div>
-                        <div class="text-caption">
-                          Drive times are calculated using Google Maps Routes API based on your default location and appointment addresses. The value below is used as a <strong>fallback</strong> if the API is unavailable or returns no route.
-                        </div>
-                      </VAlert>
-                      <VAlert
-                        v-else
-                        type="info"
-                        variant="tonal"
-                        density="compact"
-                        class="mb-4"
-                      >
-                        <template #prepend>
-                          <VIcon>mdi-information</VIcon>
-                        </template>
-                        <div class="text-body-2">
-                          <strong>Static Drive Times (Fallback Only)</strong>
-                        </div>
-                        <div class="text-caption">
-                          Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times from Google Maps Routes API.
-                        </div>
-                      </VAlert>
-                      <div class="text-body-2 mb-4 text-medium-emphasis">
-                        {{ UI_STRINGS.help.driveFromCandidateDescription }}
-                      </div>
-                      <VRow>
-                        <VCol cols="12" sm="6" md="3">
-                          <VTextField
-                            v-model.number="buffersDriveFromCandidateMinutes"
-                            :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
-                            type="number"
-                            min="0"
-                            step="5"
-                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveFromCandidateMinutes"
-                            persistent-hint
-                            :rules="[
-                              (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
-                            ]"
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersDriveFromCandidateApplyTo"
-                            :items="driveTimeApplyToOptions"
-                            :label="UI_STRINGS.labels.applyTo"
-                            :hint="UI_STRINGS.hints.driveTimeApplyTo"
-                            persistent-hint
-                          />
-                        </VCol>
-                        <VCol cols="12" sm="6" md="3">
-                          <VSelect
-                            v-model="buffersDriveFromCandidateEnforcement"
-                            :items="enforcementOptions"
-                            :label="UI_STRINGS.labels.enforcement"
-                            :hint="UI_STRINGS.hints.bufferEnforcement"
-                            persistent-hint
-                          />
-                        </VCol>
-                      </VRow>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                  
-                  <!-- Lunch Buffer -->
-                  <!-- TODO: Implement Lunch Buffer UI
-                    * When implementing, follow the pattern used for Appointment Buffers above
-                    * Use ensureBuffers() and ensureLunchBuffer() helper functions (create if needed)
-                    * Create computed properties with getters/setters for lunch minutes/placement/enforcement (similar to buffersAppointmentMinutes, buffersAppointmentPlacement, buffersAppointmentEnforcement)
-                    * Use VTextField for minutes, VSelect for placement and enforcement (reuse bufferPlacementOptions and enforcementOptions)
-                    * See: client/src/configs/availabilitySettings.ts for BufferConfig interface (type: 'lunch', minutes, placement, enforcement)
-                    * Use the useAvailabilitySettings composable's formData, saveSettings, and validation patterns
-                    * Lunch buffers block time for lunch breaks to prevent scheduling during meal times
-                  -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.lunchBuffer">
-                    <VExpansionPanelText>
-                      <VAlert type="info" variant="tonal">
-                        <div class="text-body-2">{{ UI_STRINGS.help.lunchNotSetup }}</div>
-                        <div class="text-caption mt-1">
-                          {{ UI_STRINGS.help.lunchDescription }}
-                        </div>
-                      </VAlert>
-                    </VExpansionPanelText>
-                  </VExpansionPanel>
-                </VExpansionPanels>
-                
-                <!-- Help text -->
-                <div class="text-caption mt-2 pa-2" style="background-color: rgba(0,0,0,0.05); border-radius: 4px; font-size: 0.75rem;">
-                  {{ UI_STRINGS.help.placement }}
-                </div>
-              
-              <!-- Action Buttons -->
-              <div class="d-flex gap-2 mt-4">
-                <VBtn v-bind="saveButtonProps">
-                  {{ UI_STRINGS.buttons.saveSettings }}
-                </VBtn>
-              </div>
+            <VWindowItem key="range" value="range">
+              <RangeConstraintsPanel
+                :business-hours-for-ui="businessHoursForUI"
+                :update-business-hours="updateBusinessHours"
+                :day-names="dayNames"
+                :range-constraints-lead-time-minutes="buffers.rangeConstraintsLeadTimeMinutes.value"
+                :save-button-props="saveButtonProps"
+                @update:range-constraints-lead-time-minutes="(v: number) => { buffers.rangeConstraintsLeadTimeMinutes.value = v }"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="capacity" value="capacity">
+              <CapacityConstraintsPanel
+                :max-work-hours-day-max-hours="capacity.maxWorkHoursDayMaxHours.value"
+                :max-work-hours-day-enforcement="capacity.maxWorkHoursDayEnforcement.value"
+                :max-work-hours-calendar-week-max-hours="capacity.maxWorkHoursCalendarWeekMaxHours.value"
+                :max-work-hours-calendar-week-enforcement="capacity.maxWorkHoursCalendarWeekEnforcement.value"
+                :max-work-hours-rolling-week-max-hours="capacity.maxWorkHoursRollingWeekMaxHours.value"
+                :max-work-hours-rolling-week-enforcement="capacity.maxWorkHoursRollingWeekEnforcement.value"
+                :max-work-hours-rolling-week-direction="capacity.maxWorkHoursRollingWeekDirection.value"
+                :save-button-props="saveButtonProps"
+                @update:max-work-hours-day-max-hours="(v: number) => { capacity.maxWorkHoursDayMaxHours.value = v }"
+                @update:max-work-hours-day-enforcement="(v) => { capacity.maxWorkHoursDayEnforcement.value = v }"
+                @update:max-work-hours-calendar-week-max-hours="(v: number) => { capacity.maxWorkHoursCalendarWeekMaxHours.value = v }"
+                @update:max-work-hours-calendar-week-enforcement="(v) => { capacity.maxWorkHoursCalendarWeekEnforcement.value = v }"
+                @update:max-work-hours-rolling-week-max-hours="(v: number) => { capacity.maxWorkHoursRollingWeekMaxHours.value = v }"
+                @update:max-work-hours-rolling-week-enforcement="(v) => { capacity.maxWorkHoursRollingWeekEnforcement.value = v }"
+                @update:max-work-hours-rolling-week-direction="(v) => { capacity.maxWorkHoursRollingWeekDirection.value = v }"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="overlap" value="overlap">
+              <OverlapConstraintsPanel
+                :buffers-appointment-minutes="buffers.buffersAppointmentMinutes.value"
+                :buffers-appointment-placement="buffers.buffersAppointmentPlacement.value"
+                :buffers-appointment-enforcement="buffers.buffersAppointmentEnforcement.value"
+                :buffers-drive-to-candidate-minutes="buffers.buffersDriveToCandidateMinutes.value"
+                :buffers-drive-to-candidate-enforcement="buffers.buffersDriveToCandidateEnforcement.value"
+                :buffers-drive-to-candidate-apply-to="buffers.buffersDriveToCandidateApplyTo.value"
+                :buffers-drive-from-candidate-minutes="buffers.buffersDriveFromCandidateMinutes.value"
+                :buffers-drive-from-candidate-enforcement="buffers.buffersDriveFromCandidateEnforcement.value"
+                :buffers-drive-from-candidate-apply-to="buffers.buffersDriveFromCandidateApplyTo.value"
+                :overlap-sources-out-of-office-enforcement="buffers.overlapSourcesOutOfOfficeEnforcement.value"
+                :default-location-place-id="location.defaultLocationPlaceId.value"
+                :save-button-props="saveButtonProps"
+                @update:buffers-appointment-minutes="(v: number) => { buffers.buffersAppointmentMinutes.value = v }"
+                @update:buffers-appointment-placement="(v) => { buffers.buffersAppointmentPlacement.value = v }"
+                @update:buffers-appointment-enforcement="(v) => { buffers.buffersAppointmentEnforcement.value = v }"
+                @update:buffers-drive-to-candidate-minutes="(v: number) => { buffers.buffersDriveToCandidateMinutes.value = v }"
+                @update:buffers-drive-to-candidate-enforcement="(v) => { buffers.buffersDriveToCandidateEnforcement.value = v }"
+                @update:buffers-drive-to-candidate-apply-to="(v) => { buffers.buffersDriveToCandidateApplyTo.value = v as DriveTimeApplyTo }"
+                @update:buffers-drive-from-candidate-minutes="(v: number) => { buffers.buffersDriveFromCandidateMinutes.value = v }"
+                @update:buffers-drive-from-candidate-enforcement="(v) => { buffers.buffersDriveFromCandidateEnforcement.value = v }"
+                @update:buffers-drive-from-candidate-apply-to="(v) => { buffers.buffersDriveFromCandidateApplyTo.value = v as DriveTimeApplyTo }"
+                @update:overlap-sources-out-of-office-enforcement="(v) => { buffers.overlapSourcesOutOfOfficeEnforcement.value = v }"
+              />
             </VWindowItem>
           </VWindow>
         </VWindowItem>
-        
-        <!-- Rules Tab -->
+
         <VWindowItem key="rules" value="rules">
           <BusinessRulesTab />
         </VWindowItem>
-        
-        <!-- Calendar Tab -->
+
         <VWindowItem key="calendar" value="calendar">
-          <!-- LEARNING: Subtabs for Calendar sections -->
-          <!-- WHY: Provides tabbed interface for switching between Slot Increment, Duration Rounding, and Timezone -->
-          <!-- PATTERN: VTabs/VWindow pattern matching Constraints panel -->
           <VTabs v-model="currentCalendarTab" class="mb-4">
-            <VTab value="integration">Integration</VTab>
+            <VTab value="integration">{{ UI_STRINGS.tabs.integration }}</VTab>
             <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
-            <VTab value="places">Places</VTab>
-            <VTab value="grid">Grid</VTab>
+            <VTab value="places">{{ UI_STRINGS.tabs.places }}</VTab>
+            <VTab value="grid">{{ UI_STRINGS.tabs.grid }}</VTab>
           </VTabs>
-          
+
           <VWindow v-model="currentCalendarTab">
-              
-              <!-- Calendar Integration Tab -->
-              <!-- Session 2.0.2: Added for Google Calendar API integration -->
-              <VWindowItem key="integration" value="integration">
-                <div class="mb-6">
-                  <div class="text-subtitle-1 mb-3">Calendar Integration</div>
-                  <div class="text-body-2 mb-4 text-medium-emphasis">
-                    Connect external calendars to check availability and prevent double-booking.
-                    Calendar busy periods will be blocked when scheduling appointments.
-                  </div>
-                  
-                  <!-- Enable/Disable Toggle -->
-                  <VSwitch
-                    v-model="calendarEnabled"
-                    label="Enable Calendar Integration"
-                    hint="When enabled, the system will check connected calendars for availability"
-                    persistent-hint
-                    class="mb-4"
-                  />
-                  
-                  <!-- Provider Selection -->
-                  <VSelect
-                    v-model="calendarProvider"
-                    :items="calendarProviderOptions"
-                    label="Calendar Provider"
-                    hint="Select your calendar service provider"
-                    persistent-hint
-                    :disabled="!calendarEnabled"
-                    class="mb-4"
-                  />
-                  
-                  <!-- Calendar List (only show when enabled and provider selected) -->
-                  <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">
-                    <div class="d-flex justify-space-between align-center mb-3">
-                      <div>
-                        <div class="text-subtitle-2">Calendars</div>
-                        <div class="text-body-2 text-medium-emphasis">
-                          Configure which calendars to read from (availability) and write to (appointments)
-                        </div>
-                      </div>
-                      <VBtn
-                        color="primary"
-                        variant="outlined"
-                        size="small"
-                        @click="addCalendarEntry"
-                      >
-                        <VIcon start>mdi-plus</VIcon>
-                        Add Calendar
-                      </VBtn>
-                    </div>
-                    
-                    <!-- Calendar Entries List -->
-                    <div v-if="calendarEntries.length === 0" class="text-body-2 text-medium-emphasis mb-4">
-                      No calendars configured. Click "Add Calendar" to add one.
-                    </div>
-                    
-                    <VCard
-                      v-for="(entry, index) in calendarEntries"
-                      :key="index"
-                      variant="outlined"
-                      class="mb-4"
-                    >
-                      <VCardText>
-                        <VRow>
-                          <!-- Email Address -->
-                          <VCol cols="12" md="5">
-                            <VTextField
-                              :model-value="entry.email"
-                              @update:model-value="(v: string) => updateCalendarEntry(index, { email: v })"
-                              label="Email Address"
-                              hint="Calendar email address (e.g., you@example.com)"
-                              persistent-hint
-                              placeholder="Enter email address"
-                              :rules="[emailValidationRule]"
-                              validate-on="blur"
-                              required
-                            >
-                              <template #prepend-inner>
-                                <VIcon>mdi-email</VIcon>
-                              </template>
-                            </VTextField>
-                          </VCol>
-                          
-                          <!-- Label (Optional) -->
-                          <VCol cols="12" md="4">
-                            <VTextField
-                              :model-value="entry.label"
-                              @update:model-value="(v: string) => updateCalendarEntry(index, { label: v })"
-                              label="Label (Optional)"
-                              hint="Friendly name (e.g., Work Calendar)"
-                              persistent-hint
-                              placeholder="e.g., Work Calendar"
-                            >
-                              <template #prepend-inner>
-                                <VIcon>mdi-label</VIcon>
-                              </template>
-                            </VTextField>
-                          </VCol>
-                          
-                          <!-- Remove Button -->
-                          <VCol cols="12" md="3" class="d-flex align-center">
-                            <VBtn
-                              color="error"
-                              variant="text"
-                              size="small"
-                              @click="removeCalendarEntry(index)"
-                            >
-                              <VIcon start>mdi-delete</VIcon>
-                              Remove
-                            </VBtn>
-                          </VCol>
-                        </VRow>
-                        
-                        <VRow class="mt-2">
-                          <!-- Read From Checkbox -->
-                          <VCol cols="12" sm="6" md="4">
-                            <VCheckbox
-                              :model-value="entry.readFrom"
-                              @update:model-value="(v: boolean) => setReadFrom(index, v)"
-                              label="Read From"
-                              hint="Check this calendar for availability"
-                              persistent-hint
-                              density="compact"
-                            >
-                              <template #prepend>
-                                <VIcon size="small">mdi-calendar-search</VIcon>
-                              </template>
-                            </VCheckbox>
-                          </VCol>
-                          
-                          <!-- Write To Checkbox -->
-                          <VCol cols="12" sm="6" md="8">
-                            <VCheckbox
-                              :model-value="entry.writeTo"
-                              @update:model-value="(v: boolean) => setWriteTo(index, v)"
-                              label="Write To"
-                              hint="Create appointments on this calendar (only one can be selected)"
-                              persistent-hint
-                              density="compact"
-                              :disabled="!entry.writeTo && writeToIndex >= 0 && writeToIndex !== index"
-                            >
-                              <template #prepend>
-                                <VIcon size="small">mdi-calendar-plus</VIcon>
-                              </template>
-                            </VCheckbox>
-                            <div class="text-caption text-medium-emphasis mt-1">
-                              Only one calendar can be selected for writing
-                            </div>
-                          </VCol>
-                        </VRow>
-                      </VCardText>
-                    </VCard>
-                    
-                    <!-- Validation Message -->
-                    <VAlert
-                      v-if="calendarValidationError"
-                      type="warning"
-                      variant="tonal"
-                      density="compact"
-                      class="mt-2"
-                    >
-                      {{ calendarValidationError }}
-                    </VAlert>
-                  </div>
-                  
-                  <!-- Info Alert for OAuth -->
-                  <VAlert
-                    v-if="calendarEnabled && calendarProvider !== 'none'"
-                    type="info"
-                    variant="tonal"
-                    class="mt-4"
-                  >
-                    <div class="text-body-2">
-                      <strong>Authentication Required:</strong> After saving, you'll need to authenticate with {{ calendarProvider === 'google' ? 'Google' : 'Microsoft' }} 
-                      to allow the system to access your calendar data.
-                    </div>
-                    <div class="text-caption mt-1">
-                      Calendar data is only used to check availability. No events will be modified without your permission.
-                    </div>
-                  </VAlert>
-                  
-                  <!-- Disabled state hint -->
-                  <VAlert
-                    v-if="!calendarEnabled"
-                    type="info"
-                    variant="tonal"
-                    class="mt-4"
-                  >
-                    <div class="text-body-2">
-                      Calendar integration is currently disabled. Enable it above to configure calendar connections.
-                    </div>
-                  </VAlert>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
-              
-              <!-- Duration Rounding Tab -->
-              <VWindowItem key="rounding" value="rounding">
-                <div class="mb-6">
-                  <div class="text-subtitle-1 mb-3">Duration Rounding</div>
-                  <VSwitch
-                    v-if="formData && formData.durationRounding"
-                    v-model="formData.durationRounding.enabled"
-                    :label="UI_STRINGS.labels.enableDurationRounding"
-                    class="mb-4"
-                  />
-                  <div v-if="formData && formData.durationRounding && formData.durationRounding.enabled" class="ml-8">
-                    <VSelect
-                      v-model="formData.durationRounding.increment"
-                      :items="roundingIncrementOptions"
-                      :label="UI_STRINGS.labels.roundingIncrement"
-                      :hint="UI_STRINGS.hints.roundingIncrement"
-                      persistent-hint
-                      :rules="[
-                        (v: number) => !!v || UI_STRINGS.validation.roundingIncrementRequired,
-                      ]"
-                      class="mb-4"
-                    />
-                    <VSelect
-                      v-model="formData.durationRounding.method"
-                      :items="roundingMethodOptions"
-                      :label="UI_STRINGS.labels.roundingMethod"
-                      :hint="UI_STRINGS.hints.roundingMethod"
-                      persistent-hint
-                      class="mb-2"
-                    />
-                  </div>
-                  <div v-if="formData" class="text-caption mt-2">
-                    {{ UI_STRINGS.help.durationRoundingDescription }}
-                  </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
-              
-              <!-- Places Tab -->
-              <!-- Session 2.2.2: Renamed from Timezone, added Default Location -->
-              <VWindowItem key="places" value="places">
-                <!-- Default Location Section -->
-                <!-- LEARNING: Starting/ending point for first/last appointment drive times -->
-                <!-- WHY: Needed to calculate travel time from home/office to first appointment and back -->
-                <!-- PATTERN: Address with coordinates from Google Places API for drive time calculations -->
-                <div class="mb-6">
-                  <div class="text-subtitle-1 mb-3">Default Location</div>
-                  <div class="text-body-2 mb-4 text-medium-emphasis">
-                    {{ UI_STRINGS.help.defaultLocationDescription }}
-                  </div>
-                  <VRow>
-                    <VCol cols="12" md="8">
-                      <!-- LEARNING: AddressAutocomplete replaces plain TextField -->
-                      <!-- WHY: Provides address suggestions and extracts coordinates + placeId for distance calculations -->
-                      <!-- Session 2.2.2: Added placeId binding for Routes API integration -->
-                      <AddressAutocomplete
-                        v-model="defaultLocationAddress"
-                        :coordinates="defaultLocationCoordinates"
-                        :place-id="defaultLocationPlaceId"
-                        :label="UI_STRINGS.labels.defaultLocationAddress"
-                        :hint="UI_STRINGS.hints.defaultLocationAddress"
-                        placeholder="Start typing your address..."
-                        @update:coordinates="defaultLocationCoordinates = $event"
-                        @update:place-id="defaultLocationPlaceId = $event"
-                      />
-                      <!-- Show coordinates and placeId when available -->
-                      <div v-if="defaultLocationCoordinates || defaultLocationPlaceId" class="text-caption mt-1 text-medium-emphasis">
-                        <div v-if="defaultLocationCoordinates">
-                          <VIcon size="x-small" class="me-1">mdi-crosshairs-gps</VIcon>
-                          Coordinates: {{ defaultLocationCoordinates.lat.toFixed(6) }}, {{ defaultLocationCoordinates.lng.toFixed(6) }}
-                        </div>
-                        <div v-if="defaultLocationPlaceId" class="mt-1">
-                          <VIcon size="x-small" class="me-1">mdi-map-marker-check</VIcon>
-                          Place ID: {{ defaultLocationPlaceId.substring(0, 20) }}...
-                        </div>
-                      </div>
-                    </VCol>
-                    <VCol cols="12" md="4">
-                      <VTextField
-                        v-model="defaultLocationLabel"
-                        :label="UI_STRINGS.labels.defaultLocationLabel"
-                        :hint="UI_STRINGS.hints.defaultLocationLabel"
-                        persistent-hint
-                        placeholder="Home Office"
-                      />
-                    </VCol>
-                  </VRow>
-                </div>
-                
-                <VDivider class="my-6" />
-                
-                <!-- Timezone Section -->
-                <div class="mb-4">
-                  <div class="text-subtitle-1 mb-3">Timezone Settings</div>
-                  <VSelect
-                    v-if="formData"
-                    v-model="formData.timezone"
-                    :items="timezoneOptions"
-                    :label="UI_STRINGS.labels.timezone"
-                    :hint="UI_STRINGS.hints.timezone"
-                    persistent-hint
-                    :rules="[
-                      (v: string) => !!v || UI_STRINGS.validation.timezoneRequired,
-                    ]"
-                  />
-                  <div v-if="formData" class="text-caption mt-2">
-                    {{ UI_STRINGS.help.timezone }}
-                    {{ UI_STRINGS.help.currentSelection }} {{ formData.timezone || UI_STRINGS.help.notSet }}
-                  </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
-              
-              <!-- Grid Tab -->
-              <VWindowItem key="grid" value="grid">
-                <div class="mb-6">
-                  <div class="text-subtitle-1 mb-3">Grid Configuration</div>
-                  
-                  <!-- Slot Increment Section -->
-                  <div class="mb-6">
-                    <div class="text-subtitle-2 mb-3">Slot Increment</div>
-                    <VSelect
-                      v-if="formData"
-                      v-model="formData.minuteIncrement"
-                      :items="timeIncrementOptions"
-                      :label="UI_STRINGS.labels.timeSlotIncrement"
-                      required
-                      :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
-                      class="mb-2"
-                    />
-                    <div v-if="formData" class="text-caption">
-                      {{ UI_STRINGS.help.timeSlots }} {{ formData.minuteIncrement }} minutes
-                    </div>
-                  </div>
-                  
-                  <VDivider class="my-6" />
-                  
-                  <!-- Differential Perspectives Section -->
-                  <div class="mb-6">
-                    <div class="text-subtitle-2 mb-3">Differential Perspectives</div>
-                    <div class="text-body-2 mb-4 text-medium-emphasis">
-                      Configure which attendees make an event "major" vs "minor" for differential scheduling, and customize display labels.
-                      Major attendees arrive earlier than minor attendees.
-                    </div>
-                    
-                    <VSelect
-                      v-model="majorAttendees"
-                      :items="availableUserTypeBlocks"
-                      label="Major Attendees"
-                      hint="UserTypeBlock instances that make an event &quot;major&quot; (e.g., Inspector)"
-                      persistent-hint
-                      multiple
-                      chips
-                      closable-chips
-                      class="mb-4"
-                    />
-                    
-                    <VTextField
-                      v-model="majorLabel"
-                      label="Major Label"
-                      hint="Display label for major perspective (e.g., Major)"
-                      persistent-hint
-                      class="mb-4"
-                    />
-                    
-                    <VSelect
-                      v-model="minorAttendees"
-                      :items="availableUserTypeBlocks"
-                      label="Minor Attendees"
-                      hint="UserTypeBlock instances that make an event &quot;minor&quot; (e.g., Client)"
-                      persistent-hint
-                      multiple
-                      chips
-                      closable-chips
-                      class="mb-4"
-                    />
-                    
-                    <VTextField
-                      v-model="minorLabel"
-                      label="Minor Label"
-                      hint="Display label for minor perspective (e.g., Minor Formal Presentation)"
-                      persistent-hint
-                      class="mb-4"
-                    />
-                    
-                    <VTextField
-                      v-model="differentialGraphDefaultLabel"
-                      label="Differential Graph Default Label"
-                      hint="Message shown when no time slot is selected (e.g., Select a Time Slot)"
-                      persistent-hint
-                      class="mb-4"
-                    />
-                    
-                    <VTextField
-                      v-model="majorStateLabel"
-                      label="Major State Label"
-                      hint="Message shown when major perspective is selected (e.g., Showing Major Times). Leave empty to use default format."
-                      persistent-hint
-                      class="mb-4"
-                    />
-                    
-                    <VTextField
-                      v-model="minorStateLabel"
-                      label="Minor State Label"
-                      hint="Message shown when minor perspective is selected (e.g., Showing Client FormalPresentation Times). Leave empty to use default format."
-                      persistent-hint
-                    />
-                    
-                    <div class="text-caption mt-4 text-medium-emphasis">
-                      <div class="mb-1"><strong>Major Attendees:</strong> Events with these attendees are considered "major" perspective.</div>
-                      <div class="mb-1"><strong>Minor Attendees:</strong> Events with these attendees are considered "minor" perspective.</div>
-                      <div class="mb-1"><strong>Labels:</strong> Customize how major and minor perspectives are displayed in the UI.</div>
-                      <div class="mb-1"><strong>Differential Graph Default Label:</strong> Large message shown over the differential graph when no time slot is selected.</div>
-                      <div class="mb-1"><strong>State Labels:</strong> Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".</div>
-                      <div>If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                  <VBtn v-bind="saveButtonProps">
-                    {{ UI_STRINGS.buttons.saveSettings }}
-                  </VBtn>
-                </div>
-              </VWindowItem>
+            <VWindowItem key="integration" value="integration">
+              <CalendarIntegrationPanel
+                :calendar-enabled="calendarEnabled"
+                :calendar-provider="calendarProvider"
+                :calendar-entries="calendarEntries"
+                :write-to-index="writeToIndex"
+                :calendar-validation-error="calendarValidationError"
+                :email-validation-rule="emailValidationRule"
+                :save-button-props="saveButtonProps"
+                @update:calendar-enabled="(v: boolean) => { calendarEnabled = v }"
+                @update:calendar-provider="setCalendarProvider"
+                @add-calendar-entry="addCalendarEntry"
+                @remove-calendar-entry="removeCalendarEntry"
+                @update-calendar-entry="updateCalendarEntry"
+                @set-read-from="setReadFrom"
+                @set-write-to="setWriteTo"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="rounding" value="rounding">
+              <DurationRoundingPanel
+                :duration-rounding-enabled="durationRoundingEnabled"
+                :duration-rounding-increment="durationRoundingIncrement"
+                :duration-rounding-method="durationRoundingMethod"
+                :save-button-props="saveButtonProps"
+                @update:duration-rounding-enabled="(v: boolean) => { durationRoundingEnabled = v }"
+                @update:duration-rounding-increment="(v: number) => { durationRoundingIncrement = v }"
+                @update:duration-rounding-method="(v: string) => { durationRoundingMethod = v as 'roundUp' | 'roundDown' | 'roundNearest' }"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="places" value="places">
+              <PlacesTimezonePanel
+                :default-location-address="location.defaultLocationAddress.value"
+                :default-location-label="location.defaultLocationLabel.value"
+                :default-location-coordinates="location.defaultLocationCoordinates.value"
+                :default-location-place-id="location.defaultLocationPlaceId.value"
+                :timezone="timezone"
+                :timezone-options="[...timezoneOptions]"
+                :save-button-props="saveButtonProps"
+                @update:default-location-address="(v: string) => { location.defaultLocationAddress.value = v }"
+                @update:default-location-label="(v: string) => { location.defaultLocationLabel.value = v }"
+                @update:default-location-coordinates="(v) => { location.defaultLocationCoordinates.value = v }"
+                @update:default-location-place-id="(v: string) => { location.defaultLocationPlaceId.value = v }"
+                @update:timezone="setTimezone"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="grid" value="grid">
+              <GridConfigPanel
+                :minute-increment="minuteIncrement"
+                :major-attendees="differential.majorAttendees.value"
+                :minor-attendees="differential.minorAttendees.value"
+                :major-label="differential.majorLabel.value"
+                :minor-label="differential.minorLabel.value"
+                :differential-graph-default-label="differential.differentialGraphDefaultLabel.value"
+                :major-state-label="differential.majorStateLabel.value"
+                :minor-state-label="differential.minorStateLabel.value"
+                :available-user-type-blocks="differential.availableUserTypeBlocks.value"
+                :save-button-props="saveButtonProps"
+                @update:minute-increment="setMinuteIncrement"
+                @update:major-attendees="(v) => { differential.majorAttendees.value = v }"
+                @update:minor-attendees="(v) => { differential.minorAttendees.value = v }"
+                @update:major-label="(v: string) => { differential.majorLabel.value = v }"
+                @update:minor-label="(v: string) => { differential.minorLabel.value = v }"
+                @update:differential-graph-default-label="(v: string) => { differential.differentialGraphDefaultLabel.value = v }"
+                @update:major-state-label="(v: string) => { differential.majorStateLabel.value = v }"
+                @update:minor-state-label="(v: string) => { differential.minorStateLabel.value = v }"
+              />
+            </VWindowItem>
           </VWindow>
         </VWindowItem>
       </VWindow>
@@ -1646,4 +379,3 @@ const emailValidationRule = (value: string): true | string => {
   padding: 1rem;
 }
 </style>
-

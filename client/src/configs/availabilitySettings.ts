@@ -328,6 +328,18 @@ export interface AvailabilitySettings {
   }
   
   /**
+   * Overlap source enforcement (optional)
+   * LEARNING: Controls whether specific event sources participate in overlap blocking
+   * WHY: Allows admin to toggle out-of-office events as blockers without changing data fetching
+   * PATTERN: Each source has an enforcement level (off = ignored, flexible = warn, hard = block)
+   */
+  overlapSources?: {
+    outOfOffice?: {
+      enforcement: ConstraintEnforcement
+    }
+  }
+  
+  /**
    * IANA timezone string (optional)
    * LEARNING: Timezone used for all availability calculations
    * WHY: Allows admin to configure timezone instead of hardcoded default
@@ -415,6 +427,11 @@ export interface RawAvailabilitySettings {
   }
   calendarConfig?: CalendarConfig
   defaultLocation?: DefaultLocation
+  overlapSources?: {
+    outOfOffice?: {
+      enforcement: ConstraintEnforcement
+    }
+  }
 }
 
 /**
@@ -509,7 +526,9 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         // Session 2.1.2: Include calendarConfig from raw settings
         calendarConfig: rawSettings.calendarConfig,
         // Drive time buffer refactor: Include defaultLocation for drive time calculations
-        defaultLocation: rawSettings.defaultLocation
+        defaultLocation: rawSettings.defaultLocation,
+        // OOO enforcement: Include overlapSources for out-of-office toggle
+        overlapSources: rawSettings.overlapSources
       }
       
       cachedSettings = {

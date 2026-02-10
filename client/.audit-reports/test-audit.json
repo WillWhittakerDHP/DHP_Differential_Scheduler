@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-09T16:43:21.311Z",
+  "generatedAt": "2026-02-10T13:52:17.965Z",
   "summary": {
-    "totalSourceFiles": 798,
-    "totalTestFiles": 127,
-    "untestedSourceFiles": 682,
-    "orphanedTestFiles": 10,
-    "coveragePercentage": 15
+    "totalSourceFiles": 791,
+    "totalTestFiles": 126,
+    "untestedSourceFiles": 677,
+    "orphanedTestFiles": 11,
+    "coveragePercentage": 14
   },
   "untestedSource": [
     {
@@ -1297,10 +1297,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -1806,11 +1806,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
-        "independence": 5,
+        "reliability": 6,
+        "independence": 2,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.2,
+        "cognitiveLoad": 1,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -1976,21 +1976,6 @@
         "roi": 2,
         "cognitiveLoad": 4,
         "overall": 3.6,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "client/src/components/booking/dev/SlotConstraintOverlay.vue",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 6,
-        "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -2433,6 +2418,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
+      "functions": [
+        "useBufferSettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useBufferSettings"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useBusinessRules.ts",
       "functions": [
         "useBusinessRules"
@@ -2471,6 +2475,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
+      "functions": [
+        "useCapacitySettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useCapacitySettings"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useConditionalFieldVisibility.ts",
       "functions": [
         "useConditionalFieldVisibility"
@@ -2490,6 +2513,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useDefaultLocation.ts",
+      "functions": [
+        "useDefaultLocation"
+      ],
+      "classes": [],
+      "composables": [
+        "useDefaultLocation"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useDialogFormState.ts",
       "functions": [],
       "classes": [],
@@ -2501,6 +2543,25 @@
         "roi": 2,
         "cognitiveLoad": 0,
         "overall": 4.2,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDifferentialPerspectives.ts",
+      "functions": [
+        "useDifferentialPerspectives"
+      ],
+      "classes": [],
+      "composables": [
+        "useDifferentialPerspectives"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -3806,6 +3867,21 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/booking/dev/usePanelPosition.ts",
       "functions": [
         "usePanelPosition"
@@ -3889,10 +3965,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 9,
-        "independence": 7,
+        "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.1,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -3916,6 +3992,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/booking/useAppointmentShape.ts",
+      "functions": [
+        "useAppointmentShape"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentShape"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 6,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
       "functions": [
         "useAppointmentSlots"
@@ -3929,8 +4024,8 @@
         "reliability": 10,
         "independence": 6,
         "roi": 7,
-        "cognitiveLoad": 2,
-        "overall": 7.5,
+        "cognitiveLoad": 0,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -3948,8 +4043,8 @@
         "reliability": 10,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.5,
+        "cognitiveLoad": 1,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -4032,25 +4127,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/booking/useAvailableStartTimes.ts",
-      "functions": [
-        "useAvailableStartTimes"
-      ],
-      "classes": [],
-      "composables": [
-        "useAvailableStartTimes"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 10,
-        "independence": 3,
-        "roi": 7,
-        "cognitiveLoad": 4,
-        "overall": 7.1,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
       "functions": [],
       "classes": [],
@@ -4076,11 +4152,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.9,
+        "cognitiveLoad": 1,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -4338,25 +4414,6 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 7.7,
-        "bucket": "P0"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useTimeSlotDurations.ts",
-      "functions": [
-        "useTimeSlotDurations"
-      ],
-      "classes": [],
-      "composables": [
-        "useTimeSlotDurations"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 9,
-        "independence": 8,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -5725,6 +5782,21 @@
       }
     },
     {
+      "repoPath": "client/src/constants/attendeeRoles.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/availabilitySettings.ts",
       "functions": [],
       "classes": [],
@@ -5751,6 +5823,21 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/businessControlsOptions.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -5800,6 +5887,21 @@
       }
     },
     {
+      "repoPath": "client/src/constants/entitySchemaDefaults.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/errorMessages.ts",
       "functions": [],
       "classes": [],
@@ -5826,6 +5928,21 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/mapsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -6255,10 +6372,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 4,
-        "independence": 4,
+        "independence": 5,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.7,
+        "overall": 3.9,
         "bucket": "P2"
       }
     },
@@ -6279,8 +6396,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 4.1,
+        "cognitiveLoad": 3,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -6789,10 +6906,10 @@
       "exportCount": 6,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 4,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 5.5,
+        "overall": 5.3,
         "bucket": "P1"
       }
     },
@@ -6805,11 +6922,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -6822,11 +6939,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -6859,46 +6976,29 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 3,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.4,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
     {
-      "repoPath": "client/src/utils/booking/busyPeriodProcessor.ts",
+      "repoPath": "client/src/utils/booking/constraintColors.ts",
       "functions": [
-        "parseBusyPeriods",
-        "preprocessBusyPeriods"
+        "formatViolationTooltip",
+        "getColorForViolation"
       ],
       "classes": [],
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 6,
-        "independence": 10,
+        "reliability": 2,
+        "independence": 8,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.8,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
-      "functions": [
-        "applyCapacityFilters"
-      ],
-      "classes": [],
-      "composables": [],
-      "exportCount": 1,
-      "priority": {
-        "reliability": 7,
-        "independence": 5,
-        "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.7,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -6921,21 +7021,37 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
+      "repoPath": "client/src/utils/booking/dateUtils.ts",
       "functions": [
-        "checkSlotAvailability",
-        "shouldApplyDriveTimeConstraint"
+        "parseUTCDate"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 2,
+      "exportCount": 1,
       "priority": {
-        "reliability": 6,
-        "independence": 6,
-        "roi": 8,
-        "cognitiveLoad": 3,
-        "overall": 6.3,
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/minimalSlotGenerator.ts",
+      "functions": [
+        "generateSlotsInRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 9,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 7.4,
+        "bucket": "P0"
       }
     },
     {
@@ -6959,27 +7075,6 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/partShapeAggregator.ts",
-      "functions": [
-        "calculateSlotShape",
-        "createPartFinals",
-        "filterZeroedParts",
-        "groupPartsByPartShape",
-        "sumPartFinalsDuration"
-      ],
-      "classes": [],
-      "composables": [],
-      "exportCount": 5,
-      "priority": {
-        "reliability": 7,
-        "independence": 8,
-        "roi": 10,
-        "cognitiveLoad": 0,
-        "overall": 7.4,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/utils/booking/partsTotals.ts",
       "functions": [
         "calculatePartsTotals"
@@ -6997,36 +7092,21 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/rangeConstraintChecker.ts",
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
       "functions": [
-        "checkRangeConstraints"
+        "adjustMinorTimeRange",
+        "derivePerspective",
+        "resolveEventShapes"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 6,
-        "independence": 9,
-        "roi": 6,
+        "independence": 6,
+        "roi": 9,
         "cognitiveLoad": 1,
-        "overall": 6.1,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
-      "functions": [
-        "markSlotAvailability"
-      ],
-      "classes": [],
-      "composables": [],
-      "exportCount": 1,
-      "priority": {
-        "reliability": 6,
-        "independence": 7,
-        "roi": 6,
-        "cognitiveLoad": 0,
-        "overall": 5.6,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -7048,37 +7128,55 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/slotGenerator.ts",
+      "repoPath": "client/src/utils/booking/slotShapeLookups.ts",
       "functions": [
-        "generateAllTimeSlots"
+        "createTimeRangesFromSlotShape",
+        "findEventFinalByName"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
-        "reliability": 7,
-        "independence": 10,
-        "roi": 6,
+        "reliability": 4,
+        "independence": 8,
+        "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.6,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotTimeUtils.ts",
+      "functions": [
+        "addMinutes",
+        "createTimeRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6,
         "bucket": "P1"
       }
     },
     {
       "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
       "functions": [
-        "parseBusinessHours",
         "timeRangesOverlap"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 2,
+      "exportCount": 1,
       "priority": {
         "reliability": 6,
         "independence": 8,
-        "roi": 8,
+        "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 6.4,
+        "overall": 5.8,
         "bucket": "P1"
       }
     },
@@ -7518,6 +7616,27 @@
       }
     },
     {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "functions": [
+        "convertToTernary",
+        "findBlockInstanceById",
+        "findBlockInstancesByIds",
+        "resolveBlockCategory",
+        "transformVersionToBookingInstance"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 5,
+      "priority": {
+        "reliability": 10,
+        "independence": 9,
+        "roi": 10,
+        "cognitiveLoad": 3,
+        "overall": 9.1,
+        "bucket": "P0"
+      }
+    },
+    {
       "repoPath": "client/src/utils/transformers/entityTransformers.ts",
       "functions": [],
       "classes": [],
@@ -7689,12 +7808,12 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 5,
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -7773,7 +7892,112 @@
       }
     },
     {
+      "repoPath": "client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/CapacityConstraintsPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/DurationRoundingPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/GridConfigPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/PlacesTimezonePanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/views/admin/tabs/components/PropertiesTable.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -7876,31 +8100,31 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 5,
+        "reliability": 2,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/config/app.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 3.1,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
     {
       "repoPath": "server/src/config/app.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/config/database.ts",
       "functions": [
         "initializeDatabase"
       ],
@@ -7911,8 +8135,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 3.2,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -7937,28 +8161,87 @@
       }
     },
     {
+      "repoPath": "server/src/config/envConfig.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/config/googleOAuth.ts",
       "functions": [
         "getAuthUrl",
-        "getAuthenticatedClient",
         "getCredentials",
         "getTokens",
         "hasCredentials",
-        "loadTokensFromFile",
-        "refreshAccessToken",
-        "saveTokensToFile",
         "setCredentials"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 9,
+      "exportCount": 5,
       "priority": {
         "reliability": 2,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 0,
+        "overall": 3.9,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/config/googleOAuthTokenPersistence.ts",
+      "functions": [
+        "loadTokensFromFile",
+        "saveTokensToFile"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/config/models.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/appConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -8126,21 +8409,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/admin/block_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/admin/block_shape.ts",
       "functions": [
         "BlockShapeFactory"
@@ -8179,21 +8447,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/admin/business_settings.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/admin/business_settings.ts",
       "functions": [
         "BusinessSettingsFactory"
@@ -8209,21 +8462,6 @@
         "roi": 3,
         "cognitiveLoad": 1,
         "overall": 3.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/admin/part_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -8262,21 +8500,6 @@
         "roi": 3,
         "cognitiveLoad": 0,
         "overall": 2.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_cascade.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -8376,21 +8599,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/active_annotation.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/active_annotation.ts",
       "functions": [
         "AnnotationAssignmentFactory"
@@ -8467,21 +8675,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/address.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/address.ts",
       "functions": [
         "AddressFactory"
@@ -8520,21 +8713,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/annotation_instance.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/annotation_instance.ts",
       "functions": [
         "AnnotationInstanceFactory"
@@ -8554,21 +8732,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/annotation_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/annotation_shape.ts",
       "functions": [
         "AnnotationShapeFactory"
@@ -8584,21 +8747,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/booking/appointment.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 4,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -8637,21 +8785,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/booking/block_instance.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3,
         "bucket": "P2"
       }
     },
@@ -9061,33 +9194,46 @@
       }
     },
     {
-      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "repoPath": "server/src/routes/external/calendarDebugRoutes.ts",
       "functions": [],
       "classes": [],
       "composables": [],
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 4,
+        "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.9,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/routes/external/googleFetchRoutes.ts",
-      "functions": [
-        "fetchDriveTimes"
-      ],
+      "repoPath": "server/src/routes/external/calendarRouteConstants.ts",
+      "functions": [],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 7,
-        "roi": 1,
+        "independence": 10,
+        "roi": 0,
         "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 1,
         "overall": 1.7,
         "bucket": "P2"
       }
@@ -9138,6 +9284,36 @@
       }
     },
     {
+      "repoPath": "server/src/routes/external/mapsDebugRoutes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/mapsRouteConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/external/mapsRoutes.ts",
       "functions": [],
       "classes": [],
@@ -9145,10 +9321,25 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -9160,10 +9351,40 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.6,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouterTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -10428,231 +10649,6 @@
       }
     },
     {
-      "repoPath": "server/src/scripts/addPropertySizesToAppointments.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/backfill-input-config-from-selectable.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-activeparts-metadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-layout-configs.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-specific-shape.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 3.3,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-appointment-block-instances.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-appointment-data.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.7,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-primitive-metadata-cleanup.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-valid-events-render-as.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-validConstituents.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/flatten-input-config.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "functions": [
         "extractClients",
@@ -10685,66 +10681,6 @@
         "roi": 0,
         "cognitiveLoad": 5,
         "overall": 3.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/importFromMCPEvents.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/importRealCalendarEvents.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.3,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/manual-migrate-fieldmetadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.9,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/setDifferentialServices.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -10812,19 +10748,20 @@
       "repoPath": "server/src/services/calendarErrorHandler.ts",
       "functions": [
         "classifyError",
+        "getStatusCodeForError",
         "logCalendarError"
       ],
       "classes": [
         "CalendarApiError"
       ],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 4,
-        "overall": 4.4,
+        "cognitiveLoad": 2,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -10877,10 +10814,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 4,
+        "independence": 3,
         "roi": 1,
         "cognitiveLoad": 4,
-        "overall": 3.1,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -10913,11 +10850,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -11039,19 +10976,27 @@
     {
       "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
       "functions": [
+        "buildAutocompleteUrl",
+        "buildFindPlaceUrl",
+        "buildPlaceDetailsUrl",
+        "executeGeocodeApiCall",
         "generateSessionToken",
         "parseAddressComponents",
-        "toRoutesWaypoint"
+        "toRoutesWaypoint",
+        "transformPlaceResult",
+        "transformPredictions",
+        "validateGoogleApiResponse",
+        "validateHttpResponse"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 11,
       "priority": {
         "reliability": 3,
-        "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4.4,
+        "independence": 7,
+        "roi": 6,
+        "cognitiveLoad": 4,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -11062,11 +11007,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -11084,8 +11029,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 3.1,
+        "cognitiveLoad": 3,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -11507,6 +11452,16 @@
         "hasSetup": true,
         "qualityScore": 3
       }
+    },
+    {
+      "repoPath": "server/src/services/__tests__/constraintValidationHelpers.ts",
+      "quality": {
+        "hasBehavioralTests": false,
+        "hasEdgeCases": true,
+        "hasMocking": false,
+        "hasSetup": false,
+        "qualityScore": 2
+      }
     }
   ],
   "byDirectory": [
@@ -11656,9 +11611,9 @@
     },
     {
       "directory": "client/src/components/booking/dev",
-      "sourceCount": 3,
+      "sourceCount": 2,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 2
     },
     {
       "directory": "client/src/components/booking/modals",
@@ -11716,9 +11671,15 @@
     },
     {
       "directory": "client/src/composables/admin",
-      "sourceCount": 82,
+      "sourceCount": 86,
       "testCount": 0,
-      "untestedCount": 82
+      "untestedCount": 86
+    },
+    {
+      "directory": "client/src/composables/admin/utils",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
     },
     {
       "directory": "client/src/composables/booking/dev",
@@ -11734,9 +11695,9 @@
     },
     {
       "directory": "client/src/composables/booking",
-      "sourceCount": 72,
+      "sourceCount": 71,
       "testCount": 0,
-      "untestedCount": 32
+      "untestedCount": 31
     },
     {
       "directory": "client/src/composables/businessDataCollections",
@@ -11824,9 +11785,9 @@
     },
     {
       "directory": "client/src/constants",
-      "sourceCount": 11,
+      "sourceCount": 15,
       "testCount": 0,
-      "untestedCount": 11
+      "untestedCount": 15
     },
     {
       "directory": "client/src/layouts",
@@ -11920,7 +11881,7 @@
     },
     {
       "directory": "client/src/utils",
-      "sourceCount": 18,
+      "sourceCount": 17,
       "testCount": 0,
       "untestedCount": 9
     },
@@ -11932,9 +11893,9 @@
     },
     {
       "directory": "client/src/utils/booking",
-      "sourceCount": 38,
+      "sourceCount": 35,
       "testCount": 0,
-      "untestedCount": 16
+      "untestedCount": 15
     },
     {
       "directory": "client/src/utils/collections",
@@ -12004,9 +11965,9 @@
     },
     {
       "directory": "client/src/utils/transformers",
-      "sourceCount": 10,
+      "sourceCount": 11,
       "testCount": 1,
-      "untestedCount": 1
+      "untestedCount": 2
     },
     {
       "directory": "client/src/views/admin",
@@ -12028,9 +11989,9 @@
     },
     {
       "directory": "client/src/views/admin/tabs/components",
-      "sourceCount": 3,
+      "sourceCount": 10,
       "testCount": 0,
-      "untestedCount": 3
+      "untestedCount": 10
     },
     {
       "directory": "client/src/views/booking",
@@ -12052,15 +12013,15 @@
     },
     {
       "directory": "server/src/config",
-      "sourceCount": 4,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 4
+      "untestedCount": 7
     },
     {
       "directory": "server/src/constants",
-      "sourceCount": 6,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 6
+      "untestedCount": 7
     },
     {
       "directory": "server/src/db/config",
@@ -12070,15 +12031,15 @@
     },
     {
       "directory": "server/src/db/models/admin",
-      "sourceCount": 17,
+      "sourceCount": 13,
       "testCount": 0,
-      "untestedCount": 17
+      "untestedCount": 13
     },
     {
       "directory": "server/src/db/models/booking",
-      "sourceCount": 32,
+      "sourceCount": 26,
       "testCount": 0,
-      "untestedCount": 32
+      "untestedCount": 26
     },
     {
       "directory": "server/src/db/models",
@@ -12100,15 +12061,15 @@
     },
     {
       "directory": "server/src/routes/external",
-      "sourceCount": 6,
+      "sourceCount": 10,
       "testCount": 0,
-      "untestedCount": 6
+      "untestedCount": 10
     },
     {
       "directory": "server/src/routes/helpers",
-      "sourceCount": 5,
+      "sourceCount": 7,
       "testCount": 0,
-      "untestedCount": 5
+      "untestedCount": 7
     },
     {
       "directory": "server/src/routes",
@@ -12189,20 +12150,20 @@
       "untestedCount": 3
     },
     {
-      "directory": "server/src/scripts",
-      "sourceCount": 20,
-      "testCount": 0,
-      "untestedCount": 20
-    },
-    {
       "directory": "server/src/scripts/helpers",
       "sourceCount": 1,
       "testCount": 0,
       "untestedCount": 1
     },
     {
+      "directory": "server/src/scripts",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
       "directory": "server/src/services",
-      "sourceCount": 11,
+      "sourceCount": 12,
       "testCount": 0,
       "untestedCount": 10
     },
@@ -12275,7 +12236,7 @@
     {
       "directory": "client/src/utils/__tests__",
       "sourceCount": 0,
-      "testCount": 11,
+      "testCount": 10,
       "untestedCount": 0
     },
     {
@@ -12293,7 +12254,7 @@
     {
       "directory": "client/src/utils/booking/__tests__",
       "sourceCount": 0,
-      "testCount": 23,
+      "testCount": 21,
       "untestedCount": 0
     },
     {
@@ -12353,7 +12314,7 @@
     {
       "directory": "server/src/services/__tests__",
       "sourceCount": 0,
-      "testCount": 1,
+      "testCount": 3,
       "untestedCount": 0
     }
   ],
@@ -14002,10 +13963,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -14647,11 +14608,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
-        "independence": 5,
+        "reliability": 6,
+        "independence": 2,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.2,
+        "cognitiveLoad": 1,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -14861,25 +14822,6 @@
         "roi": 2,
         "cognitiveLoad": 4,
         "overall": 3.6,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "client/src/components/booking/dev/SlotConstraintOverlay.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/SlotConstraintOverlay.vue",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 6,
-        "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -15426,6 +15368,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBufferSettings.ts",
+      "functions": [
+        "useBufferSettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useBufferSettings"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useBusinessRules.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBusinessRules.ts",
       "functions": [
@@ -15472,6 +15437,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useCapacitySettings.ts",
+      "functions": [
+        "useCapacitySettings"
+      ],
+      "classes": [],
+      "composables": [
+        "useCapacitySettings"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useConditionalFieldVisibility.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useConditionalFieldVisibility.ts",
       "functions": [
@@ -15495,6 +15483,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useDefaultLocation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDefaultLocation.ts",
+      "functions": [
+        "useDefaultLocation"
+      ],
+      "classes": [],
+      "composables": [
+        "useDefaultLocation"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useDialogFormState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDialogFormState.ts",
       "functions": [],
@@ -15510,6 +15521,29 @@
         "roi": 2,
         "cognitiveLoad": 0,
         "overall": 4.2,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDifferentialPerspectives.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useDifferentialPerspectives.ts",
+      "functions": [
+        "useDifferentialPerspectives"
+      ],
+      "classes": [],
+      "composables": [
+        "useDifferentialPerspectives"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 1,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -17103,6 +17137,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/utils/nestedComputedFactory.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 7,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/booking/dev/usePanelPosition.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/dev/usePanelPosition.ts",
       "functions": [
@@ -17392,10 +17445,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 9,
-        "independence": 7,
+        "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.1,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -17423,6 +17476,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/booking/useAppointmentShape.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentShape.ts",
+      "functions": [
+        "useAppointmentShape"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentShape"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 6,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 6.9,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentSlots.ts",
       "functions": [
@@ -17440,8 +17516,8 @@
         "reliability": 10,
         "independence": 6,
         "roi": 7,
-        "cognitiveLoad": 2,
-        "overall": 7.5,
+        "cognitiveLoad": 0,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -17463,8 +17539,8 @@
         "reliability": 10,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.5,
+        "cognitiveLoad": 1,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -17486,8 +17562,8 @@
         "reliability": 10,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.5,
+        "cognitiveLoad": 1,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -17555,10 +17631,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 5,
+        "independence": 4,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.4,
+        "overall": 7.2,
         "bucket": "P0"
       }
     },
@@ -17701,29 +17777,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/booking/useAvailableStartTimes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailableStartTimes.ts",
-      "functions": [
-        "useAvailableStartTimes"
-      ],
-      "classes": [],
-      "composables": [
-        "useAvailableStartTimes"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 10,
-        "independence": 3,
-        "roi": 7,
-        "cognitiveLoad": 4,
-        "overall": 7.1,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useBlockInstanceSelection.ts",
       "functions": [],
@@ -17803,11 +17856,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.9,
+        "cognitiveLoad": 1,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -18631,29 +18684,6 @@
         "roi": 7,
         "cognitiveLoad": 2,
         "overall": 7.5,
-        "bucket": "P0"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useTimeSlotDurations.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotDurations.ts",
-      "functions": [
-        "useTimeSlotDurations"
-      ],
-      "classes": [],
-      "composables": [
-        "useTimeSlotDurations"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 9,
-        "independence": 8,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -19775,12 +19805,12 @@
       "testFile": "client/src/composables/__tests__/useAvailability.test.ts",
       "exportCount": 2,
       "priority": {
-        "reliability": 6,
-        "independence": 3,
+        "reliability": 4,
+        "independence": 4,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4.6,
-        "bucket": "P1"
+        "cognitiveLoad": 0,
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -20933,6 +20963,25 @@
       }
     },
     {
+      "repoPath": "client/src/constants/attendeeRoles.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/attendeeRoles.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/availabilitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/availabilitySettings.ts",
       "functions": [],
@@ -20967,6 +21016,25 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/businessControlsOptions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/businessControlsOptions.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -21028,6 +21096,25 @@
       }
     },
     {
+      "repoPath": "client/src/constants/entitySchemaDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/entitySchemaDefaults.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 3,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/constants/errorMessages.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/errorMessages.ts",
       "functions": [],
@@ -21062,6 +21149,25 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/constants/mapsConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/constants/mapsConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -21612,10 +21718,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 4,
-        "independence": 4,
+        "independence": 5,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 3.7,
+        "overall": 3.9,
         "bucket": "P2"
       }
     },
@@ -21641,6 +21747,7 @@
           "getSessionToken",
           "handleApiError",
           "if",
+          "mapAxiosErrorToMapsError",
           "mapServerErrorType"
         ]
       },
@@ -21651,8 +21758,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 4.1,
+        "cognitiveLoad": 3,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -22364,10 +22471,10 @@
       "exportCount": 6,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 4,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 5.5,
+        "overall": 5.3,
         "bucket": "P1"
       }
     },
@@ -22384,11 +22491,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -22405,11 +22512,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 8,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5.8,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -22418,26 +22525,21 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
       "functions": [
         "applyShapeToTime",
-        "buildAppointmentShape",
-        "createTimeRange",
-        "createTimeRangesFromSlotShape",
-        "derivePerspective",
-        "findEventFinalById",
-        "findEventFinalByName"
+        "buildAppointmentShape"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/booking/__tests__/appointmentSlotBuilder.test.ts",
-      "exportCount": 7,
+      "exportCount": 2,
       "priority": {
         "reliability": 8,
         "independence": 3,
-        "roi": 10,
-        "cognitiveLoad": 5,
-        "overall": 7.3,
-        "bucket": "P0"
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.2,
+        "bucket": "P1"
       }
     },
     {
@@ -22499,11 +22601,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 5,
+        "reliability": 3,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.4,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
@@ -22525,49 +22627,6 @@
         "roi": 6,
         "cognitiveLoad": 0,
         "overall": 5,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/busyPeriodProcessor.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/busyPeriodProcessor.ts",
-      "functions": [
-        "parseBusyPeriods",
-        "preprocessBusyPeriods"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 6,
-        "independence": 10,
-        "roi": 8,
-        "cognitiveLoad": 0,
-        "overall": 6.8,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/capacityConstraintChecker.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/capacityConstraintChecker.ts",
-      "functions": [
-        "applyCapacityFilters"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 1,
-      "priority": {
-        "reliability": 7,
-        "independence": 5,
-        "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -22595,6 +22654,28 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/constraintColors.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/constraintColors.ts",
+      "functions": [
+        "formatViolationTooltip",
+        "getColorForViolation"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 4.8,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/dateRangeValidation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/dateRangeValidation.ts",
       "functions": [
@@ -22613,6 +22694,27 @@
         "roi": 8,
         "cognitiveLoad": 0,
         "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/dateUtils.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/dateUtils.ts",
+      "functions": [
+        "parseUTCDate"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -22660,6 +22762,27 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/minimalSlotGenerator.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/minimalSlotGenerator.ts",
+      "functions": [
+        "generateSlotsInRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 9,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 7.4,
+        "bucket": "P0"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/mockGoogleCalendar.ts",
       "functions": [
@@ -22675,28 +22798,6 @@
       "priority": {
         "reliability": 5,
         "independence": 8,
-        "roi": 8,
-        "cognitiveLoad": 3,
-        "overall": 6.3,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/overlapConstraintChecker.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/overlapConstraintChecker.ts",
-      "functions": [
-        "checkSlotAvailability",
-        "shouldApplyDriveTimeConstraint"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 6,
-        "independence": 6,
         "roi": 8,
         "cognitiveLoad": 3,
         "overall": 6.3,
@@ -22728,31 +22829,6 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/partShapeAggregator.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partShapeAggregator.ts",
-      "functions": [
-        "calculateSlotShape",
-        "createPartFinals",
-        "filterZeroedParts",
-        "groupPartsByPartShape",
-        "sumPartFinalsDuration"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 5,
-      "priority": {
-        "reliability": 7,
-        "independence": 8,
-        "roi": 10,
-        "cognitiveLoad": 0,
-        "overall": 7.4,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/utils/booking/partsTotals.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partsTotals.ts",
       "functions": [
@@ -22774,23 +22850,25 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/rangeConstraintChecker.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/rangeConstraintChecker.ts",
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/perspectiveResolver.ts",
       "functions": [
-        "checkRangeConstraints"
+        "adjustMinorTimeRange",
+        "derivePerspective",
+        "resolveEventShapes"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 6,
-        "independence": 9,
-        "roi": 6,
+        "independence": 6,
+        "roi": 9,
         "cognitiveLoad": 1,
-        "overall": 6.1,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -23020,59 +23098,6 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/slotAvailabilityManager.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotAvailabilityManager.ts",
-      "functions": [
-        "generateSlotsWithAvailability"
-      ],
-      "classes": [
-        "ConstraintValidationError"
-      ],
-      "composables": [],
-      "classMethods": {
-        "ConstraintValidationError": [
-          "Boundaries",
-          "applyCapacityFilters",
-          "filter",
-          "for",
-          "if",
-          "map"
-        ]
-      },
-      "hasTest": true,
-      "testFile": "client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 7,
-        "roi": 8,
-        "cognitiveLoad": 3,
-        "overall": 6.9,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/utils/booking/slotAvailabilityMarker.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotAvailabilityMarker.ts",
-      "functions": [
-        "markSlotAvailability"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 1,
-      "priority": {
-        "reliability": 6,
-        "independence": 7,
-        "roi": 6,
-        "cognitiveLoad": 0,
-        "overall": 5.6,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/utils/booking/slotGenerationValidation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotGenerationValidation.ts",
       "functions": [
@@ -23094,47 +23119,47 @@
       }
     },
     {
-      "repoPath": "client/src/utils/booking/slotGenerator.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotGenerator.ts",
+      "repoPath": "client/src/utils/booking/slotShapeLookups.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotShapeLookups.ts",
       "functions": [
-        "generateAllTimeSlots"
+        "createTimeRangesFromSlotShape",
+        "findEventFinalByName"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
-        "reliability": 7,
-        "independence": 10,
-        "roi": 6,
+        "reliability": 4,
+        "independence": 8,
+        "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.6,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
     {
-      "repoPath": "client/src/utils/booking/timeSlotFitter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotFitter.ts",
+      "repoPath": "client/src/utils/booking/slotTimeUtils.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/slotTimeUtils.ts",
       "functions": [
-        "fitTimeSlotsWithAvailability",
-        "parseTimeToMinutes",
-        "parseUTCDate"
+        "addMinutes",
+        "createTimeRange"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
-      "hasTest": true,
-      "testFile": "client/src/utils/booking/__tests__/timeSlotFitter.test.ts",
-      "exportCount": 3,
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
       "priority": {
-        "reliability": 8,
-        "independence": 5,
-        "roi": 9,
-        "cognitiveLoad": 2,
-        "overall": 7.1,
-        "bucket": "P0"
+        "reliability": 4,
+        "independence": 10,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6,
+        "bucket": "P1"
       }
     },
     {
@@ -23164,7 +23189,6 @@
       "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/timeSlotTypes.ts",
       "functions": [
-        "parseBusinessHours",
         "timeRangesOverlap"
       ],
       "classes": [],
@@ -23172,13 +23196,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 2,
+      "exportCount": 1,
       "priority": {
         "reliability": 6,
         "independence": 8,
-        "roi": 8,
+        "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 6.4,
+        "overall": 5.8,
         "bucket": "P1"
       }
     },
@@ -23964,29 +23988,6 @@
       }
     },
     {
-      "repoPath": "client/src/utils/timeSlotCalculations.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/timeSlotCalculations.ts",
-      "functions": [
-        "calculateDurationFromBlockInstances",
-        "generateTimeSlots",
-        "roundUpToIncrement"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": true,
-      "testFile": "client/src/utils/__tests__/timeSlotCalculations.test.ts",
-      "exportCount": 3,
-      "priority": {
-        "reliability": 9,
-        "independence": 4,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.5,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/annotationTransformers.ts",
       "functions": [
@@ -24012,6 +24013,31 @@
       }
     },
     {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "functions": [
+        "convertToTernary",
+        "findBlockInstanceById",
+        "findBlockInstancesByIds",
+        "resolveBlockCategory",
+        "transformVersionToBookingInstance"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 5,
+      "priority": {
+        "reliability": 10,
+        "independence": 9,
+        "roi": 10,
+        "cognitiveLoad": 3,
+        "overall": 9.1,
+        "bucket": "P0"
+      }
+    },
+    {
       "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardTransformer.ts",
       "functions": [
@@ -24027,8 +24053,8 @@
         "reliability": 10,
         "independence": 6,
         "roi": 8,
-        "cognitiveLoad": 6,
-        "overall": 8.2,
+        "cognitiveLoad": 2,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -24130,15 +24156,16 @@
       "composables": [],
       "classMethods": {
         "GlobalTransformer": [
+          "buildFieldClassificationSets",
           "catch",
           "filter",
           "hydrate",
           "if",
-          "map",
           "stageForHydration",
           "transformApiRelationship",
           "transformBatchEntities",
-          "transformBatchRelationships"
+          "transformBatchRelationships",
+          "transformFieldForDehydrate"
         ]
       },
       "hasTest": true,
@@ -24182,22 +24209,12 @@
     {
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/globalToBookingTransformer.ts",
-      "functions": [],
-      "classes": [
-        "BookingTransformer"
+      "functions": [
+        "transformGlobalToBooking"
       ],
+      "classes": [],
       "composables": [],
-      "classMethods": {
-        "BookingTransformer": [
-          "filter",
-          "for",
-          "if",
-          "isEntityActive",
-          "transformBlockInstance",
-          "transformGlobalToBooking",
-          "transformPartInstance"
-        ]
-      },
+      "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/transformers/globalToBookingTransformer.test.ts",
       "exportCount": 1,
@@ -24216,10 +24233,8 @@
       "functions": [
         "composePartInstances",
         "extractChildIds",
-        "filterRelationshipsByKind",
         "findRelationshipsByParent",
         "getComponentsRecursive",
-        "groupRelationshipsByParent",
         "transformApiRelationships"
       ],
       "classes": [],
@@ -24227,13 +24242,13 @@
       "classMethods": {},
       "hasTest": true,
       "testFile": "client/src/utils/transformers/__tests__/relationshipTransformers.test.ts",
-      "exportCount": 7,
+      "exportCount": 5,
       "priority": {
         "reliability": 10,
         "independence": 4,
         "roi": 10,
-        "cognitiveLoad": 4,
-        "overall": 8.2,
+        "cognitiveLoad": 2,
+        "overall": 8,
         "bucket": "P0"
       }
     },
@@ -24438,12 +24453,12 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 5,
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -24542,8 +24557,141 @@
       }
     },
     {
+      "repoPath": "client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/CapacityConstraintsPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/CapacityConstraintsPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/DurationRoundingPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/DurationRoundingPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/GridConfigPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/GridConfigPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/PlacesTimezonePanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/PlacesTimezonePanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/views/admin/tabs/components/PropertiesTable.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/PropertiesTable.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -24683,17 +24831,17 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
-        "independence": 5,
+        "reliability": 2,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/config/app.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/app.js",
+      "repoPath": "server/src/config/app.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/app.ts",
       "functions": [],
       "classes": [],
       "composables": [],
@@ -24702,17 +24850,17 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 3.1,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
     {
-      "repoPath": "server/src/config/app.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/app.ts",
+      "repoPath": "server/src/config/database.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/database.ts",
       "functions": [
         "initializeDatabase"
       ],
@@ -24726,8 +24874,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 3.2,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -24756,17 +24904,32 @@
       }
     },
     {
+      "repoPath": "server/src/config/envConfig.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/envConfig.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/config/googleOAuth.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/googleOAuth.ts",
       "functions": [
         "getAuthUrl",
-        "getAuthenticatedClient",
         "getCredentials",
         "getTokens",
         "hasCredentials",
-        "loadTokensFromFile",
-        "refreshAccessToken",
-        "saveTokensToFile",
         "setCredentials"
       ],
       "classes": [],
@@ -24774,14 +24937,74 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 9,
+      "exportCount": 5,
       "priority": {
         "reliability": 2,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 0,
+        "overall": 3.9,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/config/googleOAuthTokenPersistence.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/googleOAuthTokenPersistence.ts",
+      "functions": [
+        "loadTokensFromFile",
+        "saveTokensToFile"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/config/models.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/models.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/constants/appConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/constants/appConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
       }
     },
     {
@@ -25001,25 +25224,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/admin/block_shape.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/block_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/admin/block_shape.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/block_shape.ts",
       "functions": [
@@ -25076,25 +25280,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/admin/business_settings.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/business_settings.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/admin/business_settings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/business_settings.ts",
       "functions": [
@@ -25118,25 +25303,6 @@
         "roi": 3,
         "cognitiveLoad": 1,
         "overall": 3.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/admin/part_shape.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/part_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -25193,25 +25359,6 @@
         "roi": 3,
         "cognitiveLoad": 0,
         "overall": 2.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_cascade.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/admin/valid_cascade.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -25359,25 +25506,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/active_annotation.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/active_annotation.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/active_annotation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/active_annotation.ts",
       "functions": [
@@ -25490,25 +25618,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/address.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/address.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/address.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/address.ts",
       "functions": [
@@ -25563,25 +25672,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/annotation_instance.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/annotation_instance.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/annotation_instance.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/annotation_instance.ts",
       "functions": [
@@ -25609,25 +25699,6 @@
       }
     },
     {
-      "repoPath": "server/src/db/models/booking/annotation_shape.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/annotation_shape.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/db/models/booking/annotation_shape.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/annotation_shape.ts",
       "functions": [
@@ -25651,25 +25722,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/booking/appointment.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/appointment.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 4,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -25724,25 +25776,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 3.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/db/models/booking/block_instance.js",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/block_instance.js",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3,
         "bucket": "P2"
       }
     },
@@ -26360,6 +26393,44 @@
       }
     },
     {
+      "repoPath": "server/src/routes/external/calendarDebugRoutes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarDebugRoutes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/calendarRouteConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRouteConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/external/calendarRoutes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/calendarRoutes.ts",
       "functions": [],
@@ -26370,31 +26441,10 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 4,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.9,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/routes/external/googleFetchRoutes.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/googleFetchRoutes.ts",
-      "functions": [
-        "fetchDriveTimes"
-      ],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 1,
-      "priority": {
         "reliability": 0,
-        "independence": 7,
-        "roi": 1,
-        "cognitiveLoad": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 1,
         "overall": 1.7,
         "bucket": "P2"
       }
@@ -26457,6 +26507,44 @@
       }
     },
     {
+      "repoPath": "server/src/routes/external/mapsDebugRoutes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/mapsDebugRoutes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/mapsRouteConstants.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/mapsRouteConstants.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/external/mapsRoutes.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/mapsRoutes.ts",
       "functions": [],
@@ -26468,10 +26556,29 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/external/oauthCallbackRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -26487,10 +26594,48 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
+        "independence": 9,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/crudRouteHandlers.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 6,
-        "overall": 2.6,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouterTypes.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/crudRouterTypes.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -28146,291 +28291,6 @@
       }
     },
     {
-      "repoPath": "server/src/scripts/addPropertySizesToAppointments.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/addPropertySizesToAppointments.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/backfill-input-config-from-selectable.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/backfill-input-config-from-selectable.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-activeparts-metadata.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/check-activeparts-metadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-layout-configs.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/check-layout-configs.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/check-specific-shape.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/check-specific-shape.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/createAppointmentsFromCalendar.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/createAppointmentsFromCalendar.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 3.3,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-appointment-block-instances.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-appointment-block-instances.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-appointment-data.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-appointment-data.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-missing-layout-configs.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-missing-layout-configs.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.7,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-primitive-metadata-cleanup.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-primitive-metadata-cleanup.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-valid-events-render-as.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-valid-events-render-as.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fix-validConstituents.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fix-validConstituents.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/fixUserRolesAndEmails.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/flatten-input-config.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/flatten-input-config.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/helpers/calendarParsingHelpers.ts",
       "functions": [
@@ -28471,82 +28331,6 @@
         "roi": 0,
         "cognitiveLoad": 5,
         "overall": 3.5,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/importFromMCPEvents.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importFromMCPEvents.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/importRealCalendarEvents.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/importRealCalendarEvents.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.3,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/manual-migrate-fieldmetadata.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/manual-migrate-fieldmetadata.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.9,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "server/src/scripts/setDifferentialServices.mjs",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/setDifferentialServices.mjs",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -28627,6 +28411,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/calendarErrorHandler.ts",
       "functions": [
         "classifyError",
+        "getStatusCodeForError",
         "logCalendarError"
       ],
       "classes": [
@@ -28635,26 +28420,26 @@
       "composables": [],
       "classMethods": {
         "CalendarApiError": [
-          "calculateBackoffDelay",
           "catch",
           "classifyError",
-          "error",
-          "for",
+          "getStatusCode",
+          "getStatusCodeForError",
           "getUserMessage",
           "if",
+          "isRateLimitError",
           "logCalendarError",
-          "switch"
+          "toHttpStatus"
         ]
       },
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 4,
-        "overall": 4.4,
+        "cognitiveLoad": 2,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -28719,10 +28504,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 4,
+        "independence": 3,
         "roi": 1,
         "cognitiveLoad": 4,
-        "overall": 3.1,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -28730,27 +28515,21 @@
       "repoPath": "server/src/services/constraintExtractor.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/constraintExtractor.ts",
       "functions": [
-        "extractCapacityConstraints",
-        "extractConstraints",
-        "extractOverlapConstraints",
-        "extractRangeConstraints",
-        "validateCapacityConstraint",
-        "validateOverlapConstraint",
-        "validateRangeConstraint"
+        "extractConstraints"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": true,
       "testFile": "server/src/services/__tests__/constraintExtractor.test.ts",
-      "exportCount": 7,
+      "exportCount": 1,
       "priority": {
-        "reliability": 3,
+        "reliability": 2,
         "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 5.1,
-        "bucket": "P1"
+        "roi": 1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -28790,11 +28569,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -28949,22 +28728,30 @@
       "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/maps/mapsHelpers.ts",
       "functions": [
+        "buildAutocompleteUrl",
+        "buildFindPlaceUrl",
+        "buildPlaceDetailsUrl",
+        "executeGeocodeApiCall",
         "generateSessionToken",
         "parseAddressComponents",
-        "toRoutesWaypoint"
+        "toRoutesWaypoint",
+        "transformPlaceResult",
+        "transformPredictions",
+        "validateGoogleApiResponse",
+        "validateHttpResponse"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 11,
       "priority": {
         "reliability": 3,
-        "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4.4,
+        "independence": 7,
+        "roi": 6,
+        "cognitiveLoad": 4,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -28979,11 +28766,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29005,8 +28792,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 3.1,
+        "cognitiveLoad": 3,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -29135,6 +28922,27 @@
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/slotComputationService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/slotComputationService.ts",
+      "functions": [
+        "computeSlotsForDateRange"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": true,
+      "testFile": "server/src/services/__tests__/slotComputationService.test.ts",
+      "exportCount": 1,
+      "priority": {
+        "reliability": 4,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 3,
         "overall": 3.6,
         "bucket": "P2"
       }
@@ -37123,131 +36931,6 @@
       "sourceFile": null
     },
     {
-      "repoPath": "client/src/utils/__tests__/timeSlotCalculations.test.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/__tests__/timeSlotCalculations.test.ts",
-      "testedItems": [
-        "describe",
-        "it",
-        "expect",
-        "vi"
-      ],
-      "testPatterns": [
-        {
-          "type": "describe",
-          "pattern": "timeSlotCalculations"
-        },
-        {
-          "type": "describe",
-          "pattern": "calculateDurationFromBlockInstances"
-        },
-        {
-          "type": "describe",
-          "pattern": "calculateDurationFromBlockInstances (single instance)"
-        },
-        {
-          "type": "describe",
-          "pattern": "getCalendarAvailabilitySync"
-        },
-        {
-          "type": "describe",
-          "pattern": "generateTimeSlots"
-        },
-        {
-          "type": "it",
-          "pattern": "should return default 90 minutes for empty array"
-        },
-        {
-          "type": "it",
-          "pattern": "should calculate duration from single block instance with single part instance"
-        },
-        {
-          "type": "it",
-          "pattern": "should calculate duration from single block instance with multiple part instances"
-        },
-        {
-          "type": "it",
-          "pattern": "should calculate duration from multiple block instances"
-        },
-        {
-          "type": "it",
-          "pattern": "should return default 90 minutes if sum is 0"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle block instance with no part instances"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle part instances with zero baseTime"
-        },
-        {
-          "type": "it",
-          "pattern": "should calculate duration from single block instance"
-        },
-        {
-          "type": "it",
-          "pattern": "should return default for empty array"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty array (all times available)"
-        },
-        {
-          "type": "it",
-          "pattern": "should accept dateRange parameter without errors"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate slots for single day"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate slots for multiple days"
-        },
-        {
-          "type": "it",
-          "pattern": "should respect duration when generating slots"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out slots that extend past business hours"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out busy times"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle different time increments"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle edge case: midnight boundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle edge case: date range spanning week boundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle very short duration (< 15 minutes)"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle very long duration (> 8 hours)"
-        }
-      ],
-      "quality": {
-        "hasBehavioralTests": true,
-        "hasEdgeCases": true,
-        "hasMocking": true,
-        "hasSetup": false,
-        "qualityScore": 5
-      },
-      "hasSource": true,
-      "sourceFile": "client/src/utils/timeSlotCalculations.ts"
-    },
-    {
       "repoPath": "client/src/utils/booking/__tests__/appointmentSlotBuilder.test.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/appointmentSlotBuilder.test.ts",
       "testedItems": [
@@ -37264,10 +36947,6 @@
         {
           "type": "describe",
           "pattern": "createTimeRange"
-        },
-        {
-          "type": "describe",
-          "pattern": "createTimeSlot"
         },
         {
           "type": "describe",
@@ -37296,10 +36975,6 @@
         {
           "type": "it",
           "pattern": "should handle negative duration"
-        },
-        {
-          "type": "it",
-          "pattern": "should create time slot with all flags"
         },
         {
           "type": "it",
@@ -37339,7 +37014,7 @@
         },
         {
           "type": "it",
-          "pattern": "should ensure clientPresentTimeRange and onSiteTimeRange end times match when both exist"
+          "pattern": "should ensure event time ranges end at same time when both major and minor exist"
         },
         {
           "type": "it",
@@ -39114,296 +38789,6 @@
       "sourceFile": "client/src/utils/booking/serviceSelectionConfigBuilders.ts"
     },
     {
-      "repoPath": "client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/slotAvailabilityManager.test.ts",
-      "testedItems": [
-        "describe",
-        "it",
-        "expect",
-        "beforeAll",
-        "vi"
-      ],
-      "testPatterns": [
-        {
-          "type": "describe",
-          "pattern": "preprocessBusyPeriods"
-        },
-        {
-          "type": "describe",
-          "pattern": "validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "sorting"
-        },
-        {
-          "type": "describe",
-          "pattern": "merging"
-        },
-        {
-          "type": "describe",
-          "pattern": "integration"
-        },
-        {
-          "type": "describe",
-          "pattern": "generateSlotsWithAvailability with preprocessed busy periods"
-        },
-        {
-          "type": "describe",
-          "pattern": "checkSlotAvailability - precise overlap constraint checks"
-        },
-        {
-          "type": "describe",
-          "pattern": "shouldApplyDriveTimeConstraint"
-        },
-        {
-          "type": "describe",
-          "pattern": "checkRangeConstraints - deterministic with injected time"
-        },
-        {
-          "type": "describe",
-          "pattern": "checkRangeConstraints - config validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "generateSlotsWithAvailability - capacity batching"
-        },
-        {
-          "type": "describe",
-          "pattern": "extractRangeConstraints - fail fast on legacy fields"
-        },
-        {
-          "type": "describe",
-          "pattern": "extractCapacityConstraints"
-        },
-        {
-          "type": "describe",
-          "pattern": "Flexible constraint violations"
-        },
-        {
-          "type": "describe",
-          "pattern": "UTC-only constraint checking"
-        },
-        {
-          "type": "describe",
-          "pattern": "Constraint validation errors"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out invalid busy periods with start >= end"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out invalid busy periods with invalid datetime strings"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty array for all invalid busy periods"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty array for empty input"
-        },
-        {
-          "type": "it",
-          "pattern": "should sort busy periods by start time"
-        },
-        {
-          "type": "it",
-          "pattern": "should merge overlapping busy periods"
-        },
-        {
-          "type": "it",
-          "pattern": "should merge adjacent busy periods"
-        },
-        {
-          "type": "it",
-          "pattern": "should keep non-overlapping periods separate"
-        },
-        {
-          "type": "it",
-          "pattern": "should merge multiple overlapping periods into one"
-        },
-        {
-          "type": "it",
-          "pattern": "should extend end time when merging periods"
-        },
-        {
-          "type": "it",
-          "pattern": "should validate, sort, and merge busy periods in correct order"
-        },
-        {
-          "type": "it",
-          "pattern": "should correctly mark slots unavailable with merged busy periods"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter invalid busy periods before slot generation"
-        },
-        {
-          "type": "it",
-          "pattern": "should track earliest completion of available slots only"
-        },
-        {
-          "type": "it",
-          "pattern": "should only mark the constraint that actually caused overlap"
-        },
-        {
-          "type": "it",
-          "pattern": "should apply driveTimeTo constraint only when position context indicates first of day"
-        },
-        {
-          "type": "it",
-          "pattern": "should apply driveTimeFrom constraint with skipDayEnd - skip at day end, apply elsewhere"
-        },
-        {
-          "type": "it",
-          "pattern": "should block immediately on hard enforcement overlap"
-        },
-        {
-          "type": "it",
-          "pattern": "should return true for non-drive-time constraints"
-        },
-        {
-          "type": "it",
-          "pattern": "should return true for driveTimeTo with applyTo=all"
-        },
-        {
-          "type": "it",
-          "pattern": "should return false for driveTimeTo with applyTo=skipDayStart when no context"
-        },
-        {
-          "type": "it",
-          "pattern": "should skip driveTimeTo with applyTo=skipDayStart for slots at day start"
-        },
-        {
-          "type": "it",
-          "pattern": "should skip driveTimeFrom with applyTo=skipDayEnd for slots at day end"
-        },
-        {
-          "type": "it",
-          "pattern": "should return false for driveTimeFrom with applyTo=none"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle undefined applyTo by returning true (fallback)"
-        },
-        {
-          "type": "it",
-          "pattern": "should use injected now for leadTime constraint"
-        },
-        {
-          "type": "it",
-          "pattern": "should use range. prefix for flexible range violations"
-        },
-        {
-          "type": "it",
-          "pattern": "should use range. prefix for businessHours violations (UTC time-of-day)"
-        },
-        {
-          "type": "it",
-          "pattern": "should cache parsed business hours per UTC day"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle invalid leadTime config gracefully"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle invalid dateRange config gracefully"
-        },
-        {
-          "type": "it",
-          "pattern": "should batch capacity checks for slots on same date"
-        },
-        {
-          "type": "it",
-          "pattern": "T"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error when top-level businessHours exists without rangeConstraints.businessHours"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error when rangeConstraints.businessHours is missing"
-        },
-        {
-          "type": "it",
-          "pattern": "should succeed when rangeConstraints.businessHours is provided"
-        },
-        {
-          "type": "it",
-          "pattern": "should include optional leadTime and dateRange constraints when provided"
-        },
-        {
-          "type": "it",
-          "pattern": "should extract daily capacity constraint when enforcement is not off"
-        },
-        {
-          "type": "it",
-          "pattern": "should skip constraints when enforcement is off"
-        },
-        {
-          "type": "it",
-          "pattern": "should include direction for rollingWeek constraints"
-        },
-        {
-          "type": "it",
-          "pattern": "should extract all three capacity constraint types when provided"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty array when maxWorkHours is undefined"
-        },
-        {
-          "type": "it",
-          "pattern": "should default enforcement to hard when undefined"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate slots outside business hours and mark them with flexible violations"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate slots outside dateRange and mark them with flexible violations"
-        },
-        {
-          "type": "it",
-          "pattern": "should use UTC day of week for business hours checks"
-        },
-        {
-          "type": "it",
-          "pattern": "should use UTC time-of-day for business hours checks"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw ConstraintValidationError for invalid range constraint"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw ConstraintValidationError for invalid overlap constraint"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw ConstraintValidationError for invalid capacity constraint"
-        },
-        {
-          "type": "it",
-          "pattern": "should hard-fail when capacity API call fails (no fallback to 0)"
-        }
-      ],
-      "quality": {
-        "hasBehavioralTests": true,
-        "hasEdgeCases": true,
-        "hasMocking": true,
-        "hasSetup": true,
-        "qualityScore": 6
-      },
-      "hasSource": true,
-      "sourceFile": "client/src/utils/booking/slotAvailabilityManager.ts"
-    },
-    {
       "repoPath": "client/src/utils/booking/__tests__/testDateHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/testDateHelpers.ts",
       "testedItems": [],
@@ -39417,291 +38802,6 @@
       },
       "hasSource": false,
       "sourceFile": null
-    },
-    {
-      "repoPath": "client/src/utils/booking/__tests__/timeSlotFitter.test.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/__tests__/timeSlotFitter.test.ts",
-      "testedItems": [
-        "describe",
-        "it",
-        "expect",
-        "beforeAll"
-      ],
-      "testPatterns": [
-        {
-          "type": "describe",
-          "pattern": "timeSlotFitter helpers"
-        },
-        {
-          "type": "describe",
-          "pattern": "parseUTCDate"
-        },
-        {
-          "type": "describe",
-          "pattern": "parseTimeToMinutes"
-        },
-        {
-          "type": "describe",
-          "pattern": "timeRangesOverlap"
-        },
-        {
-          "type": "describe",
-          "pattern": "fitTimeSlots"
-        },
-        {
-          "type": "describe",
-          "pattern": "basic functionality"
-        },
-        {
-          "type": "describe",
-          "pattern": "boundary handling"
-        },
-        {
-          "type": "describe",
-          "pattern": "business hours handling"
-        },
-        {
-          "type": "describe",
-          "pattern": "busy times handling"
-        },
-        {
-          "type": "describe",
-          "pattern": "fitTimeSlotsWithAvailability"
-        },
-        {
-          "type": "describe",
-          "pattern": "basic functionality"
-        },
-        {
-          "type": "describe",
-          "pattern": "edge cases"
-        },
-        {
-          "type": "describe",
-          "pattern": "includeFlags handling"
-        },
-        {
-          "type": "describe",
-          "pattern": "input validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "duration validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "minuteIncrement validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "boundary validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "business hours validation"
-        },
-        {
-          "type": "describe",
-          "pattern": "earliestCompletion calculation"
-        },
-        {
-          "type": "describe",
-          "pattern": "edge cases"
-        },
-        {
-          "type": "it",
-          "pattern": "should parse YYYY-MM-DD format in UTC"
-        },
-        {
-          "type": "it",
-          "pattern": "should parse ISO timestamp format"
-        },
-        {
-          "type": "it",
-          "pattern": "should parse HH:mm format correctly"
-        },
-        {
-          "type": "it",
-          "pattern": "should detect overlapping ranges"
-        },
-        {
-          "type": "it",
-          "pattern": "should detect non-overlapping ranges"
-        },
-        {
-          "type": "it",
-          "pattern": "should detect adjacent ranges as non-overlapping"
-        },
-        {
-          "type": "it",
-          "pattern": "should detect contained ranges as overlapping"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate slots for single day within boundaries"
-        },
-        {
-          "type": "it",
-          "pattern": "should respect duration in slots"
-        },
-        {
-          "type": "it",
-          "pattern": "should respect minuteIncrement"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty slots if startBoundary >= endBoundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter slots that start before startBoundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter slots that end after endBoundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle multi-day boundaries"
-        },
-        {
-          "type": "it",
-          "pattern": "should respect business hours for each day"
-        },
-        {
-          "type": "it",
-          "pattern": "should not generate slots outside business hours"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle different business hours per day"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out slots that overlap busy times"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle empty busy times array"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle busy times spanning multiple days"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter out slots using mock Google Calendar busy times"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate all slots with availability flags"
-        },
-        {
-          "type": "it",
-          "pattern": "should mark busy slots as unavailable"
-        },
-        {
-          "type": "it",
-          "pattern": "should mark available slots as available"
-        },
-        {
-          "type": "it",
-          "pattern": "should generate more slots than fitTimeSlots when busy periods exist"
-        },
-        {
-          "type": "it",
-          "pattern": "should return earliest completion from available slots only"
-        },
-        {
-          "type": "it",
-          "pattern": "should mark all slots as available when no busy times"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle busy times spanning multiple days"
-        },
-        {
-          "type": "it",
-          "pattern": "should set TimeSlot flags correctly"
-        },
-        {
-          "type": "it",
-          "pattern": "should use default flags when DEFAULT_INCLUDE_FLAGS provided"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for duration <= 0"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for minuteIncrement <= 0"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for non-integer minuteIncrement"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for missing startBoundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for missing endBoundary"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for invalid startBoundary datetime"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for invalid endBoundary datetime"
-        },
-        {
-          "type": "it",
-          "pattern": "should throw error for invalid businessHours type"
-        },
-        {
-          "type": "it",
-          "pattern": "should return empty slots for empty business hours"
-        },
-        {
-          "type": "it",
-          "pattern": "should return earliest completion time of available slots only"
-        },
-        {
-          "type": "it",
-          "pattern": "should return null if no available slots generated"
-        },
-        {
-          "type": "it",
-          "pattern": "should return null if no slots generated"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle very short duration"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle very long duration"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle invalid business hours gracefully"
-        },
-        {
-          "type": "it",
-          "pattern": "should handle missing business hours for a day"
-        }
-      ],
-      "quality": {
-        "hasBehavioralTests": true,
-        "hasEdgeCases": true,
-        "hasMocking": true,
-        "hasSetup": true,
-        "qualityScore": 6
-      },
-      "hasSource": true,
-      "sourceFile": "client/src/utils/booking/timeSlotFitter.ts"
     },
     {
       "repoPath": "client/src/utils/booking/__tests__/timeSlotMatching.test.ts",
@@ -40869,14 +39969,6 @@
           "pattern": "extractChildIds"
         },
         {
-          "type": "describe",
-          "pattern": "filterRelationshipsByKind"
-        },
-        {
-          "type": "describe",
-          "pattern": "groupRelationshipsByParent"
-        },
-        {
           "type": "it",
           "pattern": "should transform API relationships to GlobalRelationship format"
         },
@@ -40907,14 +39999,6 @@
         {
           "type": "it",
           "pattern": "should return empty array for empty relationships"
-        },
-        {
-          "type": "it",
-          "pattern": "should filter relationships by kind"
-        },
-        {
-          "type": "it",
-          "pattern": "should group relationships by parent ID"
         }
       ],
       "quality": {
@@ -41706,15 +40790,15 @@
         },
         {
           "type": "describe",
-          "pattern": "extractRangeConstraints"
+          "pattern": "extractConstraints (range)"
         },
         {
           "type": "describe",
-          "pattern": "extractOverlapConstraints"
+          "pattern": "extractConstraints (overlap)"
         },
         {
           "type": "describe",
-          "pattern": "extractCapacityConstraints"
+          "pattern": "extractConstraints (capacity)"
         },
         {
           "type": "describe",
@@ -41750,15 +40834,15 @@
         },
         {
           "type": "it",
-          "pattern": "should extract driveTimeTo constraint with implicit before placement"
+          "pattern": "should extract driveToCandidate constraint with implicit before placement"
         },
         {
           "type": "it",
-          "pattern": "should extract driveTimeFrom constraint with implicit after placement"
+          "pattern": "should extract driveFromCandidate constraint with implicit after placement"
         },
         {
           "type": "it",
-          "pattern": "should skip driveTimeTo with applyTo none"
+          "pattern": "should skip driveToCandidate with applyTo none"
         },
         {
           "type": "it",
@@ -41802,7 +40886,7 @@
         },
         {
           "type": "it",
-          "pattern": "should validate driveTimeTo constraint with valid applyTo"
+          "pattern": "should validate driveToCandidate constraint with valid applyTo"
         },
         {
           "type": "it",
@@ -41822,6 +40906,61 @@
       },
       "hasSource": true,
       "sourceFile": "server/src/services/constraintExtractor.ts"
+    },
+    {
+      "repoPath": "server/src/services/__tests__/constraintValidationHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/__tests__/constraintValidationHelpers.ts",
+      "testedItems": [],
+      "testPatterns": [],
+      "quality": {
+        "hasBehavioralTests": false,
+        "hasEdgeCases": true,
+        "hasMocking": false,
+        "hasSetup": false,
+        "qualityScore": 2
+      },
+      "hasSource": false,
+      "sourceFile": null
+    },
+    {
+      "repoPath": "server/src/services/__tests__/slotComputationService.test.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/__tests__/slotComputationService.test.ts",
+      "testedItems": [
+        "describe",
+        "it",
+        "expect"
+      ],
+      "testPatterns": [
+        {
+          "type": "describe",
+          "pattern": "slotComputationService"
+        },
+        {
+          "type": "describe",
+          "pattern": "computeSlotsForDateRange"
+        },
+        {
+          "type": "it",
+          "pattern": "returns slots keyed by YYYY-MM-DD for a single day with business hours"
+        },
+        {
+          "type": "it",
+          "pattern": "drive-from buffer is anchored at event end, not at OOO end"
+        },
+        {
+          "type": "it",
+          "pattern": "marks slot unavailable when it directly overlaps an event"
+        }
+      ],
+      "quality": {
+        "hasBehavioralTests": true,
+        "hasEdgeCases": false,
+        "hasMocking": false,
+        "hasSetup": false,
+        "qualityScore": 2
+      },
+      "hasSource": true,
+      "sourceFile": "server/src/services/slotComputationService.ts"
     }
   ]
 }

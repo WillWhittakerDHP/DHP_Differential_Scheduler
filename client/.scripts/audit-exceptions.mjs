@@ -23,6 +23,42 @@ import { execSync } from 'node:child_process'
  */
 
 /**
+ * Detect if a .js file is compiled output from a TypeScript source (sibling .ts exists).
+ * Audits should skip these to avoid false positives from transpiled polyfills and helpers.
+ *
+ * @param {string} absPath - Absolute file path
+ * @returns {boolean}
+ */
+export function isCompiledJsFile(absPath) {
+  if (!absPath.endsWith('.js')) return false
+  const tsPath = absPath.slice(0, -3) + '.ts'
+  return fs.existsSync(tsPath)
+}
+
+/**
+ * Detect if a file is a seed script (test data seeding, DB seed utilities, etc.).
+ * Seed scripts contain intentionally hardcoded data, mutations, and simplified patterns
+ * that are not representative of production code quality — auditing them creates noise.
+ *
+ * Matches:
+ *   - Files with 'seed' in their filename (e.g., seedTestData.ts, seed_admin_data.mjs)
+ *   - Files in test/setup directories (test infrastructure)
+ *
+ * Note: Migration files containing 'seed' (e.g., 20260114_seed_admin_...) are already
+ * excluded by migration-path checks in each audit's exclusion logic.
+ *
+ * @param {string} repoPath - Repo-relative file path
+ * @returns {boolean}
+ */
+export function isSeedScript(repoPath) {
+  // Test infrastructure directories (seed helpers, fixture builders, etc.)
+  if (repoPath.includes('/test/setup/')) return true
+  // Files with 'seed' in the filename
+  const fileName = repoPath.split('/').pop() || ''
+  return /seed/i.test(fileName)
+}
+
+/**
  * Parse inline @audit-allow comments from file content
  * 
  * @param {string} content - File content

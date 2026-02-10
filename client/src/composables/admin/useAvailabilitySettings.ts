@@ -139,7 +139,9 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         differentialPerspectives: rawSettings.differentialPerspectives,
         calendarConfig,
         // Session 2.2.2: Load defaultLocation for drive time calculations
-        defaultLocation: rawSettings.defaultLocation
+        defaultLocation: rawSettings.defaultLocation,
+        // OOO enforcement: Load overlapSources for out-of-office toggle
+        overlapSources: rawSettings.overlapSources
       } as AvailabilitySettings
     } catch (err: any) {
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
@@ -257,6 +259,12 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       // Include buffer settings if configured (leadTime removed, only overlap constraints remain)
       if (formData.value.buffers) {
         settingsToSave.buffers = formData.value.buffers
+      }
+      
+      // PATTERN: Include overlapSources if present in formData
+      // LEARNING: Controls whether event sources (e.g. out-of-office) participate in overlap blocking
+      if (formData.value.overlapSources) {
+        ;(settingsToSave as Record<string, unknown>).overlapSources = formData.value.overlapSources
       }
       
       if (formData.value.maxWorkHours) {

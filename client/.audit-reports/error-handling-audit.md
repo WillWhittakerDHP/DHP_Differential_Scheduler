@@ -6,402 +6,52 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **86**
-- Requiring review: **465**
+- Files with findings: **46**
+- Requiring review: **85**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **6**
-- P1 (console-in-catch, type suppressions): **169**
-- P2 (general console usage): **290**
+- P0 (silent catches): **5**
+- P1 (console-in-catch, type suppressions): **60**
+- P2 (general console usage): **20**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `server/src/test/setup/seedTestData.ts` | P0 | 61 | 0 | 12 | 1 |
-| `server/src/app.ts` | P0 | 49 | 0 | 8 | 9 |
-| `server/src/scripts/createAppointmentsFromCalendar.ts` | P0 | 46 | 0 | 7 | 11 |
-| `server/src/scripts/fixUserRolesAndEmails.ts` | P0 | 41 | 0 | 4 | 21 |
-| `server/src/scripts/manual-migrate-fieldmetadata.mjs` | P0 | 38 | 0 | 2 | 28 |
-| `server/src/config/app.js` | P0 | 35 | 0 | 7 | 0 |
-| `server/src/routes/external/googleOauthRoutes.ts` | P0 | 32 | 0 | 6 | 2 |
-| `server/src/config/googleOAuth.ts` | P0 | 31 | 0 | 4 | 11 |
-| `server/src/routes/helpers/createCrudRouter.ts` | P0 | 30 | 0 | 6 | 0 |
-| `server/src/scripts/backfill-input-config-from-selectable.mjs` | P0 | 28 | 0 | 2 | 18 |
-| `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | P0 | 26 | 0 | 2 | 16 |
-| `server/src/scripts/setDifferentialServices.mjs` | P0 | 25 | 0 | 3 | 10 |
-| `server/src/scripts/fix-appointment-data.mjs` | P0 | 24 | 0 | 3 | 9 |
-| `server/src/scripts/check-layout-configs.mjs` | P0 | 23 | 0 | 2 | 13 |
-| `server/src/scripts/check-specific-shape.mjs` | P0 | 23 | 0 | 2 | 13 |
-| `server/src/scripts/fix-validConstituents.mjs` | P0 | 22 | 0 | 2 | 12 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 21 | 0 | 3 | 6 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P0 | 21 | 0 | 4 | 1 |
 | `server/src/routes/internal/properties/propertyHelpers.ts` | P0 | 20 | 0 | 4 | 0 |
-| `server/src/scripts/fix-primitive-metadata-cleanup.mjs` | P0 | 20 | 0 | 1 | 15 |
-| `server/src/services/appointmentCalendarService.ts` | P0 | 20 | 0 | 2 | 10 |
-| `server/src/scripts/flatten-input-config.mjs` | P0 | 19 | 0 | 3 | 4 |
-| `server/src/config/app.ts` | P0 | 16 | 0 | 2 | 6 |
-| `server/src/services/calendarErrorHandler.ts` | P0 | 16 | 0 | 2 | 6 |
-| `server/src/routes/external/calendarRoutes.ts` | P0 | 15 | 0 | 3 | 0 |
-| `server/src/routes/external/mapsRoutes.ts` | P0 | 15 | 0 | 3 | 0 |
 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
 | `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
 | `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` | P0 | 15 | 0 | 3 | 0 |
-| `server/src/scripts/fix-appointment-block-instances.mjs` | P0 | 15 | 0 | 1 | 10 |
+| `client/src/composables/admin/useBusinessRules.ts` | P0 | 11 | 0 | 2 | 1 |
+| `client/src/components/booking/AppointmentSlotGrid.vue` | P0 | 10 | 1 | 0 | 0 |
+| `client/src/composables/admin/useDragAndDrop.ts` | P0 | 10 | 1 | 0 | 0 |
+| `client/src/composables/admin/useEntityCardActions.ts` | P0 | 10 | 1 | 0 | 0 |
+| `client/src/composables/admin/useStatusButtonToggle.ts` | P0 | 10 | 0 | 2 | 0 |
+| `client/src/utils/api/relationshipApiHelpers.ts` | P0 | 10 | 1 | 0 | 0 |
+| `client/src/utils/booking/mockGoogleCalendar.ts` | P0 | 10 | 1 | 0 | 0 |
+| `client/src/utils/dev/formatDevPanelData.ts` | P0 | 10 | 0 | 2 | 0 |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/helpers/routerErrorHandler.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/properties/propertyValidators.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P0 | 10 | 0 | 2 | 0 |
+| `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | P1 | 7 | 0 | 1 | 2 |
+| `client/src/composables/formFields/useFormFieldsContext.ts` | P1 | 7 | 0 | 1 | 2 |
+| `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/components/admin/MetadataEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/composables/booking/useAppointmentLoader.ts` | P1 | 6 | 0 | 1 | 1 |
 
-*...and 56 more files. See JSON report for details.*
+*...and 16 more files. See JSON report for details.*
 
 ## Per-file findings
-
-### `server/src/test/setup/seedTestData.ts` [P0] (score: 61)
-
-```
-as-any@47: // PATTERN: Use 'as any' cast to access model properties in test setup
-as-any@51: blockShapeRef: (blockShape1 as any).id,
-as-any@57: // PATTERN: Use 'as any' cast to access model properties in test setup
-as-any@61: partShapeRef: (partShape1 as any).id,
-as-any@73: partShapeRef: (partShape2 as any).id,
-as-any@82: // PATTERN: Use 'as any' cast to access model properties in test setup
-as-any@85: parentId: (blockInstance1 as any).id,
-as-any@87: childId: (partInstance1 as any).id,
-as-any@93: parentId: (blockInstance1 as any).id,
-as-any@95: childId: (partInstance2 as any).id,
-as-any@130: // PATTERN: Use 'as any' cast to access model properties in test setup
-as-any@132: const propertyVersionId = propertyVersions.length > 0 ? (propertyVersions[0] as any).id : null
-console-general@135: console.warn('⚠️  No property versions found. Skipping appointment seeding.')
-```
-
-### `server/src/app.ts` [P0] (score: 49)
-
-```
-console-general@16: console.log("✅ Database initialized successfully");
-console-in-catch@22: console.error("❌ Failed to initialize database:", error);
-console-in-catch@46: console.log('[OAuthCallback] Callback route hit');
-console-in-catch@47: console.log('[OAuthCallback] Query params:', JSON.stringify(req.query));
-console-in-catch@48: console.log('[OAuthCallback] Full URL:', req.url);
-console-in-catch@49: console.log('[OAuthCallback] Request headers:', JSON.stringify(req.headers));
-console-in-catch@50: console.log('[OAuthCallback] Raw query string:', req.url.split('?')[1] || 'none');
-console-general@57: console.error('[OAuthCallback] OAuth error:', error);
-console-general@58: console.error('[OAuthCallback] Error description:', error_description);
-console-general@69: console.warn('[OAuthCallback] No authorization code received');
-console-general@70: console.log('[OAuthCallback] Query keys:', Object.keys(req.query));
-console-general@79: console.log('[OAuthCallback] Authorization code received, exchanging for tokens...');
-console-general@91: console.log('[OAuthCallback] OAuth authentication successful');
-console-general@92: console.log('[OAuthCallback] Has access token:', !!tokens.access_token);
-console-general@93: console.log('[OAuthCallback] Has refresh token:', !!tokens.refresh_token);
-console-in-catch@104: console.error('[OAuthCallback] Error in callback:', error);
-console-in-catch@105: console.error('[OAuthCallback] Error stack:', error.stack);
-```
-
-### `server/src/scripts/createAppointmentsFromCalendar.ts` [P0] (score: 46)
-
-```
-as-any@139: // PATTERN: Use 'as any' cast to access Sequelize associations
-as-any@140: const addressWithAssociations = address as any;
-as-any@155: // PATTERN: Use 'as any' cast to access Sequelize associations
-as-any@156: const addressWithAssociations = address as any;
-console-general@224: console.log(`⏭️  Skipping "${event.summary}" - no location`);
-console-general@231: console.log(`⏭️  Skipping "${event.summary}" - property not found: ${event.location}`);
-console-general@276: console.log(`⏭️  Skipping "${event.summary}" - appointment already exists`);
-console-general@309: console.log(`✅ Created appointment: "${event.summary}" (agent: ${agentId ? 'found' : 'none'}, scheduledBy: ${scheduledBy...
-console-in-catch@313: console.error(`❌ Error creating appointment for "${event.summary}":`, error);
-console-general@323: console.log('📅 Creating appointments from Google Calendar events...');
-console-general@644: console.log(`📊 Processing ${calendarEvents.length} calendar events...\n`);
-console-general@648: console.log('\n📊 Summary:');
-console-general@649: console.log(`   ✅ Created: ${stats.created}`);
-console-general@650: console.log(`   ⏭️  Skipped: ${stats.skipped}`);
-console-general@651: console.log(`   ❌ Errors: ${stats.errors}`);
-console-general@652: console.log('\n✅ Appointment creation completed!');
-console-in-catch@655: console.error('❌ Error:', error);
-console-in-catch@667: console.error('❌ Script failed:', error);
-```
-
-### `server/src/scripts/fixUserRolesAndEmails.ts` [P0] (score: 41)
-
-```
-console-general@64: console.log('🔧 Starting user data fix script...\n');
-console-general@67: console.log(`📊 Found ${existingUsers.length} existing users\n`);
-console-general@69: console.log('🔄 Step 1: Updating user roles from client to agent...');
-console-general@72: console.log(`   Found ${clientUsers.length} users with role='client' (should be agents)`);
-console-general@76: console.log(`   ✅ Updated ${user.firstName} ${user.lastName}: client → agent`);
-console-general@79: console.log('\n🔄 Step 2: Adding test emails to existing users...');
-console-general@89: console.log(`   ✅ ${user.firstName} ${user.lastName}: email → ${testEmail}`);
-console-general@92: console.log('\n🔄 Step 3: Creating test client records...');
-console-general@108: console.log(`   ⏭️  Client ${clientName.firstName} ${clientName.lastName} already exists`);
-console-general@122: console.log(`   ✅ Created client: ${clientName.firstName} ${clientName.lastName} (${testEmail})`);
-console-general@126: console.log('\n🔄 Step 4: Updating appointments...');
-console-general@129: console.log(`   Found ${appointments.length} appointments to update`);
-console-general@153: console.log(`   ✅ Updated appointment ${appointment.id.substring(0, 8)}...: scheduledBy=${schedulerName}`);
-console-general@159: console.log('\n' + '='.repeat(60));
-console-general@160: console.log('✅ USER DATA FIX COMPLETED SUCCESSFULLY');
-console-general@161: console.log('='.repeat(60));
-console-general@163: console.log('\n📊 SUMMARY:');
-console-general@164: console.log(`   - Users changed from client to agent: ${clientUsers.length}`);
-console-general@165: console.log(`   - Agent emails updated: ${agentUsers.length}`);
-console-general@166: console.log(`   - Test clients created: ${createdClients.length}`);
-console-general@167: console.log(`   - Appointments updated: ${appointments.length}`);
-console-in-catch@171: console.error('\n❌ Error during data fix:', error);
-console-in-catch@183: console.error('❌ Script failed:', error);
-console-in-catch@192: console.log('\n✅ Script completed successfully');
-console-in-catch@196: console.error('❌ Script failed:', error);
-```
-
-### `server/src/scripts/manual-migrate-fieldmetadata.mjs` [P0] (score: 38)
-
-```
-console-general@10: console.log('🔄 Starting manual fieldMetadata migration...\n');
-console-general@13: console.log('   ✅ Connected to database\n');
-console-general@25: console.log('🧹 Clearing existing shape_layout_config entries...');
-console-general@27: console.log('   ✅ Cleared\n');
-console-general@30: console.log('📋 Migrating BlockShape fieldMetadata...');
-console-general@36: console.log(`   Found ${blockShapes.length} BlockShapes with fieldMetadata\n`);
-console-general@47: console.log(`   Processing BlockShape "${blockShape.name}" (${Object.keys(fieldMetadata).length} fields)`);
-console-general@97: console.log(`      ✅ Migrated ${fieldKey}`);
-console-general@104: console.error(`      ❌ Error migrating ${fieldKey}:`, error.message);
-console-general@110: console.log('\n📋 Migrating PartShape fieldMetadata...');
-console-general@116: console.log(`   Found ${partShapes.length} PartShapes with fieldMetadata\n`);
-console-general@127: console.log(`   Processing PartShape "${partShape.name}" (${Object.keys(fieldMetadata).length} fields)`);
-console-general@177: console.log(`      ✅ Migrated ${fieldKey}`);
-console-general@184: console.error(`      ❌ Error migrating ${fieldKey}:`, error.message);
-console-general@190: console.log('\n' + '='.repeat(60));
-console-general@191: console.log('📊 Migration Summary');
-console-general@192: console.log('='.repeat(60));
-console-general@193: console.log(`BlockShapes processed: ${stats.blockShapesProcessed}`);
-console-general@194: console.log(`PartShapes processed: ${stats.partShapesProcessed}`);
-console-general@195: console.log(`Layout configs created: ${stats.layoutConfigsCreated}`);
-console-general@196: console.log(`Warnings: ${stats.warnings.length}`);
-console-general@197: console.log(`Errors: ${stats.errors.length}`);
-console-general@200: console.log('\n⚠️  Warnings:');
-console-general@202: console.log(`   ${i + 1}. ${warning}`);
-console-general@207: console.log('\n❌ Errors:');
-console-general@209: console.log(`   ${i + 1}. ${error.shape} - ${error.field}: ${error.error}`);
-console-general@213: console.log('='.repeat(60));
-console-general@214: console.log('✅ Migration completed successfully!');
-console-in-catch@216: console.error('\n❌ Migration failed:', error);
-console-in-catch@224: console.error('Fatal error:', error);
-```
-
-### `server/src/config/app.js` [P0] (score: 35)
-
-```
-console-in-catch@71: console.error("❌ Missing property in config:", error.message);
-console-in-catch@72: console.error("🟠 Current env variables:", process.env);
-console-in-catch@88: console.log("📦 Connecting to Database...");
-console-in-catch@92: console.log("✅ Database connection established.");
-console-in-catch@93: console.log("ℹ️  Run 'npm run migrate' to apply database migrations.");
-console-in-catch@97: console.error("❌ Database Connection Error:", err_1);
-console-in-catch@99: console.error("Validation errors:", err_1.errors);
-```
-
-### `server/src/routes/external/googleOauthRoutes.ts` [P0] (score: 32)
-
-```
-console-in-catch@26: console.error('[GoogleOAuthRoutes] Error generating auth URL:', error);
-console-general@48: console.error('[GoogleOAuthRoutes] OAuth error:', error);
-console-general@75: console.log('[GoogleOAuthRoutes] OAuth authentication successful');
-console-in-catch@87: console.error('[GoogleOAuthRoutes] Error in callback:', error);
-console-in-catch@109: console.error('[GoogleOAuthRoutes] Error getting credentials:', credError);
-console-in-catch@138: console.error('[GoogleOAuthRoutes] Error checking status:', error);
-console-in-catch@139: console.error('[GoogleOAuthRoutes] Error stack:', error.stack);
-console-in-catch@163: console.error('[GoogleOAuthRoutes] Error generating test URL:', error);
-```
-
-### `server/src/config/googleOAuth.ts` [P0] (score: 31)
-
-```
-console-general@64: console.log('[GoogleOAuth] Client ID:', GOOGLE_CLIENT_ID);
-console-general@65: console.log('[GoogleOAuth] Redirect URI configured:', GOOGLE_REDIRECT_URI);
-console-general@66: console.log('[GoogleOAuth] Scopes:', GOOGLE_SCOPES);
-console-general@77: console.log('[GoogleOAuth] Redirect URI in auth URL:', redirectUriParam);
-console-general@78: console.log('[GoogleOAuth] Full generated auth URL:', authUrl);
-console-general@161: console.log('[GoogleOAuth] Tokens saved to file:', TOKEN_FILE);
-console-in-catch@163: console.error('[GoogleOAuth] Failed to save tokens to file:', error);
-console-in-catch@179: console.log('[GoogleOAuth] No saved tokens found - authentication required');
-console-in-catch@180: console.log('[GoogleOAuth] Visit http://localhost:3001/api/v1/external/oauth to authenticate');
-console-general@192: console.warn('[GoogleOAuth] Saved tokens missing refresh_token - re-authentication required');
-console-general@197: console.log('[GoogleOAuth] Tokens loaded from file');
-console-general@198: console.log('[GoogleOAuth] Has access token:', !!tokens.access_token);
-console-general@199: console.log('[GoogleOAuth] Has refresh token:', !!tokens.refresh_token);
-console-general@203: console.log('[GoogleOAuth] Access token expired - will auto-refresh on next API call');
-console-in-catch@208: console.error('[GoogleOAuth] Failed to load tokens from file:', error);
-```
-
-### `server/src/routes/helpers/createCrudRouter.ts` [P0] (score: 30)
-
-```
-as-any@165: options.includes = defaultIncludes as any[]
-as-any@173: ? (defaultOrder as any[])
-as-any@174: : [defaultOrder as any]
-as-any@266: const record = await createRecord(model, data as any)
-as-any@333: const updatedCount = await updateRecord(model, id, data as any)
-as-any@413: const updatedCount = await patchRecord(model, id, data as any)
-```
-
-### `server/src/scripts/backfill-input-config-from-selectable.mjs` [P0] (score: 28)
-
-```
-console-general@189: console.log('🔄 Starting input_config backfill from selectableFieldConfig...\n');
-console-general@192: console.log('   ✅ Connected to database\n');
-console-general@203: console.log(`📋 Processing ${entityType}...`);
-console-general@217: console.log('   ⚠️  Skipping blockInstance (fields inherit from blockShape)\n');
-console-general@220: console.log(`   ⚠️  Unknown entity type: ${entityType}\n`);
-console-general@237: console.log(`   ⚠️  No metadata entry found for ${entityType}.${fieldKey} - skipping`);
-console-general@244: console.log(`   ⚠️  ${entityType}.${fieldKey} already has inputConfig - skipping`);
-console-general@254: console.log(`   ✅ Updated ${entityType}.${fieldKey}`);
-console-general@258: console.error(`   ❌ ${errorMsg}`);
-console-general@263: console.log('');
-console-general@267: console.log('📊 Summary:');
-console-general@268: console.log(`   ✅ Updated: ${stats.updated}`);
-console-general@269: console.log(`   ⚠️  Skipped: ${stats.skipped}`);
-console-general@270: console.log(`   ❌ Errors: ${stats.errors.length}`);
-console-general@273: console.log('\n❌ Errors:');
-console-general@274: stats.errors.forEach((error) => console.log(`   - ${error}`));
-console-general@277: console.log('\n✅ Backfill complete!');
-console-in-catch@279: console.error('\n❌ Fatal error:', error);
-console-general@290: console.log('\n✅ Script completed successfully');
-console-in-catch@294: console.error('\n❌ Script failed:', error);
-```
-
-### `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` [P0] (score: 26)
-
-```
-console-general@31: console.log('🔄 Starting cleanup of relationship keys from admin_primitive_metadata...');
-console-general@49: console.log('✅ Connected to database\n');
-console-general@64: console.log(`📋 Found ${existing.length} relationship key entries that should not exist:`);
-console-general@66: console.log(`   - ${entry.entity_type}/${entry.entity_id}: ${entry.field_key}`);
-console-general@70: console.log('\n🗑️  Deleting relationship keys...');
-console-general@80: console.log(`✅ Successfully deleted ${deletedCount} relationship key entries`);
-console-general@83: console.log('\n   Deleted entries:');
-console-general@85: console.log(`     - ${entry.entity_type}/${entry.entity_id}: ${entry.field_key}`);
-console-general@100: console.log('\n✅ Verification: No relationship keys remaining in admin_primitive_metadata');
-console-general@102: console.log(`\n⚠️  Warning: ${remainingCount} relationship keys still remain (this should not happen)`);
-console-general@117: console.log(`\n✅ Verified relationship keys exist in admin_relationship_metadata: ${foundKeys.join(', ')}`);
-console-general@119: console.log('\n⚠️  Warning: No relationship keys found in admin_relationship_metadata');
-console-general@120: console.log('   This might indicate that relationship metadata needs to be seeded');
-console-general@124: console.log('✅ No relationship keys found in admin_primitive_metadata (already clean)');
-console-general@127: console.log('\n✅ Cleanup complete!');
-console-in-catch@129: console.error('❌ Error during cleanup:', error);
-console-general@139: console.log('\n🎉 Script completed successfully');
-console-in-catch@143: console.error('\n💥 Script failed:', error);
-```
-
-### `server/src/scripts/setDifferentialServices.mjs` [P0] (score: 25)
-
-```
-console-general@24: console.log('✅ Database connection established\n');
-console-general@34: console.log('🔍 Searching for services to update...');
-console-general@49: console.log(`Found ${services.length} service(s):`);
-console-general@51: console.log(`  - ${s.name} (id: ${s.id}, current differential: ${s.differential})`);
-console-general@55: console.log('\n⚠️  No services found. Checking all services...');
-console-general@62: console.log('Sample of active services:');
-console-general@64: console.log(`  - ${s.name} (id: ${s.id}, differential: ${s.differential})`);
-console-general@77: console.log(`\n✅ Updated ${services.length} service(s) with differential=true`);
-console-general@86: console.log('\n📋 Verification - Updated services:');
-console-general@88: console.log(`  - ${s.name}: differential = ${s.differential}`);
-console-in-catch@92: console.error('❌ Error:', error);
-console-in-catch@101: console.log('\n✅ Script completed successfully');
-console-in-catch@105: console.error('\n❌ Script failed:', error);
-```
-
-### `server/src/scripts/fix-appointment-data.mjs` [P0] (score: 24)
-
-```
-console-general@38: console.log('✅ Database connection established\n')
-console-general@39: console.log('🔧 Fixing appointment data...');
-console-general@83: console.log(`✅ Updated ${updatedCount} appointment(s) with baseline data`);
-console-general@95: console.log('📊 Verification:');
-console-general@96: console.log(`   Total appointments: ${verification[0].total}`);
-console-general@97: console.log(`   With user_type_id: ${verification[0].with_user_type}`);
-console-general@98: console.log(`   With services: ${verification[0].with_services}`);
-console-general@99: console.log(`   With properties: ${verification[0].with_properties}`);
-console-general@102: console.log('\n✅ Appointment data fix completed');
-console-in-catch@105: console.error('❌ Error fixing appointment data:', error);
-console-in-catch@114: console.log('✅ Script completed successfully');
-console-in-catch@118: console.error('❌ Script failed:', error);
-```
-
-### `server/src/scripts/check-layout-configs.mjs` [P0] (score: 23)
-
-```
-console-general@23: console.log('✅ Connected to database\n');
-console-general@29: console.log(`Total layout configs: ${totalResult[0].count}\n`);
-console-general@37: console.log('Layout configs by type:');
-console-general@39: console.log(`  ${row.shape_type}: ${row.count}`);
-console-general@41: console.log('');
-console-general@49: console.log('Sample BlockShapes:');
-console-general@51: console.log(`  ${shape.id} - ${shape.name || '(no name)'}`);
-console-general@53: console.log('');
-console-general@68: console.log(`Layout configs for BlockShape ${firstShapeId}:`);
-console-general@70: console.log('  ❌ No layout configs found!');
-console-general@73: console.log(`  ${config.field_key}: ${config.visibility} (${config.layout}, order: ${config.order})`);
-console-general@84: console.log(`\nBlockShapes with field_metadata JSONB: ${blockShapesWithMetadata[0].count}`);
-console-general@92: console.log(`PartShapes with field_metadata JSONB: ${partShapesWithMetadata[0].count}`);
-console-in-catch@95: console.error('❌ Error:', error.message);
-console-in-catch@103: console.error('Fatal error:', error);
-```
-
-### `server/src/scripts/check-specific-shape.mjs` [P0] (score: 23)
-
-```
-console-general@25: console.log('✅ Connected to database\n');
-console-general@41: console.log(`❌ BlockShape ${shapeId} not found`);
-console-general@46: console.log(`BlockShape: ${shape.name} (${shape.id})`);
-console-general@47: console.log(`Has field_metadata: ${shape.has_field_metadata}`);
-console-general@48: console.log(`Metadata type: ${shape.metadata_type}\n`);
-console-general@62: console.log('Field metadata keys:', Object.keys(fullMetadata[0].field_metadata));
-console-general@63: console.log('Field metadata sample:', JSON.stringify(fullMetadata[0].field_metadata, null, 2).substring(0, 500));
-console-general@78: console.log(`\nLayout configs in new table: ${layoutConfigs.length}`);
-console-general@81: console.log(`  ${config.field_key}: ${config.visibility} (${config.layout}, order: ${config.order})`);
-console-general@84: console.log('  ❌ No layout configs found!');
-console-general@99: console.log(`\nCanonical metadata (first 10): ${canonicalMetadata.length} fields`);
-console-general@101: console.log(`  ${meta.field_key}: ${meta.label} (order: ${meta.display_order})`);
-console-general@113: console.log(`\nMigration ran: ${migrationRan.length > 0 ? '✅ Yes' : '❌ No'}`);
-console-in-catch@116: console.error('❌ Error:', error.message);
-console-in-catch@124: console.error('Fatal error:', error);
-```
-
-### `server/src/scripts/fix-validConstituents.mjs` [P0] (score: 22)
-
-```
-console-general@34: console.log('✅ Database connection established\n')
-console-general@49: console.log(`📋 Found ${records.length} records with validConstituents:`)
-console-general@51: console.log(`   - ${r.entity_type}/${r.entity_id}: ${r.relationship_key} (label: "${r.label}")`)
-console-general@53: console.log()
-console-general@67: console.log(`✅ Updated ${updated.length} records: validConstituents → validParts`)
-console-general@69: console.log('✅ No records found with validConstituents')
-console-general@85: console.log(`\n📋 Found ${activeRecords.length} records with activeConstituents:`)
-console-general@87: console.log(`   - ${r.entity_type}/${r.entity_id}: ${r.relationship_key} (label: "${r.label}")`)
-console-general@89: console.log()
-console-general@102: console.log(`✅ Updated ${updatedActive.length} records: activeConstituents → activeParts`)
-console-general@104: console.log('\n✅ No records found with activeConstituents')
-console-general@107: console.log('\n✅ Data fix complete!')
-console-in-catch@109: console.error('❌ Error:', error.message)
-console-in-catch@110: console.error(error.stack)
-```
-
-### `client/src/utils/transformers/appointmentToWizardTransformer.ts` [P0] (score: 21)
-
-```
-ts-expect-error@134: // @ts-expect-error - Unused function kept for future migration support
-console-general@267: console.warn(`[AppointmentTransformer] userTypeId ${userTypeId} resolved to block instance but is not a state control bl...
-console-general@269: console.warn(`[AppointmentTransformer] userTypeId ${userTypeId} not found in booking data`)
-console-in-catch@283: console.error('[AppointmentTransformer] Failed to fetch versions:', error)
-console-in-catch@302: console.warn(`[AppointmentTransformer] Some service IDs not found: ${missingIds.join(', ')}`)
-console-general@310: console.warn(`[AppointmentTransformer] Some service IDs have wrong block shape: ${wrongShapeIds.join(', ')}`)
-console-general@339: console.warn(`[AppointmentTransformer] Some property type block IDs not found: ${missingIds.join(', ')}`)
-console-general@363: console.warn(`[AppointmentTransformer] Some availability option IDs not found: ${missingIds.join(', ')}`)
-console-general@387: console.warn(`[AppointmentTransformer] Some line item IDs not found: ${missingIds.join(', ')}`)
-```
-
-### `server/src/utils/availabilities/availabiltiesDbUtils.ts` [P0] (score: 21)
-
-```
-console-in-catch@96: console.error(`[ERROR] Failed to sum work hours for date ${date.toISOString()}:`, errorMessage);
-console-in-catch@152: console.error(`[ERROR] Failed to sum work hours for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`,...
-console-in-catch@199: console.error(`[ERROR] Failed to sum work hours for calendar week containing ${date.toISOString()}:`, errorMessage);
-console-general@284: console.warn(`[WARN] Invalid rolling week direction: ${direction}, defaulting to 'past'`);
-console-in-catch@303: console.error(`[ERROR] Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, erro...
-```
 
 ### `server/src/routes/internal/properties/propertyHelpers.ts` [P0] (score: 20)
 
@@ -410,98 +60,6 @@ as-any@5: * WHY: Improves code reusability, eliminates `as any` casts, improves 
 as-any@14: * WHY: Replaces `as any` casts with type-safe checks
 as-any@32: * WHY: Replaces `as any` casts with type-safe checks
 as-any@49: * WHY: Replaces `as any` pattern with proper type handling
-```
-
-### `server/src/scripts/fix-primitive-metadata-cleanup.mjs` [P0] (score: 20)
-
-```
-console-general@28: console.log('✅ Database connection established');
-console-general@45: console.log('\n📋 Step 1: Check admin_primitive_metadata for relationship keys...');
-console-general@56: console.log(`Found ${existingPrimitive.length} relationship key entries to delete:`);
-console-general@58: console.log(`   - ${entry.entity_type}/${entry.entity_id}: ${entry.field_key} (created: ${entry.created_at})`);
-console-general@68: console.log(`✅ Deleted ${deletedResult.length} entries from admin_primitive_metadata`);
-console-general@70: console.log('✅ No relationship keys found in admin_primitive_metadata (already clean)');
-console-general@73: console.log('\n📋 Step 2: Check entity_layout_config for relationship keys...');
-console-general@93: console.log(`Found ${existingLayout.length} relationship key entries in entity_layout_config:`);
-console-general@95: console.log(`   - ${entry.entity_type}/${entry.entity_id}: ${entry.field_key}`);
-console-general@105: console.log(`✅ Deleted ${deletedLayout.length} entries from entity_layout_config`);
-console-general@107: console.log('✅ No relationship keys found in entity_layout_config (already clean)');
-console-general@110: console.log('ℹ️  entity_layout_config table does not exist (already dropped)');
-console-general@113: console.log('\n✅ Cleanup completed successfully!');
-console-general@116: console.log('\n📋 Verification...');
-console-general@122: console.log(`   Relationship keys in admin_primitive_metadata: ${remaining[0]?.count || 0}`);
-console-in-catch@125: console.error('❌ Cleanup error:', error);
-```
-
-### `server/src/services/appointmentCalendarService.ts` [P0] (score: 20)
-
-```
-console-general@85: console.log(`[AppointmentCalendarService] Creating calendar event for appointment ${appointmentId}`);
-console-in-catch@136: console.error(`[AppointmentCalendarService] Failed to update attendee ${attendee.id}:`, error);
-console-general@140: console.log(`[AppointmentCalendarService] Created event ${createdEvent.id}, updated ${attendeesUpdated} attendees`);
-console-in-catch@157: console.error('[AppointmentCalendarService] Error creating calendar event:', error);
-console-general@261: console.error(`[AppointmentCalendarService] No time slots found for appointment ${appointment.id}`);
-console-general@262: console.error(`[AppointmentCalendarService] selectedTimeSlots:`, JSON.stringify(appointment.selectedTimeSlots));
-console-general@267: console.error(`[AppointmentCalendarService] Time slot missing startTime/endTime for appointment ${appointment.id}`);
-console-general@268: console.error(`[AppointmentCalendarService] firstSlot:`, JSON.stringify(firstSlot));
-console-general@276: console.log(`[AppointmentCalendarService] Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`)...
-console-general@283: console.error(`[AppointmentCalendarService] Invalid RFC3339 dates: start=${firstSlot.startTime}, end=${firstSlot.endTime...
-console-general@314: console.warn(`[AppointmentCalendarService] Attendee ${attendee.id} has no email, skipping`);
-console-general@358: console.log(`[AppointmentCalendarService] Status sync not yet implemented for ${appointmentId}`);
-```
-
-### `server/src/scripts/flatten-input-config.mjs` [P0] (score: 19)
-
-```
-console-general@28: console.log('🔄 Flattening input_config structures...')
-console-general@59: console.log(`✅ Flattened ${updatedCount} record(s)`)
-console-general@71: console.log(`📊 Remaining wrapped records: ${wrappedCount}`)
-console-general@74: console.log('✅ All structures are now flattened!')
-console-in-catch@77: console.error('❌ Error:', error.message)
-console-in-catch@86: console.log('✅ Script completed')
-console-in-catch@90: console.error('❌ Script failed:', error)
-```
-
-### `server/src/config/app.ts` [P0] (score: 16)
-
-```
-console-general@12: console.warn(`⚠️  ${envFile} not found, falling back to .env.development`);
-console-general@31: console.error("❌ Missing property in config:", error.message);
-console-general@32: console.error("🟠 Current env variables:", process.env);
-console-general@59: console.log("📦 Connecting to Database...");
-console-general@61: console.log("✅ Database connection established.");
-console-general@62: console.log("ℹ️  Run 'npm run migrate' to apply database migrations.");
-console-in-catch@65: console.error("❌ Database Connection Error:", err);
-console-in-catch@68: console.error("Validation errors:", err.errors);
-```
-
-### `server/src/services/calendarErrorHandler.ts` [P0] (score: 16)
-
-```
-console-in-catch@232: console.error(`[CalendarErrorHandler] Non-retryable error (${classifiedError.type}):`, classifiedError.message);
-console-general@238: console.error(`[CalendarErrorHandler] All ${retryConfig.maxRetries} retries exhausted`);
-console-general@244: console.warn(
-console-in-catch@291: console.warn(
-console-general@298: console.log('[CalendarErrorHandler] Returning cached data as fallback');
-console-general@307: console.warn('[CalendarErrorHandler] No cache available, returning default value');
-console-general@326: console.error(`[${context}] Calendar API Error:`, {
-console-general@335: console.error(`[${context}] Original error:`, error.originalError);
-```
-
-### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 15)
-
-```
-console-in-catch@209: console.error('[CalendarRoutes] Error in POST /events:', error);
-console-in-catch@272: console.error('[CalendarRoutes] Error in /debug/events-cache:', error);
-console-in-catch@297: console.error('[CalendarRoutes] Error in /debug/rate-limit:', error);
-```
-
-### `server/src/routes/external/mapsRoutes.ts` [P0] (score: 15)
-
-```
-console-in-catch@66: console.error('[MapsRoutes] Autocomplete error:', error);
-console-in-catch@119: console.error('[MapsRoutes] Place details error:', error);
-console-in-catch@239: console.error('[MapsRoutes] Error in /debug/drive-time-cache:', error);
 ```
 
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` [P0] (score: 15)
@@ -528,101 +86,18 @@ as-any@67: ...existingValue as any,
 as-any@68: ...newValue as any,
 ```
 
-### `server/src/scripts/fix-appointment-block-instances.mjs` [P0] (score: 15)
-
-```
-console-general@30: console.log('✅ Database connection established\n')
-console-general@34: console.log('📝 Update 1: Moving Base Service IDs from user_type_id to base_service_id (when base_service_id is NULL)......
-console-general@52: console.log(`   ✅ Updated ${update1Result[1]} appointment(s)\n`)
-console-general@56: console.log('📝 Update 1b: Setting default User Type for appointments with Base Service in user_type_id (base_service_id...
-console-general@73: console.log(`   ✅ Updated ${update1bResult[1]} appointment(s)\n`)
-console-general@77: console.log('📝 Update 2: Clearing Availability Option IDs from base_service_id...')
-console-general@90: console.log(`   ✅ Updated ${update2Result[1]} appointment(s)\n`)
-console-general@93: console.log('📝 Update 3: Setting default User Type for appointments with NULL user_type_id...')
-console-general@102: console.log(`   ✅ Updated ${update3Result[1]} appointment(s)\n`)
-console-general@104: console.log('✅ All updates completed successfully!')
-console-in-catch@106: console.error('❌ Error fixing appointment block instances:', error)
-```
-
-### `server/src/utils/userTypeMapping.ts` [P0] (score: 15)
-
-```
-console-general@57: console.warn(`[UserTypeMapping] No mapping found for role: ${role}`);
-console-general@84: console.warn(`[UserTypeMapping] UserTypeBlock not found for name: ${blockName}`);
-console-in-catch@88: console.error(`[UserTypeMapping] Error looking up UserTypeBlock for role ${role}:`, error);
-console-general@132: console.warn('[UserTypeMapping] No state control BlockShapes found');
-console-general@176: console.warn('[UserTypeMapping] No state control BlockShapes found');
-console-general@199: console.log(`[UserTypeMapping] Cache refreshed with ${userTypeBlocks.length} UserTypeBlocks`);
-console-in-catch@202: console.error('[UserTypeMapping] Error refreshing cache:', error);
-```
-
-### `server/src/scripts/addPropertySizesToAppointments.mjs` [P0] (score: 13)
-
-```
-console-general@29: console.log('✅ Database connection established\n')
-console-general@30: console.log('📏 Adding property sizes to appointments...\n');
-console-general@42: console.log(`Found ${propertyDetailsWithoutSize.length} property_details records without squareFootage\n`);
-console-general@45: console.log('✅ All property_details already have squareFootage values');
-console-general@66: console.log(`   ✅ Updated property_details ${propertyDetail.id}: squareFootage = ${randomSize}`);
-console-general@69: console.log(`\n✅ Successfully updated ${updated} property_details records with squareFootage values`);
-console-general@82: console.log(`\n⚠️  Warning: ${missingCount} property_details records still missing squareFootage`);
-console-general@84: console.log('\n✅ All property_details with appointments now have squareFootage values');
-console-in-catch@88: console.error('❌ Error adding property sizes:', error);
-```
-
-### `server/src/config/entityRegistry.ts` [P0] (score: 12)
-
-```
-as-any@22: const blockInstanceWithShape = blockInstance as any;
-console-in-catch@31: console.error('[EntityRegistry] Error checking if BlockInstance is composable:', error);
-console-general@114: console.warn('[EntityRegistry] Models not yet initialized:', missingModels);
-console-general@115: console.warn('[EntityRegistry] This is normal during module loading - models will be available after app initialization'...
-```
-
-### `server/src/scripts/fix-valid-events-render-as.mjs` [P0] (score: 12)
-
-```
-console-general@24: console.log('✅ Database connection established')
-console-general@38: console.log(`✅ Updated ${updatedCount} metadata record(s) with field_key='validEvents' to render_as='multiselect'`)
-console-general@41: console.log('📋 Updated records:')
-console-general@43: console.log(`   - ${record.entity_type}.${record.field_key}: ${record.render_as}`)
-console-general@46: console.log('ℹ️  No records found to update')
-console-general@54: console.log('📋 Found validEvents records with different criteria:')
-console-general@56: console.log(`   - ${record.entity_type} (${record.entity_id}): ${record.field_key} = ${record.render_as} (${record.metad...
-console-in-catch@63: console.error('❌ Error:', error.message)
-```
-
-### `server/src/scripts/check-activeparts-metadata.mjs` [P0] (score: 11)
-
-```
-console-general@25: console.log('PartAssignments metadata entries:');
-console-general@26: console.log(JSON.stringify(results, null, 2));
-console-general@29: console.log('\n⚠️  No activeParts metadata found!');
-console-general@33: console.log('\n❌ Found entries with incorrect render_as:');
-console-general@35: console.log(`  - ${r.entity_type}.${r.entity_id} (blockShapeRef: ${r.block_shape_ref || 'NULL'}): render_as = '${r.rende...
-console-general@38: console.log('\n✅ All partAssignments entries have render_as = "relationshipCollection"');
-console-in-catch@42: console.error('Error checking metadata:', error);
-```
-
-### `server/src/services/computedAvailabilityService.ts` [P0] (score: 11)
-
-```
-console-in-catch@182: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeTo for ${date}:`, error)
-console-in-catch@199: console.error(`[ComputedAvailabilityService] Failed to calculate driveTimeFrom for ${date}:`, error)
-console-general@335: console.log(`[ComputedAvailabilityService] Computed availability data in ${duration}ms`)
-```
-
-### `client/src/components/AppNotification.vue` [P0] (score: 10)
-
-```
-silent-catch-promise@23: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'applic...
-```
-
-### `client/src/composables/admin/useBusinessRules.ts` [P0] (score: 10)
+### `client/src/composables/admin/useBusinessRules.ts` [P0] (score: 11)
 
 ```
 console-in-catch@205: console.error('Error creating business rule:', err)
 console-in-catch@260: console.error('Error deleting business rule:', err)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/components/booking/AppointmentSlotGrid.vue` [P0] (score: 10)
+
+```
+silent-catch-promise@135: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'applic...
 ```
 
 ### `client/src/composables/admin/useDragAndDrop.ts` [P0] (score: 10)
@@ -654,13 +129,6 @@ catch-comment-only@25: } catch (error: unknown) {
 
 ```
 catch-comment-only@259: } catch (error) {
-```
-
-### `client/src/utils/dependencyCleanup.ts` [P0] (score: 10)
-
-```
-eslint-disable@47: /* eslint-disable @typescript-eslint/no-unused-vars */
-as-any@49: const config = null as any
 ```
 
 ### `client/src/utils/dev/formatDevPanelData.ts` [P0] (score: 10)
@@ -703,4 +171,199 @@ as-any@105: metadataType: metadataType as any,
 ```
 as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
 as-any@110: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
+```
+
+### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` [P0] (score: 10)
+
+```
+as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
+as-any@110: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
+```
+
+### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` [P0] (score: 10)
+
+```
+as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
+as-any@87: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
+```
+
+### `server/src/routes/internal/properties/propertyValidators.ts` [P0] (score: 10)
+
+```
+as-any@72: const blockShape = (blockInstance as any).block_shape
+as-any@104: const blockShape = (bi as any).block_shape
+```
+
+### `server/src/routes/internal/relationships/relationshipErrorHandler.ts` [P0] (score: 10)
+
+```
+as-any@45: (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {
+as-any@84: (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
+```
+
+### `server/src/routes/internal/relationships/relationshipHelpers.ts` [P0] (score: 10)
+
+```
+as-any@171: const parentBlockInstanceWithShape = parentBlockInstance as any
+as-any@178: const childBlockInstanceWithShape = childBlockInstance as any
+```
+
+### `client/src/components/booking/dev/DevPanelsContainer.vue` [P1] (score: 7)
+
+```
+as-any@190: return formatDateTimeForDisplay(isoString as any, {
+console-general@337: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/formFields/useFormFieldsContext.ts` [P1] (score: 7)
+
+```
+console-general@103: console.warn(`[useFormFieldsContext] ${warningMessage}`)
+console-general@177: console.warn(`[useFormFieldsContext] ${warningMessage}`)
+console-in-catch@277: console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
+```
+
+### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 6)
+
+```
+console-in-catch@72: console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/components/admin/MetadataEditModal.vue` [P1] (score: 6)
+
+```
+console-in-catch@57: console.error('[MetadataEditModal] Error saving metadata:', err)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 6)
+
+```
+console-in-catch@97: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/admin/useInstanceBulkEdit.ts` [P1] (score: 6)
+
+```
+console-in-catch@137: console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/admin/usePartInstanceBulkEdit.ts` [P1] (score: 6)
+
+```
+console-in-catch@164: console.error('[usePartInstanceBulkEdit] Error in applyPartInstanceBulkEdit:', err)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/booking/useAppointmentLoader.ts` [P1] (score: 6)
+
+```
+console-in-catch@47: console.error('[useAppointmentLoader] Error loading appointment:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/booking/useWizardAppointmentManagement.ts` [P1] (score: 6)
+
+```
+console-in-catch@181: console.error('[Wizard] Update appointment error:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/plugins/1.router/guards.ts` [P1] (score: 6)
+
+```
+console-in-catch@25: console.warn('[Router Guard] Failed to prefetch admin metadata:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/types/datetime.ts` [P1] (score: 6)
+
+```
+console-in-catch@113: *   console.error('Invalid datetime from API:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/components/booking/MoveablePartsModal.vue` [P1] (score: 5)
+
+```
+as-any@75: return formatDateTimeForDisplay(isoDate as any, {
+```
+
+### `client/src/utils/dependencyCleanup.ts` [P1] (score: 5)
+
+```
+as-any@49: const config = null as any
+```
+
+### `server/src/config/entityRegistry.ts` [P1] (score: 5)
+
+```
+as-any@25: const blockInstanceWithShape = blockInstance as any;
+```
+
+### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P1] (score: 5)
+
+```
+as-any@214: return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)
+```
+
+### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` [P1] (score: 5)
+
+```
+as-any@236: setting.settingValue = mergedValue as any
+```
+
+### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P1] (score: 5)
+
+```
+as-any@290: sendBadRequest(res, error.message, undefined, (error as any).blockShapeId)
+```
+
+### `server/src/scripts/importCalendarData.ts` [P1] (score: 5)
+
+```
+as-any@48: * WHY: Replaces unsafe `as any` cast with type-safe interface
+```
+
+### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 5)
+
+```
+as-any@80: const validVersions = versions.filter(v => v !== null) as any[];
+```
+
+### `server/src/services/instanceVersioning.ts` [P1] (score: 5)
+
+```
+as-any@73: const partInstances = (blockInstanceWithParts as any)?.part_assignment_instances as InstanceType<typeof PartInstance>[] ...
+```
+
+### `server/src/utils/sequelizeHelpers.ts` [P1] (score: 5)
+
+```
+as-any@43: const modelOptions = (ModelClass as any).options;
+```
+
+### `client/src/composables/booking/useWizardFilteredOptions.ts` [P2] (score: 3)
+
+```
+console-general@189: console.warn('[useWizardFilteredOptions] Option block shape (type="option") not found')
+console-general@195: console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')
+console-general@208: console.warn('[useWizardFilteredOptions] Cascade results filtered out - no Option blocks found in cascade results', {
+```
+
+### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P2] (score: 2)
+
+```
+console-general@194: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)
+
+```
+console-general@134: console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {
 ```

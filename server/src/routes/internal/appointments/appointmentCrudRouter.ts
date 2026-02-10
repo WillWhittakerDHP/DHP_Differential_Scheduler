@@ -81,17 +81,17 @@ const router = createCrudRouter({
     // PATTERN: Hook runs after record creation, handles side effects
     
     const appointmentData = req.body
-    const attendeesData: AttendeeRequest[] = appointmentData.attendees || []
+    const attendeesData: AttendeeRequest[] = appointmentData.attendees ?? []
     
     // Create snapshots for block instances
     const serviceSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedServiceIds || []
+      appointmentData.selectedServiceIds ?? []
     )
     const propertySnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedPropertyIds || []
+      appointmentData.selectedPropertyIds ?? []
     )
     const optionSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedOptionIds || []
+      appointmentData.selectedOptionIds ?? []
     )
     
     // Validate snapshot IDs (redundant but defensive)
@@ -156,33 +156,6 @@ const router = createCrudRouter({
     // Send response with full appointment data (override factory's default response)
     res.json(appointmentWithRelations)
   },
-})
-
-// Override PATCH to also return appointment with relationships
-router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const updated = await Appointment.update(req.body, {
-      where: { id: req.params.id },
-    })
-    
-    if (updated[0] === 0) {
-      sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
-      return
-    }
-    
-    const appointment = await Appointment.findByPk(req.params.id, {
-      include: appointmentIncludes,
-    })
-    
-    if (!appointment) {
-      sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
-      return
-    }
-    
-    sendSuccess(res, appointment)
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.PATCH_APPOINTMENT, 'patching appointment')
-  }
 })
 
 /**

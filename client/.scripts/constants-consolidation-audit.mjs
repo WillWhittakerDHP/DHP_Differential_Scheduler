@@ -7,6 +7,8 @@ import {
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   renderAllowedExceptionsSection,
+  isCompiledJsFile,
+  isSeedScript,
 } from './audit-exceptions.mjs'
 
 /**
@@ -63,6 +65,7 @@ function toStableId(repoPath) {
 function isExcluded(repoPath, configAllowlist) {
   if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) return true
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) return true
+  if (isSeedScript(repoPath)) return true
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) return true
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) return true
   if (repoPath.includes('.scripts/') || repoPath.includes('.audit-reports/')) return true
@@ -108,7 +111,7 @@ function listFilesRecursive(dir) {
       out.push(...listFilesRecursive(abs))
       continue
     }
-    if (e.isFile() && isScannable(abs)) out.push(abs)
+    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
   }
   return out
 }

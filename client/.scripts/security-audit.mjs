@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
+import { isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Security Audit Script
@@ -63,6 +64,8 @@ function shouldExcludeDir(repoPath) {
   if (repoPath.includes('/__tests__/') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding, not production security surface)
+  if (isSeedScript(repoPath)) return true
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
     return true
   }
@@ -87,7 +90,7 @@ function listFilesRecursive(dirPath) {
       
       if (entry.isDirectory()) {
         files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath)) {
+      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
         files.push(fullPath)
       }
     }

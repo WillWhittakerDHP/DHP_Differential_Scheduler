@@ -6,22 +6,21 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **65**
+- Total files: **64**
 
 ## Top hotspots (by heuristic score)
 
 | File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | 19 | 0 | 0 | 2 | 0 | 0 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | 15 | 4 | 0 | 0 | 0 | 1 | 0 |
 | `src/views/admin/tabs/BusinessRulesTab.vue` | 6 | 2 | 7 | 3 | 0 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | 9 | 4 | 0 | 1 | 0 | 1 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | 7 | 0 | 0 | 2 | 3 | 0 | 1 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/DifferentialGraph.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | 6 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 6 | 0 | 4 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCard.vue` | 6 | 1 | 4 | 1 | 0 | 0 | 0 |
-| `src/components/booking/dev/SlotConstraintOverlay.vue` | 1 | 1 | 0 | 1 | 6 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 8 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | 7 | 0 | 0 | 1 | 0 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | 0 | 1 | 7 | 0 | 0 | 0 | 0 |
@@ -37,78 +36,11 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/admin/generic/fields/TextInput.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 2 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `src/components/admin/PartInstanceBulkEditModal.vue` | 2 | 0 | 0 | 2 | 0 | 0 | 1 |
+| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 1 | 0 | 4 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- counts: computed=19, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@9: import { computed, inject, type Ref } from 'vue'
-provideInject@29: const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
-computed@30: const isTabActive = computed(() => adminCurrentTab?.value === 'business' ?? false)
-computed@53: const businessHoursForUI = computed(() => {
-computed@106: const availableUserTypeBlocks = computed(() => {
-map@114: .map(id => blockInstances.find(bi => bi.id === id))
-filter@115: .filter((bi): bi is NonNullable<typeof bi> => bi !== undefined)
-map@116: .map(bi => ({
-computed@123: const majorAttendees = computed({
-computed@134: const minorAttendees = computed({
-computed@145: const majorLabel = computed({
-computed@156: const minorLabel = computed({
-computed@167: const differentialGraphDefaultLabel = computed({
-computed@178: const majorStateLabel = computed({
-computed@189: const minorStateLabel = computed({
-computed@200: const maxBusinessHours = computed(() => {
-computed@216: return computed({
-computed@478: const defaultLocationAddress = computed({
-computed@490: const defaultLocationLabel = computed({
-computed@505: const defaultLocationCoordinates = computed({
-computed@520: const defaultLocationPlaceId = computed({
-computed@581: const saveButtonProps = computed(() => ({
-computed@616: const calendarEnabled = computed({
-computed@628: const calendarProvider = computed({
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: computed=15, ref=0, watch=4, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
-
-```
-provideInject@13: import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
-provideInject@45: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-provideInject@50: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
-provideInject@57: const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
-provideInject@67: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
-computed@75: const timeSlotsForDefaults = computed(() => {
-computed@80: const timeSlotsForLogic = computed(() => {
-computed@89: const isEffectivelyDifferentialForDefaults = computed(() => {
-computed@160: computed(() => computedAvailability.computedData.value) // Phase 6: Pass pre-computed availability data from server
-provideInject@185: // PATTERN: Parent provides, child updates via inject
-provideInject@186: const displayedMonth = inject<Ref<DisplayedMonth>>('displayedMonth')
-provideInject@187: const updateDisplayedMonth = inject<(month: DisplayedMonth) => void>('updateDisplayedMonth')
-watch@197: watch(vDatePickerDisplayDate, (newDate) => {
-provideInject@214: const appointmentDurationRef = inject<Ref<number | null>>('appointmentDuration')
-watch@221: watch(appointmentDuration, (newDuration) => {
-watch@230: watch(displayedMonth, (newMonth) => {
-watch@242: watch(selectedDate, (newDate) => {
-computed@258: const busyTimesForStartTimes = computed(() => computedAvailability.busyTimes.value)
-computed@259: const busyTimesLoading = computed(() => computedAvailability.isLoading.value)
-computed@263: const prefetchedCalendarEvents = computed(() => computedAvailability.calendarEvents.value)
-computed@267: const serverMinuteIncrement = computed(() => computedAvailability.computedData.value?.minuteIncrement ?? null)
-computed@280: prefetchedConstraints: computed(() => computedAvailability.constraints.value),
-computed@281: prefetchedDriveTimesByDate: computed(() => computedAvailability.driveTimesByDate.value),
-computed@282: prefetchedScheduledHoursByKey: computed(() => computedAvailability.scheduledHoursByKey.value),
-computed@291: timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
-computed@302: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-computed@353: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@361: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-provideInject@412: // PATTERN: Composable provides reactive computed object via provide
-inlineConfig@554: :config="{
-```
 
 ### `src/views/admin/tabs/BusinessRulesTab.vue`
 
@@ -139,6 +71,38 @@ filter@211: fields: value.split(',').map(f => f.trim()).filter(f => f.length > 0
 computed@218: const requiredFieldsCondition = computed({
 computed@235: const requiresAgent = computed({
 watch@254: watch(() => formData.value.ruleType, (newType) => {
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- counts: computed=9, ref=0, watch=4, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
+
+```
+provideInject@13: import { computed, inject, ref, watch, type Ref, type ComputedRef } from 'vue'
+provideInject@42: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+provideInject@47: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+provideInject@54: const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
+provideInject@64: const propertyDetailsStepData = inject<Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown }> | null>('propertyDetailsStepData')
+computed@72: const timeSlotsForDefaults = computed(() => {
+computed@77: const timeSlotsForLogic = computed(() => {
+computed@86: const isEffectivelyDifferentialForDefaults = computed(() => {
+computed@151: const selectedDayKey = computed(() => {
+computed@155: const serverSlotsForDay = computed(() => {
+map@161: serverSlotsForDay.value.map((s) => ({
+provideInject@193: // PATTERN: Parent provides, child updates via inject
+provideInject@194: const displayedMonth = inject<Ref<DisplayedMonth>>('displayedMonth')
+provideInject@195: const updateDisplayedMonth = inject<(month: DisplayedMonth) => void>('updateDisplayedMonth')
+watch@205: watch(vDatePickerDisplayDate, (newDate) => {
+provideInject@222: const appointmentDurationRef = inject<Ref<number | null>>('appointmentDuration')
+watch@229: watch(appointmentDuration, (newDuration) => {
+watch@238: watch(displayedMonth, (newMonth) => {
+watch@250: watch(selectedDate, (newDate) => {
+computed@270: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+computed@318: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@326: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+provideInject@377: // PATTERN: Composable provides reactive computed object via provide
+computed@385: busyPeriods: computed(() => []), // Phase 5: No client busy periods; server returns pre-computed slots
+inlineConfig@519: :config="{
 ```
 
 ### `src/components/booking/dev/DevPanelsContainer.vue`
@@ -205,6 +169,26 @@ computed@97: const majorTimeDisplay = computed(() => {
 computed@104: const minorTimeDisplay = computed(() => {
 computed@113: const stateLabel = computed(() => {
 computed@121: const showStateLabel = computed(() => {
+```
+
+### `src/views/admin/tabs/BusinessControlsTab.vue`
+
+- counts: computed=11, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@7: import { computed, inject, type Ref } from 'vue'
+provideInject@30: const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
+computed@31: const isTabActive = computed(() => adminCurrentTab?.value === 'business')
+computed@47: const businessHoursForUI = computed(() => {
+computed@82: const maxBusinessHours = computed(() => {
+computed@92: const calendarEnabled = computed({
+computed@104: const calendarProvider = computed({
+computed@133: const saveButtonProps = computed(() => ({
+computed@147: const durationRoundingEnabled = computed({
+computed@153: const durationRoundingIncrement = computed({
+computed@159: const durationRoundingMethod = computed({
+computed@166: const timezone = computed({
+computed@173: const minuteIncrement = computed({
 ```
 
 ### `src/components/admin/generic/collections/RelationshipCollection.vue`
@@ -285,23 +269,6 @@ await@374: await nextTick()
 async@412: const handleDuplicate = async (): Promise<void> => {
 provideInject@422: provide(ENTITY_CARD_SAVE_KEY, {
 provideInject@428: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
-```
-
-### `src/components/booking/dev/SlotConstraintOverlay.vue`
-
-- counts: computed=1, ref=1, watch=1, async=0, await=0, map=1, reduce=0, dom=6, inlineConfig=0, console=0, alert=0
-
-```
-computed@109: const appliedConstraintsPerSlot = computed(() => {
-map@121: const constraints: ConstraintInfo[] = violations.map(violationType => ({
-dom@192: const grid = document.querySelector('.appointment-slot-grid')
-ref@205: const buttonPositions = ref(new Map<number, { top: number; left: number; width: number; height: number }>())
-watch@207: watch(
-dom@219: const grid = document.querySelector('.appointment-slot-grid') as HTMLElement
-dom@249: const grid = document.querySelector('.appointment-slot-grid')
-dom@254: window.addEventListener('resize', updateButtonPositions)
-dom@259: const grid = document.querySelector('.appointment-slot-grid')
-dom@264: window.removeEventListener('resize', updateButtonPositions)
 ```
 
 ### `src/components/admin/generic/fields/FieldRenderer.vue`
@@ -568,17 +535,6 @@ computed@153: const buttonClasses = computed(() => {
 computed@176: const zIndex = computed(() => {
 ```
 
-### `src/components/AppNotification.vue`
-
-- counts: computed=3, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-computed@23: const message = computed(() => notification.value?.message || '')
-computed@24: const color = computed(() => notification.value?.color || 'info')
-computed@25: const timeout = computed(() => notification.value?.timeout || 4000)
-watch@28: watch(() => notification.value, (newVal) => {
-```
-
 ### `src/components/booking/wrappers/ServiceSelectCards.vue`
 
 - counts: computed=3, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -634,6 +590,16 @@ filter@293: :items="users.filter(u => u.userRole === 'client')"
 filter@312: :items="users.filter(u => u.userRole === 'agent')"
 filter@535: :items="users.filter(u => u.userRole === 'client')"
 filter@597: :items="users.filter(u => u.userRole === 'agent')"
+```
+
+### `src/components/AppNotification.vue`
+
+- counts: computed=3, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@23: const message = computed(() => notification.value?.message || '')
+computed@24: const color = computed(() => notification.value?.color || 'info')
+computed@25: const timeout = computed(() => notification.value?.timeout || 4000)
 ```
 
 ### `src/components/booking/MoveablePartsModal.vue`
@@ -701,6 +667,17 @@ computed@149: modalOpen: computed(() => props.modelValue)
 async@165: async function handleConfirm() {
 ```
 
+### `src/components/admin/dev/ApiDevPanelComputedTab.vue`
+
+- counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@23: const scheduledHoursByKey = computed(() => {
+computed@38: const slotsByDaySummary = computed(() => {
+filter@128: {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
+filter@133: v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
+```
+
 ### `src/components/admin/generic/collections/PartsCollection.vue`
 
 - counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -732,6 +709,27 @@ provideInject@120: const entityCardSaveContext = inject<EntityCardSaveContext | 
 computed@136: const iconValue = computed((): string => {
 computed@141: const displayValue = computed(() => {
 ref@148: const showPicker = ref(false)
+```
+
+### `src/components/booking/BookingWizard.vue`
+
+- counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@11: import { computed, provide, ref } from 'vue'
+provideInject@38: provide('wizard', wizard)
+provideInject@42: // WHY: Encapsulates step data and validation state refs creation and provide/inject setup
+vueQuery@112: // PATTERN: useMutation from useAppointment composable
+computed@201: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+provideInject@218: provide('loadedWizardState', loadedWizardState)
+provideInject@222: // PATTERN: Defaults to current month, Step 3 can update via inject
+provideInject@229: // Allow Step 3 to update displayedMonth via provide/inject
+provideInject@230: provide('displayedMonth', displayedMonth)
+provideInject@231: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
+provideInject@241: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
+provideInject@243: provide('appointmentDuration', appointmentDurationRef)
+computed@246: const selectedDateForSlots = computed(() => {
+provideInject@262: provide('computedAvailability', computedAvailability)
 ```
 
 ### `src/components/booking/IndependentSelectCard.vue`
@@ -787,8 +785,8 @@ computed@37: const hasDevPanelButtons = computed(() => {
 - counts: computed=1, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@92: const displaySlots = computed(() => {
-map@96: const slots = props.appointmentSlots.map(appointmentSlot => {
+computed@98: const displaySlots = computed(() => {
+map@102: const slots = props.appointmentSlots.map(appointmentSlot => {
 ```
 
 ### `src/components/booking/modals/PropertyConfirmationModal.vue`
@@ -898,26 +896,6 @@ provideInject@58: *             in templates. Both provide same functionality.
 computed@83: const fieldType = computed(() => {
 ```
 
-### `src/components/booking/BookingWizard.vue`
-
-- counts: computed=1, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@11: import { computed, provide, ref } from 'vue'
-provideInject@38: provide('wizard', wizard)
-provideInject@42: // WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-vueQuery@112: // PATTERN: useMutation from useAppointment composable
-computed@201: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
-provideInject@218: provide('loadedWizardState', loadedWizardState)
-provideInject@222: // PATTERN: Defaults to current month, Step 3 can update via inject
-provideInject@229: // Allow Step 3 to update displayedMonth via provide/inject
-provideInject@230: provide('displayedMonth', displayedMonth)
-provideInject@231: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
-provideInject@241: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
-provideInject@243: provide('appointmentDuration', appointmentDurationRef)
-provideInject@256: provide('computedAvailability', computedAvailability)
-```
-
 ### `src/components/admin/generic/fields/DateInput.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
@@ -934,15 +912,6 @@ provideInject@36: *             Both provide date input with validation.
 ```
 ref@6: const isFallbackStateActive = ref(false)
 watch@13: watch([isFallbackStateActive, refLoadingIndicator], () => {
-```
-
-### `src/components/admin/dev/ApiDevPanelComputedTab.vue`
-
-- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-filter@100: {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
-filter@105: v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
 ```
 
 ### `src/components/admin/generic/fields/NumberInput.vue`

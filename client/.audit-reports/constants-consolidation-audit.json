@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-09T16:43:19.042Z",
+  "generatedAt": "2026-02-10T13:52:17.237Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,12 +11,12 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 634,
-  "totalConstantsFiles": 14,
-  "totalExportsScanned": 38,
+  "totalScanned": 618,
+  "totalConstantsFiles": 18,
+  "totalExportsScanned": 50,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 211,
+    "totalRequiresReview": 217,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,6 +25,10 @@
   },
   "constantsFiles": [
     "client/src/components/admin/generic/entityCardConstants.ts",
+    "client/src/constants/mapsConstants.ts",
+    "server/src/constants/appConstants.ts",
+    "server/src/routes/external/calendarRouteConstants.ts",
+    "server/src/routes/external/mapsRouteConstants.ts",
     "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
     "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts",
     "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts",
@@ -115,7 +119,7 @@
     {
       "id": "inline-orphan-client",
       "classification": "HOIST",
-      "description": "Value 'client' defined in constants but used inline in 35 locations",
+      "description": "Value 'client' defined in constants but used inline in 30 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/properties/propertyConstants.ts",
@@ -138,25 +142,31 @@
         {
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
           "export": null,
-          "line": 154,
+          "line": 155,
           "inline": true
         },
         {
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
           "export": null,
-          "line": 159,
+          "line": 160,
           "inline": true
         },
         {
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
           "export": null,
-          "line": 185,
+          "line": 186,
           "inline": true
         },
         {
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
           "export": null,
-          "line": 190,
+          "line": 191,
+          "inline": true
+        },
+        {
+          "file": "client/src/constants/attendeeRoles.ts",
+          "export": null,
+          "line": 11,
           "inline": true
         },
         {
@@ -168,13 +178,13 @@
         {
           "file": "client/src/types/appointment.ts",
           "export": null,
-          "line": 242,
+          "line": 250,
           "inline": true
         },
         {
           "file": "client/src/types/appointment.ts",
           "export": null,
-          "line": 297,
+          "line": 305,
           "inline": true
         },
         {
@@ -214,18 +224,6 @@
           "inline": true
         },
         {
-          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-          "export": null,
-          "line": 453,
-          "inline": true
-        },
-        {
-          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-          "export": null,
-          "line": 462,
-          "inline": true
-        },
-        {
           "file": "server/src/db/models/booking/property_details.ts",
           "export": null,
           "line": 24,
@@ -262,30 +260,6 @@
           "inline": true
         },
         {
-          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
-          "export": null,
-          "line": 6,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
-          "export": null,
-          "line": 32,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
-          "export": null,
-          "line": 71,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/fixUserRolesAndEmails.ts",
-          "export": null,
-          "line": 118,
-          "inline": true
-        },
-        {
           "file": "server/src/scripts/importCalendarData.ts",
           "export": null,
           "line": 33,
@@ -318,23 +292,23 @@
         {
           "file": "server/src/utils/userTypeMapping.ts",
           "export": null,
-          "line": 17,
+          "line": 20,
           "inline": true
         },
         {
           "file": "server/src/utils/userTypeMapping.ts",
           "export": null,
-          "line": 22,
+          "line": 25,
           "inline": true
         },
         {
           "file": "server/src/utils/userTypeMapping.ts",
           "export": null,
-          "line": 51,
+          "line": 54,
           "inline": true
         }
       ],
-      "score": 148,
+      "score": 128,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
     },
@@ -499,7 +473,7 @@
     {
       "id": "inline-orphan-standalone",
       "classification": "HOIST",
-      "description": "Value 'standalone' defined in constants but used inline in 13 locations",
+      "description": "Value 'standalone' defined in constants but used inline in 11 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
@@ -544,27 +518,15 @@
           "inline": true
         },
         {
-          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
           "export": null,
-          "line": 186,
+          "line": 118,
           "inline": true
         },
         {
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
           "export": null,
-          "line": 128,
-          "inline": true
-        },
-        {
-          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "export": null,
-          "line": 152,
-          "inline": true
-        },
-        {
-          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "export": null,
-          "line": 316,
+          "line": 17,
           "inline": true
         },
         {
@@ -586,7 +548,7 @@
           "inline": true
         }
       ],
-      "score": 60,
+      "score": 52,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
     },
@@ -700,7 +662,7 @@
         {
           "file": "server/src/routes/helpers/dataController.ts",
           "export": null,
-          "line": 43,
+          "line": 46,
           "inline": true
         },
         {
@@ -731,6 +693,76 @@
       "score": 92,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Unknown-error",
+      "classification": "HOIST",
+      "description": "Value 'Unknown error' defined in constants but used inline in 9 locations",
+      "locations": [
+        {
+          "file": "server/src/services/google/calendar/calendarConstants.ts",
+          "export": "CALENDAR_INTERNAL_MESSAGES",
+          "line": 98,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/booking/useComputedAvailability.ts",
+          "export": null,
+          "line": 122,
+          "inline": true
+        },
+        {
+          "file": "client/src/services/calendarApiService.ts",
+          "export": null,
+          "line": 162,
+          "inline": true
+        },
+        {
+          "file": "client/src/services/mapsApiService.ts",
+          "export": null,
+          "line": 228,
+          "inline": true
+        },
+        {
+          "file": "server/src/constants/router.ts",
+          "export": null,
+          "line": 15,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
+          "export": null,
+          "line": 145,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/appointmentCalendarService.ts",
+          "export": null,
+          "line": 163,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/calendar/calendarHelpers.ts",
+          "export": null,
+          "line": 82,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/mapsHelpers.ts",
+          "export": null,
+          "line": 200,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/placesApiService.ts",
+          "export": null,
+          "line": 146,
+          "inline": true
+        }
+      ],
+      "score": 44,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/services/google/calendar/calendarConstants.ts"
     },
     {
       "id": "inline-orphan-Appointment-not-found",
@@ -855,97 +887,141 @@
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
     },
     {
-      "id": "inline-orphan-Too-many-requests--Please-try-again-in-a-moment-",
+      "id": "inline-orphan--api-v1-external-oauth",
       "classification": "HOIST",
-      "description": "Value 'Too many requests. Please try again in a moment.' defined in constants but used inline in 1 locations",
+      "description": "Value '/api/v1/external/oauth' defined in constants but used inline in 6 locations",
       "locations": [
         {
-          "file": "server/src/services/google/maps/mapsConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 23,
+          "file": "server/src/routes/external/calendarRouteConstants.ts",
+          "export": "CALENDAR_ROUTE_MESSAGES",
+          "line": 7,
           "inline": false
         },
         {
-          "file": "client/src/services/mapsApiService.ts",
+          "file": "client/src/services/calendarApiService.ts",
           "export": null,
-          "line": 58,
+          "line": 92,
           "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/services/google/maps/mapsConstants.ts"
-    },
-    {
-      "id": "inline-orphan-Invalid-address-lookup-request-",
-      "classification": "HOIST",
-      "description": "Value 'Invalid address lookup request.' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/services/google/maps/mapsConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 23,
-          "inline": false
         },
         {
-          "file": "client/src/services/mapsApiService.ts",
+          "file": "client/src/services/calendarApiService.ts",
           "export": null,
-          "line": 59,
+          "line": 100,
           "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/services/google/maps/mapsConstants.ts"
-    },
-    {
-      "id": "inline-orphan-Address-not-found-",
-      "classification": "HOIST",
-      "description": "Value 'Address not found.' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/services/google/maps/mapsConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 23,
-          "inline": false
         },
         {
-          "file": "client/src/services/mapsApiService.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 60,
+          "line": 116,
           "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/services/google/maps/mapsConstants.ts"
-    },
-    {
-      "id": "inline-orphan-An-unexpected-error-occurred-",
-      "classification": "HOIST",
-      "description": "Value 'An unexpected error occurred.' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/services/google/maps/mapsConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 23,
-          "inline": false
         },
         {
-          "file": "client/src/services/mapsApiService.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
+          "export": null,
+          "line": 136,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/dev/devStatusRouter.ts",
+          "export": null,
+          "line": 57,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/dev/devStatusRouter.ts",
           "export": null,
           "line": 62,
           "inline": true
         }
       ],
-      "score": 12,
-      "priority": "P1",
+      "score": 32,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/external/calendarRouteConstants.ts"
+    },
+    {
+      "id": "inline-orphan-ZERO-RESULTS",
+      "classification": "HOIST",
+      "description": "Value 'ZERO_RESULTS' defined in constants but used inline in 4 locations",
+      "locations": [
+        {
+          "file": "server/src/services/google/maps/mapsConstants.ts",
+          "export": "GOOGLE_API_STATUS",
+          "line": 23,
+          "inline": false
+        },
+        {
+          "file": "client/src/services/mapsApiService.ts",
+          "export": null,
+          "line": 273,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "export": null,
+          "line": 53,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/routesApiService.ts",
+          "export": null,
+          "line": 121,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/routesApiService.ts",
+          "export": null,
+          "line": 125,
+          "inline": true
+        }
+      ],
+      "score": 24,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/services/google/maps/mapsConstants.ts"
+    },
+    {
+      "id": "inline-orphan-NOT-FOUND",
+      "classification": "HOIST",
+      "description": "Value 'NOT_FOUND' defined in constants but used inline in 4 locations",
+      "locations": [
+        {
+          "file": "server/src/services/google/maps/mapsConstants.ts",
+          "export": "GOOGLE_API_STATUS",
+          "line": 23,
+          "inline": false
+        },
+        {
+          "file": "client/src/services/mapsApiService.ts",
+          "export": null,
+          "line": 273,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/mapsTypes.ts",
+          "export": null,
+          "line": 53,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/routesApiService.ts",
+          "export": null,
+          "line": 121,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/routesApiService.ts",
+          "export": null,
+          "line": 123,
+          "inline": true
+        }
+      ],
+      "score": 24,
+      "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/services/google/maps/mapsConstants.ts"
     },
     {
       "id": "inline-orphan-00000000-0000-0000-0000-000000000001",
       "classification": "HOIST",
-      "description": "Value '00000000-0000-0000-0000-000000000001' defined in constants but used inline in 5 locations",
+      "description": "Value '00000000-0000-0000-0000-000000000001' defined in constants but used inline in 4 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
@@ -955,12 +1031,6 @@
         },
         {
           "file": "client/src/utils/entities/entityTypeMapping.ts",
-          "export": null,
-          "line": 15,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/backfill-input-config-from-selectable.mjs",
           "export": null,
           "line": 15,
           "inline": true
@@ -984,14 +1054,14 @@
           "inline": true
         }
       ],
-      "score": 28,
+      "score": 24,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/admin-metadata/adminMetadataConstants.ts"
     },
     {
       "id": "inline-orphan-00000000-0000-0000-0000-000000000002",
       "classification": "HOIST",
-      "description": "Value '00000000-0000-0000-0000-000000000002' defined in constants but used inline in 5 locations",
+      "description": "Value '00000000-0000-0000-0000-000000000002' defined in constants but used inline in 4 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
@@ -1001,12 +1071,6 @@
         },
         {
           "file": "client/src/utils/entities/entityTypeMapping.ts",
-          "export": null,
-          "line": 16,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/backfill-input-config-from-selectable.mjs",
           "export": null,
           "line": 16,
           "inline": true
@@ -1030,14 +1094,14 @@
           "inline": true
         }
       ],
-      "score": 28,
+      "score": 24,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/admin-metadata/adminMetadataConstants.ts"
     },
     {
       "id": "inline-orphan-00000000-0000-0000-0000-000000000003",
       "classification": "HOIST",
-      "description": "Value '00000000-0000-0000-0000-000000000003' defined in constants but used inline in 5 locations",
+      "description": "Value '00000000-0000-0000-0000-000000000003' defined in constants but used inline in 4 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
@@ -1047,12 +1111,6 @@
         },
         {
           "file": "client/src/utils/entities/entityTypeMapping.ts",
-          "export": null,
-          "line": 17,
-          "inline": true
-        },
-        {
-          "file": "server/src/scripts/backfill-input-config-from-selectable.mjs",
           "export": null,
           "line": 17,
           "inline": true
@@ -1076,7 +1134,7 @@
           "inline": true
         }
       ],
-      "score": 28,
+      "score": 24,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/admin-metadata/adminMetadataConstants.ts"
     },
@@ -1173,28 +1231,6 @@
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
     },
     {
-      "id": "inline-orphan-1-0-0",
-      "classification": "HOIST",
-      "description": "Value '1.0.0' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/routes/internal/entities/entityConstants.ts",
-          "export": "DEFAULT_VALUES",
-          "line": 59,
-          "inline": false
-        },
-        {
-          "file": "server/src/app.ts",
-          "export": null,
-          "line": 116,
-          "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
-    },
-    {
       "id": "inline-orphan-Failed-to-fetch--displayName-s",
       "classification": "HOIST",
       "description": "Value 'Failed to fetch {displayName}s' defined in constants but used inline in 1 locations",
@@ -1283,94 +1319,6 @@
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
     },
     {
-      "id": "inline-orphan-order-index",
-      "classification": "HOIST",
-      "description": "Value 'order_index' defined in constants but used inline in 12 locations",
-      "locations": [
-        {
-          "file": "server/src/routes/internal/entities/entityConstants.ts",
-          "export": "FIELD_NAMES",
-          "line": 81,
-          "inline": false
-        },
-        {
-          "file": "server/src/db/models/admin/block_shape.js",
-          "export": null,
-          "line": 76,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/admin/part_shape.js",
-          "export": null,
-          "line": 65,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/active_annotation.js",
-          "export": null,
-          "line": 89,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/active_annotation.js",
-          "export": null,
-          "line": 137,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/annotation_instance.ts",
-          "export": null,
-          "line": 81,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/annotation_shape.ts",
-          "export": null,
-          "line": 60,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/block_instance.js",
-          "export": null,
-          "line": 40,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/block_instance.js",
-          "export": null,
-          "line": 104,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/event_instance.ts",
-          "export": null,
-          "line": 94,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/event_shape.ts",
-          "export": null,
-          "line": 62,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/instance_component.ts",
-          "export": null,
-          "line": 87,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/booking/property_version_type.ts",
-          "export": null,
-          "line": 68,
-          "inline": true
-        }
-      ],
-      "score": 56,
-      "priority": "P0",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
-    },
-    {
       "id": "inline-orphan-isStateControl-and-canHaveParts-cannot-both-be-true--They-are-mutually-exclusive-",
       "classification": "HOIST",
       "description": "Value 'isStateControl and canHaveParts cannot both be true. They are mutually exclusive.' defined in constants but used inline in 1 locations",
@@ -1418,13 +1366,65 @@
         {
           "file": "server/src/services/computedAvailabilityService.ts",
           "export": null,
-          "line": 37,
+          "line": 43,
           "inline": true
         }
       ],
       "score": 24,
       "priority": "P0",
       "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-order-index",
+      "classification": "HOIST",
+      "description": "Value 'order_index' defined in constants but used inline in 6 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 81,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/booking/annotation_instance.ts",
+          "export": null,
+          "line": 81,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/annotation_shape.ts",
+          "export": null,
+          "line": 60,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/event_instance.ts",
+          "export": null,
+          "line": 94,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/event_shape.ts",
+          "export": null,
+          "line": 62,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/instance_component.ts",
+          "export": null,
+          "line": 87,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/booking/property_version_type.ts",
+          "export": null,
+          "line": 68,
+          "inline": true
+        }
+      ],
+      "score": 32,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
     },
     {
       "id": "inline-orphan-booking-mode",
@@ -1513,136 +1513,164 @@
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
     },
     {
-      "id": "inline-orphan-Failed-to-fetch-users",
+      "id": "inline-orphan-Authorization-failed",
       "classification": "HOIST",
-      "description": "Value 'Failed to fetch users' defined in constants but used inline in 1 locations",
+      "description": "Value 'Authorization failed' defined in constants but used inline in 1 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_ERROR_MESSAGES",
+          "line": 33,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 16,
+          "line": 53,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
-      "id": "inline-orphan-Error-fetching-user",
+      "id": "inline-orphan-Invalid-request",
       "classification": "HOIST",
-      "description": "Value 'Error fetching user' defined in constants but used inline in 1 locations",
+      "description": "Value 'Invalid request' defined in constants but used inline in 2 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_ERROR_MESSAGES",
+          "line": 33,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 17,
+          "line": 62,
+          "inline": true
+        },
+        {
+          "file": "server/src/services/google/maps/mapsHelpers.ts",
+          "export": null,
+          "line": 80,
           "inline": true
         }
       ],
-      "score": 12,
+      "score": 16,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
-      "id": "inline-orphan-User-not-found",
+      "id": "inline-orphan-Authorization-code-is-required",
       "classification": "HOIST",
-      "description": "Value 'User not found' defined in constants but used inline in 1 locations",
+      "description": "Value 'Authorization code is required' defined in constants but used inline in 1 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_ERROR_MESSAGES",
+          "line": 33,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 18,
+          "line": 63,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
-      "id": "inline-orphan-Failed-to-create-user",
+      "id": "inline-orphan-Authentication-failed",
       "classification": "HOIST",
-      "description": "Value 'Failed to create user' defined in constants but used inline in 1 locations",
+      "description": "Value 'Authentication failed' defined in constants but used inline in 1 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_ERROR_MESSAGES",
+          "line": 33,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 19,
+          "line": 92,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
-      "id": "inline-orphan-Failed-to-update-user",
+      "id": "inline-orphan-An-unexpected-error-occurred-during-authentication",
       "classification": "HOIST",
-      "description": "Value 'Failed to update user' defined in constants but used inline in 1 locations",
+      "description": "Value 'An unexpected error occurred during authentication' defined in constants but used inline in 1 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_ERROR_MESSAGES",
+          "line": 33,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 20,
+          "line": 93,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
-      "id": "inline-orphan-Failed-to-delete-user",
+      "id": "inline-orphan-Authentication-successful---tokens-saved-for-future-sessions",
       "classification": "HOIST",
-      "description": "Value 'Failed to delete user' defined in constants but used inline in 1 locations",
+      "description": "Value 'Authentication successful - tokens saved for future sessions' defined in constants but used inline in 1 locations",
       "locations": [
         {
-          "file": "server/src/routes/internal/users/userConstants.ts",
-          "export": "ERROR_MESSAGES",
-          "line": 15,
+          "file": "server/src/constants/appConstants.ts",
+          "export": "OAUTH_SUCCESS_MESSAGES",
+          "line": 45,
           "inline": false
         },
         {
-          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "file": "server/src/routes/external/googleOauthRoutes.ts",
           "export": null,
-          "line": 21,
+          "line": 83,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
+      "id": "inline-orphan--oauth2callback",
+      "classification": "HOIST",
+      "description": "Value '/oauth2callback' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "ROUTE_PATHS",
+          "line": 25,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/external/oauthCallbackRouter.ts",
+          "export": null,
+          "line": 34,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
     },
     {
       "id": "inline-orphan-One-or-more-snapshot-IDs-are-invalid",
@@ -1713,6 +1741,28 @@
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
     },
     {
+      "id": "inline-orphan-Debug-endpoints-are-not-available-in-production",
+      "classification": "HOIST",
+      "description": "Value 'Debug endpoints are not available in production' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/external/calendarRouteConstants.ts",
+          "export": "CALENDAR_ROUTE_MESSAGES",
+          "line": 7,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/dev/devStatusRouter.ts",
+          "export": null,
+          "line": 42,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/external/calendarRouteConstants.ts"
+    },
+    {
       "id": "inline-orphan-BlockInstance-not-found",
       "classification": "HOIST",
       "description": "Value 'BlockInstance not found' defined in constants but used inline in 1 locations",
@@ -1761,7 +1811,7 @@
     {
       "id": "server__src__routes__internal__entities__entityConstants.ts",
       "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
-      "score": 73.74665334665336,
+      "score": 68.05800865800866,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -1797,8 +1847,8 @@
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 59,
-          "line": "export: DEFAULT_VALUES"
+          "lineNumber": 17,
+          "line": "export: ERROR_MESSAGES"
         },
         {
           "ruleId": "hoist",
@@ -1819,11 +1869,6 @@
           "ruleId": "hoist",
           "lineNumber": 81,
           "line": "export: FIELD_NAMES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 17,
-          "line": "export: ERROR_MESSAGES"
         },
         {
           "ruleId": "hoist",
@@ -1838,46 +1883,100 @@
       ]
     },
     {
-      "id": "server__src__routes__internal__users__userConstants.ts",
-      "repoPath": "server/src/routes/internal/users/userConstants.ts",
-      "score": 42,
+      "id": "server__src__routes__external__googleOauthRoutes.ts",
+      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "score": 48.87619047619047,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 145,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 116,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 136,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 53,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 62,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 63,
+          "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "export: ERROR_MESSAGES"
+          "lineNumber": 92,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 93,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 83,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__constants__appConstants.ts",
+      "repoPath": "server/src/constants/appConstants.ts",
+      "score": 41.33333333333333,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: OAUTH_ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: OAUTH_ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: OAUTH_ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: OAUTH_ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: OAUTH_ERROR_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 45,
+          "line": "export: OAUTH_SUCCESS_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 25,
+          "line": "export: ROUTE_PATHS"
         }
       ]
     },
@@ -1921,48 +2020,9 @@
       ]
     },
     {
-      "id": "server__src__routes__helpers__createCrudRouter.ts",
-      "repoPath": "server/src/routes/helpers/createCrudRouter.ts",
-      "score": 36,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 16,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 17,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 18,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 19,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 20,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 21,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "client__src__utils__entities__entityTypeMapping.ts",
       "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
-      "score": 32.93333333333334,
+      "score": 33.333333333333336,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -2006,7 +2066,7 @@
     {
       "id": "server__src__routes__internal__admin-metadata__adminMetadataConstants.ts",
       "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
-      "score": 31.800000000000004,
+      "score": 32.2,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -2039,6 +2099,40 @@
           "ruleId": "hoist",
           "lineNumber": 15,
           "line": "export: GLOBAL_CONFIG_IDS"
+        }
+      ]
+    },
+    {
+      "id": "server__src__constants__router.ts",
+      "repoPath": "server/src/constants/router.ts",
+      "score": 28.4,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 43,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 47,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 48,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 57,
+          "line": "inline: value"
         }
       ]
     },
@@ -2082,96 +2176,9 @@
       ]
     },
     {
-      "id": "client__src__services__mapsApiService.ts",
-      "repoPath": "client/src/services/mapsApiService.ts",
-      "score": 24,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 58,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 59,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 60,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 62,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__constants__router.ts",
-      "repoPath": "server/src/constants/router.ts",
-      "score": 24,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 43,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 47,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 48,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 57,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__services__google__maps__mapsConstants.ts",
-      "repoPath": "server/src/services/google/maps/mapsConstants.ts",
-      "score": 24,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 23,
-          "line": "export: ERROR_MESSAGES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 23,
-          "line": "export: ERROR_MESSAGES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 23,
-          "line": "export: ERROR_MESSAGES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 23,
-          "line": "export: ERROR_MESSAGES"
-        }
-      ]
-    },
-    {
       "id": "server__src__db__models__booking__block_instance.ts",
       "repoPath": "server/src/db/models/booking/block_instance.ts",
-      "score": 23.03896103896104,
+      "score": 23.18181818181818,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -2205,7 +2212,7 @@
     {
       "id": "server__src__db__models__booking__property_version_type.ts",
       "repoPath": "server/src/db/models/booking/property_version_type.ts",
-      "score": 22.085470085470085,
+      "score": 22.349206349206348,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -2239,7 +2246,7 @@
     {
       "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
       "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "score": 20.555555555555554,
+      "score": 20.64516129032258,
       "priority": "P0",
       "allowed": [],
       "requiresReview": [
@@ -2250,22 +2257,22 @@
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 154,
+          "lineNumber": 155,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 185,
+          "lineNumber": 186,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 190,
+          "lineNumber": 191,
           "line": "inline: value"
         }
       ]
@@ -2295,9 +2302,38 @@
       ]
     },
     {
+      "id": "server__src__services__google__maps__routesApiService.ts",
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
+      "score": 19.2,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 121,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 125,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 121,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 123,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
       "id": "server__src__utils__adminMetadataComposer.ts",
       "repoPath": "server/src/utils/adminMetadataComposer.ts",
-      "score": 18.8,
+      "score": 19.2,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2326,7 +2362,7 @@
     {
       "id": "server__src__utils__adminPrimitiveMetadataComposer.ts",
       "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-      "score": 18.8,
+      "score": 19.2,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2355,7 +2391,7 @@
     {
       "id": "server__src__utils__adminRelationshipMetadataComposer.ts",
       "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-      "score": 18.8,
+      "score": 19.2,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2512,38 +2548,9 @@
       ]
     },
     {
-      "id": "server__src__scripts__fixUserRolesAndEmails.ts",
-      "repoPath": "server/src/scripts/fixUserRolesAndEmails.ts",
-      "score": 16.444444444444443,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 6,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 32,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 71,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 118,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "server__src__scripts__importCalendarData.ts",
       "repoPath": "server/src/scripts/importCalendarData.ts",
-      "score": 16.444444444444443,
+      "score": 16.516129032258064,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2572,7 +2579,7 @@
     {
       "id": "server__src__utils__userTypeMapping.ts",
       "repoPath": "server/src/utils/userTypeMapping.ts",
-      "score": 16.444444444444443,
+      "score": 16.516129032258064,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2583,17 +2590,41 @@
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 17,
+          "lineNumber": 20,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 22,
+          "lineNumber": 25,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 51,
+          "lineNumber": 54,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__dev__devStatusRouter.ts",
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "score": 15.142857142857142,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 57,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 62,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 42,
           "line": "inline: value"
         }
       ]
@@ -2601,7 +2632,7 @@
     {
       "id": "client__src__configs__field__form__appliedForm__blockInstancePrimitiveFields.ts",
       "repoPath": "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts",
-      "score": 14.467532467532468,
+      "score": 14.515151515151516,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2623,25 +2654,49 @@
       ]
     },
     {
-      "id": "server__src__scripts__backfill-input-config-from-selectable.mjs",
-      "repoPath": "server/src/scripts/backfill-input-config-from-selectable.mjs",
+      "id": "client__src__services__mapsApiService.ts",
+      "repoPath": "client/src/services/mapsApiService.ts",
       "score": 14,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 15,
+          "lineNumber": 228,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 16,
+          "lineNumber": 273,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 17,
+          "lineNumber": 273,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__services__calendarApiService.ts",
+      "repoPath": "client/src/services/calendarApiService.ts",
+      "score": 13.542857142857143,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 162,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 92,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 100,
           "line": "inline: value"
         }
       ]
@@ -2690,57 +2745,9 @@
       ]
     },
     {
-      "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
-      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "score": 12.857142857142858,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 128,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 152,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 316,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "client__src__utils__transformers__appointmentToWizardTransformer.ts",
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "score": 12.507936507936506,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 453,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 462,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 186,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "server__src__db__models__booking__property_details.ts",
       "repoPath": "server/src/db/models/booking/property_details.ts",
-      "score": 12.333333333333332,
+      "score": 12.387096774193548,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
@@ -2800,6 +2807,25 @@
       ]
     },
     {
+      "id": "server__src__routes__external__calendarRouteConstants.ts",
+      "repoPath": "server/src/routes/external/calendarRouteConstants.ts",
+      "score": 10.571428571428571,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 7,
+          "line": "export: CALENDAR_ROUTE_MESSAGES"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 7,
+          "line": "export: CALENDAR_ROUTE_MESSAGES"
+        }
+      ]
+    },
+    {
       "id": "server__src__db__models__admin__block_shape.ts",
       "repoPath": "server/src/db/models/admin/block_shape.ts",
       "score": 10.181818181818182,
@@ -2838,6 +2864,63 @@
       ]
     },
     {
+      "id": "server__src__services__google__maps__mapsHelpers.ts",
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "score": 9.733333333333334,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 200,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 80,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__google__maps__mapsConstants.ts",
+      "repoPath": "server/src/services/google/maps/mapsConstants.ts",
+      "score": 9.6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "export: GOOGLE_API_STATUS"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 23,
+          "line": "export: GOOGLE_API_STATUS"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__google__maps__mapsTypes.ts",
+      "repoPath": "server/src/services/google/maps/mapsTypes.ts",
+      "score": 9.6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 53,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 53,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
       "id": "client__src__utils__forms__getFieldKeys.ts",
       "repoPath": "client/src/utils/forms/getFieldKeys.ts",
       "score": 8.753246753246753,
@@ -2857,47 +2940,9 @@
       ]
     },
     {
-      "id": "server__src__db__models__booking__active_annotation.js",
-      "repoPath": "server/src/db/models/booking/active_annotation.js",
-      "score": 8.615384615384615,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 89,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 137,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__booking__block_instance.js",
-      "repoPath": "server/src/db/models/booking/block_instance.js",
-      "score": 8.615384615384615,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 40,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 104,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "client__src__composables__admin__useInstanceFiltering.ts",
       "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
-      "score": 8.571428571428571,
+      "score": 8.666666666666666,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -2916,7 +2961,7 @@
     {
       "id": "client__src__composables__booking__useDependentInstances.ts",
       "repoPath": "client/src/composables/booking/useDependentInstances.ts",
-      "score": 8.571428571428571,
+      "score": 8.666666666666666,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -2935,7 +2980,7 @@
     {
       "id": "server__src__routes__internal__properties__propertyConstants.ts",
       "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
-      "score": 8.555555555555555,
+      "score": 8.57347670250896,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -2973,18 +3018,18 @@
     {
       "id": "client__src__types__appointment.ts",
       "repoPath": "client/src/types/appointment.ts",
-      "score": 8.222222222222221,
+      "score": 8.258064516129032,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 242,
+          "lineNumber": 250,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 297,
+          "lineNumber": 305,
           "line": "inline: value"
         }
       ]
@@ -2992,7 +3037,7 @@
     {
       "id": "client__src__types__property.ts",
       "repoPath": "client/src/types/property.ts",
-      "score": 8.222222222222221,
+      "score": 8.258064516129032,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3011,7 +3056,7 @@
     {
       "id": "client__src__types__user.ts",
       "repoPath": "client/src/types/user.ts",
-      "score": 8.222222222222221,
+      "score": 8.258064516129032,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3030,7 +3075,7 @@
     {
       "id": "server__src__db__models__participantModels__Users.ts",
       "repoPath": "server/src/db/models/participantModels/Users.ts",
-      "score": 8.222222222222221,
+      "score": 8.258064516129032,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3075,20 +3120,6 @@
       ]
     },
     {
-      "id": "server__src__app.ts",
-      "repoPath": "server/src/app.ts",
-      "score": 6,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 116,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "server__src__db__models__admin__business_settings.ts",
       "repoPath": "server/src/db/models/admin/business_settings.ts",
       "score": 6,
@@ -3098,6 +3129,20 @@
         {
           "ruleId": "hoist",
           "lineNumber": 15,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__external__oauthCallbackRouter.ts",
+      "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 34,
           "line": "inline: value"
         }
       ]
@@ -3117,6 +3162,20 @@
       ]
     },
     {
+      "id": "server__src__routes__internal__users__userConstants.ts",
+      "repoPath": "server/src/routes/internal/users/userConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "export: ERROR_MESSAGES"
+        }
+      ]
+    },
+    {
       "id": "server__src__services__computedAvailabilityService.ts",
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "score": 6,
@@ -3125,7 +3184,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 37,
+          "lineNumber": 43,
           "line": "inline: value"
         }
       ]
@@ -3141,6 +3200,76 @@
           "ruleId": "template",
           "lineNumber": 47,
           "line": "export: REQUIRED_FIELDS"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__annotation_instance.ts",
+      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "score": 4.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 81,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__annotation_shape.ts",
+      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
+      "score": 4.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 60,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__event_instance.ts",
+      "repoPath": "server/src/db/models/booking/event_instance.ts",
+      "score": 4.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 94,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__event_shape.ts",
+      "repoPath": "server/src/db/models/booking/event_shape.ts",
+      "score": 4.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 62,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__instance_component.ts",
+      "repoPath": "server/src/db/models/booking/instance_component.ts",
+      "score": 4.571428571428571,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 87,
+          "line": "inline: value"
         }
       ]
     },
@@ -3168,6 +3297,20 @@
         {
           "ruleId": "hoist",
           "lineNumber": 35,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__useComputedAvailability.ts",
+      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 122,
           "line": "inline: value"
         }
       ]
@@ -3201,99 +3344,57 @@
       ]
     },
     {
-      "id": "server__src__db__models__admin__block_shape.js",
-      "repoPath": "server/src/db/models/admin/block_shape.js",
-      "score": 4.3076923076923075,
+      "id": "server__src__services__appointmentCalendarService.ts",
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
+      "score": 4.4,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 76,
+          "lineNumber": 163,
           "line": "inline: value"
         }
       ]
     },
     {
-      "id": "server__src__db__models__admin__part_shape.js",
-      "repoPath": "server/src/db/models/admin/part_shape.js",
-      "score": 4.3076923076923075,
+      "id": "server__src__services__google__calendar__calendarConstants.ts",
+      "repoPath": "server/src/services/google/calendar/calendarConstants.ts",
+      "score": 4.4,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 65,
+          "lineNumber": 98,
+          "line": "export: CALENDAR_INTERNAL_MESSAGES"
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__google__calendar__calendarHelpers.ts",
+      "repoPath": "server/src/services/google/calendar/calendarHelpers.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 82,
           "line": "inline: value"
         }
       ]
     },
     {
-      "id": "server__src__db__models__booking__annotation_instance.ts",
-      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
-      "score": 4.3076923076923075,
+      "id": "server__src__services__google__maps__placesApiService.ts",
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "score": 4.4,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 81,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__booking__annotation_shape.ts",
-      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
-      "score": 4.3076923076923075,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 60,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__booking__event_instance.ts",
-      "repoPath": "server/src/db/models/booking/event_instance.ts",
-      "score": 4.3076923076923075,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 94,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__booking__event_shape.ts",
-      "repoPath": "server/src/db/models/booking/event_shape.ts",
-      "score": 4.3076923076923075,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 62,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__booking__instance_component.ts",
-      "repoPath": "server/src/db/models/booking/instance_component.ts",
-      "score": 4.3076923076923075,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 87,
+          "lineNumber": 146,
           "line": "inline: value"
         }
       ]
@@ -3301,13 +3402,41 @@
     {
       "id": "client__src__constants__entities.ts",
       "repoPath": "client/src/constants/entities.ts",
-      "score": 4.285714285714286,
+      "score": 4.333333333333333,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
           "lineNumber": 26,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "score": 4.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 118,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "score": 4.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 17,
           "line": "inline: value"
         }
       ]
@@ -3461,7 +3590,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 43,
+          "lineNumber": 46,
           "line": "inline: value"
         }
       ]
@@ -3511,7 +3640,7 @@
     {
       "id": "client__src__composables__admin__tables__useUsersTableModel.ts",
       "repoPath": "client/src/composables/admin/tables/useUsersTableModel.ts",
-      "score": 4.111111111111111,
+      "score": 4.129032258064516,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3523,9 +3652,23 @@
       ]
     },
     {
+      "id": "client__src__constants__attendeeRoles.ts",
+      "repoPath": "client/src/constants/attendeeRoles.ts",
+      "score": 4.129032258064516,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 11,
+          "line": "inline: value"
+        }
+      ]
+    },
+    {
       "id": "client__src__plugins__1.router__additional-routes.ts",
       "repoPath": "client/src/plugins/1.router/additional-routes.ts",
-      "score": 4.111111111111111,
+      "score": 4.129032258064516,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3539,7 +3682,7 @@
     {
       "id": "client__src__utils__appointmentFieldFormatters.ts",
       "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
-      "score": 4.111111111111111,
+      "score": 4.129032258064516,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3553,7 +3696,7 @@
     {
       "id": "client__src__utils__eventAttendeeUtils.ts",
       "repoPath": "client/src/utils/eventAttendeeUtils.ts",
-      "score": 4.111111111111111,
+      "score": 4.129032258064516,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -3567,7 +3710,7 @@
     {
       "id": "server__src__routes__internal__properties__propertyCrudRouter.ts",
       "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
-      "score": 4.111111111111111,
+      "score": 4.129032258064516,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [

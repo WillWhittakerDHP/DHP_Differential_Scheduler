@@ -47,7 +47,7 @@ export function transformApiRelationships(
   const parentMap = filteredRelationships
     .filter(rel => !rel.disabled)
     .reduce((map, rel) => {
-      const existing = map.get(rel.parent_id) || []
+      const existing = map.get(rel.parent_id) ?? []
       map.set(rel.parent_id, [...existing, rel.child_id])
       return map
     }, new Map<string, string[]>())
@@ -55,13 +55,13 @@ export function transformApiRelationships(
   // WHY: Functional approach avoids forEach with array mutations
   const globalRelationships: GlobalRelationship[] = Array.from(parentMap.entries())
     .map(([parentId, childIds]) => {
-      const parentEntity = findById(entities[config.parentEntity] || [], parentId)
+      const parentEntity = findById(entities[config.parentEntity] ?? [], parentId)
       if (!parentEntity) {
         return null
       }
       
       // PATTERN: Resolve child entities from entities Record (includes all entity types)
-      const childEntityArray = entities[config.childEntity] || []
+      const childEntityArray = entities[config.childEntity] ?? []
       
       const { resolved: childEntities } = resolveByIds(childEntityArray, childIds)
       
@@ -100,82 +100,10 @@ export function findRelationshipsByParent(
   )
 }
 
-/**
- * Group flat relationships by parent_id
- * 
- * LEARNING: Transforms flat relationship array into grouped structure
- * WHY: Used in fetchToGlobalTransformer to group relationships by parent
- * PATTERN: Map parent_id -> child_id[]
- * 
- * Overload 1: FetchedRelationship[] (API format)
- * @param relationships - Array of FetchedRelationship objects
- * @returns Map of parent_id to child_id arrays
- * 
- * Overload 2: GlobalRelationship[] (transformed format)
- * @param relationships - Array of GlobalRelationship objects
- * @returns Map of parent_id to GlobalRelationship arrays
- */
-export function groupRelationshipsByParent(
-  relationships: FetchedRelationship[]
-): Map<string, string[]>
-export function groupRelationshipsByParent(
-  relationships: GlobalRelationship[]
-): Map<string, GlobalRelationship[]>
-export function groupRelationshipsByParent(
-  relationships: FetchedRelationship[] | GlobalRelationship[]
-): Map<string, string[]> | Map<string, GlobalRelationship[]> {
-  // PATTERN: Check for parent_id property (FetchedRelationship) vs parent property (GlobalRelationship)
-  if (relationships.length > 0 && 'parent_id' in relationships[0]) {
-    const fetchedRels = relationships as FetchedRelationship[]
-    
-    // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
-    const parentMap = fetchedRels
-      .filter(rel => !rel.disabled)
-      .reduce((map, rel) => {
-        const existing = map.get(rel.parent_id) || []
-        map.set(rel.parent_id, [...existing, rel.child_id])
-        return map
-      }, new Map<string, string[]>())
-    
-    return parentMap
-  } else {
-    const globalRels = relationships as GlobalRelationship[]
-    
-    // PATTERN: Reduce relationships to Map, creating new arrays instead of mutating existing ones
-    const parentMap = globalRels
-      .filter(rel => rel.parent)
-      .reduce((map, rel) => {
-        const existing = map.get(rel.parent!.id) || []
-        map.set(rel.parent!.id, [...existing, rel])
-        return map
-      }, new Map<string, GlobalRelationship[]>())
-    
-    return parentMap
-  }
-}
-
 export function extractChildIds(relationships: GlobalRelationship[]): string[] {
   return relationships.flatMap(rel => 
     rel.children ? rel.children.map(child => child.id) : []
   )
-}
-
-/**
- * Filter relationships by relationship kind
- * 
- * LEARNING: Filter relationships by type
- * WHY: Used to get specific relationship types from GlobalData
- * PATTERN: Simple filter by relationshipKind
- * 
- * @param relationships - Array of GlobalRelationship objects
- * @param relationshipKind - Relationship type to filter by
- * @returns Filtered relationships
- */
-export function filterRelationshipsByKind(
-  relationships: GlobalRelationship[],
-  relationshipKind: GlobalRelationshipKey
-): GlobalRelationship[] {
-  return relationships.filter(rel => rel.relationshipKind === relationshipKind)
 }
 
 /**
@@ -238,7 +166,7 @@ export function getComponentsRecursive(
  * @param entities - Entity map from GlobalData
  * @returns Partial entity with composed properties
  */
-export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
+function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   relationships: GlobalRelationship[],
@@ -255,7 +183,7 @@ export function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
     return {}
   }
   
-  const { resolved: components } = resolveByIds(entities[entityKind] || [], componentIds)
+  const { resolved: components } = resolveByIds(entities[entityKind] ?? [], componentIds)
   
   if (components.length === 0) {
     return {}
@@ -276,7 +204,7 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   relationships: GlobalRelationship[],
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): GlobalEntity<GE> | null {
-  const composerEntity = findById(entities[entityKind] || [], composerId)
+  const composerEntity = findById(entities[entityKind] ?? [], composerId)
   if (!composerEntity) {
     
     return null

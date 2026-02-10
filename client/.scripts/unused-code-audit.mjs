@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Unused Code Audit Script
@@ -62,6 +62,8 @@ function isExcluded(repoPath) {
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding, exports used by test infrastructure)
+  if (isSeedScript(repoPath)) return true
   // Exclude @core and @layouts for client files only
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
     return true
@@ -93,7 +95,7 @@ function listFilesRecursive(dir) {
       
       if (entry.isDirectory()) {
         files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath)) {
+      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
         files.push(fullPath)
       }
     }
@@ -565,7 +567,7 @@ function listScriptFiles(dir) {
       const full = path.join(dir, entry.name)
       if (entry.isDirectory()) {
         files.push(...listScriptFiles(full))
-      } else if (entry.isFile() && isScannable(full)) {
+      } else if (entry.isFile() && isScannable(full) && !isCompiledJsFile(full)) {
         files.push(full)
       }
     }

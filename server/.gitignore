@@ -1,0 +1,4 @@
+# Prevent stale compiled JS from being committed alongside TS sources
+# TypeScript compiles to dist/, not in-place
+src/**/*.js
+!src/**/*.mjs

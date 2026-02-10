@@ -6,16 +6,15 @@ Generated from `.audit-reports/component-logic-audit.json`.
 
 | File | Priority | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 21 | 19 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/steps/AvailabilityStep.vue` | P0 | 20 | 15 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | `src/views/admin/tabs/BusinessRulesTab.vue` | P0 | 18 | 6 | 4 | 2 | 3 | 4 | 3 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/booking/steps/AvailabilityStep.vue` | P0 | 15 | 9 | 0 | 4 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | P1 | 13 | 7 | 1 | 0 | 0 | 0 | 2 | 0 | 3 | 0 | 1 | 0 |
 | `src/components/booking/steps/ServiceSelectionStep.vue` | P1 | 13 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/DifferentialGraph.vue` | P1 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/BusinessControlsTab.vue` | P1 | 11 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | P1 | 11 | 6 | 0 | 0 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | P1 | 10 | 6 | 13 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCard.vue` | P1 | 12 | 6 | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/booking/dev/SlotConstraintOverlay.vue` | P1 | 9 | 1 | 1 | 1 | 0 | 0 | 1 | 0 | 6 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | P1 | 9 | 8 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | P1 | 8 | 7 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | P1 | 8 | 0 | 4 | 1 | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -33,11 +32,12 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/admin/PartInstanceBulkEditModal.vue` | P2 | 5 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 1 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P2 | 5 | 1 | 0 | 0 | 1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/CardButton.vue` | P2 | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/AppNotification.vue` | P2 | 4 | 3 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/wrappers/ServiceSelectCards.vue` | P2 | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/MetadataEditModal.vue` | P2 | 4 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
+| `src/components/booking/steps/PropertyDetailsStep.vue` | P2 | 4 | 1 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/components/AppointmentsTable.vue` | P2 | 4 | 0 | 0 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 35 more files. See full report for details.*
+*...and 34 more files. See full report for details.*
 
 ## Notes
 

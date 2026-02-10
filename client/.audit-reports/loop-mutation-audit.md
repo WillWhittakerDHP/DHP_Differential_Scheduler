@@ -12,44 +12,44 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **209**
-- **Requiring review: 825**
-- Allowed (with justification): 1090 (inline: 0, pattern: 1090, specific: 0)
+- Total files scanned: **194**
+- **Requiring review: 701**
+- Allowed (with justification): 1046 (inline: 0, pattern: 1046, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | forEach | for-loops | push/splice/sort/reverse | assign | forEach→mutation hits | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/constraintExtractor.ts` | 53 | 2 | 1 | 5 | 8 | 3 | 0 |
-| `client/src/utils/booking/overlapConstraintChecker.ts` | 44 | 0 | 8 | 6 | 12 | 0 | 0 |
-| `server/src/config/app.js` | 35 | 0 | 4 | 2 | 14 | 0 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 34 | 0 | 0 | 1 | 16 | 0 | 0 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | 34 | 0 | 0 | 0 | 17 | 0 | 0 |
-| `server/src/services/computedAvailabilityService.ts` | 34 | 0 | 8 | 5 | 8 | 0 | 0 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | 32 | 0 | 4 | 4 | 10 | 0 | 0 |
-| `client/src/utils/booking/partFinalizer.ts` | 28 | 2 | 2 | 1 | 3 | 2 | 0 |
+| `server/src/services/slotComputationService.ts` | 52 | 0 | 12 | 7 | 14 | 0 | 0 |
+| `server/src/services/computedAvailabilityService.ts` | 40 | 0 | 10 | 4 | 11 | 0 | 0 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 32 | 0 | 0 | 1 | 15 | 0 | 0 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | 32 | 0 | 0 | 0 | 16 | 0 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 24 | 0 | 0 | 0 | 12 | 0 | 0 |
-| `server/src/services/google/maps/placesApiService.ts` | 22 | 0 | 0 | 0 | 11 | 0 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 20 | 0 | 0 | 0 | 10 | 0 | 0 |
+| `client/src/utils/transformers/globalToBookingTransformer.ts` | 26 | 0 | 4 | 3 | 8 | 0 | 0 |
+| `server/src/services/google/maps/mapsHelpers.ts` | 24 | 0 | 2 | 0 | 11 | 0 | 0 |
+| `client/src/utils/booking/partFinalizer.ts` | 22 | 2 | 2 | 1 | 4 | 1 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | 20 | 0 | 0 | 2 | 8 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | 18 | 0 | 0 | 1 | 8 | 0 | 0 |
 | `client/src/utils/transformers/componentAggregator.ts` | 18 | 0 | 0 | 0 | 9 | 0 | 0 |
 | `client/src/composables/booking/useStepValidation.ts` | 16 | 0 | 12 | 0 | 4 | 0 | 2 |
-| `server/src/services/calendarErrorHandler.ts` | 15 | 0 | 1 | 0 | 7 | 0 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | 16 | 0 | 0 | 0 | 8 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 14 | 0 | 0 | 7 | 10 | 0 | 10 |
 | `client/src/utils/entityDefaults.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/admin/block_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/admin/business_settings.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/admin/part_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/admin/valid_cascade.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/active_annotation.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/address.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/annotation_instance.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/annotation_shape.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/appointment.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/db/models/booking/block_instance.js` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | 0 | 2 | 0 | 6 | 0 | 0 |
+| `client/src/composables/booking/useComputedAvailability.ts` | 13 | 1 | 2 | 0 | 23 | 1 | 22 |
+| `client/src/utils/forms/formElementPatching.ts` | 13 | 1 | 4 | 0 | 4 | 0 | 0 |
+| `client/src/components/booking/modals/PropertyConfirmationModal.vue` | 12 | 0 | 0 | 6 | 0 | 0 | 0 |
+| `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/appointmentFieldFormatters.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/blockInstanceUtils.ts` | 12 | 0 | 1 | 0 | 6 | 0 | 0 |
+| `client/src/utils/booking/constraintColors.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/differentialScheduling.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/eventAttendeeUtils.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/utils/transformers/composePropertyValue.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `server/src/services/instanceVersioning.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 8 | 0 | 2 | 0 | 0 |
+| `client/src/main.ts` | 11 | 1 | 2 | 0 | 4 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -58,229 +58,142 @@ Exception handling:
 
 ## Per-file forEach→mutation hits (highest signal)
 
-### `server/src/services/constraintExtractor.ts`
-
-- hits: 3
-
-```
-forEach@182 -> assignProp@184
-forEach@182 -> push@192
-forEach@208 -> push@211
-```
-
 ### `client/src/utils/booking/partFinalizer.ts`
 
-- hits: 2
+- hits: 1
 
 ```
-forEach@233 -> assignProp@253
-forEach@234 -> assignProp@253
+forEach@224 -> assignProp@246
+```
+
+### `client/src/composables/booking/useComputedAvailability.ts`
+
+- hits: 1
+
+```
+forEach@190 -> assignIndex@191
 ```
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
 
-### `server/src/services/constraintExtractor.ts`
+### `server/src/services/slotComputationService.ts`
 
-- counts: forEach=2, forLoop=1, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=7
-
-```
-assignProp@56: if (dbConstraint.type === 'businessHours' && 'hours' in dbConstraint.config) {
-assignIndex@57: const convertedHours: BusinessHoursConfig['hours'] = {} as BusinessHoursConfig['hours']
-forLoop@58: for (let day = 0; day <= 6; day++) {
-assignProp@78: if (dbConstraint.type === 'dateRange' && 'start' in dbConstraint.config) {
-push@121: constraints.push(convertRangeConstraint(businessHoursConstraint))
-push@127: constraints.push(convertRangeConstraint(leadTimeConstraint))
-push@133: constraints.push(convertRangeConstraint(dateRangeConstraint))
-assignProp@157: if (!driveTime || driveTime.applyTo === 'none' || driveTime.minutes <= 0) {
-forEach@182: standardBufferTypes.forEach(bufferType => {
-assignProp@184: if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
-push@192: constraints.push({
-forEach@208: driveTimeConfigs.forEach(({ type, placement }) => {
-push@211: constraints.push(constraint)
-assignProp@248: if (filter.enforcement === 'off') {
-assignProp@335: if (constraint.type === 'driveTimeTo' || constraint.type === 'driveTimeFrom') {
-assignProp@362: if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {
-```
-
-### `client/src/utils/booking/overlapConstraintChecker.ts`
-
-- counts: forEach=0, forLoop=4, forOf=4, forIn=0, while=0, push=6, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=12
+- counts: forEach=0, forLoop=5, forOf=5, forIn=0, while=2, push=7, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=13
 
 ```
-assignProp@129: return constraint.applyTo === 'all' || constraint.applyTo === undefined
-assignProp@138: const slotTime = constraint.type === 'driveTimeTo' ? slotStart : slotEnd
-assignProp@170: if (parsedBusyTimes.length === 0) {
-assignProp@186: if (!overlapConstraints || overlapConstraints.length === 0) {
-forLoop@192: for (const source of uniqueSources) {
-forOf@192: for (const source of uniqueSources) {
-push@193: violations.push(`overlap.${source}.direct`)
-assignProp@207: if (applicableConstraints.length === 0) {
-forLoop@213: for (const source of uniqueSources) {
-forOf@213: for (const source of uniqueSources) {
-push@214: violations.push(`overlap.${source}.direct`)
-assignProp@239: if (constraint.placement === 'before' || constraint.placement === 'both') {
-assignProp@243: if (constraint.placement === 'after' || constraint.placement === 'both') {
-forLoop@272: for (const source of uniqueSources) {
-forOf@272: for (const source of uniqueSources) {
-push@273: allViolations.push(`overlap.${source}.direct`)
-forLoop@279: for (const constraint of applicableConstraints) {
-forOf@279: for (const constraint of applicableConstraints) {
-assignProp@290: if (constraint.type === 'appointment') {
-push@294: allViolations.push(`overlap.appointment.buffer:${constraint.minutes}`)
-assignProp@295: if (constraint.enforcement === 'hard') {
-assignProp@299: } else if (constraint.type === 'driveTimeTo' || constraint.type === 'driveTimeFrom') {
-push@302: allViolations.push(`overlap.${constraint.type}.buffer:${constraint.minutes}`)
-assignProp@303: if (constraint.enforcement === 'hard') {
-push@311: allViolations.push(`overlap.${constraint.type}.${suffix}`)
-assignProp@312: if (constraint.enforcement === 'hard') {
-```
-
-### `server/src/config/app.js`
-
-- counts: forEach=0, forLoop=2, forOf=0, forIn=1, while=1, push=2, splice=0, sort=0, reverse=0, assignIndex=5, assignProp=9
-
-```
-forLoop@4: for (var s, i = 1, n = arguments.length; i < n; i++) {
-forLoop@6: for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-forIn@6: for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-assignIndex@7: t[p] = s[p];
-assignIndex@24: return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-assignProp@24: return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-while@28: while (g && (g = 0, op[0] && (_ = 0)), _) try {
-pop@35: case 7: op = _.ops.pop(); _.trys.pop(); continue;
-assignIndex@37: if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-assignIndex@38: if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-assignProp@38: if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-assignIndex@39: if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-assignProp@39: if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-push@40: if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-assignProp@40: if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-pop@41: if (t[2]) _.ops.pop();
-pop@42: _.trys.pop(); continue;
-assignProp@51: exports.initializeDatabase = exports.BusinessSettings = exports.Appointment = exports.User = exports.Property = exports.PropertyVersionType = exports.PropertyDetails = exports.PropertyVersion = exports.Address = exports.ActiveAnnotation = exports.AnnotationInstance = exports.AnnotationShape = exports.InstanceComponent = exports.ActiveConstituent = exports.BookingCascade = exports.DependentInstanceOption = exports.ValidConstituent = exports.ValidCascade = exports.BlockInstance = exports.BlockShape = exports.PartInstance = exports.PartShape = exports.sequelize = void 0;
-assignProp@75: exports.sequelize = new sequelize_1.Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWORD, {
-assignProp@80: exports.PartShape = (_a = (0, index_js_1.initializeModels)(exports.sequelize), _a.PartShape), exports.PartInstance = _a.PartInstance, exports.BlockShape = _a.BlockShape, exports.BlockInstance = _a.BlockInstance, exports.ValidCascade = _a.ValidCascade, exports.ValidConstituent = _a.ValidConstituent, exports.DependentInstanceOption = _a.DependentInstanceOption, exports.BookingCascade = _a.BookingCascade, exports.ActiveConstituent = _a.ActiveConstituent, exports.InstanceComponent = _a.InstanceComponent, exports.AnnotationShape = _a.AnnotationShape, exports.AnnotationInstance = _a.AnnotationInstance, exports.ActiveAnnotation = _a.ActiveAnnotation, exports.Address = _a.Address, exports.PropertyVersion = _a.PropertyVersion, exports.PropertyDetails = _a.PropertyDetails, exports.PropertyVersionType = _a.PropertyVersionType, exports.Property = _a.Property, exports.User = _a.User, exports.Appointment = _a.Appointment, exports.BusinessSettings = _a.BusinessSettings;
-push@87: _a.trys.push([0, 2, , 3]);
-assignProp@107: exports.initializeDatabase = initializeDatabase;
-assignProp@109: exports.default = __assign(__assign({}, config), { PartShape: exports.PartShape, PartInstance: exports.PartInstance, BlockShape: exports.BlockShape, BlockInstance: exports.BlockInstance, ValidCascade: exports.ValidCascade, ValidConstituent: exports.ValidConstituent, DependentInstanceOption: exports.DependentInstanceOption, BookingCascade: exports.BookingCascade, ActiveConstituent: exports.ActiveConstituent, InstanceComponent: exports.InstanceComponent, AnnotationShape: exports.AnnotationShape, AnnotationInstance: exports.AnnotationInstance, ActiveAnnotation: exports.ActiveAnnotation, Address: exports.Address, PropertyVersion: exports.PropertyVersion, PropertyDetails: exports.PropertyDetails, PropertyVersionType: exports.PropertyVersionType, Property: exports.Property, User: exports.User, Appointment: exports.Appointment, BusinessSettings: exports.BusinessSettings });
-```
-
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=6, assignProp=10
-
-```
-sort@44: const sortedEntities = [...transformedEntities].sort((a, b) => {
-assignProp@56: entityWithName.name = entityWithName.text
-assignIndex@60: acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
-assignIndex@62: acc[entityKey] = sortedEntities
-assignIndex@221: const [entitiesResponse, relationshipsResponse] = await Promise.all([
-assignProp@280: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
-assignIndex@290: acc[entityKey] = entityList.map(entity => {
-assignIndex@310: acc[relType] = transformApiRelationships(
-assignProp@413: fieldMetadata.dataType === 'boolean' &&
-assignProp@427: fieldMetadata.dataType === 'number' &&
-assignProp@466: if (fieldMetadata.dataType === 'reference') {
-assignProp@469: if (fieldMetadata.dataType === 'boolean') {
-assignProp@471: } else if (fieldMetadata.dataType === 'number') {
-assignProp@473: } else if (fieldMetadata.dataType === 'string') {
-assignProp@484: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
-assignProp@508: const isReferenceField = fieldMetadata?.dataType === 'reference' ||
-assignIndex@528: .filter((entry): entry is [string, unknown] => entry !== null)
-```
-
-### `client/src/utils/transformers/relationshipTransformers.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=17
-
-```
-assignProp@43: rel => rel.kind === relationshipKey
-assignProp@99: rel => rel.parent && rel.parent.id === parentId
-assignProp@178: return relationships.filter(rel => rel.relationshipKind === relationshipKind)
-assignProp@198: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@199: rel.parent.id === composerId &&
-assignProp@200: rel.parent.entityKey === entityKind
-assignProp@210: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@211: rel.parent.id === componentId &&
-assignProp@212: rel.parent.entityKey === entityKind
-assignProp@248: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@249: rel.parent.entityKey === entityKind
-assignProp@254: if (componentIds.length === 0) {
-assignProp@260: if (components.length === 0) {
-assignProp@290: rel => rel.relationshipKind === 'instanceComponents' &&
-assignProp@291: rel.parent.entityKey === entityKind
-assignProp@333: rel => rel.relationshipKind === 'partAssignments'
-assignProp@340: rel => rel.parent.id === blockId
+while@64: while (slotStart < dayEndUtc) {
+push@68: slots.push({ startTime: new Date(slotStart), endTime: slotEnd })
+forLoop@87: for (const constraint of rangeConstraints) {
+forOf@87: for (const constraint of rangeConstraints) {
+assignProp@88: if (constraint.enforcement === 'off') continue
+assignProp@110: if (!passes && constraint.enforcement === 'hard') {
+assignProp@113: if (!passes && constraint.enforcement === 'flexible') {
+push@114: violations.push(`range.${constraint.type}`)
+forLoop@135: for (const event of eventsWithDrive) {
+forOf@135: for (const event of eventsWithDrive) {
+assignProp@137: const source = event.source === 'outOfOffice' ? 'outOfOffice' : 'event'
+push@138: violations.push(`overlap.${source}.direct`)
+push@148: violations.push(`overlap.driveToCandidate.buffer:${event.driveToMinutes}`)
+push@157: violations.push(`overlap.driveFromCandidate.buffer:${event.driveFromMinutes}`)
+assignProp@163: const hardOverlapConstraint = overlapConstraints.find(c => c.enforcement === 'hard')
+assignProp@179: if (capacityConstraints.length === 0) {
+forLoop@187: for (const constraint of capacityConstraints) {
+forOf@187: for (const constraint of capacityConstraints) {
+assignProp@188: if (constraint.enforcement === 'off') continue
+assignProp@194: if (constraint.enforcement === 'hard' && currentHours + durationHours > constraint.maxHours) {
+assignProp@197: if (constraint.enforcement === 'flexible') {
+push@202: violations.push(`capacity.${constraint.type}`)
+assignProp@222: if (onlyOpaque && event.transparency === 'transparent') return
+push@227: result.push({
+forLoop@237: for (const e of regularEvents) process(e, 'event')
+forOf@237: for (const e of regularEvents) process(e, 'event')
+forLoop@238: for (const e of outOfOfficeEvents) process(e, 'outOfOffice')
+forOf@238: for (const e of outOfOfficeEvents) process(e, 'outOfOffice')
+assignProp@277: const leadTimeConstraint = rangeConstraints.find(c => c.type === RANGE_CONSTRAINT_TYPES.LEAD_TIME)
+assignProp@278: const leadMinutes = leadTimeConstraint?.config && typeof (leadTimeConstraint.config as { minutes?: number }).minutes === 'number'
+while@287: while (current < requestEnd) {
+assignProp@369: isAvailable: allViolations.length === 0,
+assignIndex@374: slotsByDay[dayKey] = computedSlots
 ```
 
 ### `server/src/services/computedAvailabilityService.ts`
 
-- counts: forEach=0, forLoop=4, forOf=4, forIn=0, while=0, push=4, splice=0, sort=1, reverse=0, assignIndex=1, assignProp=7
+- counts: forEach=0, forLoop=5, forOf=5, forIn=0, while=0, push=4, splice=0, sort=0, reverse=0, assignIndex=5, assignProp=6
 
 ```
-forLoop@74: for (const event of events) {
-forOf@74: for (const event of events) {
-assignProp@75: if (event.eventType === 'outOfOffice') {
-push@76: outOfOfficeEvents.push(event)
-push@78: regularEvents.push(event)
-forLoop@97: for (const event of allEvents) {
-forOf@97: for (const event of allEvents) {
-assignProp@100: if (event.transparency === 'transparent') {
-assignProp@105: const source: 'event' | 'outOfOffice' = event.eventType === 'outOfOffice' ? 'outOfOffice' : 'event'
-push@107: busyPeriods.push({
-assignProp@146: if (eventsWithPlaceId.length === 0) {
-forLoop@152: for (const event of eventsWithPlaceId) {
-forOf@152: for (const event of eventsWithPlaceId) {
-push@157: eventsByDate.get(date)!.push(event)
-forLoop@161: for (const [date, events] of eventsByDate.entries()) {
-forOf@161: for (const [date, events] of eventsByDate.entries()) {
-sort@163: const sortedEvents = [...events].sort((a, b) => a.start.localeCompare(b.start))
-assignProp@179: driveTimes.driveTimeTo = result.durationMinutes
-assignProp@196: driveTimes.driveTimeFrom = result.durationMinutes
-assignIndex@205: driveTimesByDate[date] = driveTimes
-assignProp@328: events: eventsResponses.every(r => r._meta?.source === 'cache') ? 'hit' : 'miss',
+forLoop@80: for (const event of events) {
+forOf@80: for (const event of events) {
+assignProp@81: if (event.eventType === 'outOfOffice') {
+push@82: outOfOfficeEvents.push(event)
+push@84: regularEvents.push(event)
+assignProp@118: if (uniquePlaceIds.length === 0) {
+forLoop@129: for (const eventPlaceId of uniquePlaceIds) {
+forOf@129: for (const eventPlaceId of uniquePlaceIds) {
+assignIndex@135: results[eventPlaceId] = {
+push@140: uncachedToPlaceIds.push(eventPlaceId)
+assignIndex@146: results[eventPlaceId] = {
+push@151: uncachedFromPlaceIds.push(eventPlaceId)
+forLoop@174: for (const result of toResults) {
+forOf@174: for (const result of toResults) {
+assignProp@175: if (result.status === 'OK' && result.durationSeconds > 0) {
+assignIndex@186: results[eventPlaceId] = {
+forLoop@211: for (const result of fromResults) {
+forOf@211: for (const result of fromResults) {
+assignProp@212: if (result.status === 'OK' && result.durationSeconds > 0) {
+assignIndex@223: results[eventPlaceId] = {
+forLoop@341: for (const [key, hours] of Object.entries(scheduledHoursByKey)) {
+forOf@341: for (const [key, hours] of Object.entries(scheduledHoursByKey)) {
+assignIndex@343: relevantHours[key] = hours
+assignProp@351: c => c.category === 'range' && c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
+assignProp@385: events: eventsResponses.every(r => r._meta?.source === 'cache') ? 'hit' : 'miss',
 ```
 
-### `client/src/utils/transformers/globalToBookingTransformer.ts`
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
 
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=4, reverse=0, assignIndex=0, assignProp=10
-
-```
-assignProp@77: const disabled = entity.disabled === true
-assignProp@115: .filter(rel => rel.relationshipKind === 'instanceComponents')
-sort@140: .sort((a, b) => {
-assignProp@141: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@142: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-sort@164: .sort((a, b) => {
-assignProp@165: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@166: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-sort@179: .sort((a, b) => {
-forLoop@229: for (const id of partAssignmentIds) {
-forOf@229: for (const id of partAssignmentIds) {
-assignProp@236: const composite = blockInstanceTyped.composite === true
-forLoop@258: for (const id of activeComponentPartIds) {
-forOf@258: for (const id of activeComponentPartIds) {
-sort@273: .sort((a: BookingPartInstance, b: BookingPartInstance) => {
-assignProp@274: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@275: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-assignProp@323: requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
-```
-
-### `client/src/utils/booking/partFinalizer.ts`
-
-- counts: forEach=2, forLoop=1, forOf=1, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=6, assignProp=9
 
 ```
-push@44: grouped.get(partShape)!.push(part)
-forLoop@161: for (const eventInstance of events) {
-forOf@161: for (const eventInstance of events) {
-assignProp@193: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
-assignProp@207: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
-forEach@233: eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))
-forEach@234: eventRoundedDurations.forEach((value, key) => eventRoundedDurationsByShapeId.set(key, value))
-assignProp@253: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+assignProp@59: fieldMetadata.dataType === 'boolean' &&
+assignProp@76: fieldMetadata.dataType === 'number' &&
+assignProp@109: if (fieldMetadata.dataType === 'reference') return null
+assignProp@110: if (fieldMetadata.dataType === 'boolean') return [frontendKey, false]
+assignProp@111: if (fieldMetadata.dataType === 'number') return [frontendKey, 0]
+assignProp@112: if (fieldMetadata.dataType === 'string') return [frontendKey, '']
+assignProp@121: fieldMetadata?.dataType === 'reference' ||
+assignProp@142: fieldMetadata?.dataType === 'reference' ||
+sort@172: const sortedEntities = [...transformedEntities].sort((a, b) => {
+assignIndex@185: acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
+assignIndex@187: acc[entityKey] = sortedEntities
+assignIndex@346: const [entitiesResponse, relationshipsResponse] = await Promise.all([
+assignProp@406: rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
+assignIndex@416: acc[entityKey] = entityList.map(entity => {
+assignIndex@436: acc[relType] = transformApiRelationships(
+assignIndex@501: .filter((entry): entry is [string, unknown] => entry !== null)
+```
+
+### `client/src/utils/transformers/relationshipTransformers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=16
+
+```
+assignProp@43: rel => rel.kind === relationshipKey
+assignProp@99: rel => rel.parent && rel.parent.id === parentId
+assignProp@126: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@127: rel.parent.id === composerId &&
+assignProp@128: rel.parent.entityKey === entityKind
+assignProp@138: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@139: rel.parent.id === componentId &&
+assignProp@140: rel.parent.entityKey === entityKind
+assignProp@176: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@177: rel.parent.entityKey === entityKind
+assignProp@182: if (componentIds.length === 0) {
+assignProp@188: if (components.length === 0) {
+assignProp@218: rel => rel.relationshipKind === 'instanceComponents' &&
+assignProp@219: rel.parent.entityKey === entityKind
+assignProp@261: rel => rel.relationshipKind === 'partAssignments'
+assignProp@268: rel => rel.parent.id === blockId
 ```
 
 ### `client/src/types/admin/AdminEntity.ts`
@@ -303,58 +216,62 @@ assignIndex@143: this[fieldKey as string] = value
 assignProp@144: this.isDirty = true
 ```
 
-### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
+### `client/src/utils/transformers/globalToBookingTransformer.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=12
-
-```
-assignProp@161: if (!ids || !bookingData || ids.length === 0) return []
-assignProp@205: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-assignProp@261: ? stateControlBlocks.find(block => block.id === userTypeId)
-assignProp@294: service => service.blockShapeRef === serviceBlockShapeId
-assignProp@318: const currentInstance = servicesFound.find(s => s.id === version.id) || null
-assignProp@331: property => property.blockShapeRef === propertyBlockShapeId
-assignProp@346: const currentInstance = propertyTypeBlocksFound.find(p => p.id === version.id) || null
-assignProp@370: const currentInstance = optionTypeBlocksFound.find(o => o.id === version.id) || null
-assignProp@394: const currentInstance = lineItemBlocksFound.find(li => li.id === version.id) || null
-assignProp@424: const extractedPlaceId = typeof address?.placeId === 'string' ? address.placeId : undefined
-assignProp@453: a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
-assignProp@456: a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
-```
-
-### `server/src/services/google/maps/placesApiService.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=11
+- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=3, reverse=0, assignIndex=0, assignProp=8
 
 ```
-assignProp@86: if (data.status === 'REQUEST_DENIED') {
-assignProp@90: if (data.status === 'OVER_QUERY_LIMIT') {
-assignProp@94: if (data.status === 'INVALID_REQUEST') {
-assignProp@99: if (data.status === 'ZERO_RESULTS' || !data.predictions) {
-assignProp@184: if (data.status === 'REQUEST_DENIED') {
-assignProp@188: if (data.status === 'OVER_QUERY_LIMIT') {
-assignProp@192: if (data.status === 'NOT_FOUND' || data.status === 'INVALID_REQUEST') {
-assignProp@255: if (!address || typeof address !== 'string' || address.trim().length === 0) {
-assignProp@308: if (data.status === 'REQUEST_DENIED') {
-assignProp@313: if (data.status === 'OVER_QUERY_LIMIT') {
-assignProp@318: if (data.status === 'ZERO_RESULTS' || data.status === 'NOT_FOUND') {
+assignProp@74: const disabled = entity.disabled === true
+sort@117: .sort((a, b) => {
+assignProp@118: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@119: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+forLoop@148: for (const id of partAssignmentIds) {
+forOf@148: for (const id of partAssignmentIds) {
+assignProp@154: if (blockInstanceTyped.composite === true) {
+forLoop@169: for (const id of activeComponentPartIds) {
+forOf@169: for (const id of activeComponentPartIds) {
+sort@206: .sort((a, b) => {
+assignProp@207: const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@208: const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+assignProp@248: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean'
+assignProp@321: .filter((rel) => rel.relationshipKind === 'instanceComponents')
+sort@358: .sort((a, b) => a.name.localeCompare(b.name))
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
+### `server/src/services/google/maps/mapsHelpers.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=7
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=11
 
 ```
-assignProp@73: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
-assignProp@90: return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
-assignProp@138: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
-assignProp@155: ps => ps.name === partShapeName
-assignProp@168: .filter(pi => pi.partShape === partShapeName)
-assignProp@172: return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
-assignProp@181: .map(id => eventInstances.find(ei => ei.id === id))
-assignIndex@242: .filter((entry): entry is [string, typeof eventInstances] => entry !== null)
-assignIndex@336: adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
-assignIndex@339: adjustedEventTimeRanges[minorEventName] = null
+assignProp@71: if (data.status === GOOGLE_API_STATUS.REQUEST_DENIED) {
+assignProp@75: if (data.status === GOOGLE_API_STATUS.OVER_QUERY_LIMIT) {
+assignProp@79: if (data.status === GOOGLE_API_STATUS.INVALID_REQUEST) {
+assignProp@85: if (data.status === GOOGLE_API_STATUS.NOT_FOUND) {
+assignProp@89: if (throwOnZeroResults && data.status === GOOGLE_API_STATUS.ZERO_RESULTS) {
+forLoop@223: for (const component of components) {
+forOf@223: for (const component of components) {
+assignProp@227: result.streetNumber = component.long_name
+assignProp@229: result.streetName = component.long_name
+assignProp@231: result.city = component.long_name
+assignProp@233: result.state = component.short_name // Use abbreviation for state
+assignProp@235: result.postalCode = component.long_name
+assignProp@237: result.country = component.short_name // Use country code
+```
+
+### `client/src/utils/booking/partFinalizer.ts`
+
+- counts: forEach=2, forLoop=1, forOf=1, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+
+```
+push@45: grouped.get(partShape)!.push(part)
+forLoop@155: for (const eventInstance of events) {
+forOf@155: for (const eventInstance of events) {
+assignProp@185: const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+assignProp@197: const eventPerspective = majorEventShape?.id === eventShape.id ? 'major' : (minorEventShape?.id === eventShape.id ? 'minor' : 'other')
+forEach@218: eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))
+forEach@224: eventRawDurationsByShapeId.forEach((rawDuration, eventShapeId) => {
+assignProp@246: .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+assignProp@249: // LEARNING: SlotShape.roundedDuration = max event roundedDuration (slot span from start to latest event end)
 ```
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts`
@@ -431,17 +348,17 @@ forOf@96: for (const validator of Object.values(customValidators)) {
 
 ### `server/src/services/calendarErrorHandler.ts`
 
-- counts: forEach=0, forLoop=1, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=8
 
 ```
-assignProp@47: this.name = 'CalendarApiError';
-assignProp@48: this.type = type;
-assignProp@49: this.statusCode = options?.statusCode;
-assignProp@50: this.retryable = options?.retryable ?? false;
-assignProp@51: this.originalError = options?.originalError;
-assignProp@93: if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {
-assignProp@101: if (error.code === 'ETIMEDOUT' || error.message?.includes('timeout')) {
-forLoop@220: for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {
+assignProp@51: this.name = 'CalendarApiError'
+assignProp@52: this.type = type
+assignProp@53: this.statusCode = options?.statusCode
+assignProp@54: this.retryable = options?.retryable ?? false
+assignProp@55: this.originalError = options?.originalError
+assignProp@122: if (err.code === 'ETIMEDOUT' || (typeof err.message === 'string' && err.message.toLowerCase().includes('timeout'))) {
+assignProp@133: const message = typeof err.message === 'string' ? err.message : ''
+assignProp@162: return new CalendarApiError('unknown', (typeof err.message === 'string' ? err.message : null) ?? CALENDAR_INTERNAL_MESSAGES.UNKNOWN, {
 ```
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue`
@@ -482,160 +399,37 @@ assignProp@172: if (result.orderIndex === null || result.orderIndex === undefine
 assignProp@173: result.orderIndex = 0
 ```
 
-### `server/src/db/models/admin/block_shape.js`
+### `client/src/composables/booking/useComputedAvailability.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.BlockShape = void 0;
-assignProp@19: exports.BlockShapeFactory = BlockShapeFactory;
-assignProp@28: exports.BlockShape = BlockShape;
-```
-
-### `server/src/db/models/admin/business_settings.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
+- counts: forEach=1, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=22
 
 ```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.BusinessSettings = void 0;
-assignProp@19: exports.BusinessSettingsFactory = BusinessSettingsFactory;
-assignProp@28: exports.BusinessSettings = BusinessSettings;
-```
-
-### `server/src/db/models/admin/part_shape.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.PartShape = void 0;
-assignProp@19: exports.PartShapeFactory = PartShapeFactory;
-assignProp@28: exports.PartShape = PartShape;
-```
-
-### `server/src/db/models/admin/valid_cascade.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.ValidCascade = void 0;
-assignProp@19: exports.ValidCascadeFactory = ValidCascadeFactory;
-assignProp@38: exports.ValidCascade = ValidCascade;
-```
-
-### `server/src/db/models/booking/active_annotation.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.ActiveAnnotation = void 0;
-assignProp@19: exports.ActiveAnnotationFactory = ActiveAnnotationFactory;
-assignProp@48: exports.ActiveAnnotation = ActiveAnnotation;
-```
-
-### `server/src/db/models/booking/address.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.Address = void 0;
-assignProp@19: exports.AddressFactory = AddressFactory;
-assignProp@35: exports.Address = Address;
-```
-
-### `server/src/db/models/booking/annotation_instance.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.AnnotationInstance = void 0;
-assignProp@19: exports.AnnotationInstanceFactory = AnnotationInstanceFactory;
-assignProp@52: exports.AnnotationInstance = AnnotationInstance;
-```
-
-### `server/src/db/models/booking/annotation_shape.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.AnnotationShape = void 0;
-assignProp@19: exports.AnnotationShapeFactory = AnnotationShapeFactory;
-delete@28: * - Dynamic shape management (admins can create/edit/delete shapes)
-assignProp@47: exports.AnnotationShape = AnnotationShape;
-```
-
-### `server/src/db/models/booking/appointment.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.Appointment = void 0;
-assignProp@19: exports.AppointmentFactory = AppointmentFactory;
-assignProp@28: exports.Appointment = Appointment;
-```
-
-### `server/src/db/models/booking/block_instance.js`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=6
-
-```
-assignProp@5: ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-assignIndex@6: function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-assignProp@13: function __() { this.constructor = d; }
-assignProp@14: d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-assignProp@18: exports.BlockInstance = void 0;
-assignProp@19: exports.BlockInstanceFactory = BlockInstanceFactory;
-assignProp@28: exports.BlockInstance = BlockInstance;
-```
-
-### `server/src/services/google/maps/mapsHelpers.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-forLoop@28: for (const component of components) {
-forOf@28: for (const component of components) {
-assignProp@32: result.streetNumber = component.long_name
-assignProp@34: result.streetName = component.long_name
-assignProp@36: result.city = component.long_name
-assignProp@38: result.state = component.short_name // Use abbreviation for state
-assignProp@40: result.postalCode = component.long_name
-assignProp@42: result.country = component.short_name // Use country code
+forLoop@83: for (const [day, slots] of Object.entries(newSlotsByDay)) {
+forOf@83: for (const [day, slots] of Object.entries(newSlotsByDay)) {
+assignProp@86: slotsByDay.value = map
+assignProp@90: slotsByDay.value = new Map()
+assignProp@100: isLoading.value = true
+assignProp@101: error.value = null
+assignProp@114: calendarEvents.value = data.calendarEvents
+assignProp@115: constraints.value = data.constraints
+assignProp@116: minuteIncrement.value = data.minuteIncrement
+assignProp@117: timezone.value = data.timezone
+assignProp@118: durationRounding.value = data.durationRounding
+assignProp@119: outOfOfficeEvents.value = data.outOfOfficeEvents
+assignProp@120: computedDataMeta.value = data._meta
+assignProp@123: error.value = err instanceof Error ? err : new Error(errorMessage)
+assignProp@126: calendarEvents.value = []
+assignProp@127: constraints.value = []
+assignProp@128: minuteIncrement.value = 15
+assignProp@129: timezone.value = undefined
+assignProp@130: durationRounding.value = undefined
+assignProp@131: outOfOfficeEvents.value = []
+assignProp@132: computedDataMeta.value = null
+assignProp@135: isLoading.value = false
+assignProp@152: lastPlaceId.value = pid
+assignProp@153: lastDuration.value = dur
+forEach@190: map.forEach((slots, day) => {
+assignIndex@191: slotsByDayRecord[day] = slots
 ```
 
 ### `client/src/utils/forms/formElementPatching.ts`
@@ -711,27 +505,26 @@ assignProp@108: const user = users.find(u => u.id === agentAttendee.userId)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@51: return blockShape.type === 'user'
-assignProp@79: bs => bs.name === name
-assignProp@91: bs => bs.type === type
-assignProp@101: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-assignProp@135: (instance) => instance.blockShapeRef === blockShapeRef
-while@153: while (
-assignProp@155: (instance) => instance.name === `${baseName} ${newNumber}`
+assignProp@54: return blockShape.type === 'user'
+assignProp@82: bs => bs.name === name
+assignProp@94: bs => bs.type === type
+assignProp@104: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
+assignProp@138: (instance) => instance.blockShapeRef === blockShapeRef
+while@156: while (
+assignProp@158: (instance) => instance.name === `${baseName} ${newNumber}`
 ```
 
-### `client/src/utils/booking/partShapeAggregator.ts`
+### `client/src/utils/booking/constraintColors.ts`
 
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=4, assignProp=2
 
 ```
-push@32: grouped.get(partShape)!.push(part)
-forLoop@109: for (const part of finalizedParts) {
-forOf@109: for (const part of finalizedParts) {
-assignProp@117: const isMoveable = part.moveable === true
-assignIndex@123: eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
-assignIndex@132: eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
-assignIndex@137: eventDurations[eventName] = (eventDurations[eventName] || 0) + baseTime
+assignProp@16: * - .direct = Slot directly overlaps with busy period (darker shade)
+assignProp@17: * - .buffer = Slot only blocked due to buffer, not direct overlap (lighter shade)
+assignIndex@92: if (parts[0] === 'overlap' && parts.length >= 3) {
+assignIndex@100: const [reasonType, minutes] = reasonPart.split(':')
+assignIndex@127: if (parts[0] === 'capacity') {
+assignIndex@137: if (parts[0] === 'range') {
 ```
 
 ### `client/src/utils/differentialScheduling.ts`
@@ -758,6 +551,19 @@ assignProp@80: if (agentUserTypeBlockIds.length === 0) {
 assignProp@91: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
 assignProp@117: if (majorAttendeeIds.length === 0) {
 assignProp@140: if (minorAttendeeIds.length === 0) {
+```
+
+### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
+
+```
+assignProp@129: const extractedPlaceId = typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
+assignProp@167: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
+assignProp@170: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
+assignProp@224: time: typeof slot.startTime === 'string' ? slot.startTime : '',
+assignProp@225: duration: typeof slot.duration === 'number' ? slot.duration : 0,
+assignProp@322: ? stateControlBlocks.find((block) => block.id === userTypeId)
 ```
 
 ### `client/src/utils/transformers/composePropertyValue.ts`
@@ -792,16 +598,16 @@ assignProp@109: if (appointments.length === 0) {
 - counts: forEach=0, forLoop=4, forOf=4, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-forLoop@80: for (const appointment of appointments) {
-forOf@80: for (const appointment of appointments) {
-forLoop@82: for (const slot of appointment.selectedTimeSlots) {
-forOf@82: for (const slot of appointment.selectedTimeSlots) {
-assignProp@83: if (slot.duration && typeof slot.duration === 'number') {
-forLoop@136: for (const appointment of appointments) {
-forOf@136: for (const appointment of appointments) {
-forLoop@138: for (const slot of appointment.selectedTimeSlots) {
-forOf@138: for (const slot of appointment.selectedTimeSlots) {
-assignProp@139: if (slot.duration && typeof slot.duration === 'number') {
+forLoop@84: for (const appointment of appointments) {
+forOf@84: for (const appointment of appointments) {
+forLoop@86: for (const slot of appointment.selectedTimeSlots) {
+forOf@86: for (const slot of appointment.selectedTimeSlots) {
+assignProp@87: if (slot.duration && typeof slot.duration === 'number') {
+forLoop@140: for (const appointment of appointments) {
+forOf@140: for (const appointment of appointments) {
+forLoop@142: for (const slot of appointment.selectedTimeSlots) {
+forOf@142: for (const slot of appointment.selectedTimeSlots) {
+assignProp@143: if (slot.duration && typeof slot.duration === 'number') {
 ```
 
 ### `client/src/main.ts`
@@ -818,6 +624,28 @@ forLoop@131: for (const form of Array.from(existingForms)) {
 forOf@131: for (const form of Array.from(existingForms)) {
 ```
 
+### `client/src/components/admin/dev/ApiDevPanelComputedTab.vue`
+
+- counts: forEach=0, forLoop=3, forOf=3, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=7
+
+```
+forLoop@27: for (const constraint of props.computedAvailability.constraints.value) {
+forOf@27: for (const constraint of props.computedAvailability.constraints.value) {
+assignProp@28: if (constraint.category === 'capacity' && constraint.scheduledHours) {
+forLoop@29: for (const [key, hours] of Object.entries(constraint.scheduledHours)) {
+forOf@29: for (const [key, hours] of Object.entries(constraint.scheduledHours)) {
+assignIndex@30: result[key] = hours
+forLoop@44: for (const [day, slots] of map) {
+forOf@44: for (const [day, slots] of map) {
+push@47: sample.push([day, slots.length])
+assignProp@95: <div v-if="computedAvailability.calendarEvents.value.length === 0" class="text-center pa-2 text-caption text-medium-emphasis">
+assignProp@112: <VChip v-if="(event as SharedCalendarEvent).eventType === 'outOfOffice'" size="x-small" color="warning" class="mt-1">
+assignProp@124: <div class="mb-4" v-if="computedAvailability.calendarEvents.value.some((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')">
+assignProp@128: {{ computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice').length }}
+assignProp@133: v-for="(event, idx) in computedAvailability.calendarEvents.value.filter((e: SharedCalendarEvent) => e.eventType === 'outOfOffice')"
+assignProp@154: <div v-if="slotsByDaySummary.dayCount === 0" class="text-center pa-2 text-caption text-medium-emphasis">
+```
+
 ### `client/src/components/booking/IndependentSelectCard.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
@@ -832,28 +660,28 @@ push@122: classes.push('ms-3')
 assignProp@141: v-if="mergedConfig.controlPosition === 'left'"
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+
+```
+assignProp@38: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
+assignProp@54: const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
+assignProp@59: .filter(pi => pi.partShape === partShapeName)
+assignProp@63: rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+assignProp@70: .map(id => eventInstances.find(ei => ei.id === id))
+```
+
 ### `client/src/utils/booking/appointmentTimeCalculations.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@42: if (!blockInstances || blockInstances.length === 0) {
-assignProp@87: if (!appointmentSlots || appointmentSlots.length === 0) {
-sort@93: const sorted = [...appointmentSlots].sort((a, b) => {
-assignProp@94: const aIndex = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-assignProp@95: const bIndex = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-```
-
-### `client/src/utils/booking/busyPeriodProcessor.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=4
-
-```
-sort@60: return [...busyTimes].sort((a, b) => {
-assignProp@77: if (sortedBusyTimes.length === 0) return []
-assignProp@87: if (currentStart <= lastEnd && current.source === lastMerged.source) {
-assignProp@113: if (busyTimes.length === 0) return []
-assignProp@124: if (validBusyTimes.length === 0) return []
+assignProp@45: if (!blockInstances || blockInstances.length === 0) {
+assignProp@90: if (!appointmentSlots || appointmentSlots.length === 0) {
+sort@96: const sorted = [...appointmentSlots].sort((a, b) => {
+assignProp@97: const aIndex = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+assignProp@98: const bIndex = typeof b.orderIndex === 'number' ? b.orderIndex : 0
 ```
 
 ### `client/src/utils/booking/selectionCardComponent.ts`
@@ -906,6 +734,18 @@ push@103: invalidRelationships.push({
 delete@127: logger.debug('Failed to delete invalid active relationship (may already be deleted)', {
 ```
 
+### `client/src/utils/transformers/appointmentToWizardHelpers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+
+```
+assignProp@76: if (!ids || !bookingData || ids.length === 0) return []
+assignProp@128: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
+assignProp@194: const currentInstance = found.find(li => li.id === version.id) ?? null
+assignProp@206: ? allFound.filter(instance => instance.blockShapeRef === blockShapeId)
+assignProp@235: const currentInstance = found.find(instance => instance.id === version.id) ?? null
+```
+
 ### `server/src/services/capacityComputer.ts`
 
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=1, push=1, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=1
@@ -951,13 +791,13 @@ assignIndex@144: metadataRecord[meta.fieldKey] = {
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
 
 ```
-forLoop@107: for (const role of roles) {
-forOf@107: for (const role of roles) {
-assignProp@121: * LEARNING: UserTypeBlocks are BlockInstances where blockShape.isStateControl === true
-assignProp@131: if (stateControlShapes.length === 0) {
-assignProp@175: if (stateControlShapes.length === 0) {
-forLoop@194: for (const block of userTypeBlocks) {
-forOf@194: for (const block of userTypeBlocks) {
+forLoop@110: for (const role of roles) {
+forOf@110: for (const role of roles) {
+assignProp@124: * LEARNING: UserTypeBlocks are BlockInstances where blockShape.isStateControl === true
+assignProp@134: if (stateControlShapes.length === 0) {
+assignProp@178: if (stateControlShapes.length === 0) {
+forLoop@197: for (const block of userTypeBlocks) {
+forOf@197: for (const block of userTypeBlocks) {
 ```
 
 ### `client/src/composables/admin/useAvailabilitySettings.ts`
@@ -1055,10 +895,10 @@ assignIndex@245: errors[field] = result as string
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@70: this.name = 'CalendarApiError'
-assignProp@123: if (axiosError.response?.status === 401) {
-assignProp@132: if (axiosError.response?.status === 429) {
-assignProp@140: if (axiosError.response?.status === 404) {
+assignProp@67: this.name = 'CalendarApiError'
+assignProp@120: if (axiosError.response?.status === 401) {
+assignProp@129: if (axiosError.response?.status === 429) {
+assignProp@137: if (axiosError.response?.status === 404) {
 ```
 
 ### `client/src/services/mapsApiService.ts`
@@ -1066,10 +906,10 @@ assignProp@140: if (axiosError.response?.status === 404) {
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@46: this.name = 'MapsApiError'
-assignProp@259: if (axiosError.response?.status === 429) {
-assignProp@264: if (axiosError.response?.status === 401) {
-assignProp@269: if (axiosError.response?.status === 404) {
+assignProp@41: this.name = 'MapsApiError'
+assignProp@192: if (axiosError.response?.status === 429) {
+assignProp@195: if (axiosError.response?.status === 401) {
+assignProp@198: if (axiosError.response?.status === 404) {
 ```
 
 ### `client/src/utils/booking/availabilityStepData.ts`
@@ -1083,18 +923,6 @@ assignProp@83: if (slots.length === 0 && params.selectedSlot.totalTimeRange) {
 push@84: slots.push({
 ```
 
-### `client/src/utils/booking/capacityConstraintChecker.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@64: if (!capacityConstraints || capacityConstraints.length === 0) {
-assignProp@71: if (availableSlots.length === 0) {
-assignProp@77: if (capacityConstraints.length === 0) {
-forLoop@112: for (const keyString of capacityKeyPartsSet) {
-forOf@112: for (const keyString of capacityKeyPartsSet) {
-```
-
 ### `client/src/utils/booking/selectionCardStyles.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=3
@@ -1104,18 +932,6 @@ assignProp@11: config.layout === 'stack' && config.controlPosition === 'left' &&
 assignIndex@26: classes['d-none'] = true
 assignProp@36: const layoutClasses = config.layout === 'stack'
 assignProp@37: ? config.controlPosition === 'left'
-```
-
-### `client/src/utils/booking/slotAvailabilityManager.ts`
-
-- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@101: this.name = 'ConstraintValidationError'
-forLoop@233: for (const dateKey of uniqueDateKeys) {
-forOf@233: for (const dateKey of uniqueDateKeys) {
-assignProp@242: if (constraint.type === 'driveTimeTo' && driveTimes.driveTimeTo !== undefined) {
-assignProp@245: if (constraint.type === 'driveTimeFrom' && driveTimes.driveTimeFrom !== undefined) {
 ```
 
 ### `client/src/utils/orderIndexUtils.ts`
@@ -1182,6 +998,17 @@ forLoop@162: for (const entry of cache.values()) {
 forOf@162: for (const entry of cache.values()) {
 ```
 
+### `server/src/services/constraintExtractor.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=3
+
+```
+assignIndex@55: }).filter((entry): entry is readonly [number, { start: RFC3339DateTime; end: RFC3339DateTime }] => entry !== null)
+assignProp@140: if (!driveTime || driveTime.applyTo === 'none' || driveTime.minutes <= 0) {
+assignProp@163: if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) return []
+assignProp@216: if (filter.enforcement === 'off') {
+```
+
 ### `server/src/services/google/maps/routesApiService.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
@@ -1226,22 +1053,6 @@ assignProp@164: if (props.type === 'expansion') {
 push@165: classes.push('card-button-expansion')
 ```
 
-### `client/src/components/booking/dev/SlotConstraintOverlay.vue`
-
-- counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=5
-
-```
-assignProp@42: // - .direct = Slot directly overlaps with busy period (darker shade)
-assignProp@43: // - .buffer = Slot only blocked due to buffer, not direct overlap (lighter shade)
-forEach@112: props.appointmentSlots.forEach(slot => {
-assignProp@118: if (violations.length === 0) return
-assignIndex@150: if (parts[0] === 'overlap' && parts.length >= 3) {
-assignIndex@158: const [reasonType, minutes] = reasonPart.split(':')
-assignProp@196: const slotIndex = props.appointmentSlots.findIndex(s => s.buttonIndex === buttonIndex)
-forEach@222: props.appointmentSlots.forEach(slot => {
-assignProp@236: buttonPositions.value = positions
-```
-
 ### `client/src/composables/_archived/useFieldMetadata.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=0
@@ -1258,14 +1069,14 @@ assignIndex@200: acc[key] = v
 
 ```
 assignProp@99: if (wizard.selectedServiceTypeBlocks.value.length === 0) {
-push@157: attendeesCollection.push({
-push@172: attendeesCollection.push({
-push@188: attendeesCollection.push({
-push@205: attendeesCollection.push({
-push@222: attendeesCollection.push({
-assignIndex@271: acc[service.id] = number
-assignIndex@279: acc[property.id] = number
-assignIndex@287: acc[option.id] = number
+push@158: attendeesCollection.push({
+push@173: attendeesCollection.push({
+push@189: attendeesCollection.push({
+push@206: attendeesCollection.push({
+push@223: attendeesCollection.push({
+assignIndex@274: acc[service.id] = number
+assignIndex@282: acc[property.id] = number
+assignIndex@290: acc[option.id] = number
 ```
 
 ### `client/src/composables/booking/useWizardNumberUpdate.ts`
@@ -1369,26 +1180,6 @@ sort@302: const sorted = [...allBusyPeriods].sort((a, b) =>
 assignProp@308: if (merged.length === 0) {
 ```
 
-### `client/src/utils/booking/rangeConstraintChecker.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@153: if (constraints.length === 0) {
-assignProp@203: constraint => constraint.enforcement === 'hard' && !checkConstraint(constraint)
-assignProp@211: constraint.enforcement === 'flexible' && !checkConstraint(constraint)
-```
-
-### `client/src/utils/booking/timeSlotFitter.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=1
-
-```
-assignIndex@103: const [year, month, day] = datePart.split('-').map(Number)
-assignIndex@132: const [hours, minutes] = timeString.split(':').map(Number)
-assignProp@202: .find(c => c.category === 'range' && c.type === 'businessHours')
-```
-
 ### `client/src/utils/transformers/globalToAdminTransformer.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=1
@@ -1404,11 +1195,11 @@ assignIndex@218: acc[propName as keyof GlobalEntity<GE>] = relationshipValue as 
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-forLoop@125: for (const attendee of attendeesToUpdate) {
-forOf@125: for (const attendee of attendeesToUpdate) {
-forLoop@306: for (const attendee of appointment.attendees) {
-forOf@306: for (const attendee of appointment.attendees) {
-push@322: attendees.push({
+forLoop@128: for (const attendee of attendeesToUpdate) {
+forOf@128: for (const attendee of attendeesToUpdate) {
+forLoop@309: for (const attendee of appointment.attendees) {
+forOf@309: for (const attendee of appointment.attendees) {
+push@325: attendees.push({
 ```
 
 ### `client/src/components/admin/component/ComponentDistributionModal.vue`
@@ -1539,19 +1330,19 @@ sort@134: return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.order
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=11
 
 ```
-assignProp@118: moveableOptions.value = null
-assignProp@141: moveableOptions.value = null
-assignProp@146: isLoadingOptions.value = true
-assignIndex@152: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
-assignIndex@154: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-assignProp@203: moveableOptions.value = {
-assignProp@213: moveableOptions.value = null
-assignProp@215: isLoadingOptions.value = false
-assignProp@220: if (selectedSlotIndex.value === null || !moveableOptions.value) {
-assignProp@227: showModal.value = true
-assignProp@231: showModal.value = false
-assignProp@235: selectedSlotIndex.value = index
-assignProp@239: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
+assignProp@114: moveableOptions.value = null
+assignProp@137: moveableOptions.value = null
+assignProp@142: isLoadingOptions.value = true
+assignIndex@148: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
+assignIndex@150: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
+assignProp@188: moveableOptions.value = {
+assignProp@198: moveableOptions.value = null
+assignProp@200: isLoadingOptions.value = false
+assignProp@205: if (selectedSlotIndex.value === null || !moveableOptions.value) {
+assignProp@212: showModal.value = true
+assignProp@216: showModal.value = false
+assignProp@220: selectedSlotIndex.value = index
+assignProp@224: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
 ```
 
 ### `client/src/composables/booking/useWizardDisplay.ts`
@@ -1716,15 +1507,6 @@ assignProp@20: return slot1.startTime === slot2.startTime && slot1.endTime === s
 sort@60: .sort()
 ```
 
-### `client/src/utils/timeSlotCalculations.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
-
-```
-assignProp@60: if (!blockInstances || blockInstances.length === 0) {
-assignProp@66: if (!blockInstance.partInstances || blockInstance.partInstances.length === 0) {
-```
-
 ### `client/src/utils/transformers/entityTransformers.ts`
 
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
@@ -1773,45 +1555,25 @@ delete@88: alert('Failed to delete part type')
 
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=34
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=14
 
 ```
-assignProp@30: const isTabActive = computed(() => adminCurrentTab?.value === 'business' ?? false)
-assignIndex@85: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
-assignIndex@89: businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
-assignProp@114: .map(id => blockInstances.find(bi => bi.id === id))
-assignProp@128: formData.value.differentialPerspectives = {}
-assignProp@130: formData.value.differentialPerspectives.majorAttendees = value
-assignProp@139: formData.value.differentialPerspectives = {}
-assignProp@141: formData.value.differentialPerspectives.minorAttendees = value
-assignProp@150: formData.value.differentialPerspectives = {}
-assignProp@152: formData.value.differentialPerspectives.majorLabel = value
-assignProp@161: formData.value.differentialPerspectives = {}
-assignProp@163: formData.value.differentialPerspectives.minorLabel = value
-assignProp@172: formData.value.differentialPerspectives = {}
-assignProp@174: formData.value.differentialPerspectives.differentialGraphDefaultLabel = value
-assignProp@183: formData.value.differentialPerspectives = {}
-assignProp@185: formData.value.differentialPerspectives.majorStateLabel = value
-assignProp@194: formData.value.differentialPerspectives = {}
-assignProp@196: formData.value.differentialPerspectives.minorStateLabel = value
-assignProp@280: if (formData.value) formData.value.maxWorkHours = parent
-assignProp@395: if (formData.value) formData.value.buffers = parent
-assignProp@460: if (formData.value) formData.value.buffers = parent
-assignProp@483: formData.value.defaultLocation = { placeId: '' }
-assignProp@485: formData.value.defaultLocation.address = value
-assignProp@495: formData.value.defaultLocation = { placeId: '' }
-assignProp@497: formData.value.defaultLocation.label = value
-assignProp@510: formData.value.defaultLocation = { placeId: '' }
-assignProp@512: formData.value.defaultLocation.coordinates = value
-assignProp@525: formData.value.defaultLocation = { placeId: '' }
-assignProp@527: formData.value.defaultLocation.placeId = value
-assignProp@553: if (leadTime && leadTime.type === 'leadTime' && 'minutes' in leadTime.config) {
-assignProp@573: if (formData.value) formData.value.rangeConstraints = parent
-assignProp@621: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-assignProp@623: formData.value.calendarConfig.enabled = value
-assignProp@633: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-assignProp@635: formData.value.calendarConfig.provider = value
-assignProp@1249: <div v-if="calendarEntries.length === 0" class="text-body-2 text-medium-emphasis mb-4">
+assignProp@31: const isTabActive = computed(() => adminCurrentTab?.value === 'business')
+assignIndex@71: formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
+assignIndex@74: businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
+assignProp@97: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+assignProp@99: formData.value.calendarConfig.enabled = value
+assignProp@109: formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+assignProp@111: formData.value.calendarConfig.provider = value
+assignProp@141: error.value = null
+assignProp@150: if (formData.value?.durationRounding) formData.value.durationRounding.enabled = v
+assignProp@156: if (formData.value?.durationRounding) formData.value.durationRounding.increment = v
+assignProp@162: if (formData.value?.durationRounding) formData.value.durationRounding.method = v as 'roundUp' | 'roundDown' | 'roundNearest'
+assignProp@169: if (formData.value) formData.value.timezone = v
+assignProp@176: if (formData.value) formData.value.minuteIncrement = v
+assignProp@181: calendarProvider.value = v as CalendarProvider
+assignProp@184: timezone.value = v
+assignProp@187: minuteIncrement.value = v
 ```
 
 ### `server/src/services/appointmentSnapshotLoader.ts`
@@ -1819,8 +1581,8 @@ assignProp@1249: <div v-if="calendarEntries.length === 0" class="text-body-2 tex
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=1
 
 ```
-assignProp@69: if (!snapshotIds || snapshotIds.length === 0) {
-assignIndex@97: const [services, properties, options] = await Promise.all([
+assignProp@72: if (!snapshotIds || snapshotIds.length === 0) {
+assignIndex@100: const [services, properties, options] = await Promise.all([
 ```
 
 ### `server/src/services/calendarEventsCache.ts`
@@ -1839,10 +1601,19 @@ forOf@198: for (const key of cache.keys()) {
 - counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-forLoop@106: for (const [key, entry] of cache.entries()) {
-forOf@106: for (const [key, entry] of cache.entries()) {
-forLoop@206: for (const entry of cache.values()) {
-forOf@206: for (const entry of cache.values()) {
+forLoop@109: for (const [key, entry] of cache.entries()) {
+forOf@109: for (const [key, entry] of cache.entries()) {
+forLoop@209: for (const entry of cache.values()) {
+forOf@209: for (const entry of cache.values()) {
+```
+
+### `server/src/services/google/maps/placesApiService.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@64: if (data.status === GOOGLE_API_STATUS.ZERO_RESULTS || !data.predictions) return []
+assignProp@122: if (!address || typeof address !== 'string' || address.trim().length === 0) return null
 ```
 
 ### `server/src/services/rateLimiter.ts`
@@ -1910,21 +1681,21 @@ forEach@70: draggableFieldKeys.value.forEach((fieldKey, index) => {
 - counts: forEach=3, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
 
 ```
-assignProp@213: if (!slots || slots.length === 0 || !date?.start) {
-forEach@219: slots.forEach(slot => {
-push@231: slotsByDate.get(slotDate)!.push(slot)
-forEach@238: slots.forEach((slot, index) => {
-push@249: appointmentSlotsForDate.push(...normalized)
-assignProp@276: service.differential === 'override'
-assignProp@280: option.differential === 'override'
-assignProp@294: * - If service.differential === 'true' AND no override → return true (differential)
-assignProp@313: if (!slots || slots.length === 0 || !date?.start) {
-assignProp@314: timeSlotsPerDay.value = []
-forEach@320: slots.forEach(slot => {
-push@332: slotsByDate.get(slotDate)!.push(slot)
-assignProp@335: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-assignProp@370: selectedDate.value = { start: dateString, end: null }
-assignProp@385: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
+assignProp@218: if (!slots || slots.length === 0 || !date?.start) {
+forEach@224: slots.forEach(slot => {
+push@236: slotsByDate.get(slotDate)!.push(slot)
+forEach@243: slots.forEach((slot, index) => {
+push@262: appointmentSlotsForDate.push(...normalized)
+assignProp@289: service.differential === 'override'
+assignProp@293: option.differential === 'override'
+assignProp@307: * - If service.differential === 'true' AND no override → return true (differential)
+assignProp@326: if (!slots || slots.length === 0 || !date?.start) {
+assignProp@327: timeSlotsPerDay.value = []
+forEach@333: slots.forEach(slot => {
+push@345: slotsByDate.get(slotDate)!.push(slot)
+assignProp@348: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+assignProp@383: selectedDate.value = { start: dateString, end: null }
+assignProp@398: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
 ```
 
 ### `client/src/utils/patchFormElements.ts`
@@ -2045,47 +1816,8 @@ forEach@47: partShapes.forEach(partShape => {
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=1
 
 ```
-assignIndex@38: sharedApiStatus.value[api] = status
-assignProp@45: sharedApiStatus.value = {
-```
-
-### `client/src/composables/booking/useAvailableStartTimes.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=31
-
-```
-assignProp@82: minuteIncrementRef.value = externalMinuteIncrementValue
-assignProp@87: internalSettings.value = external
-assignProp@93: isLoading.value = true
-assignProp@95: internalSettings.value = settings
-assignProp@96: error.value = null
-assignProp@99: error.value = err instanceof Error ? err : new Error(errorMessage)
-assignProp@102: isLoading.value = false
-assignProp@111: internalSettings.value = external
-assignProp@112: minuteIncrementRef.value = external.minuteIncrement
-assignProp@117: isLoading.value = true
-assignProp@119: internalSettings.value = settings
-assignProp@120: minuteIncrementRef.value = settings.minuteIncrement
-assignProp@121: error.value = null
-assignProp@124: error.value = err instanceof Error ? err : new Error(errorMessage)
-assignProp@127: isLoading.value = false
-assignProp@138: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignProp@151: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignIndex@162: const [year, month, day] = dateString.split('-').map(Number)
-assignProp@165: error.value = new Error(errorMessage)
-assignProp@167: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignProp@184: const businessHoursConstraint = range.find(c => c.type === 'businessHours')
-assignProp@197: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignProp@206: error.value = new Error(`Invalid business hours end time for day ${dayOfWeek}: ${dayHours.end}`)
-assignProp@208: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignProp@243: error.value = new Error(errorMessage)
-assignProp@245: slotGenerationResult.value = { slots: [], earliestCompletion: null }
-assignProp@259: const hasDateRangeConstraint = rangeConstraints.some(c => c.type === 'dateRange')
-assignProp@317: slotGenerationResult.value = result
-assignProp@318: error.value = null
-assignProp@322: error.value = err
-assignProp@326: error.value = err instanceof Error ? err : new Error(errorMessage)
-assignProp@329: slotGenerationResult.value = { slots: [], earliestCompletion: null }
+assignIndex@40: sharedApiStatus.value[api] = status
+assignProp@47: sharedApiStatus.value = {
 ```
 
 ### `client/src/composables/booking/useBlockInstanceSelection.ts`
@@ -2267,6 +1999,14 @@ assignProp@46: AttendeeSelect = "attendeeSelect", // LEARNING: Attendee assignme
 assignProp@30: if (axiosError?.response?.status === 409) {
 ```
 
+### `client/src/utils/booking/dateUtils.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
+
+```
+assignIndex@41: const [year, month, day] = datePart.split('-').map(Number)
+```
+
 ### `client/src/utils/booking/instanceComponentsList.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
@@ -2275,12 +2015,21 @@ assignProp@30: if (axiosError?.response?.status === 409) {
 assignProp@32: if (!instanceComponentsRelationships || instanceComponentsRelationships.length === 0) {
 ```
 
+### `client/src/utils/booking/minimalSlotGenerator.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
+
+```
+while@24: while (current < end) {
+push@25: days.push(new Date(current))
+```
+
 ### `client/src/utils/booking/PartFinal.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@76: zeroOutPart: parts.some(p => p.zeroOutPart === true),
+assignProp@69: zeroOutPart: parts.some(p => p.zeroOutPart === true),
 ```
 
 ### `client/src/utils/booking/selectionCardState.ts`
@@ -2299,12 +2048,12 @@ assignProp@4: if (!statePlugins || statePlugins.length === 0) return null
 assignProp@16: .filter((comp: ComponentItem) => comp.active === true)
 ```
 
-### `client/src/utils/booking/slotAvailabilityMarker.ts`
+### `client/src/utils/booking/slotShapeLookups.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@134: c => c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
+assignProp@27: return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
 ```
 
 ### `client/src/utils/collections/appendIfMissingById.ts`
@@ -2450,7 +2199,7 @@ assignProp@725: v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInst
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@29: return blockShape.composable === true;
+assignProp@32: return blockShape.composable === true;
 ```
 
 ### `server/src/db/models/admin/block_shape.ts`
@@ -2474,7 +2223,7 @@ assignProp@23: * - Type-safe references to UserTypeBlock instances (BlockInstanc
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@14: stack: process.env.NODE_ENV === "production" ? "🥞" : stack,
+assignProp@18: stack: process.env.NODE_ENV === "production" ? "🥞" : stack,
 ```
 
 ### `server/src/middlewares/security.ts`
@@ -2499,14 +2248,6 @@ assignProp@24: this.name = 'MapsApiError'
 
 ```
 assignProp@36: if (rateLimitResult.status === 'exceeded') {
-```
-
-### `server/src/test/setup/jestSetup.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
-
-```
-assignProp@16: global.console = {
 ```
 
 ### `server/src/utils/adminPrimitiveMetadataComposer.ts`
@@ -2909,7 +2650,7 @@ assignProp@444: expandedShapes.value = expandedShapes.value.filter(id => id !== 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
 
 ```
-delete@33: * - calendar.events: Create, update, delete events (required for booking)
+delete@26: * - calendar.events: Create, update, delete events (required for booking)
 ```
 
 ### `server/src/db/models/booking/annotation_shape.ts`

@@ -1,16 +1,26 @@
 /**
  * Client-side Maps API Service
- * 
+ *
  * LEARNING: Service layer for Google Maps API calls via server proxy
  * WHY: Centralized API calls, error handling, response transformation
  * PATTERN: Service layer between components and server endpoints
- * 
+ *
  * Session 2.2.1: Created for Address Autocomplete
  */
 
 import axios, { AxiosError } from 'axios'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
+import { MAPS_ERROR_MESSAGES } from '@/constants/mapsConstants'
+import type {
+  AddressComponents,
+  AutocompletePrediction,
+  Coordinates,
+  MapsApiErrorType,
+  PlaceDetails
+} from '@shared/types/mapsTypes'
+
+export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails }
 
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
@@ -19,22 +29,7 @@ const { recordApiCall } = useApiCallStatus()
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
 /**
- * Error types for Maps API operations
- * LEARNING: Explicit error types for proper error handling
- * WHY: Different errors need different user messages
- */
-export type MapsApiErrorType = 
-  | 'auth'           // API key issues
-  | 'rate_limit'     // Quota exceeded
-  | 'invalid'        // Invalid request
-  | 'not_found'      // Place not found
-  | 'network_error'  // Network error
-  | 'unknown'        // Unknown error
-
-/**
  * Maps API error class
- * LEARNING: Typed errors for consistent error handling
- * PATTERN: Matches CalendarApiError pattern
  */
 export class MapsApiError extends Error {
   constructor(
@@ -49,62 +44,9 @@ export class MapsApiError extends Error {
 
 /**
  * Get user-friendly error message based on error type
- * LEARNING: Maps error types to user-facing messages
- * WHY: Technical errors should be translated for users
  */
 export function getErrorMessage(type: MapsApiErrorType): string {
-  const messages: Record<MapsApiErrorType, string> = {
-    auth: 'Address lookup is not configured.',
-    rate_limit: 'Too many requests. Please try again in a moment.',
-    invalid: 'Invalid address lookup request.',
-    not_found: 'Address not found.',
-    network_error: 'Could not reach address service. Check your connection.',
-    unknown: 'An unexpected error occurred.'
-  }
-  return messages[type]
-}
-
-/**
- * Autocomplete prediction from server
- * LEARNING: Structure of a single autocomplete suggestion
- */
-export interface AutocompletePrediction {
-  placeId: string
-  description: string
-  mainText: string
-  secondaryText: string
-}
-
-/**
- * Address components extracted from place details
- * LEARNING: Parsed address components for structured storage
- */
-export interface AddressComponents {
-  streetNumber?: string
-  streetName?: string
-  city?: string
-  state?: string
-  postalCode?: string
-  country?: string
-}
-
-/**
- * Coordinates (latitude/longitude)
- */
-export interface Coordinates {
-  lat: number
-  lng: number
-}
-
-/**
- * Place details from server
- * LEARNING: Full place details including coordinates
- */
-export interface PlaceDetails {
-  placeId: string
-  formattedAddress: string
-  addressComponents: AddressComponents
-  coordinates: Coordinates
+  return MAPS_ERROR_MESSAGES[type] ?? MAPS_ERROR_MESSAGES.unknown
 }
 
 /**
@@ -234,79 +176,57 @@ export async function fetchPlaceDetails(
 }
 
 /**
- * Handle API errors and convert to MapsApiError
- * 
- * LEARNING: Map various error types to specific MapsApiError
- * WHY: Different errors need different handling and user messages
- * PATTERN: Error type detection and translation
+ * Map Axios error to MapsApiError
  */
-function handleApiError(error: unknown): MapsApiError {
-  if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError<{ error?: string; type?: string; retryable?: boolean }>
-    
-    // Check for specific error types from server
-    if (axiosError.response?.data?.type) {
-      const serverType = axiosError.response.data.type
-      const errorType = mapServerErrorType(serverType)
-      return new MapsApiError(
-        errorType,
-        axiosError.response.data.error || 'API error',
-        axiosError.response.data.retryable || false
-      )
-    }
-    
-    // Check for rate limit
-    if (axiosError.response?.status === 429) {
-      return new MapsApiError('rate_limit', 'API rate limit exceeded', true)
-    }
-    
-    // Check for auth error
-    if (axiosError.response?.status === 401) {
-      return new MapsApiError('auth', 'API key invalid or not configured')
-    }
-    
-    // Check for not found
-    if (axiosError.response?.status === 404) {
-      return new MapsApiError('not_found', 'Place not found')
-    }
-    
-    // Check for network error (no response)
-    if (!axiosError.response) {
-      return new MapsApiError(
-        'network_error',
-        'Network error: Could not connect to server',
-        true
-      )
-    }
-    
-    // Default to invalid for other errors
+function mapAxiosErrorToMapsError(
+  axiosError: AxiosError<{ error?: string; type?: string; retryable?: boolean }>
+): MapsApiError {
+  if (axiosError.response?.data?.type) {
+    const errorType = mapServerErrorType(axiosError.response.data.type)
     return new MapsApiError(
-      'invalid',
-      axiosError.response?.data?.error || 'Invalid response from server'
+      errorType,
+      axiosError.response.data.error ?? 'API error',
+      axiosError.response.data.retryable ?? false
     )
   }
-  
-  // Unknown error type
+  if (axiosError.response?.status === 429) {
+    return new MapsApiError('rate_limit', 'API rate limit exceeded', true)
+  }
+  if (axiosError.response?.status === 401) {
+    return new MapsApiError('auth', 'API key invalid or not configured')
+  }
+  if (axiosError.response?.status === 404) {
+    return new MapsApiError('not_found', 'Place not found')
+  }
+  if (!axiosError.response) {
+    return new MapsApiError('network', 'Network error: Could not connect to server', true)
+  }
+  return new MapsApiError(
+    'invalid',
+    axiosError.response?.data?.error ?? 'Invalid response from server'
+  )
+}
+
+function mapServerErrorType(serverType: string): MapsApiErrorType {
+  const typeMap: Record<string, MapsApiErrorType> = {
+    auth: 'auth',
+    rate_limit: 'rate_limit',
+    invalid: 'invalid',
+    not_found: 'not_found',
+    network: 'network',
+    unknown: 'unknown'
+  }
+  return typeMap[serverType] ?? 'unknown'
+}
+
+function handleApiError(error: unknown): MapsApiError {
+  if (axios.isAxiosError(error)) {
+    return mapAxiosErrorToMapsError(error)
+  }
   return new MapsApiError(
     'unknown',
     error instanceof Error ? error.message : 'Unknown error'
   )
-}
-
-/**
- * Map server error type to client error type
- * LEARNING: Server uses slightly different type names
- */
-function mapServerErrorType(serverType: string): MapsApiErrorType {
-  const typeMap: Record<string, MapsApiErrorType> = {
-    'auth': 'auth',
-    'rate_limit': 'rate_limit',
-    'invalid': 'invalid',
-    'not_found': 'not_found',
-    'network': 'network_error',
-    'unknown': 'unknown'
-  }
-  return typeMap[serverType] || 'unknown'
 }
 
 // =============================================================================

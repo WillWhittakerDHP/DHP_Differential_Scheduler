@@ -352,7 +352,15 @@ export async function computeAvailabilityData(
   ) as import('../../../shared/types/availabilityTypes.js').RangeConstraint | undefined
   const businessHoursConfig = businessHoursConstraint?.config as BusinessHoursConfig | undefined
 
-  // 11. Compute slots per day (range, overlap, capacity checked server-side with event-level context)
+  // 11. Apply overlapSources enforcement to out-of-office events
+  // LEARNING: Check settings.overlapSources.outOfOffice.enforcement before passing OOO events to slot computation
+  // WHY: Allows admin to toggle OOO blocking without changing data fetching — events are still returned for display
+  // PATTERN: 'off' = don't block at all, 'flexible' = warn only, 'hard' = block (default)
+  const oooEnforcement = settings.overlapSources?.outOfOffice?.enforcement ?? 'hard'
+  const effectiveOutOfOfficeEvents = oooEnforcement === 'off' ? [] : outOfOfficeEvents
+  const effectiveOooEnforcement: 'flexible' | 'hard' = oooEnforcement === 'flexible' ? 'flexible' : 'hard'
+
+  // 12. Compute slots per day (range, overlap, capacity checked server-side with event-level context)
   const slotsByDay = businessHoursConfig
     ? computeSlotsForDateRange(
         request.dateRange,
@@ -360,10 +368,12 @@ export async function computeAvailabilityData(
         settings.minuteIncrement,
         enrichedConstraints,
         regularEvents,
-        outOfOfficeEvents,
+        effectiveOutOfOfficeEvents,
         driveTimesByPlaceId,
         businessHoursConfig,
-        settings.timezone ?? 'UTC'
+        settings.timezone ?? 'UTC',
+        new Date(),
+        effectiveOooEnforcement
       )
     : {}
 

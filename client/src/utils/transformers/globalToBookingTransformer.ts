@@ -1,6 +1,6 @@
 /**
  * Global to Booking Transformer
- * 
+ *
  * LEARNING: Transforms GlobalData into booking-optimized format
  * WHY: Provides lightweight data structure for booking views
  * PATTERN: Plain objects with embedded relationships
@@ -12,6 +12,12 @@ import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { TernaryBoolean } from '@/types/ternary'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
+
+/** Default booking mode when not set (standalone vs addOn). */
+const DEFAULT_BOOKING_MODE = 'standalone' as const
+
+/** Default TernaryBoolean when differential is not set. */
+const TERNARY_FALSE: TernaryBoolean = 'false'
 
 export type BookingPartInstance = {
   id: string
@@ -63,72 +69,42 @@ export type BookingData = {
   blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
 }
 
+function isEntityActive(entity: Record<string, unknown> | null | undefined): boolean {
+  if (!entity) return false
+  const disabled = entity.disabled === true
+  const active = entity.active !== false
+  return !disabled && active
+}
+
+function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
+  const withMode = blockInstance as unknown as { bookingMode?: string }
+  return withMode.bookingMode ?? DEFAULT_BOOKING_MODE
+}
+
 /**
- * Booking Transformer Class
- * LEARNING: Transforms GlobalData to booking format
- * WHY: Optimizes data structure for booking display
- * PATTERN: Class-based transformer matching React's structure
+ * Shared filter, map, and sort for block instances (main blocks vs line items).
+ * PATTERN: DRY - single implementation for booking blocks and line item blocks.
  */
-export class BookingTransformer {
-  private isEntityActive(entity: Record<string, unknown> | null | undefined): boolean {
-    if (!entity) return false
-
-    // WHY: We want "active unless explicitly inactive/disabled" semantics across the transformer.
-    const disabled = entity.disabled === true
-    const active = entity.active !== false
-    return !disabled && active
-  }
-
-  /**
-   * Transform GlobalData to booking-optimized format
-   * LEARNING: Creates lightweight plain objects with embedded relationships
-   * WHY: Fast read-only access without class overhead
-   * PATTERN: Single transformation pass with denormalization
-   */
-
-
-  transformGlobalToBooking(globalData: GlobalData): BookingData {
-    const { entities, relationships } = globalData
-    const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-    const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
-    const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
-    const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
-    const partAssignmentsRelationships = relationships.partAssignments || []
-    const bookingCascadesRelationships = relationships.bookingCascades || []
-    const instanceComponentsRelationships = relationships.instanceComponents || []
-    
-    
-    const partInstanceById = new Map(
-      partInstances.map(partInstance => [partInstance.id, partInstance])
-    )
-    const blockShapeById = new Map(
-      blockShapes.map(blockShape => [blockShape.id, blockShape])
-    )
-    const partShapeById = new Map(
-      partShapes.map(partShape => [partShape.id, partShape])
-    )
-    
-    // PATTERN: Extract all child IDs from instanceComponents relationships to create exclusion set
-    // WHY: Functional approach avoids forEach with Set mutations
-    const componentIds = new Set(
-      instanceComponentsRelationships
-        .filter(rel => rel.relationshipKind === 'instanceComponents')
-        .flatMap(rel => rel.children.map(child => child.id))
-    )
-    
-    
-    // PATTERN: Filter active, non-component blocks with bookingMode !== 'addOn'
-    const bookingBlockInstances = blockInstances
-      // LEARNING: Components should not be shown as standalone booking options.
-      // WHY: They are only meaningful as parts of composed (composite) services.
-      // WHY: They are only selectable as nested add-on options under a parent instance.
-      .filter((blockInstance) => {
-        const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
-        const isComponentChild = componentIds.has(blockInstance.id)
-        const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
-        return isActive && !isComponentChild && bookingMode !== 'addOn'
-      })
-      .map(blockInstance => this.transformBlockInstance(
+function filterAndSortBlockInstances(
+  blockInstances: GlobalEntity<'blockInstance'>[],
+  componentIds: Set<string>,
+  predicate: (bi: GlobalEntity<'blockInstance'>) => boolean,
+  partAssignmentsRelationships: GlobalRelationship[],
+  bookingCascadesRelationships: GlobalRelationship[],
+  instanceComponentsRelationships: GlobalRelationship[],
+  partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
+  blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
+  partShapeById: Map<string, GlobalEntity<'partShape'>>
+): BookingBlockInstance[] {
+  return blockInstances
+    .filter((blockInstance) => {
+      const isActive = isEntityActive(blockInstance as unknown as Record<string, unknown>)
+      const isComponentChild = componentIds.has(blockInstance.id)
+      const bookingMode = getBookingMode(blockInstance)
+      return isActive && !isComponentChild && predicate(blockInstance)
+    })
+    .map((blockInstance) =>
+      transformBlockInstance(
         blockInstance,
         partAssignmentsRelationships,
         bookingCascadesRelationships,
@@ -136,237 +112,260 @@ export class BookingTransformer {
         partInstanceById,
         blockShapeById,
         partShapeById
-      ))
-      .sort((a, b) => {
-        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-        return aOrder - bOrder
+      )
+    )
+    .sort((a, b) => {
+      const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+      const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+      return aOrder - bOrder
+    })
+}
+
+/**
+ * Resolve part instance IDs for a block (own parts + component parts if composite).
+ * LEARNING: For composite instances, merge own parts with component parts.
+ */
+function resolvePartInstanceIds(
+  blockInstance: GlobalEntity<'blockInstance'>,
+  partAssignmentsRelationships: GlobalRelationship[],
+  instanceComponentsRelationships: GlobalRelationship[],
+  partInstanceById: Map<string, GlobalEntity<'partInstance'>>
+): Set<string> {
+  const partInstanceIds = new Set<string>()
+  const partAssignmentsRels = findRelationshipsByParent(
+    blockInstance.id,
+    partAssignmentsRelationships
+  )
+  const partAssignmentsRel = partAssignmentsRels[0]
+
+  if (partAssignmentsRel) {
+    const partAssignmentIds = partAssignmentsRel.children
+      .filter((child) => {
+        const partInstance = partInstanceById.get(child.id)
+        return isEntityActive(partInstance as unknown as Record<string, unknown>)
       })
-    
-    // WHY: Line items are separate from main booking blocks and displayed as individual line items
-    // PATTERN: Filter active, non-component blocks with bookingMode === 'addOn'
-    const lineItemBlocks = blockInstances
-      .filter((blockInstance) => {
-        const isActive = this.isEntityActive(blockInstance as unknown as Record<string, unknown>)
-        const isComponentChild = componentIds.has(blockInstance.id)
-        const bookingMode = (blockInstance as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? 'standalone'
-        return isActive && !isComponentChild && bookingMode === 'addOn'
-      })
-      .map(blockInstance => this.transformBlockInstance(
-        blockInstance,
-        partAssignmentsRelationships,
-        bookingCascadesRelationships,
-        instanceComponentsRelationships,
-        partInstanceById,
-        blockShapeById,
-        partShapeById
-      ))
-      .sort((a, b) => {
-        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-        return aOrder - bOrder
-      })
-    
-    const bookingBlockShapes: BookingBlockShape[] = blockShapes
-      .map(blockShape => ({
-        id: blockShape.id,
-        name: blockShape.name,
-        type: blockShape.type,
-        canHaveParts: blockShape.canHaveParts,
-        isStateControl: blockShape.isStateControl,
-        composable: blockShape.composable,
-      }))
-      .sort((a, b) => {
-        return a.name.localeCompare(b.name)
-      })
-    
-    return {
-      blockInstances: bookingBlockInstances,
-      lineItemBlocks,
-      blockShapes: bookingBlockShapes,
+      .map((child) => child.id)
+    for (const id of partAssignmentIds) {
+      partInstanceIds.add(id)
     }
   }
-  
-  /**
-   * Transform a single block instance with embedded part instances
-   * LEARNING: Denormalizes blockShape and embeds part instances
-   * WHY: Fast access without joins or lookups
-   * 
-   * LEARNING: For composite instances, merge own parts with component parts
-   * WHY: Composites can have their own parts AND parts from components
-   * PATTERN: Use Set to deduplicate part instance IDs to prevent double-counting
-   */
-  private transformBlockInstance(
-    blockInstance: GlobalEntity<'blockInstance'>,
-    partAssignmentsRelationships: GlobalRelationship[],
-    bookingCascadesRelationships: GlobalRelationship[],
-    instanceComponentsRelationships: GlobalRelationship[],
-    partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
-    blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>
-  ): BookingBlockInstance {
-    const partAssignmentsRels = findRelationshipsByParent(
+
+  const blockInstanceTyped = blockInstance as BlockInstanceEntity
+  if (blockInstanceTyped.composite === true) {
+    const componentRels = findRelationshipsByParent(
       blockInstance.id,
-      partAssignmentsRelationships
+      instanceComponentsRelationships
     )
-    const partAssignmentsRel = partAssignmentsRels[0] // Get first relationship (should be only one)
-    
-    // PATTERN: Start with composite's own parts, then add component parts
-    const partInstanceIds = new Set<string>()
-    
-    // WHY: Functional approach - filter active parts, then add to Set
-    // PATTERN: Filter children to active parts, then add IDs to Set
-    if (partAssignmentsRel) {
-      const partAssignmentIds = partAssignmentsRel.children
-        .filter(child => {
-          const partInstance = partInstanceById.get(child.id)
-          return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
-        })
-        .map(child => child.id)
-      
-      // WHY: Functional approach - spread array into Set constructor instead of forEach
-      // FIX: Use for...of instead of forEach for side effects (Set.add)
-      for (const id of partAssignmentIds) {
+    const componentIds = extractChildIds(componentRels)
+    if (componentIds.length > 0) {
+      const componentPartIds = composePartInstances(
+        componentIds,
+        partAssignmentsRelationships
+      )
+      const activeComponentPartIds = componentPartIds.filter((partId) => {
+        const partInstance = partInstanceById.get(partId)
+        return isEntityActive(partInstance as unknown as Record<string, unknown>)
+      })
+      for (const id of activeComponentPartIds) {
         partInstanceIds.add(id)
       }
     }
-    
-    // PATTERN: Check composite property, get component IDs, then compose their parts
-    const blockInstanceTyped = blockInstance as BlockInstanceEntity
-    const composite = blockInstanceTyped.composite === true
-    
-    if (composite) {
-      const componentRels = findRelationshipsByParent(
-        blockInstance.id,
-        instanceComponentsRelationships
-      )
-      const componentIds = extractChildIds(componentRels)
-      
-      if (componentIds.length > 0) {
-        // PATTERN: Merge component parts into the Set
-        const componentPartIds = composePartInstances(
-          componentIds,
-          partAssignmentsRelationships
-        )
-        
-        // PATTERN: for...of with Set.add is acceptable for building accumulator Sets (side effects)
-        // FIX: Use for...of instead of forEach for side effects (Set.add)
-        const activeComponentPartIds = componentPartIds.filter(partId => {
-          const partInstance = partInstanceById.get(partId)
-          return this.isEntityActive(partInstance as unknown as Record<string, unknown>)
-        })
-        for (const id of activeComponentPartIds) {
-          partInstanceIds.add(id)
-        }
-      }
-    }
-    
-    const partInstances: BookingPartInstance[] = Array.from(partInstanceIds)
-      .map((partId) => partInstanceById.get(partId))
-      .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
-        partInstance !== undefined && this.isEntityActive(partInstance as unknown as Record<string, unknown>)
-      )
-      .map((partInstance: GlobalEntity<'partInstance'>) => this.transformPartInstance(
-        partInstance,
-        partShapeById
-      ))
-      .sort((a: BookingPartInstance, b: BookingPartInstance) => {
-        const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-        const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-        return aOrder - bOrder
-      })
-    
-    const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-    const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
-    
-    // WHY: DRY principle - consistent relationship operations across transformers
-    // PATTERN: Use findRelationshipsByParent() and extractChildIds() instead of manual operations
-    const bookingCascadesRels = findRelationshipsByParent(
-      blockInstance.id,
-      bookingCascadesRelationships
-    )
-    const activeBlockIds = extractChildIds(bookingCascadesRels)
-    
-    const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
-      baseSqFt?: number
-      icon?: string
-      bookingMode?: import('@/constants/entities').BookingMode
-      differential?: TernaryBoolean | boolean
-      number?: number | null
-      allowMultiple?: boolean
-      requiresUnitNumber?: boolean | null
-    }
-    
-    // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
-    // PATTERN: Convert boolean to TernaryBoolean, default to 'false'
-    const convertDifferentialToTernary = (value: TernaryBoolean | boolean | undefined): TernaryBoolean => {
-      if (value === true) return 'true'
-      if (value === false) return 'false'
-      if (value === 'true' || value === 'false' || value === 'override') return value
-      return 'false'
-    }
-    
-    return {
-      id: blockInstance.id,
-      entityKey: 'blockInstance',
-      name: blockInstance.name,
-      active: this.isEntityActive(blockInstance as unknown as Record<string, unknown>),
-      baseSqFt: blockInstanceWithProps.baseSqFt || 0,
-      icon: blockInstanceWithProps.icon || '',
-      bookingMode: (blockInstanceWithProps.bookingMode ?? 'standalone') as import('@/constants/entities').BookingMode,
-      differential: convertDifferentialToTernary(blockInstanceWithProps.differential),
-      orderIndex: blockInstance.orderIndex,
-      blockShapeRef, // Block shape ID reference for filtering
-      activeBlockIds,
-      partInstances,
-      allowMultiple: blockInstanceWithProps.allowMultiple ?? false,
-      requiresUnitNumber: typeof blockInstanceWithProps.requiresUnitNumber === 'boolean' ? blockInstanceWithProps.requiresUnitNumber : null,
-      is_multi_family: blockInstanceWithProps.is_multi_family ?? false,
-      requires_agent: blockInstanceWithProps.requires_agent ?? false
-    }
   }
-  
-  /**
-   * Transform a single part instance
-   * LEARNING: Denormalizes partShape to name
-   * WHY: Simple string property instead of nested object
-   * 
-   * ARCHITECTURAL NOTE: Events are handled via eventAssignmentsByPartShape on AppointmentShape,
-   * not as properties on BookingPartInstance. Event lookups happen in appointmentSlotBuilder.ts
-   * and partFinalizer.ts using the event-based approach.
-   */
-  private transformPartInstance(
-    partInstance: GlobalEntity<'partInstance'>,
-    partShapeById: Map<string, GlobalEntity<'partShape'>>
-  ): BookingPartInstance {
-    const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
-    const partShapeRef = partInstanceTyped.partShapeRef
-    const partShapeEntity = partShapeById.get(partShapeRef)
-    const partShape = partShapeEntity?.name || partShapeRef
-    
-    const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
-      baseTime?: number
-      rateOverBaseTime?: number
-      baseFee?: number
-      rateOverBaseFee?: number
-      zeroOutPart?: boolean
-    }
-    
-    return {
-      id: partInstance.id,
-      entityKey: 'partInstance',
-      name: partInstance.name,
-      active: this.isEntityActive(partInstance as unknown as Record<string, unknown>),
-      partShape,
-      baseTime: partInstanceWithProps.baseTime || 0,
-      rateOverBaseTime: partInstanceWithProps.rateOverBaseTime || 0,
-      baseFee: partInstanceWithProps.baseFee || 0,
-      rateOverBaseFee: partInstanceWithProps.rateOverBaseFee || 0,
-      orderIndex: partInstance.orderIndex,
-      zeroOutPart: partInstanceWithProps.zeroOutPart || false,
-    }
+
+  return partInstanceIds
+}
+
+/**
+ * Transform a single block instance with embedded part instances
+ * LEARNING: Denormalizes blockShape and embeds part instances
+ */
+function transformBlockInstance(
+  blockInstance: GlobalEntity<'blockInstance'>,
+  partAssignmentsRelationships: GlobalRelationship[],
+  bookingCascadesRelationships: GlobalRelationship[],
+  instanceComponentsRelationships: GlobalRelationship[],
+  partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
+  blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
+  partShapeById: Map<string, GlobalEntity<'partShape'>>
+): BookingBlockInstance {
+  const partInstanceIds = resolvePartInstanceIds(
+    blockInstance,
+    partAssignmentsRelationships,
+    instanceComponentsRelationships,
+    partInstanceById
+  )
+
+  const partInstances: BookingPartInstance[] = Array.from(partInstanceIds)
+    .map((partId) => partInstanceById.get(partId))
+    .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
+      partInstance !== undefined && isEntityActive(partInstance as unknown as Record<string, unknown>)
+    )
+    .map((partInstance: GlobalEntity<'partInstance'>) =>
+      transformPartInstance(partInstance, partShapeById)
+    )
+  .sort((a, b) => {
+    const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+    const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+    return aOrder - bOrder
+  })
+
+  const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
+  const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
+
+  const bookingCascadesRels = findRelationshipsByParent(
+    blockInstance.id,
+    bookingCascadesRelationships
+  )
+  const activeBlockIds = extractChildIds(bookingCascadesRels)
+
+  const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
+    baseSqFt?: number
+    icon?: string
+    bookingMode?: import('@/constants/entities').BookingMode
+    differential?: TernaryBoolean | boolean
+    number?: number | null
+    allowMultiple?: boolean
+    requiresUnitNumber?: boolean | null
+  }
+
+  const differential = convertDifferentialToTernary(blockInstanceWithProps.differential)
+
+  return {
+    id: blockInstance.id,
+    entityKey: 'blockInstance',
+    name: blockInstance.name,
+    active: isEntityActive(blockInstance as unknown as Record<string, unknown>),
+    baseSqFt: blockInstanceWithProps.baseSqFt ?? 0,
+    icon: blockInstanceWithProps.icon ?? '',
+    bookingMode: (blockInstanceWithProps.bookingMode ?? DEFAULT_BOOKING_MODE) as import('@/constants/entities').BookingMode,
+    differential,
+    orderIndex: blockInstance.orderIndex,
+    blockShapeRef,
+    activeBlockIds,
+    partInstances,
+    allowMultiple: blockInstanceWithProps.allowMultiple ?? false,
+    requiresUnitNumber:
+      typeof blockInstanceWithProps.requiresUnitNumber === 'boolean'
+        ? blockInstanceWithProps.requiresUnitNumber
+        : null,
+    is_multi_family: blockInstanceWithProps.is_multi_family ?? false,
+    requires_agent: blockInstanceWithProps.requires_agent ?? false,
   }
 }
 
-export const bookingTransformer = new BookingTransformer()
+function convertDifferentialToTernary(value: TernaryBoolean | boolean | undefined): TernaryBoolean {
+  if (value === true) return 'true'
+  if (value === false) return 'false'
+  if (value === 'true' || value === 'false' || value === 'override') return value
+  return TERNARY_FALSE
+}
+
+function transformPartInstance(
+  partInstance: GlobalEntity<'partInstance'>,
+  partShapeById: Map<string, GlobalEntity<'partShape'>>
+): BookingPartInstance {
+  const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
+  const partShapeRef = partInstanceTyped.partShapeRef
+  const partShapeEntity = partShapeById.get(partShapeRef)
+  const partShape = partShapeEntity?.name ?? partShapeRef
+
+  const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
+    baseTime?: number
+    rateOverBaseTime?: number
+    baseFee?: number
+    rateOverBaseFee?: number
+    zeroOutPart?: boolean
+  }
+
+  return {
+    id: partInstance.id,
+    entityKey: 'partInstance',
+    name: partInstance.name,
+    active: isEntityActive(partInstance as unknown as Record<string, unknown>),
+    partShape,
+    baseTime: partInstanceWithProps.baseTime ?? 0,
+    rateOverBaseTime: partInstanceWithProps.rateOverBaseTime ?? 0,
+    baseFee: partInstanceWithProps.baseFee ?? 0,
+    rateOverBaseFee: partInstanceWithProps.rateOverBaseFee ?? 0,
+    orderIndex: partInstance.orderIndex,
+    zeroOutPart: partInstanceWithProps.zeroOutPart ?? false,
+  }
+}
+
+/**
+ * Transform GlobalData to booking-optimized format.
+ * LEARNING: Creates lightweight plain objects with embedded relationships.
+ */
+export function transformGlobalToBooking(globalData: GlobalData): BookingData {
+  const { entities, relationships } = globalData
+  const blockShapes = (entities.blockShape ?? []) as GlobalEntity<'blockShape'>[]
+  const blockInstances = (entities.blockInstance ?? []) as GlobalEntity<'blockInstance'>[]
+  const partShapes = (entities.partShape ?? []) as GlobalEntity<'partShape'>[]
+  const partInstances = (entities.partInstance ?? []) as GlobalEntity<'partInstance'>[]
+  const partAssignmentsRelationships = relationships.partAssignments ?? []
+  const bookingCascadesRelationships = relationships.bookingCascades ?? []
+  const instanceComponentsRelationships = relationships.instanceComponents ?? []
+
+  const partInstanceById = new Map(
+    partInstances.map((partInstance) => [partInstance.id, partInstance])
+  )
+  const blockShapeById = new Map(
+    blockShapes.map((blockShape) => [blockShape.id, blockShape])
+  )
+  const partShapeById = new Map(
+    partShapes.map((partShape) => [partShape.id, partShape])
+  )
+
+  const componentIds = new Set(
+    instanceComponentsRelationships
+      .filter((rel) => rel.relationshipKind === 'instanceComponents')
+      .flatMap((rel) => rel.children.map((child) => child.id))
+  )
+
+  const bookingBlockInstances = filterAndSortBlockInstances(
+    blockInstances,
+    componentIds,
+    (bi) => getBookingMode(bi) !== 'addOn',
+    partAssignmentsRelationships,
+    bookingCascadesRelationships,
+    instanceComponentsRelationships,
+    partInstanceById,
+    blockShapeById,
+    partShapeById
+  )
+
+  const lineItemBlocks = filterAndSortBlockInstances(
+    blockInstances,
+    componentIds,
+    (bi) => getBookingMode(bi) === 'addOn',
+    partAssignmentsRelationships,
+    bookingCascadesRelationships,
+    instanceComponentsRelationships,
+    partInstanceById,
+    blockShapeById,
+    partShapeById
+  )
+
+  const bookingBlockShapes: BookingBlockShape[] = blockShapes
+    .map((blockShape) => ({
+      id: blockShape.id,
+      name: blockShape.name,
+      type: blockShape.type,
+      canHaveParts: blockShape.canHaveParts,
+      isStateControl: blockShape.isStateControl,
+      composable: blockShape.composable,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  return {
+    blockInstances: bookingBlockInstances,
+    lineItemBlocks,
+    blockShapes: bookingBlockShapes,
+  }
+}
+
+/** Backward-compatible singleton: use transformGlobalToBooking(globalData) or bookingTransformer.transformGlobalToBooking(globalData). */
+export const bookingTransformer = {
+  transformGlobalToBooking,
+}
 

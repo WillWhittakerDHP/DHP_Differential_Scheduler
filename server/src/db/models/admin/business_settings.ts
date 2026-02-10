@@ -234,6 +234,17 @@ export interface AvailabilitySettingsData {
     calendarWeek?: WorkCapacityFilter; // Calendar week capacity filter
     rollingWeek?: RollingWeekCapacityFilter; // Rolling week capacity filter
   };
+  /**
+   * Overlap source enforcement (optional)
+   * LEARNING: Controls whether specific event sources participate in overlap blocking
+   * WHY: Allows admin to toggle out-of-office events as blockers without changing data fetching
+   * PATTERN: Each source has an enforcement level (off = ignored, flexible = warn, hard = block)
+   */
+  overlapSources?: {
+    outOfOffice?: {
+      enforcement: ConstraintEnforcement;
+    };
+  };
   timezone?: string; // IANA timezone (e.g., "America/New_York")
   durationRounding?: {
     enabled: boolean;

@@ -1,73 +1,32 @@
 /**
  * Google Maps API Types
- * 
- * LEARNING: Centralized type definitions for Google Maps API operations
- * WHY: Single source of truth for Maps API types, improves type safety
- * PATTERN: Type definitions module
+ *
+ * LEARNING: Re-exports shared types, defines server-only types
+ * WHY: Single source of truth via shared/types/mapsTypes.ts
  */
 
-/**
- * Maps API error types
- * LEARNING: Specific error types for proper error handling
- * WHY: Different errors need different user messages
- */
-export type MapsApiErrorType = 
-  | 'auth'           // API key issues
-  | 'rate_limit'     // Quota exceeded
-  | 'invalid'        // Invalid request or response
-  | 'not_found'      // Place not found
-  | 'network'        // Network error
-  | 'unknown'        // Unknown error
+import type {
+  AddressComponents,
+  AutocompletePrediction,
+  Coordinates,
+  MapsApiErrorType,
+  PlaceDetails
+} from '@shared/types/mapsTypes.js'
 
-/**
- * Autocomplete prediction from Google Places API
- * LEARNING: Structure of a single autocomplete suggestion
- */
-export interface AutocompletePrediction {
-  placeId: string
-  description: string
-  mainText: string
-  secondaryText: string
+export type {
+  AddressComponents,
+  AutocompletePrediction,
+  Coordinates,
+  MapsApiErrorType,
+  PlaceDetails
 }
 
 /**
- * Autocomplete response structure
+ * Autocomplete response structure (server-only)
  */
 export interface AutocompleteResponse {
   predictions: AutocompletePrediction[]
   status: string
-}
-
-/**
- * Address components extracted from place details
- * LEARNING: Parsed address components for structured storage
- */
-export interface AddressComponents {
-  streetNumber?: string
-  streetName?: string
-  city?: string
-  state?: string
-  postalCode?: string
-  country?: string
-}
-
-/**
- * Coordinates (latitude/longitude)
- */
-export interface Coordinates {
-  lat: number
-  lng: number
-}
-
-/**
- * Place details response structure
- * LEARNING: Full place details including coordinates
- */
-export interface PlaceDetails {
-  placeId: string
-  formattedAddress: string
-  addressComponents: AddressComponents
-  coordinates: Coordinates
 }
 
 /**

@@ -19,35 +19,35 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-09T16:40:29.733Z**
-- Files scanned: **723**
-- Type definitions found: **696**
-- Similarity groups: **102**
-- UNIFY candidates: **43**
+- Generated at: **2026-02-10T13:50:11.903Z**
+- Files scanned: **715**
+- Type definitions found: **699**
+- Similarity groups: **95**
+- UNIFY candidates: **37**
 - BRAND candidates: **14**
 - EXTEND candidates: **36**
-- REVIEW candidates: **9**
+- REVIEW candidates: **8**
 
-- P0 (high): **76**, P1 (medium): **24**, P2 (low): **2**
+- P0 (high): **70**, P1 (medium): **23**, P2 (low): **2**
 
 ## Groups (ranked by score)
 
 | Priority | Action | Relationship | Types | Files | Score | Signature |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `PartInstanceSnapshot`, `BlockInstanceSnapshot`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 65 | `{ active: boolean, activeBlockIds: string[], allowMultipl...` |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `PartInstanceSnapshot`, `BlockInstanceSnapshot`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 67 | `{ active: boolean, activeBlockIds: string[], allowMultipl...` |
 | P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsData`, `PropertyDetailsStepData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty` | 11 | 63 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
 | P0 | EXTEND | SUBSET | `DayHours`, `CalendarEvent`, `BusyTimeRange`, `CachedCalendarEvent`, `CreatedEventResponse`, `BusyTimeRange`, `CalendarEvent`, `ComputedAvailabilityRequest`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 8 | 61 | `{ attendees?: Array<{, email: string, end: string, htmlLi...` |
 | P0 | REVIEW | EXACT | `DayHours`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 5 | 35 | `{ end: string, start: string }` |
 | P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById`, `EntityWithStringId` | 6 | 32 | `{ id: string }` |
-| P0 | EXTEND | SUBSET | `Coordinates`, `DefaultLocation`, `Coordinates`, `Coordinates`, `Coordinates` | 5 | 27 | `{ address?: string, coordinates?: {, label?: string, lat:...` |
-| P0 | UNIFY | EXACT | `Coordinates`, `Coordinates`, `Coordinates`, `Coordinates` | 4 | 25 | `{ lat: number, lng: number }` |
+| P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `TimeSlot`, `ComputedSlot` | 6 | 29 | `{ dayLabel: string, duration: number, endTime: string, st...` |
 | P0 | REVIEW | EXACT | `ISO8601Date`, `RFC3339DateTime`, `GlobalEntityId`, `RFC3339DateTime` | 3 | 25 | `= string` |
-| P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `TimeSlot` | 5 | 25 | `{ dayLabel: string, duration: number, endTime: string, st...` |
 | P0 | UNIFY | EXACT | `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection` | 4 | 23 | `= 'centered' | 'future' | 'past'` |
+| P0 | EXTEND | SUBSET | `Coordinates`, `DefaultLocation`, `Coordinates`, `Coordinates` | 4 | 23 | `{ address?: string, coordinates?: {, label?: string, lat:...` |
 | P0 | EXTEND | SUBSET | `AvailabilitySettings`, `RawAvailabilitySettings`, `DurationRoundingConfig`, `AvailabilitySettingsData` | 3 | 23 | `{ 0: { start: string, 1: { start: string, 2: { start: str...` |
 | P0 | EXTEND | SUBSET | `DefaultLocation`, `RouteLocation`, `RouteLocation`, `DefaultLocation` | 4 | 23 | `{ address?: string, coordinates?: Coordinates, label?: st...` |
 | P0 | EXTEND | SUBSET | `WorkCapacityFilter`, `CapacityConstraint`, `WorkCapacityFilter`, `WorkCapacityFilter` | 3 | 23 | `{ category: 'capacity', direction?: RollingWeekDirection,...` |
 | P0 | REVIEW | HIGH_OVERLAP | `FieldMetadataEntry`, `FieldMetadataEntry`, `FieldMetadataEntry`, `RelationshipMetadataEntry` | 4 | 22 | `{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boo...` |
+| P0 | UNIFY | EXACT | `Coordinates`, `Coordinates`, `Coordinates` | 3 | 21 | `{ lat: number, lng: number }` |
 | P0 | UNIFY | EXACT | `DriveTimeApplyTo`, `DriveTimeApplyTo`, `DriveTimeApplyTo` | 3 | 21 | `= 'all' | 'none' | 'skipDayEnd' | 'skipDayStart'` |
 | P0 | UNIFY | EXACT | `ConstraintEnforcement`, `ConstraintEnforcement`, `ConstraintEnforcement` | 3 | 21 | `= 'flexible' | 'hard' | 'off'` |
 | P0 | UNIFY | EXACT | `RangeConstraintType`, `RangeConstraintType`, `RangeConstraintType` | 3 | 21 | `= 'businessHours' | 'dateRange' | 'leadTime'` |
@@ -59,14 +59,10 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `RangeConstraint`, `RangeConstraint`, `RangeConstraint` | 3 | 19 | `{ category: 'range', config: BusinessHoursConfig | LeadTi...` |
 | P0 | EXTEND | SUBSET | `DriveTimeConfig`, `OverlapConstraint`, `DriveTimeConfig` | 3 | 19 | `{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforc...` |
 | P0 | UNIFY | EXACT | `CalendarConfig`, `CalendarConfig` | 2 | 17 | `{ calendars: CalendarEntry[], enabled: boolean, provider:...` |
-| P0 | UNIFY | EXACT | `BusyTimeRange`, `BusyTimeRange` | 2 | 17 | `{ end: string, placeId?: string, source?: BusyPeriodSourc...` |
 | P0 | UNIFY | EXACT | `CalendarEntry`, `CalendarEntry` | 2 | 17 | `{ email: string, label?: string, readFrom: boolean, write...` |
-| P0 | UNIFY | EXACT | `PlaceDetails`, `PlaceDetails` | 2 | 17 | `{ addressComponents: AddressComponents, coordinates: Coor...` |
 | P0 | UNIFY | EXACT | `ConditionalValidationRuleConfig`, `ConditionalValidationRuleConfig` | 2 | 17 | `{ condition: string, dependsOn: string, field: string, va...` |
 | P0 | UNIFY | EXACT | `BufferConfig`, `BufferConfig` | 2 | 17 | `{ enforcement: ConstraintEnforcement, minutes: number, pl...` |
-| P0 | UNIFY | EXACT | `AutocompletePrediction`, `AutocompletePrediction` | 2 | 17 | `{ description: string, mainText: string, placeId: string,...` |
 | P0 | BRAND | EXACT | `CachedCalendarEvent`, `CalendarEvent` | 2 | 17 | `{ end: string, eventType?: string, id: string, placeId?: ...` |
-| P0 | UNIFY | EXACT | `AddressComponents`, `AddressComponents` | 2 | 17 | `{ city?: string, country?: string, postalCode?: string, s...` |
 | P0 | UNIFY | EXACT | `RequiredFieldsRuleConfig`, `RequiredFieldsRuleConfig` | 2 | 17 | `{ condition?: string, fields: string[] }` |
 | P0 | UNIFY | EXACT | `RouteLocation`, `RouteLocation` | 2 | 17 | `{ address?: string, coordinates?: Coordinates, placeId?: ...` |
 | P0 | UNIFY | EXACT | `RequiresAgentRuleConfig`, `RequiresAgentRuleConfig` | 2 | 17 | `{ requiresAgent: boolean }` |
@@ -74,23 +70,15 @@ Each group has a recommended action:
 | P0 | UNIFY | EXACT | `ValidationMessageRuleConfig`, `ValidationMessageRuleConfig` | 2 | 17 | `{ field: string, messageType: 'required' | 'invalid' | 'c...` |
 | P0 | UNIFY | EXACT | `AppLogger`, `AppLogger` | 2 | 17 | `{ debug: (...args: unknown[]) => void, error: (...args: u...` |
 | P0 | UNIFY | EXACT | `RangeConstraint`, `RangeConstraint` | 2 | 17 | `{ config: BusinessHoursConfig | LeadTimeConfig | DateRang...` |
-| ... | ... | ... | ... | ... | ... | (62 more groups) |
+| P0 | UNIFY | EXACT | `DefaultLocation`, `DefaultLocation` | 2 | 17 | `{ address?: string, coordinates?: Coordinates, label?: st...` |
+| P0 | UNIFY | EXACT | `DriveTimeConfig`, `DriveTimeConfig` | 2 | 17 | `{ applyTo: DriveTimeApplyTo, enforcement: ConstraintEnfor...` |
+| P0 | UNIFY | EXACT | `LogLevel`, `LogLevel` | 2 | 17 | `= 'debug' | 'error' | 'info' | 'silent' | 'warn'` |
+| P0 | UNIFY | EXACT | `CalendarProvider`, `CalendarProvider` | 2 | 17 | `= 'google' | 'none' | 'outlook'` |
+| ... | ... | ... | ... | ... | ... | (55 more groups) |
 
-## UNIFY Candidates (43)
+## UNIFY Candidates (37)
 
 These types are structurally identical and likely represent the same concept. Import from a single source to prevent drift.
-
-### sim-exact-1b0f90b02f32
-
-- Relationship: **EXACT**, Priority: **P0**, Score: **25**
-- Structure: `{ lat: number, lng: number }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Coordinates` | interface | `client/src/configs/availabilitySettings.ts` | 187 | yes |
-| `Coordinates` | interface | `client/src/services/mapsApiService.ts` | 94 | yes |
-| `Coordinates` | interface | `server/src/services/google/maps/mapsTypes.ts` | 57 | yes |
-| `Coordinates` | interface | `shared/types/availabilityTypes.ts` | 225 | yes |
 
 ### sim-exact-5aa6c702d59f
 
@@ -101,8 +89,19 @@ These types are structurally identical and likely represent the same concept. Im
 | --- | --- | --- | ---: | --- |
 | `RollingWeekDirection` | type-alias-union | `client/src/configs/availabilitySettings.ts` | 44 | no |
 | `RollingWeekDirection` | type-alias-union | `server/src/db/models/admin/business_settings.ts` | 34 | yes |
-| `RollingWeekDirection` | type-alias-union | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 204 | yes |
+| `RollingWeekDirection` | type-alias-union | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 208 | yes |
 | `RollingWeekDirection` | type-alias-union | `shared/types/availabilityTypes.ts` | 36 | yes |
+
+### sim-exact-1b0f90b02f32
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **21**
+- Structure: `{ lat: number, lng: number }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `Coordinates` | interface | `client/src/configs/availabilitySettings.ts` | 187 | yes |
+| `Coordinates` | interface | `shared/types/availabilityTypes.ts` | 229 | yes |
+| `Coordinates` | interface | `shared/types/mapsTypes.ts` | 44 | yes |
 
 ### sim-exact-5df7af5639fb
 
@@ -146,7 +145,7 @@ These types are structurally identical and likely represent the same concept. Im
 | --- | --- | --- | ---: | --- |
 | `WorkCapacityFilter` | interface | `client/src/configs/availabilitySettings.ts` | 52 | yes |
 | `WorkCapacityFilter` | interface | `server/src/db/models/admin/business_settings.ts` | 42 | yes |
-| `WorkCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 204 | yes |
+| `WorkCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 208 | yes |
 
 ### sim-exact-c1b027d82f51
 
@@ -157,7 +156,7 @@ These types are structurally identical and likely represent the same concept. Im
 | --- | --- | --- | ---: | --- |
 | `RollingWeekCapacityFilter` | interface | `client/src/configs/availabilitySettings.ts` | 63 | yes |
 | `RollingWeekCapacityFilter` | interface | `server/src/db/models/admin/business_settings.ts` | 53 | yes |
-| `RollingWeekCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 215 | yes |
+| `RollingWeekCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 219 | yes |
 
 ### sim-exact-5b39f8f51707
 
@@ -196,16 +195,6 @@ These types are structurally identical and likely represent the same concept. Im
 | `CalendarConfig` | interface | `client/src/configs/availabilitySettings.ts` | 242 | yes |
 | `CalendarConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 203 | yes |
 
-### sim-exact-03cefbcc8fb0
-
-- Relationship: **EXACT**, Priority: **P0**, Score: **17**
-- Structure: `{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 56 | yes |
-| `BusyTimeRange` | interface | `shared/types/availabilityTypes.ts` | 265 | yes |
-
 ### sim-exact-0a7b68788da6
 
 - Relationship: **EXACT**, Priority: **P0**, Score: **17**
@@ -215,16 +204,6 @@ These types are structurally identical and likely represent the same concept. Im
 | --- | --- | --- | ---: | --- |
 | `CalendarEntry` | interface | `client/src/configs/availabilitySettings.ts` | 227 | yes |
 | `CalendarEntry` | interface | `server/src/db/models/admin/business_settings.ts` | 190 | yes |
-
-### sim-exact-16aa8a72c732
-
-- Relationship: **EXACT**, Priority: **P0**, Score: **17**
-- Structure: `{ addressComponents: AddressComponents, coordinates: Coordinates, formattedAddress: string, placeId: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `PlaceDetails` | interface | `client/src/services/mapsApiService.ts` | 103 | yes |
-| `PlaceDetails` | interface | `server/src/services/google/maps/mapsTypes.ts` | 66 | yes |
 
 ### sim-exact-1a49b6f70abf
 
@@ -246,7 +225,27 @@ These types are structurally identical and likely represent the same concept. Im
 | `BufferConfig` | interface | `client/src/configs/availabilitySettings.ts` | 144 | yes |
 | `BufferConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 130 | yes |
 
-_(28 more UNIFY groups omitted — see JSON for full data)_
+### sim-exact-45324740cd81
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ condition?: string, fields: string[] }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `RequiredFieldsRuleConfig` | interface | `client/src/composables/admin/useBusinessRules.ts` | 32 | yes |
+| `RequiredFieldsRuleConfig` | interface | `server/src/db/models/admin/business_rule.ts` | 41 | yes |
+
+### sim-exact-4f8a212b07d3
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ address?: string, coordinates?: Coordinates, placeId?: string }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 242 | yes |
+| `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 38 | yes |
+
+_(22 more UNIFY groups omitted — see JSON for full data)_
 
 ## BRAND Candidates (14)
 
@@ -276,7 +275,18 @@ These types are structurally identical but may represent different concepts. Add
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `CachedCalendarEvent` | interface | `server/src/services/calendarEventsCache.ts` | 19 | yes |
-| `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 278 | yes |
+| `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 284 | yes |
+
+### sim-exact-e900d197d2bf
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **16**
+- Structure: `{ formData: Ref<AvailabilitySettings | null> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseBufferSettingsParams` | interface | `client/src/composables/admin/useBufferSettings.ts` | 17 | yes |
+| `UseDefaultLocationParams` | interface | `client/src/composables/admin/useDefaultLocation.ts` | 9 | yes |
+| `UseDifferentialPerspectivesParams` | interface | `client/src/composables/admin/useDifferentialPerspectives.ts` | 13 | yes |
 
 ### sim-exact-33ae3945c665
 
@@ -286,7 +296,7 @@ These types are structurally identical but may represent different concepts. Add
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `SelectedTimeSlot` | interface | `client/src/utils/booking/availabilityStepData.ts` | 7 | yes |
-| `TimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 35 | no |
+| `TimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 38 | no |
 
 ### sim-exact-05a6537b45a7
 
@@ -388,23 +398,13 @@ These types are structurally identical but may represent different concepts. Add
 | `Props` | interface | `client/src/components/admin/generic/collections/PartsCollection.vue` | 20 | no |
 | `UseSelectConfigOptions` | interface | `client/src/composables/admin/useSelectConfig.ts` | 25 | yes |
 
-### sim-exact-f9a443f84a39
-
-- Relationship: **EXACT**, Priority: **P1**, Score: **8**
-- Structure: `{ earliestCompletion: string | null, slots: TimeSlot[] }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `AvailabilityManagerResult` | interface | `client/src/utils/booking/slotAvailabilityManager.ts` | 111 | no |
-| `FitTimeSlotsResult` | interface | `client/src/utils/booking/timeSlotFitter.ts` | 60 | no |
-
 ## EXTEND Candidates (36)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
-### sim-subset-8139a29720f6
+### sim-subset-9571c93f1db1
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **65**
+- Relationship: **SUBSET**, Priority: **P0**, Score: **67**
 - Structure: `{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/entities').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, is_multi_family: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requires_agent: boolean, requiresUnitNumber: boolean | null }`
 
 | Type | Kind | File | Line | Exported |
@@ -412,15 +412,15 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 8 | yes |
 | `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 20 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 67 | yes |
-| `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 38 | yes |
+| `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 44 | yes |
 | `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 14 | yes |
-| `PartInstanceSnapshot` | interface | `client/src/types/appointment.ts` | 210 | yes |
-| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts` | 220 | yes |
-| `AttendeeResponse` | interface | `client/src/types/appointment.ts` | 309 | yes |
+| `PartInstanceSnapshot` | interface | `client/src/types/appointment.ts` | 218 | yes |
+| `BlockInstanceSnapshot` | interface | `client/src/types/appointment.ts` | 228 | yes |
+| `AttendeeResponse` | interface | `client/src/types/appointment.ts` | 317 | yes |
 | `PropertyVersionType` | interface | `client/src/types/property.ts` | 56 | yes |
-| `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 83 | no |
-| `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 15 | yes |
-| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 29 | yes |
+| `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 21 | yes |
+| `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 21 | yes |
+| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 35 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 20 | yes |
 | `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 28 | yes |
@@ -428,22 +428,22 @@ One type is a structural subset of another. Consider using `extends` or intersec
 ### sim-subset-94b5e1d0812b
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **63**
-- Structure: `{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, city: string, client: {, contacts: {, coordinates?: { lat: number, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], placeId?: string, propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', selectedDate: { start: string | null, selectedTimeSlots: Array<{ time: string, services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }`
+- Structure: `{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts` | 16 | yes |
-| `UserResponse` | interface | `client/src/types/appointment.ts` | 290 | yes |
+| `UserResponse` | interface | `client/src/types/appointment.ts` | 298 | yes |
 | `UserRequest` | interface | `client/src/types/user.ts` | 8 | yes |
 | `UserResponse` | interface | `client/src/types/user.ts` | 16 | yes |
-| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 27 | yes |
+| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 40 | yes |
 | `ParsedClient` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 51 | yes |
-| `AppointmentWithDetails` | interface | `server/src/services/appointmentCalendarService.ts` | 45 | no |
+| `AppointmentWithDetails` | interface | `server/src/services/appointmentCalendarService.ts` | 48 | no |
 | `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
 | `PropertyDetails` | interface | `client/src/types/availability.ts` | 17 | yes |
 | `PropertyDetailsData` | interface | `client/src/types/propertyForm.ts` | 19 | yes |
 | `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 15 | no |
-| `PropertyResponse` | interface | `client/src/types/appointment.ts` | 273 | yes |
+| `PropertyResponse` | interface | `client/src/types/appointment.ts` | 281 | yes |
 | `PropertyRequest` | interface | `client/src/types/property.ts` | 8 | yes |
 | `PropertyResponse` | interface | `client/src/types/property.ts` | 25 | yes |
 | `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 63 | yes |
@@ -456,36 +456,23 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `DayHours` | interface | `client/src/configs/availabilitySettings.ts` | 24 | no |
-| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts` | 185 | yes |
-| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 56 | yes |
+| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts` | 182 | yes |
+| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 68 | yes |
 | `CachedCalendarEvent` | interface | `server/src/services/calendarEventsCache.ts` | 19 | yes |
 | `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts` | 56 | yes |
-| `BusyTimeRange` | interface | `shared/types/availabilityTypes.ts` | 265 | yes |
-| `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 278 | yes |
-| `ComputedAvailabilityRequest` | interface | `shared/types/availabilityTypes.ts` | 294 | yes |
+| `BusyTimeRange` | interface | `shared/types/availabilityTypes.ts` | 269 | yes |
+| `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 284 | yes |
+| `ComputedAvailabilityRequest` | interface | `shared/types/availabilityTypes.ts` | 300 | yes |
 | `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts` | 103 | yes |
 | `GoogleCalendarBusyPeriod` | interface | `client/src/types/googleCalendar.ts` | 17 | yes |
-| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 25 | yes |
+| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 37 | yes |
 | `DateRangeConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 91 | yes |
 | `DayHours` | interface | `shared/types/availabilityTypes.ts` | 73 | yes |
 | `DateRangeConfig` | interface | `shared/types/availabilityTypes.ts` | 113 | yes |
 
-### sim-subset-2d4c3d89b6bb
+### sim-subset-7540ccfe621d
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **27**
-- Structure: `{ address?: string, coordinates?: {, label?: string, lat: number, lng: number, placeId: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Coordinates` | interface | `client/src/configs/availabilitySettings.ts` | 187 | yes |
-| `DefaultLocation` | interface | `server/src/db/models/admin/business_settings.ts` | 166 | yes |
-| `Coordinates` | interface | `client/src/services/mapsApiService.ts` | 94 | yes |
-| `Coordinates` | interface | `server/src/services/google/maps/mapsTypes.ts` | 57 | yes |
-| `Coordinates` | interface | `shared/types/availabilityTypes.ts` | 225 | yes |
-
-### sim-subset-afb65e76b833
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **25**
+- Relationship: **SUBSET**, Priority: **P0**, Score: **29**
 - Structure: `{ dayLabel: string, duration: number, endTime: string, startTime: string, timeLabel: string }`
 
 | Type | Kind | File | Line | Exported |
@@ -494,18 +481,31 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 24 | yes |
 | `SelectedTimeSlot` | interface | `client/src/utils/booking/availabilityStepData.ts` | 7 | yes |
 | `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 74 | yes |
-| `TimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 35 | no |
+| `TimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 38 | no |
+| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 345 | yes |
+
+### sim-subset-3b2fab5281e7
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **23**
+- Structure: `{ address?: string, coordinates?: {, label?: string, lat: number, lng: number, placeId: string }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `Coordinates` | interface | `client/src/configs/availabilitySettings.ts` | 187 | yes |
+| `DefaultLocation` | interface | `server/src/db/models/admin/business_settings.ts` | 166 | yes |
+| `Coordinates` | interface | `shared/types/availabilityTypes.ts` | 229 | yes |
+| `Coordinates` | interface | `shared/types/mapsTypes.ts` | 44 | yes |
 
 ### sim-subset-656740d0282b
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **23**
-- Structure: `{ 0: { start: string, 1: { start: string, 2: { start: string, 3: { start: string, 4: { start: string, 5: { start: string, 6: { start: string, appointment?: BufferConfig, buffers?: {, businessHours: {, businessHours?: RangeConstraint, calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, dateRange?: RangeConstraint, day?: WorkCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveTimeFrom?: DriveTimeConfig, driveTimeTo?: DriveTimeConfig, durationRounding?: {, enabled: boolean, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, increment?: number, leadTime?: RangeConstraint, lunch?: BufferConfig, majorAttendees?: string[], majorLabel?: string, majorStateLabel?: string, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: string[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, rangeConstraints?: {, rollingWeek?: RollingWeekCapacityFilter, timezone?: string }`
+- Structure: `{ 0: { start: string, 1: { start: string, 2: { start: string, 3: { start: string, 4: { start: string, 5: { start: string, 6: { start: string, appointment?: BufferConfig, buffers?: {, businessHours: {, businessHours?: RangeConstraint, calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, dateRange?: RangeConstraint, day?: WorkCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveFromCandidate?: DriveTimeConfig, driveToCandidate?: DriveTimeConfig, durationRounding?: {, enabled: boolean, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, increment?: number, leadTime?: RangeConstraint, lunch?: BufferConfig, majorAttendees?: string[], majorLabel?: string, majorStateLabel?: string, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: string[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, rangeConstraints?: {, rollingWeek?: RollingWeekCapacityFilter, timezone?: string }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts` | 268 | yes |
 | `RawAvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts` | 382 | yes |
-| `DurationRoundingConfig` | interface | `shared/types/availabilityTypes.ts` | 253 | yes |
+| `DurationRoundingConfig` | interface | `shared/types/availabilityTypes.ts` | 257 | yes |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts` | 208 | yes |
 
 ### sim-subset-69cb0b3ff7af
@@ -516,21 +516,21 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `DefaultLocation` | interface | `client/src/configs/availabilitySettings.ts` | 205 | yes |
-| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 322 | yes |
-| `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 79 | yes |
-| `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 240 | yes |
+| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 242 | yes |
+| `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 38 | yes |
+| `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 244 | yes |
 
 ### sim-subset-a2aa727f4999
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **23**
-- Structure: `{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, type: 'daily' | 'calendarWeek' | 'rollingWeek' }`
+- Structure: `{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, scheduledHours?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `WorkCapacityFilter` | interface | `client/src/configs/availabilitySettings.ts` | 52 | yes |
 | `CapacityConstraint` | interface | `shared/types/availabilityTypes.ts` | 155 | yes |
 | `WorkCapacityFilter` | interface | `server/src/db/models/admin/business_settings.ts` | 42 | yes |
-| `WorkCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 204 | yes |
+| `WorkCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 208 | yes |
 
 ### sim-subset-96b287190087
 
@@ -563,7 +563,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 ### sim-subset-272780dd72a0
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **19**
-- Structure: `{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch' }`
+- Structure: `{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveToCandidate' | 'driveFromCandidate' | 'lunch' }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
@@ -603,8 +603,8 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `RouteMatrixResult` | interface | `client/src/services/mapsApiService.ts` | 348 | yes |
-| `RouteMatrixResult` | interface | `server/src/services/google/maps/mapsTypes.ts` | 89 | yes |
+| `RouteMatrixResult` | interface | `client/src/services/mapsApiService.ts` | 268 | yes |
+| `RouteMatrixResult` | interface | `server/src/services/google/maps/mapsTypes.ts` | 48 | yes |
 
 Overlap: **83%** shared properties
 - Shared: `destinationIndex`, `distanceMeters`, `durationSeconds`, `originIndex`, `status`
@@ -623,7 +623,7 @@ Overlap: **83%** shared properties
 
 _(21 more EXTEND groups omitted — see JSON for full data)_
 
-## REVIEW Candidates (9)
+## REVIEW Candidates (8)
 
 These types have high structural overlap. Review to determine if they should be unified, branded, or left as-is.
 
@@ -637,7 +637,7 @@ These types have high structural overlap. Review to determine if they should be 
 | `DayHours` | interface | `client/src/configs/availabilitySettings.ts` | 24 | no |
 | `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts` | 103 | yes |
 | `GoogleCalendarBusyPeriod` | interface | `client/src/types/googleCalendar.ts` | 17 | yes |
-| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 25 | yes |
+| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 37 | yes |
 | `DateRangeConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 91 | yes |
 | `DayHours` | interface | `shared/types/availabilityTypes.ts` | 73 | yes |
 | `DateRangeConfig` | interface | `shared/types/availabilityTypes.ts` | 113 | yes |
@@ -684,7 +684,7 @@ These types have high structural overlap. Review to determine if they should be 
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `AttendeeRequest` | interface | `client/src/types/appointment.ts` | 237 | yes |
+| `AttendeeRequest` | interface | `client/src/types/appointment.ts` | 245 | yes |
 | `AttendeeRequest` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 157 | yes |
 
 Overlap: **75%** shared properties
@@ -725,20 +725,6 @@ Overlap: **100%** shared properties
 | --- | --- | --- | ---: | --- |
 | `AnnotationConfig` | interface | `server/src/types/express.d.ts` | 3 | no |
 | `EventConfig` | interface | `server/src/types/express.d.ts` | 9 | no |
-
-### sim-high_overlap-1ae75994f07d
-
-- Relationship: **HIGH_OVERLAP**, Priority: **P1**, Score: **7**
-- Structure: `{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `CalendarEvent` | interface | `server/src/scripts/createAppointmentsFromCalendar.ts` | 15 | no |
-| `CalendarEvent` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 22 | yes |
-
-Overlap: **92%** shared properties
-- Shared: `attendees`, `date`, `dateTime`, `description`, `displayName`, `email`, `end`, `location`, `organizer`, `responseStatus`, `start`, `summary`
-- Only in `CalendarEvent`: `id`
 
 ## Primitive Alias Inventory
 

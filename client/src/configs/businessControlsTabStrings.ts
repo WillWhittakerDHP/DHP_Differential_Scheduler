@@ -21,6 +21,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     driveFromCandidateBuffer: 'Drive From Appointment (Departure)',
     defaultLocation: 'Default Location',
     lunchBuffer: 'Lunch Buffer',
+    outOfOfficeEvents: 'Out-of-Office Events',
     calendar: 'Calendar'
   },
   labels: {
@@ -54,7 +55,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     bufferTimeMin: 'Buffer time must be 0 or greater',
     timeIncrementRequired: 'Time increment is required',
     timezoneRequired: 'Timezone is required',
-    roundingIncrementRequired: 'Rounding increment is required'
+    roundingIncrementRequired: 'Rounding increment is required',
+    emailInvalid: 'Please enter a valid email address'
   },
   hints: {
     enforcement: 'Off: No filtering | Flexible: Block if limit already exceeded | Hard: Block if would exceed limit',
@@ -93,7 +95,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     driveFromCandidateDescription: 'Travel time from candidate appointment to next event. Applied AFTER the appointment end time.',
     defaultLocationDescription: 'Your home or office address. Used as the starting point for first appointments and ending point for last appointments.',
     lunchNotSetup: 'Not Set-up',
-    lunchDescription: 'Lunch buffers block time for lunch breaks to prevent scheduling appointments during meal times.'
+    lunchDescription: 'Lunch buffers block time for lunch breaks to prevent scheduling appointments during meal times.',
+    outOfOfficeDescription: 'Controls whether out-of-office events on your calendar block appointment slots. Events are always fetched for display — this setting controls whether they prevent booking.'
   },
   buttons: {
     saveSettings: 'Save Settings',
@@ -102,11 +105,99 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   tabs: {
     constraints: 'Constraints',
     calendar: 'Calendar',
+    rules: 'Rules',
     range: 'Range',
     capacity: 'Capacity',
     overlap: 'Overlap',
+    integration: 'Integration',
     increment: 'Slot Increment',
     rounding: 'Duration Rounding',
-    timezone: 'Timezone'
+    timezone: 'Timezone',
+    places: 'Places',
+    grid: 'Grid'
+  },
+  calendar: {
+    integrationTitle: 'Calendar Integration',
+    integrationDescription: 'Connect external calendars to check availability and prevent double-booking. Calendar busy periods will be blocked when scheduling appointments.',
+    enableLabel: 'Enable Calendar Integration',
+    enableHint: 'When enabled, the system will check connected calendars for availability',
+    providerLabel: 'Calendar Provider',
+    providerHint: 'Select your calendar service provider',
+    calendarsTitle: 'Calendars',
+    calendarsDescription: 'Configure which calendars to read from (availability) and write to (appointments)',
+    addCalendar: 'Add Calendar',
+    noCalendars: 'No calendars configured. Click "Add Calendar" to add one.',
+    emailLabel: 'Email Address',
+    emailHint: 'Calendar email address (e.g., you@example.com)',
+    labelOptional: 'Label (Optional)',
+    labelHint: 'Friendly name (e.g., Work Calendar)',
+    remove: 'Remove',
+    readFrom: 'Read From',
+    readFromHint: 'Check this calendar for availability',
+    writeTo: 'Write To',
+    writeToHint: 'Create appointments on this calendar (only one can be selected)',
+    writeToOnlyOne: 'Only one calendar can be selected for writing',
+    authRequired: 'Authentication Required:',
+    authAfterSave: 'After saving, you\'ll need to authenticate with',
+    authToAllow: 'to allow the system to access your calendar data.',
+    authPrivacy: 'Calendar data is only used to check availability. No events will be modified without your permission.',
+    disabledHint: 'Calendar integration is currently disabled. Enable it above to configure calendar connections.'
+  },
+  driveTime: {
+    calculatedTitle: 'Calculated Drive Times',
+    calculatedCaption: 'Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.',
+    estimatedTitle: 'Estimated Drive Times',
+    estimatedCaption: 'Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.',
+    calculatedRoutesTitle: 'Calculated Drive Times (Routes API Active)',
+    calculatedRoutesCaption: 'Drive times are calculated using Google Maps Routes API based on your default location and appointment addresses. The value below is used as a fallback if the API is unavailable or returns no route.',
+    staticTitle: 'Static Drive Times (Fallback Only)',
+    staticCaption: 'Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times from Google Maps Routes API.',
+    minutesLabel: 'Minutes',
+    fallbackMinutesLabel: 'Fallback Minutes',
+    fallbackHint: 'Used if Routes API fails or returns no route'
+  },
+  differential: {
+    sectionTitle: 'Differential Perspectives',
+    sectionDescription: 'Configure which attendees make an event "major" vs "minor" for differential scheduling, and customize display labels. Major attendees arrive earlier than minor attendees.',
+    majorAttendeesLabel: 'Major Attendees',
+    majorAttendeesHint: 'UserTypeBlock instances that make an event "major" (e.g., Inspector)',
+    majorLabelLabel: 'Major Label',
+    majorLabelHint: 'Display label for major perspective (e.g., Major)',
+    minorAttendeesLabel: 'Minor Attendees',
+    minorAttendeesHint: 'UserTypeBlock instances that make an event "minor" (e.g., Client)',
+    minorLabelLabel: 'Minor Label',
+    minorLabelHint: 'Display label for minor perspective (e.g., Minor Formal Presentation)',
+    graphDefaultLabel: 'Differential Graph Default Label',
+    graphDefaultHint: 'Message shown when no time slot is selected (e.g., Select a Time Slot)',
+    majorStateLabel: 'Major State Label',
+    majorStateHint: 'Message shown when major perspective is selected (e.g., Showing Major Times). Leave empty to use default format.',
+    minorStateLabel: 'Minor State Label',
+    minorStateHint: 'Message shown when minor perspective is selected (e.g., Showing Client FormalPresentation Times). Leave empty to use default format.',
+    helpMajor: 'Major Attendees: Events with these attendees are considered "major" perspective.',
+    helpMinor: 'Minor Attendees: Events with these attendees are considered "minor" perspective.',
+    helpLabels: 'Labels: Customize how major and minor perspectives are displayed in the UI.',
+    helpGraphDefault: 'Differential Graph Default Label: Large message shown over the differential graph when no time slot is selected.',
+    helpStateLabels: 'State Labels: Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".',
+    helpFallback: 'If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.'
+  },
+  placeholders: {
+    emailAddress: 'Enter email address',
+    workCalendar: 'e.g., Work Calendar',
+    homeOffice: 'Home Office',
+    addressTyping: 'Start typing your address...'
+  },
+  defaults: {
+    majorLabel: 'Inspector',
+    minorLabel: 'Minor Formal Presentation',
+    differentialGraphDefaultLabel: 'Select a Time Slot'
+  },
+  sections: {
+    durationRoundingTitle: 'Duration Rounding',
+    defaultLocationTitle: 'Default Location',
+    timezoneSettingsTitle: 'Timezone Settings',
+    gridConfigTitle: 'Grid Configuration',
+    slotIncrementTitle: 'Slot Increment',
+    coordinatesLabel: 'Coordinates:',
+    placeIdLabel: 'Place ID:'
   }
 } as const

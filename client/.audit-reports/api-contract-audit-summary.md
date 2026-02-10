@@ -3,12 +3,12 @@
 Generated from `.audit-reports/api-contract-audit.json`.
 
 - Client endpoints: **0**
-- Server routes: **65**
-- Shared types: **25**
-- Findings: **65**
+- Server routes: **66**
+- Shared types: **32**
+- Findings: **66**
 
 ## Findings by type
 
 | Category | Count |
 | --- | ---: |
-| orphan-server-route | 65 |
+| orphan-server-route | 66 |

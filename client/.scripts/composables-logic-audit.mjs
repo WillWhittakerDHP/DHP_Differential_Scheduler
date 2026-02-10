@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
@@ -92,6 +92,8 @@ function isExcluded(repoPath, configAllowlist) {
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding, not composable patterns)
+  if (isSeedScript(repoPath)) return true
   // Check if file matches any exclusion pattern in config
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
@@ -121,7 +123,7 @@ function listFilesRecursive(dir) {
       out.push(...listFilesRecursive(abs))
       continue
     }
-    if (e.isFile() && isTsOrJs(abs)) out.push(abs)
+    if (e.isFile() && isTsOrJs(abs) && !isCompiledJsFile(abs)) out.push(abs)
   }
   return out
 }

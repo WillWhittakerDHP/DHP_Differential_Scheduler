@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {
   parseChangedOnlyFlag,
+  isCompiledJsFile,
+  isSeedScript,
 } from './audit-exceptions.mjs'
 
 /**
@@ -54,7 +56,7 @@ function listFilesRecursive(dirPath, extensions) {
       const full = path.join(dirPath, e.name)
       if (full.includes('node_modules') || full.includes('/dist/')) continue
       if (e.isDirectory()) files.push(...listFilesRecursive(full, extensions))
-      else if (e.isFile() && extensions.some(ext => full.endsWith(ext))) files.push(full)
+      else if (e.isFile() && extensions.some(ext => full.endsWith(ext)) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files

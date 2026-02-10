@@ -1,92 +1,68 @@
+/**
+ * Calendar Routes
+ *
+ * LEARNING: Routes for Google Calendar API operations
+ * WHY: Provides HTTP endpoints for calendar functionality
+ * PATTERN: Express router with typed error handling, CSRF protection, debug mount
+ *
+ * SESSION: 2.1.5 - Enhanced error handling with CalendarApiError
+ */
+
 import { Router, Request, Response } from 'express';
 import { createEvent } from '../../services/google/calendar/eventCreationService.js';
 import { setCalendarCredentials } from '../../services/google/calendar/calendarCredentials.js';
 import type {
   CreateEventParams,
-  EventAttendee
+  EventAttendee,
 } from '../../services/google/calendar/calendarTypes.js';
 import { getCredentials } from '../../config/googleOAuth.js';
-import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';
-import { getRateLimitStats } from '../../services/rateLimiter.js';
-import { CalendarApiError, type CalendarErrorType } from '../../services/calendarErrorHandler.js';
+import { CalendarApiError } from '../../services/calendarErrorHandler.js';
 import { createLogger } from '../../utils/logger.js';
+import { csrfProtection } from '../../middlewares/security.js';
+import { sendBadRequest, sendCreated } from '../helpers/routerResponseHelpers.js';
+import { CalendarDebugRouter } from './calendarDebugRoutes.js';
+import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js';
 
 const logger = createLogger('CalendarRoutes');
 
-/**
- * Calendar Routes
- * 
- * LEARNING: Routes for Google Calendar API operations
- * WHY: Provides HTTP endpoints for calendar functionality
- * PATTERN: Express router with typed error handling
- * 
- * SESSION: 2.1.5 - Enhanced error handling with CalendarApiError
- */
-
-/**
- * Map CalendarApiError type to HTTP status code
- * LEARNING: Consistent HTTP status codes for different error types
- * WHY: Clients can handle errors based on status code
- */
-function getStatusCodeForError(error: CalendarApiError): number {
-  switch (error.type) {
-    case 'auth':
-      return 401;
-    case 'permission':
-      return 403;
-    case 'rateLimit':
-      return 429;
-    case 'notFound':
-      return 404;
-    case 'network':
-    case 'timeout':
-      return 503; // Service Unavailable
-    case 'invalid':
-      return 400;
-    default:
-      return 500;
-  }
-}
-
 const router = Router();
 
-// Phase 10: Removed POST /freebusy and GET /events endpoints
-// WHY: These booking-flow-only endpoints are replaced by POST /computed-data
-// Events are now fetched server-side via the orchestrator
+type AsyncRouteHandler = (req: Request, res: Response) => Promise<void>;
+
+function withCalendarErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandler {
+  return async (req: Request, res: Response): Promise<void> => {
+    try {
+      await handler(req, res);
+    } catch (error) {
+      logger.error('Calendar route error:', error);
+      if (error instanceof CalendarApiError) {
+        const statusCode = error.getStatusCode();
+        res.status(statusCode).json({
+          error: error.type,
+          message: error.getUserMessage(),
+          retryable: error.retryable,
+          ...((error.type === 'auth' || error.type === 'permission') && {
+            authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
+          }),
+        });
+        return;
+      }
+      res.status(500).json({
+        error: 'unknown',
+        message: error instanceof Error ? error.message : CALENDAR_ROUTE_MESSAGES.UNEXPECTED_ERROR,
+      });
+    }
+  };
+}
 
 /**
  * POST /api/v1/external/calendar/events
  * Create a new calendar event with optional attendee invitations
- * 
- * LEARNING: Creates events on Google Calendar with invitation support
- * WHY: Core booking functionality - creates appointment on calendar
- * PATTERN: Validates input, creates event, invalidates cache
- * 
- * Request body:
- * {
- *   calendarId: string (required) - Calendar email to create event on
- *   summary: string (required) - Event title
- *   start: string (required) - ISO date string for event start
- *   end: string (required) - ISO date string for event end
- *   description?: string - Event description/notes
- *   location?: string - Physical location/address
- *   attendees?: Array<{email: string, displayName?: string, optional?: boolean}>
- *   sendUpdates?: 'all' | 'externalOnly' | 'none' - Whether to send invitation emails
- * }
- * 
- * Response:
- * {
- *   id: string - Google Calendar event ID
- *   htmlLink: string - Link to view event in Google Calendar
- *   summary: string - Event title
- *   start: string - Start time (ISO)
- *   end: string - End time (ISO)
- *   location?: string - Location if provided
- *   attendees?: Array<{email: string, responseStatus: string}>
- * }
  */
-router.post('/events', async (req: Request, res: Response) => {
-  try {
+router.post(
+  '/events',
+  csrfProtection,
+  withCalendarErrorHandling(async (req: Request, res: Response): Promise<void> => {
     const {
       calendarId,
       summary,
@@ -95,214 +71,82 @@ router.post('/events', async (req: Request, res: Response) => {
       description,
       location,
       attendees,
-      sendUpdates
+      sendUpdates,
     } = req.body;
-    
-    // Validate required fields
+
     if (!calendarId || typeof calendarId !== 'string') {
-      res.status(400).json({
-        error: 'Invalid request: calendarId is required'
-      });
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_CALENDAR_ID);
       return;
     }
-    
     if (!summary || typeof summary !== 'string') {
-      res.status(400).json({
-        error: 'Invalid request: summary (event title) is required'
-      });
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_SUMMARY);
       return;
     }
-    
     if (!start || !end) {
-      res.status(400).json({
-        error: 'Invalid request: start and end times are required'
-      });
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_TIMES);
       return;
     }
-    
-    // Validate dates
+
     const startDate = new Date(start);
     const endDate = new Date(end);
-    
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      res.status(400).json({
-        error: 'Invalid request: start and end must be valid ISO date strings'
-      });
+    if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_DATES);
       return;
     }
-    
     if (startDate >= endDate) {
-      res.status(400).json({
-        error: 'Invalid request: start must be before end'
-      });
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.START_BEFORE_END);
       return;
     }
-    
-    // Validate attendees if provided
+
     if (attendees) {
       if (!Array.isArray(attendees)) {
-        res.status(400).json({
-          error: 'Invalid request: attendees must be an array'
-        });
+        sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_ATTENDEES);
         return;
       }
-      
-      // Validate each attendee has an email
-      for (const attendee of attendees) {
-        if (!attendee.email || typeof attendee.email !== 'string') {
-          res.status(400).json({
-            error: 'Invalid request: each attendee must have an email address'
-          });
-          return;
-        }
+      const invalidAttendee = attendees.find(
+        (a: { email?: unknown }) => !a?.email || typeof a.email !== 'string'
+      );
+      if (invalidAttendee) {
+        sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_ATTENDEE_EMAIL);
+        return;
       }
     }
-    
-    // Validate sendUpdates if provided
-    if (sendUpdates && !['all', 'externalOnly', 'none'].includes(sendUpdates)) {
-      res.status(400).json({
-        error: 'Invalid request: sendUpdates must be "all", "externalOnly", or "none"'
-      });
+
+    if (
+      sendUpdates &&
+      !CALENDAR_ROUTE_MESSAGES.VALID_SEND_UPDATES.includes(sendUpdates)
+    ) {
+      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_SEND_UPDATES);
       return;
     }
-    
-    // Check if OAuth credentials are set
+
     const credentials = getCredentials();
     if (!credentials.access_token) {
       res.status(401).json({
-        error: 'Not authenticated: OAuth credentials not found. Please authenticate first.',
-        authUrl: '/api/v1/external/oauth'
+        error: CALENDAR_ROUTE_MESSAGES.NOT_AUTHENTICATED,
+        authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
       });
       return;
     }
-    
-    // Set credentials for calendar service
+
     setCalendarCredentials(credentials);
-    
-    // Build event params
+
     const eventParams: CreateEventParams = {
       calendarId,
       summary,
       start: startDate,
-      end: endDate
+      end: endDate,
     };
-    
-    if (description) {
-      eventParams.description = description;
-    }
-    
-    if (location) {
-      eventParams.location = location;
-    }
-    
-    if (attendees && attendees.length > 0) {
-      eventParams.attendees = attendees as EventAttendee[];
-    }
-    
-    if (sendUpdates) {
-      eventParams.sendUpdates = sendUpdates;
-    }
-    
-    // Create the event
+    if (description) eventParams.description = description;
+    if (location) eventParams.location = location;
+    if (attendees?.length > 0) eventParams.attendees = attendees as EventAttendee[];
+    if (sendUpdates) eventParams.sendUpdates = sendUpdates;
+
     const createdEvent = await createEvent(eventParams);
-    
-    res.status(201).json(createdEvent);
-    
-  } catch (error: any) {
-    logger.error('Error in POST /events:', error);
-    
-    // Handle typed CalendarApiError
-    if (error instanceof CalendarApiError) {
-      const statusCode = getStatusCodeForError(error);
-      res.status(statusCode).json({
-        error: error.type,
-        message: error.getUserMessage(),
-        retryable: error.retryable,
-        ...(error.type === 'auth' && { authUrl: '/api/v1/external/oauth' }),
-        ...(error.type === 'permission' && { authUrl: '/api/v1/external/oauth' }),
-      });
-      return;
-    }
-    
-    // Generic error fallback
-    res.status(500).json({
-      error: 'unknown',
-      message: error.message || 'An unexpected error occurred'
-    });
-  }
-});
+    sendCreated(res, createdEvent);
+  })
+);
 
-/**
- * Debug endpoints (dev mode only)
- * LEARNING: Provides visibility into cache and rate limiter state
- * WHY: Useful for debugging and validation during development
- * PATTERN: Only accessible in development environment
- */
-
-/**
- * GET /api/v1/external/calendar/debug/events-cache
- * Get events cache contents and statistics (dev mode only)
- */
-router.get('/debug/events-cache', (_req: Request, res: Response) => {
-  // Only allow in development
-  if (process.env.NODE_ENV === 'production') {
-    res.status(403).json({
-      error: 'Debug endpoints are not available in production'
-    });
-    return;
-  }
-  
-  try {
-    const stats = getEventsCacheStats();
-    const entries = getAllEventsEntries();
-    
-    // Convert Map to array for JSON serialization
-    const entriesArray = Array.from(entries.entries()).map(([key, entry]) => ({
-      key,
-      data: entry.data,
-      timestamp: entry.timestamp,
-      ttl: entry.ttl,
-      age: Date.now() - entry.timestamp,
-      expired: (Date.now() - entry.timestamp) > entry.ttl
-    }));
-    
-    res.json({
-      stats,
-      entries: entriesArray,
-      totalEntries: entries.size
-    });
-  } catch (error: any) {
-    logger.error('Error in /debug/events-cache:', error);
-    res.status(500).json({
-      error: 'Internal server error',
-      message: error.message || 'An unexpected error occurred'
-    });
-  }
-});
-
-/**
- * GET /api/v1/external/calendar/debug/rate-limit
- * Get rate limiter statistics (dev mode only)
- */
-router.get('/debug/rate-limit', (_req: Request, res: Response) => {
-  // Only allow in development
-  if (process.env.NODE_ENV === 'production') {
-    res.status(403).json({
-      error: 'Debug endpoints are not available in production'
-    });
-    return;
-  }
-  
-  try {
-    const stats = getRateLimitStats('google-calendar');
-    res.json(stats);
-  } catch (error: any) {
-    logger.error('Error in /debug/rate-limit:', error);
-    res.status(500).json({
-      error: 'Internal server error',
-      message: error.message || 'An unexpected error occurred'
-    });
-  }
-});
+router.use('/debug', CalendarDebugRouter);
 
 export { router as CalendarRouter };

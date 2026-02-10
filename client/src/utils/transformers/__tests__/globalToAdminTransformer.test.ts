@@ -1,6 +1,6 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { AdminTransformer } from '../globalToAdminTransformer'
+import { adminTransformer } from '../globalToAdminTransformer'
 import { createAtomicBlockGlobalData, createCompositeBlockGlobalData } from '../../__tests__/factories/globalDataFactory'
 
 vi.mock('@/configs/adminConfig', () => ({
@@ -16,19 +16,16 @@ vi.mock('@/configs/adminConfig', () => ({
   })),
 }))
 
-describe('AdminTransformer', () => {
-  let transformer: AdminTransformer
-  
+describe('globalToAdminTransformer', () => {
   beforeEach(() => {
-    transformer = new AdminTransformer()
     vi.clearAllMocks()
   })
-  
+
   describe('transformGlobalToAdmin', () => {
     it('should transform atomic block instance', () => {
       const globalData = createAtomicBlockGlobalData()
-      
-      const result = transformer.transformGlobalToAdmin(globalData)
+
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       expect(result.blockInstance).toHaveLength(1)
       expect(result.partInstance).toHaveLength(2)
@@ -38,7 +35,7 @@ describe('AdminTransformer', () => {
     it('should attach partAssignments relationships', () => {
       const globalData = createAtomicBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const blockInstance = result.blockInstance[0]
       expect(blockInstance.partAssignments).toBeDefined()
@@ -50,7 +47,7 @@ describe('AdminTransformer', () => {
     it('should transform composite block with components', () => {
       const globalData = createCompositeBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const compositeBlock = result.blockInstance.find(b => b.id === 'composite-1')
       expect(compositeBlock).toBeDefined()
@@ -76,7 +73,7 @@ describe('AdminTransformer', () => {
         },
       }
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       expect(result.blockInstance).toHaveLength(0)
       expect(result.partInstance).toHaveLength(0)
@@ -85,7 +82,7 @@ describe('AdminTransformer', () => {
     it('should preserve entity properties', () => {
       const globalData = createAtomicBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const partInstance = result.partInstance[0]
       expect(partInstance.id).toBe('part-1')
@@ -99,7 +96,7 @@ describe('AdminTransformer', () => {
     it('should maintain entity order by orderIndex', () => {
       const globalData = createAtomicBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const partInstances = result.partInstance
       expect(partInstances[0].orderIndex).toBeLessThanOrEqual(partInstances[1].orderIndex)
@@ -108,7 +105,7 @@ describe('AdminTransformer', () => {
     it('should handle relationships for all entity types', () => {
       const globalData = createCompositeBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const compositeBlock = result.blockInstance.find(b => b.id === 'composite-1')
       const component1 = result.blockInstance.find(b => b.id === 'component-1')
@@ -139,7 +136,7 @@ describe('AdminTransformer', () => {
         },
       }
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const blockInstance = result.blockInstance[0]
       expect(blockInstance.partAssignments).toEqual([])
@@ -150,7 +147,7 @@ describe('AdminTransformer', () => {
     it('should handle multiple relationships to same entity', () => {
       const globalData = createCompositeBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const component2 = result.blockInstance.find(b => b.id === 'component-2')
       expect(component2?.partAssignments).toHaveLength(2) // part-2 and part-3
@@ -162,7 +159,7 @@ describe('AdminTransformer', () => {
       const globalData = createAtomicBlockGlobalData()
       const originalBlockCount = globalData.entities.blockInstance.length
       
-      transformer.transformGlobalToAdmin(globalData)
+      adminTransformer.transformGlobalToAdmin(globalData)
       
       expect(globalData.entities.blockInstance.length).toBe(originalBlockCount)
     })
@@ -170,7 +167,7 @@ describe('AdminTransformer', () => {
     it('should return plain objects (not class instances)', () => {
       const globalData = createAtomicBlockGlobalData()
       
-      const result = transformer.transformGlobalToAdmin(globalData)
+      const result = adminTransformer.transformGlobalToAdmin(globalData)
       
       const blockInstance = result.blockInstance[0]
       expect(blockInstance.constructor.name).toBe('Object')

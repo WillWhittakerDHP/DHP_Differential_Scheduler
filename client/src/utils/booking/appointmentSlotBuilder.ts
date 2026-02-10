@@ -6,12 +6,11 @@
  * PATTERN: Pure functions, no side effects, no reactivity
  */
 
-import type { 
-  TimeRange, 
-  AppointmentShape, 
-  AppointmentSlot 
+import type {
+  TimeRange,
+  AppointmentShape,
+  AppointmentSlot
 } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
@@ -25,111 +24,12 @@ import {
   createBlockFinals,
   filterZeroedBlocks
 } from './blockFinalizer'
-import { 
-  getMajorEventShape, 
-  getMinorEventShape 
-} from '@/utils/eventAttendeeUtils'
+import { createTimeRangesFromSlotShape } from './slotShapeLookups'
+import { resolveEventShapes, adjustMinorTimeRange } from './perspectiveResolver'
 
-export function createTimeRange(startTime: string, duration: number): TimeRange {
-  const start = new Date(startTime)
-  const end = new Date(start)
-  end.setUTCMinutes(end.getUTCMinutes() + duration)
-  
-  const result = {
-    startTime: start.toISOString() as RFC3339DateTime,
-    endTime: end.toISOString() as RFC3339DateTime,
-    duration
-  }
-  
-  return result
-}
-
-/**
- * Add minutes to a start time
- * LEARNING: Helper to add minutes to an ISO string
- * WHY: Used for calculating client start time with offset
- * PATTERN: Create Date, add minutes, return ISO string
- */
-function addMinutes(startTime: string, minutes: number): string {
-  const date = new Date(startTime)
-  date.setUTCMinutes(date.getUTCMinutes() + minutes)
-  return date.toISOString()
-}
-
-/**
- * Find EventFinal by event shape name
- * LEARNING: Helper function to look up event final by name from SlotShape
- * WHY: Eliminates hardcoded event name access, enables generic event lookup
- * PATTERN: Array.find() to search eventFinals array
- * 
- * @param slotShape - SlotShape with eventFinals array
- * @param name - Event shape name (e.g., 'Major', 'Minor', 'Moveable')
- * @returns EventFinal if found, undefined otherwise
- */
-export function findEventFinalByName(
-  slotShape: import('@/types/appointment').SlotShape,
-  name: string
-): import('@/types/appointment').EventFinal | undefined {
-  return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
-}
-
-/**
- * Find EventFinal by event shape ID
- * LEARNING: Helper function to look up event final by ID from SlotShape
- * WHY: Enables lookup by ID for more precise event identification
- * PATTERN: Array.find() to search eventFinals array
- * 
- * @param slotShape - SlotShape with eventFinals array
- * @param id - Event shape ID
- * @returns EventFinal if found, undefined otherwise
- */
-export function findEventFinalById(
-  slotShape: import('@/types/appointment').SlotShape,
-  id: string
-): import('@/types/appointment').EventFinal | undefined {
-  return slotShape.eventFinals.find(ef => ef.eventShape.id === id)
-}
-
-/**
- * Convert SlotShape + startTime to TimeRange objects
- * LEARNING: Precomputes TimeRanges for performance (accessed frequently in UI)
- * WHY: TimeRanges are accessed frequently (graphBars, derivePerspective, TimeSlotGrid), so precompute
- * PATTERN: Pure function that creates TimeRange objects from durations
- * 
- * Session Event Refactor: Creates eventTimeRanges Record dynamically from eventFinals array
- * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
- * PATTERN: Build eventTimeRanges Record by iterating over eventFinals array
- * 
- * @param slotShape - SlotShape with eventFinals array
- * @param startTime - Base start time (ISO string)
- * @returns Object with precomputed TimeRanges including eventTimeRanges Record
- */
-export function createTimeRangesFromSlotShape(
-  slotShape: import('@/types/appointment').SlotShape,
-  startTime: string
-): {
-  totalTimeRange: TimeRange | null
-  eventTimeRanges: Record<string, TimeRange | null>
-} {
-  // PATTERN: Reduce eventFinals to Record object
-  // DUAL-TRACK: Use roundedDuration for display (time ranges shown to users)
-  const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {
-    const eventName = eventFinal.eventShape.name
-    const duration = eventFinal.roundedDuration
-    if (duration > 0) {
-      return { ...acc, [eventName]: createTimeRange(startTime, duration) }
-    } else {
-      return { ...acc, [eventName]: null }
-    }
-  }, {} as Record<string, TimeRange | null>)
-  
-  return {
-    totalTimeRange: slotShape.roundedDuration > 0
-      ? createTimeRange(startTime, slotShape.roundedDuration)
-      : null,
-    eventTimeRanges
-  }
-}
+export { createTimeRange } from './slotTimeUtils'
+export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShapeLookups'
+export { derivePerspective } from './perspectiveResolver'
 
 /**
  * Look up EventInstance[] for a partShape by name
@@ -151,37 +51,51 @@ function lookupEventsForPartShape(
   eventInstances: EventInstance[],
   blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
-  const partShapeEntity = Array.from(partShapeById.values()).find(
-    ps => ps.name === partShapeName
-  )
-  
-  if (!partShapeEntity) {
-    return []
-  }
-  
-  // LEARNING: eventAssignments relationships now have PartInstance as parent, not PartShape/BlockShape
-  // WHY: Events are configured at instance level, matching validParts/partAssignments pattern
-  // PATTERN: Find PartInstances with this partShape, then filter eventAssignments by those PartInstances
-  
+  const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
+  if (!partShapeEntity) return []
+
   const partInstanceIds = blockInstances
-    .flatMap(bi => bi.partInstances || [])
+    .flatMap(bi => bi.partInstances ?? [])
     .filter(pi => pi.partShape === partShapeName)
     .map(pi => pi.id)
-  
-  const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(rel => {
-    return rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
-  })
-  
-  const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel => 
+
+  const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
+    rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+  )
+  const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel =>
     rel.children.map(child => child.id)
   )
-  
   const uniqueEventInstanceIds = new Set(eventInstanceIds)
-  const result = Array.from(uniqueEventInstanceIds)
+  return Array.from(uniqueEventInstanceIds)
     .map(id => eventInstances.find(ei => ei.id === id))
     .filter((ei): ei is EventInstance => ei !== undefined)
-  
-  return result
+}
+
+/**
+ * Build eventAssignmentsByPartShape from nonZeroedParts and relationships.
+ * LEARNING: Extracted to keep buildAppointmentShape under complexity thresholds.
+ */
+function buildEventAssignmentsByPartShape(
+  nonZeroedParts: { partShape: string }[],
+  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+  eventAssignmentsRelationships: GlobalRelationship[],
+  eventInstances: EventInstance[],
+  blockInstances: BookingBlockInstance[]
+): Record<string, EventInstance[]> {
+  const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
+  const entries = Array.from(uniquePartShapes)
+    .map(partShapeName => {
+      const events = lookupEventsForPartShape(
+        partShapeName,
+        partShapeById,
+        eventAssignmentsRelationships,
+        eventInstances,
+        blockInstances
+      )
+      return events.length > 0 ? ([partShapeName, events] as const) : null
+    })
+    .filter((entry): entry is [string, EventInstance[]] => entry !== null)
+  return Object.fromEntries(entries)
 }
 
 /**
@@ -210,53 +124,35 @@ export function buildAppointmentShape(
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   globalData?: GlobalData
 ): AppointmentShape {
-  // PATTERN: Create finalized blocks, then filter out blocks with all zeroed parts
-  // LEARNING: Preserves block-level context instead of flattening immediately
-  // NOTE: Rounding happens at event level in calculateSlotShape, not at part/block level
   const allBlockFinals = createBlockFinals(blockInstances)
   const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
-  
-  // PATTERN: Extract finalizedParts from BlockFinals for backward compatibility
-  // WHY: Maintains existing finalizedParts property while adding finalizedBlocks
   const nonZeroedParts = nonZeroedBlockFinals.flatMap(blockFinal => blockFinal.finalizedParts)
-  
-  // PATTERN: Build eventAssignmentsByPartShape Record keyed by partShape name (aggregated from PartInstances)
-  const eventAssignmentsByPartShape: Record<string, EventInstance[]> = {}
-  
-  if (eventInstances && eventAssignmentsRelationships && partShapeById) {
-    const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
-    
-    // PATTERN: Use Object.fromEntries + map to build object immutably
-    const assignments = Object.fromEntries(
-      Array.from(uniquePartShapes)
-        .map(partShapeName => {
-          const events = lookupEventsForPartShape(
-            partShapeName,
-            partShapeById,
-            eventAssignmentsRelationships || [],
-            eventInstances,
-            blockInstances
-          )
-          return events.length > 0 ? [partShapeName, events] : null
-        })
-        .filter((entry): entry is [string, typeof eventInstances] => entry !== null)
-    )
-    Object.assign(eventAssignmentsByPartShape, assignments)
-  }
-  
-  // PATTERN: Use calculateSlotShape to get all durations in one pass
-  // LEARNING: Now passes BlockFinal[] instead of PartFinal[], making accumulation explicit
-  // NOTE: Rounding happens at event level here - accumulate raw values, then round once per event
-  const slotShape = calculateSlotShape(nonZeroedBlockFinals, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
-  
-  const shape: AppointmentShape = {
+
+  const eventAssignmentsByPartShape =
+    eventInstances && eventAssignmentsRelationships && partShapeById
+      ? buildEventAssignmentsByPartShape(
+          nonZeroedParts,
+          partShapeById,
+          eventAssignmentsRelationships,
+          eventInstances,
+          blockInstances
+        )
+      : {}
+
+  const slotShape = calculateSlotShape(
+    nonZeroedBlockFinals,
+    eventAssignmentsByPartShape,
+    eventShapes ?? [],
+    globalData,
+    settings ?? null
+  )
+
+  return {
     finalizedBlocks: nonZeroedBlockFinals,
-    finalizedParts: nonZeroedParts,  // Derived from finalizedBlocks for backward compatibility
+    finalizedParts: nonZeroedParts,
     slotShape,
     eventAssignmentsByPartShape
   }
-  
-  return shape
 }
 
 /**
@@ -285,74 +181,56 @@ export function applyShapeToTime(
     ? shape.slotShape
     : {
         ...shape.slotShape,
-        roundedDuration: fallbackDuration || 0
+        roundedDuration: fallbackDuration ?? 0
       }
   
-  // PATTERN: Use utility function to create all TimeRanges at once
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
-  
-  // PATTERN: Adjust minorTimeRange to end at majorTimeRange.endTime if both exist
-  let majorTimeRange: TimeRange | null = null
-  let minorTimeRange: TimeRange | null = null
-  let majorEventName: string | null = null
-  let minorEventName: string | null = null
-  
-  if (globalData && availabilitySettings?.differentialPerspectives && effectiveSlotShape.eventFinals.length > 0) {
-    const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-    const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
-    const eventShapeEntities = effectiveSlotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
-    
-    const majorEventShape = majorAttendeeIds.length > 0
-      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+
+  const differentialPerspectives = globalData && availabilitySettings?.differentialPerspectives
+    ? availabilitySettings.differentialPerspectives
+    : null
+  const majorAttendeeIds = differentialPerspectives?.majorAttendees ?? []
+  const minorAttendeeIds = differentialPerspectives?.minorAttendees ?? []
+  const resolved =
+    differentialPerspectives && effectiveSlotShape.eventFinals.length > 0
+      ? resolveEventShapes(majorAttendeeIds, minorAttendeeIds, effectiveSlotShape.eventFinals)
+      : {
+          majorEventShape: null,
+          minorEventShape: null,
+          majorEventName: null,
+          minorEventName: null
+        }
+
+  const majorTimeRange =
+    resolved.majorEventName != null
+      ? timeRanges.eventTimeRanges[resolved.majorEventName] ?? null
       : null
-    const eventShapesExcludingMajor = majorEventShape
-      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
+  const minorTimeRange =
+    resolved.minorEventName != null
+      ? timeRanges.eventTimeRanges[resolved.minorEventName] ?? null
       : null
-    
-    if (majorEventShape) {
-      majorEventName = majorEventShape.name
-      majorTimeRange = timeRanges.eventTimeRanges[majorEventName] ?? null
-    }
-    if (minorEventShape) {
-      minorEventName = minorEventShape.name
-      minorTimeRange = timeRanges.eventTimeRanges[minorEventName] ?? null
-    }
-  }
-  
-  const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
-  let adjustedMinorTimeRange = minorTimeRange
-  
-  // DUAL-TRACK: Use roundedDifferentialOffset for display logic
-  if (majorTimeRange && minorTimeRange && majorEventName && minorEventName && effectiveSlotShape.roundedDifferentialOffset >= 0) {
-    const minorDuration = majorTimeRange.duration - effectiveSlotShape.roundedDifferentialOffset
-    if (minorDuration > 0) {
-      adjustedMinorTimeRange = createTimeRange(
-        addMinutes(startTime, effectiveSlotShape.roundedDifferentialOffset),
-        minorDuration
-      )
-      adjustedEventTimeRanges[minorEventName] = adjustedMinorTimeRange
-    } else {
-      adjustedMinorTimeRange = null
-      adjustedEventTimeRanges[minorEventName] = null
-    }
-  }
-  
-  // Validate: minorTimeRange and majorTimeRange must end at the same time
-  // PATTERN: Validate that minor and major times align
-  if (adjustedMinorTimeRange && majorTimeRange) {
+
+  const { adjustedEventTimeRanges, adjustedMinorTimeRange } = adjustMinorTimeRange(
+    startTime,
+    timeRanges.eventTimeRanges,
+    resolved.majorEventName,
+    resolved.minorEventName,
+    majorTimeRange,
+    minorTimeRange,
+    effectiveSlotShape.roundedDifferentialOffset
+  )
+
+  if (adjustedMinorTimeRange != null && majorTimeRange != null) {
     if (adjustedMinorTimeRange.endTime !== majorTimeRange.endTime) {
       throw new Error(
         `AppointmentSlot validation failed: ` +
-        `minorTimeRange.endTime (${adjustedMinorTimeRange.endTime}) !== ` +
-        `majorTimeRange.endTime (${majorTimeRange.endTime})`
+          `minorTimeRange.endTime (${adjustedMinorTimeRange.endTime}) !== ` +
+          `majorTimeRange.endTime (${majorTimeRange.endTime})`
       )
     }
   }
-  
-  const slot = {
+
+  return {
     buttonIndex,
     isAvailable,
     shape,
@@ -360,70 +238,4 @@ export function applyShapeToTime(
     totalTimeRange: timeRanges.totalTimeRange,
     eventTimeRanges: adjustedEventTimeRanges
   }
-  
-  return slot
-}
-
-export function derivePerspective(
-  slot: AppointmentSlot,
-  perspective: 'major' | 'minor' | 'nonDifferential',
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
-): TimeRange | null {
-  let result: TimeRange | null = null
-  
-  // PATTERN: Return null if required data is not available
-  if (!globalData || !slot.shape.slotShape.eventFinals || !availabilitySettings?.differentialPerspectives) {
-    if (perspective === 'nonDifferential' || perspective === 'major') {
-      return slot.totalTimeRange
-    }
-    return null
-  }
-  
-  const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-  const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
-  const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as import('@/types/entities').EventShapeEntity[]
-  
-  const majorEventShape = majorAttendeeIds.length > 0
-    ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-    : null
-  const eventShapesExcludingMajor = majorEventShape
-    ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-    : eventShapeEntities
-  const minorEventShape = minorAttendeeIds.length > 0
-    ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-    : null
-  
-  // PATTERN: Return null or totalTimeRange if event shapes are not found
-  if (!majorEventShape) {
-    if (perspective === 'nonDifferential' || perspective === 'major') {
-      return slot.totalTimeRange
-    }
-    return null
-  }
-  
-  const majorEventName = majorEventShape.name
-  const minorEventName = minorEventShape?.name ?? null
-  
-  switch (perspective) {
-    case 'major':
-      result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
-      break
-    case 'minor':
-      // PATTERN: Show totalTimeRange as fallback so slot remains visible and clickable
-      if (!minorEventShape || !minorEventName) {
-        result = slot.totalTimeRange
-      } else {
-        result = slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
-      }
-      break
-    case 'nonDifferential':
-      // LEARNING: Show major time for non-differential (same as major view)
-      result = slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange
-      break
-    default:
-      result = null
-  }
-  
-  return result
 }

@@ -12,84 +12,75 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **164**
-- Requiring review: **435**
-- Allowed (with justification): 0
-- Annotated deprecations: **44**
-- Runtime legacy accommodation: **391**
+- Files with findings: **154**
+- Requiring review: **394**
+- Allowed (with justification): 3
+- Annotated deprecations: **35**
+- Runtime legacy accommodation: **359**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 56 | 1 | 29 |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 40 | 0 | 21 |
 | `client/src/composables/booking/useContactsStepData.ts` | P0 | 30 | 0 | 15 |
 | `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 25 | 1 | 12 |
-| `client/src/views/admin/tabs/BusinessControlsTab.vue` | P0 | 23 | 0 | 13 |
 | `server/src/scripts/helpers/calendarParsingHelpers.ts` | P0 | 21 | 0 | 12 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 18 | 2 | 8 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 18 | 2 | 8 |
+| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 17 | 1 | 8 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | P0 | 15 | 1 | 9 |
 | `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 14 | 0 | 7 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 14 | 0 | 7 |
 | `client/src/utils/differentialScheduling.ts` | P0 | 13 | 1 | 8 |
 | `client/src/utils/blockInstanceUtils.ts` | P0 | 12 | 0 | 6 |
-| `client/src/composables/booking/useAppointmentSlots.ts` | P0 | 11 | 0 | 6 |
 | `client/src/composables/booking/usePropertyDetailsLogic.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | P0 | 10 | 0 | 6 |
 | `client/src/types/admin/AdminEntity.ts` | P0 | 10 | 0 | 5 |
-| `client/src/composables/booking/useAvailableStartTimes.ts` | P1 | 9 | 2 | 4 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 10 | 0 | 5 |
 | `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 8 | 0 | 4 |
+| `client/src/composables/admin/useDifferentialPerspectives.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/formFields/useFormFieldsStandardLayout.ts` | P1 | 8 | 0 | 4 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | P1 | 8 | 0 | 4 |
 | `client/src/utils/booking/partFinalizer.ts` | P1 | 8 | 0 | 4 |
 | `client/src/utils/eventAttendeeUtils.ts` | P1 | 8 | 0 | 4 |
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | P1 | 8 | 0 | 4 |
 | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P1 | 8 | 0 | 4 |
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 8 | 0 | 4 |
+| `server/src/services/google/maps/mapsHelpers.ts` | P1 | 8 | 0 | 4 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P1 | 7 | 1 | 3 |
 | `client/src/composables/useBookingWizard.ts` | P1 | 7 | 1 | 3 |
-| `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` | P1 | 7 | 0 | 4 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P1 | 7 | 0 | 4 |
 | `client/src/components/admin/generic/DynamicForm.vue` | P1 | 6 | 0 | 3 |
-| `client/src/composables/booking/useAppointmentTimes.ts` | P1 | 6 | 2 | 2 |
+| `client/src/composables/admin/useDefaultLocation.ts` | P1 | 6 | 0 | 3 |
+| `client/src/composables/booking/useAppointmentShape.ts` | P1 | 6 | 0 | 3 |
 
-*...and 134 more files. See JSON report for details.*
+*...and 124 more files. See JSON report for details.*
 
 ## Per-file findings
 
-### `client/src/utils/transformers/appointmentToWizardTransformer.ts` [P0] (score: 56)
+### `client/src/utils/transformers/appointmentToWizardTransformer.ts` [P0] (score: 40)
 
 ```
-[LEGACY] legacy-keyword@89: differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
-[LEGACY] legacy-keyword@97: onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
-[LEGACY] legacy-keyword@98: clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
-[DEPR] compat-marker@195: // LEARNING: Convert boolean to TernaryBoolean for backward compatibility
-[LEGACY] unhelpful-default-or@210: name: pi.name || '',
-[LEGACY] chaining-fallback@217: orderIndex: currentPart?.orderIndex ?? 0,
-[LEGACY] unhelpful-default-or@218: partShape: currentPart?.partShape || '',
-[LEGACY] unhelpful-default-or@228: icon: version.icon || '',
-[LEGACY] fallback-keyword@265: const fallback = findBlockInstanceById(bookingData, userTypeId)
-[LEGACY] fallback-keyword@266: if (fallback) {
-[LEGACY] unhelpful-default-or@288: const serviceIds = appointment.selectedServiceIds || []
-[LEGACY] unhelpful-default-or@325: const propertyTypeBlockIds = appointment.selectedPropertyIds || []
-[LEGACY] unhelpful-default-or@353: const optionTypeBlockIds = appointment.selectedOptionIds || []
-[LEGACY] unhelpful-default-or@378: const lineItemBlockIds = (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds || []
-[LEGACY] unhelpful-default-nullish@430: address: address?.address ?? '',
-[LEGACY] unhelpful-default-nullish@431: unit: address?.unit ?? '',
-[LEGACY] unhelpful-default-nullish@432: city: address?.city ?? '',
-[LEGACY] unhelpful-default-nullish@433: state: address?.state ?? '',
-[LEGACY] unhelpful-default-nullish@434: zipCode: address?.zipCode ?? '',
-[LEGACY] unhelpful-default-or@464: ) || []
-[LEGACY] unhelpful-default-or@470: firstName: user?.firstName || '',
-[LEGACY] unhelpful-default-or@471: lastName: user?.lastName || '',
-[LEGACY] unhelpful-default-or@472: email: user?.email || '',
-[LEGACY] unhelpful-default-or@479: firstName: clientAttendee?.user?.firstName || '',
-[LEGACY] unhelpful-default-or@480: lastName: clientAttendee?.user?.lastName || '',
-[LEGACY] unhelpful-default-or@481: email: clientAttendee?.user?.email || '',
-[LEGACY] unhelpful-default-or@484: firstName: agentAttendee?.user?.firstName || '',
-[LEGACY] unhelpful-default-or@485: lastName: agentAttendee?.user?.lastName || '',
-[LEGACY] unhelpful-default-or@486: email: agentAttendee?.user?.email || '',
-[LEGACY] unhelpful-default-or@500: time: (slot.startTime as RFC3339DateTime) || '',
+[LEGACY] unhelpful-default-nullish@136: address: address?.address ?? '',
+[LEGACY] unhelpful-default-nullish@137: unit: address?.unit ?? '',
+[LEGACY] unhelpful-default-nullish@138: city: address?.city ?? '',
+[LEGACY] unhelpful-default-nullish@139: state: address?.state ?? '',
+[LEGACY] unhelpful-default-nullish@140: zipCode: address?.zipCode ?? '',
+[LEGACY] unhelpful-default-nullish@178: ) ?? []
+[LEGACY] unhelpful-default-nullish@184: firstName: user?.firstName ?? '',
+[LEGACY] unhelpful-default-nullish@185: lastName: user?.lastName ?? '',
+[LEGACY] unhelpful-default-nullish@186: email: user?.email ?? '',
+[LEGACY] unhelpful-default-nullish@193: firstName: clientAttendee?.user?.firstName ?? '',
+[LEGACY] unhelpful-default-nullish@194: lastName: clientAttendee?.user?.lastName ?? '',
+[LEGACY] unhelpful-default-nullish@195: email: clientAttendee?.user?.email ?? '',
+[LEGACY] unhelpful-default-nullish@198: firstName: agentAttendee?.user?.firstName ?? '',
+[LEGACY] unhelpful-default-nullish@199: lastName: agentAttendee?.user?.lastName ?? '',
+[LEGACY] unhelpful-default-nullish@200: email: agentAttendee?.user?.email ?? '',
+[LEGACY] unhelpful-default-nullish@261: const serviceIds = appointment.selectedServiceIds ?? []
+[LEGACY] unhelpful-default-nullish@271: const propertyTypeBlockIds = appointment.selectedPropertyIds ?? []
+[LEGACY] unhelpful-default-nullish@281: const optionTypeBlockIds = appointment.selectedOptionIds ?? []
+[LEGACY] unhelpful-default-nullish@292: (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds ?? []
+[LEGACY] fallback-keyword@326: const fallback = findBlockInstanceById(bookingData, userTypeId)
+[LEGACY] fallback-keyword@327: if (fallback) {
 ```
 
 ### `client/src/composables/booking/useContactsStepData.ts` [P0] (score: 30)
@@ -115,37 +106,19 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P0] (score: 25)
 
 ```
-[LEGACY] unhelpful-default-or@38: const rawEntities = batchResponse[entityKey] || []
-[LEGACY] unhelpful-default-or@87: const rawRelationships = batchResponse[relationshipKey] || []
-[LEGACY] unhelpful-default-nullish@153: const parentKind = config?.parentEntity ?? ''
-[LEGACY] unhelpful-default-nullish@154: const childKind = config?.childEntity ?? ''
-[LEGACY] unhelpful-default-nullish@181: id: (raw.id ?? '') as GlobalEntityId,
-[LEGACY] unhelpful-default-nullish@185: parent_id: (parentId ?? '') as GlobalEntityId,
-[LEGACY] unhelpful-default-nullish@186: child_id: (childId ?? '') as GlobalEntityId,
-[DEPR] compat-marker@274: // Attach instanceComponents arrays to entities (for backward compatibility)
-[LEGACY] unhelpful-default-or@277: const entityList = staged.fetchedEntities[entityKey] || []
-[LEGACY] unhelpful-default-or@284: const existing = map.get(rel.parent_id) || []
-[LEGACY] unhelpful-default-or@396: const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
-[LEGACY] unhelpful-default-or@397: const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
-[LEGACY] unhelpful-default-or@398: const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
-```
-
-### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P0] (score: 23)
-
-```
-[LEGACY] unhelpful-default-or@117: get: () => formData.value?.differentialPerspectives?.majorAttendees || [],
-[LEGACY] unhelpful-default-or@128: get: () => formData.value?.differentialPerspectives?.minorAttendees || [],
-[LEGACY] chaining-fallback@139: get: () => formData.value?.differentialPerspectives?.majorLabel || 'Inspector',
-[LEGACY] chaining-fallback@150: get: () => formData.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation',
-[LEGACY] chaining-fallback@161: get: () => formData.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot',
-[LEGACY] unhelpful-default-or@172: get: () => formData.value?.differentialPerspectives?.majorStateLabel || '',
-[LEGACY] unhelpful-default-or@183: get: () => formData.value?.differentialPerspectives?.minorStateLabel || '',
-[LEGACY] unhelpful-default-or@227: return current || {}
-[LEGACY] unhelpful-default-or@361: return current || {}
-[LEGACY] unhelpful-default-nullish@472: get: () => formData.value?.defaultLocation?.address ?? '',
-[LEGACY] unhelpful-default-nullish@484: get: () => formData.value?.defaultLocation?.label ?? '',
-[LEGACY] unhelpful-default-nullish@514: get: () => formData.value?.defaultLocation?.placeId ?? '',
-[LEGACY] unhelpful-default-or@528: return current || {}
+[LEGACY] unhelpful-default-nullish@42: ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS] ?? []
+[LEGACY] unhelpful-default-nullish@44: ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS] ?? []
+[LEGACY] unhelpful-default-nullish@46: ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS] ?? []
+[LEGACY] unhelpful-default-nullish@166: const rawEntities = batchResponse[entityKey] ?? []
+[LEGACY] unhelpful-default-nullish@212: const rawRelationships = batchResponse[relationshipKey] ?? []
+[LEGACY] unhelpful-default-nullish@278: const parentKind = config?.parentEntity ?? ''
+[LEGACY] unhelpful-default-nullish@279: const childKind = config?.childEntity ?? ''
+[LEGACY] unhelpful-default-nullish@306: id: (raw.id ?? '') as GlobalEntityId,
+[LEGACY] unhelpful-default-nullish@310: parent_id: (parentId ?? '') as GlobalEntityId,
+[LEGACY] unhelpful-default-nullish@311: child_id: (childId ?? '') as GlobalEntityId,
+[DEPR] compat-marker@400: // Attach instanceComponents arrays to entities (for backward compatibility)
+[LEGACY] unhelpful-default-nullish@403: const entityList = staged.fetchedEntities[entityKey] ?? []
+[LEGACY] unhelpful-default-nullish@410: const existing = map.get(rel.parent_id) ?? []
 ```
 
 ### `server/src/scripts/helpers/calendarParsingHelpers.ts` [P0] (score: 21)
@@ -165,34 +138,18 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@270: // LEARNING: Explicit fallback chain instead of `|| ''` pattern
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts` [P0] (score: 18)
+### `client/src/utils/transformers/globalToBookingTransformer.ts` [P0] (score: 17)
 
 ```
-[LEGACY] unhelpful-default-or@116: const eventTimeRanges = (slotShape.eventFinals || []).reduce((acc, eventFinal) => {
-[LEGACY] unhelpful-default-or@167: .flatMap(bi => bi.partInstances || [])
-[DEPR] compat-marker@219: // PATTERN: Extract finalizedParts from BlockFinals for backward compatibility
-[LEGACY] unhelpful-default-or@236: eventAssignmentsRelationships || [],
-[LEGACY] unhelpful-default-or@250: const slotShape = calculateSlotShape(nonZeroedBlockFinals, eventAssignmentsByPartShape, eventShapes || [], globalData, s...
-[DEPR] compat-marker@254: finalizedParts: nonZeroedParts,  // Derived from finalizedBlocks for backward compatibility
-[LEGACY] unhelpful-default-or@301: const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-[LEGACY] unhelpful-default-or@302: const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
-[LEGACY] unhelpful-default-or@383: const majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-[LEGACY] unhelpful-default-or@384: const minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
-```
-
-### `client/src/utils/transformers/globalToBookingTransformer.ts` [P0] (score: 18)
-
-```
-[DEPR] compat-marker@49: blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
-[LEGACY] unhelpful-default-or@92: const blockShapes = (entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-[LEGACY] unhelpful-default-or@93: const blockInstances = (entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
-[LEGACY] unhelpful-default-or@94: const partShapes = (entities.partShape || []) as GlobalEntity<'partShape'>[]
-[LEGACY] unhelpful-default-or@95: const partInstances = (entities.partInstance || []) as GlobalEntity<'partInstance'>[]
-[LEGACY] unhelpful-default-or@96: const partAssignmentsRelationships = relationships.partAssignments || []
-[LEGACY] unhelpful-default-or@97: const bookingCascadesRelationships = relationships.bookingCascades || []
-[LEGACY] unhelpful-default-or@98: const instanceComponentsRelationships = relationships.instanceComponents || []
-[DEPR] compat-marker@300: // LEARNING: Convert boolean to TernaryBoolean for backward compatibility during migration
-[LEGACY] unhelpful-default-or@315: icon: blockInstanceWithProps.icon || '',
+[DEPR] compat-marker@55: blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
+[LEGACY] unhelpful-default-nullish@239: icon: blockInstanceWithProps.icon ?? '',
+[LEGACY] unhelpful-default-nullish@301: const blockShapes = (entities.blockShape ?? []) as GlobalEntity<'blockShape'>[]
+[LEGACY] unhelpful-default-nullish@302: const blockInstances = (entities.blockInstance ?? []) as GlobalEntity<'blockInstance'>[]
+[LEGACY] unhelpful-default-nullish@303: const partShapes = (entities.partShape ?? []) as GlobalEntity<'partShape'>[]
+[LEGACY] unhelpful-default-nullish@304: const partInstances = (entities.partInstance ?? []) as GlobalEntity<'partInstance'>[]
+[LEGACY] unhelpful-default-nullish@305: const partAssignmentsRelationships = relationships.partAssignments ?? []
+[LEGACY] unhelpful-default-nullish@306: const bookingCascadesRelationships = relationships.bookingCascades ?? []
+[LEGACY] unhelpful-default-nullish@307: const instanceComponentsRelationships = relationships.instanceComponents ?? []
 ```
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts` [P0] (score: 15)
@@ -222,18 +179,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@377: const currentEntities = old.entities[entityKey] || []
 ```
 
-### `client/src/utils/transformers/relationshipTransformers.ts` [P0] (score: 14)
-
-```
-[LEGACY] unhelpful-default-or@50: const existing = map.get(rel.parent_id) || []
-[LEGACY] unhelpful-default-or@58: const parentEntity = findById(entities[config.parentEntity] || [], parentId)
-[LEGACY] unhelpful-default-or@64: const childEntityArray = entities[config.childEntity] || []
-[LEGACY] unhelpful-default-or@135: const existing = map.get(rel.parent_id) || []
-[LEGACY] unhelpful-default-or@148: const existing = map.get(rel.parent!.id) || []
-[LEGACY] unhelpful-default-or@258: const { resolved: components } = resolveByIds(entities[entityKind] || [], componentIds)
-[LEGACY] unhelpful-default-or@279: const composerEntity = findById(entities[entityKind] || [], composerId)
-```
-
 ### `client/src/utils/differentialScheduling.ts` [P0] (score: 13)
 
 ```
@@ -251,23 +196,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/utils/blockInstanceUtils.ts` [P0] (score: 12)
 
 ```
-[LEGACY] unhelpful-default-nullish@40: const blockShapes = bookingData.blockShapes ?? []
-[LEGACY] unhelpful-default-nullish@64: const blockInstances = bookingData.blockInstances ?? []
-[LEGACY] unhelpful-default-nullish@77: const blockShapes = bookingData.blockShapes ?? []
-[LEGACY] unhelpful-default-nullish@89: const blockShapes = bookingData.blockShapes ?? []
-[LEGACY] unhelpful-default-or@100: const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-[LEGACY] unhelpful-default-or@104: const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
-```
-
-### `client/src/composables/booking/useAppointmentSlots.ts` [P0] (score: 11)
-
-```
-[LEGACY] fallback-keyword@43: timeSlotDurations?: ComputedRef<Map<string, number>> // Optional: durations from time slots for fallback
-[LEGACY] unhelpful-default-or@102: const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
-[LEGACY] unhelpful-default-or@103: const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
-[LEGACY] unhelpful-default-or@123: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
-[LEGACY] unhelpful-default-or@235: const majorAttendeeIds = availabilitySettingsValue.differentialPerspectives.majorAttendees || []
-[LEGACY] unhelpful-default-or@236: const minorAttendeeIds = availabilitySettingsValue.differentialPerspectives.minorAttendees || []
+[LEGACY] unhelpful-default-nullish@43: const blockShapes = bookingData.blockShapes ?? []
+[LEGACY] unhelpful-default-nullish@67: const blockInstances = bookingData.blockInstances ?? []
+[LEGACY] unhelpful-default-nullish@80: const blockShapes = bookingData.blockShapes ?? []
+[LEGACY] unhelpful-default-nullish@92: const blockShapes = bookingData.blockShapes ?? []
+[LEGACY] unhelpful-default-or@103: const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
+[LEGACY] unhelpful-default-or@107: const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
 ```
 
 ### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P0] (score: 10)
@@ -301,15 +235,14 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@195: return Object.keys(this.displayConfig?.relationships || {})
 ```
 
-### `client/src/composables/booking/useAvailableStartTimes.ts` [P1] (score: 9)
+### `client/src/utils/transformers/relationshipTransformers.ts` [P0] (score: 10)
 
 ```
-[DEPR] jsdoc-deprecated@31: settings?: Ref<AvailabilitySettings | null> // @deprecated Phase 12: Use minuteIncrement parameter instead
-[DEPR] compat-marker@84: // For now, keep the settings fetch for backward compatibility, but it's only used for businessHours
-[LEGACY] chaining-fallback@234: const duration = appointmentDuration?.value || 0
-[LEGACY] unhelpful-default-or@235: const busyPeriods = busyTimes?.value || []
-[LEGACY] unhelpful-default-nullish@286: const calendarEvents: CalendarEvent[] = prefetchedCalendarEvents?.value ?? []
-[LEGACY] chaining-fallback@302: minuteIncrement: minuteIncrementRef.value ?? internalSettings.value?.minuteIncrement ?? 15,
+[LEGACY] unhelpful-default-nullish@50: const existing = map.get(rel.parent_id) ?? []
+[LEGACY] unhelpful-default-nullish@58: const parentEntity = findById(entities[config.parentEntity] ?? [], parentId)
+[LEGACY] unhelpful-default-nullish@64: const childEntityArray = entities[config.childEntity] ?? []
+[LEGACY] unhelpful-default-nullish@186: const { resolved: components } = resolveByIds(entities[entityKind] ?? [], componentIds)
+[LEGACY] unhelpful-default-nullish@207: const composerEntity = findById(entities[entityKind] ?? [], composerId)
 ```
 
 ### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 8)
@@ -319,6 +252,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@54: return firstInstance?.partShapeRef || ''
 [LEGACY] unhelpful-default-or@67: const editData = props.bulkEditData || {}
 [LEGACY] unhelpful-default-or@102: partShapeRef: partShapeRef.value || '',
+```
+
+### `client/src/composables/admin/useDifferentialPerspectives.ts` [P1] (score: 8)
+
+```
+[LEGACY] unhelpful-default-nullish@59: get: () => formData.value?.differentialPerspectives?.majorAttendees ?? [],
+[LEGACY] unhelpful-default-nullish@69: get: () => formData.value?.differentialPerspectives?.minorAttendees ?? [],
+[LEGACY] unhelpful-default-nullish@111: get: () => formData.value?.differentialPerspectives?.majorStateLabel ?? '',
+[LEGACY] unhelpful-default-nullish@121: get: () => formData.value?.differentialPerspectives?.minorStateLabel ?? '',
 ```
 
 ### `client/src/composables/dataCollections/useDataCollectionActions.ts` [P1] (score: 8)
@@ -339,13 +281,22 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@38: const config = options.stackedFieldsConfig.value || []
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts` [P1] (score: 8)
+
+```
+[LEGACY] unhelpful-default-nullish@58: .flatMap(bi => bi.partInstances ?? [])
+[LEGACY] unhelpful-default-nullish@145: eventShapes ?? [],
+[LEGACY] unhelpful-default-nullish@192: const majorAttendeeIds = differentialPerspectives?.majorAttendees ?? []
+[LEGACY] unhelpful-default-nullish@193: const minorAttendeeIds = differentialPerspectives?.minorAttendees ?? []
+```
+
 ### `client/src/utils/booking/partFinalizer.ts` [P1] (score: 8)
 
 ```
-[LEGACY] unhelpful-default-or@40: const partShape = part.partShape || ''
-[LEGACY] unhelpful-default-or@135: majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-[LEGACY] unhelpful-default-or@136: minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
-[LEGACY] unhelpful-default-or@155: const events = eventAssignmentsByPartShape[part.partShape] || []
+[LEGACY] unhelpful-default-or@41: const partShape = part.partShape || ''
+[LEGACY] unhelpful-default-or@131: majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
+[LEGACY] unhelpful-default-or@132: minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+[LEGACY] unhelpful-default-or@150: const events = eventAssignmentsByPartShape[part.partShape] || []
 ```
 
 ### `client/src/utils/eventAttendeeUtils.ts` [P1] (score: 8)
@@ -378,10 +329,19 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 8)
 
 ```
-[LEGACY] unhelpful-default-or@25: const partVersions = versionData.partInstanceVersions || [];
-[LEGACY] unhelpful-default-or@98: loadAppointmentVersions(appointment.serviceSnapshotIds || []),
-[LEGACY] unhelpful-default-or@99: loadAppointmentVersions(appointment.propertySnapshotIds || []),
-[LEGACY] unhelpful-default-or@100: loadAppointmentVersions(appointment.optionSnapshotIds || []),
+[LEGACY] unhelpful-default-or@28: const partVersions = versionData.partInstanceVersions || [];
+[LEGACY] unhelpful-default-or@101: loadAppointmentVersions(appointment.serviceSnapshotIds || []),
+[LEGACY] unhelpful-default-or@102: loadAppointmentVersions(appointment.propertySnapshotIds || []),
+[LEGACY] unhelpful-default-or@103: loadAppointmentVersions(appointment.optionSnapshotIds || []),
+```
+
+### `server/src/services/google/maps/mapsHelpers.ts` [P1] (score: 8)
+
+```
+[LEGACY] unhelpful-default-nullish@69: const { throwOnZeroResults = false, invalidRequestAsNotFound = false } = options ?? {}
+[LEGACY] unhelpful-default-nullish@118: secondaryText: p.structured_formatting?.secondary_text ?? ''
+[LEGACY] unhelpful-default-nullish@152: const addressComponents = parseAddressComponents(result.address_components ?? [])
+[LEGACY] unhelpful-default-nullish@155: formattedAddress: result.formatted_address ?? '',
 ```
 
 ### `client/src/components/admin/generic/EntityFormContent.vue` [P1] (score: 7)
@@ -402,13 +362,13 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@185: selectedLineItemBlocks.value = wizardStateData.lineItemBlocks || []
 ```
 
-### `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` [P1] (score: 7)
+### `client/src/utils/transformers/appointmentToWizardHelpers.ts` [P1] (score: 7)
 
 ```
-[LEGACY] legacy-keyword@24: 'dependentInstanceOptions', // Old name - catch legacy data
-[LEGACY] unhelpful-default-or@34: const dbPassword = process.env.DB_PASSWORD || process.env.DB_PASS || '';
-[LEGACY] unhelpful-default-or@40: password: String(dbPassword || ''),
-[LEGACY] chaining-fallback@98: const remainingCount = remaining?.[0]?.count || 0;
+[LEGACY] unhelpful-default-nullish@133: name: pi.name ?? '',
+[LEGACY] chaining-fallback@140: orderIndex: currentPart?.orderIndex ?? 0,
+[LEGACY] unhelpful-default-nullish@141: partShape: currentPart?.partShape ?? '',
+[LEGACY] unhelpful-default-nullish@151: icon: version.icon ?? '',
 ```
 
 ### `client/src/components/admin/generic/DynamicForm.vue` [P1] (score: 6)
@@ -419,13 +379,29 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@113: return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
 ```
 
+### `client/src/composables/admin/useDefaultLocation.ts` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-nullish@23: get: () => formData.value?.defaultLocation?.address ?? '',
+[LEGACY] unhelpful-default-nullish@35: get: () => formData.value?.defaultLocation?.label ?? '',
+[LEGACY] unhelpful-default-nullish@59: get: () => formData.value?.defaultLocation?.placeId ?? '',
+```
+
+### `client/src/composables/booking/useAppointmentShape.ts` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-or@64: const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
+[LEGACY] unhelpful-default-or@65: const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
+[LEGACY] unhelpful-default-or@85: const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+```
+
 ### `client/src/composables/booking/useAppointmentTimes.ts` [P1] (score: 6)
 
 ```
-[DEPR] compat-marker@102: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-[LEGACY] unhelpful-default-or@132: const eventTimeRanges = transformed.eventTimeRanges || {}
-[DEPR] compat-marker@156: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-[LEGACY] unhelpful-default-or@180: const eventTimeRanges = transformed.eventTimeRanges || {}
+[DEPR] compat-marker@113: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
+[LEGACY] unhelpful-default-or@143: const eventTimeRanges = transformed.eventTimeRanges || {}
+[DEPR] compat-marker@167: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
+[LEGACY] unhelpful-default-or@191: const eventTimeRanges = transformed.eventTimeRanges || {}
 ```
 
 ### `client/src/composables/booking/useDependentInstances.ts` [P1] (score: 6)
@@ -485,14 +461,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@138: const { resolved: components, missingIds } = resolveByIds(globalData.entities[entityKind] || [], componentIds)
 ```
 
-### `server/src/services/google/maps/placesApiService.ts` [P1] (score: 6)
-
-```
-[LEGACY] unhelpful-default-or@108: secondaryText: p.structured_formatting?.secondary_text || ''
-[LEGACY] unhelpful-default-or@213: const addressComponents = parseAddressComponents(result.address_components || [])
-[LEGACY] unhelpful-default-or@217: formattedAddress: result.formatted_address || '',
-```
-
 ### `server/src/services/rateLimiter.ts` [P1] (score: 6)
 
 ```
@@ -538,6 +506,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] default-param@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
 ```
 
+### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P1] (score: 5)
+
+```
+[LEGACY] chaining-fallback@149: get: () => formData.value?.durationRounding?.increment ?? 15,
+[LEGACY] chaining-fallback@155: get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
+[LEGACY] unhelpful-default-nullish@162: get: () => formData.value?.timezone ?? '',
+[LEGACY] chaining-fallback@169: get: () => formData.value?.minuteIncrement ?? 15,
+```
+
 ### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 4)
 
 ```
@@ -567,25 +544,18 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@185: blockShapeRef: entity.blockShapeRef || '',
 ```
 
+### `client/src/composables/admin/useBufferSettings.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-nullish@94: const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
+[LEGACY] unhelpful-default-nullish@194: current ?? {}
+```
+
 ### `client/src/composables/admin/useBusinessRules.ts` [P1] (score: 4)
 
 ```
 [LEGACY] unhelpful-default-or@151: rules.value = response.data || []
 [LEGACY] unhelpful-default-or@173: return response.data || []
-```
-
-### `client/src/composables/admin/useEntityCardLayout.ts` [P1] (score: 4)
-
-```
-[LEGACY] unhelpful-default-or@75: inline: formContentRef.value.readyInlineFields?.value || [],
-[LEGACY] unhelpful-default-or@76: stacked: formContentRef.value.readyStackedFields?.value || []
-```
-
-### `client/src/composables/admin/useInstanceBulkEdit.ts` [P1] (score: 4)
-
-```
-[LEGACY] unhelpful-default-or@116: const instances = blockInstancesByShape.value.get(blockShapeId) || []
-[LEGACY] unhelpful-default-or@159: const current = bulkEditData.value.get(blockShapeId) || {}
 ```
 
 ## Notes

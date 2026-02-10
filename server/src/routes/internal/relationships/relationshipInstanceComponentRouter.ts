@@ -7,12 +7,13 @@
  */
 
 import { Router, Request, Response } from 'express'
-import { InstanceComponent, BlockInstance } from '../../../config/app.js'
+import { InstanceComponent } from '../../../config/app.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { restoreComponentActiveState } from './relationshipHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 
 const logger = createLogger('RelationshipRouter')
 
@@ -26,7 +27,7 @@ const router = Router()
  * WHY: Enables instance component updates via API
  * PATTERN: Find component, update fields, save, return JSON
  */
-router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
+router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
   const { order_index, disabled } = req.body
   
@@ -66,7 +67,7 @@ router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
  * WHY: Enables instance component deletion via API with active state management
  * PATTERN: Find component, set disabled, restore active if no other components, return success message
  */
-router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
+router.delete('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
   
   try {
@@ -87,7 +88,7 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
     await restoreComponentActiveState(component.child_id)
     
     res.json({
-      message: 'Instance component deleted successfully',
+      message: ERROR_MESSAGES.INSTANCE_COMPONENT_DELETED,
       id,
     })
   } catch (error) {

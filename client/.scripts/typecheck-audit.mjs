@@ -3,6 +3,7 @@ import path from 'node:path'
 import childProcess from 'node:child_process'
 import {
   parseInlineExceptions,
+  isSeedScript,
 } from './audit-exceptions.mjs'
 
 /**
@@ -513,10 +514,12 @@ function main() {
     return { ...e, repoPath }
   })
   
-  // Filter out migration files (one-time scripts, type errors are less critical)
+  // Filter out migration and seed files (one-time scripts, type errors are less critical)
   const nonMigrationErrors = allErrors.filter(e => {
     const repoPath = e.repoPath || e.file
-    return !(repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath))
+    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) return false
+    if (isSeedScript(repoPath)) return false
+    return true
   })
   
   // Categorize errors into allowed vs requiring-review

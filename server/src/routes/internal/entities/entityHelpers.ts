@@ -17,6 +17,24 @@ import { ERROR_MESSAGES } from './entityConstants.js'
 const logger = createLogger('EntityRouter')
 
 /**
+ * Ensure block instance versions exist before bulk update (captures old state for versioning).
+ * LEARNING: Used by PATCH /:entityType/bulk when entityType is blockInstance.
+ * WHY: Reduces nesting in route handler; versioning must run before bulkPatch.
+ *
+ * @param updates - Array of update objects with id (block instance IDs)
+ */
+export async function ensureBlockInstanceVersionsBeforeBulkUpdate(
+  updates: Array<{ id: string }>
+): Promise<void> {
+  const blockInstanceIds = updates.map((u) => u.id)
+  await Promise.all(
+    blockInstanceIds.map((blockInstanceId) =>
+      handleBlockInstanceVersioning(blockInstanceId, true)
+    )
+  )
+}
+
+/**
  * Handle block instance versioning before update/delete
  * LEARNING: Extracted versioning logic for block instances
  * WHY: Reusable versioning logic, ensures old state is captured before changes

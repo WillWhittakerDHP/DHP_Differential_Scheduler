@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadConfigAllowlist, checkConfigAllowlist } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Type Similarity Audit Script (Structural Type Governance)
@@ -97,6 +97,8 @@ function shouldExcludeDir(repoPath) {
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding, not representative type definitions)
+  if (isSeedScript(repoPath)) return true
   if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
     return true
   }
@@ -123,7 +125,7 @@ function listFilesRecursive(dir) {
       out.push(...listFilesRecursive(abs))
       continue
     }
-    if (entry.isFile() && isScannable(abs)) out.push(abs)
+    if (entry.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
   }
   return out
 }

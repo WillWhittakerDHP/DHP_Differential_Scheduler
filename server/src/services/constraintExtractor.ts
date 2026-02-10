@@ -15,8 +15,6 @@ import type {
   OverlapConstraint,
   CapacityConstraint,
   Constraint,
-  ConstraintEnforcement,
-  DriveTimeApplyTo,
   RollingWeekDirection,
   BusinessHoursConfig,
   RFC3339DateTime,
@@ -45,53 +43,55 @@ function requireEnforcement(enforcement: unknown, label: string): void {
   }
 }
 
-/**
- * Convert database model RangeConstraint to shared RangeConstraint
- * LEARNING: Converts plain string types to RFC3339DateTime branded types
- * WHY: Database models use plain strings, shared types use branded types for type safety
- * PATTERN: Type conversion function with proper casting
- */
-function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
-  // For businessHours config, convert DayHours strings to RFC3339DateTime
-  if (dbConstraint.type === 'businessHours' && 'hours' in dbConstraint.config) {
-    const convertedHours: BusinessHoursConfig['hours'] = {} as BusinessHoursConfig['hours']
-    for (let day = 0; day <= 6; day++) {
-      const dayHours = dbConstraint.config.hours[day as keyof typeof dbConstraint.config.hours]
-      if (dayHours) {
-        convertedHours[day as keyof BusinessHoursConfig['hours']] = {
-          start: dayHours.start as RFC3339DateTime,
-          end: dayHours.end as RFC3339DateTime,
-        }
-      }
-    }
-    return {
-      category: 'range',
-      type: dbConstraint.type,
-      enforcement: dbConstraint.enforcement,
-      config: {
-        hours: convertedHours,
-      } as BusinessHoursConfig,
-    }
-  }
-  
-  // For dateRange config, convert strings to RFC3339DateTime
-  if (dbConstraint.type === 'dateRange' && 'start' in dbConstraint.config) {
-    return {
-      category: 'range',
-      type: dbConstraint.type,
-      enforcement: dbConstraint.enforcement,
-      config: {
-        start: dbConstraint.config.start as RFC3339DateTime,
-        end: dbConstraint.config.end as RFC3339DateTime,
-      },
-    }
-  }
-  
-  // For leadTime config, no conversion needed (just minutes)
+/** Convert businessHours DB constraint to shared RangeConstraint (hours → RFC3339DateTime). */
+function convertBusinessHoursConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
+  const config = dbConstraint.config as BusinessHoursConfig
+  const convertedHours = Object.fromEntries(
+    Array.from({ length: 7 }, (_, day) => {
+      const dayHours = config.hours[day as keyof typeof config.hours]
+      return dayHours
+        ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
+        : null
+    }).filter((entry): entry is readonly [number, { start: RFC3339DateTime; end: RFC3339DateTime }] => entry !== null)
+  ) as BusinessHoursConfig['hours']
   return {
     category: 'range',
-    ...dbConstraint,
-  } as RangeConstraint
+    type: dbConstraint.type,
+    enforcement: dbConstraint.enforcement,
+    config: { hours: convertedHours } as BusinessHoursConfig,
+  }
+}
+
+/** Convert dateRange DB constraint to shared RangeConstraint (start/end → RFC3339DateTime). */
+function convertDateRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
+  const config = dbConstraint.config as { start: string; end: string }
+  return {
+    category: 'range',
+    type: dbConstraint.type,
+    enforcement: dbConstraint.enforcement,
+    config: {
+      start: config.start as RFC3339DateTime,
+      end: config.end as RFC3339DateTime,
+    },
+  }
+}
+
+/** LeadTime has no string conversion; pass through as shared RangeConstraint. */
+function convertLeadTimeConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
+  return { category: 'range', ...dbConstraint } as RangeConstraint
+}
+
+const RANGE_CONVERTER_MAP: Record<
+  DbRangeConstraint['type'],
+  (dbConstraint: DbRangeConstraint) => RangeConstraint
+> = {
+  businessHours: convertBusinessHoursConstraint,
+  dateRange: convertDateRangeConstraint,
+  leadTime: convertLeadTimeConstraint,
+}
+
+function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
+  return RANGE_CONVERTER_MAP[dbConstraint.type](dbConstraint)
 }
 
 /**
@@ -100,40 +100,23 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
  * WHY: Consolidates time-based restrictions into unified structure
  * PATTERN: Pure function that transforms settings into constraint array
  */
-export function extractRangeConstraints(
+function extractRangeConstraints(
   settings: AvailabilitySettingsData
 ): RangeConstraint[] {
-  const constraints: RangeConstraint[] = []
-
-  // PATTERN: Check for legacy fields, throw error directly to surface misconfiguration
-  if (settings.businessHours && !settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]) {
-    throw new Error(`Legacy top-level businessHours field detected. Use rangeConstraints.${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} instead.`)
-  }
-
-  // PATTERN: Check for required constraint, throw if missing
+  // Guard: required businessHours must be present (legacy top-level businessHours check removed 2026-02; use rangeConstraints.businessHours only)
   if (!settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]) {
     throw new Error(`Required rangeConstraints.${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} is missing. Business hours must be provided in structured format.`)
   }
 
-  // Extract businessHours constraint (now guaranteed to exist)
-  const businessHoursConstraint = settings.rangeConstraints[RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS]
-  if (businessHoursConstraint) {
-    constraints.push(convertRangeConstraint(businessHoursConstraint))
-  }
-
-  // Extract leadTime constraint (optional)
-  const leadTimeConstraint = settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.LEAD_TIME]
-  if (leadTimeConstraint) {
-    constraints.push(convertRangeConstraint(leadTimeConstraint))
-  }
-
-  // Extract dateRange constraint (optional but recommended)
-  const dateRangeConstraint = settings.rangeConstraints?.[RANGE_CONSTRAINT_TYPES.DATE_RANGE]
-  if (dateRangeConstraint) {
-    constraints.push(convertRangeConstraint(dateRangeConstraint))
-  }
-
-  return constraints
+  const rangeKeys = [
+    RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS,
+    RANGE_CONSTRAINT_TYPES.LEAD_TIME,
+    RANGE_CONSTRAINT_TYPES.DATE_RANGE,
+  ] as const
+  return rangeKeys
+    .map((key) => settings.rangeConstraints?.[key])
+    .filter((c): c is DbRangeConstraint => c !== undefined)
+    .map(convertRangeConstraint)
 }
 
 /**
@@ -171,48 +154,33 @@ function extractDriveTimeConstraint(
   }
 }
 
-export function extractOverlapConstraints(
+function extractOverlapConstraints(
   settings: AvailabilitySettingsData
 ): OverlapConstraint[] {
-  const constraints: OverlapConstraint[] = []
-  
-  // WHY: Handle standard buffer types (appointment, lunch) with placement
   const standardBufferTypes: Array<'appointment' | 'lunch'> = ['appointment', 'lunch']
-  
-  standardBufferTypes.forEach(bufferType => {
+  const standardConstraints = standardBufferTypes.flatMap((bufferType) => {
     const buffer = settings.buffers?.[bufferType]
-    if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) {
-      return
-    }
-    
-    // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
+    if (!buffer || buffer.placement === 'off' || buffer.minutes <= 0) return []
     requireEnforcement(buffer.enforcement, `${bufferType} buffer`)
-    
-    // PATTERN: After filtering out 'off', placement is guaranteed to be 'before' | 'after' | 'both'
-    constraints.push({
-      category: 'overlap',
+    return [{
+      category: 'overlap' as const,
       type: bufferType,
       placement: buffer.placement as 'before' | 'after' | 'both',
       enforcement: buffer.enforcement,
-      minutes: buffer.minutes
-    })
+      minutes: buffer.minutes,
+    }]
   })
-  
-  // WHY: Handle drive time types with implicit placement and applyTo configuration
-  // PATTERN: Use loop pattern matching standard buffers for consistency
+
   const driveTimeConfigs: Array<{ type: 'driveToCandidate' | 'driveFromCandidate'; placement: 'before' | 'after' }> = [
-    { type: 'driveToCandidate', placement: 'before' },   // Implicit - always before (travel TO appointment)
-    { type: 'driveFromCandidate', placement: 'after' }   // Implicit - always after (travel FROM appointment)
+    { type: 'driveToCandidate', placement: 'before' },
+    { type: 'driveFromCandidate', placement: 'after' },
   ]
-  
-  driveTimeConfigs.forEach(({ type, placement }) => {
+  const driveConstraints = driveTimeConfigs.flatMap(({ type, placement }) => {
     const constraint = extractDriveTimeConstraint(settings, type, placement)
-    if (constraint) {
-      constraints.push(constraint)
-    }
+    return constraint ? [constraint] : []
   })
-  
-  return constraints
+
+  return [...standardConstraints, ...driveConstraints]
 }
 
 /**
@@ -221,7 +189,7 @@ export function extractOverlapConstraints(
  * WHY: Consolidates capacity checking into single pathway
  * PATTERN: Pure function that transforms settings into constraint array
  */
-export function extractCapacityConstraints(
+function extractCapacityConstraints(
   settings: AvailabilitySettingsData
 ): CapacityConstraint[] {
   // WHY: Single pattern for all capacity types reduces duplication and makes adding new types easier
@@ -262,110 +230,6 @@ export function extractCapacityConstraints(
       } as CapacityConstraint
     })
     .filter((constraint): constraint is CapacityConstraint => constraint !== null)
-}
-
-/**
- * Validate range constraint configuration
- * LEARNING: Centralized validation for range constraints
- * WHY: Ensures consistent validation across all range constraint types
- * PATTERN: Type-specific validation with error logging
- * 
- * NOTE: Currently only used in tests. Consider:
- * - Option 1: Wire into extraction pipeline (validate after extracting, before returning)
- * - Option 2: Move to test helpers (if validation is only needed for tests)
- * 
- * @param constraint - Range constraint to validate
- * @returns Object with valid boolean and optional error message
- */
-export function validateRangeConstraint(constraint: RangeConstraint): { valid: boolean; error?: string } {
-  switch (constraint.type) {
-    case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS: {
-      const config = constraint.config as BusinessHoursConfig
-      if (!config?.hours || typeof config.hours !== 'object') {
-        return { valid: false, error: `Invalid ${RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS} constraint config` }
-      }
-      return { valid: true }
-    }
-    case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
-      const config = constraint.config as { minutes: number }
-      if (typeof config?.minutes !== 'number' || config.minutes < 0) {
-        return { valid: false, error: `Invalid ${RANGE_CONSTRAINT_TYPES.LEAD_TIME} constraint config` }
-      }
-      return { valid: true }
-    }
-    case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
-      const config = constraint.config as { start: string; end: string }
-      if (!config?.start || !config?.end || typeof config.start !== 'string' || typeof config.end !== 'string') {
-        return { valid: false, error: 'Invalid dateRange constraint config' }
-      }
-      const rangeStart = new Date(config.start)
-      const rangeEnd = new Date(config.end)
-      if (isNaN(rangeStart.getTime()) || isNaN(rangeEnd.getTime())) {
-        return { valid: false, error: 'Invalid dateRange dates' }
-      }
-      return { valid: true }
-    }
-  }
-}
-
-/**
- * Validate overlap constraint configuration
- * LEARNING: Centralized validation for overlap constraints
- * WHY: Ensures consistent validation across all overlap constraint types
- * PATTERN: Type-specific validation with error logging
- * 
- * NOTE: Currently only used in tests. See validateRangeConstraint for architectural decision notes.
- * 
- * @param constraint - Overlap constraint to validate
- * @returns Object with valid boolean and optional error message
- */
-export function validateOverlapConstraint(constraint: OverlapConstraint): { valid: boolean; error?: string } {
-  if (typeof constraint.minutes !== 'number' || constraint.minutes < 0) {
-    return { valid: false, error: 'Invalid overlap constraint minutes' }
-  }
-  // LEARNING: Validate placement, excluding 'off' since it's filtered before validation
-  // PATTERN: Check placement is one of the active placement values
-  const validPlacements: Array<'before' | 'after' | 'both'> = ['before', 'after', 'both']
-  if (constraint.placement !== 'off' && !validPlacements.includes(constraint.placement)) {
-    return { valid: false, error: 'Invalid overlap constraint placement' }
-  }
-  
-  // LEARNING: Validate applyTo for drive time constraints
-  // PATTERN: Only validate applyTo if constraint is a drive time type
-  if (constraint.type === 'driveToCandidate' || constraint.type === 'driveFromCandidate') {
-    if (constraint.applyTo !== undefined) {
-      const validApplyTo: Array<DriveTimeApplyTo> = ['all', 'skipDayStart', 'skipDayEnd', 'none']
-      if (!validApplyTo.includes(constraint.applyTo)) {
-        return { valid: false, error: 'Invalid overlap constraint applyTo value' }
-      }
-    }
-  }
-  
-  return { valid: true }
-}
-
-/**
- * Validate capacity constraint configuration
- * LEARNING: Centralized validation for capacity constraints
- * WHY: Ensures consistent validation across all capacity constraint types
- * PATTERN: Type-specific validation with error logging
- * 
- * NOTE: Currently only used in tests. See validateRangeConstraint for architectural decision notes.
- * 
- * @param constraint - Capacity constraint to validate
- * @returns Object with valid boolean and optional error message
- */
-export function validateCapacityConstraint(constraint: CapacityConstraint): { valid: boolean; error?: string } {
-  if (typeof constraint.maxHours !== 'number' || constraint.maxHours < 0) {
-    return { valid: false, error: 'Invalid capacity constraint maxHours' }
-  }
-  if (constraint.type === TIME_BASIS_TYPES.ROLLING_WEEK && constraint.direction) {
-    const validDirections: Array<RollingWeekDirection> = ['past', 'centered', 'future']
-    if (!validDirections.includes(constraint.direction)) {
-      return { valid: false, error: 'Invalid capacity constraint direction' }
-    }
-  }
-  return { valid: true }
 }
 
 /**

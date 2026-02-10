@@ -152,6 +152,7 @@ export const ERROR_MESSAGES = {
   RELATIONSHIP_ALREADY_EXISTS: 'Relationship already exists',
   INVALID_ENTITY_REFERENCE: 'Invalid entity reference',
   INSTANCE_COMPONENT_NOT_FOUND: 'Instance component not found',
+  INSTANCE_COMPONENT_DELETED: 'Instance component deleted successfully',
   ANNOTATION_ASSIGNMENT_NOT_FOUND: 'Annotation assignment not found',
   RELATIONSHIP_NOT_FOUND: 'Relationship not found',
 } as const

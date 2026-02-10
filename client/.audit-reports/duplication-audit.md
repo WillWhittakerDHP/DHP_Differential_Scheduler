@@ -18,9 +18,9 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+19 more) | 28 |
-| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+55 more) | 122 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+203 more) | 210 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+21 more) | 35 |
+| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+56 more) | 122 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+206 more) | 213 |
 
 ### Repeated String Literals (across multiple files)
 
@@ -30,8 +30,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **544**
-- Groups (window=10 lines, minOccurrences=2): **405**
+- Files scanned: **543**
+- Groups (window=10 lines, minOccurrences=2): **222**
 - Candidate findings from pattern-detection: **4**
 
 ## Top duplication groups (by leverage)
@@ -48,21 +48,21 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@241`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@71` |
 | `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@146`, `server/src/utils/adminPrimitiveMetadataComposer.ts@129`, `server/src/utils/adminRelationshipMetadataComposer.ts@127` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
-| `dup-1668da95d212` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@346`, `server/src/scripts/importFromMCPEvents.ts@23`, `server/src/scripts/importRealCalendarEvents.ts@36` |
 | `dup-1c4b860b6066` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
-| `dup-23dc8d6847f0` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@341`, `server/src/scripts/importFromMCPEvents.ts@18`, `server/src/scripts/importRealCalendarEvents.ts@31` |
-| `dup-27eb72adfb70` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@331`, `server/src/scripts/importFromMCPEvents.ts@8`, `server/src/scripts/importRealCalendarEvents.ts@21` |
-| `dup-2c7082786d05` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@332`, `server/src/scripts/importFromMCPEvents.ts@9`, `server/src/scripts/importRealCalendarEvents.ts@22` |
 | `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@145`, `server/src/utils/adminPrimitiveMetadataComposer.ts@128`, `server/src/utils/adminRelationshipMetadataComposer.ts@126` |
 | `dup-50a8f2834a9b` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
-| `dup-687fcb72cc8c` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@349`, `server/src/scripts/importFromMCPEvents.ts@26`, `server/src/scripts/importRealCalendarEvents.ts@39` |
-| `dup-6b7db959e8c4` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@342`, `server/src/scripts/importFromMCPEvents.ts@19`, `server/src/scripts/importRealCalendarEvents.ts@32` |
-| `dup-70e1e9d10a19` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@329`, `server/src/scripts/importFromMCPEvents.ts@6`, `server/src/scripts/importRealCalendarEvents.ts@19` |
 | `dup-742168327377` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
 | `dup-870c24d7c6a2` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
 | `dup-8e6ee8bba1e8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
 | `dup-923c7320c59b` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
-| `dup-957d31420829` | 3 | 3 | 10 | `server/src/scripts/createAppointmentsFromCalendar.ts@344`, `server/src/scripts/importFromMCPEvents.ts@21`, `server/src/scripts/importRealCalendarEvents.ts@34` |
+| `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
+| `dup-c47b819ceac0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
+| `dup-d8836f9bbfdd` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@50`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@50`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@50` |
+| `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
+| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@242`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
+| `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@98`, `server/src/utils/adminPrimitiveMetadataComposer.ts@114`, `server/src/utils/adminRelationshipMetadataComposer.ts@96`, … |
+| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@36`, `server/src/utils/logger.ts@36` |
+| `dup-01eed22cb44b` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@48`, `server/src/db/models/booking/part_assignment.ts@48` |
 
 ## Per-group details (top)
 
@@ -311,28 +311,6 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 timestamps: false,
 ```
 
-### Group `dup-1668da95d212`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 346-358
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 23-35
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 36-48
-
-```
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
-end: { dateTime: "2024-12-06T16:00:00-05:00" },
-{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
-{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-```
-
 ### Group `dup-1c4b860b6066`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -353,72 +331,6 @@ defaultValue: false,
 type: DataTypes.DATE,
 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 type: DataTypes.DATE,
-```
-
-### Group `dup-23dc8d6847f0`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 341-355
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 18-32
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 31-45
-
-```
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
-end: { dateTime: "2024-12-06T16:00:00-05:00" },
-{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-```
-
-### Group `dup-27eb72adfb70`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 331-346
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 8-23
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 21-36
-
-```
-start: { dateTime: "2024-12-02T11:45:00-05:00" },
-end: { dateTime: "2024-12-02T13:30:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Buyer's Inspection for Tom Miller",
-location: "730 24th St NW 803, Washington, DC 20037",
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-```
-
-### Group `dup-2c7082786d05`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 332-349
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 9-26
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 22-39
-
-```
-end: { dateTime: "2024-12-02T13:30:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Buyer's Inspection for Tom Miller",
-location: "730 24th St NW 803, Washington, DC 20037",
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
 ```
 
 ### Group `dup-4e4d3c29d4fd`
@@ -465,68 +377,156 @@ missing: missingFields,
 return { valid: true }
 ```
 
-### Group `dup-687fcb72cc8c`
+### Group `dup-742168327377`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 349-360
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 26-37
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 39-50
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 52-68
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 52-68
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 52-68
 
 ```
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
-end: { dateTime: "2024-12-06T16:00:00-05:00" },
-{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
-{ email: "jenn@alwaysbethriving.com", displayName: "Jenn", responseStatus: "needsAction" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
+displayOrder?: unknown
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
+missing: missingFields,
 ```
 
-### Group `dup-6b7db959e8c4`
+### Group `dup-870c24d7c6a2`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 342-356
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 19-33
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 32-46
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 56-85
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 54-83
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 58-87
 
 ```
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Home Inspection Results Meeting for Royi & Lucciola",
-location: "4921 Chevy Chase Blvd, Chevy Chase, MD 20815, USA",
-start: { dateTime: "2024-12-06T14:30:00-05:00" },
-end: { dateTime: "2024-12-06T16:00:00-05:00" },
-{ email: "luchernaga@hotmail.com", displayName: "Lucciola", responseStatus: "accepted" },
-{ email: "edgardorsuarez@gmail.com", displayName: "Eddie Suarez", responseStatus: "accepted" },
-{ email: "rgavish@yahoo.com", displayName: "Royi", responseStatus: "needsAction" },
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
 ```
 
-### Group `dup-70e1e9d10a19`
+### Group `dup-8e6ee8bba1e8`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/scripts/createAppointmentsFromCalendar.ts` @ lines 329-342
-- `server/src/scripts/importFromMCPEvents.ts` @ lines 6-19
-- `server/src/scripts/importRealCalendarEvents.ts` @ lines 19-32
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 48-65
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 48-65
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 48-65
 
 ```
-summary: "Buyer's Inspection for Todd Litchfield",
-location: "3439 Woodburn Rd, Annandale, VA 22003",
-start: { dateTime: "2024-12-02T11:45:00-05:00" },
-end: { dateTime: "2024-12-02T13:30:00-05:00" },
-{ email: "will@districthomepro.com", displayName: "Will", responseStatus: "accepted" }
-organizer: { email: "will@districthomepro.com", displayName: "Will" }
-summary: "Buyer's Inspection for Tom Miller",
-location: "730 24th St NW 803, Washington, DC 20037",
-start: { dateTime: "2024-12-04T09:00:00-05:00" },
-end: { dateTime: "2024-12-04T10:00:00-05:00" },
+dataType?: unknown
+visibility?: unknown
+displayOrder?: unknown
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+```
+
+### Group `dup-923c7320c59b`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 58-88
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 56-86
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 60-90
+
+```
+return "blockInstance";
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+```
+
+### Group `dup-b310fa6a5478`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 76-101
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 74-99
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 78-103
+
+```
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+timestamps: false,
+underscored: true,
+```
+
+### Group `dup-c47b819ceac0`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/additional_service_option.ts` @ lines 62-90
+- `server/src/db/models/booking/booking_cascade.ts` @ lines 60-88
+- `server/src/db/models/booking/dependent_instance.ts` @ lines 64-92
+
+```
+type: DataTypes.VIRTUAL,
+return "blockInstance";
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.UUID,
+model: 'block_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+```
+
+### Group `dup-d8836f9bbfdd`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 50-67
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 50-67
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 50-67
+
+```
+visibility?: unknown
+displayOrder?: unknown
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
 ```

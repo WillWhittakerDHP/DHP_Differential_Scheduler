@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -137,6 +137,8 @@ function isExcluded(repoPath, configAllowlist) {
   if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
     return true
   }
+  // Exclude seed scripts (test data seeding, not Vue components)
+  if (isSeedScript(repoPath)) return true
   // Check if file matches any exclusion pattern in config
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed

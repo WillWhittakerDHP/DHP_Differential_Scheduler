@@ -425,7 +425,7 @@ describe('BookingTransformer', () => {
 
       expect(result.blockInstances[0].partInstances).toHaveLength(1)
       expect(result.blockInstances[0].partInstances[0].id).toBe('part-1')
-      expect(result.blockInstances[0].partInstances[0].disabled).toBe(false)
+      expect(result.blockInstances[0].partInstances[0].active).toBe(true)
     })
 
     it('should filter out disabled block instances', () => {

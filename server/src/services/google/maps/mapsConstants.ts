@@ -16,6 +16,20 @@ import { DEFAULT_RETRY_CONFIG, type RetryConfig } from '../shared/googleApiRetry
 export const MAPS_RETRY_CONFIG: RetryConfig = DEFAULT_RETRY_CONFIG
 
 /**
+ * Google Places/Find Place API status strings
+ * LEARNING: Single source of truth for API response status values
+ * WHY: Eliminates magic strings, improves maintainability
+ */
+export const GOOGLE_API_STATUS = {
+  OK: 'OK',
+  REQUEST_DENIED: 'REQUEST_DENIED',
+  OVER_QUERY_LIMIT: 'OVER_QUERY_LIMIT',
+  INVALID_REQUEST: 'INVALID_REQUEST',
+  ZERO_RESULTS: 'ZERO_RESULTS',
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+/**
  * Error messages for Maps API operations
  * LEARNING: User-friendly error messages
  * WHY: Consistent error messaging across Maps API operations

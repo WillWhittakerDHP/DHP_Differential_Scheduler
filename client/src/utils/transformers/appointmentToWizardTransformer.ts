@@ -11,9 +11,16 @@
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
-import type { RFC3339DateTime } from '@/types/datetime'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+
+/** Block shape type keys for resolveBlockCategory (avoids magic strings). */
+const BlockShapeTypeKey = {
+  SERVICE: 'SERVICE',
+  PROPERTY: 'PROPERTY',
+  OPTION: 'OPTION',
+} as const satisfies Record<string, keyof typeof BLOCK_SHAPE_TYPES>
 import apiClient from '@/utils/api'
 import { getAppointmentVersionsEndpoint } from '@/utils/api'
 import { createLogger } from '@/utils/logger'
@@ -110,12 +117,20 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
     return null
   }
   
-  // Type assertion: address may have placeId/lat/lng even though not in PropertyResponse type
-  const addressWithGeo = address as typeof address & { placeId?: string; latitude?: number; longitude?: number } | undefined
+  interface AddressWithGeo {
+    placeId?: string
+    latitude?: number
+    longitude?: number
+  }
+  function isAddressWithGeo(v: unknown): v is AddressWithGeo {
+    return v != null && typeof v === 'object'
+  }
+  const addressWithGeo = address != null && isAddressWithGeo(address) ? address : undefined
   const extractedPlaceId = typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
-  const extractedCoordinates = (addressWithGeo?.latitude != null && addressWithGeo?.longitude != null)
-    ? { lat: Number(addressWithGeo.latitude), lng: Number(addressWithGeo.longitude) }
-    : undefined
+  const extractedCoordinates =
+    addressWithGeo?.latitude != null && addressWithGeo?.longitude != null
+      ? { lat: Number(addressWithGeo.latitude), lng: Number(addressWithGeo.longitude) }
+      : undefined
   
   return {
     address: address?.address ?? '',
@@ -200,13 +215,14 @@ function extractAvailability(appointment: AppointmentResponse) {
     end: appointment.selectedDateRangeEnd ?? null,
   }
   
-  // LEARNING: WizardStateData expects { time: string; duration: number } format
-  // WHY: Transform from { startTime, endTime, duration } to { time, duration } format
-  // NOTE: These become "candidate" when loaded into wizard (for editing)
+  interface TimeSlotLike {
+    startTime?: string | null
+    duration?: number | null
+  }
   const candidateTimeSlots = appointment.selectedTimeSlots
-    ? appointment.selectedTimeSlots.map((slot: Record<string, unknown>) => ({
-        time: (slot.startTime as RFC3339DateTime) ?? '',
-        duration: (slot.duration as number) ?? 0
+    ? (appointment.selectedTimeSlots as TimeSlotLike[]).map((slot) => ({
+        time: typeof slot.startTime === 'string' ? slot.startTime : '',
+        duration: typeof slot.duration === 'number' ? slot.duration : 0,
       }))
     : null
   
@@ -216,82 +232,64 @@ function extractAvailability(appointment: AppointmentResponse) {
   }
 }
 
-/**
- * Transform appointment response to wizard state data
- * LEARNING: Main transformer function that maps appointment to wizard state
- * WHY: Enables loading appointment data into wizard for testing
- * PATTERN: Orchestrator that calls helper functions to extract and transform data
- * 
- * @param appointment - Appointment response from API (includes relationships)
- * @param bookingData - Scheduler data containing block instances
- * @returns Wizard state data ready to populate wizard
- */
-export async function transformAppointmentToWizard(
+async function fetchVersionSnapshots(
+  appointment: AppointmentResponse
+): Promise<AppointmentVersionsResponse | null> {
+  if (
+    !appointment.serviceSnapshotIds &&
+    !appointment.propertySnapshotIds &&
+    !appointment.optionSnapshotIds
+  ) {
+    return null
+  }
+  const versionsResponse = await apiClient.get<AppointmentVersionsResponse>(
+    getAppointmentVersionsEndpoint(appointment.id)
+  )
+  return versionsResponse.data
+}
+
+function resolveBlockCategories(
   appointment: AppointmentResponse,
-  bookingData: BookingData
-): Promise<WizardStateData> {
-  // Resolve user type block
-  const stateControlBlocks = getStateControlBlockInstances(bookingData)
-  const userTypeId = appointment.userTypeId
-  const userTypeBlock = userTypeId
-    ? stateControlBlocks.find(block => block.id === userTypeId)
-    : null
-  
-  if (userTypeId && !userTypeBlock) {
-    const fallback = findBlockInstanceById(bookingData, userTypeId)
-    if (fallback) {
-      logger.warn(`userTypeId ${userTypeId} resolved to block instance but is not a state control block`)
-    } else {
-      logger.warn(`userTypeId ${userTypeId} not found in booking data`)
-    }
-  }
-  
-  // Fetch versions if needed
-  let versionsData: AppointmentVersionsResponse | null = null
-  if (appointment.serviceSnapshotIds || appointment.propertySnapshotIds || appointment.optionSnapshotIds) {
-    try {
-      const versionsResponse = await apiClient.get<AppointmentVersionsResponse>(
-        getAppointmentVersionsEndpoint(appointment.id)
-      )
-      versionsData = versionsResponse.data
-    } catch (error) {
-      logger.error('Failed to fetch versions:', error)
-      throw error
-    }
-  }
-  
-  // Resolve block categories using generic helper
+  bookingData: BookingData,
+  versionsData: AppointmentVersionsResponse | null
+): {
+  services: BookingBlockInstance[]
+  propertyTypeBlocks: BookingBlockInstance[]
+  optionTypeBlocks: BookingBlockInstance[]
+  lineItemBlocks: BookingBlockInstance[]
+} {
   const serviceIds = appointment.selectedServiceIds ?? []
   const services = resolveBlockCategory({
     ids: serviceIds,
     bookingData,
-    blockShapeType: 'SERVICE',
+    blockShapeType: BlockShapeTypeKey.SERVICE,
     versionsData,
     categoryKey: 'services',
     logger,
   })
-  
+
   const propertyTypeBlockIds = appointment.selectedPropertyIds ?? []
   const propertyTypeBlocks = resolveBlockCategory({
     ids: propertyTypeBlockIds,
     bookingData,
-    blockShapeType: 'PROPERTY',
+    blockShapeType: BlockShapeTypeKey.PROPERTY,
     versionsData,
     categoryKey: 'properties',
     logger,
   })
-  
+
   const optionTypeBlockIds = appointment.selectedOptionIds ?? []
   const optionTypeBlocks = resolveBlockCategory({
     ids: optionTypeBlockIds,
     bookingData,
-    blockShapeType: 'OPTION',
+    blockShapeType: BlockShapeTypeKey.OPTION,
     versionsData,
     categoryKey: 'options',
     logger,
   })
-  
-  const lineItemBlockIds = (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds ?? []
+
+  const lineItemBlockIds =
+    (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds ?? []
   const lineItemBlocks = resolveBlockCategory({
     ids: lineItemBlockIds,
     bookingData,
@@ -300,13 +298,56 @@ export async function transformAppointmentToWizard(
     logger,
     lineItemBlocks: bookingData.lineItemBlocks,
   })
-  
-  // Extract property details, contacts, and availability
+
+  return { services, propertyTypeBlocks, optionTypeBlocks, lineItemBlocks }
+}
+
+/**
+ * Transform appointment response to wizard state data
+ * LEARNING: Main transformer function that maps appointment to wizard state
+ * WHY: Enables loading appointment data into wizard for testing
+ * PATTERN: Orchestrator that calls helper functions to extract and transform data
+ *
+ * @param appointment - Appointment response from API (includes relationships)
+ * @param bookingData - Scheduler data containing block instances
+ * @returns Wizard state data ready to populate wizard
+ */
+export async function transformAppointmentToWizard(
+  appointment: AppointmentResponse,
+  bookingData: BookingData
+): Promise<WizardStateData> {
+  const stateControlBlocks = getStateControlBlockInstances(bookingData)
+  const userTypeId = appointment.userTypeId
+  const userTypeBlock = userTypeId
+    ? stateControlBlocks.find((block) => block.id === userTypeId)
+    : null
+
+  if (userTypeId && !userTypeBlock) {
+    const fallback = findBlockInstanceById(bookingData, userTypeId)
+    if (fallback) {
+      logger.warn(
+        `userTypeId ${userTypeId} resolved to block instance but is not a state control block`
+      )
+    } else {
+      logger.warn(`userTypeId ${userTypeId} not found in booking data`)
+    }
+  }
+
+  let versionsData: AppointmentVersionsResponse | null = null
+  try {
+    versionsData = await fetchVersionSnapshots(appointment)
+  } catch (error) {
+    logger.error('Failed to fetch versions:', error)
+    throw error
+  }
+
+  const { services, propertyTypeBlocks, optionTypeBlocks, lineItemBlocks } =
+    resolveBlockCategories(appointment, bookingData, versionsData)
+
   const propertyDetails = extractPropertyDetails(appointment.propertyVersion)
   const contacts = extractContacts(appointment.attendees)
   const availability = extractAvailability(appointment)
-  
-  // Assemble result
+
   return {
     userTypeBlock: userTypeBlock ?? null,
     services,

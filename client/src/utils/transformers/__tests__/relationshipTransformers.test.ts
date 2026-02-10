@@ -1,11 +1,9 @@
 
 import { describe, it, expect } from 'vitest'
-import { 
+import {
   transformApiRelationships,
   findRelationshipsByParent,
   extractChildIds,
-  filterRelationshipsByKind,
-  groupRelationshipsByParent
 } from '../relationshipTransformers'
 import { createBlockInstance, createPartInstance } from '../../__tests__/factories/entityFactory'
 import type { FetchedRelationship } from '@/types/relationships'
@@ -44,7 +42,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities)
       
       expect(result).toHaveLength(1)
       expect(result[0].parent.id).toBe('block-1')
@@ -71,7 +69,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities)
       
       expect(result).toHaveLength(0)
     })
@@ -96,7 +94,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities)
       
       expect(result).toHaveLength(0)
     })
@@ -121,7 +119,7 @@ describe('relationshipTransformers', () => {
         },
       ]
       
-      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities, undefined, undefined)
+      const result = transformApiRelationships(fetchedRelationships, 'partAssignments', entities)
       
       expect(result).toHaveLength(0)
     })
@@ -196,53 +194,5 @@ describe('relationshipTransformers', () => {
     })
   })
   
-  describe('filterRelationshipsByKind', () => {
-    it('should filter relationships by kind', () => {
-      const relationships = [
-        {
-          relationshipKind: 'partAssignments' as const,
-          parent: createBlockInstance('block-1', 'Block 1'),
-          children: [createPartInstance('part-1', 'Part 1')],
-        },
-        {
-          relationshipKind: 'instanceComponents' as const,
-          parent: createBlockInstance('block-1', 'Block 1'),
-          children: [createBlockInstance('block-2', 'Block 2')],
-        },
-      ]
-      
-      const result = filterRelationshipsByKind(relationships, 'partAssignments')
-      
-      expect(result).toHaveLength(1)
-      expect(result[0].relationshipKind).toBe('partAssignments')
-    })
-  })
-  
-  describe('groupRelationshipsByParent', () => {
-    it('should group relationships by parent ID', () => {
-      const relationships = [
-        {
-          relationshipKind: 'partAssignments' as const,
-          parent: createBlockInstance('block-1', 'Block 1'),
-          children: [createPartInstance('part-1', 'Part 1')],
-        },
-        {
-          relationshipKind: 'partAssignments' as const,
-          parent: createBlockInstance('block-1', 'Block 1'),
-          children: [createPartInstance('part-2', 'Part 2')],
-        },
-        {
-          relationshipKind: 'partAssignments' as const,
-          parent: createBlockInstance('block-2', 'Block 2'),
-          children: [createPartInstance('part-3', 'Part 3')],
-        },
-      ]
-      
-      const result = groupRelationshipsByParent(relationships)
-      
-      expect(result.get('block-1')).toHaveLength(2)
-      expect(result.get('block-2')).toHaveLength(1)
-    })
-  })
 })
 

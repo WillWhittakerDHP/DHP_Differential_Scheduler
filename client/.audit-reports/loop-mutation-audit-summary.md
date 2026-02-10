@@ -6,38 +6,38 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 
 | File | Priority | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/constraintExtractor.ts` | P0 | 53 | 2 | 1 | 5 | 8 | 3 |
-| `client/src/utils/booking/overlapConstraintChecker.ts` | P0 | 44 | 0 | 8 | 6 | 12 | 0 |
-| `server/src/config/app.js` | P0 | 35 | 0 | 4 | 5 | 14 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 34 | 0 | 0 | 1 | 16 | 0 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 34 | 0 | 0 | 0 | 17 | 0 |
-| `server/src/services/computedAvailabilityService.ts` | P0 | 34 | 0 | 8 | 5 | 8 | 0 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 32 | 0 | 4 | 4 | 10 | 0 |
-| `client/src/utils/booking/partFinalizer.ts` | P0 | 28 | 2 | 2 | 1 | 3 | 2 |
+| `server/src/services/slotComputationService.ts` | P0 | 52 | 0 | 12 | 7 | 14 | 0 |
+| `server/src/services/computedAvailabilityService.ts` | P0 | 40 | 0 | 10 | 4 | 11 | 0 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 32 | 0 | 0 | 1 | 15 | 0 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 32 | 0 | 0 | 0 | 16 | 0 |
 | `client/src/types/admin/AdminEntity.ts` | P0 | 26 | 0 | 0 | 0 | 13 | 0 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 24 | 0 | 0 | 0 | 12 | 0 |
-| `server/src/services/google/maps/placesApiService.ts` | P0 | 22 | 0 | 0 | 0 | 11 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | P0 | 20 | 0 | 0 | 0 | 10 | 0 |
+| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 26 | 0 | 4 | 3 | 8 | 0 |
+| `server/src/services/google/maps/mapsHelpers.ts` | P0 | 24 | 0 | 2 | 0 | 11 | 0 |
+| `client/src/utils/booking/partFinalizer.ts` | P0 | 22 | 2 | 2 | 1 | 4 | 1 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | P0 | 20 | 0 | 0 | 2 | 8 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 18 | 0 | 0 | 1 | 8 | 0 |
 | `client/src/utils/transformers/componentAggregator.ts` | P0 | 18 | 0 | 0 | 0 | 9 | 0 |
 | `client/src/composables/booking/useStepValidation.ts` | P0 | 16 | 0 | 12 | 0 | 4 | 0 |
-| `server/src/services/calendarErrorHandler.ts` | P0 | 15 | 0 | 1 | 0 | 7 | 0 |
+| `server/src/services/calendarErrorHandler.ts` | P0 | 16 | 0 | 0 | 0 | 8 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | P0 | 14 | 0 | 0 | 7 | 10 | 0 |
 | `client/src/utils/entityDefaults.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/admin/block_shape.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/admin/business_settings.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/admin/part_shape.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/admin/valid_cascade.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/active_annotation.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/address.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/annotation_instance.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/annotation_shape.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/appointment.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/db/models/booking/block_instance.js` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/services/google/maps/mapsHelpers.ts` | P0 | 14 | 0 | 2 | 0 | 6 | 0 |
+| `client/src/composables/booking/useComputedAvailability.ts` | P0 | 13 | 1 | 2 | 0 | 23 | 1 |
+| `client/src/utils/forms/formElementPatching.ts` | P0 | 13 | 1 | 4 | 0 | 4 | 0 |
+| `client/src/components/booking/modals/PropertyConfirmationModal.vue` | P0 | 12 | 0 | 0 | 6 | 0 | 0 |
+| `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/appointmentFieldFormatters.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/blockInstanceUtils.ts` | P0 | 12 | 0 | 1 | 0 | 6 | 0 |
+| `client/src/utils/booking/constraintColors.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/differentialScheduling.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/eventAttendeeUtils.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `client/src/utils/transformers/composePropertyValue.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `server/src/services/instanceVersioning.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P0 | 12 | 0 | 8 | 0 | 2 | 0 |
+| `client/src/main.ts` | P1 | 11 | 1 | 2 | 0 | 4 | 0 |
 
-*...and 179 more files. See full report for details.*
+*...and 164 more files. See full report for details.*
 
 ## Notes
 

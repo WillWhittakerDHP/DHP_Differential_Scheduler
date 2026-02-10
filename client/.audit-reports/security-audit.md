@@ -9,91 +9,24 @@ Scope:
 
 ## Summary
 
-- Total errors: **11**
-- Total warnings: **51**
-- Files with issues: **19**
+- Total errors: **10**
+- Total warnings: **0**
+- Files with issues: **7**
 
 ## Categories
 
 | Category | Priority | Score | Errors | Warnings |
 | --- | --- | ---: | ---: | ---: |
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
-| Exposed Secrets | P0 | 255 | 0 | 51 |
+| Exposed Secrets | P2 | 0 | 0 | 0 |
 | Security Configuration | P2 | 0 | 0 | 0 |
-| CSRF Protection | P0 | 120 | 10 | 0 |
+| CSRF Protection | P0 | 108 | 9 | 0 |
 | Authentication Patterns | P2 | 0 | 0 | 0 |
 | IDOR Vulnerabilities | P1 | 12 | 1 | 0 |
 
 ## Issues by File (sorted by priority)
 
 Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2** = low priority (best practices)
-
-### `server/src/scripts/cleanup-relationship-keys-from-primitive-metadata.mjs` [P0] (score: 66)
-
-- ⚠️ **Potential console.log with secret found** (line 31)
-- ⚠️ **Potential console.log with secret found** (line 64)
-- ⚠️ **Potential console.log with secret found** (line 66)
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 80)
-- ⚠️ **Potential console.log with secret found** (line 85)
-- ⚠️ **Potential console.log with secret found** (line 100)
-- ⚠️ **Potential console.log with secret found** (line 102)
-- ⚠️ **Potential console.log with secret found** (line 117)
-- ⚠️ **Potential console.log with secret found** (line 119)
-- ⚠️ **Potential console.log with secret found** (line 124)
-- ⚠️ **Potential console.log with secret found** (line 31)
-- ⚠️ **Potential console.log with secret found** (line 64)
-- ⚠️ **Potential console.log with secret found** (line 66)
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 80)
-- ⚠️ **Potential console.log with secret found** (line 85)
-- ⚠️ **Potential console.log with secret found** (line 100)
-- ⚠️ **Potential console.log with secret found** (line 102)
-- ⚠️ **Potential console.log with secret found** (line 117)
-- ⚠️ **Potential console.log with secret found** (line 119)
-- ⚠️ **Potential console.log with secret found** (line 124)
-
-### `server/src/config/googleOAuth.ts` [P0] (score: 54)
-
-- ⚠️ **Potential console.log with secret found** (line 161)
-- ⚠️ **Potential console.log with secret found** (line 163)
-- ⚠️ **Potential console.log with secret found** (line 179)
-- ⚠️ **Potential console.log with secret found** (line 192)
-- ⚠️ **Potential console.log with secret found** (line 197)
-- ⚠️ **Potential console.log with secret found** (line 198)
-- ⚠️ **Potential console.log with secret found** (line 199)
-- ⚠️ **Potential console.log with secret found** (line 203)
-- ⚠️ **Potential console.log with secret found** (line 208)
-- ⚠️ **Potential console.log with secret found** (line 161)
-- ⚠️ **Potential console.log with secret found** (line 163)
-- ⚠️ **Potential console.log with secret found** (line 179)
-- ⚠️ **Potential console.log with secret found** (line 192)
-- ⚠️ **Potential console.log with secret found** (line 197)
-- ⚠️ **Potential console.log with secret found** (line 198)
-- ⚠️ **Potential console.log with secret found** (line 199)
-- ⚠️ **Potential console.log with secret found** (line 203)
-- ⚠️ **Potential console.log with secret found** (line 208)
-
-### `server/src/scripts/fix-primitive-metadata-cleanup.mjs` [P0] (score: 54)
-
-- ⚠️ **Potential console.log with secret found** (line 45)
-- ⚠️ **Potential console.log with secret found** (line 56)
-- ⚠️ **Potential console.log with secret found** (line 58)
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 73)
-- ⚠️ **Potential console.log with secret found** (line 93)
-- ⚠️ **Potential console.log with secret found** (line 95)
-- ⚠️ **Potential console.log with secret found** (line 107)
-- ⚠️ **Potential console.log with secret found** (line 122)
-- ⚠️ **Potential console.log with secret found** (line 45)
-- ⚠️ **Potential console.log with secret found** (line 56)
-- ⚠️ **Potential console.log with secret found** (line 58)
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 73)
-- ⚠️ **Potential console.log with secret found** (line 93)
-- ⚠️ **Potential console.log with secret found** (line 95)
-- ⚠️ **Potential console.log with secret found** (line 107)
-- ⚠️ **Potential console.log with secret found** (line 122)
 
 ### `server/src/routes/internal/appointments/appointmentCrudRouter.ts` [P0] (score: 40)
 
@@ -126,32 +59,6 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ❌ **Missing CSRF protection on DELETE route** (line 69)
   - Route: /:id (DELETE)
 
-### `server/src/scripts/manual-migrate-fieldmetadata.mjs` [P0] (score: 36)
-
-- ⚠️ **Potential console.log with secret found** (line 47)
-- ⚠️ **Potential console.log with secret found** (line 97)
-- ⚠️ **Potential console.log with secret found** (line 104)
-- ⚠️ **Potential console.log with secret found** (line 127)
-- ⚠️ **Potential console.log with secret found** (line 177)
-- ⚠️ **Potential console.log with secret found** (line 184)
-- ⚠️ **Potential console.log with secret found** (line 47)
-- ⚠️ **Potential console.log with secret found** (line 97)
-- ⚠️ **Potential console.log with secret found** (line 104)
-- ⚠️ **Potential console.log with secret found** (line 127)
-- ⚠️ **Potential console.log with secret found** (line 177)
-- ⚠️ **Potential console.log with secret found** (line 184)
-
-### `server/src/app.ts` [P0] (score: 24)
-
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 79)
-- ⚠️ **Potential console.log with secret found** (line 92)
-- ⚠️ **Potential console.log with secret found** (line 93)
-- ⚠️ **Potential console.log with secret found** (line 70)
-- ⚠️ **Potential console.log with secret found** (line 79)
-- ⚠️ **Potential console.log with secret found** (line 92)
-- ⚠️ **Potential console.log with secret found** (line 93)
-
 ### `server/src/api/api.routes.ts` [P0] (score: 20)
 
 - ❌ **Missing CSRF protection on POST route** (line 10)
@@ -159,19 +66,12 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
 - ❌ **Missing CSRF protection on POST route** (line 10)
   - Route: /post (POST)
 
-### `server/src/routes/external/calendarRoutes.ts` [P0] (score: 20)
+### `server/src/routes/external/mapsDebugRoutes.ts` [P0] (score: 20)
 
-- ❌ **Missing CSRF protection on POST route** (line 85)
-  - Route: /events (POST)
-- ❌ **Missing CSRF protection on POST route** (line 85)
-  - Route: /events (POST)
-
-### `server/src/routes/external/mapsRoutes.ts` [P0] (score: 20)
-
-- ❌ **Missing CSRF protection on POST route** (line 255)
-  - Route: /debug/clear-drive-time-cache (POST)
-- ❌ **Missing CSRF protection on POST route** (line 255)
-  - Route: /debug/clear-drive-time-cache (POST)
+- ❌ **Missing CSRF protection on POST route** (line 73)
+  - Route: /clear-drive-time-cache (POST)
+- ❌ **Missing CSRF protection on POST route** (line 73)
+  - Route: /clear-drive-time-cache (POST)
 
 ### `server/src/routes/internal/availabilityRouter.ts` [P0] (score: 20)
 
@@ -186,45 +86,3 @@ Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2**
   - Route: /:blockInstanceId/:annotationId (PATCH)
 - ❌ **Missing CSRF protection on PATCH route** (line 29)
   - Route: /:blockInstanceId/:annotationId (PATCH)
-
-### `server/src/scripts/backfill-input-config-from-selectable.mjs` [P0] (score: 18)
-
-- ⚠️ **Potential console.log with secret found** (line 237)
-- ⚠️ **Potential console.log with secret found** (line 244)
-- ⚠️ **Potential console.log with secret found** (line 254)
-- ⚠️ **Potential console.log with secret found** (line 237)
-- ⚠️ **Potential console.log with secret found** (line 244)
-- ⚠️ **Potential console.log with secret found** (line 254)
-
-### `server/src/scripts/check-specific-shape.mjs` [P0] (score: 18)
-
-- ⚠️ **Potential console.log with secret found** (line 62)
-- ⚠️ **Potential console.log with secret found** (line 81)
-- ⚠️ **Potential console.log with secret found** (line 101)
-- ⚠️ **Potential console.log with secret found** (line 62)
-- ⚠️ **Potential console.log with secret found** (line 81)
-- ⚠️ **Potential console.log with secret found** (line 101)
-
-### `server/src/scripts/fix-validConstituents.mjs` [P1] (score: 12)
-
-- ⚠️ **Potential console.log with secret found** (line 51)
-- ⚠️ **Potential console.log with secret found** (line 87)
-- ⚠️ **Potential console.log with secret found** (line 51)
-- ⚠️ **Potential console.log with secret found** (line 87)
-
-### `server/src/services/driveTimeCache.ts` [P1] (score: 12)
-
-- ⚠️ **Potential console.log with secret found** (line 146)
-- ⚠️ **Potential console.log with secret found** (line 175)
-- ⚠️ **Potential console.log with secret found** (line 146)
-- ⚠️ **Potential console.log with secret found** (line 175)
-
-### `server/src/scripts/check-layout-configs.mjs` [P2] (score: 6)
-
-- ⚠️ **Potential console.log with secret found** (line 73)
-- ⚠️ **Potential console.log with secret found** (line 73)
-
-### `server/src/scripts/fix-valid-events-render-as.mjs` [P2] (score: 6)
-
-- ⚠️ **Potential console.log with secret found** (line 43)
-- ⚠️ **Potential console.log with secret found** (line 43)

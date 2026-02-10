@@ -1,37 +1,30 @@
 /**
  * CONSTRAINT EXTRACTOR TESTS
- * 
+ *
  * Unit tests for server-side constraint extraction utility functions.
  * Tests pure functions for extracting constraints from AvailabilitySettingsData.
- * 
+ *
  * What it covers:
- * - extractRangeConstraints: Extract range constraints (businessHours, leadTime, dateRange)
- * - extractOverlapConstraints: Extract overlap constraints (buffers)
- * - extractCapacityConstraints: Extract capacity constraints (daily, calendarWeek, rollingWeek)
- * - validateRangeConstraint: Validate range constraint configuration
- * - validateOverlapConstraint: Validate overlap constraint configuration
- * - validateCapacityConstraint: Validate capacity constraint configuration
- * 
+ * - extractConstraints: Range, overlap, and capacity constraints (tested via category filter)
+ * - validateRangeConstraint, validateOverlapConstraint, validateCapacityConstraint (from test helper)
+ *
  * How it works:
- * - Tests extraction with valid settings
- * - Tests error handling for missing required constraints
- * - Tests validation for various constraint configurations
- * - Tests edge cases (empty settings, off enforcement, etc.)
- * 
+ * - Extraction tests call extractConstraints(settings) and filter by category (range/overlap/capacity)
+ * - Validation tests use validators from constraintValidationHelpers
+ * - Tests error handling for missing required constraints and edge cases
+ *
  * Dependencies:
  * - jest for testing
  * - Ported from client/src/utils/booking/__tests__/constraintExtractors.test.ts
  */
 
 import { describe, it, expect } from '@jest/globals'
+import { extractConstraints } from '../constraintExtractor'
 import {
-  extractRangeConstraints,
-  extractOverlapConstraints,
-  extractCapacityConstraints,
   validateRangeConstraint,
   validateOverlapConstraint,
-  validateCapacityConstraint
-} from '../constraintExtractor'
+  validateCapacityConstraint,
+} from './constraintValidationHelpers'
 import type { AvailabilitySettingsData } from '../../db/models/admin/business_settings'
 import type {
   RangeConstraint,
@@ -39,6 +32,18 @@ import type {
   CapacityConstraint,
   RFC3339DateTime,
 } from '../../../../shared/types/availabilityTypes.js'
+
+function rangeConstraints(all: ReturnType<typeof extractConstraints>): RangeConstraint[] {
+  return all.filter((c): c is RangeConstraint => c.category === 'range')
+}
+
+function overlapConstraints(all: ReturnType<typeof extractConstraints>): OverlapConstraint[] {
+  return all.filter((c): c is OverlapConstraint => c.category === 'overlap')
+}
+
+function capacityConstraints(all: ReturnType<typeof extractConstraints>): CapacityConstraint[] {
+  return all.filter((c): c is CapacityConstraint => c.category === 'capacity')
+}
 
 function createAvailabilitySettingsData(
   overrides: Partial<AvailabilitySettingsData> = {}
@@ -76,12 +81,10 @@ function createAvailabilitySettingsData(
 }
 
 describe('constraintExtractor', () => {
-  describe('extractRangeConstraints', () => {
+  describe('extractConstraints (range)', () => {
     it('should extract businessHours constraint', () => {
       const settings = createAvailabilitySettingsData()
-      
-      const result = extractRangeConstraints(settings)
-      
+      const result = rangeConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('businessHours')
       expect(result[0].enforcement).toBe('hard')
@@ -102,9 +105,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractRangeConstraints(settings)
-      
+      const result = rangeConstraints(extractConstraints(settings))
       expect(result).toHaveLength(2)
       expect(result[1].type).toBe('leadTime')
     })
@@ -127,9 +128,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractRangeConstraints(settings)
-      
+      const result = rangeConstraints(extractConstraints(settings))
       expect(result).toHaveLength(2)
       expect(result[1].type).toBe('dateRange')
     })
@@ -139,14 +138,11 @@ describe('constraintExtractor', () => {
         businessHours: undefined as any,
         rangeConstraints: undefined
       })
-      
-      expect(() => {
-        extractRangeConstraints(settings)
-      }).toThrow('Required rangeConstraints.businessHours is missing')
+      expect(() => extractConstraints(settings)).toThrow('Required rangeConstraints.businessHours is missing')
     })
   })
 
-  describe('extractOverlapConstraints', () => {
+  describe('extractConstraints (overlap)', () => {
     it('should extract appointment buffer constraint', () => {
       const settings = createAvailabilitySettingsData({
         buffers: {
@@ -158,9 +154,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractOverlapConstraints(settings)
-      
+      const result = overlapConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('appointment')
       expect(result[0].placement).toBe('before')
@@ -177,9 +171,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractOverlapConstraints(settings)
-      
+      const result = overlapConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('driveToCandidate')
       expect(result[0].placement).toBe('before')
@@ -197,9 +189,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractOverlapConstraints(settings)
-      
+      const result = overlapConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('driveFromCandidate')
       expect(result[0].placement).toBe('after')
@@ -217,9 +207,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractOverlapConstraints(settings)
-      
+      const result = overlapConstraints(extractConstraints(settings))
       expect(result).toHaveLength(0)
     })
 
@@ -234,9 +222,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractOverlapConstraints(settings)
-      
+      const result = overlapConstraints(extractConstraints(settings))
       expect(result).toHaveLength(0)
     })
 
@@ -251,14 +237,11 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      expect(() => {
-        extractOverlapConstraints(settings)
-      }).toThrow('Buffer enforcement is required')
+      expect(() => extractConstraints(settings)).toThrow('Enforcement is required for')
     })
   })
 
-  describe('extractCapacityConstraints', () => {
+  describe('extractConstraints (capacity)', () => {
     it('should extract daily capacity constraint', () => {
       const settings = createAvailabilitySettingsData({
         maxWorkHours: {
@@ -268,9 +251,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractCapacityConstraints(settings)
-      
+      const result = capacityConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('daily')
       expect(result[0].maxHours).toBe(8)
@@ -287,9 +268,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractCapacityConstraints(settings)
-      
+      const result = capacityConstraints(extractConstraints(settings))
       expect(result).toHaveLength(1)
       expect(result[0].type).toBe('rollingWeek')
       expect(result[0].maxHours).toBe(40)
@@ -305,9 +284,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      const result = extractCapacityConstraints(settings)
-      
+      const result = capacityConstraints(extractConstraints(settings))
       expect(result).toHaveLength(0)
     })
 
@@ -320,10 +297,7 @@ describe('constraintExtractor', () => {
           }
         }
       })
-      
-      expect(() => {
-        extractCapacityConstraints(settings)
-      }).toThrow('Capacity enforcement is required')
+      expect(() => extractConstraints(settings)).toThrow('Enforcement is required for')
     })
   })
 

@@ -8,6 +8,7 @@
 
 import apiClient, { getEntityEndpoint, getRelationshipEndpoint, getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
+import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
@@ -22,6 +23,133 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('fetchToGlobalTransformer')
 
+type DehydrateFieldSets = {
+  requiredFields: Set<string>
+  nullableBooleanFields: Set<string>
+  nonNullableBooleanFields: Set<string>
+  requiredNumberFields: Set<string>
+}
+
+/**
+ * Build field classification sets for dehydrateEntity from entity type and metadata.
+ * PATTERN: Schema defaults override metadata; used to coerce empty strings and defaults.
+ */
+function buildFieldClassificationSets(
+  entityType: string,
+  metadata: Record<string, FieldMetadataEntry>
+): DehydrateFieldSets {
+  const schemaRequiredBooleans =
+    ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS] ?? []
+  const schemaNullableBooleans =
+    ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS] ?? []
+  const schemaRequiredNumbers =
+    ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS] ?? []
+
+  const schemaNonNullableBooleansSet = new Set(schemaRequiredBooleans)
+  const schemaNullableBooleansSet = new Set(schemaNullableBooleans)
+  const schemaRequiredNumbersSet = new Set(schemaRequiredNumbers)
+
+  const metadataRequiredFields = Object.entries(metadata)
+    .filter(([, fieldMetadata]) => fieldMetadata.isRequired)
+    .map(([fieldKey]) => fieldKey)
+
+  const metadataBooleanFields = Object.entries(metadata)
+    .filter(
+      ([fieldKey, fieldMetadata]) =>
+        fieldMetadata.dataType === 'boolean' &&
+        !schemaNonNullableBooleansSet.has(fieldKey) &&
+        !schemaNullableBooleansSet.has(fieldKey)
+    )
+    .reduce(
+      (acc, [fieldKey, fieldMetadata]) => {
+        if (fieldMetadata.isRequired) {
+          return { ...acc, nonNullable: [...acc.nonNullable, fieldKey] }
+        }
+        return { ...acc, nullable: [...acc.nullable, fieldKey] }
+      },
+      { nonNullable: [] as string[], nullable: [] as string[] }
+    )
+
+  const metadataRequiredNumbers = Object.entries(metadata)
+    .filter(
+      ([fieldKey, fieldMetadata]) =>
+        fieldMetadata.dataType === 'number' &&
+        fieldMetadata.isRequired &&
+        !schemaRequiredNumbersSet.has(fieldKey)
+    )
+    .map(([fieldKey]) => fieldKey)
+
+  return {
+    requiredFields: new Set([
+      ...schemaRequiredBooleans,
+      ...schemaRequiredNumbers,
+      ...metadataRequiredFields,
+    ]),
+    nullableBooleanFields: new Set([...schemaNullableBooleans, ...metadataBooleanFields.nullable]),
+    nonNullableBooleanFields: new Set([...schemaRequiredBooleans, ...metadataBooleanFields.nonNullable]),
+    requiredNumberFields: new Set([...schemaRequiredNumbers, ...metadataRequiredNumbers]),
+  }
+}
+
+/**
+ * Transform a single field entry for dehydrate (frontend → API).
+ * PATTERN: Pure function used by dehydrateEntity.
+ */
+function transformFieldForDehydrate(
+  [frontendKey, value]: [string, unknown],
+  fieldSets: DehydrateFieldSets,
+  metadata: Record<string, FieldMetadataEntry>
+): [string, unknown] | null {
+  if (frontendKey === 'entityKey') return null
+
+  if (value === undefined) {
+    if (fieldSets.requiredFields.has(frontendKey)) {
+      const fieldMetadata = metadata[frontendKey]
+      if (fieldMetadata) {
+        if (fieldMetadata.dataType === 'reference') return null
+        if (fieldMetadata.dataType === 'boolean') return [frontendKey, false]
+        if (fieldMetadata.dataType === 'number') return [frontendKey, 0]
+        if (fieldMetadata.dataType === 'string') return [frontendKey, '']
+      }
+    }
+    return null
+  }
+
+  if (value === null) {
+    const fieldMetadata = metadata[frontendKey]
+    const isReferenceField =
+      fieldMetadata?.dataType === 'reference' ||
+      frontendKey.endsWith('Ref') ||
+      frontendKey.endsWith('Id') ||
+      frontendKey === 'id'
+    if (isReferenceField) {
+      if (fieldSets.requiredFields.has(frontendKey)) return [frontendKey, null]
+      return null
+    }
+  }
+
+  if (value === '') {
+    if (
+      fieldSets.nullableBooleanFields.has(frontendKey) ||
+      fieldSets.nonNullableBooleanFields.has(frontendKey)
+    ) {
+      const convertedValue = fieldSets.nullableBooleanFields.has(frontendKey) ? null : false
+      return [frontendKey, convertedValue]
+    }
+    if (fieldSets.requiredNumberFields.has(frontendKey)) return [frontendKey, 0]
+    const fieldMetadata = metadata[frontendKey]
+    const isReferenceField =
+      fieldMetadata?.dataType === 'reference' ||
+      frontendKey.endsWith('Ref') ||
+      frontendKey.endsWith('Id') ||
+      frontendKey === 'id'
+    if (isReferenceField) return [frontendKey, null]
+    return [frontendKey, value]
+  }
+
+  return [frontendKey, value]
+}
+
 /**
  * Transform batch entities response to expected structure
  * LEARNING: Converts batch endpoint response (object keyed by entityKey) to Record<GlobalEntityKey, GlobalEntity[]>
@@ -35,7 +163,7 @@ function transformBatchEntities(
   batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
 ): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
   return ENTITY_KEYS.reduce((acc, entityKey) => {
-    const rawEntities = batchResponse[entityKey] || []
+    const rawEntities = batchResponse[entityKey] ?? []
     
     const transformedEntities = rawEntities.map((raw: Record<string, unknown>) => 
       transformApiEntity(raw, entityKey)
@@ -47,14 +175,11 @@ function transformBatchEntities(
       return aOrder - bOrder
     })
     
-    // LEARNING: Handle annotationInstance name migration (text → name)
-    // WHY: Backward compatibility - annotationInstance may have text field instead of name
     if (entityKey === 'annotationInstance') {
-      const mappedEntities = sortedEntities.map(entity => {
-        const entityWithName = entity as unknown as Record<string, unknown>
-        if (!entityWithName.name && entityWithName.text) {
-          entityWithName.name = entityWithName.text
-        }
+      const mappedEntities = sortedEntities.map((entity) => {
+        const record = entity as unknown as Record<string, unknown>
+        if (record.name != null) return entity
+        if (record.text != null) return { ...entity, name: record.text }
         return entity
       })
       acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
@@ -84,7 +209,7 @@ function transformBatchRelationships(
   // WHY: Expected structure is flat array of FetchedRelationship objects
   // PATTERN: Map over relationship keys, transform each, then flat() to combine
   return relationshipKeys.flatMap((relationshipKey) => {
-    const rawRelationships = batchResponse[relationshipKey] || []
+    const rawRelationships = batchResponse[relationshipKey] ?? []
     
     // WHY: Endpoint is /relationships/{relationshipKey}, so we pass relationshipKey to transformer
     // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
@@ -237,7 +362,8 @@ export class GlobalTransformer {
         fetchedEntities,
         fetchedRelationships,
       }
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to stage data for hydration', { error })
       return {
         fetchedEntities: {
           blockInstance: [],
@@ -274,14 +400,14 @@ export class GlobalTransformer {
     // Attach instanceComponents arrays to entities (for backward compatibility)
     // PATTERN: Extract from relationships instead of separate instanceComponents
     const entities = ENTITY_KEYS.reduce((acc, entityKey) => {
-      const entityList = staged.fetchedEntities[entityKey] || []
+      const entityList = staged.fetchedEntities[entityKey] ?? []
       
       const componentRels = staged.fetchedRelationships.filter(
         rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
       )
       
       const composerMap = componentRels.reduce((map, rel) => {
-        const existing = map.get(rel.parent_id) || []
+        const existing = map.get(rel.parent_id) ?? []
         map.set(rel.parent_id, [...existing, rel.child_id])
         return map
       }, new Map<GlobalEntityId, GlobalEntityId[]>())
@@ -369,164 +495,10 @@ export class GlobalTransformer {
       logger.debug('Metadata cache not available, using schema defaults', { error, entityType })
     }
 
-    // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them
-    // PATTERN: Use database schema (from model definitions) to determine required fields, override metadata
-    const SCHEMA_REQUIRED_BOOLEANS: Record<string, string[]> = {
-      partInstance: ['active', 'zeroOutPart'], // NOTE: onSite, clientPresent, moveable removed - now computed from EventAssignment relationships
-      blockInstance: ['active', 'composite', 'differential', 'allowMultiple'],
-      blockShape: ['composable', 'canHaveParts', 'isStateControl'],
-      partShape: [],
-    }
-    const SCHEMA_NULLABLE_BOOLEANS: Record<string, string[]> = {
-      blockInstance: ['requiresUnitNumber'],
-      blockShape: [],
-      partShape: [],
-    }
-    // WHY: Metadata may incorrectly mark fields as not required, but database schema requires them
-    // PATTERN: Use database schema to determine required number fields for empty string conversion
-    const SCHEMA_REQUIRED_NUMBERS: Record<string, string[]> = {
-      partInstance: ['baseFee', 'rateOverBaseFee', 'baseTime', 'rateOverBaseTime'],
-      blockInstance: ['baseSqFt'],
-      blockShape: [],
-      partShape: [],
-    }
-
-    // PATTERN: Use schema as source of truth, override metadata when they conflict
-    
-    const schemaRequiredBooleans = SCHEMA_REQUIRED_BOOLEANS[entityType] || []
-    const schemaNullableBooleans = SCHEMA_NULLABLE_BOOLEANS[entityType] || []
-    const schemaRequiredNumbers = SCHEMA_REQUIRED_NUMBERS[entityType] || []
-
-    // PATTERN: Use Set constructor with arrays to build Sets functionally
-    const schemaNonNullableBooleansSet = new Set(schemaRequiredBooleans)
-    const schemaNullableBooleansSet = new Set(schemaNullableBooleans)
-    const schemaRequiredNumbersSet = new Set(schemaRequiredNumbers)
-
-    // PATTERN: Reduce metadata entries to arrays, then build Sets from arrays
-    const metadataRequiredFields = Object.entries(metadata)
-      .filter(([, fieldMetadata]) => fieldMetadata.isRequired)
-      .map(([fieldKey]) => fieldKey)
-
-    // PATTERN: Use spread operator to create new arrays instead of mutating
-    const metadataBooleanFields = Object.entries(metadata)
-      .filter(([fieldKey, fieldMetadata]) => 
-        fieldMetadata.dataType === 'boolean' &&
-        !schemaNonNullableBooleansSet.has(fieldKey) &&
-        !schemaNullableBooleansSet.has(fieldKey)
-      )
-      .reduce((acc, [fieldKey, fieldMetadata]) => {
-        if (fieldMetadata.isRequired) {
-          return { ...acc, nonNullable: [...acc.nonNullable, fieldKey] }
-        } else {
-          return { ...acc, nullable: [...acc.nullable, fieldKey] }
-        }
-      }, { nonNullable: [] as string[], nullable: [] as string[] })
-
-    const metadataRequiredNumbers = Object.entries(metadata)
-      .filter(([fieldKey, fieldMetadata]) =>
-        fieldMetadata.dataType === 'number' &&
-        fieldMetadata.isRequired &&
-        !schemaRequiredNumbersSet.has(fieldKey)
-      )
-      .map(([fieldKey]) => fieldKey)
-
-    // PATTERN: Use Set constructor with spread arrays to combine sources immutably
-    const nullableBooleanFields = new Set([
-      ...schemaNullableBooleans,
-      ...metadataBooleanFields.nullable
-    ])
-    const nonNullableBooleanFields = new Set([
-      ...schemaRequiredBooleans,
-      ...metadataBooleanFields.nonNullable
-    ])
-    const requiredNumberFields = new Set([
-      ...schemaRequiredNumbers,
-      ...metadataRequiredNumbers
-    ])
-    const requiredFields = new Set([
-      ...schemaRequiredBooleans,
-      ...schemaRequiredNumbers,
-      ...metadataRequiredFields
-    ]) // Track all required fields (not just booleans)
-
-    /**
-     * LEARNING: Extract field transformation logic to pure function
-     * WHY: Separates transformation logic from iteration
-     * PATTERN: Pure function that transforms a single field entry
-     */
-    const transformField = ([frontendKey, value]: [string, unknown]): [string, unknown] | null => {
-      if (frontendKey === 'entityKey') return null // Skip entityKey, backend doesn't need it
-      
-      if (value === undefined) {
-        // PATTERN: For required fields, use appropriate default based on dataType
-        if (requiredFields.has(frontendKey)) {
-          const fieldMetadata = metadata[frontendKey]
-          if (fieldMetadata) {
-            // PATTERN: Let Sequelize validate and return clear error if required reference field is missing
-            if (fieldMetadata.dataType === 'reference') {
-              return null // Skip undefined required reference fields - let Sequelize validate
-            }
-            if (fieldMetadata.dataType === 'boolean') {
-              return [frontendKey, false] // Required booleans default to false
-            } else if (fieldMetadata.dataType === 'number') {
-              return [frontendKey, 0] // Required numbers default to 0
-            } else if (fieldMetadata.dataType === 'string') {
-              return [frontendKey, ''] // Required strings default to empty string
-            }
-          }
-        }
-        return null // Skip undefined values for non-required fields
-      }
-      
-      // PATTERN: Check if field is required reference and send null, otherwise skip
-      if (value === null) {
-        const fieldMetadata = metadata[frontendKey]
-        const isReferenceField = fieldMetadata?.dataType === 'reference' || 
-                                 frontendKey.endsWith('Ref') || 
-                                 frontendKey.endsWith('Id') ||
-                                 frontendKey === 'id'
-        
-        if (isReferenceField) {
-          if (requiredFields.has(frontendKey)) {
-            return [frontendKey, null] // Send null for required reference fields
-          }
-          return null
-        }
-      }
-      
-      //      UUID fields cannot accept empty strings - they must be valid UUIDs or null
-      // PATTERN: Check if field is boolean, number, or reference and convert empty string appropriately
-      if (value === '') {
-        if (nullableBooleanFields.has(frontendKey) || nonNullableBooleanFields.has(frontendKey)) {
-          const convertedValue = nullableBooleanFields.has(frontendKey) ? null : false
-          return [frontendKey, convertedValue]
-        } else if (requiredNumberFields.has(frontendKey)) {
-          return [frontendKey, 0]
-        } else {
-          // PATTERN: Convert empty strings to null for reference fields, let Sequelize handle required field validation
-          const fieldMetadata = metadata[frontendKey]
-          const isReferenceField = fieldMetadata?.dataType === 'reference' || 
-                                   frontendKey.endsWith('Ref') || 
-                                   frontendKey.endsWith('Id') ||
-                                   frontendKey === 'id'
-          
-          if (isReferenceField && typeof value === 'string' && value === '') {
-            // Sequelize will validate required fields and provide clear error if field is required
-            return [frontendKey, null]
-          }
-          
-          return [frontendKey, value]
-        }
-      } else {
-        return [frontendKey, value]
-      }
-    }
-
-    // PATTERN: Map entries to transformed entries, filter nulls, build object
+    const fieldSets = buildFieldClassificationSets(entityType, metadata)
     const transformedEntries = Object.entries(entity)
-      .map(transformField)
+      .map((entry) => transformFieldForDehydrate(entry, fieldSets, metadata))
       .filter((entry): entry is [string, unknown] => entry !== null)
-    
     return Object.fromEntries(transformedEntries)
   }
 }
