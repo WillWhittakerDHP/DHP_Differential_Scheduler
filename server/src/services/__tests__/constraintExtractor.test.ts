@@ -167,10 +167,10 @@ describe('constraintExtractor', () => {
       expect(result[0].minutes).toBe(15)
     })
 
-    it('should extract driveTimeTo constraint with implicit before placement', () => {
+    it('should extract driveToCandidate constraint with implicit before placement', () => {
       const settings = createAvailabilitySettingsData({
         buffers: {
-          driveTimeTo: {
+          driveToCandidate: {
             enforcement: 'hard',
             minutes: 30,
             applyTo: 'all'
@@ -181,16 +181,16 @@ describe('constraintExtractor', () => {
       const result = extractOverlapConstraints(settings)
       
       expect(result).toHaveLength(1)
-      expect(result[0].type).toBe('driveTimeTo')
+      expect(result[0].type).toBe('driveToCandidate')
       expect(result[0].placement).toBe('before')
       expect(result[0].minutes).toBe(30)
       expect(result[0].applyTo).toBe('all')
     })
 
-    it('should extract driveTimeFrom constraint with implicit after placement', () => {
+    it('should extract driveFromCandidate constraint with implicit after placement', () => {
       const settings = createAvailabilitySettingsData({
         buffers: {
-          driveTimeFrom: {
+          driveFromCandidate: {
             enforcement: 'flexible',
             minutes: 15,
             applyTo: 'skipDayEnd'
@@ -201,16 +201,16 @@ describe('constraintExtractor', () => {
       const result = extractOverlapConstraints(settings)
       
       expect(result).toHaveLength(1)
-      expect(result[0].type).toBe('driveTimeFrom')
+      expect(result[0].type).toBe('driveFromCandidate')
       expect(result[0].placement).toBe('after')
       expect(result[0].minutes).toBe(15)
       expect(result[0].applyTo).toBe('skipDayEnd')
     })
 
-    it('should skip driveTimeTo with applyTo none', () => {
+    it('should skip driveToCandidate with applyTo none', () => {
       const settings = createAvailabilitySettingsData({
         buffers: {
-          driveTimeTo: {
+          driveToCandidate: {
             enforcement: 'hard',
             minutes: 30,
             applyTo: 'none'
@@ -396,10 +396,10 @@ describe('constraintExtractor', () => {
       expect(result.valid).toBe(true)
     })
 
-    it('should validate driveTimeTo constraint with valid applyTo', () => {
+    it('should validate driveToCandidate constraint with valid applyTo', () => {
       const constraint: OverlapConstraint = {
         category: 'overlap',
-        type: 'driveTimeTo',
+        type: 'driveToCandidate',
         placement: 'before',
         enforcement: 'hard',
         minutes: 30,

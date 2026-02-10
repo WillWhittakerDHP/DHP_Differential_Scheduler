@@ -147,7 +147,7 @@ export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
 /**
  * Drive time buffer configuration
  * LEARNING: Semantic buffer for travel time with application rules
- * WHY: driveTimeTo/driveTimeFrom have implicit placement (before/after) - no ambiguity
+ * WHY: driveToCandidate/driveFromCandidate have implicit placement (before/after) - no ambiguity
  * PATTERN: Interface with minutes, enforcement, and applyTo (no placement needed)
  */
 export interface DriveTimeConfig {
@@ -224,10 +224,10 @@ export interface AvailabilitySettingsData {
   };
   buffers?: {
     appointment?: BufferConfig;       // Appointment buffer (adds time around appointments)
-    driveTimeTo?: DriveTimeConfig;    // Travel time TO arrive at appointment (applied BEFORE)
-    driveTimeFrom?: DriveTimeConfig;  // Travel time FROM appointment (applied AFTER)
+    driveToCandidate?: DriveTimeConfig;    // Travel time TO arrive at appointment (applied BEFORE)
+    driveFromCandidate?: DriveTimeConfig;  // Travel time FROM appointment (applied AFTER)
     lunch?: BufferConfig;             // Lunch buffer (blocks time for lunch breaks)
-    // driveTime?: BufferConfig;      // DEPRECATED: Use driveTimeTo/driveTimeFrom instead
+    // driveTime?: BufferConfig;      // DEPRECATED: Use driveToCandidate/driveFromCandidate instead
   };
   maxWorkHours?: {
     day?: WorkCapacityFilter; // Work hours per day capacity filter

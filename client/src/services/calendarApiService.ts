@@ -9,13 +9,10 @@
  */
 
 import axios, { AxiosError } from 'axios'
-import type { BusyTimeRange } from '@/utils/booking/slotPipeline'
-import type { RFC3339DateTime } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { groupConstraintsByCategory } from '@shared/utils/constraintUtils'
 import type {
-  ComputedAvailabilityData,
+  ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
 } from '@shared/types/availabilityTypes'
 
@@ -194,59 +191,36 @@ export interface CalendarEvent {
 // WHY: Calendar events are now fetched server-side via fetchComputedAvailabilityData
 
 /**
- * Fetch computed availability data from server
- * 
- * LEARNING: Single endpoint that returns all pre-computed availability data
- * WHY: Eliminates multiple client-side API calls and constraint extraction
- * PATTERN: Single POST request returns everything needed for slot generation
- * 
- * Phase 5: Server-Side Computed Availability Data Refactor
- * 
+ * Fetch computed slot availability from server
+ *
+ * LEARNING: Single endpoint returns pre-computed slots per day (slotsByDay) and metadata
+ * WHY: Slot generation and constraint checks run server-side; client only applies shape and renders
+ * PATTERN: POST returns ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
+ *
  * @param request - ComputedAvailabilityRequest with date range, placeId, duration, and dataSource
- * @returns ComputedAvailabilityData with all pre-computed availability information
+ * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
  * @throws CalendarApiError on failure
  */
 export async function fetchComputedAvailabilityData(
   request: ComputedAvailabilityRequest
-): Promise<ComputedAvailabilityData> {
+): Promise<ComputedSlotAvailabilityData> {
   logger.debug('[fetchComputedAvailabilityData] Request:', request)
-  
+
   try {
-    const response = await axios.post<ComputedAvailabilityData>(
+    const response = await axios.post<ComputedSlotAvailabilityData>(
       `${API_BASE_URL}/api/v1/internal/availability/computed-data`,
       request
     )
-    
-    // Group constraints by category for logging (matches new unified structure)
-    const { range, overlap, capacity } = groupConstraintsByCategory(response.data.constraints)
-    
-    // Derive scheduled hours count from enriched capacity constraints
-    const scheduledHoursCount = capacity.reduce((sum, c) => {
-      return sum + (c.scheduledHours ? Object.keys(c.scheduledHours).length : 0)
-    }, 0)
-    logger.debug('[fetchComputedAvailabilityData] Response received:', {
-      constraints: response.data.constraints.length,
-      rangeConstraints: range.length,
-      overlapConstraints: overlap.length,
-      capacityConstraints: capacity.length,
-      busyPeriods: response.data.busyPeriods.length,
-      calendarEvents: response.data.calendarEvents.length,
-      outOfOfficeEvents: response.data.outOfOfficeEvents.length,
-      scheduledHours: scheduledHoursCount + ' keys (enriched on constraints)',
-    })
-    
-    // Record successful API call
+
     recordApiCall('computedData', 'hit')
-    
+
     return response.data
-    
   } catch (error) {
     const apiError = handleApiError(error)
     logger.error('[fetchComputedAvailabilityData] Error:', apiError.type, apiError.message)
-    
-    // Record failed API call
+
     recordApiCall('computedData', 'error')
-    
+
     throw apiError
   }
 }

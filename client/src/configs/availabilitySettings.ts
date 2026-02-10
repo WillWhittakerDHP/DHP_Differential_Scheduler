@@ -164,12 +164,12 @@ export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
 /**
  * Drive time buffer configuration
  * LEARNING: Semantic buffer for travel time with application rules
- * WHY: driveTimeTo/driveTimeFrom have implicit placement (before/after) - no ambiguity
+ * WHY: driveToCandidate/driveFromCandidate have implicit placement (before/after) - no ambiguity
  * PATTERN: Interface with minutes, enforcement, and applyTo (no placement needed)
  * 
  * Unlike BufferConfig which has explicit 'placement', DriveTimeConfig uses semantic naming:
- * - driveTimeTo: Travel time to arrive at appointment (always applied BEFORE)
- * - driveTimeFrom: Travel time to depart from appointment (always applied AFTER)
+ * - driveToCandidate: Travel time to arrive at appointment (always applied BEFORE)
+ * - driveFromCandidate: Travel time to depart from appointment (always applied AFTER)
  */
 export interface DriveTimeConfig {
   minutes: number
@@ -294,17 +294,17 @@ export interface AvailabilitySettings {
    * Overlap constraints (buffers) (optional)
    * LEARNING: Time gaps around appointments to prevent overlaps
    * WHY: Groups related buffer settings together for consistency and better organization
-   * PATTERN: Optional nested object with appointment, driveTimeTo, driveTimeFrom, and lunch buffers
+   * PATTERN: Optional nested object with appointment, driveToCandidate, driveFromCandidate, and lunch buffers
    * 
    * Note: leadTime moved to rangeConstraints.leadTime
-   * Note: Legacy 'driveTime' replaced with semantic 'driveTimeTo'/'driveTimeFrom' in drive time buffer refactor
+   * Note: Legacy 'driveTime' replaced with semantic 'driveToCandidate'/'driveFromCandidate' in drive time buffer refactor
    */
   buffers?: {
     appointment?: BufferConfig      // Appointment buffer (adds time around appointments)
-    driveTimeTo?: DriveTimeConfig   // Travel time TO arrive at appointment (applied BEFORE)
-    driveTimeFrom?: DriveTimeConfig // Travel time FROM appointment (applied AFTER)
+    driveToCandidate?: DriveTimeConfig   // Travel time TO arrive at appointment (applied BEFORE)
+    driveFromCandidate?: DriveTimeConfig // Travel time FROM appointment (applied AFTER)
     lunch?: BufferConfig            // Lunch buffer (blocks time for lunch breaks)
-    // driveTime?: BufferConfig     // DEPRECATED: Use driveTimeTo/driveTimeFrom instead
+    // driveTime?: BufferConfig     // DEPRECATED: Use driveToCandidate/driveFromCandidate instead
   }
   
   /**
@@ -388,8 +388,8 @@ export interface RawAvailabilitySettings {
   }
   buffers?: {
     appointment?: BufferConfig
-    driveTimeTo?: DriveTimeConfig   // Travel time TO arrive at appointment
-    driveTimeFrom?: DriveTimeConfig // Travel time FROM appointment
+    driveToCandidate?: DriveTimeConfig   // Travel time TO arrive at appointment
+    driveFromCandidate?: DriveTimeConfig // Travel time FROM appointment
     lunch?: BufferConfig
   }
   maxWorkHours?: {

@@ -85,8 +85,8 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
     city: formData.city,
     state: formData.state,
     zipCode: formData.zipCode,
-    placeId: formData.placeId,
-    coordinates: formData.coordinates,
+    candidatePlaceId: formData.candidatePlaceId,
+    candidateCoordinates: formData.candidateCoordinates,
     propertySize: formData.propertySize,
     numberOfUnits: formData.numberOfUnits,
     mlsNumber: formData.mlsNumber,
@@ -140,8 +140,8 @@ usePropertyFormWatchers({
     city: formData.city,
     state: formData.state,
     zipCode: formData.zipCode,
-    placeId: formData.placeId,
-    coordinates: formData.coordinates,
+    candidatePlaceId: formData.candidatePlaceId,
+    candidateCoordinates: formData.candidateCoordinates,
     propertySize: formData.propertySize,
     numberOfUnits: formData.numberOfUnits,
     mlsNumber: formData.mlsNumber,
@@ -270,15 +270,15 @@ function handlePropertyEdit(): void {
       <VCol v-if="!isAddressExpanded" cols="12">
         <AddressAutocomplete
           v-model="formData.address.value"
-          :coordinates="formData.coordinates.value"
-          :place-id="formData.placeId.value"
+          :coordinates="formData.candidateCoordinates.value"
+          :place-id="formData.candidatePlaceId.value"
           label="Property Address"
           placeholder="Start typing the property address..."
           :rules="validationRules.address"
           :error-messages="fieldErrors.address ? [fieldErrors.address] : []"
           @place-selected="handlePlaceSelected"
-          @update:coordinates="formData.coordinates.value = $event"
-          @update:place-id="formData.placeId.value = $event"
+          @update:coordinates="formData.candidateCoordinates.value = $event"
+          @update:place-id="formData.candidatePlaceId.value = $event"
           @error="handleAutocompleteError"
         />
       </VCol>

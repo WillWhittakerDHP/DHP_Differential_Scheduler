@@ -130,20 +130,20 @@ export interface RangeConstraint {
 
 /**
  * Overlap constraint (buffer) interface
- * LEARNING: Unified structure for all buffer types (appointment, driveTimeTo, driveTimeFrom, lunch)
+ * LEARNING: Unified structure for all buffer types (appointment, driveToCandidate, driveFromCandidate, lunch)
  * WHY: Consolidates buffer checking into single pathway
  * PATTERN: Interface with type, placement, enforcement, minutes, and optional applyTo
  * 
- * Note: driveTimeTo always has placement='before', driveTimeFrom always has placement='after'
+ * Note: driveToCandidate always has placement='before', driveFromCandidate always has placement='after'
  * The applyTo field controls WHEN the constraint is applied (first/last/all appointments)
  */
 export interface OverlapConstraint {
   category: 'overlap'
-  type: 'appointment' | 'driveTimeTo' | 'driveTimeFrom' | 'lunch'
+  type: 'appointment' | 'driveToCandidate' | 'driveFromCandidate' | 'lunch'
   placement: 'off' | 'before' | 'after' | 'both'
   enforcement: ConstraintEnforcement
   minutes: number
-  applyTo?: DriveTimeApplyTo  // Only for drive time constraints (driveTimeTo, driveTimeFrom)
+  applyTo?: DriveTimeApplyTo  // Only for drive time constraints (driveToCandidate, driveFromCandidate)
 }
 
 /**
@@ -186,10 +186,13 @@ export interface ConstraintCheckResult {
  * WHY: Constraint types (appointment buffer, drive time, etc.) describe RULES about spacing;
  *      busy period sources describe WHERE the blocking data came from (which API response)
  * PATTERN: Separate vocabulary from constraint types - sources are about data origin
- * 
+ *
+ * Google Calendar API: opaque = blocks time (busy), transparent = free (does not block).
+ * Busy periods represent opaque event time (and out-of-office); transparent events are filtered out.
+ *
  * - 'event': From Google Calendar Events API (regular calendar events with transparency='opaque')
  * - 'outOfOffice': From Google Calendar Events API (eventType: 'outOfOffice')
- * 
+ *
  * Future possibilities when server generates busy blocks for other constraint types:
  * - 'lunch': Server-generated lunch break blocks
  * - 'driveTime': Server-generated drive time blocks
@@ -268,8 +271,8 @@ export interface BusyTimeRange {
   end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
   placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
   source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'event' from Events API, 'outOfOffice' from Events API)
-  driveTimeTo?: number    // Optional drive time in minutes from default location to this event's location
-  driveTimeFrom?: number  // Optional drive time in minutes from this event's location to default location
+  driveToCandidate?: number    // Drive time in minutes FROM this event's location TO the candidate location
+  driveFromCandidate?: number  // Drive time in minutes FROM the candidate location TO this event's location
 }
 
 /**
@@ -285,21 +288,21 @@ export interface CalendarEvent {
   placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
   summary: string | null   // Event title for context/debugging
   eventType?: string       // 'default' | 'outOfOffice' - distinguishes regular events from out-of-office events
-  transparency?: string    // 'opaque' | 'transparent' - whether event blocks time (opaque = busy, transparent = free)
+  transparency?: string    // Google: 'opaque' = blocks time (busy), 'transparent' = free (does not block)
 }
 
 /**
  * Computed Availability Request
  * LEARNING: Request payload for the computed availability endpoint
  * WHY: Single request contains all parameters needed to compute availability
- * PATTERN: Interface with date range, optional placeId, duration, and data source toggle
+ * PATTERN: Interface with date range, optional candidatePlaceId, duration, and data source toggle
  */
 export interface ComputedAvailabilityRequest {
   dateRange: {
     start: string    // RFC3339
     end: string      // RFC3339
   }
-  placeId?: string           // property placeId for drive time
+  candidatePlaceId?: string           // Candidate property placeId for drive time (from wizard, not yet saved)
   duration: number           // appointment duration in minutes (for capacity keys)
   dataSource?: 'real' | 'mock' | 'none'  // dev toggle (default: 'real')
 }
@@ -325,11 +328,51 @@ export interface ComputedAvailabilityData {
   // --- Metadata ---
   _meta: {
     dateRange: { start: string, end: string }
-    placeId?: string
+    candidatePlaceId?: string  // Candidate property placeId from request (for drive time calculations)
     defaultLocation?: DefaultLocation
     generatedAt: string
     cacheStatus: {
       events: 'hit' | 'miss'
     }
+  }
+}
+
+/**
+ * A single time slot with pre-computed availability from the server
+ * LEARNING: Server computes slot boundaries and constraint violations; client applies shape for display
+ * WHY: Eliminates client-side constraint logic; drive-time anchoring uses event-level context on server
+ */
+export interface ComputedSlot {
+  startTime: RFC3339DateTime
+  endTime: RFC3339DateTime
+  duration: number
+  isAvailable: boolean
+  violations: string[]  // e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
+}
+
+/**
+ * Server response: slots grouped by day (server-side slot computation)
+ * LEARNING: Replaces ComputedAvailabilityData when using server-computed slots
+ * WHY: Client receives pre-computed slots; no busy-period flattening or client constraint checking
+ */
+export interface ComputedSlotAvailabilityData {
+  slotsByDay: Record<string, ComputedSlot[]>  // key: 'YYYY-MM-DD'
+
+  // Still needed by client for display/config
+  constraints: Constraint[]
+  minuteIncrement: number
+  timezone?: string
+  durationRounding?: DurationRoundingConfig
+
+  // Still needed for dev panel / debugging
+  calendarEvents: CalendarEvent[]
+  outOfOfficeEvents: CalendarEvent[]
+
+  _meta: {
+    dateRange: { start: string; end: string }
+    candidatePlaceId?: string
+    defaultLocation?: DefaultLocation
+    generatedAt: string
+    cacheStatus: { events: 'hit' | 'miss' }
   }
 }

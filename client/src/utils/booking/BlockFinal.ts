@@ -11,7 +11,6 @@
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PartFinal } from './PartFinal'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createPartFinals } from './partFinalizer'
 
 /**
@@ -30,7 +29,6 @@ export interface BlockFinal {
   
   blockTotals: {
     baseTime: number      // Sum of all finalizedParts.baseTime
-    roundedTime: number   // Sum of all finalizedParts.roundedTime
     baseFee: number       // Sum of all finalizedParts.baseFee
     rateOverBaseTime: number  // Sum of all finalizedParts.rateOverBaseTime
     rateOverBaseFee: number   // Sum of all finalizedParts.rateOverBaseFee
@@ -46,22 +44,19 @@ export interface BlockFinal {
  * PATTERN: Create finalized parts, then calculate block totals from those parts
  * 
  * @param blockInstance - Block instance to finalize
- * @param settings - Optional availability settings for rounding configuration
  * @returns BlockFinal with finalized parts and block totals
  */
 export function createBlockFinal(
-  blockInstance: BookingBlockInstance,
-  settings?: AvailabilitySettings | null
+  blockInstance: BookingBlockInstance
 ): BlockFinal {
   const partInstances = blockInstance.partInstances || []
   
   // PATTERN: Create finalized parts for this block's parts
-  const finalizedParts = createPartFinals(partInstances, settings || null)
+  const finalizedParts = createPartFinals(partInstances)
   
   // PATTERN: Calculate block totals from finalized parts
   const blockTotals = {
     baseTime: finalizedParts.reduce((sum, part) => sum + part.baseTime, 0),
-    roundedTime: finalizedParts.reduce((sum, part) => sum + part.roundedTime, 0),
     baseFee: finalizedParts.reduce((sum, part) => sum + part.baseFee, 0),
     rateOverBaseTime: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseTime, 0),
     rateOverBaseFee: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseFee, 0)

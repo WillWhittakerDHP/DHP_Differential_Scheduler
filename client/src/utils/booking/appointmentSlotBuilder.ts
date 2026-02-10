@@ -210,10 +210,10 @@ export function buildAppointmentShape(
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   globalData?: GlobalData
 ): AppointmentShape {
-  // PATTERN: Create finalized blocks with rounding settings, then filter out blocks with all zeroed parts
+  // PATTERN: Create finalized blocks, then filter out blocks with all zeroed parts
   // LEARNING: Preserves block-level context instead of flattening immediately
-  // DUAL-TRACK: Pass settings to compute roundedTime at part level
-  const allBlockFinals = createBlockFinals(blockInstances, settings || null)
+  // NOTE: Rounding happens at event level in calculateSlotShape, not at part/block level
+  const allBlockFinals = createBlockFinals(blockInstances)
   const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
   
   // PATTERN: Extract finalizedParts from BlockFinals for backward compatibility
@@ -246,7 +246,7 @@ export function buildAppointmentShape(
   
   // PATTERN: Use calculateSlotShape to get all durations in one pass
   // LEARNING: Now passes BlockFinal[] instead of PartFinal[], making accumulation explicit
-  // DUAL-TRACK: Rounding is now computed at part level, so rounded values are already in slotShape
+  // NOTE: Rounding happens at event level here - accumulate raw values, then round once per event
   const slotShape = calculateSlotShape(nonZeroedBlockFinals, eventAssignmentsByPartShape, eventShapes || [], globalData, settings || null)
   
   const shape: AppointmentShape = {

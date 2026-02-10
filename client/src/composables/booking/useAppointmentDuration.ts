@@ -1,19 +1,14 @@
 /**
  * useAppointmentDuration Composable
  * 
- * LEARNING: Calculates major event appointment duration from block instances (legacy: on-site)
+ * LEARNING: Calculates authoritative slot span duration from AppointmentShape
  * WHY: Extracts duration calculation logic from AvailabilityStep component
- * PATTERN: Composable that provides computed property for appointment duration
+ * PATTERN: Composable that uses shared shape composable to get duration
  */
 
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { useGlobal } from '@/composables/useGlobal'
-import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
-import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
-import type { EventInstance, EventShape } from '@/types/events'
-import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
+import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
 
 export interface UseAppointmentDurationParams {
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
@@ -26,67 +21,35 @@ export interface UseAppointmentDurationReturn {
 /**
  * useAppointmentDuration composable
  * 
- * LEARNING: Calculates major event duration from block instances (legacy: on-site)
+ * LEARNING: Calculates authoritative slot span duration from AppointmentShape
  * WHY: Extracts duration calculation logic from component to composable
- * PATTERN: Composable that returns reactive computed property
+ * PATTERN: Composable that uses shared shape composable to get duration
  */
 export function useAppointmentDuration(
   params: UseAppointmentDurationParams
 ): UseAppointmentDurationReturn {
   const { accumulatedBlockInstances } = params
   
-  // PATTERN: Use useGlobal composable to access globalData
-  const { getGlobalData, getGlobalEntities } = useGlobal()
+  // PATTERN: Use shared shape composable
+  // WHY: Eliminates duplicate shape-building logic, single source of truth
+  const { appointmentShape } = useAppointmentShape({
+    blockInstances: accumulatedBlockInstances
+  })
 
   /**
-   * LEARNING: Calculate major event duration from AppointmentShape (legacy: on-site)
-   * WHY: Events are now stored on AppointmentShape, not on PartFinal
-   * PATTERN: Build AppointmentShape and read major event duration from slotShape.eventFinals using helper function
+   * LEARNING: Extract authoritative slot span duration from shared shape
+   * WHY: slotShape.roundedDuration = max(eventFinal.roundedDuration) = slot span from start to latest event end
+   * PATTERN: Return slotShape.roundedDuration directly from shared shape
+   * NOTE: In differential services, this equals major event duration. In non-differential, equals single event duration.
    */
   const appointmentDuration = computed<number | null>(() => {
-    const instances = accumulatedBlockInstances.value
-    if (instances.length === 0) {
+    const shape = appointmentShape.value
+    if (!shape) {
       return null
     }
     
-    try {
-      const globalData = getGlobalData()
-      const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
-      const eventShapes = getGlobalEntities('eventShape') as EventShape[]
-      const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
-      
-      const partShapes = getGlobalEntities('partShape')
-      const partShapeById = new Map(
-        partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
-      )
-      
-      const shape = buildAppointmentShape(
-        instances,
-        null,
-        eventInstances,
-        eventShapes,
-        eventAssignmentsRelationships,
-        partShapeById,
-        globalData || undefined
-      )
-      
-      // WHY: Events are stored on AppointmentShape, durations computed in SlotShape as EventFinal[]
-      // PATTERN: Use helper function to find event by name, eliminates hardcoded access
-      // NOTE: Uses 'Major' as fallback for backward compatibility, but should use major event from availabilitySettings
-      // DUAL-TRACK: Use roundedDuration - rounding already computed at part level
-      const majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
-      const majorRoundedDuration = majorEventFinal?.roundedDuration || 0
-      
-      // PATTERN: Return rounded total duration if major event duration is not available
-      if (majorRoundedDuration <= 0) {
-        const roundedTotalDuration = shape.slotShape.roundedDuration
-        return roundedTotalDuration > 0 ? roundedTotalDuration : null
-      }
-      
-      return majorRoundedDuration
-    } catch (error) {
-      return null
-    }
+    const roundedDuration = shape.slotShape.roundedDuration
+    return roundedDuration > 0 ? roundedDuration : null
   })
 
   return {

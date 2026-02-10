@@ -1,0 +1,121 @@
+/**
+ * useAppointmentShape Composable
+ * 
+ * LEARNING: Single-responsibility composable that builds AppointmentShape from block instances
+ * WHY: Eliminates duplicate shape-building logic across multiple composables
+ * PATTERN: Composable that builds shape once, exposes it for reuse
+ */
+
+import { computed, type ComputedRef } from 'vue'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { AppointmentShape } from '@/types/appointment'
+import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useGlobal } from '@/composables/useGlobal'
+import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import type { EventInstance, EventShape } from '@/types/events'
+import type { GlobalRelationship } from '@/types/relationships'
+import type { GlobalEntity, EventShapeEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
+import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAppointmentShape')
+
+export interface UseAppointmentShapeParams {
+  blockInstances: ComputedRef<BookingBlockInstance[]>
+}
+
+export interface UseAppointmentShapeReturn {
+  appointmentShape: ComputedRef<AppointmentShape | null>
+}
+
+/**
+ * useAppointmentShape composable
+ * 
+ * LEARNING: Builds AppointmentShape from block instances, exposes as ComputedRef
+ * WHY: Single source of truth for shape building, eliminates duplication
+ * PATTERN: Composable that builds shape once, shared efficiently via Vue reactivity
+ */
+export function useAppointmentShape(
+  params: UseAppointmentShapeParams
+): UseAppointmentShapeReturn {
+  const { blockInstances } = params
+  
+  // PATTERN: Use composable to get reactive settings
+  const { settings } = useAvailabilitySettings()
+  
+  // PATTERN: Use useGlobal composable to access globalData
+  const { getGlobalData, getGlobalEntities } = useGlobal()
+
+  const appointmentShape = computed<AppointmentShape | null>(() => {
+    const instances = blockInstances.value
+    
+    if (instances.length === 0) {
+      return null
+    }
+    
+    try {
+      const globalData = getGlobalData()
+      
+      // PATTERN: Use getGlobalEntities helper to get event data
+      const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
+      let eventShapes = getGlobalEntities('eventShape') as EventShape[]
+      const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
+      const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
+      
+      // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
+      // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
+      // WHY: Relationships are transformed to nested format with parent and children arrays
+      // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
+      if (attendeeAssignmentsRelationships.length > 0) {
+        // PATTERN: Find major/minor event shapes once, then use for all event shapes
+        const majorEventShape = settings.value?.differentialPerspectives?.majorAttendees && globalData
+          ? getMajorEventShape(eventShapes as EventShapeEntity[], settings.value.differentialPerspectives.majorAttendees)
+          : null
+        const eventShapesExcludingMajor = majorEventShape
+          ? (eventShapes as EventShapeEntity[]).filter(es => es.id !== majorEventShape.id)
+          : (eventShapes as EventShapeEntity[])
+        const minorEventShape = settings.value?.differentialPerspectives?.minorAttendees && globalData
+          ? getMinorEventShape(eventShapesExcludingMajor, settings.value.differentialPerspectives.minorAttendees)
+          : null
+        
+        eventShapes = eventShapes.map(eventShape => {
+          const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
+          const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+          // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
+          // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
+          const eventPerspective = majorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MAJOR : (minorEventShape?.id === eventShape.id ? EVENT_PERSPECTIVE_KEYS.MINOR : EVENT_PERSPECTIVE_KEYS.OTHER)
+          return { ...eventShape, attendees }
+        })
+      } else {
+        eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
+      }
+      
+      const partShapes = getGlobalEntities('partShape')
+      const partShapeById = new Map(
+        partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+      )
+      
+      // PATTERN: Extract events data from globalData and pass to builder
+      const shape = buildAppointmentShape(
+        instances, 
+        settings.value,
+        eventInstances,
+        eventShapes,
+        eventAssignmentsRelationships,
+        partShapeById,
+        globalData || undefined
+      )
+      
+      return shape
+    } catch (error) {
+      logger.error('Error building appointment shape:', error)
+      return null
+    }
+  })
+
+  return {
+    appointmentShape
+  }
+}

@@ -72,8 +72,8 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
    */
   const stepData = computed<AvailabilityStepData>(() =>
     buildAvailabilityStepData({
-      selectedDate: selectedDate.value,
-      selectedTimeSlots: selectedTimeSlots.value,
+      candidateDate: selectedDate.value,
+      candidateTimeSlots: selectedTimeSlots.value,
       moveableScheduling: moveableScheduling?.value ?? null,
     })
   )

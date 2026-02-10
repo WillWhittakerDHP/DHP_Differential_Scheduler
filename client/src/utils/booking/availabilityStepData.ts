@@ -12,8 +12,8 @@ export interface SelectedTimeSlot {
 }
 
 export interface AvailabilityStepData {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: SelectedTimeSlot[] | null
+  candidateDate: { start: string | null; end: string | null }  // Candidate date selection (not yet saved)
+  candidateTimeSlots: SelectedTimeSlot[] | null  // Candidate time slot selections (not yet saved)
   moveableScheduling?: MoveableSchedulingOptions | null
 }
 
@@ -92,16 +92,16 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 }
 
 export function buildAvailabilityStepData(params: {
-  selectedDate: { start: string | null; end: string | null }
-  selectedTimeSlots: SelectedTimeSlot[] | null
+  candidateDate: { start: string | null; end: string | null }
+  candidateTimeSlots: SelectedTimeSlot[] | null
   moveableScheduling?: MoveableSchedulingOptions | null
 }): AvailabilityStepData {
   return {
-    selectedDate: {
-      start: params.selectedDate.start,
-      end: params.selectedDate.end,
+    candidateDate: {
+      start: params.candidateDate.start,
+      end: params.candidateDate.end,
     },
-    selectedTimeSlots: params.selectedTimeSlots,
+    candidateTimeSlots: params.candidateTimeSlots,
     moveableScheduling: params.moveableScheduling ?? null,
   }
 }

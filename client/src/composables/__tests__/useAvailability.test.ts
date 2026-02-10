@@ -4,12 +4,6 @@ import { ref, computed, nextTick } from 'vue'
 
 vi.mock('@/utils/timeSlotCalculations', () => {
   return {
-    calculateDurationFromBlockInstances: vi.fn((blockInstances: BookingBlockInstance[]) => {
-      if (!blockInstances || blockInstances.length === 0) return 90
-      return blockInstances.reduce((total, block) => {
-        return total + block.partInstances.reduce((sum, part) => sum + (part.baseTime || 0), 0)
-      }, 0) || 90
-    }),
     generateTimeSlots: vi.fn(async (dateRange, duration) => {
       const slots = []
       const start = new Date(dateRange.start)
@@ -97,12 +91,6 @@ function createBlockInstance(
 }
 
 vi.mock('@/utils/timeSlotCalculations', () => ({
-  calculateDurationFromBlockInstances: vi.fn((blockInstances: BookingBlockInstance[]) => {
-    if (!blockInstances || blockInstances.length === 0) return 90
-    return blockInstances.reduce((total, block) => {
-      return total + block.partInstances.reduce((sum, part) => sum + (part.baseTime || 0), 0)
-    }, 0) || 90
-  }),
   generateTimeSlots: vi.fn((dateRange, duration) => {
     const slots = []
     const start = new Date(dateRange.start)

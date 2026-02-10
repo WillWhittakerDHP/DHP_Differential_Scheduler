@@ -11,8 +11,8 @@ import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
-import { computeSlotAvailability } from '@/utils/booking/slotPipeline'
-import { getAvailabilitySettings, type BusinessHoursConfig } from '@/configs/availabilitySettings'
+import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
+import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime, type RFC3339DateTime } from '@/types/datetime'
@@ -23,10 +23,6 @@ import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 const logger = createLogger('useMoveablePartsScheduling')
-
-const isBusinessHoursConfig = (config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }): config is BusinessHoursConfig => {
-  return 'hours' in config
-}
 
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
@@ -171,28 +167,16 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
       }
       
       const settings = await getAvailabilitySettings()
-      
-      // LEARNING: Extract businessHours from structured rangeConstraints
-      // WHY: No top-level businessHours fallback - must use structured format
-      // PATTERN: Get businessHours from rangeConstraints.businessHours.config.hours
-      const businessHoursConfig = settings.rangeConstraints?.businessHours?.config
-      const businessHours = businessHoursConfig && isBusinessHoursConfig(businessHoursConfig)
-        ? businessHoursConfig.hours
-        : null
-      if (!businessHours) {
-        throw new Error('businessHours must be provided in rangeConstraints.businessHours.config.hours')
-      }
-      
-      const result = computeSlotAvailability({
+
+      const slots = generateSlotsInRange({
         startBoundary: innerBoundary,
         endBoundary: outerBoundary,
         duration,
-        businessHours,
         minuteIncrement: settings.minuteIncrement,
-        includeFlags: { major: false, minor: false, moveable: true }
-      }, [])
-      
-      const availableSlots: MoveableSlot[] = result.slots.filter(slot => slot.isAvailable).map((slot) => ({
+        includeFlags: { major: false, minor: false, moveable: true },
+      })
+
+      const availableSlots: MoveableSlot[] = slots.map((slot) => ({
         startTime: slot.startTime,
         endTime: slot.endTime,
         duration: slot.duration,
@@ -200,12 +184,13 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         timeLabel: formatTimeLabel(slot.startTime, slot.endTime, formatTimeForDisplay)
       }))
       
+      const earliestCompletion = availableSlots.length > 0 ? availableSlots[0].startTime : outerBoundary
       moveableOptions.value = {
         innerBoundary,
         outerBoundary,
         moveableDuration: duration,
         availableSlots,
-        earliestCompletion: result.earliestCompletion ?? outerBoundary,
+        earliestCompletion,
         selectedSlotIndex: selectedSlotIndex.value
       }
     } catch (error) {

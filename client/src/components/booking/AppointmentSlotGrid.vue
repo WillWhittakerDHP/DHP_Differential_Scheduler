@@ -22,7 +22,8 @@ import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
 import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import SlotConstraintOverlay from '@/components/booking/dev/SlotConstraintOverlay.vue'
+import { isDevModeEnabled } from '@/utils/env/devMode'
+import { getColorForViolation, formatViolationTooltip } from '@/utils/booking/constraintColors'
 
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
@@ -74,11 +75,16 @@ const { formatTimeRange } = useTimeFormatting()
 
 const { getGlobalData } = useGlobal()
 const { settings: availabilitySettings } = useAvailabilitySettings()
+const isDevMode = isDevModeEnabled()
+
+// LEARNING: Constraint colors and formatting utilities imported from shared module
+// WHY: Centralized constants and utilities used across components
 
 interface SlotDisplayData {
   buttonIndex: number
   displayTime: TimeRange | null
   isAvailable: boolean
+  violations?: string[]
 }
 
 /**
@@ -101,10 +107,17 @@ const displaySlots = computed(() => {
       availabilitySettings.value || null
     )
     
+    // LEARNING: Include violations for dev mode dot display
+    // WHY: Dots are now integrated into buttons, not overlay
+    const violations = !appointmentSlot.isAvailable && appointmentSlot.flexibleViolations
+      ? appointmentSlot.flexibleViolations
+      : undefined
+    
     return {
       buttonIndex: appointmentSlot.buttonIndex,
       displayTime,
-      isAvailable: appointmentSlot.isAvailable
+      isAvailable: appointmentSlot.isAvailable,
+      violations
     }
   })
   
@@ -113,6 +126,14 @@ const displaySlots = computed(() => {
 
 const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
   emit('slot-click', slotData.buttonIndex)
+}
+
+// LEARNING: Debug logging helper for tooltip debugging
+// WHY: fetch not available in template context, need method in script
+const logDotEvent = (eventType: string, buttonIndex: number, violation?: string, index?: number, extraData?: Record<string, unknown>): void => {
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:'+eventType,message:'Dot '+eventType+' event',data:{buttonIndex,violation,index,...extraData},timestamp:Date.now(),runId:'run1',hypothesisId:eventType==='container-mouseenter'?'B':'D'})}).catch(()=>{});
+  // #endregion
 }
 
 // WHY: Centralizes formatting logic
@@ -149,12 +170,35 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
       :disabled="loading || !slotData.isAvailable"
       @click="handleAppointmentSlotClick(slotData)"
     >
-      {{ formatSlotTime(slotData) }}
+      <span class="slot-button-content">
+        {{ formatSlotTime(slotData) }}
+      </span>
+      <!-- LEARNING: Constraint dots positioned in top right corner -->
+      <!-- WHY: More reliable than overlay, works correctly with scrolling -->
+      <!-- PATTERN: Show dots only in dev mode, only on unavailable slots with violations -->
+      <span
+        v-if="isDevMode && slotData.violations && slotData.violations.length > 0"
+        class="constraint-dots"
+        @mouseenter="logDotEvent('container-mouseenter', slotData.buttonIndex, undefined, undefined, { violationsCount: slotData.violations.length })"
+      >
+        <VTooltip
+          v-for="(violation, index) in slotData.violations"
+          :key="`${slotData.buttonIndex}-${violation}-${index}`"
+          :text="formatViolationTooltip(violation)"
+          location="top"
+        >
+          <template #activator="{ props: tooltipProps }">
+            <span
+              v-bind="tooltipProps"
+              class="constraint-dot"
+              :style="{ backgroundColor: getColorForViolation(violation) }"
+              @mouseenter="logDotEvent('dot-mouseenter', slotData.buttonIndex, violation, index, { hasTooltipProps: !!tooltipProps })"
+              @click="logDotEvent('dot-click', slotData.buttonIndex, violation, index)"
+            />
+          </template>
+        </VTooltip>
+      </span>
     </VBtn>
-    <!-- LEARNING: Constraint overlay for dev mode debugging -->
-    <!-- WHY: Shows which constraints apply to each slot visually -->
-    <!-- PATTERN: Absolute positioned overlay that doesn't interfere with button clicks -->
-    <SlotConstraintOverlay :appointment-slots="appointmentSlots" />
   </div>
 </template>
 
@@ -214,9 +258,43 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
     max-width: 100%; // Prevent overflow beyond grid cell
     padding: 0.5rem 1rem !important; // Explicit padding to prevent text overflow
     white-space: nowrap; // Prevent text wrapping
-    overflow: hidden;
+    overflow: visible; // LEARNING: Allow dots to be visible
     text-overflow: ellipsis; // Fallback if text is still too long
     box-sizing: border-box; // LEARNING: Ensure padding included in width
+    position: relative; // LEARNING: Enable relative positioning for dots
+    pointer-events: auto; // LEARNING: Ensure button allows pointer events to pass through to dots
+    
+    .slot-button-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .constraint-dots {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+      z-index: 10; // LEARNING: Higher z-index to ensure tooltips appear above button
+      pointer-events: auto; // LEARNING: Ensure dots can receive pointer events
+    }
+    
+    .constraint-dot {
+      width: 12px; // LEARNING: Increased from 8px for better hover target
+      height: 12px; // LEARNING: Increased from 8px for better hover target
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+      cursor: help; // LEARNING: Indicate tooltip availability
+      pointer-events: auto; // LEARNING: Ensure dot can receive pointer events
+      // #region agent log
+      // Log dot rendering for hypothesis A (size) and B (CSS)
+      // #endregion
+    }
     
     @media (min-width: 600px) {
       min-height: 40px;

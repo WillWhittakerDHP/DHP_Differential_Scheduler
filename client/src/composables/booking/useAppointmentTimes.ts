@@ -66,6 +66,9 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     return isDifferentialService as boolean
   })
 
+  // PATTERN: Get settings for rounding configuration
+  const { settings } = useAvailabilitySettings()
+
   /**
    * LEARNING: Calculate normalized AppointmentSlots from block instances
    * WHY: Provides base AppointmentSlots structure with durations
@@ -75,7 +78,15 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const instances = blockInstancesRef.value
     const startTime = baseStartTimeRef.value
     
-    const calculated = calculateAppointmentSlots(instances, startTime || undefined)
+    const calculated = calculateAppointmentSlots(
+      instances, 
+      startTime || undefined,
+      undefined, // eventInstances
+      undefined, // eventShapes
+      undefined, // eventAssignmentsRelationships
+      undefined, // partShapeById
+      settings.value // settings for rounding
+    )
     
     return normalizeAppointmentSlotsByOrderIndex(calculated)
   })

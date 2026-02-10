@@ -12,10 +12,11 @@ import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
-import { parseUTCDate } from '@/utils/booking/slotPipeline'
+import { parseUTCDate } from '@/utils/booking/dateUtils'
 import { toRFC3339DateTime, type ISO8601Date, type RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetails } from '@/types/availability'
 import { equals } from '@/utils/ternary/ternaryUtils'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 /**
  * Date range structure
@@ -85,7 +86,11 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     propertyDetailsStepData,
     wizard,
     timeSlots,
+    loadedWizardState
   } = params
+  
+  // PATTERN: Get settings for rounding configuration
+  const { settings } = useAvailabilitySettings()
 
   /**
    * LEARNING: Computed property for date range for API call
@@ -236,7 +241,15 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       const appointmentSlotsForDate: AppointmentSlots = []
       
       slots.forEach((slot, index) => {
-        const calculatedSlots = calculateAppointmentSlots(blockInstances, slot.startTime)
+        const calculatedSlots = calculateAppointmentSlots(
+          blockInstances, 
+          slot.startTime,
+          undefined, // eventInstances
+          undefined, // eventShapes
+          undefined, // eventAssignmentsRelationships
+          undefined, // partShapeById
+          settings.value // settings for rounding
+        )
         // PATTERN: Propagate TimeSlot availability data to AppointmentSlot
         // WHY: TimeSlot has isAvailable and flexibleViolations from constraint checking
         // These values are computed during slot generation and need to flow through to UI

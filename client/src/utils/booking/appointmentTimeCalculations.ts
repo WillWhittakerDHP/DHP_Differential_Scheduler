@@ -11,6 +11,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
 
 /**
@@ -29,6 +30,7 @@ import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilde
  * @param eventShapes - Optional array of EventShape objects
  * @param eventAssignmentsRelationships - Optional array of eventAssignments relationships
  * @param partShapeById - Optional map of partShape ID → partShape entity
+ * @param settings - Optional availability settings for rounding configuration
  * @returns Array of AppointmentSlot objects with orderIndex 0
  */
 export function calculateAppointmentSlots(
@@ -37,16 +39,17 @@ export function calculateAppointmentSlots(
   eventInstances?: EventInstance[],
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
-  partShapeById?: Map<string, GlobalEntity<'partShape'>>
+  partShapeById?: Map<string, GlobalEntity<'partShape'>>,
+  settings?: AvailabilitySettings | null
 ): AppointmentSlots {
   if (!blockInstances || blockInstances.length === 0) {
     return []
   }
   
-  // PATTERN: Use buildAppointmentShape to create shape, pass events data if available
+  // PATTERN: Use buildAppointmentShape to create shape, pass events data and settings if available
   const shape = buildAppointmentShape(
     blockInstances, 
-    null,
+    settings || null,
     eventInstances,
     eventShapes,
     eventAssignmentsRelationships,

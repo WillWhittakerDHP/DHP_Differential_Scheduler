@@ -8,7 +8,6 @@
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockFinal } from './BlockFinal'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createBlockFinal } from './BlockFinal'
 import { filterZeroedParts } from './partFinalizer'
 
@@ -19,15 +18,13 @@ import { filterZeroedParts } from './partFinalizer'
  * PATTERN: Map over block instances, create BlockFinal for each
  * 
  * @param blockInstances - Array of BookingBlockInstance objects
- * @param settings - Optional availability settings for rounding configuration
  * @returns Array of BlockFinal instances
  */
 export function createBlockFinals(
-  blockInstances: BookingBlockInstance[],
-  settings?: AvailabilitySettings | null
+  blockInstances: BookingBlockInstance[]
 ): BlockFinal[] {
   return blockInstances.map(blockInstance =>
-    createBlockFinal(blockInstance, settings || null)
+    createBlockFinal(blockInstance)
   )
 }
 

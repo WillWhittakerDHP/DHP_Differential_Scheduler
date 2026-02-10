@@ -1,249 +1,213 @@
 /**
  * useComputedAvailability Composable
- * 
- * LEARNING: Fetches and holds the server's pre-computed availability data
- * WHY: Single API call replaces multiple client-side API calls (free-busy, events, drive time, constraints)
- * PATTERN: Watches dateRange/duration/placeId, fetches ComputedAvailabilityData from server, distributes to reactive refs
- * 
- * Phase 6: Created for server-side computed availability refactor
- * Phase 11: Renamed from useApiOrchestrator — name now reflects actual role (fetch + hold, not orchestrate)
+ *
+ * LEARNING: Fetches and caches server-computed slots (slotsByDay) with 14-day prefetch + per-day fallback
+ * WHY: Single API returns pre-computed slots; client only applies AppointmentShape and renders
+ * PATTERN: Map<string, ComputedSlot[]> cache; 14-day prefetch on mount/placeId/duration change; fetch day±1 when selected date missing
+ *
+ * Phase 4: Server-Side Slot Computation
+ * - Fetches ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
+ * - Merges slotsByDay into a reactive Map; exposes for useAppointmentSlots
+ * - Re-fetch: candidatePlaceId or duration change (clear cache, re-fetch 14-day)
+ * - Per-day fallback: when selectedDate is set and not in cache, fetch that day ±1 and merge
  */
 
 import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
-import type { BusyTimeRange } from '@/utils/booking/slotPipeline'
 import type {
   Constraint,
-  ComputedAvailabilityData,
+  ComputedSlot,
+  ComputedSlotAvailabilityData,
   DurationRoundingConfig,
 } from '@shared/types/availabilityTypes'
-import { groupConstraintsByCategory } from '@shared/utils/constraintUtils'
 import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useComputedAvailability')
 
+/** 14-day prefetch range from today (UTC) */
+function getPrefetchDateRange(): { start: RFC3339DateTime; end: RFC3339DateTime } {
+  const now = new Date()
+  const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
+  const end = new Date(start)
+  end.setUTCDate(end.getUTCDate() + 14)
+  return {
+    start: start.toISOString() as RFC3339DateTime,
+    end: end.toISOString() as RFC3339DateTime,
+  }
+}
+
 export interface UseComputedAvailabilityParams {
-  /** Property details step data (contains placeId) */
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  
-  /** Date range for displayed calendar month */
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
-  
-  /** Current active step index (0-based) */
   activeStep: Ref<number>
-  
-  /** Appointment duration in minutes (for capacity calculations) */
   duration?: Ref<number | null>
+  /** When user picks a day; if not in cache, we fetch that day ±1 and merge */
+  selectedDate?: Ref<string | null>
 }
 
 export interface UseComputedAvailabilityReturn {
-  /** Prefetched calendar events for displayed month */
   calendarEvents: Ref<CalendarEvent[]>
-  
-  /** Prefetched busy times for displayed month */
-  busyTimes: Ref<BusyTimeRange[]>
-  
-  /** Prefetched constraints (unified array) */
+  /** Cached slots by date key (YYYY-MM-DD); merge from each fetch */
+  slotsByDay: Ref<Map<string, ComputedSlot[]>>
   constraints: Ref<Constraint[]>
-  
-  /** Complete computed availability data object (reconstructed from individual pieces) */
-  computedData: ComputedRef<ComputedAvailabilityData | null>
-  
-  /** Whether availability data is currently being fetched */
+  computedData: ComputedRef<ComputedSlotAvailabilityData | null>
   isLoading: Ref<boolean>
-  
-  /** Error from last fetch attempt */
   error: Ref<Error | null>
 }
 
-/**
- * useComputedAvailability
- * 
- * LEARNING: Fetches server-computed availability data and holds it in reactive refs
- * WHY: Server computes constraints, busy periods, drive times, and calendar events in one call
- * PATTERN: Single fetch replaces the old multi-API orchestration chain
- * 
- * Triggers re-fetch when:
- * - dateRange changes (user navigates calendar months)
- * - placeId becomes available (drive time data improves)
- * - duration changes (affects capacity calculations)
- * - activeStep changes (placeId may have been set)
- */
 export function useComputedAvailability(
   params: UseComputedAvailabilityParams
 ): UseComputedAvailabilityReturn {
-  const { propertyDetailsStepData, dateRange, activeStep, duration } = params
-  
-  const placeId = computed(() => propertyDetailsStepData.value?.placeId)
-  
-  // LEARNING: Run whenever dateRange is available
-  // WHY: Server handles all API work and placeId is optional (drive times return empty without it)
-  //      Duration defaults to 60 minutes on server if not provided, so not required for guard
-  // PATTERN: Fetch early so data is ready by the time user reaches the availability step
-  // Phase 11: Removed legacy step/placeId gate — server gracefully handles missing placeId
-  // Phase 12: Removed duration requirement — server defaults to 60 minutes, fetch re-triggers when duration changes
-  const canFetchAvailability = computed(() => {
-    return !!dateRange.value?.start && !!dateRange.value?.end
-  })
-  
+  const { propertyDetailsStepData, dateRange, activeStep, duration, selectedDate } = params
+
+  const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
+
+  const canFetchAvailability = computed(() => !!dateRange.value?.start && !!dateRange.value?.end)
+
   const calendarEvents = ref<CalendarEvent[]>([])
-  const busyTimes = ref<BusyTimeRange[]>([])
+  const slotsByDay = ref<Map<string, ComputedSlot[]>>(new Map())
   const constraints = ref<Constraint[]>([])
   const minuteIncrement = ref<number>(15)
   const timezone = ref<string | undefined>(undefined)
   const durationRounding = ref<DurationRoundingConfig | undefined>(undefined)
   const outOfOfficeEvents = ref<CalendarEvent[]>([])
-  const computedDataMeta = ref<ComputedAvailabilityData['_meta'] | null>(null)
+  const computedDataMeta = ref<ComputedSlotAvailabilityData['_meta'] | null>(null)
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
-  
-  // DEBUG: Log placeId changes
-  watch(placeId, (newPlaceId, oldPlaceId) => {
-    if (newPlaceId !== oldPlaceId) {
-      logger.debug(
-        '[useComputedAvailability] placeId changed:',
-        `from=${oldPlaceId || '(none)'}`,
-        `to=${newPlaceId || '(none)'}`,
-        `propertyDetailsStepData=${JSON.stringify(propertyDetailsStepData.value ? { address: propertyDetailsStepData.value.address, placeId: propertyDetailsStepData.value.placeId } : null)}`
-      )
+
+  function mergeSlotsIntoMap(newSlotsByDay: Record<string, ComputedSlot[]>): void {
+    const map = new Map(slotsByDay.value)
+    for (const [day, slots] of Object.entries(newSlotsByDay)) {
+      map.set(day, slots)
     }
-  }, { immediate: true })
-  
-  /**
-   * Fetch computed availability data from the server
-   * LEARNING: Single API call that returns all pre-computed availability data
-   * WHY: Eliminates multiple client-side API calls and constraint extraction
-   * 
-   * Phase 6: Server-Side Computed Availability Data Refactor
-   */
-  const fetchComputedAvailability = async (): Promise<void> => {
+    slotsByDay.value = map
+  }
+
+  function clearSlotsCache(): void {
+    slotsByDay.value = new Map()
+  }
+
+  const fetchWithRange = async (
+    range: { start: RFC3339DateTime; end: RFC3339DateTime },
+    label: string
+  ): Promise<void> => {
     const currentPlaceId = placeId.value
-    const currentDateRange = dateRange.value
-    const currentDuration = duration?.value || 60 // Default to 60 minutes if duration not available
-    
-    // Guard: Only run if we have a valid dateRange
-    if (!canFetchAvailability.value) {
-      logger.debug(
-        '[useComputedAvailability] Skipping fetch - missing dateRange',
-        `dateRange=${currentDateRange?.start || '(none)'} to ${currentDateRange?.end || '(none)'}`,
-        'Will fetch when dateRange is available'
-      )
-      return
-    }
-    
+    const currentDuration = duration?.value ?? 60
+
     isLoading.value = true
     error.value = null
-    
+
     try {
-      logger.debug(
-        '[useComputedAvailability] Fetching computed availability data:',
-        `placeId=${currentPlaceId || '(none)'}`,
-        `dateRange=${currentDateRange.start} to ${currentDateRange.end}`,
-        `duration=${currentDuration} minutes`
-      )
-      
-      // Single API call that returns everything
+      logger.debug(`[useComputedAvailability] ${label}:`, range.start, 'to', range.end)
+
       const data = await fetchComputedAvailabilityData({
-        dateRange: {
-          start: currentDateRange.start,
-          end: currentDateRange.end,
-        },
-        placeId: currentPlaceId || undefined,
+        dateRange: { start: range.start, end: range.end },
+        candidatePlaceId: currentPlaceId ?? undefined,
         duration: currentDuration,
-        dataSource: 'real', // TODO: Support dataSource toggle from dev panel
+        dataSource: 'real',
       })
-      
-      // Distribute returned data to existing refs
+
+      mergeSlotsIntoMap(data.slotsByDay)
       calendarEvents.value = data.calendarEvents
-      busyTimes.value = data.busyPeriods
       constraints.value = data.constraints
       minuteIncrement.value = data.minuteIncrement
       timezone.value = data.timezone
       durationRounding.value = data.durationRounding
       outOfOfficeEvents.value = data.outOfOfficeEvents
       computedDataMeta.value = data._meta
-      
-      const { range, overlap, capacity } = groupConstraintsByCategory(data.constraints)
-      // Derive scheduled hours count from enriched capacity constraints
-      const scheduledHoursCount = capacity.reduce((sum, c) => {
-        return sum + (c.scheduledHours ? Object.keys(c.scheduledHours).length : 0)
-      }, 0)
-      logger.debug(
-        '[useComputedAvailability] Computed data received:',
-        `constraints=${data.constraints.length} total`,
-        `range=${range.length}`,
-        `overlap=${overlap.length}`,
-        `capacity=${capacity.length}`,
-        `busyPeriods=${data.busyPeriods.length}`,
-        `calendarEvents=${data.calendarEvents.length}`,
-        `outOfOfficeEvents=${data.outOfOfficeEvents.length}`,
-        `scheduledHours=${scheduledHoursCount} keys (enriched on constraints)`
-      )
-      
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
       error.value = err instanceof Error ? err : new Error(errorMessage)
-      logger.error('[useComputedAvailability] Failed to fetch computed availability data', { error: err })
-      
-      // Clear all data on error
-      calendarEvents.value = []
-      busyTimes.value = []
-      constraints.value = []
-      minuteIncrement.value = 15
-      timezone.value = undefined
-      durationRounding.value = undefined
-      outOfOfficeEvents.value = []
-      computedDataMeta.value = null
+      logger.error('[useComputedAvailability] Failed to fetch computed availability', { error: err })
+      if (label === 'prefetch') {
+        calendarEvents.value = []
+        constraints.value = []
+        minuteIncrement.value = 15
+        timezone.value = undefined
+        durationRounding.value = undefined
+        outOfOfficeEvents.value = []
+        computedDataMeta.value = null
+      }
     } finally {
       isLoading.value = false
     }
   }
-  
-  // Watch for changes that should trigger a re-fetch
-  // LEARNING: Re-fetches when:
-  //   - activeStep changes (placeId may have been set in Property Details step)
-  //   - placeId becomes available (drive time data improves)
-  //   - Month changes (dateRange updates)
-  //   - Duration changes (affects capacity calculations)
-  // WHY: Ensures data stays current as user progresses through booking flow
+
+  const lastPlaceId = ref<string | undefined>(undefined)
+  const lastDuration = ref<number>(60)
+
+  /** Prefetch: 14 days from today; clear cache when placeId or duration changes */
   watch(
-    [activeStep, placeId, dateRange, duration],
+    [activeStep, placeId, duration],
     () => {
-      fetchComputedAvailability()
+      if (!canFetchAvailability.value) return
+
+      const pid = placeId.value
+      const dur = duration?.value ?? 60
+      if (lastPlaceId.value !== pid || lastDuration.value !== dur) {
+        clearSlotsCache()
+        lastPlaceId.value = pid
+        lastDuration.value = dur
+      }
+
+      fetchWithRange(getPrefetchDateRange(), 'prefetch')
     },
     { immediate: true }
   )
-  
-  // Reconstruct ComputedAvailabilityData from individual pieces
-  // WHY: useAvailability expects the full ComputedAvailabilityData object
-  // PATTERN: Computed property that reconstructs the object when all pieces are available
-  const computedData = computed<ComputedAvailabilityData | null>(() => {
-    // Only return data if we have the essential pieces (meta indicates successful fetch)
-    if (!computedDataMeta.value) {
-      return null
-    }
-    
+
+  /** Per-day fallback: when selectedDate is set and not in cache, fetch that day ±1 */
+  if (selectedDate) {
+    watch(
+      selectedDate,
+      (day) => {
+        if (!day || !canFetchAvailability.value) return
+        if (slotsByDay.value.has(day)) return
+
+        const startDate = new Date(day + 'T00:00:00.000Z')
+        const startDay = new Date(startDate)
+        startDay.setUTCDate(startDay.getUTCDate() - 1)
+        const endDay = new Date(startDate)
+        endDay.setUTCDate(endDay.getUTCDate() + 2)
+        const startStr = startDay.toISOString().slice(0, 10)
+        const endStr = endDay.toISOString().slice(0, 10)
+        const range = {
+          start: `${startStr}T00:00:00.000Z` as RFC3339DateTime,
+          end: `${endStr}T00:00:00.000Z` as RFC3339DateTime,
+        }
+        fetchWithRange(range, 'per-day')
+      },
+      { immediate: true }
+    )
+  }
+
+  const computedData = computed<ComputedSlotAvailabilityData | null>(() => {
+    if (!computedDataMeta.value) return null
+    const map = slotsByDay.value
+    const slotsByDayRecord: Record<string, ComputedSlot[]> = {}
+    map.forEach((slots, day) => {
+      slotsByDayRecord[day] = slots
+    })
     return {
+      slotsByDay: slotsByDayRecord,
       constraints: constraints.value,
       minuteIncrement: minuteIncrement.value,
       timezone: timezone.value,
       durationRounding: durationRounding.value,
-      busyPeriods: busyTimes.value,
       calendarEvents: calendarEvents.value,
       outOfOfficeEvents: outOfOfficeEvents.value,
       _meta: computedDataMeta.value,
     }
   })
-  
+
   return {
     calendarEvents,
-    busyTimes,
+    slotsByDay,
     constraints,
     computedData,
     isLoading,
-    error
+    error,
   }
 }

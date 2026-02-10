@@ -114,15 +114,15 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    * TODO: Update to use orderIndex-based matching when AppointmentSlots are available
    */
   watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-    if (newState?.availability?.selectedTimeSlots && 
-        newState.availability.selectedTimeSlots.length > 0 &&
+    if (newState?.availability?.candidateTimeSlots && 
+        newState.availability.candidateTimeSlots.length > 0 &&
         availableSlots && 
         availableSlots.length > 0) {
       // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
       // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
       const tempMajorSlot = ref<TimeSlot | null>(null)
       const tempMinorSlot = ref<TimeSlot | null>(null)
-      const transformedSlots = newState.availability.selectedTimeSlots.map(slot => ({
+      const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
         startTime: slot.time,
         endTime: undefined // endTime is optional in LoadedTimeSlot
       }))

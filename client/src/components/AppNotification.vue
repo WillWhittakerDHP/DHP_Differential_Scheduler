@@ -5,7 +5,7 @@
   COMPARISON: React uses Ant Design message. Vue uses VSnackbar
 -->
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 
 /**
@@ -23,12 +23,6 @@ const { notification, showNotification, close } = useNotification()
 const message = computed(() => notification.value?.message || '')
 const color = computed(() => notification.value?.color || 'info')
 const timeout = computed(() => notification.value?.timeout || 4000)
-
-// #region agent log
-watch(() => notification.value, (newVal) => {
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppNotification.vue:26',message:'Notification changed',data:{hasNotification:!!newVal,message:newVal?.message,showNotification:showNotification.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-}, { immediate: true })
-// #endregion
 </script>
 
 <template>

@@ -8,7 +8,6 @@
  */
 
 import { computed } from 'vue'
-import { formatBusyPeriod } from '@/utils/dev/formatDevPanelData'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { CalendarEvent as SharedCalendarEvent } from '@shared/types/availabilityTypes'
 
@@ -19,10 +18,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-function formatBusyPeriodLocal(period: { start: any; end: any }): string {
-  return formatBusyPeriod(period, props.formatDateTimeForDisplay, props.formatTimeForDisplay)
-}
 
 // Extract scheduled hours from enriched capacity constraints (grouped by key)
 const scheduledHoursByKey = computed(() => {
@@ -39,26 +34,21 @@ const scheduledHoursByKey = computed(() => {
   return result
 })
 
-// Extract drive times from busy periods (grouped by placeId)
-const driveTimesByPlaceId = computed(() => {
-  if (!props.computedAvailability) return {}
-  
-  const result: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }> = {}
-  
-  for (const busy of props.computedAvailability.busyTimes.value) {
-    if (!busy.placeId) continue
-    if (busy.driveTimeTo === undefined && busy.driveTimeFrom === undefined) continue
-    
-    // Use first occurrence's drive times per placeId (they should all be the same)
-    if (!result[busy.placeId]) {
-      result[busy.placeId] = {
-        driveTimeTo: busy.driveTimeTo,
-        driveTimeFrom: busy.driveTimeFrom,
-      }
+// Slots by day summary (server-computed slots cache)
+const slotsByDaySummary = computed(() => {
+  if (!props.computedAvailability) return { dayCount: 0, totalSlots: 0, sample: [] as [string, number][] }
+  const map = props.computedAvailability.slotsByDay.value
+  let totalSlots = 0
+  const sample: [string, number][] = []
+  let count = 0
+  for (const [day, slots] of map) {
+    totalSlots += slots.length
+    if (count < 10) {
+      sample.push([day, slots.length])
+      count++
     }
   }
-  
-  return result
+  return { dayCount: map.size, totalSlots, sample }
 })
 </script>
 
@@ -153,46 +143,28 @@ const driveTimesByPlaceId = computed(() => {
           </VCard>
         </div>
 
-        <!-- Busy Periods -->
+        <!-- Slots by day (server-computed) -->
         <div class="mb-4">
           <h3 class="text-subtitle-1 font-weight-bold mb-2">
-            Busy Periods
-            <VChip size="small" class="ml-2">{{ computedAvailability.busyTimes.value.length }}</VChip>
+            Slots by day
+            <VChip size="small" class="ml-2">{{ slotsByDaySummary.dayCount }} days</VChip>
+            <VChip size="small" class="ml-2">{{ slotsByDaySummary.totalSlots }} total slots</VChip>
           </h3>
           <VCard variant="outlined" class="pa-2" style="max-height: 200px; overflow-y: auto;">
-            <div v-if="computedAvailability.busyTimes.value.length === 0" class="text-center pa-2 text-caption text-medium-emphasis">
-              No busy periods
+            <div v-if="slotsByDaySummary.dayCount === 0" class="text-center pa-2 text-caption text-medium-emphasis">
+              No slots cached yet
             </div>
             <div v-else>
               <div
-                v-for="(period, idx) in computedAvailability.busyTimes.value.slice(0, 10)"
+                v-for="([day, count], idx) in slotsByDaySummary.sample"
                 :key="idx"
                 class="mb-1 text-caption"
               >
-                {{ formatBusyPeriodLocal(period) }}
+                {{ day }}: {{ count }} slots
               </div>
-              <div v-if="computedAvailability.busyTimes.value.length > 10" class="text-center pa-2 text-caption text-medium-emphasis">
-                ... and {{ computedAvailability.busyTimes.value.length - 10 }} more
+              <div v-if="slotsByDaySummary.dayCount > 10" class="text-center pa-2 text-caption text-medium-emphasis">
+                ... and {{ slotsByDaySummary.dayCount - 10 }} more days
               </div>
-            </div>
-          </VCard>
-        </div>
-
-        <!-- Drive Times -->
-        <div class="mb-4" v-if="Object.keys(driveTimesByPlaceId).length > 0">
-          <h3 class="text-subtitle-1 font-weight-bold mb-2">
-            Pre-computed Drive Times
-            <VChip size="small" class="ml-2">{{ Object.keys(driveTimesByPlaceId).length }} placeIds</VChip>
-          </h3>
-          <VCard variant="outlined" class="pa-2" style="max-height: 150px; overflow-y: auto;">
-            <div
-              v-for="(driveTimes, placeId) in driveTimesByPlaceId"
-              :key="placeId"
-              class="mb-1 text-caption"
-            >
-              <strong>{{ placeId }}:</strong>
-              <span v-if="driveTimes.driveTimeTo"> To: {{ driveTimes.driveTimeTo }}min</span>
-              <span v-if="driveTimes.driveTimeFrom"> From: {{ driveTimes.driveTimeFrom }}min</span>
             </div>
           </VCard>
         </div>

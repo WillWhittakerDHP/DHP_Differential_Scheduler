@@ -11,19 +11,19 @@
  * - Fetches calendar events (Events API only - derives busy periods from events)
  * - Calculates drive times
  * - Pre-computes capacity hours
- * - Returns ComputedAvailabilityData
+ * - Returns ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
  */
 
 import type {
-  ComputedAvailabilityData,
+  ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
   Constraint,
   CapacityConstraint,
-  BusyTimeRange,
   CalendarEvent,
-  DefaultLocation,
-  RFC3339DateTime,
+  BusinessHoursConfig,
 } from '../../../shared/types/availabilityTypes.js'
+import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
+import { computeSlotsForDateRange } from './slotComputationService.js'
 import { BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
 import {
@@ -31,7 +31,11 @@ import {
 } from './constraintExtractor.js'
 import { groupConstraintsByCategory } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
-import { calculateDriveTime } from './google/maps/routesApiService.js'
+import { calculateRouteMatrix } from './google/maps/routesApiService.js'
+import { MapsApiError } from './google/maps/mapsErrorHandler.js'
+import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
+import { withRetry } from './google/shared/googleApiRetry.js'
+import type { RouteLocation } from './google/maps/mapsTypes.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
 import { createLogger } from '../utils/logger.js'
 
@@ -85,117 +89,163 @@ function separateEventTypes(events: CalendarEvent[]): {
 }
 
 /**
- * Convert calendar events to busy periods
- * LEARNING: Converts opaque calendar events to BusyTimeRange, filtering out transparent events
- * WHY: Events API provides transparency field - opaque events block time, transparent events don't
- * PATTERN: Filter by transparency, tag by eventType
- * 
- * @param allEvents - All calendar events (regular + out-of-office)
- * @returns Array of BusyTimeRange objects for events that block time
- */
-function convertEventsToBusyPeriods(allEvents: CalendarEvent[]): BusyTimeRange[] {
-  const busyPeriods: BusyTimeRange[] = []
-  
-  for (const event of allEvents) {
-    // Skip transparent events - they don't block time (marked "Show as: Free")
-    // Default to 'opaque' if transparency is not set (backward compatibility)
-    if (event.transparency === 'transparent') {
-      continue
-    }
-    
-    // Tag events by their type for violation attribution
-    const source: 'event' | 'outOfOffice' = event.eventType === 'outOfOffice' ? 'outOfOffice' : 'event'
-    
-    busyPeriods.push({
-      start: event.start as RFC3339DateTime,
-      end: event.end as RFC3339DateTime,
-      placeId: event.placeId,
-      source,
-    })
-  }
-  
-  return busyPeriods
-}
-
-/**
  * Calculate drive times for all unique placeIds in events
- * LEARNING: Pre-computes drive times between default location and each unique event location
- * WHY: Eliminates client-side drive time API calls, calculates for all events (not just first/last per date)
- * PATTERN: Collect unique placeIds, calculate drive times in parallel per placeId
- * 
+ * LEARNING: Pre-computes drive times between candidate location and each event location (event->candidate and candidate->event)
+ * WHY: Eliminates client-side drive time API calls, reduces Routes API calls from 2N to 2 (batched), skips entirely until candidate placeId exists
+ * PATTERN: Gate on candidate placeId, check cache per pair, batch uncached pairs into Nx1 and 1xN matrix calls
+ *
  * @param calendarEvents - Regular calendar events (with placeId)
- * @param defaultLocation - Default location (home/office)
- * @param placeId - Property placeId for drive time calculations (unused, kept for API compatibility)
- * @returns Record mapping placeId strings to drive time minutes
+ * @param candidatePlaceId - Candidate/customer placeId - if not provided, skips all drive time calculations (lazy loading)
+ * @returns Record mapping event placeId strings to drive time minutes (empty if no candidate placeId)
  */
 async function calculateDriveTimesForPlaceIds(
   calendarEvents: CalendarEvent[],
-  defaultLocation: DefaultLocation | undefined,
-  placeId: string | undefined
-): Promise<Record<string, { driveTimeTo?: number; driveTimeFrom?: number }>> {
-  // If no defaultLocation, return empty
-  if (!defaultLocation) {
+  candidatePlaceId: string | undefined
+): Promise<Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>> {
+  // Gate: Skip drive time calculations if no candidate placeId exists
+  if (!candidatePlaceId) {
+    logger.debug('Skipping drive time calculation: no candidate placeId provided')
     return {}
   }
-  
+
   // Collect unique placeIds from events
   const uniquePlaceIds = [...new Set(
     calendarEvents
       .map(event => event.placeId)
       .filter((placeId): placeId is string => !!placeId)
   )]
-  
+
   if (uniquePlaceIds.length === 0) {
     return {}
   }
-  
-  // Calculate drive times in parallel (cache handles deduplication)
-  const results = await Promise.all(
-    uniquePlaceIds.map(async (eventPlaceId) => {
-      try {
-        const [toResult, fromResult] = await Promise.all([
-          calculateDriveTime(
-            { placeId: defaultLocation.placeId },
-            { placeId: eventPlaceId },
-            true // useTraffic
-          ).catch((error) => {
-            logger.error(`Failed to calculate driveTimeTo for placeId ${eventPlaceId}:`, error)
-            return null
-          }),
-          calculateDriveTime(
-            { placeId: eventPlaceId },
-            { placeId: defaultLocation.placeId },
-            true // useTraffic
-          ).catch((error) => {
-            logger.error(`Failed to calculate driveTimeFrom for placeId ${eventPlaceId}:`, error)
-            return null
-          }),
-        ])
-        
-        return {
-          placeId: eventPlaceId,
-          driveTimeTo: toResult?.durationMinutes,
-          driveTimeFrom: fromResult?.durationMinutes,
-        }
-      } catch (error) {
-        logger.error(`Failed to calculate drive times for placeId ${eventPlaceId}:`, error)
-        return null
+
+  const candidateLocationRoute: RouteLocation = { placeId: candidatePlaceId }
+
+  // Check cache for each pair and separate cached vs uncached
+  const results: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }> = {}
+  const uncachedToPlaceIds: string[] = []
+  const uncachedFromPlaceIds: string[] = []
+
+  for (const eventPlaceId of uniquePlaceIds) {
+    const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
+
+    // driveToCandidate = event -> candidate (time to arrive at candidate from this event)
+    const cachedTo = getCachedDriveTime(eventLocationRoute, candidateLocationRoute)
+    if (cachedTo) {
+      results[eventPlaceId] = {
+        ...results[eventPlaceId],
+        driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60),
       }
-    })
-  )
-  
-  // Build lookup record, filtering out null results
-  const driveTimesByPlaceId: Record<string, { driveTimeTo?: number; driveTimeFrom?: number }> = {}
-  for (const result of results) {
-    if (result && (result.driveTimeTo !== undefined || result.driveTimeFrom !== undefined)) {
-      driveTimesByPlaceId[result.placeId] = {
-        driveTimeTo: result.driveTimeTo,
-        driveTimeFrom: result.driveTimeFrom,
+    } else {
+      uncachedToPlaceIds.push(eventPlaceId)
+    }
+
+    // driveFromCandidate = candidate -> event (time from candidate to this event)
+    const cachedFrom = getCachedDriveTime(candidateLocationRoute, eventLocationRoute)
+    if (cachedFrom) {
+      results[eventPlaceId] = {
+        ...results[eventPlaceId],
+        driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60),
       }
+    } else {
+      uncachedFromPlaceIds.push(eventPlaceId)
     }
   }
-  
-  return driveTimesByPlaceId
+
+  logger.debug('Drive time cache check', {
+    totalPlaceIds: uniquePlaceIds.length,
+    cachedTo: uniquePlaceIds.length - uncachedToPlaceIds.length,
+    cachedFrom: uniquePlaceIds.length - uncachedFromPlaceIds.length,
+    uncachedTo: uncachedToPlaceIds.length,
+    uncachedFrom: uncachedFromPlaceIds.length,
+  })
+
+  const batchStartTime = Date.now()
+
+  // Batch driveToCandidate: origins=[eventPlaceIds], destinations=[candidate] (event -> candidate)
+  if (uncachedToPlaceIds.length > 0) {
+    try {
+      const uncachedToLocations: RouteLocation[] = uncachedToPlaceIds.map(pid => ({ placeId: pid }))
+      const toResults = await withRetry(
+        () => calculateRouteMatrix(uncachedToLocations, [candidateLocationRoute], true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+
+      for (const result of toResults) {
+        if (result.status === 'OK' && result.durationSeconds > 0) {
+          const eventPlaceId = uncachedToPlaceIds[result.originIndex]
+          const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
+
+          cacheDriveTime(
+            eventLocationRoute,
+            candidateLocationRoute,
+            result.durationSeconds,
+            result.distanceMeters
+          )
+
+          results[eventPlaceId] = {
+            ...results[eventPlaceId],
+            driveToCandidate: Math.ceil(result.durationSeconds / 60),
+          }
+        } else if (result.status !== 'OK') {
+          logger.warn(`Route not found for driveToCandidate: placeId ${uncachedToPlaceIds[result.originIndex]}`, {
+            status: result.status,
+            condition: result.condition,
+          })
+        }
+      }
+    } catch (error) {
+      logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })
+    }
+  }
+
+  // Batch driveFromCandidate: origins=[candidate], destinations=[eventPlaceIds] (candidate -> event)
+  if (uncachedFromPlaceIds.length > 0) {
+    try {
+      const uncachedFromLocations: RouteLocation[] = uncachedFromPlaceIds.map(pid => ({ placeId: pid }))
+      const fromResults = await withRetry(
+        () => calculateRouteMatrix([candidateLocationRoute], uncachedFromLocations, true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+
+      for (const result of fromResults) {
+        if (result.status === 'OK' && result.durationSeconds > 0) {
+          const eventPlaceId = uncachedFromPlaceIds[result.destinationIndex]
+          const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
+
+          cacheDriveTime(
+            candidateLocationRoute,
+            eventLocationRoute,
+            result.durationSeconds,
+            result.distanceMeters
+          )
+
+          results[eventPlaceId] = {
+            ...results[eventPlaceId],
+            driveFromCandidate: Math.ceil(result.durationSeconds / 60),
+          }
+        } else if (result.status !== 'OK') {
+          logger.warn(`Route not found for driveFromCandidate: placeId ${uncachedFromPlaceIds[result.destinationIndex]}`, {
+            status: result.status,
+            condition: result.condition,
+          })
+        }
+      }
+    } catch (error) {
+      logger.error('Failed to batch calculate driveFromCandidate', { error, placeIds: uncachedFromPlaceIds })
+    }
+  }
+
+  const batchDuration = Date.now() - batchStartTime
+  if (uncachedToPlaceIds.length > 0 || uncachedFromPlaceIds.length > 0) {
+    logger.info(`Batched drive time calculation complete`, {
+      durationMs: batchDuration,
+      totalPlaceIds: uniquePlaceIds.length,
+      apiCallsMade: (uncachedToPlaceIds.length > 0 ? 1 : 0) + (uncachedFromPlaceIds.length > 0 ? 1 : 0),
+    })
+  }
+
+  return results
 }
 
 /**
@@ -204,12 +254,12 @@ async function calculateDriveTimesForPlaceIds(
  * WHY: Single entry point for all availability computation
  * PATTERN: Sequential and parallel operations where possible
  * 
- * @param request - ComputedAvailabilityRequest with date range, placeId, duration, and dataSource
- * @returns ComputedAvailabilityData with all pre-computed availability information
+ * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
+ * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
  */
 export async function computeAvailabilityData(
   request: ComputedAvailabilityRequest
-): Promise<ComputedAvailabilityData> {
+): Promise<ComputedSlotAvailabilityData> {
   const startTime = Date.now()
   
   // 1. Fetch settings from database
@@ -268,44 +318,25 @@ export async function computeAvailabilityData(
       }))
   )
   
-  // 6. Convert events to busy periods (filters transparent events, tags by source)
-  const busyPeriods = convertEventsToBusyPeriods(allCalendarEvents)
-  
-  // 7. Separate event types (for drive time calculations and response structure)
+  // 6. Separate event types (for drive time and slot computation)
   const { regularEvents, outOfOfficeEvents } = separateEventTypes(allCalendarEvents)
-  
-  // 9. Calculate drive times (if placeId provided)
+
+  // 7. Calculate drive times (if candidatePlaceId provided)
+  // Only regular events (events with location); OOO does not get drive times
   const driveTimesByPlaceId = await calculateDriveTimesForPlaceIds(
     regularEvents,
-    settings.defaultLocation,
-    request.placeId
+    request.candidatePlaceId
   )
-  
-  // 10. Enrich busy periods with drive times
-  // LEARNING: Stamp drive time values directly onto each BusyTimeRange
-  // WHY: Unifies drive time data with busy period pipeline, eliminates separate data path
-  // PATTERN: Map over busy periods, look up drive times by placeId, attach to period
-  const enrichedBusyPeriods = busyPeriods.map(bp => {
-    if (!bp.placeId) return bp
-    const driveTimes = driveTimesByPlaceId[bp.placeId]
-    if (!driveTimes) return bp
-    return {
-      ...bp,
-      driveTimeTo: driveTimes.driveTimeTo,
-      driveTimeFrom: driveTimes.driveTimeFrom,
-    }
-  })
-  
-  // 11. Pre-compute capacity hours
+
+  // 8. Pre-compute capacity hours
   const scheduledHoursByKey = await computeScheduledHoursForRange(
     request.dateRange,
     capacity
   )
   
-  // 12. Enrich capacity constraints with scheduled hours
+  // 9. Enrich capacity constraints with scheduled hours
   const enrichedConstraints = constraints.map(constraint => {
     if (constraint.category !== 'capacity') return constraint
-    // Filter hours to only keys matching this constraint's type
     const relevantHours: Record<string, number> = {}
     for (const [key, hours] of Object.entries(scheduledHoursByKey)) {
       if (key.startsWith(constraint.type + ':')) {
@@ -314,24 +345,40 @@ export async function computeAvailabilityData(
     }
     return { ...constraint, scheduledHours: relevantHours }
   })
-  
-  // 13. Assemble and return ComputedAvailabilityData
-  const computedData: ComputedAvailabilityData = {
-    // Constraints (extracted server-side, unified array, enriched with scheduled hours)
+
+  // 10. Get business hours for slot computation (required for day boundaries)
+  const businessHoursConstraint = enrichedConstraints.find(
+    c => c.category === 'range' && c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
+  ) as import('../../../shared/types/availabilityTypes.js').RangeConstraint | undefined
+  const businessHoursConfig = businessHoursConstraint?.config as BusinessHoursConfig | undefined
+
+  // 11. Compute slots per day (range, overlap, capacity checked server-side with event-level context)
+  const slotsByDay = businessHoursConfig
+    ? computeSlotsForDateRange(
+        request.dateRange,
+        request.duration,
+        settings.minuteIncrement,
+        enrichedConstraints,
+        regularEvents,
+        outOfOfficeEvents,
+        driveTimesByPlaceId,
+        businessHoursConfig,
+        settings.timezone ?? 'UTC'
+      )
+    : {}
+
+  // 12. Assemble and return ComputedSlotAvailabilityData
+  const computedData: ComputedSlotAvailabilityData = {
+    slotsByDay,
     constraints: enrichedConstraints,
     minuteIncrement: settings.minuteIncrement,
     timezone: settings.timezone,
     durationRounding: settings.durationRounding,
-    
-    // Calendar data (busy periods enriched with drive times)
-    busyPeriods: enrichedBusyPeriods,
     calendarEvents: regularEvents,
     outOfOfficeEvents,
-    
-    // Metadata
     _meta: {
       dateRange: request.dateRange,
-      placeId: request.placeId,
+      candidatePlaceId: request.candidatePlaceId,
       defaultLocation: settings.defaultLocation,
       generatedAt: new Date().toISOString(),
       cacheStatus: {
@@ -339,9 +386,9 @@ export async function computeAvailabilityData(
       },
     },
   }
-  
+
   const duration = Date.now() - startTime
-  logger.info(`Computed availability data in ${duration}ms`)
-  
+  logger.info(`Computed slot availability in ${duration}ms`)
+
   return computedData
 }

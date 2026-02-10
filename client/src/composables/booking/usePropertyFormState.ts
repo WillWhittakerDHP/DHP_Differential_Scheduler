@@ -37,8 +37,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   const city = ref('')
   const state = ref('')
   const zipCode = ref('')
-  const placeId = ref<string | undefined>(undefined)
-  const coordinates = ref<{ lat: number; lng: number } | undefined>(undefined)
+  const candidatePlaceId = ref<string | undefined>(undefined)
+  const candidateCoordinates = ref<{ lat: number; lng: number } | undefined>(undefined)
   const propertySize = ref<number | null>(null)
   const numberOfUnits = ref<number | null>(null)
   const mlsNumber = ref<string>('')
@@ -67,8 +67,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
     city,
     state,
     zipCode,
-    placeId,
-    coordinates,
+    candidatePlaceId,
+    candidateCoordinates,
     propertySize,
     numberOfUnits,
     mlsNumber,

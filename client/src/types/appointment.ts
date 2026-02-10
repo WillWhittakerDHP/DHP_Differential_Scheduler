@@ -114,12 +114,15 @@ export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
  * PATTERN: Plain interface with event shape reference and dual-track durations
  * 
  * DUAL-TRACK ARCHITECTURE: Stores both raw and rounded durations
- * WHY: Ensures mathematical consistency - rounded values sum correctly, differential offsets align
+ * WHY: Ensures mathematical consistency - rounded values computed correctly, differential offsets align
+ * 
+ * ROUNDING STRATEGY: Rounding happens ONCE per event after summing raw part baseTimes
+ * WHY: Prevents double rounding inflation - round(sum of parts) != sum(round(part))
  */
 export interface EventFinal {
   eventShape: EventShape  // The event shape definition (e.g., major event, minor event, Moveable)
-  rawDuration: number     // Sum of raw baseTime from parts (renamed from duration)
-  roundedDuration: number // Sum of roundedTime from parts
+  rawDuration: number     // Sum of raw baseTime from parts assigned to this event
+  roundedDuration: number // Event duration rounded once from sum of raw part baseTimes
 }
 
 /**
@@ -133,12 +136,17 @@ export interface EventFinal {
  * PATTERN: Array of EventFinal objects, each containing event shape and dual-track durations
  * 
  * DUAL-TRACK ARCHITECTURE: Stores both raw and rounded durations at every level
- * WHY: Ensures mathematical consistency - rounded values sum correctly, differential offsets align
- * PATTERN: Round at part level, sum rounded values upward, store both tracks
+ * WHY: Ensures mathematical consistency - rounded values computed correctly, differential offsets align
+ * 
+ * ROUNDING STRATEGY: Rounding happens at event level (once per event), not at part level
+ * WHY: Prevents double rounding inflation - round(sum of parts) != sum(round(part))
+ * 
+ * SLOT SPAN SEMANTICS: roundedDuration = max(eventFinal.roundedDuration) = slot span from start to latest event end
+ * WHY: In differential services, events overlap - slot ends when the longest event ends, not when events sum
  */
 export interface SlotShape {
   rawDuration: number           // Sum of all finalizedParts.baseTime (raw)
-  roundedDuration: number        // Sum of all finalizedParts.roundedTime (rounded)
+  roundedDuration: number        // Authoritative slot span: duration from slot start to latest event end, rounded once
   eventFinals: EventFinal[]     // Array of event shapes with dual-track durations
   rawDifferentialOffset: number      // Raw duration offset: major.rawDuration - minor.rawDuration
   roundedDifferentialOffset: number  // Rounded duration offset: major.roundedDuration - minor.roundedDuration

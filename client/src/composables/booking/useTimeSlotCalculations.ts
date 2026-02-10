@@ -83,7 +83,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * LEARNING: Get major event total from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated major event duration, no need to filter raw parts
    * PATTERN: Use attendee-based logic to find major event, fall back to 'Major' name if settings unavailable
-   * DUAL-TRACK: Use roundedDuration - rounding already computed at part level
+   * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
    */
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
@@ -117,7 +117,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    * LEARNING: Get minor event duration from SlotShape (source of truth)
    * WHY: SlotShape already contains calculated minor event duration, no need to filter raw parts
    * PATTERN: Use attendee-based logic to find minor event, fall back to 'Minor' name if settings unavailable
-   * DUAL-TRACK: Use roundedDuration - rounding already computed at part level
+   * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
    */
   const minorDuration = computed(() => {
     const shape = appointmentShape.value
@@ -165,7 +165,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    */
   const differentialTimeBlocks = computed(() => {
     if (!majorTimeSlot.value) {
-      // PATTERN: Return rounded durations when no time selected (rounding computed at part level)
+      // PATTERN: Return rounded durations when no time selected (rounding computed at event level)
       return {
         major: {
           label: majorLabel.value,

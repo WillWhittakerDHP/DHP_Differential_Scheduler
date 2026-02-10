@@ -22,8 +22,8 @@ export interface PropertyDetailsData {
   city: string
   state: string
   zipCode: string
-  placeId?: string
-  coordinates?: { lat: number; lng: number }
+  candidatePlaceId?: string  // Candidate placeId from autocomplete (not yet saved to property)
+  candidateCoordinates?: { lat: number; lng: number }  // Candidate coordinates from autocomplete (not yet saved)
   propertySize: number | null
   numberOfUnits: number | null
   mlsNumber: string
@@ -45,6 +45,8 @@ export interface PropertyFormData {
   city: Ref<string>
   state: Ref<string>
   zipCode: Ref<string>
+  candidatePlaceId: Ref<string | undefined>  // Candidate placeId from autocomplete (not yet saved)
+  candidateCoordinates: Ref<{ lat: number; lng: number } | undefined>  // Candidate coordinates from autocomplete (not yet saved)
   propertySize: Ref<number | null>
   numberOfUnits: Ref<number | null>
   mlsNumber: Ref<string>

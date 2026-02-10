@@ -14,13 +14,15 @@ export interface ApiCallStatusState {
   events: ApiCallStatus
   routes: ApiCallStatus
   places: ApiCallStatus
+  computedData: ApiCallStatus
 }
 
 // Shared state - persists across component instances
 const sharedApiStatus = ref<ApiCallStatusState>({
   events: 'not_called',
   routes: 'not_called',
-  places: 'not_called'
+  places: 'not_called',
+  computedData: 'not_called',
 })
 
 /**
@@ -34,7 +36,7 @@ export function useApiCallStatus() {
   /**
    * Record an API call result
    */
-  const recordApiCall = (api: 'events' | 'routes' | 'places', status: 'hit' | 'error'): void => {
+  const recordApiCall = (api: 'events' | 'routes' | 'places' | 'computedData', status: 'hit' | 'error'): void => {
     sharedApiStatus.value[api] = status
   }
 
@@ -45,7 +47,8 @@ export function useApiCallStatus() {
     sharedApiStatus.value = {
       events: 'not_called',
       routes: 'not_called',
-      places: 'not_called'
+      places: 'not_called',
+      computedData: 'not_called',
     }
   }
 

@@ -124,9 +124,10 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         city: propertyDetailsStepData.value.city,
         state: propertyDetailsStepData.value.state,
         zipCode: propertyDetailsStepData.value.zipCode,
-        placeId: propertyDetailsStepData.value.placeId || null,
-        latitude: propertyDetailsStepData.value.coordinates?.lat || null,
-        longitude: propertyDetailsStepData.value.coordinates?.lng || null,
+        // LEARNING: Map candidatePlaceId to placeId at API boundary (candidate --> confirmed)
+        placeId: propertyDetailsStepData.value.candidatePlaceId || null,
+        latitude: propertyDetailsStepData.value.candidateCoordinates?.lat || null,
+        longitude: propertyDetailsStepData.value.candidateCoordinates?.lng || null,
         mlsNumber: propertyDetailsStepData.value.mlsNumber || null,
         squareFootage: propertyDetailsStepData.value.squareFootage || null,
         bedrooms: propertyDetailsStepData.value.bedrooms || null,
@@ -235,11 +236,13 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       }))
 
       const availability = availabilityStepData.value
-      const selectedDate = availability.selectedDate.start
-      const selectedDateRangeEnd = availability.selectedDate.end
-      // Transform selectedTimeSlots from SelectedTimeSlot format to AppointmentRequest format
-      const selectedTimeSlots = availability.selectedTimeSlots 
-        ? availability.selectedTimeSlots.map(slot => ({
+      // LEARNING: Map candidateDate to selectedDate at API boundary (candidate --> confirmed)
+      const selectedDate = availability.candidateDate.start
+      const selectedDateRangeEnd = availability.candidateDate.end
+      // LEARNING: Map candidateTimeSlots to selectedTimeSlots at API boundary (candidate --> confirmed)
+      // Transform from SelectedTimeSlot format to AppointmentRequest format
+      const selectedTimeSlots = availability.candidateTimeSlots 
+        ? availability.candidateTimeSlots.map(slot => ({
             startTime: slot.startTime,
             endTime: slot.endTime,
             duration: slot.duration

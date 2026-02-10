@@ -75,9 +75,9 @@ export function usePropertyFormWatchers(
         formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
         formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
         
-        // Populate placeId and coordinates if available
-        formData.placeId.value = typeof details.placeId === 'string' ? details.placeId : undefined
-        formData.coordinates.value = details.coordinates || undefined
+        // Populate candidatePlaceId and candidateCoordinates if available
+        formData.candidatePlaceId.value = typeof details.candidatePlaceId === 'string' ? details.candidatePlaceId : undefined
+        formData.candidateCoordinates.value = details.candidateCoordinates || undefined
         
         formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
         formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null

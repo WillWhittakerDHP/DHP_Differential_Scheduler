@@ -409,12 +409,12 @@ const ensureAppointmentBuffer = createEnsureNested(
 )
 
 // LEARNING: Ensure functions for new drive time buffer structure
-// WHY: driveTimeTo/driveTimeFrom replace legacy driveTime with semantic meaning and applyTo rules
+// WHY: driveToCandidate/driveFromCandidate replace legacy driveTime with semantic meaning and applyTo rules
 // PATTERN: createEnsureNested with DriveTimeConfig defaults
 
-const ensureDriveTimeTo = createEnsureNested(
+const ensureDriveToCandidate = createEnsureNested(
   ensureBuffers,
-  'driveTimeTo',
+  'driveToCandidate',
   () => ({
     minutes: 30,
     enforcement: 'hard' as const,
@@ -422,9 +422,9 @@ const ensureDriveTimeTo = createEnsureNested(
   } as DriveTimeConfig)
 )
 
-const ensureDriveTimeFrom = createEnsureNested(
+const ensureDriveFromCandidate = createEnsureNested(
   ensureBuffers,
-  'driveTimeFrom',
+  'driveFromCandidate',
   () => ({
     minutes: 15,
     enforcement: 'hard' as const,
@@ -435,7 +435,7 @@ const ensureDriveTimeFrom = createEnsureNested(
 // PATTERN: Factory function for drive time buffer computed properties
 // WHY: DriveTimeConfig doesn't have 'placement', uses different fields than BufferConfig
 function createDriveTimeComputed<TValue>(
-  bufferType: 'driveTimeTo' | 'driveTimeFrom',
+  bufferType: 'driveToCandidate' | 'driveFromCandidate',
   property: keyof DriveTimeConfig,
   getDefault: () => TValue,
   ensureFunction: (current: Buffers | undefined) => Buffers
@@ -462,15 +462,15 @@ function createDriveTimeComputed<TValue>(
   })
 }
 
-// Computed properties for driveTimeTo
-const buffersDriveTimeToMinutes = createDriveTimeComputed('driveTimeTo', 'minutes', () => 30, ensureDriveTimeTo)
-const buffersDriveTimeToEnforcement = createDriveTimeComputed('driveTimeTo', 'enforcement', () => 'hard' as const, ensureDriveTimeTo)
-const buffersDriveTimeToApplyTo = createDriveTimeComputed('driveTimeTo', 'applyTo', () => 'skipDayStart' as const, ensureDriveTimeTo)  // Session 2.2.3: Updated default
+// Computed properties for driveToCandidate
+const buffersDriveToCandidateMinutes = createDriveTimeComputed('driveToCandidate', 'minutes', () => 30, ensureDriveToCandidate)
+const buffersDriveToCandidateEnforcement = createDriveTimeComputed('driveToCandidate', 'enforcement', () => 'hard' as const, ensureDriveToCandidate)
+const buffersDriveToCandidateApplyTo = createDriveTimeComputed('driveToCandidate', 'applyTo', () => 'skipDayStart' as const, ensureDriveToCandidate)  // Session 2.2.3: Updated default
 
-// Computed properties for driveTimeFrom
-const buffersDriveTimeFromMinutes = createDriveTimeComputed('driveTimeFrom', 'minutes', () => 15, ensureDriveTimeFrom)
-const buffersDriveTimeFromEnforcement = createDriveTimeComputed('driveTimeFrom', 'enforcement', () => 'hard' as const, ensureDriveTimeFrom)
-const buffersDriveTimeFromApplyTo = createDriveTimeComputed('driveTimeFrom', 'applyTo', () => 'skipDayEnd' as const, ensureDriveTimeFrom)  // Session 2.2.3: Updated default
+// Computed properties for driveFromCandidate
+const buffersDriveFromCandidateMinutes = createDriveTimeComputed('driveFromCandidate', 'minutes', () => 15, ensureDriveFromCandidate)
+const buffersDriveFromCandidateEnforcement = createDriveTimeComputed('driveFromCandidate', 'enforcement', () => 'hard' as const, ensureDriveFromCandidate)
+const buffersDriveFromCandidateApplyTo = createDriveTimeComputed('driveFromCandidate', 'applyTo', () => 'skipDayEnd' as const, ensureDriveFromCandidate)  // Session 2.2.3: Updated default
 
 // Computed properties for defaultLocation
 // LEARNING: defaultLocation is at root level of AvailabilitySettings, not nested in buffers
@@ -981,7 +981,7 @@ const emailValidationRule = (value: string): true | string => {
                   <!-- LEARNING: Travel time TO arrive at appointment, applied BEFORE start time -->
                   <!-- WHY: Ensures enough time to travel to the appointment location -->
                   <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.driveTimeToBuffer">
+                  <VExpansionPanel :title="UI_STRINGS.panels.driveToCandidateBuffer">
                     <VExpansionPanelText>
                       <!-- Session 2.2.3: Drive time source indicator -->
                       <VAlert
@@ -1019,17 +1019,17 @@ const emailValidationRule = (value: string): true | string => {
                         </div>
                       </VAlert>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
-                        {{ UI_STRINGS.help.driveTimeToDescription }}
+                        {{ UI_STRINGS.help.driveToCandidateDescription }}
                       </div>
                       <VRow>
                         <VCol cols="12" sm="6" md="3">
                           <VTextField
-                            v-model.number="buffersDriveTimeToMinutes"
+                            v-model.number="buffersDriveToCandidateMinutes"
                             :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
                             type="number"
                             min="0"
                             step="5"
-                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveTimeToMinutes"
+                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveToCandidateMinutes"
                             persistent-hint
                             :rules="[
                               (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
@@ -1038,7 +1038,7 @@ const emailValidationRule = (value: string): true | string => {
                         </VCol>
                         <VCol cols="12" sm="6" md="3">
                           <VSelect
-                            v-model="buffersDriveTimeToApplyTo"
+                            v-model="buffersDriveToCandidateApplyTo"
                             :items="driveTimeApplyToOptions"
                             :label="UI_STRINGS.labels.applyTo"
                             :hint="UI_STRINGS.hints.driveTimeApplyTo"
@@ -1047,7 +1047,7 @@ const emailValidationRule = (value: string): true | string => {
                         </VCol>
                         <VCol cols="12" sm="6" md="3">
                           <VSelect
-                            v-model="buffersDriveTimeToEnforcement"
+                            v-model="buffersDriveToCandidateEnforcement"
                             :items="enforcementOptions"
                             :label="UI_STRINGS.labels.enforcement"
                             :hint="UI_STRINGS.hints.bufferEnforcement"
@@ -1062,7 +1062,7 @@ const emailValidationRule = (value: string): true | string => {
                   <!-- LEARNING: Travel time FROM appointment, applied AFTER end time -->
                   <!-- WHY: Ensures enough time to travel from the appointment to the next location -->
                   <!-- PATTERN: DriveTimeConfig with applyTo instead of placement -->
-                  <VExpansionPanel :title="UI_STRINGS.panels.driveTimeFromBuffer">
+                  <VExpansionPanel :title="UI_STRINGS.panels.driveFromCandidateBuffer">
                     <VExpansionPanelText>
                       <!-- Session 2.2.3: Drive time source indicator -->
                       <VAlert
@@ -1100,17 +1100,17 @@ const emailValidationRule = (value: string): true | string => {
                         </div>
                       </VAlert>
                       <div class="text-body-2 mb-4 text-medium-emphasis">
-                        {{ UI_STRINGS.help.driveTimeFromDescription }}
+                        {{ UI_STRINGS.help.driveFromCandidateDescription }}
                       </div>
                       <VRow>
                         <VCol cols="12" sm="6" md="3">
                           <VTextField
-                            v-model.number="buffersDriveTimeFromMinutes"
+                            v-model.number="buffersDriveFromCandidateMinutes"
                             :label="defaultLocationPlaceId ? 'Fallback Minutes' : 'Minutes'"
                             type="number"
                             min="0"
                             step="5"
-                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveTimeFromMinutes"
+                            :hint="defaultLocationPlaceId ? 'Used if Routes API fails or returns no route' : UI_STRINGS.hints.driveFromCandidateMinutes"
                             persistent-hint
                             :rules="[
                               (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
@@ -1119,7 +1119,7 @@ const emailValidationRule = (value: string): true | string => {
                         </VCol>
                         <VCol cols="12" sm="6" md="3">
                           <VSelect
-                            v-model="buffersDriveTimeFromApplyTo"
+                            v-model="buffersDriveFromCandidateApplyTo"
                             :items="driveTimeApplyToOptions"
                             :label="UI_STRINGS.labels.applyTo"
                             :hint="UI_STRINGS.hints.driveTimeApplyTo"
@@ -1128,7 +1128,7 @@ const emailValidationRule = (value: string): true | string => {
                         </VCol>
                         <VCol cols="12" sm="6" md="3">
                           <VSelect
-                            v-model="buffersDriveTimeFromEnforcement"
+                            v-model="buffersDriveFromCandidateEnforcement"
                             :items="enforcementOptions"
                             :label="UI_STRINGS.labels.enforcement"
                             :hint="UI_STRINGS.hints.bufferEnforcement"

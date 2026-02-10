@@ -43,8 +43,8 @@ export interface WizardStateData {
     city: string
     state: string
     zipCode: string
-    placeId?: string
-    coordinates?: { lat: number; lng: number }
+    candidatePlaceId?: string  // Candidate placeId (from confirmed appointment, loaded into wizard for editing)
+    candidateCoordinates?: { lat: number; lng: number }  // Candidate coordinates (from confirmed appointment, loaded into wizard)
     propertySize: number | null
     numberOfUnits: number | null
     mlsNumber: string
@@ -75,8 +75,8 @@ export interface WizardStateData {
   }
   
   availability: {
-    selectedDate: { start: string | null; end: string | null }
-    selectedTimeSlots: Array<{ time: string; duration: number }> | null
+    candidateDate: { start: string | null; end: string | null }  // Candidate date (from confirmed appointment, loaded into wizard)
+    candidateTimeSlots: Array<{ time: string; duration: number }> | null  // Candidate time slots (from confirmed appointment, loaded into wizard)
   }
   
   isQuoteMode: boolean
@@ -123,11 +123,12 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
     city: address?.city ?? '',
     state: address?.state ?? '',
     zipCode: address?.zipCode ?? '',
-    // LEARNING: Extract placeId and coordinates from address object
+    // LEARNING: Extract candidatePlaceId and candidateCoordinates from address object
     // WHY: These are needed for drive time calculations and API orchestrator
     // PATTERN: Extract from address object if available, otherwise undefined
-    placeId: extractedPlaceId,
-    coordinates: extractedCoordinates,
+    // NOTE: These become "candidate" when loaded into wizard (for editing)
+    candidatePlaceId: extractedPlaceId,
+    candidateCoordinates: extractedCoordinates,
     
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
@@ -194,14 +195,15 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
  * PATTERN: Map time slots to wizard format { time, duration }
  */
 function extractAvailability(appointment: AppointmentResponse) {
-  const selectedDate = {
+  const candidateDate = {
     start: appointment.selectedDate ?? null,
     end: appointment.selectedDateRangeEnd ?? null,
   }
   
   // LEARNING: WizardStateData expects { time: string; duration: number } format
   // WHY: Transform from { startTime, endTime, duration } to { time, duration } format
-  const selectedTimeSlots = appointment.selectedTimeSlots
+  // NOTE: These become "candidate" when loaded into wizard (for editing)
+  const candidateTimeSlots = appointment.selectedTimeSlots
     ? appointment.selectedTimeSlots.map((slot: Record<string, unknown>) => ({
         time: (slot.startTime as RFC3339DateTime) ?? '',
         duration: (slot.duration as number) ?? 0
@@ -209,8 +211,8 @@ function extractAvailability(appointment: AppointmentResponse) {
     : null
   
   return {
-    selectedDate,
-    selectedTimeSlots,
+    candidateDate,
+    candidateTimeSlots,
   }
 }
 

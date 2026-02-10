@@ -634,27 +634,27 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
                       </div>
                     </VCard>
                   </VCol>
-                  <VCol v-if="availabilitySettingsValue?.buffers?.driveTimeTo && availabilitySettingsValue.buffers.driveTimeTo.applyTo !== 'none'" cols="auto">
+                  <VCol v-if="availabilitySettingsValue?.buffers?.driveToCandidate && availabilitySettingsValue.buffers.driveToCandidate.applyTo !== 'none'" cols="auto">
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis">Drive Time To</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ availabilitySettingsValue.buffers.driveTimeTo.minutes }} min
+                        {{ availabilitySettingsValue.buffers.driveToCandidate.minutes }} min
                       </div>
                       <div class="text-caption">
-                        ({{ availabilitySettingsValue.buffers.driveTimeTo.applyTo }}, 
-                        {{ availabilitySettingsValue.buffers.driveTimeTo.enforcement }})
+                        ({{ availabilitySettingsValue.buffers.driveToCandidate.applyTo }}, 
+                        {{ availabilitySettingsValue.buffers.driveToCandidate.enforcement }})
                       </div>
                     </VCard>
                   </VCol>
-                  <VCol v-if="availabilitySettingsValue?.buffers?.driveTimeFrom && availabilitySettingsValue.buffers.driveTimeFrom.applyTo !== 'none'" cols="auto">
+                  <VCol v-if="availabilitySettingsValue?.buffers?.driveFromCandidate && availabilitySettingsValue.buffers.driveFromCandidate.applyTo !== 'none'" cols="auto">
                     <VCard variant="outlined" density="compact" class="pa-2">
                       <div class="text-caption text-medium-emphasis">Drive Time From</div>
                       <div class="text-body-2 font-weight-medium">
-                        {{ availabilitySettingsValue.buffers.driveTimeFrom.minutes }} min
+                        {{ availabilitySettingsValue.buffers.driveFromCandidate.minutes }} min
                       </div>
                       <div class="text-caption">
-                        ({{ availabilitySettingsValue.buffers.driveTimeFrom.applyTo }}, 
-                        {{ availabilitySettingsValue.buffers.driveTimeFrom.enforcement }})
+                        ({{ availabilitySettingsValue.buffers.driveFromCandidate.applyTo }}, 
+                        {{ availabilitySettingsValue.buffers.driveFromCandidate.enforcement }})
                       </div>
                     </VCard>
                   </VCol>

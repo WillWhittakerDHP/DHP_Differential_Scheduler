@@ -15,7 +15,6 @@ import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { TimeSlot } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
-import { useAvailability } from '@/composables/useAvailability'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useAvailabilityLogic } from '@/composables/booking/useAvailabilityLogic'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
@@ -24,10 +23,8 @@ import { useAvailabilityStepData } from '@/composables/booking/useAvailabilitySt
 import { useOptionTypeBlockSelection } from '@/composables/booking/useOptionTypeBlockSelection'
 import { useAvailabilityUI } from '@/composables/booking/useAvailabilityUI'
 import { useAvailabilityDefaults } from '@/composables/booking/useAvailabilityDefaults'
-import { useAvailableStartTimes } from '@/composables/booking/useAvailableStartTimes'
 import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
 import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
-import { useTimeSlotDurations } from '@/composables/booking/useTimeSlotDurations'
 import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
 import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -52,8 +49,8 @@ if (!loadedWizardState) {
   throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
 }
 
-// LEARNING: Inject server-computed availability data from parent (early injection for useAvailability)
-// WHY: Consume prefetched calendar events, busy times, constraints, and drive times
+// LEARNING: Inject server-computed availability data from parent (slotsByDay, constraints, events)
+// WHY: Slots and constraints come from server; step derives timeSlots and appointmentSlots from slotsByDay
 const computedAvailability = inject<UseComputedAvailabilityReturn>('computedAvailability')
 if (!computedAvailability) {
   throw new Error('computedAvailability must be provided by BookingWizard')
@@ -150,18 +147,29 @@ const {
   loadedWizardState
 })
 
-// LEARNING: useAvailability composable for calculating time slots client-side
-// WHY: Calculates available time slots from part instances without API dependency
-const { timeSlots } = useAvailability(
-  accumulatedBlockInstances,
-  dateRangeForApi,
-  propertyDetails as ComputedRef<Record<string, unknown> | null>,
-  undefined, // settings (optional)
-  computed(() => computedAvailability.computedData.value) // Phase 6: Pass pre-computed availability data from server
+// Phase 5: Server-computed slots for selected day; timeSlots for logic derived from server (no client slot generation)
+const selectedDayKey = computed(() => {
+  const start = selectedDate.value?.start
+  return start ? (start.includes('T') ? start.split('T')[0] : start) : null
+})
+const serverSlotsForDay = computed(() => {
+  const day = selectedDayKey.value
+  if (!day) return []
+  return computedAvailability.slotsByDay.value.get(day) ?? []
+})
+const timeSlotsFromServer = computed<TimeSlot[]>(() =>
+  serverSlotsForDay.value.map((s) => ({
+    startTime: s.startTime,
+    endTime: s.endTime,
+    duration: s.duration,
+    major: false,
+    minor: false,
+    moveable: false,
+    isAvailable: s.isAvailable,
+    flexibleViolations: s.violations,
+  }))
 )
-
-// WHY: Assign the computed ref directly - timeSlotsForLogic will unwrap it via .value
-timeSlotsWrapper.value = timeSlots as ComputedRef<TimeSlot[]>
+timeSlotsWrapper.value = timeSlotsFromServer
  
 // LEARNING: Use availability option selection composable
 // PATTERN: Composable provides reactive computed property for selection
@@ -252,44 +260,6 @@ watch(selectedDate, (newDate) => {
   }
 }, { immediate: true })
 
-// Phase 8: Use server-computed data directly (no legacy composables)
-// WHY: Server provides all pre-computed data including busy times
-// PATTERN: Consume computed availability data directly
-const busyTimesForStartTimes = computed(() => computedAvailability.busyTimes.value)
-const busyTimesLoading = computed(() => computedAvailability.isLoading.value)
-
-// LEARNING: Get prefetched calendar events from server
-// WHY: Pass to useAvailableStartTimes so it doesn't need to fetch
-const prefetchedCalendarEvents = computed(() => computedAvailability.calendarEvents.value)
-
-// Phase 12: Extract minuteIncrement from server-computed data
-// WHY: Prevents redundant getAvailabilitySettings() API call in useAvailableStartTimes
-const serverMinuteIncrement = computed(() => computedAvailability.computedData.value?.minuteIncrement ?? null)
-
-const {
-  availableStartTimes,
-  slotAvailability,
-  slotViolations
-} = useAvailableStartTimes({
-  selectedDate,
-  appointmentDuration,
-  busyTimes: busyTimesForStartTimes,
-  busyTimesLoading,
-  prefetchedCalendarEvents,
-  // Phase 6: Pass pre-computed constraints from server (enriched with scheduledHours)
-  prefetchedConstraints: computed(() => computedAvailability.constraints.value),
-  // Phase 12: Pass server-provided minuteIncrement to prevent redundant settings fetch
-  minuteIncrement: serverMinuteIncrement,
-})
-
-// LEARNING: Use time slot durations composable
-// PATTERN: Composable provides computed Map for time slot durations
-// WHY: Wrap Ref in computed to match ComposablesRef type requirement
-const { timeSlotDurations } = useTimeSlotDurations({
-  timeSlotsPerDay: computed(() => timeSlotsPerDay.value),
-  selectedDate
-})
-
 // LEARNING: Use perspective mapping composable
 // PATTERN: Composable provides computed property for perspective mapping
 const { perspective } = usePerspectiveMapping({
@@ -305,7 +275,7 @@ const { slotColor } = useAvailabilitySlotColor({
   startTimeType
 })
 
-// LEARNING: Use new appointment slots composable
+// LEARNING: Use appointment slots composable (server slots + client shape; no client constraint re-check)
 const {
   appointmentShape,
   appointmentSlots,
@@ -313,10 +283,7 @@ const {
   graphBars
 } = useAppointmentSlots({
   blockInstances: accumulatedBlockInstances,
-  availableStartTimes,
-  slotAvailability,
-  slotViolations,
-  timeSlotDurations,
+  serverSlotsForDay,
   selectedButtonIndex,
   perspective,
   isDifferentialService: isEffectivelyDifferential
@@ -415,7 +382,7 @@ useAvailabilityDevPanel({
   selectedDate,
   selectedSlot,
   dateRange: dateRangeForApi,
-  busyPeriods: busyTimesForStartTimes,
+  busyPeriods: computed(() => []), // Phase 5: No client busy periods; server returns pre-computed slots
   refreshKey: mockRefreshKey,
   isEffectivelyDifferential
 })

@@ -8,10 +8,6 @@
 
 import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
 import type { BusyPeriodSource } from '@shared/types/availabilityTypes'
-import { createLogger } from '@/utils/logger'
-import { extractBusinessHoursMinutes } from '@/composables/useLocalTime'
-
-const logger = createLogger('timeSlotTypes')
 
 // Re-export types for backward compatibility
 export type { BusyPeriodSource }
@@ -21,14 +17,15 @@ export type { BusyPeriodSource }
  * LEARNING: Internal representation of busy periods with parsed Date objects
  * WHY: Avoids repeated parsing of RFC3339 strings during overlap checks
  * PATTERN: Pre-parsed Date objects for efficient comparisons
+ * Busy periods represent opaque event time (and out-of-office); transparent events do not block.
  */
 export interface ParsedBusyTimeRange {
   start: Date
   end: Date
   source?: BusyPeriodSource
   placeId?: string
-  driveTimeTo?: number    // minutes, stamped by server
-  driveTimeFrom?: number  // minutes, stamped by server
+  driveToCandidate?: number    // minutes (event -> candidate), stamped by server
+  driveFromCandidate?: number  // minutes (candidate -> event), stamped by server
 }
 
 /**
@@ -93,59 +90,3 @@ export function timeRangesOverlap(
   return (range1.start < range2.end && range1.end > range2.start)
 }
 
-/**
- * Parse business hours for a day and return time components
- * LEARNING: Shared business hours parsing logic
- * WHY: Eliminates duplication between fitTimeSlots and generateAllTimeSlots
- * PATTERN: Pure function that extracts and validates business hours
- * 
- * ARCHITECTURE DECISION: Eliminate Round-Trip Conversion
- * -----------------------------------------------------------------------
- * This function parses RFC3339 directly to minutes without converting
- * to HH:mm first. This eliminates the round-trip conversion:
- * 
- * Before: RFC3339 → HH:mm → parse → minutes
- * After:  RFC3339 → parse → minutes
- * 
- * @param dayHours - Business hours for the day (RFC3339DateTime format only)
- * @param dayOfWeek - Day of week (for error messages)
- * @returns Parsed time components or null if invalid
- */
-export function parseBusinessHours(
-  dayHours: DayBusinessHours | { start: string; end: string },
-  dayOfWeek: number
-): { startHour: number; startMinute: number; endHour: number; endMinute: number; dayStartMinutes: number; dayEndMinutes: number } | null {
-  // LEARNING: Only accept RFC3339 format - no HH:mm support
-  // PATTERN: Parse RFC3339 directly, extract UTC hours/minutes
-  const startDate = new Date(dayHours.start as RFC3339DateTime)
-  const endDate = new Date(dayHours.end as RFC3339DateTime)
-  
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    logger.warn(`Invalid RFC3339 datetime for day ${dayOfWeek}:`, dayHours)
-    return null
-  }
-  
-  // LEARNING: Business hours RFC3339 strings represent LOCAL time-of-day, not UTC
-  // WHY: Admin sets business hours in their local timezone (e.g., "9 AM" = 9 AM local)
-  // PATTERN: Use useLocalTime composable to extract local time-of-day
-  const startTime = extractBusinessHoursMinutes(dayHours.start as RFC3339DateTime)
-  const endTime = extractBusinessHoursMinutes(dayHours.end as RFC3339DateTime)
-  const startHour = startTime.hours
-  const startMinute = startTime.minutes
-  const endHour = endTime.hours
-  const endMinute = endTime.minutes
-
-  if (isNaN(startHour) || isNaN(startMinute) || isNaN(endHour) || isNaN(endMinute)) {
-    return null
-  }
-
-  const dayStartMinutes = startHour * 60 + startMinute
-  const dayEndMinutes = endHour * 60 + endMinute
-
-  // Validate end time is after start time
-  if (dayEndMinutes <= dayStartMinutes) {
-    return null
-  }
-
-  return { startHour, startMinute, endHour, endMinute, dayStartMinutes, dayEndMinutes }
-}

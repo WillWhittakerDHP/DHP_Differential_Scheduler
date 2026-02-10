@@ -242,14 +242,20 @@ const dateRange = useDateRangeDecider(displayedMonth)
 const appointmentDurationRef = ref<number | null>(null)
 provide('appointmentDuration', appointmentDurationRef)
 
+// Selected date (YYYY-MM-DD) for per-day slot fallback fetch; derived from step data updated by AvailabilityStep
+const selectedDateForSlots = computed(() => {
+  const start = availabilityStepData.value?.candidateDate?.start
+  return start ? (start.includes('T') ? start.split('T')[0] : start) : null
+})
+
 // LEARNING: Fetch server-computed availability data in parent component
-// WHY: Data persists across step navigation, fetched as soon as dateRange is available
-// NOTE: Duration defaults to 60 minutes on server if not provided, but will re-fetch with actual duration when AvailabilityStep computes it
+// WHY: Data persists across step navigation, 14-day prefetch + per-day fallback when date not in cache
 const computedAvailability = useComputedAvailability({
   propertyDetailsStepData,
   dateRange,
   activeStep,
-  duration: appointmentDurationRef // Duration will be updated by AvailabilityStep when computed
+  duration: appointmentDurationRef,
+  selectedDate: selectedDateForSlots,
 })
 
 // Provide computed availability data for all steps

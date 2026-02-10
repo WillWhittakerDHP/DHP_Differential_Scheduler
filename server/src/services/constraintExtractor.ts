@@ -37,7 +37,7 @@ import type {
  * PATTERN: Helper function that throws if enforcement is undefined
  * 
  * @param enforcement - Enforcement value to validate
- * @param label - Label for error message (e.g., "appointment buffer", "driveTimeTo buffer", "daily constraint")
+ * @param label - Label for error message (e.g., "appointment buffer", "driveToCandidate buffer", "daily constraint")
  */
 function requireEnforcement(enforcement: unknown, label: string): void {
   if (enforcement === undefined) {
@@ -138,19 +138,19 @@ export function extractRangeConstraints(
 
 /**
  * Extract overlap constraints (buffers) from availability settings
- * LEARNING: Extracts appointment, driveTimeTo, driveTimeFrom, and lunch buffers
+ * LEARNING: Extracts appointment, driveToCandidate, driveFromCandidate, and lunch buffers
  * WHY: Consolidates buffer checking into single pathway
  * PATTERN: Pure function that transforms settings into constraint array
  */
 /**
  * Helper to extract a single drive time constraint
- * LEARNING: Consolidates driveTimeTo/driveTimeFrom extraction logic
- * WHY: Eliminates duplication between driveTimeTo and driveTimeFrom blocks
+ * LEARNING: Consolidates driveToCandidate/driveFromCandidate extraction logic
+ * WHY: Eliminates duplication between driveToCandidate and driveFromCandidate blocks
  * PATTERN: Pure function that extracts constraint if valid
  */
 function extractDriveTimeConstraint(
   settings: AvailabilitySettingsData,
-  type: 'driveTimeTo' | 'driveTimeFrom',
+  type: 'driveToCandidate' | 'driveFromCandidate',
   placement: 'before' | 'after'
 ): OverlapConstraint | null {
   const driveTime = settings.buffers?.[type]
@@ -164,7 +164,7 @@ function extractDriveTimeConstraint(
   return {
     category: 'overlap',
     type,
-    placement,  // Implicit - driveTimeTo is always 'before', driveTimeFrom is always 'after'
+    placement,  // Implicit - driveToCandidate is always 'before', driveFromCandidate is always 'after'
     enforcement: driveTime.enforcement,
     minutes: driveTime.minutes,
     applyTo: driveTime.applyTo
@@ -200,9 +200,9 @@ export function extractOverlapConstraints(
   
   // WHY: Handle drive time types with implicit placement and applyTo configuration
   // PATTERN: Use loop pattern matching standard buffers for consistency
-  const driveTimeConfigs: Array<{ type: 'driveTimeTo' | 'driveTimeFrom'; placement: 'before' | 'after' }> = [
-    { type: 'driveTimeTo', placement: 'before' },   // Implicit - always before (travel TO appointment)
-    { type: 'driveTimeFrom', placement: 'after' }   // Implicit - always after (travel FROM appointment)
+  const driveTimeConfigs: Array<{ type: 'driveToCandidate' | 'driveFromCandidate'; placement: 'before' | 'after' }> = [
+    { type: 'driveToCandidate', placement: 'before' },   // Implicit - always before (travel TO appointment)
+    { type: 'driveFromCandidate', placement: 'after' }   // Implicit - always after (travel FROM appointment)
   ]
   
   driveTimeConfigs.forEach(({ type, placement }) => {
@@ -332,7 +332,7 @@ export function validateOverlapConstraint(constraint: OverlapConstraint): { vali
   
   // LEARNING: Validate applyTo for drive time constraints
   // PATTERN: Only validate applyTo if constraint is a drive time type
-  if (constraint.type === 'driveTimeTo' || constraint.type === 'driveTimeFrom') {
+  if (constraint.type === 'driveToCandidate' || constraint.type === 'driveFromCandidate') {
     if (constraint.applyTo !== undefined) {
       const validApplyTo: Array<DriveTimeApplyTo> = ['all', 'skipDayStart', 'skipDayEnd', 'none']
       if (!validApplyTo.includes(constraint.applyTo)) {

@@ -44,7 +44,7 @@ export async function cleanupInvalidActiveRelationships(
     `Relationship cleanup for ${validRelationshipKey} on ${entityKey} is currently disabled.`
   )
   
-  /* eslint-disable @typescript-eslint/no-unused-vars */
+   
   const adminComp = useAdmin()
   const config = null as any
   if (!config || !config.dependencyImpact) {

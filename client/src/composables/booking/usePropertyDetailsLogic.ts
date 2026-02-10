@@ -161,8 +161,8 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     city: formData.city.value,
     state: formData.state.value,
     zipCode: formData.zipCode.value,
-    placeId: formData.placeId.value,
-    coordinates: formData.coordinates.value,
+    candidatePlaceId: formData.candidatePlaceId.value,
+    candidateCoordinates: formData.candidateCoordinates.value,
     propertySize: formData.propertySize.value,
     numberOfUnits: formData.numberOfUnits.value,
     mlsNumber: formData.mlsNumber.value,
@@ -190,10 +190,10 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     formData.zipCode.value = addressComponents.postalCode || ''
     
     // Store location data for drive time calculations
-    // DEBUG: Log placeId being set
-    console.log('[usePropertyDetailsLogic] Setting placeId:', placeId, 'from place-selected event')
-    formData.placeId.value = placeId
-    formData.coordinates.value = coordinates
+    // DEBUG: Log candidatePlaceId being set
+    console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
+    formData.candidatePlaceId.value = placeId
+    formData.candidateCoordinates.value = coordinates
     
     // Expand to show editable fields
     isAddressExpanded.value = true
