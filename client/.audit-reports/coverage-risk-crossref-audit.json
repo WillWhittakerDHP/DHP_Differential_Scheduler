@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2026-02-11T04:10:08.413Z",
+  "generatedAt": "2026-02-12T01:57:24.691Z",
   "inputSources": {
     "importGraph": "import-graph-audit.json",
     "testAudit": "test-audit.json"
   },
-  "totalFiles": 29,
+  "totalFiles": 28,
   "riskFiles": [
     {
       "repoPath": "client/src/constants/entities.ts",
-      "fanIn": 126,
+      "fanIn": 127,
       "hasTest": false,
       "exportCount": 0,
-      "riskScore": 189,
+      "riskScore": 191,
       "priority": "P0"
     },
     {
       "repoPath": "client/src/types/entities.ts",
-      "fanIn": 126,
+      "fanIn": 127,
       "hasTest": false,
       "exportCount": 0,
-      "riskScore": 189,
+      "riskScore": 191,
       "priority": "P0"
     },
     {
@@ -48,10 +48,10 @@
     },
     {
       "repoPath": "client/src/types/entityMetadata.ts",
-      "fanIn": 34,
+      "fanIn": 33,
       "hasTest": false,
       "exportCount": 0,
-      "riskScore": 51,
+      "riskScore": 50,
       "priority": "P0"
     },
     {
@@ -80,10 +80,10 @@
     },
     {
       "repoPath": "client/src/utils/logger.ts",
-      "fanIn": 61,
+      "fanIn": 69,
       "hasTest": true,
       "exportCount": 2,
-      "riskScore": 18,
+      "riskScore": 21,
       "priority": "P1"
     },
     {
@@ -98,25 +98,25 @@
   "summary": {
     "highFanInUntested": 9,
     "highFanInTested": 10,
-    "lowFanInUntested": 692,
+    "lowFanInUntested": 695,
     "coverageOfCriticalFiles": "53%",
     "totalRiskFiles": 11,
-    "totalFilesWithFanIn": 29
+    "totalFilesWithFanIn": 28
   },
   "files": [
     {
       "repoPath": "client/src/constants/entities.ts",
-      "score": 189,
+      "score": 191,
       "priority": "P0",
-      "fanIn": 126,
+      "fanIn": 127,
       "hasTest": false,
       "exportCount": 0
     },
     {
       "repoPath": "client/src/types/entities.ts",
-      "score": 189,
+      "score": 191,
       "priority": "P0",
-      "fanIn": 126,
+      "fanIn": 127,
       "hasTest": false,
       "exportCount": 0
     },
@@ -146,9 +146,9 @@
     },
     {
       "repoPath": "client/src/types/entityMetadata.ts",
-      "score": 51,
+      "score": 50,
       "priority": "P0",
-      "fanIn": 34,
+      "fanIn": 33,
       "hasTest": false,
       "exportCount": 0
     },
@@ -178,9 +178,9 @@
     },
     {
       "repoPath": "client/src/utils/logger.ts",
-      "score": 18,
+      "score": 21,
       "priority": "P1",
-      "fanIn": 61,
+      "fanIn": 69,
       "hasTest": true,
       "exportCount": 2
     },

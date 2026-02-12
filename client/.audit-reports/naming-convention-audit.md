@@ -1,6 +1,6 @@
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-02-11T04:08:23.517Z
+Generated at: 2026-02-12T01:55:37.362Z
 
 ## Summary
 
@@ -26,7 +26,7 @@ Generated at: 2026-02-11T04:08:23.517Z
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 56 | export function createSingleClassDraggableChecker( |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 63 | export function createMultiClassDraggableChecker( |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 79 | export function createExpansionPanelDraggableCheck |
-| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 169 | export function resetMetadataCache( |
+| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 170 | export function resetMetadataCache( |
 | `client/src/composables/admin/utils/nestedComputedFactory.ts` | composableFileName | 1 | Composable file should be use[Name].ts: nestedComp |
 | `client/src/composables/booking/selectionCard/index.ts` | composableFileName | 1 | Composable file should be use[Name].ts: index.ts |
 | `client/src/composables/booking/useStepValidation.ts` | composableExport | 31 | export function collectErrors( |

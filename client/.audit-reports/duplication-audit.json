@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T04:08:26.447Z",
+  "generatedAt": "2026-02-12T01:55:40.886Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 571,
+  "fileCount": 574,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -142,6 +142,7 @@
           "client/src/composables/admin/useBusinessRuleForm.ts",
           "client/src/composables/admin/useBusinessRules.ts",
           "client/src/composables/admin/useCalendarEntries.ts",
+          "client/src/composables/admin/useCalibrationChart.ts",
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDefaultLocation.ts",
@@ -341,7 +342,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 216
+        "patternCount": 217
       }
     ],
     "repeatedStringFiles": []
@@ -1691,6 +1692,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-13bd9de36f5c",
+      "hash": "13bd9de36f5c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+          "startLine": 131,
+          "endLine": 151,
+          "windowText": "partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
+          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useDevPanelsComputed.ts",
+          "startLine": 67,
+          "endLine": 89,
+          "windowText": "partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
+          "target": "client/src/composables/booking/useDevPanelsComputed.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-1623de395200",
       "hash": "1623de395200",
       "uniqueFiles": 2,
@@ -2081,6 +2108,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-2ce10077fdc9",
+      "hash": "2ce10077fdc9",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/TimeBasisButtonGrid.vue",
+          "startLine": 21,
+          "endLine": 38,
+          "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
+          "target": "client/src/components/booking/TimeBasisButtonGrid.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/TimeBasisSelector.vue",
+          "startLine": 23,
+          "endLine": 40,
+          "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
+          "target": "client/src/components/booking/TimeBasisSelector.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-2d4fde3634cc",
       "hash": "2d4fde3634cc",
       "uniqueFiles": 2,
@@ -2127,6 +2180,32 @@
           "endLine": 42,
           "windowText": "groupCollapsed: (title: string, ...args: unknown[]) => void\ngroupEnd: () => void\nfunction parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-2f0d71c66b5f",
+      "hash": "2f0d71c66b5f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+          "startLine": 155,
+          "endLine": 169,
+          "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
+          "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+          "startLine": 84,
+          "endLine": 98,
+          "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
+          "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
         }
       ],
       "score": 22,
@@ -2673,6 +2752,32 @@
           "endLine": 40,
           "windowText": "declare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(\ntype: DataTypes.UUID,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-4d9c4ce531c8",
+      "hash": "4d9c4ce531c8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/TimeBasisButtonGrid.vue",
+          "startLine": 22,
+          "endLine": 39,
+          "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
+          "target": "client/src/components/booking/TimeBasisButtonGrid.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/TimeBasisSelector.vue",
+          "startLine": 24,
+          "endLine": 41,
+          "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
+          "target": "client/src/components/booking/TimeBasisSelector.vue::<script>"
         }
       ],
       "score": 22,
@@ -3505,6 +3610,32 @@
           "endLine": 148,
           "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7446fdc411b8",
+      "hash": "7446fdc411b8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+          "startLine": 161,
+          "endLine": 172,
+          "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
+          "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+          "startLine": 90,
+          "endLine": 101,
+          "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
+          "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
         }
       ],
       "score": 22,
@@ -4473,6 +4604,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-9c56b47c5ce7",
+      "hash": "9c56b47c5ce7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+          "startLine": 156,
+          "endLine": 170,
+          "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
+          "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+          "startLine": 85,
+          "endLine": 99,
+          "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
+          "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-9c923e520a59",
       "hash": "9c923e520a59",
       "uniqueFiles": 2,
@@ -4811,6 +4968,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-ac464e938825",
+      "hash": "ac464e938825",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
+      "locations": [
+        {
+          "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+          "startLine": 160,
+          "endLine": 171,
+          "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
+          "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+          "startLine": 89,
+          "endLine": 100,
+          "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
+          "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-ad8ee8be63f6",
       "hash": "ad8ee8be63f6",
       "uniqueFiles": 2,
@@ -5143,32 +5326,6 @@
           "endLine": 54,
           "windowText": "declare annotationId: ForeignKey<string>;\ndeclare userTypeBlockInstanceId: ForeignKey<string> | null;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\ndeclare blockInstance?: BlockInstance;\ndeclare annotation?: AnnotationInstance;\ndeclare userTypeBlockInstance?: BlockInstance;\nexport function AnnotationAssignmentFactory(sequelize: Sequelize) {\nAnnotationAssignment.init(\ntype: DataTypes.UUID,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-c81776a6a0cb",
-      "hash": "c81776a6a0cb",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "partCount: block.partInstances?.length || 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 131,
-          "endLine": 151,
-          "windowText": "partCount: block.partInstances?.length || 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
-          "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/composables/booking/useDevPanelsComputed.ts",
-          "startLine": 67,
-          "endLine": 89,
-          "windowText": "partCount: block.partInstances?.length || 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
-          "target": "client/src/composables/booking/useDevPanelsComputed.ts"
         }
       ],
       "score": 22,

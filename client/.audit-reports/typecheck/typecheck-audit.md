@@ -8,19 +8,20 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-11T04:08:22.324Z**
+- Generated at: **2026-02-12T01:55:36.140Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 2**
+- **Errors requiring review: 3**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **1**
+- Pools: **2**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS1355-ts1355-a-const-assertions-can-only-be-applied-to-references-to-enum-members-or-string-number-boolean-array-or-object-lit` | 18 | 2 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-string-null-string` | 24 | 2 | 1 | 0 | 0 |
+| P1 | `TS2367-ts2367-this-comparison-appears-to-be-unintentional-because-the-types-roundup-rounddown-roundnearest-and-have-no-overlap` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -32,18 +33,19 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/configs/field/form/appliedForm/baseEntityFields.ts`
+### `src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@164:5 Type 'string | null' is not assignable to type 'string'.
+TS2322@165:5 Type 'string | null' is not assignable to type 'string'.
+```
+
+### `src/utils/booking/durationRounding.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS1355@26:18 A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
-```
-
-### `src/constants/fieldMetadata.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS1355@83:16 A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
+TS2367@116:108 This comparison appears to be unintentional because the types '"roundUp" | "roundDown" | "roundNearest"' and '""' have no overlap.
 ```

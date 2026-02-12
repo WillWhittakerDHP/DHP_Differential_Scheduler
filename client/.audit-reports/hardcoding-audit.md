@@ -40,9 +40,9 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **228**
-- **Requiring review: 833**
-- Allowed (with justification): 264 (inline: 0, pattern: 264, specific: 0)
+- Total files scanned: **234**
+- **Requiring review: 835**
+- Allowed (with justification): 281 (inline: 0, pattern: 281, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -56,7 +56,6 @@ When extracting literals to constants, prefer these constant files (from constan
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCard.vue` | 17 | 0 | 0 | 0 | 1 | 2 | 0 | 0 | 0 | 0 |
-| `client/src/utils/admin/entityDisplayText.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/config/entityRegistry.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -78,6 +77,7 @@ When extracting literals to constants, prefer these constant files (from constan
 | `server/src/db/models/admin/adminPrimitiveMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/businessRulesConstants.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/calendar/calendarConstants.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/calendar/eventCreationService.ts` | 9 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -176,6 +176,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
+### `server/src/scripts/helpers/calendarParsingHelpers.ts`
+
+- score: **8**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ### `client/src/components/admin/generic/StatusButton.vue`
 
 - score: **7**
@@ -183,6 +189,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
 ### `client/src/components/booking/SelectionCard.vue`
+
+- score: **7**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
 - score: **7**
 
@@ -435,42 +447,17 @@ caseString@211: case 'hidden':
 - requiring review: 11, allowed: 0
 
 ```
-magicLabel@137: if (key !== ' ' && key !== 'Spacebar' && key !== 'Enter' && event.keyCode !== 32 && event.keyCode !== 13) {
-fieldEqualsString@159: const char = event.key === 'Enter' ? '\n' : ' '
-magicLabel@198: const logger = createLogger('EntityCard')
-magicLabel@221: if (isScopeExplicitlyEnabled('EntityCard')) {
-magicLabel@222: logger.debug('Form initialized', {
-magicLabel@307: logger.debug('Fields needing contexts', {
-magicLabel@407: logger.debug('Save triggered', {
-fieldMapping@422: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-magicLabel@422: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-fieldMapping@434: logger.debug('Form reset after save', { entityId: props.entity.id })
-magicLabel@434: logger.debug('Form reset after save', { entityId: props.entity.id })
-```
-
-### `client/src/utils/admin/entityDisplayText.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=17
-- requiring review: 17, allowed: 0
-
-```
-magicLabel@9: blockShape: 'BlockShape',
-magicLabel@10: partShape: 'PartShape',
-magicLabel@11: blockInstance: 'BlockInstance',
-magicLabel@12: partInstance: 'PartInstance',
-magicLabel@13: eventShape: 'EventShape',
-magicLabel@14: eventInstance: 'EventInstance',
-magicLabel@15: annotationShape: 'AnnotationShape',
-magicLabel@16: annotationInstance: 'AnnotationInstance',
-magicLabel@21: * WHY: Provides plural labels for admin panels (e.g., "Block Shapes" vs "Block Shape")
-magicLabel@25: blockShape: 'Block Shapes',
-magicLabel@26: partShape: 'Part Shapes',
-magicLabel@27: blockInstance: 'Block Instance',
-magicLabel@28: partInstance: 'Part Instance',
-magicLabel@29: eventShape: 'Event Shapes',
-magicLabel@30: eventInstance: 'Event Instances',
-magicLabel@31: annotationShape: 'Annotation Shapes',
-magicLabel@32: annotationInstance: 'Annotation Instances',
+magicLabel@138: if (key !== ' ' && key !== 'Spacebar' && key !== 'Enter' && event.keyCode !== 32 && event.keyCode !== 13) {
+fieldEqualsString@160: const char = event.key === 'Enter' ? '\n' : ' '
+magicLabel@199: const logger = createLogger('EntityCard')
+magicLabel@222: if (isScopeExplicitlyEnabled('EntityCard')) {
+magicLabel@223: logger.debug('Form initialized', {
+magicLabel@308: logger.debug('Fields needing contexts', {
+magicLabel@408: logger.debug('Save triggered', {
+fieldMapping@423: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+magicLabel@423: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+fieldMapping@435: logger.debug('Form reset after save', { entityId: props.entity.id })
+magicLabel@435: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `client/src/utils/iconMapper.ts`
@@ -587,16 +574,16 @@ fieldMapping@104: const response = await api.get<SearchResults[]>(withQuery('/ap
 - requiring review: 10, allowed: 0
 
 ```
-magicLabel@74: throw new MapsApiError('auth', data.error_message ?? 'API key invalid or restricted')
-magicLabel@78: throw new MapsApiError('rate_limit', 'API quota exceeded', true)
-magicLabel@82: const message = invalidRequestAsNotFound ? 'Place not found' : (data.error_message ?? OAUTH_ERROR_MESSAGES.INVALID_REQUEST)
-magicLabel@88: throw new MapsApiError('not_found', 'Place not found')
-magicLabel@92: throw new MapsApiError('not_found', 'No results found')
-magicLabel@151: throw new MapsApiError('invalid', 'Place has no coordinates')
-magicLabel@176: const geocodeLogger = createLogger('PlacesGeocode')
-magicLabel@201: geocodeLogger.warn('Geocoding failed', {
-fieldMapping@250: return { placeId: location.placeId }
-fieldMapping@267: return { address: location.address }
+magicLabel@78: : 'API key invalid or restricted'
+magicLabel@83: throw new MapsApiError('rate_limit', 'API quota exceeded', true)
+magicLabel@90: const message = invalidRequestAsNotFound ? 'Place not found' : defaultMessage
+magicLabel@96: throw new MapsApiError('not_found', 'Place not found')
+magicLabel@100: throw new MapsApiError('not_found', 'No results found')
+magicLabel@167: throw new MapsApiError('invalid', 'Place has no coordinates')
+magicLabel@199: const geocodeLogger = createLogger('PlacesGeocode')
+magicLabel@224: geocodeLogger.warn('Geocoding failed', {
+fieldMapping@273: return { placeId: location.placeId }
+fieldMapping@290: return { address: location.address }
 ```
 
 ### `client/src/components/booking/steps/PropertyDetailsStep.vue`
@@ -627,12 +614,12 @@ magicLabel@440: label="Number of Units"
 
 ```
 magicLabel@43: const logger = createLogger('ComputedAvailabilityService')
-fieldMapping@114: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
-fieldMapping@117: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
-magicLabel@129: logger.debug('Drive time cache check', {
-magicLabel@178: logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })
-fieldMapping@214: { status: result.status, condition: result.condition }
-magicLabel@221: logger.error('Failed to batch calculate driveFromCandidate', {
+fieldMapping@115: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+fieldMapping@118: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+magicLabel@130: logger.debug('Drive time cache check', {
+magicLabel@179: logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })
+fieldMapping@215: { status: result.status, condition: result.condition }
+magicLabel@222: logger.error('Failed to batch calculate driveFromCandidate', {
 ```
 
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
@@ -723,17 +710,17 @@ magicLabel@36: subtitle: 'Account Settings',
 - requiring review: 11, allowed: 0
 
 ```
-magicLabel@35: const logger = createLogger('InstancesTab')
-magicLabel@289: logger.error('Error setting up event instances drag-and-drop', { error })
-magicLabel@302: alert('Please create an event shape first')
-magicLabel@331: success('Event instance created successfully')
-magicLabel@336: logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
-magicLabel@437: : 'No Cascades'
-magicLabel@457: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@637: label="Event Shape"
-magicLabel@650: label="Title Template"
-magicLabel@658: label="Description Template"
-magicLabel@666: label="Location Template"
+magicLabel@36: const logger = createLogger('InstancesTab')
+magicLabel@290: logger.error('Error setting up event instances drag-and-drop', { error })
+magicLabel@303: alert('Please create an event shape first')
+magicLabel@332: success('Event instance created successfully')
+magicLabel@337: logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
+magicLabel@445: : 'No Cascades'
+magicLabel@465: {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@650: label="Event Shape"
+magicLabel@663: label="Title Template"
+magicLabel@671: label="Description Template"
+magicLabel@679: label="Location Template"
 ```
 
 ### `server/src/routes/external/googleOauthConstants.ts`
@@ -780,7 +767,7 @@ magicLabel@189: axiosError.response.data.error ?? 'API error',
 magicLabel@194: return new MapsApiError('rate_limit', 'API rate limit exceeded', true)
 magicLabel@197: return new MapsApiError('auth', 'API key invalid or not configured')
 magicLabel@200: return new MapsApiError('not_found', 'Place not found')
-magicLabel@207: axiosError.response?.data?.error ?? 'Invalid response from server'
+magicLabel@206: const message = rawError !== undefined && rawError !== null ? rawError : 'Invalid response from server'
 ```
 
 ### `server/src/db/models/admin/adminMetadata.ts`
@@ -976,6 +963,18 @@ magicLabel@23: DELETE_USER: 'Failed to delete user',
 magicLabel@26: VALIDATION_FAILED: 'Validation failed',
 ```
 
+### `server/src/scripts/helpers/calendarParsingHelpers.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 4, allowed: 0
+
+```
+magicLabel@30: const DEFAULT_FIRST_NAME = 'Unknown' as const
+magicLabel@145: * @param fullName - Full name string (may be "Last, First" or "First Last")
+fieldMapping@260: logger.warn('Calendar parse: missing displayName, using email local part', { email: attendee.email })
+fieldMapping@267: logger.warn('Calendar parse: empty firstName, using default', { email: attendee.email })
+```
+
 ### `server/src/services/google/shared/googleApiRetry.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
@@ -983,11 +982,11 @@ magicLabel@26: VALIDATION_FAILED: 'Validation failed',
 
 ```
 magicLabel@11: const logger = createLogger('GoogleApiRetry')
-magicLabel@96: logger.error('Non-retryable error', { errorType, message: (error as Error)?.message })
-fieldMapping@102: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
-magicLabel@102: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
-magicLabel@109: logger.warn('Retrying after delay', {
-magicLabel@121: throw lastError || new Error('Retry failed')
+magicLabel@97: logger.error('Non-retryable error', { errorType, message: (error as Error)?.message })
+fieldMapping@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
+magicLabel@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
+magicLabel@111: logger.warn('Retrying after delay', {
+magicLabel@123: throw lastError || new Error('Retry failed')
 ```
 
 ### `client/src/components/admin/generic/StatusButton.vue`
@@ -1010,6 +1009,17 @@ fieldEqualsString@112: const isEnter = event.key === 'Enter' || event.keyCode ==
 fieldMapping@159: emit('update:number', { itemId: props.item.id, number: finalValue })
 fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
 magicLabel@227: label="Quantity"
+```
+
+### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 3, allowed: 0
+
+```
+fieldMapping@44: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
+magicLabel@116: aria-label="Fee vs square footage by service"
+fieldMapping@177: :style="{ backgroundColor: item.color }"
 ```
 
 ### `server/src/db/models/admin/business_settings.ts`
@@ -1101,8 +1111,8 @@ magicLabel@301: logger.error('Error toggling business rule', { error: err, id, a
 - requiring review: 2, allowed: 0
 
 ```
-fieldMapping@138: const newMonth: DisplayedMonth = { year: newDate.getUTCFullYear(), month: newDate.getUTCMonth() }
-fieldMapping@162: updateDisplayedMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() })
+fieldMapping@139: const newMonth: DisplayedMonth = { year: newDate.getUTCFullYear(), month: newDate.getUTCMonth() }
+fieldMapping@163: updateDisplayedMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() })
 ```
 
 ### `client/src/layouts/components/NavBarNotifications.vue`
@@ -1168,9 +1178,9 @@ magicLabel@36: INVALID_SNAPSHOT_IDS: 'One or more snapshot IDs are invalid',
 
 ```
 magicLabel@17: const logger = createLogger('AppointmentCalendarService');
-fieldMapping@136: { where: { id: attendee.id } }
-magicLabel@155: error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
-magicLabel@241: 'Home Inspection Appointment',
+fieldMapping@137: { where: { id: attendee.id } }
+magicLabel@156: error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
+magicLabel@242: 'Home Inspection Appointment',
 ```
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue`
@@ -1179,11 +1189,11 @@ magicLabel@241: 'Home Inspection Appointment',
 - requiring review: 5, allowed: 0
 
 ```
-magicLabel@193: relationshipTypes.push('Booking Cascades')
-magicLabel@206: relationshipTypes.push('Valid Cascades')
-magicLabel@209: relationshipTypes.push('Valid Parts')
-magicLabel@249: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@297: <!-- PATTERN: Simple panel with just "Annotations" label -->
+magicLabel@194: relationshipTypes.push('Booking Cascades')
+magicLabel@207: relationshipTypes.push('Valid Cascades')
+magicLabel@210: relationshipTypes.push('Valid Parts')
+magicLabel@250: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+magicLabel@298: <!-- PATTERN: Simple panel with just "Annotations" label -->
 ```
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
@@ -1196,7 +1206,7 @@ magicLabel@101: showError('Please select at least one service type')
 magicLabel@107: showError('Property details are required')
 magicLabel@112: showError('Contact information is required')
 magicLabel@117: showError('Availability selection is required')
-magicLabel@325: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
+magicLabel@326: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
 ```
 
 ### `client/src/composables/booking/useWizardValidationErrors.ts`
@@ -1248,7 +1258,18 @@ magicLabel@57: this.name = 'CalendarApiError'
 magicLabel@78: 'OAuth authentication required',
 magicLabel@87: 'API rate limit exceeded'
 magicLabel@95: 'Calendar not found or inaccessible'
-magicLabel@110: axiosError.response?.data?.error || 'Invalid response from server'
+magicLabel@109: const message = rawMessage !== undefined && rawMessage !== null && rawMessage !== '' ? rawMessage : 'Invalid response from server'
+```
+
+### `client/src/utils/booking/cascadeFilterPipeline.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@34: return { success: false, error: 'Booking data not loaded', instances: currentSelection }
+fieldMapping@56: logger.debug('filterByCascade: activeBlockIds missing on parent', { parentId: parent.id })
+magicLabel@185: logger.warn('Cascade results filtered out - no matching shape in cascade results', {
 ```
 
 ### `client/src/utils/booking/slotGenerationValidation.ts`
@@ -1394,6 +1415,36 @@ magicLabel@65: if (errorString.includes('Cannot read properties of undefined') &
 magicLabel@215: logger.error('Failed to prefetch global data', { error })
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@42: * @param partShapeName - Part shape name (e.g., "Client Presentation")
+fieldMapping@63: logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
+```
+
+### `client/src/utils/booking/partFinalizer.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@39: logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
+magicLabel@182: logger.error('Cannot determine ternary value for event shape - ternaryDefault is null', {
+```
+
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@29: const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
+fieldMapping@193: logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
+```
+
 ### `client/src/views/admin/tabs/ShapesTab.vue`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -1526,8 +1577,8 @@ fieldMapping@52: return { dayCount: map.size, totalSlots, sample }
 
 ```
 magicLabel@74: const logger = createLogger('FieldRenderer')
-magicLabel@227: logger.error('Unknown input type detected', {
-magicLabel@250: : 'Unknown error - check field metadata configuration'
+magicLabel@230: logger.error('Unknown input type detected', {
+magicLabel@253: : 'Unknown error - check field metadata configuration'
 ```
 
 ### `client/src/components/booking/dev/DevPanelsContainer.vue`
@@ -1536,9 +1587,9 @@ magicLabel@250: : 'Unknown error - check field metadata configuration'
 - requiring review: 3, allowed: 0
 
 ```
-magicLabel@513: label="Service Type"
-magicLabel@534: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
-magicLabel@614: : 'Not configured' }}
+magicLabel@514: label="Service Type"
+magicLabel@535: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
+magicLabel@615: : 'Not configured' }}
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
@@ -1559,6 +1610,17 @@ fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 magicLabel@45: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
 magicLabel@49: availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
 magicLabel@135: <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
+```
+
+### `client/src/composables/admin/useEntityCardActions.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@128: showError('Please fix form errors before saving')
+magicLabel@150: logger.error('Entity save failed', { err, entityKey })
+magicLabel@186: logger.error('Entity delete failed', { err, entityKey })
 ```
 
 ### `client/src/composables/admin/useFieldComponent.ts`
@@ -1590,8 +1652,8 @@ magicLabel@111: logger.warn('Failed to save field on blur', { error, fieldKey: f
 
 ```
 magicLabel@124: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
-magicLabel@126: const partShapeName = partShape?.name || 'PartShape'
-magicLabel@174: notifyError('Failed to link PartInstance to BlockInstance')
+magicLabel@127: const partShapeName = rawName !== undefined && rawName !== null && rawName !== '' ? rawName : 'PartShape'
+magicLabel@175: notifyError('Failed to link PartInstance to BlockInstance')
 ```
 
 ### `client/src/composables/admin/useSelectConfig.ts`
@@ -1610,8 +1672,17 @@ fieldMapping@246: { entityKey: fieldContext.entityKey, fieldKey: fieldContext.fi
 
 ```
 magicLabel@40: * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-magicLabel@54: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-magicLabel@57: const shapeName = blockShape?.name as string || 'Instance'
+magicLabel@55: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
+magicLabel@58: const shapeName = blockShape?.name as string || 'Instance'
+```
+
+### `client/src/composables/booking/useAppointmentShape.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@85: logger.debug('useAppointmentShape: matching rel children missing', { eventShapeId: eventShape.id })
 ```
 
 ### `client/src/composables/booking/useAvailabilityValidation.ts`
@@ -1631,7 +1702,7 @@ magicLabel@48: return 'Selected time slot is invalid'
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@108: dateRange: { start: range.start, end: range.end },
+fieldMapping@109: dateRange: { start: range.start, end: range.end },
 ```
 
 ### `client/src/composables/booking/useDateRangeDecider.ts`
@@ -1695,6 +1766,17 @@ magicLabel@111: propertyNames.length > 0 ? (propertyNames.length === 1 ? propert
 magicLabel@123: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
 ```
 
+### `client/src/utils/booking/mockGoogleCalendar.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
+- requiring review: 3, allowed: 0
+
+```
+magicLabel@179: logger.warn('Time window too small', {
+magicLabel@182: message: 'Cannot generate busy periods - not enough time remaining'
+magicLabel@260: logger.error('Error adjusting busy period', { error, calendarId, periodIndex: i })
+```
+
 ### `client/src/utils/collections/resolveByIds.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
@@ -1732,7 +1814,7 @@ magicLabel@39: label="Order Index"
 ```
 magicLabel@7: {{ isEdit ? 'Edit Block Type' : 'Create Block Type' }}
 magicLabel@29: label="Order Index"
-magicLabel@120: error.value = err instanceof Error ? err.message : 'Failed to save block type'
+magicLabel@121: error.value = err instanceof Error ? err.message : 'Failed to save block type'
 ```
 
 ### `client/src/views/admin/entities/PartInstanceForm.vue`
@@ -1754,7 +1836,7 @@ magicLabel@39: label="Order Index"
 ```
 magicLabel@7: {{ isEdit ? 'Edit Part Type' : 'Create Part Type' }}
 magicLabel@29: label="Order Index"
-magicLabel@104: error.value = err instanceof Error ? err.message : 'Failed to save part type'
+magicLabel@105: error.value = err instanceof Error ? err.message : 'Failed to save part type'
 ```
 
 ### `server/src/config/googleOAuthTokenPersistence.ts`
@@ -1855,6 +1937,16 @@ magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTI
 ```
 magicLabel@103: {{ entry.expired ? 'Expired' : 'Valid' }}
 magicLabel@175: {{ entry.expired ? 'Expired' : 'Valid' }}
+```
+
+### `client/src/components/admin/generic/EntityCardFeePreview.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- requiring review: 2, allowed: 0
+
+```
+magicLabel@18: aria-label="Fee vs square footage for this service"
+magicLabel@61: aria-label="Square footage for cost preview"
 ```
 
 ### `client/src/components/admin/generic/fields/SelectInputs.vue`
@@ -1983,8 +2075,8 @@ magicLabel@85: error.value = err instanceof Error ? err : new Error('Failed to r
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@76: availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
-magicLabel@79: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@81: return 'Inspector'
+magicLabel@89: return 'Client Formal Presentation'
 ```
 
 ### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
@@ -1993,8 +2085,8 @@ magicLabel@79: availabilitySettings.value?.differentialPerspectives?.minorLabel 
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@307: throw new Error('Failed to update orderIndex')
-magicLabel@362: throw new Error('Failed to update entities')
+magicLabel@328: throw new Error('Failed to update orderIndex')
+magicLabel@395: throw new Error('Failed to update entities')
 ```
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
@@ -2022,8 +2114,8 @@ inlineLabelMap@57: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@48: logger.error('Block shape has no type defined', {
-magicLabel@113: { title: 'Generic', value: null },
+magicLabel@63: logger.error('Block shape has no type defined', {
+magicLabel@139: { title: 'Generic', value: null },
 ```
 
 ### `client/src/utils/booking/availabilityStepData.ts`
@@ -2034,26 +2126,6 @@ magicLabel@113: { title: 'Generic', value: null },
 ```
 magicLabel@30: * WHY: Event shapes have dynamic names (e.g., 'OnSite', 'ClientPresent'), not hardcoded 'Major'/'Minor'
 magicLabel@49: // WHY: Event names are configurable (e.g., 'OnSite', 'ClientPresent'), not hardcoded
-```
-
-### `client/src/utils/booking/cascadeFilterPipeline.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@34: return { success: false, error: 'Booking data not loaded', instances: currentSelection }
-magicLabel@177: logger.warn('Cascade results filtered out - no matching shape in cascade results', {
-```
-
-### `client/src/utils/booking/mockGoogleCalendar.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@179: logger.warn('Time window too small', {
-magicLabel@182: message: 'Cannot generate busy periods - not enough time remaining'
 ```
 
 ### `client/src/utils/forms/getFieldKeys.ts`
@@ -2126,16 +2198,6 @@ magicLabel@22: const logger = createLogger('DevStatusRouter')
 magicLabel@146: sendError(res, 'Failed to fetch dev status', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, error.message)
 ```
 
-### `server/src/scripts/helpers/calendarParsingHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@16: const DEFAULT_FIRST_NAME = 'Unknown' as const
-magicLabel@131: * @param fullName - Full name string (may be "Last, First" or "First Last")
-```
-
 ### `server/src/services/driveTimeCache.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
@@ -2153,7 +2215,7 @@ magicLabel@193: logger.info('Cache cleared');
 
 ```
 magicLabel@14: const logger = createLogger('CalendarHelpers')
-magicLabel@80: logger.warn('Failed to geocode location', {
+magicLabel@81: logger.warn('Failed to geocode location', {
 ```
 
 ### `client/src/components/admin/dev/ApiDevPanel.vue`
@@ -2162,7 +2224,7 @@ magicLabel@80: logger.warn('Failed to geocode location', {
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@258: font-family: 'Roboto Mono', monospace;
+magicLabel@259: font-family: 'Roboto Mono', monospace;
 ```
 
 ### `client/src/components/admin/generic/collections/PartsCollection.vue`
@@ -2181,6 +2243,15 @@ magicLabel@10: :bulk-edit-modal-component="PartInstanceBulkEditModal"
 
 ```
 magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || 'No icon selected' }}</span>
+```
+
+### `client/src/components/admin/PartInstanceBulkEditModal.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@82: const logger = createLogger('PartInstanceBulkEditModal')
 ```
 
 ### `client/src/components/booking/BookingWizard.vue`
@@ -2216,7 +2287,7 @@ magicLabel@45: aria-label="Select appointment date"
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@37: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
+magicLabel@39: return raw !== undefined && raw !== null && raw !== '' ? raw : 'Client Formal Presentation'
 ```
 
 ### `client/src/components/booking/TimeBasisSelector.vue`
@@ -2225,7 +2296,7 @@ magicLabel@37: availabilitySettings.value?.differentialPerspectives?.minorLabel 
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@39: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
+magicLabel@41: return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor Formal Presentation'
 ```
 
 ### `client/src/composables/admin/tables/useCrudDataTableModel.ts`
@@ -2264,22 +2335,22 @@ magicLabel@138: * WHY: Combines both major and minor attendees for "Select All" 
 magicLabel@209: error.value = err instanceof Error ? err.message : 'Failed to save block instance'
 ```
 
+### `client/src/composables/admin/useCalibrationChart.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@150: title: { display: true, text: 'Square footage' },
+```
+
 ### `client/src/composables/admin/useDragAndDrop.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@116: logger.debug('Failed to initialize drag and drop', { error, group })
-```
-
-### `client/src/composables/admin/useEntityCardActions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@125: showError('Please fix form errors before saving')
+magicLabel@115: logger.error('Failed to initialize drag and drop', { error, group })
 ```
 
 ### `client/src/composables/admin/useEntityList.ts`
@@ -2297,7 +2368,7 @@ magicLabel@101: deleteErrorMessage = 'Failed to delete item'
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@178: logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
+magicLabel@181: logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
 ```
 
 ### `client/src/composables/admin/usePartInstanceForm.ts`
@@ -2363,6 +2434,24 @@ magicLabel@116: selectedDate: 'Please select a date'
 magicLabel@47: *   targetBlockShapeName: 'Base Service'
 ```
 
+### `client/src/composables/booking/useContactsStepData.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@26: logger.warn('Contact field missing', { context })
+```
+
+### `client/src/composables/booking/usePropertyDetailsLogic.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- requiring review: 1, allowed: 0
+
+```
+magicLabel@24: logger.debug('Address component missing', { fieldName })
+```
+
 ### `client/src/composables/booking/usePropertyTypeBlockConfig.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -2414,7 +2503,7 @@ magicLabel@228: logger.error('Missing required displayConfig', { entityKey, fiel
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@286: logger.warn('Cannot create contexts - form not ready', {
+magicLabel@288: logger.warn('Cannot create contexts - form not ready', {
 ```
 
 ### `client/src/composables/useApiErrorMessage.ts`
@@ -2423,7 +2512,7 @@ magicLabel@286: logger.warn('Cannot create contexts - form not ready', {
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@14: export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): string {
+magicLabel@15: const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'
 ```
 
 ### `client/src/composables/useEntityForm.ts`
@@ -2498,15 +2587,6 @@ magicLabel@13: * LEARNING: Defines what event types can exist (e.g., "OnSite", "
 magicLabel@29: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@39: * @param partShapeName - Part shape name (e.g., "Client Presentation")
-```
-
 ### `client/src/utils/booking/PartFinal.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
@@ -2514,15 +2594,6 @@ magicLabel@39: * @param partShapeName - Part shape name (e.g., "Client Presentat
 
 ```
 magicLabel@22: partShape: string  // Part shape name (e.g., "Client Presentation")
-```
-
-### `client/src/utils/booking/partFinalizer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@164: logger.error('Cannot determine ternary value for event shape - ternaryDefault is null', {
 ```
 
 ### `client/src/utils/booking/selectionCardComponent.ts`
@@ -2576,7 +2647,7 @@ magicLabel@34: logger.debug('Failed to patch form elements', { error, formId: fo
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@157: * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
+magicLabel@159: * NOTE: Backend uses annotation_assignments, frontend uses friendly "AnnotationAssignment" terminology
 ```
 
 ### `client/src/utils/transformers/componentAggregator.ts`
@@ -2586,15 +2657,6 @@ magicLabel@157: * NOTE: Backend uses annotation_assignments, frontend uses frien
 
 ```
 magicLabel@145: logger.warn('Missing component entity IDs', {
-```
-
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@29: const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
 ```
 
 ### `client/src/views/admin/entities/BlockInstanceList.vue`
@@ -2774,7 +2836,7 @@ magicLabel@22: const logger = createLogger('MapsRoutes')
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@28: const logger = createLogger('AdminMetadataRouter')
+magicLabel@30: const logger = createLogger('AdminMetadataRouter')
 ```
 
 ### `server/src/routes/internal/appointments/appointmentCrudRouter.ts`

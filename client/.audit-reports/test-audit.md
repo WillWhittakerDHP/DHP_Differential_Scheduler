@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-11T04:10:08.216Z
+Generated at: 2026-02-12T01:57:24.501Z
 
 ## Summary
 
-- **Total source files**: 824
+- **Total source files**: 827
 - **Total test files**: 142
-- **Untested source files**: 700
+- **Untested source files**: 703
 - **Orphaned test files**: 18
 - **Coverage**: 15%
 
@@ -66,7 +66,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/booking/partsTotals.ts` | **5.8** | 5 | 6 | 10 | 0 | 1 |
 | `client/src/utils/booking/timeSlotTypes.ts` | **5.8** | 6 | 6 | 8 | 0 | 1 |
 | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
-| `client/src/composables/admin/useMetadataCache.ts` | **5.7** | 7 | 6 | 5 | 1 | 3 |
+| `client/src/composables/admin/useCalibrationChart.ts` | **5.7** | 7 | 5 | 7 | 0 | 2 |
 
 ## Orphaned Test Files (Priority: Medium)
 

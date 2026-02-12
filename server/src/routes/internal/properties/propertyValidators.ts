@@ -7,6 +7,7 @@
  */
 
 import { BLOCK_SHAPE_NAMES, ERROR_MESSAGES, REQUIRED_FIELDS } from './propertyConstants.js'
+import { isBlockInstanceWithShape } from './propertyHelpers.js'
 
 /**
  * Validation result type
@@ -65,11 +66,18 @@ export function validateAddressFields(addressData: {
  * @returns ValidationResult indicating if block shape is valid
  */
 export function validateBlockShape(
-  blockInstance: any,
+  blockInstance: unknown,
   blockInstanceId: string
 ): ValidationResult {
-  const blockShape = (blockInstance as any).block_shape
-  
+  if (!isBlockInstanceWithShape(blockInstance)) {
+    return {
+      valid: false,
+      error: ERROR_MESSAGES.INVALID_BLOCK_SHAPE,
+      details: { blockInstanceId, actualBlockShape: 'NULL' },
+    }
+  }
+  const blockShape = blockInstance.block_shape
+
   if (!blockShape || blockShape.name !== BLOCK_SHAPE_NAMES.PROPERTIES) {
     return {
       valid: false,
@@ -95,12 +103,13 @@ export function validateBlockShape(
  * @returns ValidationResult indicating if all block instances are valid
  */
 export function validateBlockInstancesForPropertyTypes(
-  blockInstances: any[],
+  blockInstances: unknown[],
   requestedIds: string[]
 ): ValidationResult {
   // Check for invalid block shapes
-  const invalidInstances = blockInstances.filter((bi) => {
-    const blockShape = (bi as any).block_shape
+  const invalidInstances = blockInstances.filter((bi: unknown) => {
+    if (!isBlockInstanceWithShape(bi)) return true
+    const blockShape = bi.block_shape
     return !blockShape || blockShape.name !== BLOCK_SHAPE_NAMES.PROPERTIES
   })
   
@@ -109,13 +118,13 @@ export function validateBlockInstancesForPropertyTypes(
       valid: false,
       error: ERROR_MESSAGES.INVALID_BLOCK_SHAPES_BULK,
       details: {
-        invalidBlockInstanceIds: invalidInstances.map((bi) => bi.id)
+        invalidBlockInstanceIds: invalidInstances.map((bi: unknown) => (bi as { id: string }).id)
       }
     }
   }
   
   // Check for missing block instances
-  const foundIds = blockInstances.map((bi) => bi.id)
+  const foundIds = blockInstances.map((bi: unknown) => (bi as { id: string }).id)
   const missingIds = requestedIds.filter((id) => !foundIds.includes(id))
   
   if (missingIds.length > 0) {

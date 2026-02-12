@@ -4,13 +4,13 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- Files scanned: **751**
-- Type definitions: **716**
-- Similarity groups: **96**
+- Files scanned: **754**
+- Type definitions: **719**
+- Similarity groups: **97**
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
-| UNIFY | 37 | Same concept duplicated — consolidate |
+| UNIFY | 38 | Same concept duplicated — consolidate |
 | BRAND | 13 | Different concept, same shape — add branding |
 | EXTEND | 38 | Superset/subset — use extends |
 | REVIEW | 8 | High overlap — needs judgment |
@@ -43,6 +43,7 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P0 | UNIFY | EXACT | `LeadTimeConfig`, `LeadTimeConfig`, `LeadTimeConfig` | 3 | 19 |
 | P0 | EXTEND | SUBSET | `RangeConstraint`, `RangeConstraint`, `RangeConstraint` | 3 | 19 |
 | P0 | EXTEND | SUBSET | `DriveTimeConfig`, `OverlapConstraint`, `DriveTimeConfig` | 3 | 19 |
+| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `Props`, `UseEntityCardSaveStateOptions`, `UseEntityFormOptions` | 6 | 18 |
 | P0 | UNIFY | EXACT | `CalendarConfig`, `CalendarConfig` | 2 | 17 |
 | P0 | UNIFY | EXACT | `CalendarEntry`, `CalendarEntry` | 2 | 17 |
 | P0 | UNIFY | EXACT | `ConditionalValidationRuleConfig`, `ConditionalValidationRuleConfig` | 2 | 17 |
@@ -62,7 +63,6 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P0 | REVIEW | EXACT | `StepDefinition`, `StepDefinition`, `WizardStepConfig` | 3 | 16 |
 | P0 | BRAND | EXACT | `UseBufferSettingsParams`, `UseDefaultLocationParams`, `UseDifferentialPerspectivesParams` | 3 | 16 |
 | P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions`, `UseAppointmentDropdownOptions` | 3 | 16 |
-| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `UseEntityCardSaveStateOptions`, `UseEntityFormOptions` | 5 | 16 |
 | P0 | UNIFY | EXACT | `BufferType`, `BufferType` | 2 | 15 |
 | P0 | BRAND | EXACT | `SelectedTimeSlot`, `TimeSlot` | 2 | 15 |
 | P0 | UNIFY | EXACT | `BufferPlacement`, `BufferPlacement` | 2 | 15 |
@@ -107,6 +107,7 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P1 | REVIEW | HIGH_OVERLAP | `UseInstanceDescriptionsOptions`, `UseInstanceDisplayOptions` | 2 | 9 |
 | P1 | UNIFY | EXACT | `Props`, `Props` | 2 | 8 |
 | P1 | REVIEW | EXACT | `AnnotationConfig`, `EventConfig` | 1 | 8 |
+| P1 | UNIFY | EXACT | `Props`, `Props` | 2 | 8 |
 | P1 | UNIFY | EXACT | `ServiceSummary`, `ServiceSummary` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `UseFormFieldsOptions`, `UseFormFieldsContextOptions` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 |

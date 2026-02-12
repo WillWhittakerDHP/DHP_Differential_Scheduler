@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-11T04:10:08.216Z",
+  "generatedAt": "2026-02-12T01:57:24.501Z",
   "summary": {
-    "totalSourceFiles": 824,
+    "totalSourceFiles": 827,
     "totalTestFiles": 142,
-    "untestedSourceFiles": 700,
+    "untestedSourceFiles": 703,
     "orphanedTestFiles": 18,
     "coveragePercentage": 15
   },
@@ -1500,6 +1500,21 @@
       }
     },
     {
+      "repoPath": "client/src/components/admin/generic/EntityCardFeePreview.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/components/admin/generic/EntityCardPartsTotals.vue",
       "functions": [],
       "classes": [],
@@ -2505,6 +2520,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useCalibrationChart.ts",
+      "functions": [
+        "useCalibrationChart"
+      ],
+      "classes": [],
+      "composables": [
+        "useCalibrationChart"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.7,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
       "functions": [
         "useCapacitySettings"
@@ -2647,10 +2681,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9,
+        "overall": 4.7,
         "bucket": "P1"
       }
     },
@@ -6051,11 +6085,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -6756,11 +6790,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 8,
+        "reliability": 0,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -7228,8 +7262,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 5.3,
+        "cognitiveLoad": 2,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -8331,6 +8365,21 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -11044,8 +11093,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "cognitiveLoad": 3,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -11119,8 +11168,8 @@
         "reliability": 4,
         "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 4.2,
+        "cognitiveLoad": 1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -11372,8 +11421,8 @@
         "reliability": 3,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 4.2,
+        "cognitiveLoad": 4,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -12027,9 +12076,9 @@
     },
     {
       "directory": "client/src/components/admin/generic",
-      "sourceCount": 9,
+      "sourceCount": 10,
       "testCount": 0,
-      "untestedCount": 9
+      "untestedCount": 10
     },
     {
       "directory": "client/src/components/admin/generic/collections",
@@ -12117,9 +12166,9 @@
     },
     {
       "directory": "client/src/composables/admin",
-      "sourceCount": 88,
+      "sourceCount": 89,
       "testCount": 0,
-      "untestedCount": 87
+      "untestedCount": 88
     },
     {
       "directory": "client/src/composables/admin/utils",
@@ -12435,9 +12484,9 @@
     },
     {
       "directory": "client/src/views/admin/tabs/components",
-      "sourceCount": 11,
+      "sourceCount": 12,
       "testCount": 0,
-      "untestedCount": 11
+      "untestedCount": 12
     },
     {
       "directory": "client/src/views/booking",
@@ -14712,6 +14761,25 @@
       }
     },
     {
+      "repoPath": "client/src/components/admin/generic/EntityCardFeePreview.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardFeePreview.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/components/admin/generic/EntityCardPartsTotals.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardPartsTotals.vue",
       "functions": [],
@@ -16017,6 +16085,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useCalibrationChart.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useCalibrationChart.ts",
+      "functions": [
+        "useCalibrationChart"
+      ],
+      "classes": [],
+      "composables": [
+        "useCalibrationChart"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 7,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.7,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useCapacitySettings.ts",
       "functions": [
@@ -16191,10 +16282,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 6,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.9,
+        "overall": 4.7,
         "bucket": "P1"
       }
     },
@@ -21847,11 +21938,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -22762,11 +22853,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 8,
+        "reliability": 0,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -23368,8 +23459,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 5.3,
+        "cognitiveLoad": 2,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -23432,8 +23523,8 @@
         "reliability": 8,
         "independence": 3,
         "roi": 8,
-        "cognitiveLoad": 0,
-        "overall": 6.2,
+        "cognitiveLoad": 1,
+        "overall": 6.3,
         "bucket": "P1"
       }
     },
@@ -24392,10 +24483,10 @@
       "exportCount": 6,
       "priority": {
         "reliability": 7,
-        "independence": 7,
+        "independence": 6,
         "roi": 8,
-        "cognitiveLoad": 3,
-        "overall": 6.9,
+        "cognitiveLoad": 4,
+        "overall": 6.8,
         "bucket": "P1"
       }
     },
@@ -25112,8 +25203,8 @@
         "reliability": 10,
         "independence": 5,
         "roi": 8,
-        "cognitiveLoad": 3,
-        "overall": 7.7,
+        "cognitiveLoad": 4,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -25671,6 +25762,25 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -29437,8 +29547,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "cognitiveLoad": 3,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -29528,8 +29638,8 @@
         "reliability": 4,
         "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 4.2,
+        "cognitiveLoad": 1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -29873,8 +29983,8 @@
         "reliability": 3,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 4.2,
+        "cognitiveLoad": 4,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },

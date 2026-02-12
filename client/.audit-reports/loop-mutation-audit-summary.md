@@ -18,6 +18,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/utils/entityDefaults.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/utils/transformers/fieldClassification.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
+| `server/src/services/google/maps/mapsHelpers.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/composables/booking/useComputedAvailability.ts` | P0 | 13 | 1 | 2 | 0 | 23 | 1 |
 | `client/src/utils/forms/formElementPatching.ts` | P0 | 13 | 1 | 4 | 0 | 4 | 0 |
 | `client/src/components/booking/modals/PropertyConfirmationModal.vue` | P0 | 12 | 0 | 0 | 6 | 0 | 0 |
@@ -35,7 +36,6 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `server/src/services/instanceVersioning.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `client/src/main.ts` | P1 | 11 | 1 | 2 | 0 | 4 | 0 |
 | `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | P1 | 10 | 0 | 6 | 1 | 8 | 0 |
-| `client/src/components/booking/IndependentSelectCard.vue` | P1 | 10 | 0 | 0 | 5 | 2 | 0 |
 
 *...and 166 more files. See full report for details.*
 

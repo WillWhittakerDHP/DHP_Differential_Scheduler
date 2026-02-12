@@ -19,7 +19,7 @@ import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_ENTITY_TYPES, RENDER_AS_REQUIRIN
  * @returns ValidationResult indicating if entity type is valid
  */
 export function validateEntityType(entityType: unknown): ValidationResult {
-  if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
+  if (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {
     return {
       valid: false,
       error: ERROR_MESSAGES.INVALID_ENTITY_TYPE,
@@ -107,7 +107,7 @@ export function validateRenderAs(renderAs: unknown): ValidationResult {
  * @returns ValidationResult indicating if inputConfig is valid
  */
 export function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {
-  if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
+  if (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {
     if (!inputConfig || typeof inputConfig !== 'object') {
       return {
         valid: false,

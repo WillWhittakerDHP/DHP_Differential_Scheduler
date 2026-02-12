@@ -10,12 +10,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **742**
+- Files scanned: **745**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **556**
+- Type definitions found: **559**
 - Enum patterns found: **7**
 - Config locations found: **38**
-- Function patterns found: **382**
+- Function patterns found: **383**
 - Common patterns found: **24**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -66,6 +66,7 @@ _No frequent string literals found._
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts:21` |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:67` |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts:11` |
+| `BlockInstanceWithShape` | type | `server/src/routes/internal/properties/propertyHelpers.ts:20` |
 | `BlockShapeEntity` | interface | `client/src/types/entities.ts:33` |
 | `BlockShapeType` | type | `client/src/constants/blockShapeTypes.ts:16` |
 | `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:50` |
@@ -94,7 +95,7 @@ _No frequent string literals found._
 | `CalendarConfig` | interface | `client/src/configs/availabilitySettings.ts:242` |
 | `CalendarEntry` | interface | `client/src/configs/availabilitySettings.ts:227` |
 | `CalendarErrorType` | type | `server/src/services/calendarErrorHandler.ts:28` |
-| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:127` |
+| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:126` |
 | `CalendarEventResult` | interface | `server/src/services/appointmentCalendarService.ts:22` |
 | `CalendarEventsResponseWithMeta` | interface | `server/src/services/google/calendar/calendarTypes.ts:16` |
 | `CalendarProvider` | type | `client/src/configs/availabilitySettings.ts:219` |
@@ -111,7 +112,7 @@ _No frequent string literals found._
 | `ComposedFieldConfig` | interface | `client/src/types/shapeFieldMetadata.ts:42` |
 | `ConditionalValidationRuleConfig` | interface | `client/src/composables/admin/useBusinessRules.ts:75` |
 | `ConstraintEnforcement` | type | `client/src/configs/availabilitySettings.ts:35` |
-| `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:17` |
+| `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:32` |
 | `ContactsStepData` | interface | `client/src/composables/booking/useAppointmentDataCollection.ts:34` |
 | `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts:10` |
 | `Coordinates` | interface | `client/src/configs/availabilitySettings.ts:187` |
@@ -127,8 +128,7 @@ _No frequent string literals found._
 | `CustomValidator` | type | `client/src/composables/booking/useStepValidation.ts:12` |
 | `DataCollectionCrudConfig` | interface | `client/src/composables/dataCollections/useDataCollectionActions.ts:18` |
 | `DateRangeConfig` | interface | `client/src/configs/availabilitySettings.ts:103` |
-| `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts:37` |
-| ... | ... | (+456 more) |
+| ... | ... | (+459 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -140,7 +140,7 @@ _No frequent string literals found._
 | `RATE_LIMIT_KEYWORDS` | `rate`, `quota`, `limit` | `server/src/services/google/calendar/calendarConstants.ts:92` |
 | `RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE` | `relationshipKey`, `dataType`, `label`, `visibility`, `layout` (+1 more) | `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts:64` |
 | `STATUSES_REQUIRING_CALENDAR_EVENT` | `submitted`, `confirmed` | `server/src/routes/internal/appointments/appointmentConstants.ts:53` |
-| `SUB_PANEL_KEYS` | `parts`, `relationships`, `FIELD_NAMES.ANNOTATIONS`, `events`, `composition` | `client/src/constants/fieldMetadata.ts:17` |
+| `SUB_PANEL_KEYS` | `parts`, `relationships`, `FIELD_NAMES.ANNOTATIONS`, `events`, `composition` | `client/src/constants/fieldMetadata.ts:16` |
 
 ## Config File Locations
 
@@ -217,11 +217,11 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBusinessRuleForm` | `use*` | 1 |
 | `useBusinessRules` | `use*` | 1 |
 | `useCalendarEntries` | `use*` | 1 |
+| `useCalibrationChart` | `use*` | 1 |
 | `useCapacitySettings` | `use*` | 1 |
 | `useConditionalFieldVisibility` | `use*` | 1 |
 | `useDefaultLocation` | `use*` | 1 |
-| `useDialogFormState` | `use*` | 1 |
-| ... | ... | (+352 more) |
+| ... | ... | (+353 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

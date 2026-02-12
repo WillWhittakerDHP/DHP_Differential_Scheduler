@@ -102,7 +102,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
         const fieldKeyStr = String(fieldKey)
         if (!(fieldKeyStr in metadata) && !warnedFields.value.has(fieldKeyStr)) {
           const warningMessage = `Missing FieldMetadataEntry for ${entityKey}.${fieldKeyStr}. Field must be configured in /admin-input-metadata or /admin-relationship-metadata before rendering.`
-          console.warn(`[useFormFieldsContext] ${warningMessage}`)
+          logger.warn(warningMessage)
           showWarning(warningMessage, 6000)
           warnedFields.value.add(fieldKeyStr)
         }
@@ -176,7 +176,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     // PATTERN: Gate warnings on isMetadataReady
     if (!meta && isMetadataReady.value) {
       const warningMessage = `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Field must be configured in /admin-input-metadata or /admin-relationship-metadata before rendering.`
-      console.warn(`[useFormFieldsContext] ${warningMessage}`)
+      logger.warn(warningMessage)
       if (!warnedFields.value.has(fieldKey)) {
         showWarning(warningMessage, 6000)
         warnedFields.value.add(fieldKey)
@@ -277,7 +277,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
         buildContext()
       }
     } catch (error) {
-      console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
+      logger.error('Error creating context for field', { entityKey, entityIdValue, fieldKey, error })
       // PATTERN: Log error but don't crash - allow retry
     }
   }

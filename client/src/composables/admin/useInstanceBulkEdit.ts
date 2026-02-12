@@ -16,6 +16,9 @@ import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import type { GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useInstanceBulkEdit')
 
 export interface UseInstanceBulkEditOptions {
   blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -134,7 +137,7 @@ export function useInstanceBulkEdit(
       
       bulkEditData.value.set(blockShapeId, {})
     } catch (err) {
-      console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
+      logger.error('Error in applyBulkEdit', { err })
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
       showError(errorMessage)
     }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T04:08:26.119Z",
+  "generatedAt": "2026-02-12T01:55:40.351Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 742,
+  "fileCount": 745,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -139,6 +139,7 @@
           "client/src/composables/admin/useBusinessRuleForm.ts",
           "client/src/composables/admin/useBusinessRules.ts",
           "client/src/composables/admin/useCalendarEntries.ts",
+          "client/src/composables/admin/useCalibrationChart.ts",
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDefaultLocation.ts",
@@ -338,7 +339,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 216
+        "patternCount": 217
       }
     ],
     "repeatedStringFiles": []
@@ -438,7 +439,7 @@
           },
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 24
+            "line": 32
           }
         ]
       },
@@ -499,8 +500,8 @@
             "line": 34
           },
           {
-            "file": "client/src/types/entityMetadata.ts",
-            "line": 47
+            "file": "client/src/constants/fieldMetadata.ts",
+            "line": 65
           }
         ]
       },
@@ -742,6 +743,16 @@
           }
         ]
       },
+      "UseCalibrationChartReturn": {
+        "definition": "export interface UseCalibrationChartReturn {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useCalibrationChart.ts",
+            "line": 39
+          }
+        ]
+      },
       "UseCapacitySettingsParams": {
         "definition": "export interface UseCapacitySettingsParams {",
         "isInterface": true,
@@ -858,7 +869,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardActions.ts",
-            "line": 26
+            "line": 29
           }
         ]
       },
@@ -868,7 +879,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardActions.ts",
-            "line": 42
+            "line": 45
           }
         ]
       },
@@ -2122,7 +2133,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCard.ts",
-            "line": 108
+            "line": 110
           }
         ]
       },
@@ -2132,7 +2143,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCard.ts",
-            "line": 114
+            "line": 116
           }
         ]
       },
@@ -2704,7 +2715,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 17
+            "line": 32
           }
         ]
       },
@@ -2714,7 +2725,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 23
+            "line": 38
           }
         ]
       },
@@ -2724,7 +2735,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 27
+            "line": 42
           }
         ]
       },
@@ -2764,7 +2775,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDependentInstances.ts",
-            "line": 23
+            "line": 26
           }
         ]
       },
@@ -2774,7 +2785,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDependentInstances.ts",
-            "line": 29
+            "line": 32
           }
         ]
       },
@@ -3034,7 +3045,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 32
+            "line": 40
           }
         ]
       },
@@ -3044,7 +3055,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 37
+            "line": 45
           }
         ]
       },
@@ -3054,7 +3065,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 48
+            "line": 56
           }
         ]
       },
@@ -3258,7 +3269,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-            "line": 31
+            "line": 34
           }
         ]
       },
@@ -4316,7 +4327,39 @@
         "locations": [
           {
             "file": "client/src/constants/fieldMetadata.ts",
-            "line": 20
+            "line": 19
+          }
+        ]
+      },
+      "EntityMetadataType": {
+        "definition": "export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'ev",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/constants/fieldMetadata.ts",
+            "line": 33
+          },
+          {
+            "file": "client/src/utils/entities/entityTypeMapping.ts",
+            "line": 15
+          }
+        ]
+      },
+      "FieldMetadataEntry": {
+        "definition": "export interface FieldMetadataEntry {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/constants/fieldMetadata.ts",
+            "line": 43
+          },
+          {
+            "file": "server/src/utils/adminMetadataComposer.ts",
+            "line": 14
+          },
+          {
+            "file": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+            "line": 14
           }
         ]
       },
@@ -4390,11 +4433,11 @@
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 127
+            "line": 126
           },
           {
             "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-            "line": 24
+            "line": 38
           }
         ]
       },
@@ -4404,7 +4447,7 @@
         "locations": [
           {
             "file": "client/src/services/mapsApiService.ts",
-            "line": 243
+            "line": 242
           },
           {
             "file": "server/src/services/google/maps/mapsTypes.ts",
@@ -4418,7 +4461,7 @@
         "locations": [
           {
             "file": "client/src/services/mapsApiService.ts",
-            "line": 255
+            "line": 254
           },
           {
             "file": "server/src/services/google/maps/mapsTypes.ts",
@@ -4432,7 +4475,7 @@
         "locations": [
           {
             "file": "client/src/services/mapsApiService.ts",
-            "line": 269
+            "line": 268
           },
           {
             "file": "server/src/services/google/maps/mapsTypes.ts",
@@ -4920,38 +4963,6 @@
           }
         ]
       },
-      "EntityMetadataType": {
-        "definition": "export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'ev",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/types/entityMetadata.ts",
-            "line": 13
-          },
-          {
-            "file": "client/src/utils/entities/entityTypeMapping.ts",
-            "line": 15
-          }
-        ]
-      },
-      "FieldMetadataEntry": {
-        "definition": "export interface FieldMetadataEntry {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/types/entityMetadata.ts",
-            "line": 23
-          },
-          {
-            "file": "server/src/utils/adminMetadataComposer.ts",
-            "line": 14
-          },
-          {
-            "file": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-            "line": 14
-          }
-        ]
-      },
       "EventShape": {
         "definition": "export type EventShape = EventShapeEntity",
         "isInterface": false,
@@ -5318,7 +5329,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 90
+            "line": 97
           }
         ]
       },
@@ -5328,7 +5339,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 114
+            "line": 121
           }
         ]
       },
@@ -5978,6 +5989,26 @@
           }
         ]
       },
+      "PropertyVersionWithAssociations": {
+        "definition": "export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 14
+          }
+        ]
+      },
+      "BlockInstanceWithShape": {
+        "definition": "export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
+            "line": 20
+          }
+        ]
+      },
       "RelationshipKind": {
         "definition": "export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' |",
         "isInterface": false,
@@ -6024,7 +6055,7 @@
         "locations": [
           {
             "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-            "line": 53
+            "line": 67
           }
         ]
       },
@@ -6034,7 +6065,7 @@
         "locations": [
           {
             "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-            "line": 65
+            "line": 79
           }
         ]
       },
@@ -6228,7 +6259,7 @@
         "locations": [
           {
             "file": "client/src/constants/fieldMetadata.ts",
-            "line": 17
+            "line": 16
           }
         ]
       },
@@ -6732,6 +6763,16 @@
           }
         ]
       },
+      "useCalibrationChart": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useCalibrationChart.ts",
+            "line": 85,
+            "name": "CalibrationChart"
+          }
+        ]
+      },
       "useCapacitySettings": {
         "prefix": "use",
         "locations": [
@@ -6837,7 +6878,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardActions.ts",
-            "line": 71,
+            "line": 74,
             "name": "EntityCardActions"
           }
         ]
@@ -7207,7 +7248,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useMetadataCache.ts",
-            "line": 157,
+            "line": 158,
             "name": "MetadataCache"
           }
         ]
@@ -7577,7 +7618,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCard.ts",
-            "line": 120,
+            "line": 122,
             "name": "SelectionCardGroup"
           }
         ]
@@ -7887,7 +7928,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 59,
+            "line": 74,
             "name": "ContactsStepData"
           }
         ]
@@ -7917,7 +7958,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDependentInstances.ts",
-            "line": 52,
+            "line": 55,
             "name": "DependentInstances"
           }
         ]
@@ -8067,7 +8108,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 67,
+            "line": 75,
             "name": "PropertyDetailsLogic"
           }
         ]
@@ -8167,7 +8208,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
-            "line": 59,
+            "line": 62,
             "name": "TimeSlotCalculations"
           }
         ]
@@ -8617,7 +8658,7 @@
         "locations": [
           {
             "file": "client/src/composables/useBooking.ts",
-            "line": 86,
+            "line": 87,
             "name": "Booking"
           }
         ]
@@ -8917,7 +8958,7 @@
         "locations": [
           {
             "file": "client/src/constants/fieldMetadata.ts",
-            "line": 26,
+            "line": 25,
             "name": "EmptySubPanelRecord"
           }
         ]
@@ -9237,7 +9278,7 @@
         "locations": [
           {
             "file": "client/src/utils/api/relationshipApiHelpers.ts",
-            "line": 13,
+            "line": 16,
             "name": "RelationshipWithConflictHandling"
           }
         ]
@@ -9247,7 +9288,7 @@
         "locations": [
           {
             "file": "client/src/utils/api/relationshipApiHelpers.ts",
-            "line": 37,
+            "line": 38,
             "name": "MultipleRelationships"
           }
         ]
@@ -9287,7 +9328,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 61,
+            "line": 76,
             "name": "StateControlBlockInstances"
           }
         ]
@@ -9297,7 +9338,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 76,
+            "line": 91,
             "name": "BlockShapeIdByName"
           }
         ]
@@ -9307,7 +9348,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 88,
+            "line": 102,
             "name": "BlockShapeIdByType"
           }
         ]
@@ -9317,7 +9358,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 100,
+            "line": 126,
             "name": "StateControlBlockInstanceOptions"
           }
         ]
@@ -9357,7 +9398,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 206,
+            "line": 214,
             "name": "UserTypeBlocks"
           }
         ]
@@ -9387,7 +9428,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/partFinalizer.ts",
-            "line": 58,
+            "line": 67,
             "name": "PartFinals"
           }
         ]
@@ -9722,7 +9763,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/annotationTransformers.ts",
-            "line": 141,
+            "line": 143,
             "name": "DefaultAnnotation"
           }
         ]
@@ -9732,7 +9773,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/annotationTransformers.ts",
-            "line": 162,
+            "line": 164,
             "name": "ThroughAttributes"
           }
         ]
@@ -9907,7 +9948,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
-            "line": 35,
+            "line": 37,
             "name": "DefaultRenderAs"
           }
         ]
@@ -9917,7 +9958,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
-            "line": 48,
+            "line": 50,
             "name": "DefaultPanel"
           }
         ]
@@ -9967,7 +10008,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
-            "line": 37,
+            "line": 43,
             "name": "SettingWithDefault"
           }
         ]
@@ -9977,7 +10018,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 56,
+            "line": 67,
             "name": "PropertyDetailsFromVersion"
           }
         ]
@@ -9987,7 +10028,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 127,
+            "line": 136,
             "name": "PropertyWithAssociations"
           }
         ]
@@ -9997,7 +10038,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 166,
+            "line": 175,
             "name": "BlockInstanceWithShape"
           }
         ]
@@ -10007,7 +10048,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 184,
+            "line": 193,
             "name": "PropertyTypesBulk"
           }
         ]
@@ -10017,7 +10058,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 215,
+            "line": 224,
             "name": "PropertyTypesWithAssociations"
           }
         ]
@@ -10334,14 +10375,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 313,
+        "line": 314,
         "pattern": "AppointmentStatus workflow",
         "code": "// LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 316,
+        "line": 317,
         "pattern": "AppointmentStatus workflow",
         "code": "status: isQuoteMode ? 'quoted' : 'submitted' as AppointmentStatus,"
       },

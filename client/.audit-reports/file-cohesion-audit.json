@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T04:10:06.708Z",
-  "totalScanned": 969,
+  "generatedAt": "2026-02-12T01:57:22.987Z",
+  "totalScanned": 972,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -74,16 +74,16 @@
     {
       "repoPath": "client/src/views/admin/tabs/InstancesTab.vue",
       "category": "components",
-      "lineCount": 862,
+      "lineCount": 875,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 862,
+          "value": 875,
           "threshold": 500,
-          "detail": "862 lines (components max: 500)"
+          "detail": "875 lines (components max: 500)"
         }
       ],
       "score": 12,
@@ -108,18 +108,36 @@
       "priority": "P0"
     },
     {
-      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
       "category": "components",
-      "lineCount": 755,
+      "lineCount": 704,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 755,
+          "value": 704,
           "threshold": 500,
-          "detail": "755 lines (components max: 500)"
+          "detail": "704 lines (components max: 500)"
+        }
+      ],
+      "score": 9,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+      "category": "components",
+      "lineCount": 756,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 756,
+          "threshold": 500,
+          "detail": "756 lines (components max: 500)"
         }
       ],
       "score": 9,
@@ -150,24 +168,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "category": "components",
-      "lineCount": 693,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 693,
-          "threshold": 500,
-          "detail": "693 lines (components max: 500)"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/components/booking/BookingWizard.vue",
       "category": "components",
       "lineCount": 635,
@@ -180,6 +180,24 @@
           "value": 635,
           "threshold": 500,
           "detail": "635 lines (components max: 500)"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "category": "utils",
+      "lineCount": 405,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 405,
+          "threshold": 300,
+          "detail": "405 lines (utils max: 300)"
         }
       ],
       "score": 6,
@@ -314,16 +332,16 @@
     {
       "repoPath": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
       "category": "composables",
-      "lineCount": 416,
+      "lineCount": 449,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 416,
+          "value": 449,
           "threshold": 400,
-          "detail": "416 lines (composables max: 400)"
+          "detail": "449 lines (composables max: 400)"
         }
       ],
       "score": 3,
@@ -350,16 +368,16 @@
     {
       "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
       "category": "utils",
-      "lineCount": 332,
+      "lineCount": 335,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 332,
+          "value": 335,
           "threshold": 300,
-          "detail": "332 lines (utils max: 300)"
+          "detail": "335 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -368,16 +386,34 @@
     {
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "category": "utils",
-      "lineCount": 301,
+      "lineCount": 319,
       "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 301,
+          "value": 319,
           "threshold": 300,
-          "detail": "301 lines (utils max: 300)"
+          "detail": "319 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/differentialScheduling.ts",
+      "category": "utils",
+      "lineCount": 321,
+      "exportCount": 6,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 321,
+          "threshold": 300,
+          "detail": "321 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -420,24 +456,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "category": "utils",
-      "lineCount": 393,
-      "exportCount": 4,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 393,
-          "threshold": 300,
-          "detail": "393 lines (utils max: 300)"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
       "category": "components",
       "lineCount": 525,
@@ -456,27 +474,81 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "category": "services",
-      "lineCount": 418,
-      "exportCount": 1,
+      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "category": "utils",
+      "lineCount": 308,
+      "exportCount": 7,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 418,
-          "threshold": 400,
-          "detail": "418 lines (services max: 400)"
+          "value": 308,
+          "threshold": 300,
+          "detail": "308 lines (utils max: 300)"
         }
       ],
       "score": 3,
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "category": "services",
+      "lineCount": 420,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 420,
+          "threshold": 400,
+          "detail": "420 lines (services max: 400)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/constants/fieldMetadata.ts",
+      "category": "general",
+      "lineCount": 124,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
       "category": "utils",
       "lineCount": 108,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
+      "category": "routes",
+      "lineCount": 233,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -962,7 +1034,7 @@
     {
       "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
       "category": "routes",
-      "lineCount": 301,
+      "lineCount": 303,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -980,7 +1052,7 @@
     {
       "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
       "category": "routes",
-      "lineCount": 215,
+      "lineCount": 217,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -998,7 +1070,7 @@
     {
       "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
       "category": "routes",
-      "lineCount": 205,
+      "lineCount": 207,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1016,7 +1088,7 @@
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
       "category": "routes",
-      "lineCount": 202,
+      "lineCount": 211,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

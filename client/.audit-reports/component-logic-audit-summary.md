@@ -24,6 +24,7 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/admin/generic/EntityFormContent.vue` | P2 | 6 | 5 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/StatusButton.vue` | P2 | 6 | 5 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/BlockInstanceCreateModal.vue` | P2 | 6 | 3 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCardFeePreview.vue` | P2 | 6 | 3 | 1 | 1 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/entities/BlockShapeForm.vue` | P2 | 6 | 2 | 2 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/entities/PartShapeForm.vue` | P2 | 6 | 2 | 2 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | P2 | 14 | 13 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -34,10 +35,9 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/booking/wrappers/ServiceSelectCards.vue` | P2 | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/MetadataEditModal.vue` | P2 | 4 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
 | `src/components/booking/steps/PropertyDetailsStep.vue` | P2 | 4 | 1 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/components/AppointmentsTable.vue` | P2 | 4 | 0 | 0 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/AppNotification.vue` | P2 | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/components/FeeCalibrationPanel.vue` | P2 | 4 | 1 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 36 more files. See full report for details.*
+*...and 38 more files. See full report for details.*
 
 ## Notes
 

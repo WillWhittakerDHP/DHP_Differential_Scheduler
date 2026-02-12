@@ -72,6 +72,9 @@
 import { ref, computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('InstanceBulkEditModal')
 
 interface Props {
   modelValue?: boolean
@@ -139,7 +142,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
     
     return entity
   } catch (error) {
-    console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
+    logger.error('Error creating templateEntity', { error })
     return {
       id: '00000000-0000-0000-0000-000000000000',
       entityKey: 'blockInstance',

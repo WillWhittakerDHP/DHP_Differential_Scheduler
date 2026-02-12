@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T19:53:21.059Z",
-  "totalFiles": 971,
+  "generatedAt": "2026-02-12T01:57:22.757Z",
+  "totalFiles": 972,
   "thresholds": {
     "maxFanOut": 15,
     "maxFanIn": 20
@@ -16,12 +16,12 @@
       "fanOut": 24
     },
     {
-      "file": "client/src/views/admin/tabs/InstancesTab",
+      "file": "client/src/components/admin/generic/EntityCard",
       "fanOut": 23
     },
     {
-      "file": "client/src/components/admin/generic/EntityCard",
-      "fanOut": 22
+      "file": "client/src/views/admin/tabs/InstancesTab",
+      "fanOut": 23
     },
     {
       "file": "client/src/composables/booking/useAvailabilityOrchestrator",
@@ -51,7 +51,7 @@
     },
     {
       "file": "client/src/constants/entities",
-      "fanIn": 126
+      "fanIn": 127
     },
     {
       "file": "client/src/constants/primitives",
@@ -59,7 +59,7 @@
     },
     {
       "file": "client/src/utils/logger",
-      "fanIn": 61
+      "fanIn": 69
     },
     {
       "file": "client/src/utils/transformers/globalToBookingTransformer",
@@ -71,7 +71,7 @@
     },
     {
       "file": "server/src/utils/logger",
-      "fanIn": 45
+      "fanIn": 46
     },
     {
       "file": "client/src/constants/entityFieldConstants",
@@ -135,12 +135,12 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/views/admin/tabs/InstancesTab",
+      "file": "client/src/components/admin/generic/EntityCard",
       "score": 3,
       "priority": "P2"
     },
     {
-      "file": "client/src/components/admin/generic/EntityCard",
+      "file": "client/src/views/admin/tabs/InstancesTab",
       "score": 3,
       "priority": "P2"
     },

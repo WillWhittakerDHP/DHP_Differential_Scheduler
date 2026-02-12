@@ -174,16 +174,12 @@ export async function validateBlockInstancesWithShapes(
     throw new Error(ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND)
   }
   
-  // PATTERN: Cast to any to access association, then cast association to proper type
-  const parentBlockInstanceWithShape = parentBlockInstance as any
-  const parentBlockShape = parentBlockInstanceWithShape.block_shape as InstanceType<typeof BlockShape> | undefined
-  
+  type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & { block_shape?: InstanceType<typeof BlockShape> }
+  const parentBlockShape = (parentBlockInstance as BlockInstanceWithShape).block_shape
   if (!parentBlockShape) {
     throw new Error(`BlockInstance parent missing BlockShape: ${parentId}`)
   }
-  
-  const childBlockInstanceWithShape = childBlockInstance as any
-  const childBlockShape = childBlockInstanceWithShape.block_shape as InstanceType<typeof BlockShape> | undefined
+  const childBlockShape = (childBlockInstance as BlockInstanceWithShape).block_shape
   
   if (!childBlockShape) {
     throw new Error(`BlockInstance child missing BlockShape: ${childId}`)

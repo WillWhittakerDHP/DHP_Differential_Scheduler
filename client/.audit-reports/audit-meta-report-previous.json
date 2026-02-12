@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T01:16:24.837Z",
+  "generatedAt": "2026-02-11T04:10:12.879Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -19,12 +19,12 @@
     {
       "auditId": "loop-mutation",
       "filesWithFindings": 196,
-      "totalFindings": 632
+      "totalFindings": 630
     },
     {
       "auditId": "hardcoding",
-      "filesWithFindings": 233,
-      "totalFindings": 851
+      "filesWithFindings": 228,
+      "totalFindings": 833
     },
     {
       "auditId": "function-complexity",
@@ -43,18 +43,18 @@
     },
     {
       "auditId": "unused-code",
-      "filesWithFindings": 336,
-      "totalFindings": 336
+      "filesWithFindings": 335,
+      "totalFindings": 335
     },
     {
       "auditId": "error-handling",
-      "filesWithFindings": 33,
-      "totalFindings": 61
+      "filesWithFindings": 32,
+      "totalFindings": 59
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 157,
-      "totalFindings": 351
+      "filesWithFindings": 156,
+      "totalFindings": 349
     },
     {
       "auditId": "security",
@@ -63,8 +63,8 @@
     },
     {
       "auditId": "todo-aging",
-      "filesWithFindings": 17,
-      "totalFindings": 29
+      "filesWithFindings": 16,
+      "totalFindings": 28
     },
     {
       "auditId": "import-graph",
@@ -93,8 +93,8 @@
     },
     {
       "auditId": "coverage-risk-crossref",
-      "filesWithFindings": 15,
-      "totalFindings": 15
+      "filesWithFindings": 11,
+      "totalFindings": 11
     },
     {
       "auditId": "naming-convention",
@@ -119,22 +119,19 @@
   ],
   "hotspots": [
     {
-      "repoPath": "client/src/types/entities.ts",
-      "totalScore": 383.5,
-      "auditCount": 4,
-      "auditIds": [
-        "unused-code",
-        "deprecation",
-        "file-cohesion",
-        "coverage-risk-crossref"
-      ]
-    },
-    {
       "repoPath": "client/src/constants/entities.ts",
       "totalScore": 382,
       "auditCount": 2,
       "auditIds": [
         "file-cohesion",
+        "coverage-risk-crossref"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/entities.ts",
+      "totalScore": 378,
+      "auditCount": 1,
+      "auditIds": [
         "coverage-risk-crossref"
       ]
     },
@@ -155,16 +152,6 @@
       ]
     },
     {
-      "repoPath": "client/src/utils/logger.ts",
-      "totalScore": 197.5,
-      "auditCount": 3,
-      "auditIds": [
-        "function-complexity",
-        "unused-code",
-        "coverage-risk-crossref"
-      ]
-    },
-    {
       "repoPath": "assets/AdminPanel-DLitoqMB.js",
       "totalScore": 179.505,
       "auditCount": 1,
@@ -174,30 +161,16 @@
     },
     {
       "repoPath": "client/src/types/appointment.ts",
-      "totalScore": 172.5,
-      "auditCount": 6,
+      "totalScore": 145,
+      "auditCount": 2,
       "auditIds": [
-        "hardcoding",
-        "unused-code",
         "deprecation",
-        "todo-aging",
-        "file-cohesion",
-        "coverage-risk-crossref"
-      ]
-    },
-    {
-      "repoPath": "server/src/utils/logger.ts",
-      "totalScore": 149.5,
-      "auditCount": 3,
-      "auditIds": [
-        "function-complexity",
-        "unused-code",
         "coverage-risk-crossref"
       ]
     },
     {
       "repoPath": "client/src/constants/entityFieldConstants.ts",
-      "totalScore": 112,
+      "totalScore": 120,
       "auditCount": 1,
       "auditIds": [
         "coverage-risk-crossref"
@@ -205,13 +178,12 @@
     },
     {
       "repoPath": "client/src/types/datetime.ts",
-      "totalScore": 108.5,
-      "auditCount": 5,
+      "totalScore": 102.5,
+      "auditCount": 4,
       "auditIds": [
         "hardcoding",
         "function-complexity",
         "unused-code",
-        "error-handling",
         "coverage-risk-crossref"
       ]
     },
@@ -262,23 +234,6 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
-      "totalScore": 77,
-      "auditCount": 2,
-      "auditIds": [
-        "hardcoding",
-        "coverage-risk-crossref"
-      ]
-    },
-    {
-      "repoPath": "server/src/constants/router.ts",
-      "totalScore": 72,
-      "auditCount": 1,
-      "auditIds": [
-        "coverage-risk-crossref"
-      ]
-    },
-    {
       "repoPath": "assets/BookingWizardView-DySbPjyD.js",
       "totalScore": 71.82000000000001,
       "auditCount": 1,
@@ -298,16 +253,8 @@
       ]
     },
     {
-      "repoPath": "server/src/config/app.ts",
-      "totalScore": 70,
-      "auditCount": 1,
-      "auditIds": [
-        "coverage-risk-crossref"
-      ]
-    },
-    {
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "totalScore": 66.5,
+      "totalScore": 69.5,
       "auditCount": 5,
       "auditIds": [
         "loop-mutation",
@@ -352,6 +299,19 @@
       ]
     },
     {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "totalScore": 60,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "deprecation",
+        "file-cohesion"
+      ]
+    },
+    {
       "repoPath": "client/src/utils/booking/cascadeFilterPipeline.ts",
       "totalScore": 57,
       "auditCount": 5,
@@ -383,31 +343,6 @@
         "hardcoding",
         "function-complexity",
         "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "totalScore": 56,
-      "auditCount": 6,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "deprecation",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "totalScore": 55,
-      "auditCount": 5,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling",
-        "file-cohesion"
       ]
     },
     {
@@ -448,6 +383,17 @@
         "hardcoding",
         "function-complexity",
         "deprecation",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "totalScore": 53,
+      "auditCount": 4,
+      "auditIds": [
+        "function-complexity",
+        "unused-code",
+        "error-handling",
         "file-cohesion"
       ]
     },
@@ -506,6 +452,16 @@
         "hardcoding",
         "function-complexity",
         "unused-code"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/logger.ts",
+      "totalScore": 49.5,
+      "auditCount": 3,
+      "auditIds": [
+        "function-complexity",
+        "unused-code",
+        "coverage-risk-crossref"
       ]
     },
     {
@@ -612,17 +568,6 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "totalScore": 42,
-      "auditCount": 4,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "unused-code",
-        "error-handling"
-      ]
-    },
-    {
       "repoPath": "client/src/utils/transformers/componentAggregator.ts",
       "totalScore": 41.5,
       "auditCount": 5,
@@ -644,39 +589,97 @@
         "unused-code",
         "deprecation"
       ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/timeSlotMatching.ts",
+      "totalScore": 41.5,
+      "auditCount": 3,
+      "auditIds": [
+        "loop-mutation",
+        "function-complexity",
+        "unused-code"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "totalScore": 41,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling"
+      ]
+    },
+    {
+      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "totalScore": 40,
+      "auditCount": 4,
+      "auditIds": [
+        "hardcoding",
+        "function-complexity",
+        "deprecation",
+        "todo-aging"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "totalScore": 39,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "error-handling",
+        "deprecation"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useFormValidation.ts",
+      "totalScore": 38.5,
+      "auditCount": 6,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "deprecation",
+        "todo-aging"
+      ]
     }
   ],
-  "totalExceptions": 1326,
+  "totalExceptions": 1328,
   "previousExceptions": 1316,
   "exceptionAnalysis": {
     "totals": {
-      "structural": 1320,
-      "specific": 6,
-      "total": 1326
+      "structural": 1319,
+      "specific": 9,
+      "total": 1328
     },
     "perAudit": [
       {
         "auditId": "loop-mutation",
         "structural": 1055,
-        "specific": 0,
-        "total": 1055,
-        "totalScanned": 642,
-        "ratio": 1.643
+        "specific": 2,
+        "total": 1057,
+        "totalScanned": 644,
+        "ratio": 1.638
       },
       {
         "auditId": "hardcoding",
-        "structural": 265,
+        "structural": 264,
         "specific": 0,
-        "total": 265,
-        "totalScanned": 712,
-        "ratio": 0.372
+        "total": 264,
+        "totalScanned": 716,
+        "ratio": 0.369
       },
       {
         "auditId": "deprecation",
         "structural": 0,
-        "specific": 3,
-        "total": 3,
-        "totalScanned": 956,
+        "specific": 4,
+        "total": 4,
+        "totalScanned": 969,
         "ratio": 0
       },
       {
@@ -684,7 +687,7 @@
         "structural": 0,
         "specific": 3,
         "total": 3,
-        "totalScanned": 644,
+        "totalScanned": 646,
         "ratio": 0
       }
     ],
@@ -714,9 +717,9 @@
     "configPatternCount": 85
   },
   "exceptionDiff": {
-    "totalDelta": 10,
-    "structuralDelta": 7,
-    "specificDelta": 3,
+    "totalDelta": 12,
+    "structuralDelta": 6,
+    "specificDelta": 6,
     "configsChanged": [
       "constants-consolidation"
     ],
@@ -743,15 +746,15 @@
     },
     {
       "auditId": "loop-mutation",
-      "current": 632,
+      "current": 630,
       "previous": 633,
-      "delta": -1
+      "delta": -3
     },
     {
       "auditId": "hardcoding",
-      "current": 851,
-      "previous": 859,
-      "delta": -8
+      "current": 833,
+      "previous": 851,
+      "delta": -18
     },
     {
       "auditId": "function-complexity",
@@ -773,21 +776,21 @@
     },
     {
       "auditId": "unused-code",
-      "current": 336,
+      "current": 335,
       "previous": 332,
-      "delta": 4
+      "delta": 3
     },
     {
       "auditId": "error-handling",
-      "current": 61,
+      "current": 59,
       "previous": 61,
-      "delta": 0
+      "delta": -2
     },
     {
       "auditId": "deprecation",
-      "current": 351,
-      "previous": 360,
-      "delta": -9
+      "current": 349,
+      "previous": 359,
+      "delta": -10
     },
     {
       "auditId": "security",
@@ -797,21 +800,21 @@
     },
     {
       "auditId": "todo-aging",
-      "current": 29,
+      "current": 28,
       "previous": 30,
-      "delta": -1
+      "delta": -2
     },
     {
       "auditId": "import-graph",
       "current": 29,
-      "previous": 26,
-      "delta": 3
+      "previous": 29,
+      "delta": 0
     },
     {
       "auditId": "file-cohesion",
       "current": 78,
-      "previous": 79,
-      "delta": -1
+      "previous": 78,
+      "delta": 0
     },
     {
       "auditId": "api-contract",
@@ -822,8 +825,8 @@
     {
       "auditId": "constants-consolidation",
       "current": 3,
-      "previous": 267,
-      "delta": -264
+      "previous": 139,
+      "delta": -136
     },
     {
       "auditId": "bundle-size-budget",
@@ -833,9 +836,9 @@
     },
     {
       "auditId": "coverage-risk-crossref",
-      "current": 15,
-      "previous": 11,
-      "delta": 4
+      "current": 11,
+      "previous": 15,
+      "delta": -4
     },
     {
       "auditId": "naming-convention",

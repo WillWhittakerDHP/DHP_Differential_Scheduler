@@ -41,8 +41,8 @@ export function handleUniqueConstraintError(
     return false
   }
 
-  if (error.name === 'SequelizeUniqueConstraintError' || 
-      (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {
+  const parentCode = (error as { parent?: { code?: string } }).parent?.code
+  if (error.name === 'SequelizeUniqueConstraintError' || parentCode === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {
     res.status(409).json({
       error: ERROR_MESSAGES.RELATIONSHIP_ALREADY_EXISTS,
       details: `This ${displayName} relationship already exists`,
@@ -80,8 +80,8 @@ export function handleForeignKeyConstraintError(
     return false
   }
 
-  if (error.name === 'SequelizeForeignKeyConstraintError' || 
-      (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
+  const parentCode = (error as { parent?: { code?: string } }).parent?.code
+  if (error.name === 'SequelizeForeignKeyConstraintError' || parentCode === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
     res.status(400).json({
       error: ERROR_MESSAGES.INVALID_ENTITY_REFERENCE,
       details: error.message || 'One of the referenced entities does not exist',

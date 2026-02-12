@@ -45,6 +45,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-11c7ce0e1eb3` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/adminMetadata.ts@102`, `server/src/db/models/admin/adminPrimitiveMetadata.ts@91` |
 | `dup-1367027fb70b` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@42`, `server/src/db/models/booking/annotation_assignment.ts@42` |
 | `dup-1378fa017b30` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@27`, `server/src/db/models/admin/adminRelationshipMetadata.ts@25` |
+| `dup-13bd9de36f5c` | P0 | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@131`, `client/src/composables/booking/useDevPanelsComputed.ts@67` |
 | `dup-1623de395200` | P0 | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@25`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@25` |
 | `dup-167a50aae37b` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@94`, `server/src/db/models/booking/annotation_assignment.ts@94` |
 | `dup-170c9613a9b4` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@135`, `server/src/utils/logger.ts@138` |
@@ -60,8 +61,10 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-2a12de2d7d9a` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@229`, `client/src/composables/admin/useRelationshipCollectionField.ts@282` |
 | `dup-2a30231dd798` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/valid_cascade.ts@67`, `server/src/db/models/admin/valid_component.ts@67` |
 | `dup-2b2b33d71fb7` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@103`, `server/src/db/models/booking/annotation_assignment.ts@103` |
+| `dup-2ce10077fdc9` | P0 | 2 | 2 | 10 | `client/src/components/booking/TimeBasisButtonGrid.vue@21`, `client/src/components/booking/TimeBasisSelector.vue@23` |
 | `dup-2d4fde3634cc` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@105`, `server/src/db/models/booking/annotation_assignment.ts@105` |
 | `dup-2ed2bd4bbdc7` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@25`, `server/src/utils/logger.ts@28` |
+| `dup-2f0d71c66b5f` | P0 | 2 | 2 | 10 | `client/src/components/admin/generic/DynamicForm.vue@155`, `client/src/components/admin/generic/EntityFormContent.vue@84` |
 | `dup-300418f10512` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@26`, `server/src/db/models/booking/part_assignment.ts@26` |
 | `dup-30c06464e8f9` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/valid_cascade.ts@54`, `server/src/db/models/admin/valid_component.ts@54` |
 | `dup-3299a8a39f28` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@67`, `server/src/db/models/booking/part_assignment.ts@67` |
@@ -83,6 +86,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-4aa5341ce55e` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@36`, `server/src/utils/logger.ts@39` |
 | `dup-4ade4938dbd6` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@81`, `server/src/db/models/booking/part_assignment.ts@81` |
 | `dup-4baff23bfa03` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@27`, `server/src/db/models/booking/part_assignment.ts@27` |
+| `dup-4d9c4ce531c8` | P0 | 2 | 2 | 10 | `client/src/components/booking/TimeBasisButtonGrid.vue@22`, `client/src/components/booking/TimeBasisSelector.vue@24` |
 | `dup-4fbc1a3ecca3` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@35`, `server/src/db/models/booking/annotation_assignment.ts@35` |
 | `dup-4fbfbe542dc5` | P0 | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@21`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@21` |
 | `dup-517ae3d50ebd` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@30`, `server/src/db/models/booking/part_assignment.ts@30` |
@@ -115,6 +119,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-72bdf59c3d9e` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@25`, `server/src/db/models/booking/part_assignment.ts@25` |
 | `dup-738cf7ce032b` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@30`, `server/src/db/models/admin/adminRelationshipMetadata.ts@28` |
 | `dup-7440b900d77e` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@133`, `server/src/utils/logger.ts@136` |
+| `dup-7446fdc411b8` | P0 | 2 | 2 | 10 | `client/src/components/admin/generic/DynamicForm.vue@161`, `client/src/components/admin/generic/EntityFormContent.vue@90` |
 | `dup-748c615eda5b` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@88`, `server/src/db/models/booking/annotation_assignment.ts@88` |
 | `dup-7742cf114a0e` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@47`, `server/src/db/models/booking/annotation_assignment.ts@47` |
 | `dup-786c6113291a` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@120`, `server/src/utils/logger.ts@123` |
@@ -152,6 +157,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-995f62abfe6b` | P0 | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@68`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@68` |
 | `dup-9b05a520b6ad` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/adminMetadata.ts@87`, `server/src/db/models/admin/adminPrimitiveMetadata.ts@76` |
 | `dup-9c0f543a08e7` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@59`, `server/src/db/models/booking/annotation_assignment.ts@59` |
+| `dup-9c56b47c5ce7` | P0 | 2 | 2 | 10 | `client/src/components/admin/generic/DynamicForm.vue@156`, `client/src/components/admin/generic/EntityFormContent.vue@85` |
 | `dup-9c923e520a59` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@60`, `server/src/db/models/booking/annotation_assignment.ts@60` |
 | `dup-9e074c09ad5f` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/adminMetadata.ts@92`, `server/src/db/models/admin/adminPrimitiveMetadata.ts@81` |
 | `dup-9ec6c4555813` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@26`, `server/src/utils/logger.ts@29` |
@@ -165,6 +171,7 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-a80df1aaab51` | P0 | 2 | 2 | 10 | `server/src/db/models/admin/valid_cascade.ts@72`, `server/src/db/models/admin/valid_component.ts@72` |
 | `dup-aa0673e4a618` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@127`, `server/src/utils/logger.ts@130` |
 | `dup-ac0c8bcb9ef7` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@115`, `server/src/utils/logger.ts@118` |
+| `dup-ac464e938825` | P0 | 2 | 2 | 10 | `client/src/components/admin/generic/DynamicForm.vue@160`, `client/src/components/admin/generic/EntityFormContent.vue@89` |
 | `dup-ad8ee8be63f6` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@35`, `client/src/composables/admin/useRelationshipCollectionField.ts@36` |
 | `dup-b32e32aa5499` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@39`, `server/src/db/models/booking/annotation_assignment.ts@39` |
 | `dup-b36fd2f2d669` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@43`, `client/src/composables/admin/useRelationshipCollectionField.ts@44` |
@@ -178,7 +185,6 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-c3bfbb3d2b99` | P0 | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@135`, `client/src/composables/booking/useDevPanelsComputed.ts@72` |
 | `dup-c4bf4c36371c` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@122`, `server/src/utils/logger.ts@125` |
 | `dup-c6d8bfa75306` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@40`, `server/src/db/models/booking/annotation_assignment.ts@40` |
-| `dup-c81776a6a0cb` | P0 | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@131`, `client/src/composables/booking/useDevPanelsComputed.ts@67` |
 | `dup-c927166d7ba6` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@33`, `server/src/utils/logger.ts@36` |
 | `dup-caf8771d9453` | P0 | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@85`, `server/src/db/models/booking/annotation_assignment.ts@85` |
 | `dup-cd14e2951934` | P0 | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@57`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@57` |

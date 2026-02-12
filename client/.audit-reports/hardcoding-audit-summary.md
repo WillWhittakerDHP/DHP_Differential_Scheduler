@@ -18,7 +18,6 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCard.vue` | P1 | 17 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
-| `client/src/utils/admin/entityDisplayText.ts` | P1 | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | P1 | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/PropertiesTable.vue` | P1 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/config/entityRegistry.ts` | P1 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -40,8 +39,9 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `server/src/db/models/admin/adminPrimitiveMetadata.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/businessRulesConstants.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/calendar/calendarConstants.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/calendar/eventCreationService.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 198 more files. See full report for details.*
+*...and 204 more files. See full report for details.*
 
 ## Notes
 

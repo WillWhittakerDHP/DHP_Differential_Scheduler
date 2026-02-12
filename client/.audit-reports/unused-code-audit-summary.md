@@ -7,14 +7,13 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | File | Priority | Score | Unused Exports | Commented | Unused Functions | TODO Markers |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 18 | 6 | 0 | 0 | 0 |
-| `client/src/vite-env.d.ts` | P0 | 18 | 6 | 0 | 0 | 0 |
 | `server/src/constants/metadataDefaults.mjs` | P0 | 18 | 6 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRules.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/ShapesTab.vue` | P0 | 15 | 0 | 0 | 15 | 0 |
-| `client/src/types/annotations.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `client/src/types/datetime.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
+| `server/src/config/entityRegistry.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
 | `client/src/utils/differentialScheduling.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
+| `server/src/routes/internal/properties/propertyHelpers.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/services/addressGeocodingCache.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/utils/userTypeMapping.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
@@ -47,7 +46,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/useBusiness.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/eventPerspectiveLabels.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/types/shapeFieldMetadata.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
+| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/blockInstanceUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/booking/confirmationStepData.ts` | P1 | 9 | 2 | 0 | 0 | 3 |
 | `client/src/utils/booking/mockGoogleCalendar.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
@@ -56,7 +55,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/optimistic/listByIdOptimistic.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/orderIndexUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/config/entityRegistry.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/routes/helpers/dataController.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/services/appointmentCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardExpansion.ts` | P1 | 7 | 2 | 0 | 1 | 0 |
@@ -161,10 +159,8 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/configs/adminConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/configs/availabilitySettings.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/configs/field/form/_archived/primitiveFieldConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/services/calendarApiService.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/shims/vue-i18n.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/types/wizard.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/utils/annotationUtils.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/utils/api/relationshipApi.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -178,7 +174,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/db/models/admin/valid_composition.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/db/models/booking/additional_service_option.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/middlewares/security.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyHelpers.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipQueryBuilders.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -203,6 +198,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBufferSettings.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/admin/useCalendarEntries.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `client/src/composables/admin/useCalibrationChart.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/admin/useCapacitySettings.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/admin/useDefaultLocation.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -255,11 +251,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/configs/wizardSteps.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/1.router/guards.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/5.vuetify/theme.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/types/admin/AdminEntity.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/types/component.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/types/entity/formFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/types/property.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/types/vuetifyTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/admin/buildMetadataEntry.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/admin/entityDisplayText.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/api/availabilityApi.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -339,6 +330,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/main.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/plugins/1.router/additional-routes.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
+| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/services/calendarErrorHandler.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `server/src/services/google/calendar/eventsService.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 

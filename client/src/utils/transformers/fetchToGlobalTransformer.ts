@@ -161,8 +161,8 @@ function resolveRelationshipIds(
     logger.debug('resolveRelationshipIds: childId missing after safeId', { raw: childIdRaw })
   }
   return {
-    parentId: parentIdResolved !== undefined ? parentIdResolved : '',
-    childId: childIdResolved !== undefined ? childIdResolved : '',
+    parentId: parentIdResolved != null ? parentIdResolved : '',
+    childId: childIdResolved != null ? childIdResolved : '',
   }
 }
 

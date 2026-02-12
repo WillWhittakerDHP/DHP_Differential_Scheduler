@@ -63,6 +63,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useNotification } from '@/composables/useNotification'
 import { getApiErrorMessage } from '@/composables/useApiErrorMessage'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('MetadataEditModal')
 
 interface Props {
   modelValue: boolean
@@ -111,7 +114,7 @@ async function handleSave(): Promise<void> {
   try {
     await editorRef.value.save()
   } catch (err) {
-    console.error('[MetadataEditModal] Error saving metadata:', err)
+    logger.error('Error saving metadata', { err })
     
     // LEARNING: Use composable for error message extraction
     // PATTERN: Composable handles AxiosError, Error, and unknown error types

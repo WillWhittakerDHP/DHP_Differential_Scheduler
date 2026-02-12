@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-11T04:07:59.990Z**
-- Files scanned: **751**
-- Type definitions found: **716**
-- Similarity groups: **96**
-- UNIFY candidates: **37**
+- Generated at: **2026-02-12T01:54:52.870Z**
+- Files scanned: **754**
+- Type definitions found: **719**
+- Similarity groups: **97**
+- UNIFY candidates: **38**
 - BRAND candidates: **13**
 - EXTEND candidates: **38**
 - REVIEW candidates: **8**
 
-- P0 (high): **69**, P1 (medium): **25**, P2 (low): **2**
+- P0 (high): **69**, P1 (medium): **26**, P2 (low): **2**
 
 ## Groups (ranked by score)
 
@@ -58,6 +58,7 @@ Each group has a recommended action:
 | P0 | UNIFY | EXACT | `LeadTimeConfig`, `LeadTimeConfig`, `LeadTimeConfig` | 3 | 19 | `{ minutes: number }` |
 | P0 | EXTEND | SUBSET | `RangeConstraint`, `RangeConstraint`, `RangeConstraint` | 3 | 19 | `{ category: 'range', config: BusinessHoursConfig | LeadTi...` |
 | P0 | EXTEND | SUBSET | `DriveTimeConfig`, `OverlapConstraint`, `DriveTimeConfig` | 3 | 19 | `{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforc...` |
+| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `Props`, `UseEntityCardSaveStateOptions`, `UseEntityFormOptions` | 6 | 18 | `{ canSave: ComputedRef<boolean>, composedFieldMetadata: R...` |
 | P0 | UNIFY | EXACT | `CalendarConfig`, `CalendarConfig` | 2 | 17 | `{ calendars: CalendarEntry[], enabled: boolean, provider:...` |
 | P0 | UNIFY | EXACT | `CalendarEntry`, `CalendarEntry` | 2 | 17 | `{ email: string, label?: string, readFrom: boolean, write...` |
 | P0 | UNIFY | EXACT | `ConditionalValidationRuleConfig`, `ConditionalValidationRuleConfig` | 2 | 17 | `{ condition: string, dependsOn: string, field: string, va...` |
@@ -73,10 +74,9 @@ Each group has a recommended action:
 | P0 | UNIFY | EXACT | `DefaultLocation`, `DefaultLocation` | 2 | 17 | `{ address?: string, coordinates?: Coordinates, label?: st...` |
 | P0 | UNIFY | EXACT | `DriveTimeConfig`, `DriveTimeConfig` | 2 | 17 | `{ applyTo: DriveTimeApplyTo, enforcement: ConstraintEnfor...` |
 | P0 | UNIFY | EXACT | `LogLevel`, `LogLevel` | 2 | 17 | `= 'debug' | 'error' | 'info' | 'silent' | 'warn'` |
-| P0 | UNIFY | EXACT | `CalendarProvider`, `CalendarProvider` | 2 | 17 | `= 'google' | 'none' | 'outlook'` |
-| ... | ... | ... | ... | ... | ... | (56 more groups) |
+| ... | ... | ... | ... | ... | ... | (57 more groups) |
 
-## UNIFY Candidates (37)
+## UNIFY Candidates (38)
 
 These types are structurally identical and likely represent the same concept. Import from a single source to prevent drift.
 
@@ -242,10 +242,10 @@ These types are structurally identical and likely represent the same concept. Im
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 243 | yes |
+| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 242 | yes |
 | `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 45 | yes |
 
-_(22 more UNIFY groups omitted — see JSON for full data)_
+_(23 more UNIFY groups omitted — see JSON for full data)_
 
 ## BRAND Candidates (13)
 
@@ -400,12 +400,12 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts` | 16 | yes |
+| `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts` | 31 | yes |
 | `UserResponse` | interface | `client/src/types/appointmentApi.ts` | 27 | yes |
 | `UserRequest` | interface | `client/src/types/user.ts` | 10 | yes |
 | `UserResponse` | interface | `client/src/types/user.ts` | 18 | yes |
 | `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 34 | yes |
-| `ParsedClient` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 53 | yes |
+| `ParsedClient` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 67 | yes |
 | `AppointmentWithDetails` | interface | `server/src/services/appointmentCalendarService.ts` | 49 | no |
 | `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
 | `PropertyDetails` | interface | `client/src/types/availability.ts` | 17 | yes |
@@ -414,7 +414,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `PropertyResponse` | interface | `client/src/types/appointmentApi.ts` | 10 | yes |
 | `PropertyRequest` | interface | `client/src/types/property.ts` | 10 | yes |
 | `PropertyResponse` | interface | `client/src/types/property.ts` | 27 | yes |
-| `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 65 | yes |
+| `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 79 | yes |
 
 ### sim-subset-cff243989e82
 
@@ -424,7 +424,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `DayHours` | interface | `client/src/configs/availabilitySettings.ts` | 24 | no |
-| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts` | 127 | yes |
+| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts` | 126 | yes |
 | `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts` | 68 | yes |
 | `CachedCalendarEvent` | interface | `server/src/services/calendarEventsCache.ts` | 19 | yes |
 | `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts` | 56 | yes |
@@ -446,7 +446,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 8 | yes |
-| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 23 | yes |
+| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 31 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 67 | yes |
 | `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 49 | yes |
 | `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 14 | yes |
@@ -457,7 +457,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 40 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 20 | yes |
-| `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 31 | yes |
+| `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 39 | yes |
 
 ### sim-subset-7540ccfe621d
 
@@ -505,7 +505,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `DefaultLocation` | interface | `client/src/configs/availabilitySettings.ts` | 205 | yes |
-| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 243 | yes |
+| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 242 | yes |
 | `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 45 | yes |
 | `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 244 | yes |
 
@@ -560,6 +560,20 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `OverlapConstraint` | interface | `shared/types/availabilityTypes.ts` | 140 | yes |
 | `DriveTimeConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 155 | yes |
 
+### sim-subset-73aa3a87ddb0
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **18**
+- Structure: `{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, unifiedSaveState: { }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `Props` | interface | `client/src/components/admin/generic/EntityCardContent.vue` | 18 | no |
+| `Props` | interface | `client/src/components/admin/generic/EntityCardFeePreview.vue` | 13 | no |
+| `Props` | interface | `client/src/components/admin/generic/EntityCardPartsTotals.vue` | 5 | no |
+| `Props` | interface | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 23 | no |
+| `UseEntityCardSaveStateOptions` | interface | `client/src/composables/admin/useEntityCardSaveState.ts` | 15 | yes |
+| `UseEntityFormOptions` | interface | `client/src/composables/useEntityForm.ts` | 16 | yes |
+
 ### sim-subset-26677bed3970
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **16**
@@ -572,19 +586,6 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `UseWizardDevModeOptions` | interface | `client/src/composables/booking/useWizardDevMode.ts` | 13 | yes |
 | `UseAppointmentDropdownOptions` | interface | `client/src/composables/booking/useAppointmentDropdown.ts` | 12 | yes |
 
-### sim-subset-327590bd3f79
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **16**
-- Structure: `{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, unifiedSaveState: { }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/admin/generic/EntityCardContent.vue` | 18 | no |
-| `Props` | interface | `client/src/components/admin/generic/EntityCardPartsTotals.vue` | 5 | no |
-| `Props` | interface | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 23 | no |
-| `UseEntityCardSaveStateOptions` | interface | `client/src/composables/admin/useEntityCardSaveState.ts` | 15 | yes |
-| `UseEntityFormOptions` | interface | `client/src/composables/useEntityForm.ts` | 16 | yes |
-
 ### sim-subset-422b2e0ac929
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **15**
@@ -592,7 +593,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `RouteMatrixResult` | interface | `client/src/services/mapsApiService.ts` | 269 | yes |
+| `RouteMatrixResult` | interface | `client/src/services/mapsApiService.ts` | 268 | yes |
 | `RouteMatrixResult` | interface | `server/src/services/google/maps/mapsTypes.ts` | 55 | yes |
 
 Overlap: **83%** shared properties
@@ -606,7 +607,7 @@ Overlap: **83%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 36 | yes |
+| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 44 | yes |
 | `UsePropertyFormStateReturn` | interface | `client/src/composables/booking/usePropertyFormState.ts` | 16 | yes |
 | `UsePropertyFormWatchersParams` | interface | `client/src/composables/booking/usePropertyFormWatchers.ts` | 14 | yes |
 
@@ -643,14 +644,14 @@ These types have high structural overlap. Review to determine if they should be 
 | `GlobalEntityId` | type-alias-primitive | `client/src/types/entities.ts` | 1 | yes |
 | `RFC3339DateTime` | type-alias-primitive | `shared/types/availabilityTypes.ts` | 20 | yes |
 
-### sim-high_overlap-6719db02f2be
+### sim-high_overlap-8c88e15327e4
 
 - Relationship: **HIGH_OVERLAP**, Priority: **P0**, Score: **22**
 - Structure: `{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', displayOrder: number, fieldKey: string, inputConfig?: Record<string, unknown> | null, isRequired: boolean, label: string, layout: 'inline' | 'stacked', panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS, renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection', statusButtonColor?: string | null, visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured' }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `FieldMetadataEntry` | interface | `client/src/types/entityMetadata.ts` | 23 | yes |
+| `FieldMetadataEntry` | interface | `client/src/constants/fieldMetadata.ts` | 43 | yes |
 | `FieldMetadataEntry` | interface | `server/src/utils/adminMetadataComposer.ts` | 13 | yes |
 | `FieldMetadataEntry` | interface | `server/src/utils/adminPrimitiveMetadataComposer.ts` | 13 | yes |
 | `RelationshipMetadataEntry` | interface | `server/src/utils/adminRelationshipMetadataComposer.ts` | 12 | yes |

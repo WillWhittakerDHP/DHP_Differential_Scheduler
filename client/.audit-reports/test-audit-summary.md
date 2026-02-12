@@ -5,7 +5,7 @@ Generated from `.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - **Coverage**: 15%
-- **Untested**: 700 files
+- **Untested**: 703 files
 - **Orphaned**: 18 tests
 
 ## Top Untested Files (by Priority Score)

@@ -2,7 +2,7 @@
  * Property Router Helper Functions
  * 
  * LEARNING: Extracted helper functions for property operations
- * WHY: Improves code reusability, eliminates `as any` casts, improves type safety
+ * WHY: Improves code reusability, eliminates unsafe casts, improves type safety
  * PATTERN: Pure helper functions with proper type guards
  */
 
@@ -24,7 +24,7 @@ export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
 /**
  * Type guard for PropertyVersion with associations
  * LEARNING: Type guard to safely access Sequelize associations
- * WHY: Replaces `as any` casts with type-safe checks
+ * WHY: Replaces unsafe casts with type-safe checks
  * PATTERN: Type predicate function that narrows type based on runtime check
  *
  * @param propertyVersion - PropertyVersion instance
@@ -43,7 +43,7 @@ export function isPropertyVersionWithAssociations(
 /**
  * Type guard for BlockInstance with block_shape association
  * LEARNING: Type guard to safely access Sequelize associations
- * WHY: Replaces `as any` casts with type-safe checks
+ * WHY: Replaces unsafe casts with type-safe checks
  * PATTERN: Type predicate function that narrows type based on runtime check
  *
  * @param blockInstance - BlockInstance instance
@@ -58,7 +58,7 @@ export function isBlockInstanceWithShape(
 /**
  * Extract propertyDetails from PropertyVersion association
  * LEARNING: Type-safe extraction of Sequelize association data
- * WHY: Replaces `as any` pattern with proper type handling
+ * WHY: Replaces unsafe cast pattern with proper type handling
  * PATTERN: Type guard + safe property access
  *
  * @param propertyVersion - PropertyVersion with associations

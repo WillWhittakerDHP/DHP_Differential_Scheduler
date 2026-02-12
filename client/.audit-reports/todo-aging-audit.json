@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-11T04:10:06.253Z",
-  "totalScanned": 969,
+  "generatedAt": "2026-02-12T01:57:22.540Z",
+  "totalScanned": 972,
   "totals": {
-    "totalScanned": 969,
+    "totalScanned": 972,
     "totalMarkers": 28,
     "fresh": 2,
     "aging": 0,
@@ -201,7 +201,7 @@
       "repoPath": "client/src/components/admin/generic/fields/BooleanInput.vue",
       "markers": [
         {
-          "lineNumber": 171,
+          "lineNumber": 172,
           "marker": "TEMP",
           "line": "// WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false",
           "category": "ancient",
@@ -291,7 +291,7 @@
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "markers": [
         {
-          "lineNumber": 164,
+          "lineNumber": 179,
           "marker": "XXX",
           "line": "* @returns Formatted phone number (XXX-XXX-XXXX) or null",
           "category": "ancient",
@@ -306,7 +306,7 @@
       "repoPath": "server/src/services/appointmentCalendarService.ts",
       "markers": [
         {
-          "lineNumber": 359,
+          "lineNumber": 360,
           "marker": "TODO",
           "line": "// TODO: Implement status sync from Google Calendar",
           "category": "ancient",
@@ -325,7 +325,7 @@
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
           "category": "fresh",
-          "days": 10,
+          "days": 11,
           "orphaned": true
         }
       ],
@@ -340,7 +340,7 @@
           "marker": "TODO",
           "line": "// TODO: handle relationshipCollection renderAs when needed",
           "category": "fresh",
-          "days": 0,
+          "days": 1,
           "orphaned": true
         }
       ],

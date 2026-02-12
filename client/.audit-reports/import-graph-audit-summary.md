@@ -2,22 +2,20 @@
 
 Generated from `.audit-reports/import-graph-audit.json`.
 
-- Circular dependencies: **1**
+- Circular dependencies: **0**
 - Fan-out violations: **9**
 - Fan-in violations: **19**
 - Cross-boundary imports: **0**
 
-## Top 29 files by score
+## Top 28 files by score
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `client/src/types/entityMetadata` | P1 | 12 |
-| `client/src/constants/fieldMetadata` | P1 | 10 |
 | `server/src/db/models/index` | P2 | 3 |
 | `client/src/components/booking/BookingWizard` | P2 | 3 |
 | `client/src/components/admin/generic/EntityCard` | P2 | 3 |
-| `client/src/composables/booking/useAvailabilityOrchestrator` | P2 | 3 |
 | `client/src/views/admin/tabs/InstancesTab` | P2 | 3 |
+| `client/src/composables/booking/useAvailabilityOrchestrator` | P2 | 3 |
 | `client/src/components/admin/generic/fields/SelectInputs` | P2 | 3 |
 | `client/src/views/admin/tabs/BusinessControlsTab` | P2 | 3 |
 | `server/src/services/computedAvailabilityService` | P2 | 3 |
@@ -31,6 +29,7 @@ Generated from `.audit-reports/import-graph-audit.json`.
 | `server/src/utils/logger` | P2 | 2 |
 | `client/src/constants/entityFieldConstants` | P2 | 2 |
 | `client/src/composables/useGlobal` | P2 | 2 |
+| `client/src/types/entityMetadata` | P2 | 2 |
 | `client/src/components/booking/types/selectionCardTypes` | P2 | 2 |
 | `client/src/composables/useFieldContext` | P2 | 2 |
 | `client/src/types/datetime` | P2 | 2 |

@@ -6,14 +6,15 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 
 | Priority | Pool | score | errors | files | severity | blast | repetition | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS1355-ts1355-a-const-assertions-can-only-be-applied-to-references-to-enum-members-or-string-number-boolean-array-or-object-lit` | 18 | 2 | 2 | 12 | 4 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-string-null-string` | 24 | 2 | 1 | 20 | 2 | 2 | 0 | 0 |
+| P1 | `TS2367-ts2367-this-comparison-appears-to-be-unintentional-because-the-types-roundup-rounddown-roundnearest-and-have-no-overlap` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 
 ## File index (ranked)
 
 | File | errors | unsafeCasts | suppressions |
 | --- | ---: | ---: | ---: |
-| `src/configs/field/form/appliedForm/baseEntityFields.ts` | 1 | 0 | 0 |
-| `src/constants/fieldMetadata.ts` | 1 | 0 | 0 |
+| `src/utils/transformers/fetchToGlobalTransformer.ts` | 2 | 0 | 0 |
+| `src/utils/booking/durationRounding.ts` | 1 | 0 | 0 |
 
 ## Notes
 

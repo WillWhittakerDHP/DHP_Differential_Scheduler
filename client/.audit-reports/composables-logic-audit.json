@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T04:08:22.891Z",
+  "generatedAt": "2026-02-12T01:55:36.734Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 245,
+  "totalScanned": 246,
   "overlap": {
     "duplicateExportNames": [
       {
@@ -76,187 +76,187 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 36,
+          "lineNumber": 45,
           "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 37,
+          "lineNumber": 46,
           "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 41,
-          "line": "currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1"
+          "lineNumber": 49,
+          "line": "const orderIndices = currentEntities.map((e) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 62,
+          "lineNumber": 78,
           "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 74,
+          "lineNumber": 90,
           "line": "onMutate: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 77,
+          "lineNumber": 93,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 145,
+          "lineNumber": 166,
           "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 146,
+          "lineNumber": 167,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 161,
+          "lineNumber": 182,
           "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 172,
+          "lineNumber": 193,
           "line": "onMutate: async (variables) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 175,
+          "lineNumber": 196,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 256,
+          "lineNumber": 277,
           "line": "const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 257,
+          "lineNumber": 278,
           "line": "mutationFn: async (id: GlobalEntityId) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 259,
+          "lineNumber": 280,
           "line": "const response = await apiClient.delete(deleteEndpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 270,
+          "lineNumber": 291,
           "line": "onMutate: async (id) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 271,
+          "lineNumber": 292,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 277,
+          "lineNumber": 298,
           "line": "const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 302,
+          "lineNumber": 323,
           "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 303,
+          "lineNumber": 324,
           "line": "mutationFn: async (updates: OrderIndexUpdate) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 305,
+          "lineNumber": 326,
           "line": "const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 310,
+          "lineNumber": 331,
           "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 311,
+          "lineNumber": 332,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "map",
-          "lineNumber": 317,
+          "lineNumber": 338,
           "line": "const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 318,
-          "line": "const updatedEntities = currentEntities.map((entity) => ({"
+          "lineNumber": 339,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 346,
+          "lineNumber": 379,
           "line": "const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 347,
+          "lineNumber": 380,
           "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 351,
+          "lineNumber": 384,
           "line": "const dehydratedUpdates = updates.map((update) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 360,
+          "lineNumber": 393,
           "line": "const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 365,
+          "lineNumber": 398,
           "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 366,
+          "lineNumber": 399,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "map",
-          "lineNumber": 371,
+          "lineNumber": 404,
           "line": "const updateMap = new Map(updates.map((update) => [String(update.id), update]))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 373,
+          "lineNumber": 406,
           "line": "const updatedEntities = currentEntities.map((entity) => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 406,
+          "lineNumber": 439,
           "line": "create: async (entity) => createMutation.mutateAsync(entity),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 407,
+          "lineNumber": 440,
           "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 408,
+          "lineNumber": 441,
           "line": "remove: async (id) => removeMutation.mutateAsync(id),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 409,
+          "lineNumber": 442,
           "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 410,
+          "lineNumber": 443,
           "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
         }
       ],
@@ -1488,17 +1488,17 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 121,
+          "lineNumber": 122,
           "line": "// PATTERN: Map entries to promises, then await all"
         },
         {
           "ruleId": "map",
-          "lineNumber": 122,
+          "lineNumber": 123,
           "line": "const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>"
         },
         {
           "ruleId": "await",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "await Promise.all(promises)"
         }
       ],
@@ -1516,6 +1516,139 @@
         "vue"
       ],
       "returnKeys": [],
+      "complexityScore": 17,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "src__composables__admin__useCalibrationChart.ts",
+      "repoPath": "src/composables/admin/useCalibrationChart.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useCalibrationChart.ts",
+      "counts": {
+        "computed": 5,
+        "ref": 3,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 6,
+        "reduce": 0,
+        "filter": 3,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "map",
+          "lineNumber": 58,
+          "line": "const shapeById = new Map(blockShapes.map(s => [String(s.id), s]))"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 59,
+          "line": "const serviceBlocks = blockInstances.filter(block => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 64,
+          "line": "return serviceBlocks.map(block => {"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 65,
+          "line": "const relationships = partAssignments.filter("
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 68,
+          "line": "const childIds = [...new Set(relationships.map(rel => String(rel.childId)))]"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 70,
+          "line": "const nonZeroed = resolved.filter(p => !p.zeroOutPart)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 92,
+          "line": "const sqftMin = ref(DEFAULT_SQFT_MIN)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 93,
+          "line": "const sqftMax = ref(DEFAULT_SQFT_MAX)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 94,
+          "line": "const sqftStep = ref(DEFAULT_SQFT_STEP)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 96,
+          "line": "const serviceFeeTotals = computed(() =>"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 105,
+          "line": "const sqftRange = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 120,
+          "line": "const labels = sqftRange.value.map(String)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 121,
+          "line": "const datasets = serviceFeeTotals.value.map((service, index) => ({"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 123,
+          "line": "data: sqftRange.value.map("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 134,
+          "line": "const chartOptions = computed((): ChartOptions<'line'> => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 162,
+          "line": "const serviceCount = computed(() => serviceFeeTotals.value.length)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 163,
+          "line": "const hasData = computed(() => serviceCount.value > 0)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useCalibrationChart"
+      ],
+      "importSpecifiers": [
+        "@/@core/libs/chartjs/chartjsConfig",
+        "@/composables/useEntity",
+        "@/composables/useRelationship",
+        "@/constants/blockShapeTypes",
+        "@/types/entities",
+        "@/utils/booking/partsTotals",
+        "@/utils/collections/resolveByIds",
+        "chart.js",
+        "vue",
+        "vuetify"
+      ],
+      "returnKeys": [
+        "name",
+        "totalBaseFee",
+        "totalRateOverBaseFee"
+      ],
       "complexityScore": 17,
       "priority": "P2",
       "suggestions": []
@@ -1928,67 +2061,67 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 158,
+          "lineNumber": 159,
           "line": "const createdClient = await createUser.mutateAsync(clientUserData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 173,
+          "lineNumber": 174,
           "line": "const createdAgent = await createUser.mutateAsync(agentUserData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 189,
+          "lineNumber": 190,
           "line": "const createdAnotherClient = await createUser.mutateAsync(anotherClientData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 206,
+          "lineNumber": 207,
           "line": "const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 223,
+          "lineNumber": 224,
           "line": "const createdSeller = await createUser.mutateAsync(sellerData)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 233,
+          "lineNumber": 234,
           "line": "const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 246,
+          "lineNumber": 247,
           "line": "? availability.candidateTimeSlots.map(slot => ({"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 272,
+          "lineNumber": 273,
           "line": "const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 280,
+          "lineNumber": 281,
           "line": "const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 288,
+          "lineNumber": 289,
           "line": "const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 299,
+          "lineNumber": 300,
           "line": "selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),"
         },
         {
           "ruleId": "map",
-          "lineNumber": 302,
+          "lineNumber": 303,
           "line": "? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 306,
+          "lineNumber": 307,
           "line": "? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)"
         }
       ],
@@ -2060,52 +2193,52 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 115,
+          "lineNumber": 116,
           "line": "serverSlotsForDay.value.map(s => ({"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "watch(vDatePickerDisplayDate, newDate => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 146,
+          "lineNumber": 147,
           "line": "watch(appointmentDuration, newDuration => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 150,
+          "lineNumber": 151,
           "line": "watch(displayedMonth, newMonth => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 158,
+          "lineNumber": 159,
           "line": "watch(selectedDate, newDate => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 168,
+          "lineNumber": 169,
           "line": "const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 176,
+          "lineNumber": 177,
           "line": "watch(firstAvailableDate, firstDate => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 215,
+          "lineNumber": 216,
           "line": "appointmentSlotsCount: computed(() => appointmentSlots.value.length)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 221,
+          "lineNumber": 222,
           "line": "moveableScheduling: computed(() => confirmedMoveableScheduling.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 259,
+          "lineNumber": 260,
           "line": "busyPeriods: computed(() => []),"
         }
       ],
@@ -2374,21 +2507,21 @@
         {
           "ruleId": "computed",
           "lineNumber": 76,
-          "line": "const availableLineItemBlocks = computed(() =>"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 80,
-          "line": "const accServices = computed(() => selectedServiceTypeBlocks.value)"
+          "line": "const availableLineItemBlocks = computed(() => {"
         },
         {
           "ruleId": "computed",
           "lineNumber": 81,
-          "line": "const accProperty = computed(() => selectedPropertyTypeBlocks.value)"
+          "line": "const accServices = computed(() => selectedServiceTypeBlocks.value)"
         },
         {
           "ruleId": "computed",
           "lineNumber": 82,
+          "line": "const accProperty = computed(() => selectedPropertyTypeBlocks.value)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 83,
           "line": "const accAvailability = computed(() => selectedAvailabilityOptions.value)"
         }
       ],
@@ -2883,7 +3016,7 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 339,
+          "lineNumber": 340,
           "line": "watch("
         }
       ],
@@ -3316,31 +3449,31 @@
         {
           "ruleId": "computed",
           "lineNumber": 86,
-          "line": "const filteredInstances = computed(() => mainInstancesByShape.value.get(blockShapeId) || [])"
+          "line": "const filteredInstances = computed(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 114,
+          "lineNumber": 117,
           "line": "watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 139,
+          "lineNumber": 142,
           "line": "const panelsRefForDrag = ref(panelsEl)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 189,
+          "lineNumber": 192,
           "line": "onMounted(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 198,
+          "lineNumber": 201,
           "line": "onBeforeUnmount(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 210,
+          "lineNumber": 213,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -3944,22 +4077,22 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 125,
+          "lineNumber": 124,
           "line": "* PATTERN: Use onBeforeUnmount to stop watchers before Vue starts unmounting"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 127,
+          "lineNumber": 126,
           "line": "onBeforeUnmount(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 137,
+          "lineNumber": 136,
           "line": "* PATTERN: Use onUnmounted for final cleanup after Vue finishes unmounting"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 139,
+          "lineNumber": 138,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -4044,17 +4177,17 @@
         },
         {
           "ruleId": "ref",
-          "lineNumber": 123,
+          "lineNumber": 125,
           "line": "const _items = isRef(itemsOption) ? itemsOption : ref(itemsOption)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 124,
+          "lineNumber": 126,
           "line": "const modelValue = isRef(modelValueOption) ? modelValueOption : ref(modelValueOption)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 125,
+          "lineNumber": 127,
           "line": "const config = configOption ? (isRef(configOption) ? configOption : ref(configOption)) : ref(undefined)"
         }
       ],
@@ -4740,7 +4873,7 @@
         },
         {
           "ruleId": "filter",
-          "lineNumber": 145,
+          "lineNumber": 146,
           "line": "const matchingPartInstances = allPartInstances.filter((pp) => {"
         }
       ],
@@ -4836,12 +4969,12 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 123,
+          "lineNumber": 124,
           "line": "const isLoaded = computed(() => !!metadataQuery.data.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 143,
+          "lineNumber": 144,
           "line": "metadataData: computed(() => metadataQuery.data.value),"
         }
       ],
@@ -5222,22 +5355,22 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 252,
+          "lineNumber": 253,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 252,
+          "lineNumber": 253,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 254,
+          "lineNumber": 255,
           "line": "await createRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 259,
+          "lineNumber": 260,
           "line": "await Promise.all(["
         }
       ],
@@ -5859,42 +5992,42 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 84,
+          "lineNumber": 87,
           "line": "const entity = 'value' in entityOption ? entityOption : ref(entityOption)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 98,
+          "lineNumber": 101,
           "line": "const showDeleteDialog = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 120,
+          "lineNumber": 123,
           "line": "const handleSave = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 123,
+          "lineNumber": 126,
           "line": "const isValid = await validateForm()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 138,
+          "lineNumber": 141,
           "line": "const createdEntity = await createEntity(entityToSave)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 142,
+          "lineNumber": 145,
           "line": "await updateEntity(entityToSave, entity.value.id)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 177,
+          "lineNumber": 179,
           "line": "const handleDelete = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 179,
+          "lineNumber": 181,
           "line": "await remove(entity.value.id)"
         }
       ],
@@ -5910,6 +6043,7 @@
         "@/constants/entities",
         "@/constants/primitives",
         "@/types/entities",
+        "@/utils/logger",
         "vee-validate",
         "vue"
       ],
@@ -6198,42 +6332,42 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 48,
+          "lineNumber": 51,
           "line": "*   parentInstance: computed(() => selectedService.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 63,
+          "lineNumber": 66,
           "line": "const dependentInstanceRelationships = computed((): GlobalRelationship[] => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 65,
+          "lineNumber": 68,
           "line": "return externalRelationships.value.filter("
         },
         {
           "ruleId": "computed",
-          "lineNumber": 81,
+          "lineNumber": 84,
           "line": "const dependentInstanceIds = computed((): string[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 98,
+          "lineNumber": 101,
           "line": "const dependentInstances = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 137,
+          "lineNumber": 170,
           "line": "const eligibleInstances = instances.filter(instance => instance.bookingMode !== DEFAULT_VALUES.BOOKING_MODE)"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 139,
+          "lineNumber": 172,
           "line": "return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 142,
+          "lineNumber": 175,
           "line": "const hasDependentInstances = computed((): boolean => {"
         }
       ],
@@ -6244,6 +6378,7 @@
         "@/composables/useGlobal",
         "@/constants/entityFieldConstants",
         "@/types/relationships",
+        "@/utils/logger",
         "@/utils/transformers/globalToBookingTransformer",
         "@/utils/transformers/relationshipTransformers",
         "vue"
@@ -6362,42 +6497,42 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 75,
-          "line": "const majorLabel = computed(() =>"
+          "lineNumber": 77,
+          "line": "const majorLabel = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 78,
-          "line": "const minorLabel = computed(() =>"
+          "lineNumber": 85,
+          "line": "const minorLabel = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 88,
+          "lineNumber": 100,
           "line": "const majorDuration = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 100,
+          "lineNumber": 116,
           "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 122,
+          "lineNumber": 143,
           "line": "const minorDuration = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 136,
+          "lineNumber": 165,
           "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 141,
+          "lineNumber": 170,
           "line": "? eventShapeEntities.filter(es => es.id !== majorEventShape.id)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 166,
+          "lineNumber": 200,
           "line": "const differentialTimeBlocks = computed(() => {"
         }
       ],
@@ -6414,6 +6549,7 @@
         "@/types/entities",
         "@/utils/booking/appointmentSlotBuilder",
         "@/utils/eventAttendeeUtils",
+        "@/utils/logger",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
       ],
@@ -6981,17 +7117,17 @@
         },
         {
           "ruleId": "async",
-          "lineNumber": 147,
+          "lineNumber": 148,
           "line": "const handleNewPartInstanceSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 157,
+          "lineNumber": 158,
           "line": "await createPartAssignmentsRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 162,
+          "lineNumber": 163,
           "line": "await Promise.all(["
         }
       ],
@@ -7215,27 +7351,27 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 73,
+          "lineNumber": 74,
           "line": "const cascadeInstances = computed((): BookingBlockInstance[] => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 80,
+          "lineNumber": 81,
           "line": "let instances = data.blockInstances.filter("
         },
         {
           "ruleId": "filter",
-          "lineNumber": 90,
+          "lineNumber": 91,
           "line": "instances = instances.filter("
         },
         {
           "ruleId": "sort",
-          "lineNumber": 96,
+          "lineNumber": 97,
           "line": "return instances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 99,
+          "lineNumber": 100,
           "line": "const hasCascades = computed((): boolean => {"
         }
       ],
@@ -7299,17 +7435,17 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 107,
+          "lineNumber": 108,
           "line": "const data = await fetchComputedAvailabilityData({"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 144,
+          "lineNumber": 145,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 164,
+          "lineNumber": 166,
           "line": "watch("
         }
       ],
@@ -7446,37 +7582,37 @@
         },
         {
           "ruleId": "console",
-          "lineNumber": 104,
+          "lineNumber": 105,
           "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 111,
+          "lineNumber": 112,
           "line": "return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))"
         },
         {
           "ruleId": "console",
-          "lineNumber": 178,
+          "lineNumber": 179,
           "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 231,
+          "lineNumber": 233,
           "line": "// WHY: useField from vee-validate requires a component instance (uses lifecycle hooks like onMounted, provide)"
         },
         {
           "ruleId": "console",
-          "lineNumber": 278,
+          "lineNumber": 280,
           "line": "console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 306,
+          "lineNumber": 308,
           "line": "// PATTERN: Eager creation from initial field keys, then watchEffect to catch async metadata loads"
         },
         {
           "ruleId": "watchEffect",
-          "lineNumber": 310,
+          "lineNumber": 312,
           "line": "watchEffect(() => {"
         }
       ],
@@ -7703,27 +7839,27 @@
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 55,
+          "lineNumber": 56,
           "line": "return relationships.reduce((acc, rel) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
+          "lineNumber": 72,
           "line": "const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 76,
+          "lineNumber": 77,
           "line": ".filter((instance) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 86,
+          "lineNumber": 87,
           "line": "const groupedInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 91,
+          "lineNumber": 92,
           "line": ".filter((instance) => {"
         }
       ],
@@ -8746,27 +8882,27 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 68,
+          "lineNumber": 76,
           "line": "// PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format"
         },
         {
           "ruleId": "map",
-          "lineNumber": 70,
+          "lineNumber": 78,
           "line": "eventShapes = eventShapes.map(eventShape => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 72,
-          "line": "const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []"
+          "lineNumber": 83,
+          "line": "attendees = rawChildren.map((child: GlobalEntity<GlobalEntityKey>) => child.id)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 78,
+          "lineNumber": 93,
           "line": "eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 83,
+          "lineNumber": 98,
           "line": "partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])"
         }
       ],
@@ -8822,27 +8958,27 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 98,
+          "lineNumber": 113,
           "line": "const showAnotherClient = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 99,
+          "lineNumber": 114,
           "line": "const showTransactionManager = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 100,
+          "lineNumber": 115,
           "line": "const showSeller = ref(false)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 135,
+          "lineNumber": 150,
           "line": "watch(loadedWizardState, (newState) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 197,
+          "lineNumber": 212,
           "line": "const stepData = computed(() => ({"
         }
       ],
@@ -8850,6 +8986,7 @@
         "useContactsStepData"
       ],
       "importSpecifiers": [
+        "@/utils/logger",
         "@/utils/transformers/appointmentToWizardTransformer",
         "vue"
       ],
@@ -9536,27 +9673,27 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 81,
+          "lineNumber": 89,
           "line": "const requiresUnitNumber = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 97,
           "line": "const isMultiFamily = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 123,
+          "lineNumber": 131,
           "line": "const propertyTypeBlocksWithComponents = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 124,
+          "lineNumber": 132,
           "line": "return wizard.availablePropertyTypeBlocks.value.map(adjustment => {"
         },
         {
           "ruleId": "console",
-          "lineNumber": 197,
+          "lineNumber": 204,
           "line": "console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')"
         }
       ],
@@ -10190,12 +10327,12 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 72,
+          "lineNumber": 73,
           "line": "isLoading: computed(() => metadataCache.isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 79,
+          "lineNumber": 80,
           "line": "error: computed(() => metadataCache.error.value),"
         }
       ],
@@ -10676,12 +10813,12 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 97,
+          "lineNumber": 98,
           "line": "visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 97,
+          "lineNumber": 98,
           "line": "visibleComponents: item.instanceComponents.filter((comp: ComponentItem) => comp.active === true).map((comp: ComponentItem) => ({"
         }
       ],
@@ -11916,12 +12053,12 @@
         {
           "ruleId": "computed",
           "lineNumber": 42,
-          "line": "const majorLabel = computed(() =>"
+          "line": "const majorLabel = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 45,
-          "line": "const minorLabel = computed(() =>"
+          "lineNumber": 46,
+          "line": "const minorLabel = computed(() => {"
         }
       ],
       "exportUseFunctions": [
@@ -13325,7 +13462,7 @@
       "matches": [
         {
           "ruleId": "watchEffect",
-          "lineNumber": 67,
+          "lineNumber": 68,
           "line": "watchEffect(() => {"
         }
       ],

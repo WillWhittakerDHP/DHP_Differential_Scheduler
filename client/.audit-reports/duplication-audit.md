@@ -20,12 +20,12 @@ These candidates were identified by pattern-detection audit as high-probability 
 | --- | --- | ---: |
 | `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+23 more) | 37 |
 | `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts` (+64 more) | 127 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+209 more) | 216 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+210 more) | 217 |
 
 ## Summary
 
-- Files scanned: **571**
-- Groups (window=10 lines, minOccurrences=2): **208**
+- Files scanned: **574**
+- Groups (window=10 lines, minOccurrences=2): **214**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)

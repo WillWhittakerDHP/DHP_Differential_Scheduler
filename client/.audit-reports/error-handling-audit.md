@@ -6,201 +6,32 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **32**
-- Requiring review: **59**
+- Files with findings: **12**
+- Requiring review: **16**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **4**
-- P1 (console-in-catch, type suppressions): **42**
-- P2 (general console usage): **13**
+- P0 (silent catches): **0**
+- P1 (console-in-catch, type suppressions): **9**
+- P2 (general console usage): **7**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/properties/propertyHelpers.ts` | P0 | 20 | 0 | 4 | 0 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
-| `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` | P0 | 15 | 0 | 3 | 0 |
-| `client/src/composables/admin/useDragAndDrop.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/src/composables/admin/useEntityCardActions.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/src/utils/api/relationshipApiHelpers.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/src/utils/booking/mockGoogleCalendar.ts` | P0 | 10 | 1 | 0 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/properties/propertyValidators.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
-| `client/src/composables/formFields/useFormFieldsContext.ts` | P1 | 7 | 0 | 1 | 2 |
-| `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
-| `client/src/components/admin/MetadataEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
-| `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
-| `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/composables/booking/useAppointmentLoader.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/plugins/1.router/guards.ts` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/routes/internal/appointments/appointmentHelpers.ts` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/scripts/importCalendarData.ts` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/services/instanceVersioning.ts` | P1 | 5 | 0 | 1 | 0 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 0 | 0 | 2 |
-
-*...and 2 more files. See JSON report for details.*
+| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P2 | 1 | 0 | 0 | 1 |
+| `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
-
-### `server/src/routes/internal/properties/propertyHelpers.ts` [P0] (score: 20)
-
-```
-as-any@5: * WHY: Improves code reusability, eliminates `as any` casts, improves type safety
-as-any@15: * WHY: Replaces `as any` casts with type-safe checks
-as-any@33: * WHY: Replaces `as any` casts with type-safe checks
-as-any@50: * WHY: Replaces `as any` pattern with proper type handling
-```
-
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` [P0] (score: 15)
-
-```
-as-any@122: entityType: entityType as any,
-as-any@146: entityType: entityType as any,
-as-any@194: entityType: entityType as any,
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` [P0] (score: 15)
-
-```
-as-any@112: entityType: entityType as any,
-as-any@136: entityType: entityType as any,
-as-any@184: entityType: entityType as any,
-```
-
-### `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` [P0] (score: 15)
-
-```
-as-any@48: return null as any
-as-any@66: ...existingValue as any,
-as-any@67: ...newValue as any,
-```
-
-### `client/src/composables/admin/useDragAndDrop.ts` [P0] (score: 10)
-
-```
-catch-comment-only@114: } catch (error) {
-```
-
-### `client/src/composables/admin/useEntityCardActions.ts` [P0] (score: 10)
-
-```
-catch-comment-only@146: } catch (err) {
-```
-
-### `client/src/utils/api/relationshipApiHelpers.ts` [P0] (score: 10)
-
-```
-catch-comment-only@25: } catch (error: unknown) {
-```
-
-### `client/src/utils/booking/mockGoogleCalendar.ts` [P0] (score: 10)
-
-```
-catch-comment-only@259: } catch (error) {
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` [P0] (score: 10)
-
-```
-as-any@214: entityType: entityType as any,
-as-any@216: metadataType: metadataType as any,
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` [P0] (score: 10)
-
-```
-as-any@102: entityType: entityType as any,
-as-any@104: metadataType: metadataType as any,
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` [P0] (score: 10)
-
-```
-as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
-as-any@110: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
-```
-
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` [P0] (score: 10)
-
-```
-as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
-as-any@110: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` [P0] (score: 10)
-
-```
-as-any@22: if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
-as-any@87: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
-```
-
-### `server/src/routes/internal/properties/propertyValidators.ts` [P0] (score: 10)
-
-```
-as-any@71: const blockShape = (blockInstance as any).block_shape
-as-any@103: const blockShape = (bi as any).block_shape
-```
-
-### `server/src/routes/internal/relationships/relationshipErrorHandler.ts` [P0] (score: 10)
-
-```
-as-any@45: (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {
-as-any@84: (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
-```
-
-### `server/src/routes/internal/relationships/relationshipHelpers.ts` [P0] (score: 10)
-
-```
-as-any@178: const parentBlockInstanceWithShape = parentBlockInstance as any
-as-any@185: const childBlockInstanceWithShape = childBlockInstance as any
-```
-
-### `client/src/composables/formFields/useFormFieldsContext.ts` [P1] (score: 7)
-
-```
-console-general@104: console.warn(`[useFormFieldsContext] ${warningMessage}`)
-console-general@178: console.warn(`[useFormFieldsContext] ${warningMessage}`)
-console-in-catch@278: console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
-```
-
-### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 6)
-
-```
-console-in-catch@72: console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/components/admin/MetadataEditModal.vue` [P1] (score: 6)
-
-```
-console-in-catch@57: console.error('[MetadataEditModal] Error saving metadata:', err)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 6)
-
-```
-console-in-catch@97: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/composables/admin/useInstanceBulkEdit.ts` [P1] (score: 6)
-
-```
-console-in-catch@137: console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
 
 ### `client/src/composables/admin/usePartInstanceBulkEdit.ts` [P1] (score: 6)
 
@@ -221,6 +52,12 @@ console-no-logger@1: Raw console.* used without logger utility -- use createLogg
 ```
 console-in-catch@25: console.warn('[Router Guard] Failed to prefetch admin metadata:', error)
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 5)
+
+```
+console-in-catch@105: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
 ```
 
 ### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P1] (score: 5)
@@ -244,7 +81,7 @@ as-any@36: * WHY: Replaces unsafe `as any` cast with type-safe interface
 ### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 5)
 
 ```
-as-any@77: const validVersions = versions.filter(v => v !== null) as any[];
+as-any@81: const validVersions = versions.filter(v => v !== null) as any[];
 ```
 
 ### `server/src/services/instanceVersioning.ts` [P1] (score: 5)
@@ -256,14 +93,14 @@ as-any@73: const partInstances = (blockInstanceWithParts as any)?.part_assignmen
 ### `client/src/components/booking/dev/DevPanelsContainer.vue` [P2] (score: 2)
 
 ```
-console-general@333: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
+console-general@334: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
 ```
 
 ### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P2] (score: 1)
 
 ```
-console-general@197: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
+console-general@204: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
 ```
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)

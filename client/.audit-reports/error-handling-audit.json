@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T04:10:01.504Z",
+  "generatedAt": "2026-02-12T02:06:41.672Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 969,
+  "totalScanned": 972,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 59,
+    "totalRequiresReview": 16,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -24,415 +24,6 @@
     }
   },
   "files": [
-    {
-      "id": "server__src__routes__internal__properties__propertyHelpers.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 5,
-          "line": "* WHY: Improves code reusability, eliminates `as any` casts, improves type safety"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 15,
-          "line": "* WHY: Replaces `as any` casts with type-safe checks"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 33,
-          "line": "* WHY: Replaces `as any` casts with type-safe checks"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 50,
-          "line": "* WHY: Replaces `as any` pattern with proper type handling"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 122,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 146,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 194,
-          "line": "entityType: entityType as any,"
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 112,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 136,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 184,
-          "line": "entityType: entityType as any,"
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__businessSettings__businessSettingsHelpers.ts",
-      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 48,
-          "line": "return null as any"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 66,
-          "line": "...existingValue as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 67,
-          "line": "...newValue as any,"
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__admin__useDragAndDrop.ts",
-      "repoPath": "client/src/composables/admin/useDragAndDrop.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-comment-only",
-          "lineNumber": 114,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__admin__useEntityCardActions.ts",
-      "repoPath": "client/src/composables/admin/useEntityCardActions.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-comment-only",
-          "lineNumber": 146,
-          "line": "} catch (err) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__api__relationshipApiHelpers.ts",
-      "repoPath": "client/src/utils/api/relationshipApiHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-comment-only",
-          "lineNumber": 25,
-          "line": "} catch (error: unknown) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__booking__mockGoogleCalendar.ts",
-      "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-comment-only",
-          "lineNumber": 259,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-metadata__adminMetadataCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 214,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 216,
-          "line": "metadataType: metadataType as any,"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-metadata__adminMetadataHelpers.ts",
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 102,
-          "line": "entityType: entityType as any,"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 104,
-          "line": "metadataType: metadataType as any,"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-metadata__adminMetadataValidators.ts",
-      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 22,
-          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 110,
-          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataValidators.ts",
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 22,
-          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 110,
-          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataValidators.ts",
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 22,
-          "line": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 87,
-          "line": "if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__properties__propertyValidators.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 71,
-          "line": "const blockShape = (blockInstance as any).block_shape"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 103,
-          "line": "const blockShape = (bi as any).block_shape"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__relationships__relationshipErrorHandler.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipErrorHandler.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 45,
-          "line": "(error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 84,
-          "line": "(error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__relationships__relationshipHelpers.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 178,
-          "line": "const parentBlockInstanceWithShape = parentBlockInstance as any"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 185,
-          "line": "const childBlockInstanceWithShape = childBlockInstance as any"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__formFields__useFormFieldsContext.ts",
-      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 104,
-          "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 178,
-          "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 278,
-          "line": "console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)"
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__components__admin__InstanceBulkEditModal.vue",
-      "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 72,
-          "line": "console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__components__admin__MetadataEditModal.vue",
-      "repoPath": "client/src/components/admin/MetadataEditModal.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 57,
-          "line": "console.error('[MetadataEditModal] Error saving metadata:', err)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__components__admin__PartInstanceBulkEditModal.vue",
-      "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 97,
-          "line": "console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__admin__useInstanceBulkEdit.ts",
-      "repoPath": "client/src/composables/admin/useInstanceBulkEdit.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 137,
-          "line": "console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
     {
       "id": "client__src__composables__admin__usePartInstanceBulkEdit.ts",
       "repoPath": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
@@ -491,6 +82,20 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__components__admin__PartInstanceBulkEditModal.vue",
+      "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 105,
+          "line": "console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "id": "server__src__routes__internal__appointments__appointmentHelpers.ts",
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "allowed": [],
@@ -539,7 +144,7 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 77,
+          "lineNumber": 81,
           "line": "const validVersions = versions.filter(v => v !== null) as any[];"
         }
       ],
@@ -567,7 +172,7 @@
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 333,
+          "lineNumber": 334,
           "line": "console.error(`[Event Error] Cannot determine ternary value for event shape \"${eventShape.name}\" (${eventShape.id})`)"
         },
         {
@@ -586,7 +191,7 @@
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 197,
+          "lineNumber": 204,
           "line": "console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')"
         }
       ],

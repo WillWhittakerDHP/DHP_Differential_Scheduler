@@ -15,6 +15,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/useRelationship.ts` | P2 | 19 | 0 | 5 | 0 | 1 | 0 | 6 | 7 | 0 | 0 |
 | `src/composables/admin/useSelectHandlers.ts` | P2 | 12 | 1 | 0 | 0 | 1 | 1 | 3 | 3 | 0 | 0 |
 | `src/composables/componentEntity/useComponentEntityActions.ts` | P2 | 20 | 1 | 6 | 0 | 0 | 0 | 4 | 6 | 0 | 0 |
+| `src/composables/admin/useCalibrationChart.ts` | P2 | 14 | 1 | 0 | 0 | 5 | 3 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/dev/usePanelPosition.ts` | P2 | 11 | 1 | 0 | 1 | 0 | 2 | 1 | 1 | 6 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | P2 | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | P2 | 14 | 1 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 0 |
@@ -35,9 +36,8 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/booking/useElementDimensions.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 6 | 0 |
 | `src/composables/booking/useAppointmentLoader.ts` | P2 | 10 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 1 |
 | `src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/admin/useDragAndDrop.ts` | P2 | 4 | 1 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
 
-*...and 143 more files. See full report for details.*
+*...and 144 more files. See full report for details.*
 
 ## Notes
 

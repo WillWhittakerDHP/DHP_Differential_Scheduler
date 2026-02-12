@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T04:08:23.516Z",
-  "totalScanned": 969,
+  "generatedAt": "2026-02-12T01:55:37.361Z",
+  "totalScanned": 972,
   "exceptionSummary": {
     "totalAllowed": 0,
     "totalRequiresReview": 81,
@@ -538,7 +538,7 @@
       "requiresReview": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 169,
+          "lineNumber": 170,
           "line": "export function resetMetadataCache("
         }
       ]
