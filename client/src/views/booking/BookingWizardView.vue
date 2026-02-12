@@ -1,13 +1,14 @@
 <script setup lang="ts">
 /**
  * BookingWizardView Component
- * 
+ *
  * LEARNING: Route-level view component for booking wizard
  * WHY: Provides page-level wrapper for the booking wizard component
  * PATTERN: View component imports and renders feature component
  */
 
 import BookingWizard from '@/components/booking/BookingWizard.vue'
+import BetaFeedbackWidget from '@/components/beta/BetaFeedbackWidget.vue'
 import { useBooking } from '@/composables/useBooking'
 
 /**
@@ -22,6 +23,7 @@ useBooking()
 <template>
   <div class="booking-wizard-view">
     <BookingWizard />
+    <BetaFeedbackWidget />
   </div>
 </template>
 

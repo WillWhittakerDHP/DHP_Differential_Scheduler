@@ -12,7 +12,7 @@
  */
 
 import { ref } from 'vue'
-import type { PropertyFormData } from '@/types/propertyForm'
+import type { PropertyFormData, PropertySource } from '@/types/propertyForm'
 
 export interface UsePropertyFormStateReturn {
   formData: PropertyFormData
@@ -47,6 +47,8 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   const bathrooms = ref<number | null>(null)
   const foundationAccess = ref<'basement' | 'crawlspace' | 'slab' | null>(null)
   const additionalUnits = ref<number | null>(null)
+  const source = ref<PropertySource | undefined>(undefined)
+  const suggestedBlockInstanceIds = ref<string[]>([])
   
   /**
    * LEARNING: Track whether address fields are expanded (progressive disclosure)
@@ -76,7 +78,9 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
     bedrooms,
     bathrooms,
     foundationAccess,
-    additionalUnits
+    additionalUnits,
+    source,
+    suggestedBlockInstanceIds
   }
 
   return {

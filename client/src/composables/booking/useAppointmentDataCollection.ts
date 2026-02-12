@@ -134,7 +134,8 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         bedrooms: propertyDetailsStepData.value.bedrooms || null,
         bathrooms: propertyDetailsStepData.value.bathrooms || null,
         foundationAccess: propertyDetailsStepData.value.foundationAccess || null,
-        additionalUnits: propertyDetailsStepData.value.additionalUnits || null
+        additionalUnits: propertyDetailsStepData.value.additionalUnits || null,
+        source: propertyDetailsStepData.value.source ?? undefined
       }
 
       const createdProperty = await createProperty.mutateAsync(propertyData)

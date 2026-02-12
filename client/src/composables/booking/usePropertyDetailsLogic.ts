@@ -6,7 +6,7 @@
  * PATTERN: Composable that provides reactive computed properties and helper functions
  */
 
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed, ref, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { useGlobal } from '@/composables/useGlobal'
@@ -15,6 +15,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 import type { PlaceDetails } from '@/services/mapsApiService'
+import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('usePropertyDetailsLogic')
@@ -46,7 +47,11 @@ export interface UsePropertyDetailsLogicParams {
   wizard: {
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>
+    availableLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>
+    togglePropertyTypeBlock: (block: BookingBlockInstance) => void
+    toggleLineItemBlock: (block: BookingBlockInstance) => void
+    batchUpdate: (fn: () => void) => void
   }
   loadedWizardState: Ref<WizardStateData | null> | null
   formData: PropertyFormData
@@ -59,7 +64,8 @@ export interface UsePropertyDetailsLogicReturn {
   propertyTypeBlocksWithComponents: ComputedRef<SelectionCardItemWithComponents[]>
 
   stepData: ComputedRef<PropertyDetailsData>
-  syncMLSData: () => void
+  syncMLSData: () => Promise<void>
+  isEnrichmentLoading: Ref<boolean>
   handlePlaceSelected: (details: PlaceDetails) => void
   handleAutocompleteError: (error: Error) => void
   changeAddress: () => void
@@ -181,8 +187,12 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     bedrooms: formData.bedrooms.value,
     bathrooms: formData.bathrooms.value,
     foundationAccess: formData.foundationAccess.value,
-    additionalUnits: formData.additionalUnits.value
+    additionalUnits: formData.additionalUnits.value,
+    source: formData.source?.value,
+    suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds?.value
   }))
+
+  const isEnrichmentLoading = ref(false)
 
   /**
    * LEARNING: Handle place selection from AddressAutocomplete
@@ -200,13 +210,16 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
     
     // Store location data for drive time calculations
-    // DEBUG: Log candidatePlaceId being set
-    console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
     formData.candidatePlaceId.value = placeId
     formData.candidateCoordinates.value = coordinates
     
     // Expand to show editable fields
     isAddressExpanded.value = true
+
+    // Trigger MLS enrichment (gate: valid placeId + address)
+    syncMLSData().catch((err) => {
+      logger.warn('MLS enrichment failed', { err })
+    })
   }
 
   /**
@@ -229,11 +242,72 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   }
 
   /**
-   * LEARNING: Sync MLS data function
-   * WHY: Placeholder for future MLS data synchronization functionality
-   * PATTERN: Empty function that can be implemented later
+   * LEARNING: Sync MLS data from Bright MLS / RESO property enrichment
+   * WHY: Fetches listing data when user selects address; populates form and suggests blocks
+   * PATTERN: Gate on candidatePlaceId + address; call enrichment API; populate form; apply suggested blocks
    */
-  const syncMLSData = (): void => {
+  const syncMLSData = async (): Promise<void> => {
+    const placeId = formData.candidatePlaceId?.value
+    const address = formData.address?.value?.trim()
+    if (!placeId || !address) {
+      return
+    }
+    // Skip synthetic/test place IDs (Google Place IDs are typically 20+ chars)
+    if (placeId.length < 15) {
+      return
+    }
+
+    isEnrichmentLoading.value = true
+    if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []
+
+    try {
+      const enrichment = await fetchPropertyEnrichment(
+        address,
+        formData.city?.value,
+        formData.state?.value,
+        formData.zipCode?.value
+      )
+
+      if (!enrichment) {
+        return
+      }
+
+      formData.mlsNumber.value = enrichment.mlsNumber ?? ''
+      formData.squareFootage.value = enrichment.squareFootage
+      formData.bedrooms.value = enrichment.bedrooms
+      formData.bathrooms.value = enrichment.bathrooms
+      formData.foundationAccess.value = enrichment.foundationAccess
+      formData.additionalUnits.value = enrichment.additionalUnits
+      if (formData.source) formData.source.value = 'api'
+      if (formData.suggestedBlockInstanceIds) {
+        formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []
+      }
+
+      if (enrichment.squareFootage != null) {
+        formData.propertySize.value = enrichment.squareFootage
+      }
+
+      const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []
+      if (suggestedIds.length > 0) {
+        wizard.batchUpdate(() => {
+          const propBlocks = wizard.availablePropertyTypeBlocks.value
+          const lineBlocks = wizard.availableLineItemBlocks.value
+          for (const id of suggestedIds) {
+            const propBlock = propBlocks.find((b) => b.id === id)
+            if (propBlock) {
+              wizard.togglePropertyTypeBlock(propBlock)
+              break
+            }
+            const lineBlock = lineBlocks.find((b) => b.id === id)
+            if (lineBlock) {
+              wizard.toggleLineItemBlock(lineBlock)
+            }
+          }
+        })
+      }
+    } finally {
+      isEnrichmentLoading.value = false
+    }
   }
 
   return {
@@ -242,6 +316,7 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     propertyTypeBlocksWithComponents,
     stepData,
     syncMLSData,
+    isEnrichmentLoading,
     handlePlaceSelected,
     handleAutocompleteError,
     changeAddress

@@ -16,6 +16,8 @@ import type { Ref } from 'vue'
  * WHY: Used for property form data in booking wizard
  * PATTERN: Plain data structure (no Ref wrappers)
  */
+export type PropertySource = 'api' | 'manual' | 'client'
+
 export interface PropertyDetailsData {
   address: string
   unit: string
@@ -32,6 +34,8 @@ export interface PropertyDetailsData {
   bathrooms: number | null
   foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits: number | null
+  source?: PropertySource
+  suggestedBlockInstanceIds?: string[]
 }
 
 /**
@@ -55,4 +59,6 @@ export interface PropertyFormData {
   bathrooms: Ref<number | null>
   foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
   additionalUnits: Ref<number | null>
+  source?: Ref<PropertySource | undefined>
+  suggestedBlockInstanceIds?: Ref<string[]>
 }

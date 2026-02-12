@@ -75,7 +75,11 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
   wizard: {
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     availablePropertyTypeBlocks: wizard.availablePropertyTypeBlocks,
-    selectedUserTypeBlock: wizard.selectedUserTypeBlock
+    availableLineItemBlocks: wizard.availableLineItemBlocks,
+    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
+    togglePropertyTypeBlock: wizard.togglePropertyTypeBlock,
+    toggleLineItemBlock: wizard.toggleLineItemBlock,
+    batchUpdate: wizard.batchUpdate
   },
   loadedWizardState,
   formData: {
@@ -93,7 +97,9 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
     bedrooms: formData.bedrooms,
     bathrooms: formData.bathrooms,
     foundationAccess: formData.foundationAccess,
-    additionalUnits: formData.additionalUnits
+    additionalUnits: formData.additionalUnits,
+    source: formData.source,
+    suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds
   },
   isAddressExpanded
 })
@@ -103,6 +109,7 @@ const {
   isMultiFamily,
   propertyTypeBlocksWithComponents,
   stepData,
+  isEnrichmentLoading,
   handlePlaceSelected,
   handleAutocompleteError,
   changeAddress
@@ -148,7 +155,9 @@ usePropertyFormWatchers({
     bedrooms: formData.bedrooms,
     bathrooms: formData.bathrooms,
     foundationAccess: formData.foundationAccess,
-    additionalUnits: formData.additionalUnits
+    additionalUnits: formData.additionalUnits,
+    source: formData.source,
+    suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds
   },
   loadedWizardState,
   isAddressExpanded
@@ -365,6 +374,12 @@ function handlePropertyEdit(): void {
     <VRow class="mt-5">
       <VCol cols="12">
         <h5 class="text-h5 mb-4">Details</h5>
+        <VProgressLinear
+          v-if="isEnrichmentLoading"
+          indeterminate
+          color="primary"
+          class="mb-4"
+        />
       </VCol>
       
       <VCol cols="12" md="6">

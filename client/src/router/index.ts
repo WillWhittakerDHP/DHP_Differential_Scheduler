@@ -38,6 +38,11 @@ const routes: RouteRecordRaw[] = [
     name: 'admin-panel',
     component: () => import('@/views/admin/AdminPanel.vue'),
   },
+  {
+    path: '/beta-feedback',
+    name: 'beta-feedback',
+    component: () => import('@/views/beta/BetaFeedbackView.vue'),
+  },
 ]
 
 const router = createRouter({

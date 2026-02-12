@@ -44,11 +44,16 @@ vi.mock('@/composables/useComponentEntity', () => ({
   }),
 }))
 
+vi.mock('@/services/propertyEnrichmentApiService', () => ({
+  fetchPropertyEnrichment: vi.fn(() => Promise.resolve(null)),
+}))
+
 function createPropertyBlock(
   id: string,
   options: {
     name?: string
     requiresUnitNumber?: boolean | null
+    isMultiFamily?: boolean
   } = {}
 ): BookingBlockInstance {
   return {
@@ -68,6 +73,7 @@ function createPropertyBlock(
     partInstances: [],
     allowMultiple: false,
     requiresUnitNumber: options.requiresUnitNumber ?? null,
+    isMultiFamily: options.isMultiFamily ?? false,
   }
 }
 
@@ -78,6 +84,8 @@ function createFormData() {
     city: ref(''),
     state: ref(''),
     zipCode: ref(''),
+    candidatePlaceId: ref<string | undefined>(undefined),
+    candidateCoordinates: ref<{ lat: number; lng: number } | undefined>(undefined),
     propertySize: ref<number | null>(null),
     numberOfUnits: ref<number | null>(null),
     mlsNumber: ref(''),
@@ -86,6 +94,8 @@ function createFormData() {
     bathrooms: ref<number | null>(null),
     foundationAccess: ref<'basement' | 'crawlspace' | 'slab' | null>(null),
     additionalUnits: ref<number | null>(null),
+    source: ref<'api' | 'manual' | 'client' | undefined>(undefined),
+    suggestedBlockInstanceIds: ref<string[]>([]),
   }
 }
 
@@ -93,14 +103,22 @@ describe('usePropertyDetailsLogic', () => {
   let mockWizard: {
     selectedPropertyTypeBlocks: ReturnType<typeof ref<BookingBlockInstance[]>>
     availablePropertyTypeBlocks: ReturnType<typeof ref<BookingBlockInstance[]>>
+    availableLineItemBlocks: ReturnType<typeof ref<BookingBlockInstance[]>>
     selectedUserTypeBlock: ReturnType<typeof ref<{ id: string } | null>>
+    togglePropertyTypeBlock: (block: BookingBlockInstance) => void
+    toggleLineItemBlock: (block: BookingBlockInstance) => void
+    batchUpdate: (fn: () => void) => void
   }
 
   beforeEach(() => {
     mockWizard = {
       selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
       availablePropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
+      availableLineItemBlocks: ref<BookingBlockInstance[]>([]),
       selectedUserTypeBlock: ref<{ id: string } | null>(null),
+      togglePropertyTypeBlock: () => {},
+      toggleLineItemBlock: () => {},
+      batchUpdate: (fn) => fn(),
     }
   })
 
@@ -112,6 +130,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(requiresUnitNumber.value).toBe(false)
@@ -127,6 +146,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(requiresUnitNumber.value).toBe(true)
@@ -142,6 +162,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(requiresUnitNumber.value).toBe(false)
@@ -158,6 +179,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(requiresUnitNumber.value).toBe(true)
@@ -170,6 +192,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(requiresUnitNumber.value).toBe(false)
@@ -191,6 +214,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(isMultiFamily.value).toBe(false)
@@ -198,7 +222,7 @@ describe('usePropertyDetailsLogic', () => {
 
     it('should return true when property name contains multi', () => {
       mockWizard.selectedPropertyTypeBlocks.value = [
-        createPropertyBlock('p1', { name: 'Multi-Family' }),
+        createPropertyBlock('p1', { name: 'Multi-Family', isMultiFamily: true }),
       ]
       const formData = createFormData()
       
@@ -206,6 +230,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(isMultiFamily.value).toBe(true)
@@ -213,7 +238,7 @@ describe('usePropertyDetailsLogic', () => {
 
     it('should be case insensitive', () => {
       mockWizard.selectedPropertyTypeBlocks.value = [
-        createPropertyBlock('p1', { name: 'MULTI-UNIT' }),
+        createPropertyBlock('p1', { name: 'MULTI-UNIT', isMultiFamily: true }),
       ]
       const formData = createFormData()
       
@@ -221,6 +246,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(isMultiFamily.value).toBe(true)
@@ -236,6 +262,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(isMultiFamily.value).toBe(false)
@@ -258,6 +285,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(stepData.value.address).toBe('123 Main St')
@@ -277,6 +305,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(stepData.value.address).toBe('')
@@ -294,6 +323,7 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(stepData.value).toHaveProperty('address')
@@ -320,21 +350,23 @@ describe('usePropertyDetailsLogic', () => {
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
       expect(typeof syncMLSData).toBe('function')
     })
 
-    it('should not throw when called', () => {
+    it('should not throw when called', async () => {
       const formData = createFormData()
       
       const { syncMLSData } = usePropertyDetailsLogic({
         wizard: mockWizard,
         loadedWizardState: null,
         formData,
+        isAddressExpanded: ref(false),
       })
       
-      expect(() => syncMLSData()).not.toThrow()
+      await expect(syncMLSData()).resolves.toBeUndefined()
     })
   })
 })

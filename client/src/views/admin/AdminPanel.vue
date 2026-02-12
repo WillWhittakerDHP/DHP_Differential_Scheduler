@@ -11,6 +11,7 @@ import InstancesTab from './tabs/InstancesTab.vue'
 import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
+import PropertyMappingsTab from './tabs/PropertyMappingsTab.vue'
 import { useAdmin } from '@/composables/useAdmin'
 
 /**
@@ -49,6 +50,7 @@ provide('adminCurrentTab', currentTab)
       <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
       <VTab value="business">CONTROLS</VTab>
+      <VTab value="property-mappings">MLS Mappings</VTab>
     </VTabs>
     
     <!--
@@ -73,6 +75,9 @@ provide('adminCurrentTab', currentTab)
       </VWindowItem>
       <VWindowItem key="business" value="business">
         <BusinessControlsTab />
+      </VWindowItem>
+      <VWindowItem key="property-mappings" value="property-mappings">
+        <PropertyMappingsTab />
       </VWindowItem>
     </VWindow>
   </div>
