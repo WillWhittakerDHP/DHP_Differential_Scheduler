@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions, checkInlineException, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
 
 /**
  * Unused Code Audit Script
@@ -203,6 +203,43 @@ function extractFunctions(content) {
 }
 
 /**
+ * Extract the template section from a Vue SFC for usage checks.
+ * Returns content between the root <template> and its matching </template>.
+ * Uses lastIndexOf('</template>') so nested <template #slot>...</template> slots
+ * do not truncate the root template (Vue SFC has one root template block).
+ */
+function extractVueTemplateSection(content) {
+  const templateStart = content.indexOf('<template')
+  if (templateStart === -1) return null
+  const afterTemplateTag = content.indexOf('>', templateStart) + 1
+  const lastTemplateClose = content.lastIndexOf('</template>')
+  if (lastTemplateClose === -1) return null
+  return content.slice(afterTemplateTag, lastTemplateClose)
+}
+
+/**
+ * Check if a function name is referenced in Vue template (event handlers, prop bindings).
+ * Matches @event="funcName", :prop="funcName", "funcName", 'funcName' in template section only.
+ */
+function isFuncReferencedInVueTemplate(funcName, templateSection) {
+  if (!templateSection || !funcName) return false
+  // Escape for regex: only word chars expected in function names
+  const escaped = funcName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const quotedDouble = new RegExp(`["']\\s*${escaped}\\s*["']`)
+  const quotedSingle = new RegExp(`['"]\\s*${escaped}\\s*['"]`)
+  const eventBindingDouble = new RegExp(`@\\w+\\s*=\\s*["']\\s*${escaped}\\s*["']`)
+  const eventBindingSingle = new RegExp(`@\\w+\\s*=\\s*['"]\\s*${escaped}\\s*['"]`)
+  const propBinding = new RegExp(`:\\w+\\s*=\\s*["']\\s*${escaped}\\s*["']`)
+  return (
+    quotedDouble.test(templateSection) ||
+    quotedSingle.test(templateSection) ||
+    eventBindingDouble.test(templateSection) ||
+    eventBindingSingle.test(templateSection) ||
+    propBinding.test(templateSection)
+  )
+}
+
+/**
  * Check if a function is called in the file or other files
  */
 function isFunctionUsed(funcName, allFiles, currentFile) {
@@ -221,6 +258,14 @@ function isFunctionUsed(funcName, allFiles, currentFile) {
     // If there are more calls than declarations, it's used
     if (calls.length > declarations.length) {
       return true
+    }
+
+    // Vue SFC: treat as used if template references the handler (e.g. @click="handleCreate")
+    if (currentFile.endsWith('.vue') && currentContent.includes('<template')) {
+      const templateSection = extractVueTemplateSection(currentContent)
+      if (templateSection && isFuncReferencedInVueTemplate(funcName, templateSection)) {
+        return true
+      }
     }
   } catch (_error) {
     // Skip if can't read
@@ -340,9 +385,8 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
     const content = fs.readFileSync(filePath, 'utf-8')
     const lines = content.split('\n')
     
-    // Check inline exceptions
+    // Check inline exceptions (per-line: comment on line above or same line)
     const inlineExceptions = parseInlineExceptions(content, AUDIT_TYPE)
-    const exceptionRuleIds = new Set(inlineExceptions.map(e => e.ruleId))
     
     // Extract exports and check if they're used
     const exports = extractExports(content)
@@ -355,11 +399,11 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
         }
       }
       
-      // Check allowlist
+      // Check allowlist (config and per-line inline)
       if (checkConfigAllowlist(repoPath, 'unused-export', exp.line || 1, configAllowlist).allowed) {
         continue
       }
-      if (exceptionRuleIds.has('unused-export')) {
+      if (checkInlineException(exp.line || 1, 'unused-export', inlineExceptions).allowed) {
         continue
       }
       
@@ -385,11 +429,11 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
       const line = lines[i]
       const trimmed = line.trim()
       
-      // Check allowlist
+      // Check allowlist (config and per-line inline)
       if (checkConfigAllowlist(repoPath, 'commented-export', i + 1, configAllowlist).allowed) {
         continue
       }
-      if (exceptionRuleIds.has('commented-export')) {
+      if (checkInlineException(i + 1, 'commented-export', inlineExceptions).allowed) {
         continue
       }
       
@@ -411,11 +455,11 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
     // Check for unused functions (non-exported)
     const functions = extractFunctions(content)
     for (const func of functions) {
-      // Check allowlist
+      // Check allowlist (config and per-line inline)
       if (checkConfigAllowlist(repoPath, 'unused-function', func.line, configAllowlist).allowed) {
         continue
       }
-      if (exceptionRuleIds.has('unused-function')) {
+      if (checkInlineException(func.line, 'unused-function', inlineExceptions).allowed) {
         continue
       }
       
@@ -437,11 +481,11 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
       const line = lines[i]
       const lowerLine = line.toLowerCase()
       
-      // Check allowlist
+      // Check allowlist (config and per-line inline)
       if (checkConfigAllowlist(repoPath, 'todo-marker', i + 1, configAllowlist).allowed) {
         continue
       }
-      if (exceptionRuleIds.has('todo-marker')) {
+      if (checkInlineException(i + 1, 'todo-marker', inlineExceptions).allowed) {
         continue
       }
       

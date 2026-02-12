@@ -70,7 +70,7 @@ Cross-Audit
 ### Phase 3: Code Cleanup
 - **audit:pattern-detection** - Detect naming/pattern duplicates
 - **audit:duplication** - Remove duplicated code blocks
-- **audit:unused-code** - Remove unused exports/types
+- **audit:unused-code** - Remove unused exports/types. Repair policy: verify before remove, allowlist when in doubt (see unused-code-audit-config.json and inline `@audit-allow:unused-code:<ruleId>`).
 - **audit:error-handling** - Silent catches, console in catch, type suppressions, general console
 - **audit:deprecation** - Annotated deprecations + runtime legacy accommodation (keywords, unhelpful defaults)
 - **audit:security** - Security-sensitive patterns

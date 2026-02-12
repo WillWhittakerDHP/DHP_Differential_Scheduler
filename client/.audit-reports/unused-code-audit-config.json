@@ -1,21 +1,11 @@
 {
-  "$comment": "Configuration for unused-code-audit.mjs",
-  "priorities": {
-    "p0MinSeverityScore": 10,
-    "p1MinSeverityScore": 5
-  },
+  "$comment": "Configuration for unused-code-audit.mjs. Policy: verify before remove, allowlist when in doubt.",
+  "priorities": { "p0MinSeverityScore": 10, "p1MinSeverityScore": 5 },
   "allowlist": {
     "patterns": [
-      {
-        "glob": "src/constants/**/*.ts",
-        "ruleIds": ["unused-export"],
-        "reason": "Constants files may export unused values for future use"
-      },
-      {
-        "glob": "**/index.ts",
-        "ruleIds": ["unused-export"],
-        "reason": "Barrel files re-export for API surface"
-      }
+      { "glob": "src/constants/**/*.ts", "ruleIds": ["unused-export"], "reason": "Constants files may export unused values for future use" },
+      { "glob": "**/index.ts", "ruleIds": ["unused-export"], "reason": "Barrel files re-export for API surface" },
+      { "glob": "**/composables/**/*.ts", "ruleIds": ["unused-export"], "reason": "Composable return types / public API for consumers" }
     ],
     "specific": []
   }
