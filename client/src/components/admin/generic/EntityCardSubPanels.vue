@@ -209,6 +209,16 @@ const relationshipsSummary = computed((): string => {
     if (parts.length > 0) {
       relationshipTypes.push('Valid Parts')
     }
+  } else if (props.entityKey === 'partInstance') {
+    const pricingCascades = Array.isArray(formValues.pricingCascades) ? formValues.pricingCascades : []
+    if (pricingCascades.length > 0) {
+      relationshipTypes.push('Pricing Cascades')
+    }
+  } else if (props.entityKey === 'partShape') {
+    const validPricingCascades = Array.isArray(formValues.validPricingCascades) ? formValues.validPricingCascades : []
+    if (validPricingCascades.length > 0) {
+      relationshipTypes.push('Valid Pricing Cascades')
+    }
   }
   
   return formatTruncatedList(relationshipTypes)

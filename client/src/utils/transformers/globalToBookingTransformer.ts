@@ -36,6 +36,8 @@ export type BookingPartInstance = {
   rateOverBaseFee: number
   orderIndex: number
   zeroOutPart: boolean
+  /** Child part instance IDs from pricing cascade (downstream parts that contribute to this part's pricing). */
+  activePartIds: string[]
 }
 
 export type BookingBlockShape = {
@@ -90,6 +92,7 @@ function filterAndSortBlockInstances(
   partAssignmentsRelationships: GlobalRelationship[],
   bookingCascadesRelationships: GlobalRelationship[],
   instanceComponentsRelationships: GlobalRelationship[],
+  pricingCascadesRelationships: GlobalRelationship[],
   partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
   blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
   partShapeById: Map<string, GlobalEntity<'partShape'>>
@@ -106,6 +109,7 @@ function filterAndSortBlockInstances(
         partAssignmentsRelationships,
         bookingCascadesRelationships,
         instanceComponentsRelationships,
+        pricingCascadesRelationships,
         partInstanceById,
         blockShapeById,
         partShapeById
@@ -244,13 +248,14 @@ function buildBookingBlockInstance(
 
 /**
  * Transform a single block instance with embedded part instances
- * LEARNING: Denormalizes blockShape and embeds part instances
+ * LEARNING: Denormalizes blockShape and embeds part instances; each part may have activePartIds from pricing cascade.
  */
 function transformBlockInstance(
   blockInstance: GlobalEntity<'blockInstance'>,
   partAssignmentsRelationships: GlobalRelationship[],
   bookingCascadesRelationships: GlobalRelationship[],
   instanceComponentsRelationships: GlobalRelationship[],
+  pricingCascadesRelationships: GlobalRelationship[],
   partInstanceById: Map<string, GlobalEntity<'partInstance'>>,
   _blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
   partShapeById: Map<string, GlobalEntity<'partShape'>>
@@ -268,7 +273,9 @@ function transformBlockInstance(
   const partInstances = immutableSort(
     partInstanceList
       .filter((partInstance) => isEntityActive(partInstance))
-      .map((partInstance) => transformPartInstance(partInstance, partShapeById)),
+      .map((partInstance) =>
+        transformPartInstance(partInstance, partShapeById, pricingCascadesRelationships)
+      ),
     (a, b) => {
       const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
       const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
@@ -303,7 +310,8 @@ function transformBlockInstance(
 
 function transformPartInstance(
   partInstance: GlobalEntity<'partInstance'>,
-  partShapeById: Map<string, GlobalEntity<'partShape'>>
+  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+  pricingCascadesRelationships: GlobalRelationship[] = []
 ): BookingPartInstance {
   const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
   const partShapeRef = partInstanceTyped.partShapeRef
@@ -318,6 +326,9 @@ function transformPartInstance(
     zeroOutPart?: boolean
   }
 
+  const pricingRels = findRelationshipsByParent(partInstance.id, pricingCascadesRelationships)
+  const activePartIds = extractChildIds(pricingRels)
+
   return {
     id: partInstance.id,
     entityKey: 'partInstance',
@@ -330,6 +341,7 @@ function transformPartInstance(
     rateOverBaseFee: partInstanceWithProps.rateOverBaseFee ?? 0,
     orderIndex: partInstance.orderIndex,
     zeroOutPart: partInstanceWithProps.zeroOutPart ?? false,
+    activePartIds,
   }
 }
 
@@ -346,6 +358,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const partAssignmentsRelationships = safeArray(relationships.partAssignments)
   const bookingCascadesRelationships = safeArray(relationships.bookingCascades)
   const instanceComponentsRelationships = safeArray(relationships.instanceComponents)
+  const pricingCascadesRelationships = safeArray(relationships.pricingCascades)
 
   const partInstanceById = new Map(
     partInstances.map((partInstance) => [partInstance.id, partInstance])
@@ -371,6 +384,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
+    pricingCascadesRelationships,
     partInstanceById,
     blockShapeById,
     partShapeById
@@ -383,6 +397,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
+    pricingCascadesRelationships,
     partInstanceById,
     blockShapeById,
     partShapeById

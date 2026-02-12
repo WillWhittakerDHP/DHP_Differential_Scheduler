@@ -62,6 +62,18 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
+  pricingCascades: {
+    backendName: 'pricing_cascades',
+    frontendKey: 'pricingCascades',
+    parentEntity: 'partInstance' as GlobalEntityKey,
+    childEntity: 'partInstance' as GlobalEntityKey,
+  },
+  validPricingCascades: {
+    backendName: 'valid_pricing_cascades',
+    frontendKey: 'validPricingCascades',
+    parentEntity: 'partShape' as GlobalEntityKey,
+    childEntity: 'partShape' as GlobalEntityKey,
+  },
   partAssignments: {
     backendName: 'part_assignments',
     frontendKey: 'partAssignments',

@@ -44,17 +44,16 @@ function createBlockInstance(
     allowMultiple,
     partInstances: baseFees.map((fee, i) => ({
       id: `part-${id}-${i}`,
+      entityKey: 'partInstance' as const,
       name: `Part ${i}`,
       baseFee: fee,
       rateOverBaseFee: rateOverBaseFees[i] ?? 0,
       baseTime: 0,
       rateOverBaseTime: 0,
-      onSite: false,
-      clientPresent: false,
-      moveable: false,
       orderIndex: i,
       active: true,
       zeroOutPart: false,
+      activePartIds: [],
     })),
     blockShapeRef: 'shape-1',
     disabled: false,
@@ -97,47 +96,44 @@ describe('confirmationStepData', () => {
       const block = {
         ...createBlockInstance('block-1', 'Block 1', []),
         partInstances: [
-          { 
-            id: 'p1', 
-            name: 'Part 1', 
+          {
+            id: 'p1',
+            entityKey: 'partInstance' as const,
+            name: 'Part 1',
             baseFee: 50,
             rateOverBaseFee: 0,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 0,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
-          { 
-            id: 'p2', 
-            name: 'Part 2', 
+          {
+            id: 'p2',
+            entityKey: 'partInstance' as const,
+            name: 'Part 2',
             baseFee: null as unknown as number,
             rateOverBaseFee: 0,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 1,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
-          { 
-            id: 'p3', 
-            name: 'Part 3', 
+          {
+            id: 'p3',
+            entityKey: 'partInstance' as const,
+            name: 'Part 3',
             baseFee: undefined as unknown as number,
             rateOverBaseFee: 0,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 2,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
         ],
       } as BookingBlockInstance
@@ -150,7 +146,8 @@ describe('confirmationStepData', () => {
     })
 
     it('should calculate overage fee with square footage', () => {
-      const block = createBlockInstance('block-1', 'Block 1', [100], false, [0.5, 0.25])
+      // Two parts: baseFees [100, 0] and rateOverBaseFees [0.5, 0.25] so overage = (0.5 + 0.25) * 2000
+      const block = createBlockInstance('block-1', 'Block 1', [100, 0], false, [0.5, 0.25])
       
       const fee = calculateBlockInstanceFee(block, 2000)
       
@@ -183,47 +180,44 @@ describe('confirmationStepData', () => {
       const block = {
         ...createBlockInstance('block-1', 'Block 1', [100]),
         partInstances: [
-          { 
-            id: 'p1', 
-            name: 'Part 1', 
+          {
+            id: 'p1',
+            entityKey: 'partInstance' as const,
+            name: 'Part 1',
             baseFee: 100,
             rateOverBaseFee: 0.5,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 0,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
-          { 
-            id: 'p2', 
-            name: 'Part 2', 
+          {
+            id: 'p2',
+            entityKey: 'partInstance' as const,
+            name: 'Part 2',
             baseFee: 50,
             rateOverBaseFee: null as unknown as number,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 1,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
-          { 
-            id: 'p3', 
-            name: 'Part 3', 
+          {
+            id: 'p3',
+            entityKey: 'partInstance' as const,
+            name: 'Part 3',
             baseFee: 25,
             rateOverBaseFee: undefined as unknown as number,
             baseTime: 0,
             rateOverBaseTime: 0,
-            onSite: false,
-            clientPresent: false,
-            moveable: false,
             orderIndex: 2,
             active: true,
             zeroOutPart: false,
+            activePartIds: [],
           },
         ],
       } as BookingBlockInstance

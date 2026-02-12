@@ -25,6 +25,8 @@ export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   validParts?: GlobalEntityId[]
   validEvents?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
+  pricingCascades?: GlobalEntityId[]
+  validPricingCascades?: GlobalEntityId[]
   partAssignments?: GlobalEntityId[]
   annotationAssignments?: GlobalEntityId[]
   eventAssignments?: GlobalEntityId[]
@@ -40,6 +42,8 @@ const RELATIONSHIP_KEYS = [
   'validParts',
   'validEvents',
   'bookingCascades',
+  'pricingCascades',
+  'validPricingCascades',
   'partAssignments',
   'annotationAssignments',
   'eventAssignments',
@@ -61,6 +65,8 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
     validParts: 'validParts',
     validEvents: 'validEvents',
     bookingCascades: 'bookingCascades',
+    pricingCascades: 'pricingCascades',
+    validPricingCascades: 'validPricingCascades',
     partAssignments: 'partAssignments',
     annotationAssignments: 'annotationAssignments',
     eventAssignments: 'eventAssignments',

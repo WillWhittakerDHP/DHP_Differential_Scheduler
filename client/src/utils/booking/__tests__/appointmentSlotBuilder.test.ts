@@ -60,16 +60,17 @@ function createPartInstance(
     entityKey: 'partInstance',
     name: options.name || `Part ${id}`,
     partShape: options.partShape || 'shape-1',
-      onSite: (options.onSite ?? 'false') as 'true' | 'false' | 'override',
-      clientPresent: (options.clientPresent ?? 'false') as 'true' | 'false' | 'override',
+    onSite: (options.onSite ?? 'false') as 'true' | 'false' | 'override',
+    clientPresent: (options.clientPresent ?? 'false') as 'true' | 'false' | 'override',
     moveable: options.moveable ?? false,
     baseTime,
     rateOverBaseTime: 0,
     baseFee: 0,
     rateOverBaseFee: 0,
     orderIndex: 0,
-    disabled: false,
-    zeroOutPart: options.zeroOutPart ?? false
+    active: true,
+    zeroOutPart: options.zeroOutPart ?? false,
+    activePartIds: [],
   } as BookingPartInstance
 }
 

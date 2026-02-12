@@ -15,9 +15,11 @@ import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum 
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
 // NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
-type ValidRelationshipKeys<GE extends GlobalEntityKey> = 
+type ValidRelationshipKeys<GE extends GlobalEntityKey> =
   GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
   GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
+  GE extends "partInstance" ? "pricingCascades" :
+  GE extends "partShape" ? "validPricingCascades" :
   never;
 
 type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE>;
@@ -410,9 +412,81 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
           required: true
         },
       },
+
+      pricingCascades: {
+        targetMode: "relationship",
+        targetKey: "pricingCascades",
+        globalField: "pricingCascades",
+
+        selectedParentKey: ENTITY_KEY_PART_INSTANCE,
+        selectedChildKey: ENTITY_KEY_PART_INSTANCE,
+        selectedChildPath: ["pricingCascades"],
+
+        candidateParentKey: ENTITY_KEY_PART_SHAPE,
+        candidateParentPath: ["partShapeRef"],
+        candidateChildKey: ENTITY_KEY_PART_INSTANCE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.PricingCascadeSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+        groupByKey: "partShapeRef",
+
+        label: "Pricing Cascade",
+        placeholder: "No pricing cascades selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "chips",
+        emptyStateText: "No pricing cascades assigned",
+        maxDisplayItems: 10,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+          groupByKey: ENTITY_KEY_PART_SHAPE,
+        },
+      },
     },
 
-    [ENTITY_KEY_PART_SHAPE]: {},
+    [ENTITY_KEY_PART_SHAPE]: {
+      validPricingCascades: {
+        targetMode: "relationship",
+        targetKey: "validPricingCascades",
+        globalField: "validPricingCascades",
+
+        selectedParentKey: ENTITY_KEY_PART_SHAPE,
+        selectedChildKey: ENTITY_KEY_PART_SHAPE,
+        selectedChildPath: ["validPricingCascades"],
+
+        candidateParentKey: ENTITY_KEY_PART_SHAPE,
+        candidateParentPath: [],
+        candidateChildKey: ENTITY_KEY_PART_SHAPE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.ValidPricingCascadeSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Valid Pricing Cascades",
+        placeholder: "No valid pricing cascades",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "badges",
+        emptyStateText: "No valid pricing cascades defined",
+        maxDisplayItems: 8,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+        },
+      },
+    },
     eventShape: {},
     eventInstance: {},
     annotationShape: {},

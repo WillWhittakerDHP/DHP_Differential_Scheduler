@@ -129,7 +129,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('RelationshipCollection')
 
-export type CollectionType = 'parts' | 'annotations' | 'events'
+type CollectionType = 'parts' | 'annotations' | 'events'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
