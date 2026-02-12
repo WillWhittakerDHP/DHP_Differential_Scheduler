@@ -1,0 +1,54 @@
+/**
+ * Bright MLS Foundation Mapping
+ *
+ * LEARNING: RESO FoundationDetails values vary by MLS; map to app enum
+ * WHY: property_details.foundationAccess expects 'basement' | 'crawlspace' | 'slab'
+ * PATTERN: Keyword-based mapping with fallback
+ */
+
+export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;
+
+/**
+ * RESO FoundationDetails keywords to app foundation types
+ * Extend per MLS-specific terminology
+ */
+export const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
+  basement: 'basement',
+  crawl: 'crawlspace',
+  crawlspace: 'crawlspace',
+  slab: 'slab',
+  pier: null,
+  pilings: null,
+};
+
+/**
+ * Map RESO FoundationDetails array or string to foundationAccess
+ *
+ * @param foundationDetails - Array of strings or single string from RESO
+ * @returns 'basement' | 'crawlspace' | 'slab' | null
+ */
+export function mapFoundationType(
+  foundationDetails: string[] | string | null | undefined
+): FoundationAccessType {
+  if (!foundationDetails) {
+    return null;
+  }
+
+  const parts = Array.isArray(foundationDetails)
+    ? foundationDetails
+    : [foundationDetails];
+
+  const lower = parts
+    .filter((p): p is string => typeof p === 'string')
+    .map((p) => p.toLowerCase().trim());
+
+  for (const part of lower) {
+    for (const [keyword, mapped] of Object.entries(FOUNDATION_MAPPING)) {
+      if (part.includes(keyword) && mapped !== null) {
+        return mapped;
+      }
+    }
+  }
+
+  return null;
+}

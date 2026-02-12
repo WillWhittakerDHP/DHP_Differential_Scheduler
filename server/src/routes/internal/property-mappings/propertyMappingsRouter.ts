@@ -1,0 +1,60 @@
+/**
+ * Property Mappings Router
+ *
+ * LEARNING: CRUD for property_field_mappings and property_feature_mappings
+ * WHY: Admin-configurable MLS field and feature mappings
+ * PATTERN: Two sub-routes under /property-mappings
+ */
+
+import { Router } from 'express';
+import {
+  PropertyFieldMapping,
+  PropertyFeatureMapping,
+  BlockInstance,
+} from '../../../config/app.js';
+import { createCrudRouter } from '../../helpers/createCrudRouter.js';
+
+const router = Router();
+
+const fieldMappingsRouter = createCrudRouter({
+  model: PropertyFieldMapping,
+  resourceName: 'property field mapping',
+  errorMessages: {
+    FETCH_ALL: 'Failed to fetch field mappings',
+    FETCH_ONE: 'Failed to fetch field mapping',
+    NOT_FOUND: 'Field mapping not found',
+    CREATE: 'Failed to create field mapping',
+    UPDATE: 'Failed to update field mapping',
+    DELETE: 'Failed to delete field mapping',
+  },
+  defaultOrder: [['sourceField', 'ASC']],
+});
+
+const featureMappingsRouter = createCrudRouter({
+  model: PropertyFeatureMapping,
+  resourceName: 'property feature mapping',
+  errorMessages: {
+    FETCH_ALL: 'Failed to fetch feature mappings',
+    FETCH_ONE: 'Failed to fetch feature mapping',
+    NOT_FOUND: 'Feature mapping not found',
+    CREATE: 'Failed to create feature mapping',
+    UPDATE: 'Failed to update feature mapping',
+    DELETE: 'Failed to delete feature mapping',
+  },
+  defaultOrder: [
+    ['priority', 'DESC'],
+    ['sourceField', 'ASC'],
+  ],
+  defaultIncludes: [
+    {
+      model: BlockInstance,
+      as: 'blockInstance',
+      attributes: ['id', 'name'],
+    },
+  ],
+});
+
+router.use('/field-mappings', fieldMappingsRouter);
+router.use('/feature-mappings', featureMappingsRouter);
+
+export { router as PropertyMappingsRouter };
