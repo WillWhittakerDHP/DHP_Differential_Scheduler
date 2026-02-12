@@ -1,13 +1,14 @@
-import { 
-  Model, 
-  DataTypes, 
+import {
+  Model,
+  DataTypes,
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
   ForeignKey,
-  Sequelize, 
+  Sequelize,
 } from 'sequelize';
 import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
+import type { PricingCascade } from './pricing_cascade.js';
 
 export class PartInstance extends Model<
   InferAttributes<PartInstance>,
@@ -25,6 +26,8 @@ export class PartInstance extends Model<
   declare zeroOutPart: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  declare pricingCascades?: PricingCascade[];
 }
 
 export function PartInstanceFactory(sequelize: Sequelize) {

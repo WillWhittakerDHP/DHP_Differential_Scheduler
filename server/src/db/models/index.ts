@@ -7,11 +7,13 @@ import { BlockInstanceFactory } from "./booking/block_instance.js";
 import { BlockInstanceVersionFactory } from "./booking/block_instance_version.js";
 import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
 import { ValidCascadeFactory } from "./admin/valid_cascade.js";
+import { ValidPricingCascadeFactory } from "./admin/valid_pricing_cascade.js";
 import { ValidPartFactory } from "./admin/valid_part.js";
 import { ValidAnnotationFactory } from "./admin/valid_annotation.js";
 import { ValidEventFactory } from "./admin/valid_event.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
+import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
 import { AnnotationInstanceFactory } from "./booking/annotation_instance.js";
@@ -31,6 +33,10 @@ import { AppointmentFactory } from "./booking/appointment.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
+import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
+import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
+import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
+import { PropertyFeatureMappingFactory } from "./mappings/property_feature_mapping.js";
 
 export function initializeModels(sequelize: Sequelize) {
   const PartShape = PartShapeFactory(sequelize);
@@ -49,6 +55,8 @@ export function initializeModels(sequelize: Sequelize) {
   const DependentInstance = DependentInstanceFactory(sequelize);
 
   const BookingCascade = BookingCascadeFactory(sequelize);
+  const PricingCascade = PricingCascadeFactory(sequelize);
+  const ValidPricingCascade = ValidPricingCascadeFactory(sequelize);
   const PartAssignment = PartAssignmentFactory(sequelize);
   const InstanceComponent = InstanceComponentFactory(sequelize);
 
@@ -74,6 +82,22 @@ export function initializeModels(sequelize: Sequelize) {
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
 
+  const BetaFeedback = BetaFeedbackFactory(sequelize);
+  const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
+  const PropertyFieldMapping = PropertyFieldMappingFactory(sequelize);
+  const PropertyFeatureMapping = PropertyFeatureMappingFactory(sequelize);
+
+  BetaFeedback.hasMany(BetaFeedbackTag, { foreignKey: 'feedbackId', as: 'tags' });
+  PropertyFeatureMapping.belongsTo(BlockInstance, {
+    foreignKey: 'block_instance_id',
+    as: 'blockInstance',
+  });
+  BlockInstance.hasMany(PropertyFeatureMapping, {
+    foreignKey: 'block_instance_id',
+    as: 'propertyFeatureMappings',
+  });
+  BetaFeedbackTag.belongsTo(BetaFeedback, { foreignKey: 'feedbackId', as: 'feedback' });
+
   PartShape.hasMany(PartInstance, { foreignKey: 'part_shape_ref', as: 'part_instances' });
   PartInstance.belongsTo(PartShape, { foreignKey: 'part_shape_ref', as: 'part_shape' });
 
@@ -82,6 +106,9 @@ export function initializeModels(sequelize: Sequelize) {
 
   BlockShape.hasMany(ValidCascade, { foreignKey: 'parent_id', as: 'valid_cascades' });
   ValidCascade.belongsTo(BlockShape, { foreignKey: 'child_id', as: 'valid_cascade_shape' });
+
+  PartShape.hasMany(ValidPricingCascade, { foreignKey: 'parent_id', as: 'valid_pricing_cascades' });
+  ValidPricingCascade.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_pricing_cascade_shape' });
 
   BlockShape.hasMany(ValidPart, { foreignKey: 'parent_id', as: 'valid_parts' });
   ValidPart.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_part_shape' });
@@ -97,6 +124,9 @@ export function initializeModels(sequelize: Sequelize) {
 
   BlockInstance.hasMany(BookingCascade, { foreignKey: 'parent_id', as: 'booking_cascades' });
   BookingCascade.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'booking_cascade_instance' });
+
+  PartInstance.hasMany(PricingCascade, { foreignKey: 'parent_id', as: 'pricing_cascades' });
+  PricingCascade.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'pricing_cascade_instance' });
 
   BlockInstance.hasMany(PartAssignment, { foreignKey: 'parent_id', as: 'part_assignments' });
   PartAssignment.belongsTo(BlockInstance, { foreignKey: 'parent_id', as: 'part_assignment_block_instance' });
@@ -267,17 +297,21 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'blockInstanceVersion' 
   });
 
-  return { 
-    PartInstance, PartShape, 
-    BlockInstance, BlockShape, 
+  return {
+    PartInstance, PartShape,
+    BlockInstance, BlockShape,
     BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
-    BookingCascade, PartAssignment, InstanceComponent,
+    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, ValidPricingCascade, DependentInstance,
+    BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
     AppointmentAttendee,
     BusinessSettings, BusinessRule,
-    AdminMetadata
+    AdminMetadata,
+    BetaFeedback,
+    BetaFeedbackTag,
+    PropertyFieldMapping,
+    PropertyFeatureMapping,
   };
 }

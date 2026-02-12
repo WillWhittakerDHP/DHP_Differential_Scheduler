@@ -6,18 +6,20 @@
  * PATTERN: Const objects with categorized constants
  */
 
-import { 
-  ValidCascade, 
-  ValidPart, 
-  ValidAnnotation, 
-  ValidEvent, 
-  DependentInstance, 
-  BookingCascade, 
-  PartAssignment, 
-  AnnotationAssignment, 
-  EventAssignment, 
-  EventShapeAttendee, 
-  InstanceComponent 
+import {
+  ValidCascade,
+  ValidPart,
+  ValidAnnotation,
+  ValidEvent,
+  ValidPricingCascade,
+  DependentInstance,
+  BookingCascade,
+  PricingCascade,
+  PartAssignment,
+  AnnotationAssignment,
+  EventAssignment,
+  EventShapeAttendee,
+  InstanceComponent,
 } from '../../../config/app.js'
 import { Model, ModelStatic } from 'sequelize'
 
@@ -32,7 +34,7 @@ import { Model, ModelStatic } from 'sequelize'
  * - Constituent: Block → Part relationships (math dimension)
  * - Component: Lateral component relationships (same shape, e.g., service → service)
  */
-export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'dependentInstances' | 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
+export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
 
 export interface RelationshipConfig {
   model: ModelStatic<Model>
@@ -83,6 +85,18 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
     displayName: 'Booking Cascade',
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
+  },
+  pricingCascades: {
+    model: PricingCascade,
+    displayName: 'Pricing Cascade',
+    parentEntity: 'partInstance',
+    childEntity: 'partInstance'
+  },
+  validPricingCascades: {
+    model: ValidPricingCascade,
+    displayName: 'Valid Pricing Cascade',
+    parentEntity: 'partShape',
+    childEntity: 'partShape'
   },
   partAssignments: {
     model: PartAssignment,
@@ -155,6 +169,7 @@ export const ERROR_MESSAGES = {
   INSTANCE_COMPONENT_DELETED: 'Instance component deleted successfully',
   ANNOTATION_ASSIGNMENT_NOT_FOUND: 'Annotation assignment not found',
   RELATIONSHIP_NOT_FOUND: 'Relationship not found',
+  PRICING_CASCADE_SHAPE_NOT_VALID: 'No valid pricing cascade exists between the parent and child part shapes. Configure validPricingCascades on the part shapes first.',
 } as const
 
 /**

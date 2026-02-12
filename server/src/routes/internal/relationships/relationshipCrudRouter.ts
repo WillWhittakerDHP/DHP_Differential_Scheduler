@@ -19,6 +19,7 @@ import {
   validateBlockInstancesWithShapes,
   validateBlockShapesComposable,
   validateAttendeeAssignmentEntities,
+  validatePricingCascadeAgainstShapeRules,
   updateComponentActiveStates,
 } from './relationshipHelpers.js'
 import { buildRelationshipWhereClause, buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
@@ -203,6 +204,13 @@ router.post(
     let createData: Record<string, unknown> | undefined
     try {
       const normalizedKind = normalizeRelationshipKind(req.params.relationshipType)
+      if (normalizedKind === RELATIONSHIP_TYPES.PRICING_CASCADES) {
+        const shapeValidation = await validatePricingCascadeAgainstShapeRules(parentId, childId)
+        if (!shapeValidation.valid) {
+          sendBadRequest(res, shapeValidation.error)
+          return
+        }
+      }
       if (normalizedKind === RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS) {
         try {
           await validateAttendeeAssignmentEntities(parentId, childId)

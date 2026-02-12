@@ -6,16 +6,18 @@
  * PATTERN: Pure functions for complex logic
  */
 
-import { 
-  BlockInstance, 
-  BlockShape, 
-  PartInstance, 
-  EventShape, 
-  InstanceComponent 
+import {
+  BlockInstance,
+  BlockShape,
+  PartInstance,
+  EventShape,
+  InstanceComponent,
+  ValidPricingCascade,
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind, ERROR_MESSAGES } from './relationshipConstants.js'
+import type { ValidationResult } from '../../helpers/routerValidators.js'
 
 /**
  * Map annotation assignment API fields to model-specific field names
@@ -215,6 +217,42 @@ export function validateBlockShapesComposable(
   if (parentBlockShape.id !== childBlockShape.id) {
     throw new Error(ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
   }
+}
+
+/**
+ * Validate pricing cascade against shape-level validPricingCascades rules.
+ * LEARNING: Instance-level pricingCascades must match a partShape->partShape validPricingCascade.
+ * WHY: Ensures only allowed part-shape pairs can form pricing cascade relationships.
+ *
+ * @param parentPartInstanceId - Parent part instance ID
+ * @param childPartInstanceId - Child part instance ID
+ * @returns ValidationResult
+ */
+export async function validatePricingCascadeAgainstShapeRules(
+  parentPartInstanceId: string,
+  childPartInstanceId: string
+): Promise<ValidationResult> {
+  const parentPart = await PartInstance.findByPk(parentPartInstanceId)
+  const childPart = await PartInstance.findByPk(childPartInstanceId)
+  if (!parentPart) {
+    return { valid: false, error: `Parent PartInstance ${parentPartInstanceId} not found` }
+  }
+  if (!childPart) {
+    return { valid: false, error: `Child PartInstance ${childPartInstanceId} not found` }
+  }
+  const parentShapeRef = parentPart.partShapeRef
+  const childShapeRef = childPart.partShapeRef
+  const validRow = await ValidPricingCascade.findOne({
+    where: {
+      parentId: parentShapeRef,
+      childId: childShapeRef,
+      disabled: false,
+    },
+  })
+  if (!validRow) {
+    return { valid: false, error: ERROR_MESSAGES.PRICING_CASCADE_SHAPE_NOT_VALID }
+  }
+  return { valid: true }
 }
 
 /**

@@ -22,6 +22,8 @@ export const RELATIONSHIP_TYPES = {
   VALID_EVENTS: 'validEvents',
   DEPENDENT_INSTANCES: 'dependentInstances',
   BOOKING_CASCADES: 'bookingCascades',
+  PRICING_CASCADES: 'pricingCascades',
+  VALID_PRICING_CASCADES: 'validPricingCascades',
   PART_ASSIGNMENTS: 'partAssignments',
   INSTANCE_COMPONENTS: 'instanceComponents',
 } as const

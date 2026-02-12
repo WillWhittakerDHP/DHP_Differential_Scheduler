@@ -9,6 +9,8 @@ import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
 import BusinessRulesRouter from "./businessRulesRouter.js";
 import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
 import { DevStatusRouter } from "./dev/devStatusRouter.js";
+import { BetaFeedbackRouter } from "./beta-feedback/betaFeedbackRouter.js";
+import { PropertyMappingsRouter } from "./property-mappings/propertyMappingsRouter.js";
 
 const router = Router();
 
@@ -37,5 +39,8 @@ router.use('/admin-relationship-metadata', adminMetadataRouter);
 
 // Dev status endpoint (development only)
 router.use('/dev', DevStatusRouter);
+
+router.use('/beta-feedback', BetaFeedbackRouter);
+router.use('/property-mappings', PropertyMappingsRouter);
 
 export { router as InternalRouter };

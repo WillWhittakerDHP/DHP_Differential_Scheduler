@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { CalendarRouter } from './calendarRoutes.js';
 import { GoogleOAuthRouter } from './googleOauthRoutes.js';
 import { MapsRouter } from './mapsRoutes.js';
+import { PropertyEnrichmentRouter } from './propertyEnrichmentRoutes.js';
 
 /**
  * External Routes
@@ -21,5 +22,8 @@ router.use('/oauth', GoogleOAuthRouter);
 
 // Mount maps routes (Session 2.2.1)
 router.use('/maps', MapsRouter);
+
+// Mount property enrichment routes (Bright MLS)
+router.use('/', PropertyEnrichmentRouter);
 
 export { router as ExternalRouter };
