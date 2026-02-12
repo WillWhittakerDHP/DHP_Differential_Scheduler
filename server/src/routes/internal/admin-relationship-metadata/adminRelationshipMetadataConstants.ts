@@ -1,10 +1,15 @@
 /**
  * Admin Relationship Metadata Router Constants
- * 
+ *
  * LEARNING: Centralized constants for admin relationship metadata router operations
  * WHY: Eliminates magic strings, improves maintainability, enables type safety
  * PATTERN: Const objects with categorized constants
  */
+
+import {
+  createRequiredFields,
+  RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE,
+} from '../admin-metadata/adminMetadataConstants.js'
 
 /**
  * Valid entity types for admin relationship metadata
@@ -38,15 +43,8 @@ export const ERROR_MESSAGES = {
   METADATA_NOT_FOUND: 'Relationship metadata not found',
 } as const
 
-/**
- * Required fields for metadata creation/update
- * LEARNING: Centralized required field lists for validation
- * WHY: Single source of truth for required fields, easier to maintain
- * PATTERN: Const array with required field names
- */
-export const REQUIRED_FIELDS = {
-  CREATE_UPDATE: ['relationshipKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const,
-} as const
+/** Required fields for metadata creation/update (same shape as admin metadata, relationshipKey-based) */
+export const REQUIRED_FIELDS = createRequiredFields(RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE)
 
 /**
  * RenderAs values that require inputConfig

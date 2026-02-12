@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import { createLogger } from "../utils/logger.js";
+import { isProduction } from "../utils/envHelpers.js";
 
 const logger = createLogger('ErrorHandler');
 
@@ -15,6 +16,6 @@ export const errorHandler = (
   res.status(status).json({
     message,
     status,
-    stack: process.env.NODE_ENV === "production" ? "🥞" : stack,
+    stack: isProduction() ? "🥞" : stack,
   });
 };

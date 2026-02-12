@@ -1,0 +1,14 @@
+{
+  "$comment": "Configuration for bundle-size-budget-audit.mjs",
+  "$schema": "Budgets in KB (gzipped). Audit fails if actual exceeds budget.",
+  "budgets": {
+    "totalJsKb": 800,
+    "totalCssKb": 200,
+    "largestChunkKb": 250,
+    "entryPointKb": 150
+  },
+  "allowlist": {
+    "patterns": [],
+    "specific": []
+  }
+}

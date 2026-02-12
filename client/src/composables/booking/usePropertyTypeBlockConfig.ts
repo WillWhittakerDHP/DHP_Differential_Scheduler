@@ -70,7 +70,8 @@ export function usePropertyTypeBlockConfig(
   const rowSelectionConfig = computed(() => {
     void selectedPropertyTypeBlocks.value
     
-    const itemCount = availablePropertyTypeBlocks?.value?.length || 0
+    const blocks = availablePropertyTypeBlocks?.value
+    const itemCount = blocks !== undefined && blocks !== null && Array.isArray(blocks) ? blocks.length : 0
     const dynamicGridColumns = calculateGridColumnsForItemCount(itemCount)
     
     const baseConfig: SelectionCardConfig = {

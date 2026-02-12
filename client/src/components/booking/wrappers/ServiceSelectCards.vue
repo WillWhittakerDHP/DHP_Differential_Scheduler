@@ -76,18 +76,20 @@ const selectedIds = computed<string[]>({
   set: (ids: string[]) => {
     if (ids.length === 0) {
       if (wizard.selectedServiceTypeBlocks.value.length > 0) {
-        wizard.toggleServiceTypeBlock(wizard.selectedServiceTypeBlocks.value[0], true)
+        wizard.batchUpdate(() => {
+          wizard.toggleServiceTypeBlock(wizard.selectedServiceTypeBlocks.value[0])
+        })
       }
       return
     }
-    
+
     const newId = ids[ids.length - 1] // Take last item if multiple (shouldn't happen with radio)
     const currentId = wizard.selectedServiceTypeBlocks.value[0]?.id
-    
+
     if (newId !== currentId) {
       const service = wizard.availableServices.value.find(s => s.id === newId)
       if (service) {
-        wizard.toggleServiceTypeBlock(service, true) // Skip cascade during batch
+        wizard.batchUpdate(() => wizard.toggleServiceTypeBlock(service))
         emit('toggle', newId)
       }
     }

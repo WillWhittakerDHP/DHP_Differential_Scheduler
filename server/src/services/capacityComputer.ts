@@ -23,37 +23,7 @@ import {
   sumWorkHoursForCalendarWeek,
   sumWorkHoursForRollingWeek,
 } from '../utils/availabilities/availabiltiesDbUtils.js'
-
-/**
- * Get all unique dates in a date range
- * LEARNING: Generates array of date strings for each day in range
- * WHY: Need to compute capacity hours for each unique date
- * PATTERN: Iterate through date range, extract date strings
- * 
- * @param startDate - Start date (RFC3339 or Date)
- * @param endDate - End date (RFC3339 or Date)
- * @returns Array of date strings (YYYY-MM-DD)
- */
-function getUniqueDatesInRange(startDate: string | Date, endDate: string | Date): string[] {
-  const start = typeof startDate === 'string' ? new Date(startDate) : startDate
-  const end = typeof endDate === 'string' ? new Date(endDate) : endDate
-  
-  const dates: string[] = []
-  const current = new Date(start)
-  
-  // Set to start of day
-  current.setUTCHours(0, 0, 0, 0)
-  
-  const endDateOnly = new Date(end)
-  endDateOnly.setUTCHours(23, 59, 59, 999)
-  
-  while (current <= endDateOnly) {
-    dates.push(current.toISOString().split('T')[0])
-    current.setUTCDate(current.getUTCDate() + 1)
-  }
-  
-  return dates
-}
+import { getUniqueDatesInRange } from '../utils/availabilities/availabilityPrimitives.js'
 
 /**
  * Pre-compute scheduled hours for all capacity constraints in a date range

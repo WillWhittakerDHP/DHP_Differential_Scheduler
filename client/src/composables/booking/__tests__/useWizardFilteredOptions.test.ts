@@ -68,7 +68,7 @@ describe('useWizardFilteredOptions', () => {
   beforeEach(() => {
     bookingData = ref(null)
     selectedUserType = ref(null)
-    selectedServices = ref([])
+    selectedServiceTypeBlocks = ref([])
     selectedAvailabilityOptions = ref([])
     selectedPropertyTypeBlocks = ref([])
   })

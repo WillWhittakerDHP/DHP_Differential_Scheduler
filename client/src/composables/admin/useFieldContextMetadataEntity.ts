@@ -15,6 +15,7 @@ import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import { useAdmin } from '@/composables/useAdmin'
 
@@ -32,11 +33,12 @@ export function useFieldContextMetadataEntity<
     }
 
     const entityIdStr = String(fieldContext.entityId)
-    const isTemporaryEntity = entityIdStr.startsWith('new-')
+    const isTemporaryEntity = entityIdStr.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
 
     // PATTERN: Build minimal entity object with id, entityKey, and shape references needed for metadata
     if (isTemporaryEntity) {
-      const formValues = fieldContext.formInstance?.values || {}
+      const rawValues = fieldContext.formInstance?.values
+      const formValues = rawValues !== undefined && rawValues !== null ? rawValues : {}
 
       // PATTERN: Include id, entityKey, and shape references from form values
       const entity: Record<string, unknown> = {

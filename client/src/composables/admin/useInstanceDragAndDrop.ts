@@ -83,7 +83,10 @@ export function useInstanceDragAndDrop(
         blockInstancesLists.value.set(blockShapeId, ref([...instances]))
         blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => String(i.id))))
         
-        const filteredInstances = computed(() => mainInstancesByShape.value.get(blockShapeId) || [])
+        const filteredInstances = computed(() => {
+          const raw = mainInstancesByShape.value.get(blockShapeId)
+          return raw !== undefined ? raw : []
+        })
         
         const dragHandlers = useEntityDragHandlers({
           entityIds: blockInstanceIdsMap.value.get(blockShapeId)!,

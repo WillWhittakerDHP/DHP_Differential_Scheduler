@@ -1,6 +1,6 @@
 /**
  * Fetch to Global Transformer
- * 
+ *
  * LEARNING: Transforms API responses (snake_case) to GlobalData format (camelCase)
  * WHY: Converts backend database field names to frontend property names
  * PATTERN: Transformer class that handles entity and relationship transformation
@@ -8,7 +8,7 @@
 
 import apiClient, { getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
-import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
@@ -20,134 +20,27 @@ import { transformApiRelationships } from './relationshipTransformers'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
+import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
+import { safeArray, safeString, safeId } from './transformerPrimitives'
+import { groupByParentId, immutableSort } from './transformerCollections'
 
 const logger = createLogger('fetchToGlobalTransformer')
 
-type DehydrateFieldSets = {
-  requiredFields: Set<string>
-  nullableBooleanFields: Set<string>
-  nonNullableBooleanFields: Set<string>
-  requiredNumberFields: Set<string>
-}
+const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
 
 /**
- * Build field classification sets for dehydrateEntity from entity type and metadata.
- * PATTERN: Schema defaults override metadata; used to coerce empty strings and defaults.
+ * Apply name fallback for annotationInstance: use text as name when name is missing.
+ * LEARNING: API may return annotation with text but no name; frontend expects name.
  */
-function buildFieldClassificationSets(
-  entityType: string,
-  metadata: Record<string, FieldMetadataEntry>
-): DehydrateFieldSets {
-  const schemaRequiredBooleans =
-    ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS] ?? []
-  const schemaNullableBooleans =
-    ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS] ?? []
-  const schemaRequiredNumbers =
-    ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS] ?? []
-
-  const schemaNonNullableBooleansSet = new Set(schemaRequiredBooleans)
-  const schemaNullableBooleansSet = new Set(schemaNullableBooleans)
-  const schemaRequiredNumbersSet = new Set(schemaRequiredNumbers)
-
-  const metadataRequiredFields = Object.entries(metadata)
-    .filter(([, fieldMetadata]) => fieldMetadata.isRequired)
-    .map(([fieldKey]) => fieldKey)
-
-  const metadataBooleanFields = Object.entries(metadata)
-    .filter(
-      ([fieldKey, fieldMetadata]) =>
-        fieldMetadata.dataType === 'boolean' &&
-        !(schemaNonNullableBooleansSet as Set<string>).has(fieldKey) &&
-        !(schemaNullableBooleansSet as Set<string>).has(fieldKey)
-    )
-    .reduce(
-      (acc, [fieldKey, fieldMetadata]) => {
-        if (fieldMetadata.isRequired) {
-          return { ...acc, nonNullable: [...acc.nonNullable, fieldKey] }
-        }
-        return { ...acc, nullable: [...acc.nullable, fieldKey] }
-      },
-      { nonNullable: [] as string[], nullable: [] as string[] }
-    )
-
-  const metadataRequiredNumbers = Object.entries(metadata)
-    .filter(
-      ([fieldKey, fieldMetadata]) =>
-        fieldMetadata.dataType === 'number' &&
-        fieldMetadata.isRequired &&
-        !(schemaRequiredNumbersSet as Set<string>).has(fieldKey)
-    )
-    .map(([fieldKey]) => fieldKey)
-
-  return {
-    requiredFields: new Set([
-      ...schemaRequiredBooleans,
-      ...schemaRequiredNumbers,
-      ...metadataRequiredFields,
-    ]),
-    nullableBooleanFields: new Set([...schemaNullableBooleans, ...metadataBooleanFields.nullable]),
-    nonNullableBooleanFields: new Set([...schemaRequiredBooleans, ...metadataBooleanFields.nonNullable]),
-    requiredNumberFields: new Set([...schemaRequiredNumbers, ...metadataRequiredNumbers]),
-  }
-}
-
-/**
- * Transform a single field entry for dehydrate (frontend → API).
- * PATTERN: Pure function used by dehydrateEntity.
- */
-function transformFieldForDehydrate(
-  [frontendKey, value]: [string, unknown],
-  fieldSets: DehydrateFieldSets,
-  metadata: Record<string, FieldMetadataEntry>
-): [string, unknown] | null {
-  if (frontendKey === 'entityKey') return null
-
-  if (value === undefined) {
-    if (fieldSets.requiredFields.has(frontendKey)) {
-      const fieldMetadata = metadata[frontendKey]
-      if (fieldMetadata) {
-        if (fieldMetadata.dataType === 'reference') return null
-        if (fieldMetadata.dataType === 'boolean') return [frontendKey, false]
-        if (fieldMetadata.dataType === 'number') return [frontendKey, 0]
-        if (fieldMetadata.dataType === 'string') return [frontendKey, '']
-      }
-    }
-    return null
-  }
-
-  if (value === null) {
-    const fieldMetadata = metadata[frontendKey]
-    const isReferenceField =
-      fieldMetadata?.dataType === 'reference' ||
-      frontendKey.endsWith('Ref') ||
-      frontendKey.endsWith('Id') ||
-      frontendKey === 'id'
-    if (isReferenceField) {
-      if (fieldSets.requiredFields.has(frontendKey)) return [frontendKey, null]
-      return null
-    }
-  }
-
-  if (value === '') {
-    if (
-      fieldSets.nullableBooleanFields.has(frontendKey) ||
-      fieldSets.nonNullableBooleanFields.has(frontendKey)
-    ) {
-      const convertedValue = fieldSets.nullableBooleanFields.has(frontendKey) ? null : false
-      return [frontendKey, convertedValue]
-    }
-    if (fieldSets.requiredNumberFields.has(frontendKey)) return [frontendKey, 0]
-    const fieldMetadata = metadata[frontendKey]
-    const isReferenceField =
-      fieldMetadata?.dataType === 'reference' ||
-      frontendKey.endsWith('Ref') ||
-      frontendKey.endsWith('Id') ||
-      frontendKey === 'id'
-    if (isReferenceField) return [frontendKey, null]
-    return [frontendKey, value]
-  }
-
-  return [frontendKey, value]
+function applyAnnotationInstanceNameFallback(
+  entities: GlobalEntity<'annotationInstance'>[]
+): GlobalEntity<'annotationInstance'>[] {
+  return entities.map((entity) => {
+    const record = entity as unknown as Record<string, unknown>
+    if (record.name != null) return entity
+    if (record.text != null) return { ...entity, name: record.text } as GlobalEntity<'annotationInstance'>
+    return entity
+  })
 }
 
 /**
@@ -155,65 +48,43 @@ function transformFieldForDehydrate(
  * LEARNING: Converts batch endpoint response (object keyed by entityKey) to Record<GlobalEntityKey, GlobalEntity[]>
  * WHY: Batch endpoint returns structured object, need to transform each entity type's array
  * PATTERN: Map over ENTITY_KEYS, transform and sort each entity type's data
- * 
- * @param batchResponse - Batch endpoint response with entities keyed by entityKey
- * @returns Transformed entities in expected structure
  */
 function transformBatchEntities(
   batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
 ): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
-  return ENTITY_KEYS.reduce((acc, entityKey) => {
-    const rawEntities = batchResponse[entityKey] ?? []
-    
-    const transformedEntities = rawEntities.map((raw: Record<string, unknown>) => 
-      transformApiEntity(raw, entityKey)
-    )
-    
-    const sortedEntities = [...transformedEntities].sort((a, b) => {
-      const aOrder = a.orderIndex ?? 0
-      const bOrder = b.orderIndex ?? 0
-      return aOrder - bOrder
+  const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>
+    (a.orderIndex ?? 0) - (b.orderIndex ?? 0)
+
+  return Object.fromEntries(
+    ENTITY_KEYS.map((entityKey) => {
+      const rawEntities = safeArray(batchResponse[entityKey])
+      const transformedEntities = rawEntities.map((raw: Record<string, unknown>) =>
+        transformApiEntity(raw, entityKey)
+      )
+      const sortedEntities = immutableSort(transformedEntities, orderCompare)
+      const result =
+        entityKey === 'annotationInstance'
+          ? (applyAnnotationInstanceNameFallback(
+              sortedEntities as GlobalEntity<'annotationInstance'>[]
+            ) as GlobalEntity<GlobalEntityKey>[])
+          : sortedEntities
+      return [entityKey, result]
     })
-    
-    if (entityKey === 'annotationInstance') {
-      const mappedEntities = sortedEntities.map((entity) => {
-        const record = entity as unknown as Record<string, unknown>
-        if (record.name != null) return entity
-        if (record.text != null) return { ...entity, name: record.text }
-        return entity
-      })
-      acc[entityKey] = mappedEntities as GlobalEntity<typeof entityKey>[]
-    } else {
-      acc[entityKey] = sortedEntities
-    }
-    
-    return acc
-  }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
+  ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 }
 
 /**
  * Transform batch relationships response to flat array
  * LEARNING: Converts batch endpoint response (object keyed by relationshipKey) to flat FetchedRelationship[]
- * WHY: Batch endpoint returns structured object, need to transform and flatten all relationship types
  * PATTERN: Map over RELATIONSHIP_KEYS, transform each relationship type's data, flatten to single array
- * 
- * @param batchResponse - Batch endpoint response with relationships keyed by relationshipKey
- * @returns Transformed relationships as flat array
  */
 function transformBatchRelationships(
   batchResponse: Record<GlobalRelationshipKey, Record<string, unknown>[]>
 ): FetchedRelationship[] {
   const relationshipKeys = Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]
-  
-  // LEARNING: Transform each relationship type's data, then flatten to single array
-  // WHY: Expected structure is flat array of FetchedRelationship objects
-  // PATTERN: Map over relationship keys, transform each, then flat() to combine
   return relationshipKeys.flatMap((relationshipKey) => {
-    const rawRelationships = batchResponse[relationshipKey] ?? []
-    
-    // WHY: Endpoint is /relationships/{relationshipKey}, so we pass relationshipKey to transformer
-    // PATTERN: Transform raw API response to expected FetchedRelationship format using relationshipKey
-    return rawRelationships.map(raw => transformApiRelationship(raw, relationshipKey))
+    const rawRelationships = safeArray(batchResponse[relationshipKey])
+    return rawRelationships.map((raw) => transformApiRelationship(raw, relationshipKey))
   })
 }
 
@@ -262,6 +133,40 @@ export type GlobalData = {
 
 
 /**
+ * Resolve parent/child ID fields from raw API response by relationship kind.
+ * LEARNING: Some relationship types use alternate field names (e.g. annotationAssignments use blockInstanceId/annotationId).
+ */
+function resolveRelationshipIds(
+  raw: Record<string, unknown>,
+  relationshipKey: GlobalRelationshipKey
+): { parentId: string; childId: string } {
+  let parentIdRaw: unknown
+  let childIdRaw: unknown
+  if (relationshipKey === 'annotationAssignments') {
+    parentIdRaw = raw.blockInstanceId ?? raw.parentId
+    childIdRaw = raw.annotationId ?? raw.childId
+  } else if (relationshipKey === 'attendeeAssignments') {
+    parentIdRaw = raw.eventShapeId ?? raw.parentId
+    childIdRaw = raw.userTypeBlockInstanceId ?? raw.childId
+  } else {
+    parentIdRaw = raw.parentId
+    childIdRaw = raw.childId
+  }
+  const parentIdResolved = safeId(parentIdRaw)
+  const childIdResolved = safeId(childIdRaw)
+  if (parentIdResolved === undefined) {
+    logger.debug('resolveRelationshipIds: parentId missing after safeId', { raw: parentIdRaw })
+  }
+  if (childIdResolved === undefined) {
+    logger.debug('resolveRelationshipIds: childId missing after safeId', { raw: childIdRaw })
+  }
+  return {
+    parentId: parentIdResolved !== undefined ? parentIdResolved : '',
+    childId: childIdResolved !== undefined ? childIdResolved : '',
+  }
+}
+
+/**
  * Transform API relationship response to FetchedRelationship format
  * LEARNING: Converts API response field names to expected frontend format
  * WHY: API endpoint already filters by relationship type, so response doesn't include 'kind'
@@ -272,46 +177,70 @@ function transformApiRelationship(
   raw: Record<string, unknown>,
   relationshipKey: GlobalRelationshipKey
 ): FetchedRelationship {
-  // PATTERN: Use relationshipKey parameter instead of trying to extract from response
-  
   const config = RELATIONSHIP_KEYS[relationshipKey]
-  const parentKind = config?.parentEntity ?? ''
-  const childKind = config?.childEntity ?? ''
-  
-  // PATTERN: Handle model-specific field names before falling back to standard parent_id/child_id
-  let parentId: string | undefined
-  let childId: string | undefined
-  
-  if (relationshipKey === 'annotationAssignments') {
-    parentId = (raw.block_instance_id ?? raw.blockInstanceId ?? raw.parent_id ?? raw.parentId) as string | undefined
-    childId = (raw.annotation_id ?? raw.annotationId ?? raw.child_id ?? raw.childId) as string | undefined
-  } else if (relationshipKey === 'attendeeAssignments') {
-    parentId = (raw.event_shape_id ?? raw.eventShapeId ?? raw.parent_id ?? raw.parentId) as string | undefined
-    childId = (raw.user_type_block_instance_id ?? raw.userTypeBlockInstanceId ?? raw.child_id ?? raw.childId) as string | undefined
-  } else {
-    parentId = (raw.parent_id ?? raw.parentId) as string | undefined
-    childId = (raw.child_id ?? raw.childId) as string | undefined
+  const parentKind = safeString(config?.parentEntity, 'RELATIONSHIP_KEYS.parentEntity')
+  const childKind = safeString(config?.childEntity, 'RELATIONSHIP_KEYS.childEntity')
+  const { parentId, childId } = resolveRelationshipIds(raw, relationshipKey)
+
+  const parentKindOverride =
+    relationshipKey === 'eventAssignments' && raw.parentKind
+      ? (raw.parentKind as GlobalEntityKey)
+      : undefined
+  const userTypeBlockBlockInstanceId = raw.userTypeBlockBlockInstanceId
+
+  const idResolved = safeId(raw.id)
+  if (idResolved === undefined) {
+    logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
   }
-  
-  // PATTERN: Use parent_kind from API response to override parentKind
-  let parentKindOverride: GlobalEntityKey | undefined
-  if (relationshipKey === 'eventAssignments' && raw.parent_kind) {
-    parentKindOverride = raw.parent_kind as GlobalEntityKey
-  }
-  
-  // PATTERN: Relationships just indicate which shapes are active - metadata lives in shape tables
-  const userTypeBlockBlockInstanceId = raw.userTypeBlockBlockInstanceId ?? raw.user_type_block_block_instance_id
-  
   return {
-    id: (raw.id ?? '') as GlobalEntityId,
+    id: (idResolved !== undefined ? idResolved : '') as GlobalEntityId,
     kind: relationshipKey,
-    parent_kind: (parentKindOverride ?? parentKind) as GlobalEntityKey,
-    child_kind: childKind as GlobalEntityKey,
-    parent_id: (parentId ?? '') as GlobalEntityId,
-    child_id: (childId ?? '') as GlobalEntityId,
+    parentKind: (parentKindOverride ?? parentKind) as GlobalEntityKey,
+    childKind: childKind as GlobalEntityKey,
+    parentId: parentId as GlobalEntityId,
+    childId: childId as GlobalEntityId,
     disabled: Boolean(raw.disabled ?? false),
-    ...(userTypeBlockBlockInstanceId !== undefined && (userTypeBlockBlockInstanceId === null || typeof userTypeBlockBlockInstanceId === 'string') && { userTypeBlockBlockInstanceId: userTypeBlockBlockInstanceId as GlobalEntityId | null }),
+    ...(userTypeBlockBlockInstanceId !== undefined &&
+      (userTypeBlockBlockInstanceId === null ||
+        typeof userTypeBlockBlockInstanceId === 'string') && {
+        userTypeBlockBlockInstanceId: userTypeBlockBlockInstanceId as GlobalEntityId | null,
+      }),
   }
+}
+
+/**
+ * Attach instanceComponents arrays to entities for backward compatibility.
+ * LEARNING: instanceComponents are now in relationships; this keeps entity.instanceComponents in sync.
+ * PATTERN: Use groupByParentId for parent -> childIds; then map entities to attach or clear.
+ */
+function attachLegacyInstanceComponents(
+  fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
+  fetchedRelationships: FetchedRelationship[]
+): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
+  return Object.fromEntries(
+    ENTITY_KEYS.map((entityKey) => {
+      const entityList = safeArray(fetchedEntities[entityKey])
+      // @audit-allow:loop-mutation:assignProp - read-only filter callback, no mutation
+      const componentRels = fetchedRelationships.filter(
+        (rel) =>
+          rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled
+      )
+      const composerMap = groupByParentId(
+        componentRels,
+        (r) => r.parentId,
+        (r) => r.childId
+      )
+      const list = entityList.map((entity) => {
+        const components = composerMap.get(entity.id)
+        if (components && components.length > 0) {
+          return { ...entity, instanceComponents: components, isComposer: true }
+        }
+        const { instanceComponents: _instanceComponents, ...entityWithoutComponents } = entity
+        return { ...entityWithoutComponents, isComposer: false }
+      })
+      return [entityKey, list]
+    })
+  ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 }
 
 /**
@@ -343,6 +272,7 @@ export class GlobalTransformer {
       // LEARNING: Use batch endpoints to reduce N+18 HTTP requests to 2 requests
       // WHY: Dramatically improves initial load performance, reduces network overhead
       // PATTERN: Fetch entities and relationships in parallel using batch endpoints
+      // @audit-allow:loop-mutation:assignIndex - destructuring Promise.all result, not loop mutation
       const [entitiesResponse, relationshipsResponse] = await Promise.all([
         apiClient.get<Record<GlobalEntityKey, Record<string, unknown>[]>>(getEntitiesBatchEndpoint()),
         apiClient.get<Record<GlobalRelationshipKey, Record<string, unknown>[]>>(getRelationshipsBatchEndpoint())
@@ -363,7 +293,7 @@ export class GlobalTransformer {
         fetchedRelationships,
       }
     } catch (error) {
-      logger.error('Failed to stage data for hydration', { error })
+      logger.error(LOG_STAGE_HYDRATION_FAILED, { error })
       return {
         fetchedEntities: {
           blockInstance: [],
@@ -383,65 +313,31 @@ export class GlobalTransformer {
   /**
    * Hydrate staged data into final GlobalData format
    * LEARNING: Resolves relationships and annotations, creates final data structure
-   * WHY: Creates nested relationship structure expected by transformers
-   * PATTERN: Transform flat relationships to nested parent/children structure, attach annotations to entities
-   * 
-   * ARCHITECTURAL CHANGE: 
-   * - Instance components are now fetched and transformed as relationships
-   * - Annotations are now fetched separately and attached during hydration (consistent with relationships pattern)
-   * 
-   * METADATA REFACTOR: Metadata is no longer part of GlobalData
-   * WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
+   * PATTERN: Transform flat relationships to nested parent/children structure.
+   * NOTE: attachLegacyInstanceComponents remains until consumers (serviceSelectionConfigBuilders,
+   * selectionCardChildren, usePropertyTypeBlockConfig, globalToAdminTransformer tests) no longer
+   * read entity.instanceComponents; they currently depend on it for composite block display.
    */
   hydrate(staged: {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
   }): GlobalData {
-    // Attach instanceComponents arrays to entities (for backward compatibility)
-    // PATTERN: Extract from relationships instead of separate instanceComponents
-    const entities = ENTITY_KEYS.reduce((acc, entityKey) => {
-      const entityList = staged.fetchedEntities[entityKey] ?? []
-      
-      const componentRels = staged.fetchedRelationships.filter(
-        rel => rel.kind === 'instanceComponents' && rel.parent_kind === entityKey && !rel.disabled
-      )
-      
-      const composerMap = componentRels.reduce((map, rel) => {
-        const existing = map.get(rel.parent_id) ?? []
-        map.set(rel.parent_id, [...existing, rel.child_id])
-        return map
-      }, new Map<GlobalEntityId, GlobalEntityId[]>())
-      
-      // PATTERN: Always set both properties (either with components or cleared)
-      acc[entityKey] = entityList.map(entity => {
-        const components = composerMap.get(entity.id)
-        if (components && components.length > 0) {
-          return { ...entity, instanceComponents: components, isComposer: true }
-        } else {
-          // PATTERN: Explicitly set to undefined/false to clear previous values
-          const { instanceComponents: _instanceComponents, ...entityWithoutComponents } = entity
-          return { ...entityWithoutComponents, isComposer: false }
-        }
-      })
-      
-      return acc
-    }, {} as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>)
+    const entities = attachLegacyInstanceComponents(
+      staged.fetchedEntities,
+      staged.fetchedRelationships
+    )
     
     // LEARNING: Annotations follow the same pattern as entities and relationships
     // PATTERN: No special attachment - annotations accessed via relationships.annotationAssignments like other relationships
     
     // PATTERN: Provide entities for relationship resolution (includes events/annotations)
-    const relationships = (Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]).reduce(
-      (acc, relType) => {
-        acc[relType] = transformApiRelationships(
-          staged.fetchedRelationships, 
-          relType, 
-          entities
-        )
-        return acc
-      },
-      {} as Record<GlobalRelationshipKey, GlobalRelationship[]>
-    )
+    const relationshipKeys = Object.keys(RELATIONSHIP_KEYS) as GlobalRelationshipKey[]
+    const relationships = Object.fromEntries(
+      relationshipKeys.map((relType) => [
+        relType,
+        transformApiRelationships(staged.fetchedRelationships, relType, entities),
+      ])
+    ) as Record<GlobalRelationshipKey, GlobalRelationship[]>
     
     return {
       entities,
@@ -472,7 +368,7 @@ export class GlobalTransformer {
     if (!entityKey) {
       // PATTERN: Filter entries, then build object from filtered entries
       const filteredEntries = Object.entries(entity)
-        .filter(([frontendKey, value]) => frontendKey !== 'entityKey' && value !== undefined)
+        .filter(([frontendKey, value]) => frontendKey !== FIELD_NAMES.ENTITY_KEY && value !== undefined)
       return Object.fromEntries(filteredEntries)
     }
 
@@ -481,7 +377,7 @@ export class GlobalTransformer {
     if (!entityType) {
       // PATTERN: Filter entries, then build object from filtered entries
       const filteredEntries = Object.entries(entity)
-        .filter(([frontendKey, value]) => frontendKey !== 'entityKey' && value !== undefined)
+        .filter(([frontendKey, value]) => frontendKey !== FIELD_NAMES.ENTITY_KEY && value !== undefined)
       return Object.fromEntries(filteredEntries)
     }
 
@@ -498,6 +394,7 @@ export class GlobalTransformer {
     const fieldSets = buildFieldClassificationSets(entityType, metadata)
     const transformedEntries = Object.entries(entity)
       .map((entry) => transformFieldForDehydrate(entry, fieldSets, metadata))
+      // @audit-allow:loop-mutation:assignIndex - type guard filter, no mutation
       .filter((entry): entry is [string, unknown] => entry !== null)
     return Object.fromEntries(transformedEntries)
   }

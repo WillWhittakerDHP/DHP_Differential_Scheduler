@@ -1,7 +1,7 @@
 import type { PluginOptionsByType } from 'chart.js'
 import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js'
 import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 import { Line } from 'vue-chartjs'
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale)
@@ -44,7 +44,8 @@ export default defineComponent({
   },
   setup(props) {
     return () =>
-      h(h(Line), {
+      // WHY: vue-chartjs Line has strict prop types; bridge accepts our chartData/chartOptions shape
+      h(Line, {
         chartId: props.chartId,
         width: props.width,
         height: props.height,
@@ -53,6 +54,6 @@ export default defineComponent({
         plugins: props.plugins,
         options: props.chartOptions,
         data: props.chartData,
-      })
+      } as any)
   },
 })

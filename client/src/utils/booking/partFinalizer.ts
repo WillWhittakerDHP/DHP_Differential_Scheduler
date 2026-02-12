@@ -8,7 +8,7 @@
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PartFinal } from './PartFinal'
-import type { BlockFinal } from './BlockFinal'
+import type { BlockFinal } from './bookingFinalTypes'
 import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
@@ -33,11 +33,20 @@ const logger = createLogger('partFinalizer')
  * @param parts - Array of BookingPartInstance objects
  * @returns Map of part shape name to array of parts with that shape
  */
+function partShapeKey(part: BookingPartInstance): string {
+  const raw = part.partShape
+  if (raw === undefined || raw === null || raw === '') {
+    logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
+    return ''
+  }
+  return raw
+}
+
 function groupPartsByShape(
   parts: BookingPartInstance[]
 ): Map<string, BookingPartInstance[]> {
   return parts.reduce((grouped, part) => {
-    const partShape = part.partShape || ''
+    const partShape = partShapeKey(part)
     if (!grouped.has(partShape)) {
       grouped.set(partShape, [])
     }
@@ -127,8 +136,16 @@ export function calculateSlotShape(
   let useAttendeeBasedLogic = false
   
   if (globalData && availabilitySettings?.differentialPerspectives) {
-    majorAttendeeIds = availabilitySettings.differentialPerspectives.majorAttendees || []
-    minorAttendeeIds = availabilitySettings.differentialPerspectives.minorAttendees || []
+    const rawMajor = availabilitySettings.differentialPerspectives.majorAttendees
+    const rawMinor = availabilitySettings.differentialPerspectives.minorAttendees
+    if (rawMajor === undefined || rawMajor === null) {
+      logger.debug('calculateSlotShape: majorAttendees missing, using []')
+    }
+    if (rawMinor === undefined || rawMinor === null) {
+      logger.debug('calculateSlotShape: minorAttendees missing, using []')
+    }
+    majorAttendeeIds = rawMajor !== undefined && rawMajor !== null ? rawMajor : []
+    minorAttendeeIds = rawMinor !== undefined && rawMinor !== null ? rawMinor : []
     useAttendeeBasedLogic = majorAttendeeIds.length > 0 || minorAttendeeIds.length > 0
   }
   
@@ -146,7 +163,8 @@ export function calculateSlotShape(
           const baseTime = part.baseTime
           const newRawDuration = partAcc.totalRawDuration + baseTime
           
-          const events = eventAssignmentsByPartShape[part.partShape] || []
+          const rawEvents = eventAssignmentsByPartShape[part.partShape]
+          const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
           
           // PATTERN: Process events and accumulate raw durations by event shape
           const updatedEventRawDurations = new Map(partAcc.eventRawDurations)

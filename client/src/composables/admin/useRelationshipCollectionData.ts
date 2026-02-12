@@ -14,6 +14,7 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/useAdmin'
 import { useRelationshipCrud } from '@/composables/useRelationship'
@@ -135,8 +136,8 @@ export function useRelationshipCollectionData(
     const shapes = adminComp.getEntitiesByKey(shapeEntityKey.value) as GlobalEntity<GlobalEntityKey>[]
     const { resolved } = resolveByIds(shapes, validOptions)
     return resolved.sort((a, b) => {
-      const aOrder = getEntityFieldValue(a, 'orderIndex') as number ?? 0
-      const bOrder = getEntityFieldValue(b, 'orderIndex') as number ?? 0
+      const aOrder = getEntityFieldValue(a, FIELD_NAMES.ORDER_INDEX) as number ?? 0
+      const bOrder = getEntityFieldValue(b, FIELD_NAMES.ORDER_INDEX) as number ?? 0
       return aOrder - bOrder
     })
   })
@@ -150,15 +151,15 @@ export function useRelationshipCollectionData(
     if (!relationshipsRef.value) return []
     
     const relationships = relationshipsRef.value.filter(
-      rel => String(rel.parent_id) === parentEntityIdRef.value && !rel.disabled
+      rel => String(rel.parentId) === parentEntityIdRef.value && !rel.disabled
     )
     
     const children = adminComp.getEntitiesByKey(childEntityKey.value) as GlobalEntity<GlobalEntityKey>[]
-    const childIds = relationships.map((rel) => String(rel.child_id))
+    const childIds = relationships.map((rel) => String(rel.childId))
     const { resolved } = resolveByIds(children, childIds)
     return resolved.sort((a, b) => {
-      const aOrder = getEntityFieldValue(a, 'orderIndex') as number ?? 0
-      const bOrder = getEntityFieldValue(b, 'orderIndex') as number ?? 0
+      const aOrder = getEntityFieldValue(a, FIELD_NAMES.ORDER_INDEX) as number ?? 0
+      const bOrder = getEntityFieldValue(b, FIELD_NAMES.ORDER_INDEX) as number ?? 0
       return aOrder - bOrder
     })
   })
@@ -182,7 +183,8 @@ export function useRelationshipCollectionData(
    */
   const getShapeName = (shapeId: string): string => {
     const shape = getGlobalEntityById(shapeEntityKey.value, shapeId)
-    return shape?.name || `${shapeEntityKey.value} ${shapeId.slice(0, 8)}`
+    const name = shape?.name
+    return name !== undefined && name !== null && name !== '' ? name : `${shapeEntityKey.value} ${shapeId.slice(0, 8)}`
   }
   
   return {

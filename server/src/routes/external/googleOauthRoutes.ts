@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js'
 import { createLogger } from '../../utils/logger.js'
 import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js'
+import { GOOGLE_OAUTH_MESSAGES, NODE_ENV } from './googleOauthConstants.js'
 
 const logger = createLogger('GoogleOAuthRoutes');
 
@@ -29,7 +30,7 @@ router.get('/', (_req: Request, res: Response) => {
   } catch (error: any) {
     logger.error('Error generating auth URL:', error);
     res.status(500).json({
-      error: 'Failed to generate authorization URL',
+      error: GOOGLE_OAUTH_MESSAGES.AUTH_URL_GENERATE_FAILED,
       message: error.message
     });
   }
@@ -51,8 +52,8 @@ router.get('/callback', async (req: Request, res: Response) => {
     if (error) {
       logger.error('OAuth error:', error);
       res.status(400).json({
-        error: 'Authorization failed',
-        message: `Google returned error: ${error}`
+        error: GOOGLE_OAUTH_MESSAGES.AUTH_FAILED,
+        message: GOOGLE_OAUTH_MESSAGES.AUTH_FAILED_GOOGLE(String(error))
       });
       return;
     }
@@ -60,8 +61,8 @@ router.get('/callback', async (req: Request, res: Response) => {
     // Validate authorization code
     if (!code || typeof code !== 'string') {
       res.status(400).json({
-        error: 'Invalid request',
-        message: 'Authorization code is required'
+        error: GOOGLE_OAUTH_MESSAGES.INVALID_REQUEST,
+        message: GOOGLE_OAUTH_MESSAGES.AUTH_CODE_REQUIRED
       });
       return;
     }
@@ -81,7 +82,7 @@ router.get('/callback', async (req: Request, res: Response) => {
     // Return success response
     res.json({
       success: true,
-      message: 'Authentication successful - tokens saved for future sessions',
+      message: GOOGLE_OAUTH_MESSAGES.AUTH_SUCCESS,
       // Don't return tokens in response for security
       hasAccessToken: !!tokens.access_token,
       hasRefreshToken: !!tokens.refresh_token
@@ -90,8 +91,8 @@ router.get('/callback', async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error('Error in callback:', error);
     res.status(500).json({
-      error: 'Authentication failed',
-      message: error.message || 'An unexpected error occurred during authentication'
+      error: GOOGLE_OAUTH_MESSAGES.AUTH_FAILED_GENERIC,
+      message: error.message || GOOGLE_OAUTH_MESSAGES.AUTH_UNEXPECTED_ERROR
     });
   }
 });
@@ -115,7 +116,7 @@ router.get('/status', (_req: Request, res: Response): void => {
       res.json({
         authenticated: false,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
-        message: 'Visit the authUrl to authenticate with Google',
+        message: GOOGLE_OAUTH_MESSAGES.VISIT_AUTH_URL,
         error: credError.message
       });
       return;
@@ -135,16 +136,16 @@ router.get('/status', (_req: Request, res: Response): void => {
     res.json({
       authenticated: false,
       authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
-      message: 'Visit the authUrl to authenticate with Google'
+      message: GOOGLE_OAUTH_MESSAGES.VISIT_AUTH_URL
     })
     
   } catch (error: any) {
     logger.error('Error checking status:', error);
     logger.error('Error stack:', error.stack);
     res.status(500).json({
-      error: 'Failed to check authentication status',
-      message: error.message || 'Unknown error',
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      error: GOOGLE_OAUTH_MESSAGES.CHECK_STATUS_FAILED,
+      message: error.message || GOOGLE_OAUTH_MESSAGES.UNKNOWN_ERROR,
+      stack: process.env.NODE_ENV === NODE_ENV.DEVELOPMENT ? error.stack : undefined
     });
   }
 });
@@ -160,13 +161,13 @@ router.get('/test-url', (_req: Request, res: Response) => {
     const authUrl = getAuthUrl();
     res.json({
       authUrl,
-      message: 'Copy this URL and paste it in your browser to test the OAuth flow',
+      message: GOOGLE_OAUTH_MESSAGES.TEST_URL_MESSAGE,
       redirectUri: process.env.GOOGLE_REDIRECT_URI
     });
   } catch (error: any) {
     logger.error('Error generating test URL:', error);
     res.status(500).json({
-      error: 'Failed to generate authorization URL',
+      error: GOOGLE_OAUTH_MESSAGES.AUTH_URL_GENERATE_FAILED,
       message: error.message
     });
   }

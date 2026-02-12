@@ -1,0 +1,13 @@
+{
+  "$comment": "Configuration for constants-consolidation-audit.mjs",
+  "allowlist": {
+    "specific": [
+      {
+        "file": "server/src/db/config/database.mjs",
+        "ruleId": "hoist",
+        "lineRange": [1, 35],
+        "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention"
+      }
+    ]
+  }
+}

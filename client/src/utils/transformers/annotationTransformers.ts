@@ -67,20 +67,20 @@ function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationSha
  */
 export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): AnnotationInstance {
   // Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility
-  const userTypeBlock = rawAnnotation.userTypeBlock ?? rawAnnotation.user_type_block ?? null
-  const normalizedUserTypeBlock: UserTypeBlock = typeof userTypeBlock === 'string' 
-    ? userTypeBlock as GlobalEntityId // Accept BlockInstance ID as-is
+  const userTypeBlock = rawAnnotation.userTypeBlock ?? null
+  const normalizedUserTypeBlock: UserTypeBlock = typeof userTypeBlock === 'string'
+    ? userTypeBlock as GlobalEntityId
     : null
 
-  const type = rawAnnotation.type ?? rawAnnotation.Type ?? rawAnnotation.annotation_type_id ?? rawAnnotation.annotationShapeId
+  const type = rawAnnotation.type ?? rawAnnotation.annotationShapeId
   const normalizedType: string = typeof type === 'string' ? type : ''
 
-  const annotationShape = rawAnnotation.annotationShape ?? rawAnnotation.annotation_shape ?? rawAnnotation.AnnotationShape
-    ?? rawAnnotation.annotationShape ?? rawAnnotation.annotation_type ?? rawAnnotation.AnnotationShape // Fallback for backward compatibility
+  const annotationShape = rawAnnotation.annotationShape
   const transformedAnnotationShape = transformApiAnnotationShape(annotationShape)
 
-  // PATTERN: Use name if present, fallback to text from API
-  const name = rawAnnotation.name ?? rawAnnotation.Name ?? rawAnnotation.text ?? rawAnnotation.Text ?? ''
+  const nameRaw = rawAnnotation.name
+  const textRaw = rawAnnotation.text
+  const name = (nameRaw !== undefined && nameRaw !== null && nameRaw !== '') ? nameRaw : ((textRaw !== undefined && textRaw !== null && textRaw !== '') ? textRaw : '')
 
   // PATTERN: Include all BaseGlobalEntity properties when transforming API response
   const result: AnnotationInstance = {
@@ -166,38 +166,13 @@ export function getThroughAttributes(annotation: Record<string, unknown>): {
   orderIndex: number
   isDefault: boolean
 } | null {
-  if (annotation.AnnotationAssignment && typeof annotation.AnnotationAssignment === 'object') {
-    const through = annotation.AnnotationAssignment as Record<string, unknown>
+  const through = annotation.annotationAssignment ?? annotation.AnnotationAssignment
+  if (through && typeof through === 'object') {
+    const t = through as Record<string, unknown>
     return {
-      userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
-      orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
-      isDefault: (through.isDefault ?? through.is_default ?? false) as boolean,
-    }
-  }
-  if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
-    const through = annotation.annotationAssignment as Record<string, unknown>
-    return {
-      userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
-      orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
-      isDefault: (through.isDefault ?? through.is_default ?? false) as boolean,
-    }
-  }
-  // Try PascalCase (AnnotationAssignment - friendly frontend name, backward compatibility)
-  if (annotation.AnnotationAssignment && typeof annotation.AnnotationAssignment === 'object') {
-    const through = annotation.AnnotationAssignment as Record<string, unknown>
-    return {
-      userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
-      orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
-      isDefault: (through.isDefault ?? through.is_default ?? false) as boolean,
-    }
-  }
-  // Try camelCase (annotationAssignment - friendly frontend name, backward compatibility)
-  if (annotation.annotationAssignment && typeof annotation.annotationAssignment === 'object') {
-    const through = annotation.annotationAssignment as Record<string, unknown>
-    return {
-      userTypeBlockBlockInstanceId: (through.userTypeBlockBlockInstanceId ?? through.user_type_block_block_instance_id ?? null) as GlobalEntityId | null,
-      orderIndex: (through.orderIndex ?? through.order_index ?? 0) as number,
-      isDefault: (through.isDefault ?? through.is_default ?? false) as boolean,
+      userTypeBlockBlockInstanceId: (t.userTypeBlockBlockInstanceId ?? null) as GlobalEntityId | null,
+      orderIndex: (t.orderIndex ?? 0) as number,
+      isDefault: (t.isDefault ?? false) as boolean,
     }
   }
   return null

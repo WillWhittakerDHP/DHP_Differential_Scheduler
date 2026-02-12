@@ -105,15 +105,15 @@ function getRoundingConfig(settings: AvailabilitySettings | null): DurationRound
   if (!settings?.durationRounding) {
     return {
       enabled: false,
-      increment: settings?.minuteIncrement || 15,
+      increment: settings?.minuteIncrement !== undefined && settings?.minuteIncrement !== null ? settings.minuteIncrement : 15,
       method: 'roundUp'
     }
   }
   
   return {
     enabled: settings.durationRounding.enabled,
-    increment: settings.durationRounding.increment || settings.minuteIncrement || 15,
-    method: settings.durationRounding.method || 'roundUp'
+    increment: settings.durationRounding.increment !== undefined && settings.durationRounding.increment !== null ? settings.durationRounding.increment : (settings.minuteIncrement !== undefined && settings.minuteIncrement !== null ? settings.minuteIncrement : 15),
+    method: settings.durationRounding.method !== undefined && settings.durationRounding.method !== null && settings.durationRounding.method !== '' ? settings.durationRounding.method : 'roundUp'
   }
 }
 

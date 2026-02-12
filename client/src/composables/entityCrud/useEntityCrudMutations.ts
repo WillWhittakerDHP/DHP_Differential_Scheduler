@@ -33,12 +33,28 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
   const queryClient = useQueryClient()
   const endpoint = getEntityEndpoint(entityKey)
 
+  function getEntitiesForKey(data: GlobalData | undefined): GlobalEntity<GlobalEntityTypeKey>[] {
+    const entities = data?.entities?.[entityKey]
+    if (entities === undefined || entities === null) {
+      logger.debug('Entity crud: entities key missing in cache', { entityKey })
+      return []
+    }
+    return entities as GlobalEntity<GlobalEntityTypeKey>[]
+  }
+
   const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({
     mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {
       const currentGlobalData = queryClient.getQueryData<GlobalData>(['globalData'])
-      const currentEntities = (currentGlobalData?.entities?.[entityKey] || []) as GlobalEntity<GlobalEntityTypeKey>[]
-      const maxOrderIndex =
-        currentEntities.length > 0 ? Math.max(...currentEntities.map((e) => e.orderIndex ?? 0)) : -1
+      const currentEntities = getEntitiesForKey(currentGlobalData)
+      const orderIndices = currentEntities.map((e) => {
+        const o = e.orderIndex
+        if (o === undefined || o === null) {
+          logger.debug('Entity crud: orderIndex missing on entity', { entityKey, entityId: e.id })
+          return 0
+        }
+        return o
+      })
+      const maxOrderIndex = orderIndices.length > 0 ? Math.max(...orderIndices) : -1
       const newOrderIndex = maxOrderIndex + 1
 
       const defaults = getDefaultEntityValues(entityKey)
@@ -84,7 +100,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
           if (!old) return old
 
-          const currentEntities = (old.entities[entityKey] || []) as GlobalEntity<GlobalEntityTypeKey>[]
+          const currentEntities = getEntitiesForKey(old) as GlobalEntity<GlobalEntityTypeKey>[]
           const entityExists = currentEntities.some((e) => e.id === data.id)
           
           if (!entityExists) {
@@ -121,10 +137,15 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       if (error && typeof error === 'object') {
         const possibleAxiosError = error as AxiosError<{ error?: string; details?: string; message?: string }>
         if (possibleAxiosError.response?.data) {
-          errorDetails = possibleAxiosError.response.data.details || 
-                        possibleAxiosError.response.data.error || 
-                        possibleAxiosError.response.data.message
-          if (errorDetails) {
+          const d = possibleAxiosError.response.data
+          if (d.details !== undefined && d.details !== null) {
+            errorDetails = String(d.details)
+          } else if (d.error !== undefined && d.error !== null) {
+            errorDetails = String(d.error)
+          } else if (d.message !== undefined && d.message !== null) {
+            errorDetails = String(d.message)
+          }
+          if (errorDetails !== undefined) {
             errorMessage = errorDetails
           }
         }
@@ -178,7 +199,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
 
-        const currentEntities = old.entities[entityKey] || []
+        const currentEntities = getEntitiesForKey(old)
         const entityIndex = currentEntities.findIndex((e) => String(e.id) === String(variables.id))
 
         if (entityIndex === -1) {
@@ -214,7 +235,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
           if (!old) return old
 
-          const currentEntities = old.entities[entityKey] || []
+          const currentEntities = getEntitiesForKey(old)
           const entityIndex = currentEntities.findIndex((e) => String(e.id) === String(data.id))
 
           if (entityIndex === -1) return old
@@ -273,7 +294,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
-        const currentEntities = old.entities[entityKey] || []
+        const currentEntities = getEntitiesForKey(old)
         const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))
         return {
           ...old,
@@ -301,13 +322,8 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
   const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({
     mutationFn: async (updates: OrderIndexUpdate) => {
-      // PATTERN: Server transforms order_index → orderIndex for Sequelize, so send snake_case directly
-      const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), 
-        updates.map((update) => ({
-          id: update.id,
-          order_index: update.orderIndex, // Convert camelCase to snake_case for API
-        }))
-      )
+      // PATTERN: Client sends camelCase; Sequelize model uses underscored: true
+      const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)
       if (!response?.data) {
         throw new Error('Failed to update orderIndex')
       }
@@ -318,12 +334,24 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
-        const currentEntities = old.entities[entityKey] || []
+        const currentEntities = getEntitiesForKey(old)
         const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))
-        const updatedEntities = currentEntities.map((entity) => ({
-          ...entity,
-          orderIndex: updateMap.get(String(entity.id)) ?? entity.orderIndex,
-        }))
+        const updatedEntities = currentEntities.map((entity) => {
+          const newOrder = updateMap.get(String(entity.id))
+          let orderIndex: number
+          if (newOrder !== undefined) {
+            orderIndex = newOrder
+          } else if (entity.orderIndex !== undefined && entity.orderIndex !== null) {
+            orderIndex = entity.orderIndex
+          } else {
+            logger.debug('Entity crud: orderIndex missing when patching order', { entityKey, entityId: entity.id })
+            orderIndex = 0
+          }
+          return {
+            ...entity,
+            orderIndex,
+          }
+        })
         return {
           ...old,
           entities: {
@@ -374,7 +402,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
         const updateMap = new Map(updates.map((update) => [String(update.id), update]))
-        const currentEntities = old.entities[entityKey] || []
+        const currentEntities = getEntitiesForKey(old)
         const updatedEntities = currentEntities.map((entity) => {
           const update = updateMap.get(String(entity.id))
           if (!update) return entity

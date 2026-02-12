@@ -128,14 +128,6 @@ const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
   emit('slot-click', slotData.buttonIndex)
 }
 
-// LEARNING: Debug logging helper for tooltip debugging
-// WHY: fetch not available in template context, need method in script
-const logDotEvent = (eventType: string, buttonIndex: number, violation?: string, index?: number, extraData?: Record<string, unknown>): void => {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AppointmentSlotGrid.vue:'+eventType,message:'Dot '+eventType+' event',data:{buttonIndex,violation,index,...extraData},timestamp:Date.now(),runId:'run1',hypothesisId:eventType==='container-mouseenter'?'B':'D'})}).catch(()=>{});
-  // #endregion
-}
-
 // WHY: Centralizes formatting logic
 // PATTERN: Method that formats the conversion
 const formatSlotTime = (slotData: SlotDisplayData): string => {
@@ -179,7 +171,6 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
       <span
         v-if="isDevMode && slotData.violations && slotData.violations.length > 0"
         class="constraint-dots"
-        @mouseenter="logDotEvent('container-mouseenter', slotData.buttonIndex, undefined, undefined, { violationsCount: slotData.violations.length })"
       >
         <VTooltip
           v-for="(violation, index) in slotData.violations"
@@ -192,8 +183,6 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
               v-bind="tooltipProps"
               class="constraint-dot"
               :style="{ backgroundColor: getColorForViolation(violation) }"
-              @mouseenter="logDotEvent('dot-mouseenter', slotData.buttonIndex, violation, index, { hasTooltipProps: !!tooltipProps })"
-              @click="logDotEvent('dot-click', slotData.buttonIndex, violation, index)"
             />
           </template>
         </VTooltip>
@@ -291,9 +280,6 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
       flex-shrink: 0;
       cursor: help; // LEARNING: Indicate tooltip availability
       pointer-events: auto; // LEARNING: Ensure dot can receive pointer events
-      // #region agent log
-      // Log dot rendering for hypothesis A (size) and B (CSS)
-      // #endregion
     }
     
     @media (min-width: 600px) {

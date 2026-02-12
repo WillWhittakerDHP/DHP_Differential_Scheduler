@@ -7,6 +7,7 @@
  */
 
 import { computed, type Ref, type ComputedRef } from 'vue'
+import { createLogger } from '@/utils/logger'
 import type { TimeSlot, AppointmentShape } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
@@ -17,6 +18,8 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import { useGlobal } from '@/composables/useGlobal'
 import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
+
+const logger = createLogger('useTimeSlotCalculations')
 
 interface TimeBlock {
   label: string
@@ -71,13 +74,22 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   const { settings: availabilitySettings } = useAvailabilitySettings()
   const { getGlobalData } = useGlobal()
   
-  // PATTERN: Computed properties that read from settings with fallback
-  const majorLabel = computed(() => 
-    availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Inspector'
-  )
-  const minorLabel = computed(() => 
-    availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-  )
+  const majorLabel = computed(() => {
+    const label = availabilitySettings.value?.differentialPerspectives?.majorLabel
+    if (label === undefined || label === null || label === '') {
+      logger.debug('Time slot: missing majorLabel in settings, using default', { scope: 'differentialPerspectives' })
+      return 'Inspector'
+    }
+    return label
+  })
+  const minorLabel = computed(() => {
+    const label = availabilitySettings.value?.differentialPerspectives?.minorLabel
+    if (label === undefined || label === null || label === '') {
+      logger.debug('Time slot: missing minorLabel in settings, using default', { scope: 'differentialPerspectives' })
+      return 'Client Formal Presentation'
+    }
+    return label
+  })
 
   /**
    * LEARNING: Get major event total from SlotShape (source of truth)
@@ -95,7 +107,11 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     // PATTERN: Use attendee-based logic when available
     let majorEventFinal: import('@/types/appointment').EventFinal | undefined
     if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
-      const majorAttendeeIds = settings.differentialPerspectives.majorAttendees || []
+      let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
+      if (majorAttendeeIds === undefined || majorAttendeeIds === null) {
+        logger.debug('Time slot: majorAttendees missing, using []')
+        majorAttendeeIds = []
+      }
       if (majorAttendeeIds.length > 0) {
         const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
         const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
@@ -110,7 +126,12 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
     }
     
-    return majorEventFinal?.roundedDuration ?? 0
+    if (majorEventFinal === undefined) {
+      logger.debug('Time slot: no major event final found, duration 0')
+      return 0
+    }
+    const duration = majorEventFinal.roundedDuration
+    return duration !== undefined && duration !== null ? duration : 0
   })
 
   /**
@@ -129,9 +150,17 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     // PATTERN: Use attendee-based logic when available
     let minorEventFinal: import('@/types/appointment').EventFinal | undefined
     if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
-      const majorAttendeeIds = settings.differentialPerspectives.majorAttendees || []
-      const minorAttendeeIds = settings.differentialPerspectives.minorAttendees || []
-      
+      let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
+      if (majorAttendeeIds === undefined || majorAttendeeIds === null) {
+        logger.debug('Time slot: majorAttendees missing (minor calc), using []')
+        majorAttendeeIds = []
+      }
+      let minorAttendeeIds = settings.differentialPerspectives.minorAttendees
+      if (minorAttendeeIds === undefined || minorAttendeeIds === null) {
+        logger.debug('Time slot: minorAttendees missing, using []')
+        minorAttendeeIds = []
+      }
+
       // PATTERN: Exclude major event when finding minor event
       const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
       const majorEventShape = majorAttendeeIds.length > 0
@@ -154,14 +183,19 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       minorEventFinal = findEventFinalByName(shape.slotShape, 'Minor')
     }
     
-    return minorEventFinal?.roundedDuration ?? 0
+    if (minorEventFinal === undefined) {
+      logger.debug('Time slot: no minor event final found, duration 0')
+      return 0
+    }
+    const duration = minorEventFinal.roundedDuration
+    return duration !== undefined && duration !== null ? duration : 0
   })
 
   /**
    * LEARNING: Calculate time blocks for Time On-Site Graph
    * WHY: Shows major and minor time ranges when time slot is selected
    * PATTERN: Calculate from selected time slot and durations
-   * NOTE: 'Inspector' and 'Client' are UI labels for differential scheduling roles, not hardcoded instance names
+   * NOTE: Inspector and the client column label are UI labels for differential scheduling roles (see APPOINTMENTS_TABLE_UI.CLIENT_LABEL)
    */
   const differentialTimeBlocks = computed(() => {
     if (!majorTimeSlot.value) {

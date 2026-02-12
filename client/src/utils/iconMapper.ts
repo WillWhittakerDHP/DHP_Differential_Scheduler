@@ -3,7 +3,7 @@
 
 LEARNING: Maps database icon strings (Ant Design names) to Vuetify/Tabler icon names
 WHY: Ensures icons display correctly regardless of format stored in database
-PATTERN: Mapping function with fallback handling for null/undefined/unknown icons
+PATTERN: Mapping function with default handling for null/undefined/unknown icons
 
 Session 6.3: Icon Integration
 Phase 6: Booking Wizard Logic Integration
@@ -41,9 +41,9 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
  * Map database icon string to Vuetify/Tabler icon name
- * LEARNING: Handles icon format conversion with fallback for unknown icons
+ * LEARNING: Handles icon format conversion with default for unknown icons
  * WHY: Ensures UI always has a valid icon to display, preventing empty icon slots
- * PATTERN: Check mapping first, then check if already Tabler format, then fallback
+ * PATTERN: Check mapping first, then check if already Tabler format, then default path
  * 
  * @param iconString - Icon string from database (Ant Design or Tabler format) or null/undefined
  * @returns Vuetify/Tabler icon name (e.g., "tabler-currency-dollar")

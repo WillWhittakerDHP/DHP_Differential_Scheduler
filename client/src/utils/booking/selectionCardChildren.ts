@@ -11,7 +11,8 @@ export function getVisibleSelectionCardChildren(params: {
   if (config.expansion?.componentData) {
     const componentData = config.expansion.componentData(item)
     if (componentData && componentData.composite) {
-      return componentData.visibleComponents || []
+      const vis = componentData.visibleComponents
+      return vis !== undefined && vis !== null && Array.isArray(vis) ? vis : []
     }
   } else if (item.instanceComponents) {
     return item.instanceComponents

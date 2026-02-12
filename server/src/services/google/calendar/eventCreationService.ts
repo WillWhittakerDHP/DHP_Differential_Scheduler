@@ -122,7 +122,10 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       // Build response
       const result: CreatedEventResponse = {
         id: createdEvent.id!,  // Validated exists above
-        htmlLink: createdEvent.htmlLink || '',
+        htmlLink: (() => {
+          const raw = createdEvent.htmlLink
+          return raw !== undefined && raw !== null && raw !== '' ? raw : ''
+        })(),
         summary: createdEvent.summary || summary,
         start: createdEvent.start?.dateTime || createdEvent.start?.date || startDate.toISOString(),
         end: createdEvent.end?.dateTime || createdEvent.end?.date || endDate.toISOString()

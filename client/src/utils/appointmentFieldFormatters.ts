@@ -7,6 +7,7 @@
  * - useAppointmentsTableModel.ts
  */
 
+import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
@@ -80,7 +81,7 @@ function formatClientField(
   users: UserResponse[]
 ): string {
   const clientAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === 'Client' || a.user?.userRole === 'client'
+    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
   )
   if (clientAttendee?.user) {
     return `${clientAttendee.user.firstName} ${clientAttendee.user.lastName}`
@@ -99,7 +100,7 @@ function formatAgentField(
   users: UserResponse[]
 ): string {
   const agentAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === 'Agent' || a.user?.userRole === 'agent'
+    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
   )
   if (agentAttendee?.user) {
     return `${agentAttendee.user.firstName} ${agentAttendee.user.lastName}`

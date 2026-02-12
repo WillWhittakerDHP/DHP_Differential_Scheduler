@@ -2,6 +2,7 @@ import { Model, ModelStatic, UpdateOptions, DestroyOptions, WhereOptions, Attrib
 import { MakeNullishOptional } from "sequelize/types/utils";
 import { getModelAttributes, isModelUnderscored } from "../../utils/sequelizeHelpers.js";
 import { createLogger } from "../../utils/logger.js";
+import { FIELD_NAMES } from "../internal/entities/entityConstants.js";
 
 const logger = createLogger('DataController');
 
@@ -43,7 +44,7 @@ type WhereById<T extends Model> = {
  * @param options - Optional configuration object
  * @param options.includes - Optional array of Sequelize include options for associations
  * @param options.attributes - Optional array of attribute names to select (camelCase)
- * @param options.order - Optional array of order clauses (e.g., [['orderIndex', 'ASC']])
+ * @param options.order - Optional array of order clauses (e.g., [[FIELD_NAMES.ORDER_INDEX, 'ASC']])
  * @returns An array of model instances.
  * 
  * WHY: Uses Model without generics for generic model references

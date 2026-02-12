@@ -11,6 +11,9 @@
  * Defaults:
  * - DEV: debug
  * - PROD: warn
+ *
+ * @audit-allow:duplication - Intentional parallel impl for client (Vite env) vs server (Node env); no shared package.
+ * LogLevel and AppLogger are public API types for createLogger; reserved for type-safe logger usage.
  */
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
 

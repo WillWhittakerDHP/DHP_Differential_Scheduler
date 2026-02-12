@@ -1,3 +1,5 @@
+import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+
 /**
  * LEARNING: AnnotationShape Display Configs (Configuration Data)
  * WHY: Defines labels, placeholders, and layout for AnnotationShape fields
@@ -14,7 +16,7 @@ export const annotationShapeDisplays = {
   },
 
   name: {
-    label: "Name",
+    label: DISPLAY_LABELS.NAME,
     placeholder: "Enter annotation shape name",
     inline: false,
     stacked: true,
@@ -28,8 +30,8 @@ export const annotationShapeDisplays = {
   },
 
   active: {
-    label: "Active",
-    placeholder: "Active",
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

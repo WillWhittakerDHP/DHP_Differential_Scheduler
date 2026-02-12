@@ -8,6 +8,7 @@
 
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
 import { geocodeAddressToPlaceId } from '../maps/placesApiService.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('CalendarHelpers')
@@ -44,8 +45,9 @@ export async function transformEventsWithGeocoding(
         return null
       }
       
+      const rawId = event.id
       return {
-        id: event.id || '',
+        id: rawId !== undefined && rawId !== null && rawId !== '' ? rawId : '',
         start: startTime,
         end: endTime,
         location: event.location || null, // Temporary - will be geocoded to placeId
@@ -79,7 +81,7 @@ export async function transformEventsWithGeocoding(
           logger.warn('Failed to geocode location', {
             location: event.location,
             eventId: event.id,
-            error: error instanceof Error ? error.message : 'Unknown error'
+            error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
           })
           return {
             id: event.id,

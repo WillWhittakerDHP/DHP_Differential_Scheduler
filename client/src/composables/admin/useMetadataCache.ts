@@ -103,7 +103,8 @@ function createMetadataCacheInstance() {
       }
     }
     
-    return (data.global[entityType] || {}) as Record<string, FieldMetadataEntry>
+    const raw = data.global[entityType]
+    return (raw !== undefined && raw !== null ? raw : {}) as Record<string, FieldMetadataEntry>
   }
   
   function getFieldMetadata(

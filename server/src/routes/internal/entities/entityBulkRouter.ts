@@ -11,7 +11,7 @@ import { bulkPatch } from '../../helpers/dataController.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateBulkUpdateArray } from './entityValidators.js'
-import { transformOrderIndexPayload, ensureBlockInstanceVersionsBeforeBulkUpdate } from './entityHelpers.js'
+import { ensureBlockInstanceVersionsBeforeBulkUpdate } from './entityHelpers.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
@@ -39,10 +39,8 @@ router.patch('/:entityType/order_index', csrfProtection, async (req: Request, re
   }
   
   try {
-    // PATTERN: Transform payload before passing to bulkPatch to match Sequelize model property names
-    const transformedUpdates = transformOrderIndexPayload(req.body)
-    
-    const updatedCount = await bulkPatch(entityConfig.model, transformedUpdates)
+    // PATTERN: Client sends camelCase (orderIndex); Sequelize model uses underscored: true
+    const updatedCount = await bulkPatch(entityConfig.model, req.body)
     res.json({ updated: updatedCount })
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.BULK_UPDATE_ENTITIES.replace('{displayName}', entityConfig.displayName)

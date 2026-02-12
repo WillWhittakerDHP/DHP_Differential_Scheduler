@@ -1,3 +1,5 @@
+import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+
 /**
  * LEARNING: EventShape Display Configs (Configuration Data)
  * WHY: Defines labels, placeholders, and layout for EventShape fields
@@ -14,7 +16,7 @@ export const eventShapeDisplays = {
   },
 
   name: {
-    label: "Name",
+    label: DISPLAY_LABELS.NAME,
     placeholder: "Enter event shape name",
     inline: false,
     stacked: true,
@@ -28,8 +30,8 @@ export const eventShapeDisplays = {
   },
 
   active: {
-    label: "Active",
-    placeholder: "Active",
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

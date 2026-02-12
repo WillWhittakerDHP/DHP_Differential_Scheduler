@@ -7,6 +7,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
+import { FIELD_NAMES, ERROR_MESSAGES } from '../../../routes/internal/entities/entityConstants.js';
 import { ValidPart } from './valid_part';
 import { ValidCascade } from './valid_cascade';
 
@@ -84,7 +85,7 @@ export function BlockShapeFactory(sequelize: Sequelize) {
       sequelize,
       indexes: [
         {
-          fields: ['orderIndex'],
+          fields: [FIELD_NAMES.ORDER_INDEX],
         },
       ],
       timestamps: false,
@@ -97,7 +98,7 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         // Validate mutual exclusivity: isStateControl and canHaveParts cannot both be true
         stateControlMutualExclusivity() {
           if (this.isStateControl === true && this.canHaveParts === true) {
-            throw new Error('isStateControl and canHaveParts cannot both be true. They are mutually exclusive.');
+            throw new Error(ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_MESSAGE);
           }
         },
       },

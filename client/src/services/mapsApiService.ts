@@ -9,9 +9,10 @@
  */
 
 import axios, { AxiosError } from 'axios'
+import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
+import { MAPS_ERROR_MESSAGES, type RouteMatrixStatus } from '@/constants/mapsConstants'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { MAPS_ERROR_MESSAGES } from '@/constants/mapsConstants'
 import type {
   AddressComponents,
   AutocompletePrediction,
@@ -201,10 +202,9 @@ function mapAxiosErrorToMapsError(
   if (!axiosError.response) {
     return new MapsApiError('network', 'Network error: Could not connect to server', true)
   }
-  return new MapsApiError(
-    'invalid',
-    axiosError.response?.data?.error ?? 'Invalid response from server'
-  )
+  const rawError = axiosError.response?.data?.error
+  const message = rawError !== undefined && rawError !== null ? rawError : 'Invalid response from server'
+  return new MapsApiError('invalid', message)
 }
 
 function mapServerErrorType(serverType: string): MapsApiErrorType {
@@ -225,7 +225,7 @@ function handleApiError(error: unknown): MapsApiError {
   }
   return new MapsApiError(
     'unknown',
-    error instanceof Error ? error.message : 'Unknown error'
+    error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
   )
 }
 
@@ -270,7 +270,7 @@ export interface RouteMatrixResult {
   destinationIndex: number
   durationSeconds: number
   distanceMeters: number
-  status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'
+  status: RouteMatrixStatus
 }
 
 // Phase 9: Removed fetchDriveTime and fetchRouteMatrix

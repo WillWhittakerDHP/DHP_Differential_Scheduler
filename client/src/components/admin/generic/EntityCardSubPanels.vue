@@ -16,14 +16,10 @@ import type { FormContext } from 'vee-validate'
 import { useEntityCrud } from '@/composables/useEntity'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
 import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
-interface SubPanelFields {
-  parts: Array<GlobalFieldKey<GlobalEntityKey>>
-  relationships: Array<GlobalFieldKey<GlobalEntityKey>>
-  annotations: Array<GlobalFieldKey<GlobalEntityKey>>
-  events: Array<GlobalFieldKey<GlobalEntityKey>>
-}
+type SubPanelFields = SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
 
 interface Props {
   entityKey: GlobalEntityKey
@@ -57,7 +53,8 @@ const blockShapeName = computed((): string => {
   if (props.entityKey !== 'blockInstance') return ''
   const entity = props.entity as GlobalEntity<'blockInstance'>
   const blockShape = blockShapes.value.find(bs => String(bs.id) === String(entity.blockShapeRef))
-  return blockShape?.name || 'Block'
+  const name = blockShape?.name
+  return name !== undefined && name !== null && name !== '' ? name : 'Block'
 })
 
 /**
@@ -217,13 +214,16 @@ const relationshipsSummary = computed((): string => {
   return formatTruncatedList(relationshipTypes)
 })
 
+const hasAnySubPanelFields = computed(() =>
+  SUB_PANEL_KEYS.some(key => props.subPanelFields[key].length > 0)
+)
 
 </script>
 
 <template>
   <VExpansionPanels
     v-model="expandedPanels"
-    v-if="subPanelFields.parts.length || subPanelFields.relationships.length || subPanelFields.annotations.length || subPanelFields.events.length"
+    v-if="hasAnySubPanelFields"
     multiple
     class="mt-4"
   >
@@ -319,6 +319,24 @@ const relationshipsSummary = computed((): string => {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.events" :key="fieldKey" class="mb-4">
+          <FieldRenderer
+            :field-context="props.getFieldContext(fieldKey)!"
+            :show-label="true"
+            :field-metadata="props.fieldMetadata"
+          />
+        </div>
+      </template>
+    </VExpansionPanel>
+
+    <!-- LEARNING: Composition Panel - block-shape-specific components -->
+    <!-- WHY: instanceComponents field renders here when composite and composable -->
+    <!-- PATTERN: Title uses blockShapeName for "{BlockShape} Components" -->
+    <VExpansionPanel v-if="subPanelFields.composition.length" value="composition">
+      <template #title>
+        <span class="font-weight-medium">{{ blockShapeName }} Components</span>
+      </template>
+      <template #text>
+        <div v-for="fieldKey in subPanelFields.composition" :key="fieldKey" class="mb-4">
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="true"

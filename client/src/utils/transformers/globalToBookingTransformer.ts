@@ -7,17 +7,22 @@
  */
 
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
+import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { TernaryBoolean } from '@/types/ternary'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
+import { safeArray, safeString, convertToTernaryBoolean } from './transformerPrimitives'
+import { collectIds, findByIds, immutableSort } from './transformerCollections'
 
-/** Default booking mode when not set (standalone vs addOn). */
-const DEFAULT_BOOKING_MODE = 'standalone' as const
-
-/** Default TernaryBoolean when differential is not set. */
-const TERNARY_FALSE: TernaryBoolean = 'false'
+/** Entity-like shape for active/disabled check without full Record<string, unknown>. */
+function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
+  if (!entity) return false
+  const disabled = entity.disabled === true
+  const active = entity.active !== false
+  return !disabled && active
+}
 
 export type BookingPartInstance = {
   id: string
@@ -59,8 +64,8 @@ export type BookingBlockInstance = {
   allowMultiple: boolean // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber: boolean | null // If true, property requires a unit number (nullable by design)
   number?: number | null // Optional quantity multiplier for allowMultiple instances
-  is_multi_family: boolean // If true, property type is multi-family (requires numberOfUnits field)
-  requires_agent: boolean // If true, service requires agent and client contact information
+  isMultiFamily: boolean // If true, property type is multi-family (requires numberOfUnits field)
+  requiresAgent: boolean // If true, service requires agent and client contact information
 }
 
 export type BookingData = {
@@ -69,16 +74,9 @@ export type BookingData = {
   blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
 }
 
-function isEntityActive(entity: Record<string, unknown> | null | undefined): boolean {
-  if (!entity) return false
-  const disabled = entity.disabled === true
-  const active = entity.active !== false
-  return !disabled && active
-}
-
 function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
   const withMode = blockInstance as unknown as { bookingMode?: string }
-  return withMode.bookingMode ?? DEFAULT_BOOKING_MODE
+  return withMode.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
 }
 
 /**
@@ -96,9 +94,9 @@ function filterAndSortBlockInstances(
   blockShapeById: Map<string, GlobalEntity<'blockShape'>>,
   partShapeById: Map<string, GlobalEntity<'partShape'>>
 ): BookingBlockInstance[] {
-  return blockInstances
+  const mapped = blockInstances
     .filter((blockInstance) => {
-      const isActive = isEntityActive(blockInstance as unknown as Record<string, unknown>)
+      const isActive = isEntityActive(blockInstance)
       const isComponentChild = componentIds.has(blockInstance.id)
       return isActive && !isComponentChild && predicate(blockInstance)
     })
@@ -113,11 +111,37 @@ function filterAndSortBlockInstances(
         partShapeById
       )
     )
-    .sort((a, b) => {
-      const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-      const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-      return aOrder - bOrder
-    })
+  return immutableSort(mapped, (a, b) => {
+    const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+    const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+    return aOrder - bOrder
+  })
+}
+
+/**
+ * Resolve part instance IDs from composite block's component relationships.
+ * LEARNING: For composite instances, get part IDs via instanceComponents + partAssignments.
+ */
+function resolveComponentPartIds(
+  blockInstanceId: string,
+  instanceComponentsRelationships: GlobalRelationship[],
+  partAssignmentsRelationships: GlobalRelationship[],
+  partInstanceById: Map<string, GlobalEntity<'partInstance'>>
+): string[] {
+  const componentRels = findRelationshipsByParent(
+    blockInstanceId,
+    instanceComponentsRelationships
+  )
+  const componentIds = extractChildIds(componentRels)
+  if (componentIds.length === 0) return []
+  const componentPartIds = composePartInstances(
+    componentIds,
+    partAssignmentsRelationships
+  )
+  return componentPartIds.filter((partId) => {
+    const partInstance = partInstanceById.get(partId)
+    return isEntityActive(partInstance)
+  })
 }
 
 /**
@@ -130,48 +154,92 @@ function resolvePartInstanceIds(
   instanceComponentsRelationships: GlobalRelationship[],
   partInstanceById: Map<string, GlobalEntity<'partInstance'>>
 ): Set<string> {
-  const partInstanceIds = new Set<string>()
   const partAssignmentsRels = findRelationshipsByParent(
     blockInstance.id,
     partAssignmentsRelationships
   )
   const partAssignmentsRel = partAssignmentsRels[0]
-
-  if (partAssignmentsRel) {
-    const partAssignmentIds = partAssignmentsRel.children
-      .filter((child) => {
-        const partInstance = partInstanceById.get(child.id)
-        return isEntityActive(partInstance as unknown as Record<string, unknown>)
-      })
-      .map((child) => child.id)
-    for (const id of partAssignmentIds) {
-      partInstanceIds.add(id)
-    }
-  }
+  const mappedIds = partAssignmentsRel?.children
+    .filter((child) => {
+      const partInstance = partInstanceById.get(child.id)
+      return isEntityActive(partInstance)
+    })
+    .map((child) => child.id)
+  const partAssignmentChildIds = mappedIds !== undefined && mappedIds !== null ? mappedIds : []
 
   const blockInstanceTyped = blockInstance as BlockInstanceEntity
-  if (blockInstanceTyped.composite === true) {
-    const componentRels = findRelationshipsByParent(
-      blockInstance.id,
-      instanceComponentsRelationships
-    )
-    const componentIds = extractChildIds(componentRels)
-    if (componentIds.length > 0) {
-      const componentPartIds = composePartInstances(
-        componentIds,
-        partAssignmentsRelationships
-      )
-      const activeComponentPartIds = componentPartIds.filter((partId) => {
-        const partInstance = partInstanceById.get(partId)
-        return isEntityActive(partInstance as unknown as Record<string, unknown>)
-      })
-      for (const id of activeComponentPartIds) {
-        partInstanceIds.add(id)
-      }
-    }
-  }
+  const activeComponentPartIds =
+    blockInstanceTyped.composite === true
+      ? resolveComponentPartIds(
+          blockInstance.id,
+          instanceComponentsRelationships,
+          partAssignmentsRelationships,
+          partInstanceById
+        )
+      : []
 
-  return partInstanceIds
+  return collectIds(partAssignmentChildIds, activeComponentPartIds)
+}
+
+/** Optional block instance fields used when building BookingBlockInstance. */
+type BlockInstanceOptionalProps = {
+  baseSqFt?: number
+  icon?: string
+  bookingMode?: import('@/constants/entities').BookingMode
+  differential?: TernaryBoolean | boolean
+  number?: number | null
+  allowMultiple?: boolean
+  requiresUnitNumber?: boolean | null
+  isMultiFamily?: boolean
+  requiresAgent?: boolean
+}
+
+function extractBlockInstanceProps(
+  blockInstance: GlobalEntity<'blockInstance'>
+): BlockInstanceOptionalProps {
+  const b = blockInstance as GlobalEntity<'blockInstance'> & BlockInstanceOptionalProps
+  return {
+    baseSqFt: b.baseSqFt,
+    icon: b.icon,
+    bookingMode: b.bookingMode,
+    differential: b.differential,
+    number: b.number,
+    allowMultiple: b.allowMultiple,
+    requiresUnitNumber: b.requiresUnitNumber,
+    isMultiFamily: b.isMultiFamily,
+    requiresAgent: b.requiresAgent,
+  }
+}
+
+function buildBookingBlockInstance(
+  blockInstance: GlobalEntity<'blockInstance'>,
+  props: BlockInstanceOptionalProps,
+  partInstances: BookingPartInstance[],
+  blockShape: string,
+  blockShapeRef: string,
+  activeBlockIds: string[],
+  differential: TernaryBoolean
+): BookingBlockInstance {
+  return {
+    id: blockInstance.id,
+    entityKey: 'blockInstance',
+    name: blockInstance.name,
+    active: isEntityActive(blockInstance),
+    baseSqFt: props.baseSqFt ?? 0,
+    icon: safeString(props.icon, 'blockInstance.icon'),
+    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/entities').BookingMode,
+    differential,
+    orderIndex: blockInstance.orderIndex,
+    blockShape,
+    blockShapeRef,
+    activeBlockIds,
+    partInstances,
+    allowMultiple: props.allowMultiple ?? false,
+    requiresUnitNumber:
+      typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,
+    isMultiFamily: props.isMultiFamily ?? false,
+    requiresAgent: props.requiresAgent ?? false,
+  }
 }
 
 /**
@@ -193,73 +261,44 @@ function transformBlockInstance(
     instanceComponentsRelationships,
     partInstanceById
   )
+  const partInstanceList = findByIds(
+    Array.from(partInstanceById.values()),
+    Array.from(partInstanceIds)
+  )
+  const partInstances = immutableSort(
+    partInstanceList
+      .filter((partInstance) => isEntityActive(partInstance))
+      .map((partInstance) => transformPartInstance(partInstance, partShapeById)),
+    (a, b) => {
+      const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
+      const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
+      return aOrder - bOrder
+    }
+  )
 
-  const partInstances: BookingPartInstance[] = Array.from(partInstanceIds)
-    .map((partId) => partInstanceById.get(partId))
-    .filter((partInstance: GlobalEntity<'partInstance'> | undefined): partInstance is GlobalEntity<'partInstance'> =>
-      partInstance !== undefined && isEntityActive(partInstance as unknown as Record<string, unknown>)
-    )
-    .map((partInstance: GlobalEntity<'partInstance'>) =>
-      transformPartInstance(partInstance, partShapeById)
-    )
-  .sort((a, b) => {
-    const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0
-    const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0
-    return aOrder - bOrder
-  })
-
-  const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
+  const blockInstanceWithShapeRef = blockInstance as GlobalEntity<'blockInstance'> & {
+    blockShapeRef: string
+  }
   const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
-
   const bookingCascadesRels = findRelationshipsByParent(
     blockInstance.id,
     bookingCascadesRelationships
   )
   const activeBlockIds = extractChildIds(bookingCascadesRels)
-
-  const blockInstanceWithProps = blockInstance as GlobalEntity<'blockInstance'> & {
-    baseSqFt?: number
-    icon?: string
-    bookingMode?: import('@/constants/entities').BookingMode
-    differential?: TernaryBoolean | boolean
-    number?: number | null
-    allowMultiple?: boolean
-    requiresUnitNumber?: boolean | null
-  }
-
-  const differential = convertDifferentialToTernary(blockInstanceWithProps.differential)
+  const props = extractBlockInstanceProps(blockInstance)
+  const differential = convertToTernaryBoolean(props.differential)
   const blockShapeEntity = _blockShapeById.get(blockShapeRef)
-  const blockShape = blockShapeEntity?.name ?? ''
+  const blockShape = safeString(blockShapeEntity?.name, 'blockShape.name')
 
-  return {
-    id: blockInstance.id,
-    entityKey: 'blockInstance',
-    name: blockInstance.name,
-    active: isEntityActive(blockInstance as unknown as Record<string, unknown>),
-    baseSqFt: blockInstanceWithProps.baseSqFt ?? 0,
-    icon: blockInstanceWithProps.icon ?? '',
-    bookingMode: (blockInstanceWithProps.bookingMode ?? DEFAULT_BOOKING_MODE) as import('@/constants/entities').BookingMode,
-    differential,
-    orderIndex: blockInstance.orderIndex,
+  return buildBookingBlockInstance(
+    blockInstance,
+    props,
+    partInstances,
     blockShape,
     blockShapeRef,
     activeBlockIds,
-    partInstances,
-    allowMultiple: blockInstanceWithProps.allowMultiple ?? false,
-    requiresUnitNumber:
-      typeof blockInstanceWithProps.requiresUnitNumber === 'boolean'
-        ? blockInstanceWithProps.requiresUnitNumber
-        : null,
-    is_multi_family: blockInstanceWithProps.is_multi_family ?? false,
-    requires_agent: blockInstanceWithProps.requires_agent ?? false,
-  }
-}
-
-function convertDifferentialToTernary(value: TernaryBoolean | boolean | undefined): TernaryBoolean {
-  if (value === true) return 'true'
-  if (value === false) return 'false'
-  if (value === 'true' || value === 'false' || value === 'override') return value
-  return TERNARY_FALSE
+    differential
+  )
 }
 
 function transformPartInstance(
@@ -269,7 +308,7 @@ function transformPartInstance(
   const partInstanceTyped = partInstance as GlobalEntity<'partInstance'> & { partShapeRef: string }
   const partShapeRef = partInstanceTyped.partShapeRef
   const partShapeEntity = partShapeById.get(partShapeRef)
-  const partShape = partShapeEntity?.name ?? partShapeRef
+  const partShape = partShapeEntity?.name ? partShapeEntity.name : partShapeRef
 
   const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
     baseTime?: number
@@ -283,7 +322,7 @@ function transformPartInstance(
     id: partInstance.id,
     entityKey: 'partInstance',
     name: partInstance.name,
-    active: isEntityActive(partInstance as unknown as Record<string, unknown>),
+    active: isEntityActive(partInstance),
     partShape,
     baseTime: partInstanceWithProps.baseTime ?? 0,
     rateOverBaseTime: partInstanceWithProps.rateOverBaseTime ?? 0,
@@ -300,13 +339,13 @@ function transformPartInstance(
  */
 export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const { entities, relationships } = globalData
-  const blockShapes = (entities.blockShape ?? []) as GlobalEntity<'blockShape'>[]
-  const blockInstances = (entities.blockInstance ?? []) as GlobalEntity<'blockInstance'>[]
-  const partShapes = (entities.partShape ?? []) as GlobalEntity<'partShape'>[]
-  const partInstances = (entities.partInstance ?? []) as GlobalEntity<'partInstance'>[]
-  const partAssignmentsRelationships = relationships.partAssignments ?? []
-  const bookingCascadesRelationships = relationships.bookingCascades ?? []
-  const instanceComponentsRelationships = relationships.instanceComponents ?? []
+  const blockShapes = safeArray(entities.blockShape) as GlobalEntity<'blockShape'>[]
+  const blockInstances = safeArray(entities.blockInstance) as GlobalEntity<'blockInstance'>[]
+  const partShapes = safeArray(entities.partShape) as GlobalEntity<'partShape'>[]
+  const partInstances = safeArray(entities.partInstance) as GlobalEntity<'partInstance'>[]
+  const partAssignmentsRelationships = safeArray(relationships.partAssignments)
+  const bookingCascadesRelationships = safeArray(relationships.bookingCascades)
+  const instanceComponentsRelationships = safeArray(relationships.instanceComponents)
 
   const partInstanceById = new Map(
     partInstances.map((partInstance) => [partInstance.id, partInstance])
@@ -318,6 +357,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partShapes.map((partShape) => [partShape.id, partShape])
   )
 
+  // @audit-allow:loop-mutation:assignProp - read-only filter callback, no mutation
   const componentIds = new Set(
     instanceComponentsRelationships
       .filter((rel) => rel.relationshipKind === 'instanceComponents')
@@ -348,16 +388,17 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partShapeById
   )
 
-  const bookingBlockShapes: BookingBlockShape[] = blockShapes
-    .map((blockShape) => ({
+  const bookingBlockShapes: BookingBlockShape[] = immutableSort(
+    blockShapes.map((blockShape) => ({
       id: blockShape.id,
       name: blockShape.name,
       type: blockShape.type,
       canHaveParts: blockShape.canHaveParts,
       isStateControl: blockShape.isStateControl,
       composable: blockShape.composable,
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name))
+    })),
+    (a, b) => a.name.localeCompare(b.name)
+  )
 
   return {
     blockInstances: bookingBlockInstances,

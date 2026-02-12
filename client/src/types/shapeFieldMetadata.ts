@@ -4,6 +4,8 @@
  * PATTERN: Separate types for canonical metadata vs layout configs
  */
 
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+
 export interface ShapeFieldMetadata {
   id: string
   entityType: 'block' | 'part' | 'blockShape' | 'partShape'
@@ -31,7 +33,7 @@ export interface ShapeLayoutConfig {
   section: string | null
   renderAs: 'field' | 'statusButton'
   statusButtonColor: string | null
-  panel: 'parts' | 'relationships' | 'annotations' | 'none'
+  panel: 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'none'
   bulkEdit: boolean
   createdAt: string
   updatedAt: string
@@ -53,8 +55,8 @@ export interface ComposedFieldConfig {
   section: string | null
   renderAs: 'field' | 'statusButton'
   statusButtonColor: string | null
-  panel: 'parts' | 'relationships' | 'annotations' | 'none'
+  panel: 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'none'
   bulkEdit: boolean
-  
+
   _hasLayoutConfig?: boolean
 }

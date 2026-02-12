@@ -6,7 +6,63 @@
  * PATTERN: Constants file with exported string literals matching type definitions
  */
 
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+
+/**
+ * Single source of truth for sub-panel types (expansion panels in entity cards).
+ * WHY: Add/remove panels in one place; types and runtime structures derive from this.
+ * PATTERN: Const array + derived type + record type + empty-record factory.
+ */
+export const SUB_PANEL_KEYS = ['parts', 'relationships', FIELD_NAMES.ANNOTATIONS, 'events', 'composition'] as const
+
+/** Derived type used for panel discriminators (FieldLocation, metadata panel, etc.). */
+export type SubPanelKey = (typeof SUB_PANEL_KEYS)[number]
+
+/** Record type keyed by sub-panel; replaces manual { parts: T[], relationships: T[], ... } interfaces. */
+export type SubPanelRecord<T> = Record<SubPanelKey, T>
+
+/** Creates an empty sub-panel record; use instead of repeating object literals. */
+export function createEmptySubPanelRecord<T>(factory: () => T): SubPanelRecord<T> {
+  return Object.fromEntries(SUB_PANEL_KEYS.map(key => [key, factory()])) as SubPanelRecord<T>
+}
+
+/**
+ * Entity metadata type discriminator (shapes and instances).
+ * WHY: Single union for all entity kinds; used in admin metadata CRUD and config.
+ */
+export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
+
+/**
+ * Unified field metadata entry
+ * Combines canonical properties (dataType, label, isRequired) with layout/rendering properties
+ * 
+ * LEARNING: Single type replaces separate canonical + layout types
+ * WHY: Simplifies code, eliminates need to merge separate configs
+ * PATTERN: All properties in one place, clear separation via comments
+ */
+export interface FieldMetadataEntry {
+  // Canonical properties (from old field_metadata)
+  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
+  label: string
+  isRequired: boolean
+  // Layout/rendering properties (merged from old entity_layout_config)
+  visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
+  layout: 'inline' | 'stacked'
+  displayOrder: number
+  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection'
+  statusButtonColor?: string
+  panel: 'none' | SubPanelKey
+  bulkEdit: boolean
+  // PATTERN: Only populated for fields with renderAs: select|multiselect|reference, null otherwise
+  inputConfig?: Record<string, unknown> | null
+}
+
+/**
+ * Field metadata configuration type alias
+ * WHY: Convenience type for Record<fieldKey, FieldMetadataEntry>
+ * PATTERN: Used throughout the codebase for metadata lookups
+ */
+export type FieldMetadata = Record<string, FieldMetadataEntry>
 
 /**
  * Visibility values for field metadata
@@ -53,14 +109,15 @@ export const FIELD_RENDER_AS = {
 
 /**
  * Panel values for field metadata
- * LEARNING: Constants matching FieldMetadataEntry['panel'] union type
+ * LEARNING: Constants matching FieldMetadataEntry['panel'] union type (none | SubPanelKey)
  * WHY: Allows using constants in comparisons instead of string literals
  * PATTERN: Export constants that match the type definition
  */
 export const FIELD_PANEL = {
-  NONE: 'none' as const satisfies FieldMetadataEntry['panel'],
-  PARTS: 'parts' as const satisfies FieldMetadataEntry['panel'],
-  RELATIONSHIPS: 'relationships' as const satisfies FieldMetadataEntry['panel'],
-  ANNOTATIONS: 'annotations' as const satisfies FieldMetadataEntry['panel'],
-  EVENTS: 'events' as const satisfies FieldMetadataEntry['panel'],
+  NONE: 'none' as const,
+  PARTS: 'parts' as const satisfies SubPanelKey,
+  RELATIONSHIPS: 'relationships' as const satisfies SubPanelKey,
+  ANNOTATIONS: FIELD_NAMES.ANNOTATIONS satisfies SubPanelKey,
+  EVENTS: 'events' as const satisfies SubPanelKey,
+  COMPOSITION: 'composition' as const satisfies SubPanelKey,
 } as const

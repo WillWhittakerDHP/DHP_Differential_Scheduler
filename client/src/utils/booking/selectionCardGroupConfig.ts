@@ -9,7 +9,8 @@ export function getSelectionGroupComponentName(config: SelectionCardConfig): str
 }
 
 export function buildSelectionCardGridColumnProps(config: SelectionCardConfig): Record<string, string | number> {
-  const cols = config.gridColumns || {}
+  const rawCols = config.gridColumns
+  const cols = rawCols !== undefined && rawCols !== null ? rawCols : {}
   const result: Record<string, string | number> = {}
 
   if (cols.cols !== undefined) result.cols = cols.cols

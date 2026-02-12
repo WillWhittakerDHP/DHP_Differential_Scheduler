@@ -91,8 +91,11 @@ export function createCrudRouter<T extends Model>(config: CrudRouterConfig<T>): 
   const context = buildHandlerContext(config)
   const paramKey = config.paramKey ?? 'id'
 
+  const rawGetByIdMiddleware = config.getByIdMiddleware
+  const getByIdMiddleware = rawGetByIdMiddleware !== undefined ? rawGetByIdMiddleware : []
+  const getByIdHandler = config.customGetByIdHandler ?? createGetByIdHandler(context)
   router.get('/', config.customGetAllHandler ?? createGetAllHandler(context))
-  router.get(`/:${paramKey}`, config.customGetByIdHandler ?? createGetByIdHandler(context))
+  router.get(`/:${paramKey}`, ...getByIdMiddleware, getByIdHandler)
   router.post('/', csrfProtection, createPostHandler(context))
 
   if (config.enablePut !== false) {

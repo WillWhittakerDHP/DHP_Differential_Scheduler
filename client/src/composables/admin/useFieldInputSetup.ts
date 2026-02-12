@@ -12,9 +12,15 @@ import { inject } from 'vue'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldKeyboardGuardType } from '@/composables/admin/useFieldKeyboardGuard'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
+
+export interface UseFieldInputSetupOptions {
+  /** Keyboard guard field type for handleKeydown; default inferred from usage (date/textarea) */
+  fieldType?: FieldKeyboardGuardType
+}
 
 /**
  * LEARNING: Shared field input setup
@@ -22,8 +28,10 @@ import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers
  * PATTERN: Centralized setup for field context, value, and handlers
  */
 export function useFieldInputSetup(
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>,
+  options: UseFieldInputSetupOptions = {}
 ) {
+  const { fieldType } = options
   /**
    * LEARNING: Inject EntityCard save handler for create cards
    * WHY: When creating new entities, pressing Enter should save the entire form and collapse,
@@ -49,16 +57,18 @@ export function useFieldInputSetup(
   }
 
   // FIX: Use shared field input handlers from composable
-  const { handleFocus, handleBlur } = useFieldInputHandlers({
+  const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
     fieldContext,
     disableAutoSave,
-    entityCardSaveContext
+    entityCardSaveContext,
+    fieldType
   })
 
   return {
     fieldValue,
     handleChange,
     handleFocus,
-    handleBlur
+    handleBlur,
+    handleKeydown
   }
 }

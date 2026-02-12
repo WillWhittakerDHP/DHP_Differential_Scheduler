@@ -106,7 +106,8 @@ export function useComponentEntityActions(params: {
         // WHY: Functional approach avoids mutations, aligns with workspace rules
         // PATTERN: Reduce preview items into componentUpdates object
         return preview.reduce((componentAcc, { componentId, newValue: componentNewValue }) => {
-          const existing = componentAcc[componentId] || {}
+          const rawExisting = componentAcc[componentId]
+          const existing = rawExisting !== undefined && rawExisting !== null ? rawExisting : {}
           return {
             ...componentAcc,
             [componentId]: {

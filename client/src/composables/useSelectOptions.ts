@@ -124,7 +124,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         const groupParent = groupEntityKey ? groupParentMap.get(groupKeyString) : null
         const groupLabel = groupParent 
           ? (getEntityFieldValue(groupParent, String(optionLabelKey.value)) as string | undefined) || String(groupParent.id)
-          : groupKeyString // Fallback to group key if parent not found
+          : groupKeyString // Use group key when parent not found
         
         groupedMap.set(groupKeyString, {
           groupKey: groupKeyString,

@@ -12,7 +12,9 @@
     :aria-checked="String(isActive)"
     :aria-label="`Toggle ${label}`"
     :aria-disabled="String(disabled)"
+    :tabindex="disabled ? -1 : 0"
     @click.stop="handleClick"
+    @keydown="handleKeydown"
     @mousedown.stop
     @mouseup.stop
     @touchstart.stop
@@ -101,6 +103,22 @@ const handleClick = (event: Event) => {
   // WHY: Standard Vue pattern - parent handles the logic
   // PATTERN: Emit event, parent handles async operations
   emit('click', event)
+}
+
+// LEARNING: ARIA role="switch" requires Space and Enter to toggle
+// WHY: Keyboard users must be able to activate the switch without a mouse
+const handleKeydown = (event: KeyboardEvent) => {
+  const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
+  const isEnter = event.key === 'Enter' || event.keyCode === 13
+  if (isSpace || isEnter) {
+    event.preventDefault()
+    event.stopPropagation()
+    if (!props.disabled) {
+      emit('click', event)
+    }
+  } else {
+    event.stopPropagation()
+  }
 }
 </script>
 

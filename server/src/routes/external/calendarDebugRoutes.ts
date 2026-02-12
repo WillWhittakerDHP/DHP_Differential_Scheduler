@@ -9,6 +9,7 @@ import { Router, Request, Response } from 'express';
 import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';
 import { getRateLimitStats } from '../../services/rateLimiter.js';
 import { createLogger } from '../../utils/logger.js';
+import { isProduction } from '../../utils/envHelpers.js';
 import { sendError } from '../helpers/routerResponseHelpers.js';
 import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js';
 
@@ -17,7 +18,7 @@ const logger = createLogger('CalendarDebugRoutes');
 const router = Router();
 
 function rejectProduction(_req: Request, res: Response): boolean {
-  if (process.env.NODE_ENV === 'production') {
+  if (isProduction()) {
     res.status(403).json({ error: CALENDAR_ROUTE_MESSAGES.DEBUG_DISABLED });
     return true;
   }

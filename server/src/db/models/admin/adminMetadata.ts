@@ -14,6 +14,7 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
+import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
 
 export class AdminMetadata extends Model<
   InferAttributes<AdminMetadata>,
@@ -33,7 +34,7 @@ export class AdminMetadata extends Model<
   declare displayOrder: number;
   declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
-  declare panel: 'none' | 'parts' | 'relationships' | 'annotations';
+  declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
   declare bulkEdit: boolean;
   declare inputConfig: CreationOptional<Record<string, unknown> | null>;
   declare createdAt: CreationOptional<Date>;
@@ -130,7 +131,7 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         comment: 'Color for statusButton rendering (Vuetify color name)',
       },
       panel: {
-        type: DataTypes.ENUM('none', 'parts', 'relationships', 'annotations', 'events'),
+        type: DataTypes.ENUM('none', 'parts', 'relationships', FIELD_NAMES.ANNOTATIONS, 'events'),
         allowNull: false,
         defaultValue: 'none',
         comment: 'Panel name for expandedPanel visibility',

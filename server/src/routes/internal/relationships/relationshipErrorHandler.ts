@@ -47,8 +47,8 @@ export function handleUniqueConstraintError(
       error: ERROR_MESSAGES.RELATIONSHIP_ALREADY_EXISTS,
       details: `This ${displayName} relationship already exists`,
       relationshipType,
-      parent_id: parentId,
-      child_id: childId,
+      parentId,
+      childId,
     })
     return true
   }
@@ -86,8 +86,8 @@ export function handleForeignKeyConstraintError(
       error: ERROR_MESSAGES.INVALID_ENTITY_REFERENCE,
       details: error.message || 'One of the referenced entities does not exist',
       relationshipType,
-      parent_id: parentId,
-      child_id: childId,
+      parentId,
+      childId,
     })
     return true
   }

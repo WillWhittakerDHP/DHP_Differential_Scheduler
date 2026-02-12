@@ -47,7 +47,7 @@ jest.mock('../../../../config/app', () => ({
   },
 }))
 
-type RelationshipType = { id: string; parent_id: string; child_id: string }
+type RelationshipType = { id: string; parentId: string; childId: string }
 
 describe('Relationship Router Integration Tests', () => {
   let app: Express
@@ -62,8 +62,8 @@ describe('Relationship Router Integration Tests', () => {
   describe('GET /api/relationships/:relationshipKind', () => {
     it('should fetch all relationships of a kind', async () => {
       const mockRelationships: RelationshipType[] = [
-        { id: 'rel-1', parent_id: 'block-1', child_id: 'part-1' },
-        { id: 'rel-2', parent_id: 'block-1', child_id: 'part-2' },
+        { id: 'rel-1', parentId: 'block-1', childId: 'part-1' },
+        { id: 'rel-2', parentId: 'block-1', childId: 'part-2' },
       ]
       const mockFindAll = PartAssignment.findAll as jest.MockedFunction<() => Promise<RelationshipType[]>>
       mockFindAll.mockResolvedValue(mockRelationships)
@@ -98,7 +98,7 @@ describe('Relationship Router Integration Tests', () => {
 
   describe('GET /api/relationships/:relationshipKind/:parentId/:childId', () => {
     it('should fetch relationship by parent and child IDs', async () => {
-      const mockRelationship: RelationshipType = { id: 'rel-1', parent_id: 'block-1', child_id: 'part-1' }
+      const mockRelationship: RelationshipType = { id: 'rel-1', parentId: 'block-1', childId: 'part-1' }
       const mockFindOne = PartAssignment.findOne as jest.MockedFunction<() => Promise<RelationshipType | null>>
       mockFindOne.mockResolvedValue(mockRelationship)
 
@@ -130,7 +130,7 @@ describe('Relationship Router Integration Tests', () => {
 
   describe('POST /api/relationships/:relationshipKind', () => {
     it('should create new relationship', async () => {
-      const newRelationship: RelationshipType = { id: 'rel-1', parent_id: 'block-1', child_id: 'part-1' }
+      const newRelationship: RelationshipType = { id: 'rel-1', parentId: 'block-1', childId: 'part-1' }
       const mockCreate = PartAssignment.create as jest.MockedFunction<() => Promise<RelationshipType>>
       const mockFindByPk = BlockInstance.findByPk as jest.MockedFunction<(id: string) => Promise<{ id: string } | null>>
       mockCreate.mockResolvedValue(newRelationship)
@@ -139,10 +139,10 @@ describe('Relationship Router Integration Tests', () => {
       const response = await request(app)
         .post('/api/relationships/partAssignments')
         .send({
-          parent_kind: 'blockInstance',
-          child_kind: 'partInstance',
-          parent_id: 'block-1',
-          child_id: 'part-1',
+          parentKind: 'blockInstance',
+          childKind: 'partInstance',
+          parentId: 'block-1',
+          childId: 'part-1',
         })
         .expect(201)
 
@@ -154,8 +154,8 @@ describe('Relationship Router Integration Tests', () => {
       await request(app)
         .post('/api/relationships/invalidKind')
         .send({
-          parent_id: 'block-1',
-          child_id: 'part-1',
+          parentId: 'block-1',
+          childId: 'part-1',
         })
         .expect(400)
     })
@@ -178,10 +178,10 @@ describe('Relationship Router Integration Tests', () => {
       const response = await request(app)
         .post('/api/relationships/partAssignments')
         .send({
-          parent_kind: 'blockInstance',
-          child_kind: 'partInstance',
-          parent_id: 'block-1',
-          child_id: 'part-1',
+          parentKind: 'blockInstance',
+          childKind: 'partInstance',
+          parentId: 'block-1',
+          childId: 'part-1',
         })
         .expect(500)
 
@@ -191,7 +191,7 @@ describe('Relationship Router Integration Tests', () => {
 
   describe('DELETE /api/relationships/:relationshipKind/:parentId/:childId', () => {
     it('should delete relationship', async () => {
-      const mockRelationship: RelationshipType = { id: 'rel-1', parent_id: 'block-1', child_id: 'part-1' }
+      const mockRelationship: RelationshipType = { id: 'rel-1', parentId: 'block-1', childId: 'part-1' }
       const mockFindOne = PartAssignment.findOne as jest.MockedFunction<() => Promise<RelationshipType | null>>
       const mockDestroy = PartAssignment.destroy as jest.MockedFunction<() => Promise<number>>
       mockFindOne.mockResolvedValue(mockRelationship)
@@ -222,7 +222,7 @@ describe('Relationship Router Integration Tests', () => {
     })
 
     it('should handle delete errors', async () => {
-      const mockRelationship: RelationshipType = { id: 'rel-1', parent_id: 'block-1', child_id: 'part-1' }
+      const mockRelationship: RelationshipType = { id: 'rel-1', parentId: 'block-1', childId: 'part-1' }
       const mockFindOne = PartAssignment.findOne as jest.MockedFunction<() => Promise<RelationshipType | null>>
       const mockDestroy = PartAssignment.destroy as jest.MockedFunction<() => Promise<number>>
       mockFindOne.mockResolvedValue(mockRelationship)

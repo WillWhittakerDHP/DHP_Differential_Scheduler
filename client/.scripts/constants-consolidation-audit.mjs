@@ -690,7 +690,7 @@ function generateSuggestion(group) {
 }
 
 function renderMarkdownReport(data) {
-  const { consolidationGroups, constantsFiles, totalExportsScanned, exceptionSummary } = data
+  const { consolidationGroups, constantsFiles, totalExportsScanned, exceptionSummary, constantsFilesWithNamingViolations } = data
   const lines = []
   lines.push('# Constants Consolidation Audit (Generated)')
   lines.push('')
@@ -704,14 +704,23 @@ function renderMarkdownReport(data) {
   lines.push(`- **Requiring review: ${exceptionSummary?.totalRequiresReview || 0}**`)
   lines.push(`- Allowed (with justification): ${exceptionSummary?.totalAllowed || 0}`)
   lines.push('')
-  
-  // Sort groups by score
-  const sortedGroups = [...consolidationGroups].sort((a, b) => b.score - a.score)
-  
+  if (constantsFilesWithNamingViolations && constantsFilesWithNamingViolations.length > 0) {
+    lines.push('## Constants files with naming violations (fix naming first)')
+    lines.push('')
+    lines.push('The following constant files have naming-convention findings. Fix naming before consolidating. See `naming-convention-audit` report.')
+    lines.push('')
+    for (const repoPath of constantsFilesWithNamingViolations) {
+      lines.push(`- \`${repoPath}\``)
+    }
+    lines.push('')
+  }
   lines.push('## Consolidation Groups (ranked by score)')
   lines.push('')
   lines.push('| Classification | Priority | Score | Description | Locations |')
   lines.push('| --- | --- | ---: | --- | ---: |')
+  
+  // Sort groups by score
+  const sortedGroups = [...consolidationGroups].sort((a, b) => b.score - a.score)
   
   for (const group of sortedGroups) {
     const priority = assignPriority(group.score, {})
@@ -781,6 +790,24 @@ function main() {
   
   // Phase 1: Inventory
   const { catalog, constantsFiles } = inventoryConstantsFiles(allFiles)
+
+  // Optional: cross-reference with naming-convention audit (fix naming first in these files)
+  const namingJsonPath = path.join(OUT_DIR, 'naming-convention-audit.json')
+  /** @type {string[]} */
+  let constantsFilesWithNamingViolations = []
+  try {
+    if (fs.existsSync(namingJsonPath)) {
+      const namingData = JSON.parse(fs.readFileSync(namingJsonPath, 'utf8'))
+      const namingViolationPaths = new Set(
+        (namingData.files || []).map((f) => f.repoPath).filter(Boolean)
+      )
+      constantsFilesWithNamingViolations = constantsFiles.filter((repoPath) =>
+        namingViolationPaths.has(repoPath)
+      )
+    }
+  } catch (_e) {
+    // Missing or invalid naming JSON: skip cross-reference
+  }
   
   // Phase 2: Value deduplication
   const valueDuplicates = findValueDuplicates(catalog)
@@ -860,6 +887,9 @@ function main() {
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     exceptionSummary,
     constantsFiles,
+    ...(constantsFilesWithNamingViolations.length > 0
+      ? { constantsFilesWithNamingViolations }
+      : {}),
     consolidationGroups,
     files,
   }

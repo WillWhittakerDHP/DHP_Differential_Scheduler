@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 
 const emailRouteComponent = () => import('@/pages/apps/email/index.vue')
 
@@ -12,7 +13,7 @@ export const redirects: RouteRecordRaw[] = [
 
       if (userRole === 'admin')
         return { name: 'dashboards-crm' }
-      if (userRole === 'client')
+      if (userRole === USER_ROLE_CLIENT)
         return { name: 'access-control' }
 
       return { name: 'login', query: to.query }

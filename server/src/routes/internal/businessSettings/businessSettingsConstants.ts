@@ -6,15 +6,11 @@
  * PATTERN: Const objects with categorized constants
  */
 
+import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
+import { ERROR_FETCH_BUSINESS_SETTINGS } from '../../../../../shared/constants/errorMessages.js'
 
-/**
- * Availability settings key
- * LEARNING: Key for availability settings in BusinessSettings
- * WHY: Single source of truth for settings key
- * PATTERN: Const string for settings key
- */
-export const AVAILABILITY_SETTINGS_KEY = 'availability_settings'
+export { AVAILABILITY_SETTINGS_KEY }
 
 /**
  * Default availability settings
@@ -72,7 +68,7 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
  */
 export const ERROR_MESSAGES = {
   // Business settings CRUD operations
-  FETCH_SETTINGS: 'Failed to fetch business settings',
+  FETCH_SETTINGS: ERROR_FETCH_BUSINESS_SETTINGS,
   FETCH_SETTING: 'Failed to fetch business setting',
   SETTING_NOT_FOUND: 'Setting with key "{key}" not found',
   CREATE_SETTING: 'Failed to create business setting',

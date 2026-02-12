@@ -19,9 +19,12 @@ import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import { useEntityDisplay } from './useEntityDisplay'
 import { getApiErrorMessage } from '../useApiErrorMessage'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
+
+const logger = createLogger('useEntityCardActions')
 
 export interface UseEntityCardActionsOptions {
   entityKey: GlobalEntityKey
@@ -144,8 +147,7 @@ export function useEntityCardActions(
         onSaved?.(entity.value)
       }
     } catch (err) {
-      // LEARNING: Use composable for error message extraction
-      // PATTERN: Composable handles AxiosError, Error, and unknown error types
+      logger.error('Entity save failed', { err, entityKey })
       const errorMessage = getApiErrorMessage(err, `Failed to save ${entityKey}. Please try again.`)
       showError(errorMessage)
     }
@@ -181,6 +183,7 @@ export function useEntityCardActions(
       success(`${getEntityDeleteTitle(entityKey)} deleted successfully`)
       onDelete?.(String(entity.value.id))
     } catch (err) {
+      logger.error('Entity delete failed', { err, entityKey })
       const errorMessage = err instanceof Error ? err.message : `Failed to delete ${entityKey}`
       showError(errorMessage)
     }

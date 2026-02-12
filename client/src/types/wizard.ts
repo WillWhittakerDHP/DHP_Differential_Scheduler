@@ -9,8 +9,6 @@
  */
 
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { AppointmentResponse } from '@/types/appointment'
 import type { ComputedRef, Ref } from 'vue'
 
 /**
@@ -42,19 +40,17 @@ export interface WizardState {
  */
 export interface WizardSelectionMethods {
   /** Select user type and clear dependent selections */
-  selectUserTypeBlock: (block: BookingBlockInstance | null, skipCascade?: boolean) => void
+  selectUserTypeBlock: (block: BookingBlockInstance | null) => void
   /** Toggle service type block selection (single-select UI, array storage) */
-  toggleServiceTypeBlock: (block: BookingBlockInstance, skipCascade?: boolean) => void
+  toggleServiceTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle availability option selection */
   toggleOptionTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle property type block selection (multi-select) */
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle line item block selection (multi-select) */
   toggleLineItemBlock: (block: BookingBlockInstance) => void
-  /** Load appointment data into wizard state */
-  loadAppointment: (appointment: AppointmentResponse) => Promise<WizardStateData | null>
-  /** Reset wizard state */
-  resetWizard: () => void
+  /** Run multiple wizard state updates without cascading clears (e.g. when loading an appointment) */
+  batchUpdate: (fn: () => void) => void
 }
 
 /**

@@ -19,6 +19,7 @@ import type {
   ComputedAvailabilityRequest,
   CalendarEvent,
   BusinessHoursConfig,
+  Constraint,
 } from '../../../shared/types/availabilityTypes.js'
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange } from './slotComputationService.js'
@@ -35,10 +36,14 @@ import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
 import { withRetry } from './google/shared/googleApiRetry.js'
 import type { RouteLocation } from './google/maps/mapsTypes.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
+import { AVAILABILITY_SETTINGS_KEY } from '../routes/internal/appointments/appointmentConstants.js'
+import { partitionByEventType } from '../utils/availabilities/availabilityPrimitives.js'
 import { createLogger } from '../utils/logger.js'
 
 const logger = createLogger('ComputedAvailabilityService')
-const AVAILABILITY_SETTINGS_KEY = 'availability_settings'
+
+const CACHE_STATUS_HIT = 'hit' as const
+const CACHE_STATUS_MISS = 'miss' as const
 
 /**
  * Extract calendar emails configured for reading (readFrom: true)
@@ -57,33 +62,6 @@ function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calenda
   return calendarConfig.calendars
     .filter(entry => entry.readFrom && entry.email && entry.email.trim() !== '')
     .map(entry => entry.email.trim())
-}
-
-/**
- * Separate calendar events by eventType
- * LEARNING: Distinguishes regular events from out-of-office events
- * WHY: Out-of-office events need different handling (merged into busy periods, not used for drive time)
- * PATTERN: Filter events by eventType property
- * 
- * @param events - Array of calendar events
- * @returns Object with regularEvents and outOfOfficeEvents arrays
- */
-function separateEventTypes(events: CalendarEvent[]): {
-  regularEvents: CalendarEvent[]
-  outOfOfficeEvents: CalendarEvent[]
-} {
-  const regularEvents: CalendarEvent[] = []
-  const outOfOfficeEvents: CalendarEvent[] = []
-  
-  for (const event of events) {
-    if (event.eventType === 'outOfOffice') {
-      outOfOfficeEvents.push(event)
-    } else {
-      regularEvents.push(event)
-    }
-  }
-  
-  return { regularEvents, outOfOfficeEvents }
 }
 
 /**
@@ -119,36 +97,35 @@ async function calculateDriveTimesForPlaceIds(
 
   const candidateLocationRoute: RouteLocation = { placeId: candidatePlaceId }
 
-  // Check cache for each pair and separate cached vs uncached
-  const results: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }> = {}
-  const uncachedToPlaceIds: string[] = []
-  const uncachedFromPlaceIds: string[] = []
-
-  for (const eventPlaceId of uniquePlaceIds) {
-    const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
-
-    // driveToCandidate = event -> candidate (time to arrive at candidate from this event)
-    const cachedTo = getCachedDriveTime(eventLocationRoute, candidateLocationRoute)
-    if (cachedTo) {
-      results[eventPlaceId] = {
-        ...results[eventPlaceId],
-        driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60),
-      }
-    } else {
-      uncachedToPlaceIds.push(eventPlaceId)
-    }
-
-    // driveFromCandidate = candidate -> event (time from candidate to this event)
-    const cachedFrom = getCachedDriveTime(candidateLocationRoute, eventLocationRoute)
-    if (cachedFrom) {
-      results[eventPlaceId] = {
-        ...results[eventPlaceId],
-        driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60),
-      }
-    } else {
-      uncachedFromPlaceIds.push(eventPlaceId)
-    }
+  type CacheAcc = {
+    results: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>
+    uncachedTo: string[]
+    uncachedFrom: string[]
   }
+  const { results, uncachedTo: uncachedToPlaceIds, uncachedFrom: uncachedFromPlaceIds } =
+    uniquePlaceIds.reduce<CacheAcc>(
+      (acc, eventPlaceId) => {
+        const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
+        const cachedTo = getCachedDriveTime(eventLocationRoute, candidateLocationRoute)
+        const cachedFrom = getCachedDriveTime(candidateLocationRoute, eventLocationRoute)
+        const existingResult = acc.results[eventPlaceId]
+        const nextEntry = {
+          ...(existingResult !== undefined && existingResult !== null ? existingResult : {}),
+          ...(cachedTo
+            ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+            : {}),
+          ...(cachedFrom
+            ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+            : {}),
+        }
+        return {
+          results: { ...acc.results, [eventPlaceId]: nextEntry },
+          uncachedTo: cachedTo ? acc.uncachedTo : [...acc.uncachedTo, eventPlaceId],
+          uncachedFrom: cachedFrom ? acc.uncachedFrom : [...acc.uncachedFrom, eventPlaceId],
+        }
+      },
+      { results: {}, uncachedTo: [], uncachedFrom: [] }
+    )
 
   logger.debug('Drive time cache check', {
     totalPlaceIds: uniquePlaceIds.length,
@@ -160,77 +137,92 @@ async function calculateDriveTimesForPlaceIds(
 
   const batchStartTime = Date.now()
 
-  // Batch driveToCandidate: origins=[eventPlaceIds], destinations=[candidate] (event -> candidate)
+  let resultsAfterTo = results
   if (uncachedToPlaceIds.length > 0) {
     try {
-      const uncachedToLocations: RouteLocation[] = uncachedToPlaceIds.map(pid => ({ placeId: pid }))
+      const uncachedToLocations: RouteLocation[] = uncachedToPlaceIds.map((pid) => ({ placeId: pid }))
       const toResults = await withRetry(
         () => calculateRouteMatrix(uncachedToLocations, [candidateLocationRoute], true),
         (error) => error instanceof MapsApiError && error.retryable
       )
-
-      for (const result of toResults) {
+      const toUpdates = toResults.reduce<
+        Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>
+      >((acc, result) => {
         if (result.status === 'OK' && result.durationSeconds > 0) {
           const eventPlaceId = uncachedToPlaceIds[result.originIndex]
           const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
-
           cacheDriveTime(
             eventLocationRoute,
             candidateLocationRoute,
             result.durationSeconds,
             result.distanceMeters
           )
-
-          results[eventPlaceId] = {
-            ...results[eventPlaceId],
-            driveToCandidate: Math.ceil(result.durationSeconds / 60),
+          return {
+            ...acc,
+            [eventPlaceId]: {
+              ...results[eventPlaceId],
+              ...acc[eventPlaceId],
+              driveToCandidate: Math.ceil(result.durationSeconds / 60),
+            },
           }
-        } else if (result.status !== 'OK') {
+        }
+        if (result.status !== 'OK') {
           logger.warn(`Route not found for driveToCandidate: placeId ${uncachedToPlaceIds[result.originIndex]}`, {
             status: result.status,
             condition: result.condition,
           })
         }
-      }
+        return acc
+      }, {})
+      resultsAfterTo = { ...results, ...toUpdates }
     } catch (error) {
       logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })
     }
   }
 
-  // Batch driveFromCandidate: origins=[candidate], destinations=[eventPlaceIds] (candidate -> event)
+  let resultsFinal = resultsAfterTo
   if (uncachedFromPlaceIds.length > 0) {
     try {
-      const uncachedFromLocations: RouteLocation[] = uncachedFromPlaceIds.map(pid => ({ placeId: pid }))
+      const uncachedFromLocations: RouteLocation[] = uncachedFromPlaceIds.map((pid) => ({ placeId: pid }))
       const fromResults = await withRetry(
         () => calculateRouteMatrix([candidateLocationRoute], uncachedFromLocations, true),
         (error) => error instanceof MapsApiError && error.retryable
       )
-
-      for (const result of fromResults) {
+      const fromUpdates = fromResults.reduce<
+        Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>
+      >((acc, result) => {
         if (result.status === 'OK' && result.durationSeconds > 0) {
           const eventPlaceId = uncachedFromPlaceIds[result.destinationIndex]
           const eventLocationRoute: RouteLocation = { placeId: eventPlaceId }
-
           cacheDriveTime(
             candidateLocationRoute,
             eventLocationRoute,
             result.durationSeconds,
             result.distanceMeters
           )
-
-          results[eventPlaceId] = {
-            ...results[eventPlaceId],
-            driveFromCandidate: Math.ceil(result.durationSeconds / 60),
+          return {
+            ...acc,
+            [eventPlaceId]: {
+              ...resultsAfterTo[eventPlaceId],
+              ...acc[eventPlaceId],
+              driveFromCandidate: Math.ceil(result.durationSeconds / 60),
+            },
           }
-        } else if (result.status !== 'OK') {
-          logger.warn(`Route not found for driveFromCandidate: placeId ${uncachedFromPlaceIds[result.destinationIndex]}`, {
-            status: result.status,
-            condition: result.condition,
-          })
         }
-      }
+        if (result.status !== 'OK') {
+          logger.warn(
+            `Route not found for driveFromCandidate: placeId ${uncachedFromPlaceIds[result.destinationIndex]}`,
+            { status: result.status, condition: result.condition }
+          )
+        }
+        return acc
+      }, {})
+      resultsFinal = { ...resultsAfterTo, ...fromUpdates }
     } catch (error) {
-      logger.error('Failed to batch calculate driveFromCandidate', { error, placeIds: uncachedFromPlaceIds })
+      logger.error('Failed to batch calculate driveFromCandidate', {
+        error,
+        placeIds: uncachedFromPlaceIds,
+      })
     }
   }
 
@@ -243,69 +235,40 @@ async function calculateDriveTimesForPlaceIds(
     })
   }
 
-  return results
+  return resultsFinal
 }
 
-/**
- * Compute availability data for a date range
- * LEARNING: Main orchestrator function that coordinates all data fetching and processing
- * WHY: Single entry point for all availability computation
- * PATTERN: Sequential and parallel operations where possible
- * 
- * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
- * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
- */
-export async function computeAvailabilityData(
-  request: ComputedAvailabilityRequest
-): Promise<ComputedSlotAvailabilityData> {
-  const startTime = Date.now()
-  
-  // 1. Fetch settings from database
+async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
   const setting = await BusinessSettings.findOne({
     where: { settingKey: AVAILABILITY_SETTINGS_KEY },
   })
-  
   if (!setting) {
     throw new Error(`Settings not found for key: ${AVAILABILITY_SETTINGS_KEY}`)
   }
-  
-  const settings: AvailabilitySettingsData = setting.settingValue
-  
-  // 2. Extract constraints server-side (unified array)
-  const constraints = extractConstraints(settings)
-  
-  // Group constraints by category for category-specific processing
-  const { capacity } = groupConstraintsByCategory(constraints)
-  
-  // 3. Get calendar emails for events query
-  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
-  
-  // 4. Fetch calendar events (Events API only - no FreeBusy needed)
-  // LEARNING: Events API provides transparency field to distinguish "busy" vs "free" events
-  // WHY: Single data source eliminates duplication and provides richer attribution
-  // PATTERN: One Events call per calendar email (all in parallel)
-  const calendarEnabled = calendarEmails.length > 0 && settings.calendarConfig?.enabled
-  
+  return setting.settingValue
+}
+
+async function fetchAndDedupeCalendarEvents(
+  calendarEmails: string[],
+  dateRange: { start: string; end: string },
+  calendarEnabled: boolean
+): Promise<{ events: CalendarEvent[]; responses: Awaited<ReturnType<typeof getCalendarEvents>>[] }> {
   const eventsResponses = await Promise.all(
-    calendarEmails.map(email =>
+    calendarEmails.map((email) =>
       calendarEnabled
-        ? getCalendarEvents(email, request.dateRange.start, request.dateRange.end)
+        ? getCalendarEvents(email, dateRange.start, dateRange.end)
         : Promise.resolve({ events: [], _meta: { source: 'empty' as const } })
     )
   )
-  
-  // 5. Convert calendar events from ALL calendars to CalendarEvent array
-  // LEARNING: Flatten events from all calendar responses, deduplicate by event ID
-  // WHY: Same event might appear on multiple calendars (e.g., shared events)
   const seenEventIds = new Set<string>()
-  const allCalendarEvents: CalendarEvent[] = eventsResponses.flatMap(response =>
+  const events: CalendarEvent[] = eventsResponses.flatMap((response) =>
     response.events
-      .filter(event => {
+      .filter((event) => {
         if (seenEventIds.has(event.id)) return false
         seenEventIds.add(event.id)
         return true
       })
-      .map(event => ({
+      .map((event) => ({
         id: event.id,
         start: event.start,
         end: event.end,
@@ -315,50 +278,114 @@ export async function computeAvailabilityData(
         transparency: event.transparency,
       }))
   )
-  
-  // 6. Separate event types (for drive time and slot computation)
-  const { regularEvents, outOfOfficeEvents } = separateEventTypes(allCalendarEvents)
+  return { events, responses: eventsResponses }
+}
 
-  // 7. Calculate drive times (if candidatePlaceId provided)
-  // Only regular events (events with location); OOO does not get drive times
+function enrichCapacityConstraintsWithHours(
+  constraints: Constraint[],
+  scheduledHoursByKey: Record<string, number>
+): Constraint[] {
+  return constraints.map((constraint) => {
+    if (constraint.category !== 'capacity') return constraint
+    const prefix = constraint.type + ':'
+    const relevantHours = Object.fromEntries(
+      Object.entries(scheduledHoursByKey).filter(([key]) => key.startsWith(prefix))
+    )
+    return { ...constraint, scheduledHours: relevantHours }
+  })
+}
+
+function buildComputedAvailabilityResponse(
+  slotsByDay: Record<string, import('../../../shared/types/availabilityTypes.js').ComputedSlot[]>,
+  enrichedConstraints: Constraint[],
+  settings: AvailabilitySettingsData,
+  regularEvents: CalendarEvent[],
+  outOfOfficeEvents: CalendarEvent[],
+  eventsResponses: Awaited<ReturnType<typeof getCalendarEvents>>[],
+  request: ComputedAvailabilityRequest
+): ComputedSlotAvailabilityData {
+  return {
+    slotsByDay,
+    constraints: enrichedConstraints,
+    minuteIncrement: settings.minuteIncrement,
+    timezone: settings.timezone,
+    durationRounding: settings.durationRounding,
+    calendarEvents: regularEvents,
+    outOfOfficeEvents,
+    _meta: {
+      dateRange: request.dateRange,
+      candidatePlaceId: request.candidatePlaceId,
+      defaultLocation: settings.defaultLocation,
+      generatedAt: new Date().toISOString(),
+      cacheStatus: {
+        events: eventsResponses.every((r) => r._meta?.source === 'cache')
+          ? CACHE_STATUS_HIT
+          : CACHE_STATUS_MISS,
+      },
+    },
+  }
+}
+
+/**
+ * Compute availability data for a date range
+ * LEARNING: Main orchestrator function that coordinates all data fetching and processing
+ * WHY: Single entry point for all availability computation
+ * PATTERN: Sequential and parallel operations where possible
+ *
+ * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
+ * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
+ */
+export async function computeAvailabilityData(
+  request: ComputedAvailabilityRequest
+): Promise<ComputedSlotAvailabilityData> {
+  const startTime = Date.now()
+
+  const settings = await fetchAvailabilitySettings()
+  const constraints = extractConstraints(settings)
+  const { capacity } = groupConstraintsByCategory(constraints)
+
+  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
+  const calendarEnabled =
+    calendarEmails.length > 0 && (settings.calendarConfig?.enabled ?? false)
+  const { events: allCalendarEvents, responses: eventsResponses } =
+    await fetchAndDedupeCalendarEvents(
+      calendarEmails,
+      request.dateRange,
+      calendarEnabled
+    )
+
+  const { regularEvents, outOfOfficeEvents } =
+    partitionByEventType(allCalendarEvents)
+
   const driveTimesByPlaceId = await calculateDriveTimesForPlaceIds(
     regularEvents,
     request.candidatePlaceId
   )
 
-  // 8. Pre-compute capacity hours
   const scheduledHoursByKey = await computeScheduledHoursForRange(
     request.dateRange,
     capacity
   )
-  
-  // 9. Enrich capacity constraints with scheduled hours
-  const enrichedConstraints = constraints.map(constraint => {
-    if (constraint.category !== 'capacity') return constraint
-    const relevantHours: Record<string, number> = {}
-    for (const [key, hours] of Object.entries(scheduledHoursByKey)) {
-      if (key.startsWith(constraint.type + ':')) {
-        relevantHours[key] = hours
-      }
-    }
-    return { ...constraint, scheduledHours: relevantHours }
-  })
+  const enrichedConstraints = enrichCapacityConstraintsWithHours(
+    constraints,
+    scheduledHoursByKey
+  )
 
-  // 10. Get business hours for slot computation (required for day boundaries)
   const businessHoursConstraint = enrichedConstraints.find(
-    c => c.category === 'range' && c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
+    (c) =>
+      c.category === 'range' &&
+      c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
   ) as import('../../../shared/types/availabilityTypes.js').RangeConstraint | undefined
-  const businessHoursConfig = businessHoursConstraint?.config as BusinessHoursConfig | undefined
+  const businessHoursConfig = businessHoursConstraint?.config as
+    | BusinessHoursConfig
+    | undefined
 
-  // 11. Apply overlapSources enforcement to out-of-office events
-  // LEARNING: Check settings.overlapSources.outOfOffice.enforcement before passing OOO events to slot computation
-  // WHY: Allows admin to toggle OOO blocking without changing data fetching — events are still returned for display
-  // PATTERN: 'off' = don't block at all, 'flexible' = warn only, 'hard' = block (default)
-  const oooEnforcement = settings.overlapSources?.outOfOffice?.enforcement ?? 'hard'
+  const rawOooEnforcement = settings.overlapSources?.outOfOffice?.enforcement
+  const oooEnforcement = rawOooEnforcement !== undefined && rawOooEnforcement !== null ? rawOooEnforcement : 'hard'
   const effectiveOutOfOfficeEvents = oooEnforcement === 'off' ? [] : outOfOfficeEvents
-  const effectiveOooEnforcement: 'flexible' | 'hard' = oooEnforcement === 'flexible' ? 'flexible' : 'hard'
+  const effectiveOooEnforcement: 'flexible' | 'hard' =
+    oooEnforcement === 'flexible' ? 'flexible' : 'hard'
 
-  // 12. Compute slots per day (range, overlap, capacity checked server-side with event-level context)
   const slotsByDay = businessHoursConfig
     ? computeSlotsForDateRange(
         request.dateRange,
@@ -375,25 +402,15 @@ export async function computeAvailabilityData(
       )
     : {}
 
-  // 12. Assemble and return ComputedSlotAvailabilityData
-  const computedData: ComputedSlotAvailabilityData = {
+  const computedData = buildComputedAvailabilityResponse(
     slotsByDay,
-    constraints: enrichedConstraints,
-    minuteIncrement: settings.minuteIncrement,
-    timezone: settings.timezone,
-    durationRounding: settings.durationRounding,
-    calendarEvents: regularEvents,
+    enrichedConstraints,
+    settings,
+    regularEvents,
     outOfOfficeEvents,
-    _meta: {
-      dateRange: request.dateRange,
-      candidatePlaceId: request.candidatePlaceId,
-      defaultLocation: settings.defaultLocation,
-      generatedAt: new Date().toISOString(),
-      cacheStatus: {
-        events: eventsResponses.every(r => r._meta?.source === 'cache') ? 'hit' : 'miss',
-      },
-    },
-  }
+    eventsResponses,
+    request
+  )
 
   const duration = Date.now() - startTime
   logger.info(`Computed slot availability in ${duration}ms`)

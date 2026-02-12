@@ -6,7 +6,6 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
-
 /**
  * AnnotationShape Model
  * 
@@ -57,7 +56,6 @@ export function AnnotationShapeFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'order_index',
         comment: 'Order index for UI drag-and-drop ordering',
       },
       active: {

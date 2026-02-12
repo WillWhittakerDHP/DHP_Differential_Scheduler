@@ -6,6 +6,7 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
@@ -189,11 +190,11 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
       annotations: {
         targetMode: "relationship",
         targetKey: "annotationAssignments" as GlobalRelationshipKey, // LEARNING: Use relationship key instead of GlobalAnnotationKey
-        globalField: "annotations" as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
+        globalField: FIELD_NAMES.ANNOTATIONS as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>,
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: "annotationInstance" as GlobalEntityKey, // LEARNING: Use entity key instead of GlobalAnnotationKey
-        selectedChildPath: ["annotations"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: [FIELD_NAMES.ANNOTATIONS] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE, // Not used for annotations (all annotations are candidates)
         candidateParentPath: [],

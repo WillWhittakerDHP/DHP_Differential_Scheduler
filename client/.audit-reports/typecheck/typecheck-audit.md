@@ -8,43 +8,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-10T13:50:31.704Z**
+- Generated at: **2026-02-11T04:08:22.324Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 44**
+- **Errors requiring review: 2**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **29**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-logger` | 150 | 12 | 9 | 0 | 0 |
-| P1 | `TS2538-ts2538-type-null-cannot-be-used-as-an-index-type` | 16 | 2 | 1 | 0 | 0 |
-| P1 | `TS6133-ts6133-eventperspective-is-declared-but-its-value-is-never-read` | 16 | 3 | 2 | 0 | 0 |
-| P1 | `TS2304-ts2304-cannot-find-name-optionentitykey` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-close` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-string-active-zerooutpart-composite-differential-allowmultiple-composable-canhaveparts-isstatecontrol` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-string-basefee-rateoverbasefee-basetime-rateoverbasetime-basesqft` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2741-ts2741-property-blockshape-is-missing-in-type-id-string-entitykey-blockinstance-name-string-active-boolean-basesqft-numb` | 12 | 1 | 1 | 0 | 0 |
-| P1 | `TS2741-ts2741-property-blockshape-is-missing-in-type-id-string-entitykey-blockinstance-name-string-basesqft-number-icon-string-` | 12 | 1 | 1 | 0 | 0 |
-| P1 | `TS6133-ts6133-ref-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
-| P1 | `TS18004-ts18004-no-value-exists-in-scope-for-the-shorthand-property-groupkey-either-declare-one-or-provide-an-initializer` | 11 | 1 | 1 | 0 | 0 |
-| P2 | `TS2554-ts2554-expected-0-arguments-but-got-0` | 9 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-blockshapebyid-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-bookingmode-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-error-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-formattimefordisplay-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getentityendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-getrelationshipendpoint-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-hasdevpanelbuttons-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-isloading-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-loadedwizardstate-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-logminoreventshape-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-mapsapierror-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-onmounted-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-propertydetails-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P0 | `TS1355-ts1355-a-const-assertions-can-only-be-applied-to-references-to-enum-members-or-string-number-boolean-array-or-object-lit` | 18 | 2 | 2 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -56,242 +32,18 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/composables/admin/useBusinessRules.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@153:7 Cannot find name 'logger'.
-TS2304@175:7 Cannot find name 'logger'.
-TS2304@235:7 Cannot find name 'logger'.
-TS2304@284:7 Cannot find name 'logger'.
-```
-
-### `src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:21 'getEntityEndpoint' is declared but its value is never read.
-TS6133@9:40 'getRelationshipEndpoint' is declared but its value is never read.
-TS2345@60:43 Argument of type 'string' is not assignable to parameter of type '"active" | "zeroOutPart" | "composite" | "differential" | "allowMultiple" | "composable" | "canHaveParts" | "isStateControl"'.
-TS2345@78:39 Argument of type 'string' is not assignable to parameter of type '"baseFee" | "rateOverBaseFee" | "baseTime" | "rateOverBaseTime" | "baseSqFt"'.
-```
-
-### `src/components/booking/dev/DevPanelsContainer.vue`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@11:57 'watch' is declared but its value is never read.
-TS6133@108:35 'formatTimeForDisplay' is declared but its value is never read.
-TS6133@260:7 'hasDevPanelButtons' is declared but its value is never read.
-```
-
-### `src/composables/useRelationship.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@81:9 'isLoading' is declared but its value is never read.
-TS6133@82:9 'error' is declared but its value is never read.
-TS2304@118:13 Cannot find name 'logger'.
-```
-
-### `src/utils/booking/partFinalizer.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@185:25 'eventPerspective' is declared but its value is never read.
-TS6133@197:23 'eventPerspective' is declared but its value is never read.
-TS6133@292:7 'logMinorEventShape' is declared but its value is never read.
-```
-
-### `src/utils/transformers/globalToBookingTransformer.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@103:13 'bookingMode' is declared but its value is never read.
-TS6133@188:3 'blockShapeById' is declared but its value is never read.
-TS2741@233:3 Property 'blockShape' is missing in type '{ id: string; entityKey: "blockInstance"; name: string; active: boolean; baseSqFt: number; icon: string; bookingMode: import("@/constants/entities").BookingMode; differential: TernaryBoolean; ... 7 more ...; requires_agent: boolean; }' but required in type 'BookingBlockInstance'.
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@133:3 'propertyDetails' is declared but its value is never read.
-TS6133@134:3 'timeSlotsPerDay' is declared but its value is never read.
-```
-
-### `src/utils/booking/perspectiveResolver.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS2538@134:35 Type 'null' cannot be used as an index type.
-TS2538@143:35 Type 'null' cannot be used as an index type.
-```
-
-### `src/components/AppNotification.vue`
+### `src/configs/field/form/appliedForm/baseEntityFields.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2339@44:27 Property 'close' does not exist on type '{ isActive: Ref<boolean, boolean>; }'.
+TS1355@26:18 A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
 ```
 
-### `src/components/booking/steps/PropertyDetailsStep.vue`
+### `src/constants/fieldMetadata.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@29:1 'MapsApiError' is declared but its value is never read.
-```
-
-### `src/composables/admin/useAttendeeQuickSelect.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@66:7 Cannot find name 'logger'.
-```
-
-### `src/composables/admin/useAvailabilitySettings.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@7:15 'onMounted' is declared but its value is never read.
-```
-
-### `src/composables/admin/useCalendarEntries.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@9:30 'CalendarConfig' is declared but never used.
-```
-
-### `src/composables/admin/useInstanceDragAndDrop.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS18004@178:81 No value exists in scope for the shorthand property 'groupKey'. Either declare one or provide an initializer.
-```
-
-### `src/composables/admin/useStatusButtonToggle.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@189:7 Cannot find name 'logger'.
-```
-
-### `src/composables/booking/useApiCallStatus.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:20 'Ref' is declared but its value is never read.
-```
-
-### `src/composables/booking/useAppointmentShape.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@88:17 'eventPerspective' is declared but its value is never read.
-```
-
-### `src/composables/booking/useAvailabilityLogic.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@89:5 'loadedWizardState' is declared but its value is never read.
-```
-
-### `src/composables/booking/useDependentInstances.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2741@106:15 Property 'blockShape' is missing in type '{ id: string; entityKey: "blockInstance"; name: string; baseSqFt: number; icon: string; active: boolean; bookingMode: import("@/constants/entities").BookingMode; differential: "false" | "true"; ... 7 more ...; requires_agent: boolean; }' but required in type 'BookingBlockInstance'.
-```
-
-### `src/composables/booking/usePropertyDetailsLogic.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@208:5 Cannot find name 'logger'.
-```
-
-### `src/composables/dev/useDevPanelTabs.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:27 'Ref' is declared but its value is never read.
-```
-
-### `src/composables/fieldContext/useFieldContextSaveHelpers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@141:7 Cannot find name 'logger'.
-```
-
-### `src/composables/fieldContext/useFieldContextState.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@224:5 Cannot find name 'logger'.
-```
-
-### `src/composables/useSelectOptions.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@290:83 Cannot find name 'optionEntityKey'.
-```
-
-### `src/utils/booking/appointmentSlotBuilder.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@10:3 'TimeRange' is declared but never used.
-```
-
-### `src/utils/booking/confirmationStepData.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2554@66:54 Expected 1 arguments, but got 2.
-```
-
-### `src/utils/dependencyCleanup.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@127:13 Cannot find name 'logger'.
-```
-
-### `src/utils/transformers/componentAggregator.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@142:5 Cannot find name 'logger'.
+TS1355@83:16 A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
 ```

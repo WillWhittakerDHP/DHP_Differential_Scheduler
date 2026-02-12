@@ -30,9 +30,11 @@ const result = apiResponse as unknown as ExpectedType
 **Format:** `// @audit-allow:<auditType>:<ruleId> - <reason>`
 
 Where:
-- `<auditType>` = `hardcoding`, `loop-mutation`, or `typecheck`
+- `<auditType>` = `hardcoding`, `constants-consolidation`, `naming-convention`, `loop-mutation`, or `typecheck`
 - `<ruleId>` = The specific rule (e.g., `entityKeyString`, `push`, `TS2322`)
 - `<reason>` = Why this exception is legitimate (required!)
+
+**Audit families:** The audits **hardcoding**, **constants-consolidation**, and **naming-convention** form the "Naming & constants" pipeline. They run in that order (naming → constants-consolidation → hardcoding); see [AUDIT_EXECUTION_ORDER.md](AUDIT_EXECUTION_ORDER.md) for rationale and execution order.
 
 ### 2. Config File (Recommended for Patterns)
 

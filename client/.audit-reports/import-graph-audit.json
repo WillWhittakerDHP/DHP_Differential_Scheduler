@@ -1,143 +1,30 @@
 {
-  "generatedAt": "2026-02-10T13:52:16.111Z",
-  "totalFiles": 1129,
+  "generatedAt": "2026-02-11T19:53:21.059Z",
+  "totalFiles": 971,
   "thresholds": {
     "maxFanOut": 15,
     "maxFanIn": 20
   },
-  "cycles": [
-    {
-      "key": "client/src/composables/booking/useConfirmationStepData -> client/src/utils/booking/confirmationStepData -> client/src/composables/booking/useConfirmationStepData",
-      "chain": [
-        "client/src/composables/booking/useConfirmationStepData",
-        "client/src/utils/booking/confirmationStepData",
-        "client/src/composables/booking/useConfirmationStepData"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
-      "chain": [
-        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
-        "client/src/configs/field/display/fullFieldDisplayConfig",
-        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/configs/field/display/appliedDisplay/blockShapeDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
-      "chain": [
-        "client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
-        "client/src/configs/field/display/fullFieldDisplayConfig",
-        "client/src/configs/field/display/appliedDisplay/blockShapeDisplays"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/configs/field/display/appliedDisplay/partInstanceDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
-      "chain": [
-        "client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
-        "client/src/configs/field/display/fullFieldDisplayConfig",
-        "client/src/configs/field/display/appliedDisplay/partInstanceDisplays"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/configs/field/display/appliedDisplay/partShapeDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/partShapeDisplays",
-      "chain": [
-        "client/src/configs/field/display/appliedDisplay/partShapeDisplays",
-        "client/src/configs/field/display/fullFieldDisplayConfig",
-        "client/src/configs/field/display/appliedDisplay/partShapeDisplays"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/types/annotations -> client/src/types/entities -> client/src/types/annotations",
-      "chain": [
-        "client/src/types/annotations",
-        "client/src/types/entities",
-        "client/src/types/annotations"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/utils/booking/BlockFinal -> client/src/utils/booking/partFinalizer -> client/src/utils/booking/BlockFinal",
-      "chain": [
-        "client/src/utils/booking/BlockFinal",
-        "client/src/utils/booking/partFinalizer",
-        "client/src/utils/booking/BlockFinal"
-      ],
-      "length": 2
-    },
-    {
-      "key": "server/src/config/googleOAuth -> server/src/config/googleOAuthTokenPersistence -> server/src/config/googleOAuth",
-      "chain": [
-        "server/src/config/googleOAuth",
-        "server/src/config/googleOAuthTokenPersistence",
-        "server/src/config/googleOAuth"
-      ],
-      "length": 2
-    },
-    {
-      "key": "client/src/components/admin/generic/EntityCard -> client/src/components/admin/generic/fields/FieldRenderer -> client/src/components/admin/generic/collections/RelationshipCollection -> client/src/components/admin/generic/EntityCard",
-      "chain": [
-        "client/src/components/admin/generic/EntityCard",
-        "client/src/components/admin/generic/fields/FieldRenderer",
-        "client/src/components/admin/generic/collections/RelationshipCollection",
-        "client/src/components/admin/generic/EntityCard"
-      ],
-      "length": 3
-    },
-    {
-      "key": "client/src/configs/field/display/appliedDisplay/baseEntityDisplays -> client/src/configs/field/display/fullFieldDisplayConfig -> client/src/configs/field/display/appliedDisplay/blockInstanceDisplays -> client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
-      "chain": [
-        "client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
-        "client/src/configs/field/display/fullFieldDisplayConfig",
-        "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
-        "client/src/configs/field/display/appliedDisplay/baseEntityDisplays"
-      ],
-      "length": 3
-    },
-    {
-      "key": "client/src/types/annotations -> client/src/types/userTypes -> client/src/types/entities -> client/src/types/annotations",
-      "chain": [
-        "client/src/types/annotations",
-        "client/src/types/userTypes",
-        "client/src/types/entities",
-        "client/src/types/annotations"
-      ],
-      "length": 3
-    },
-    {
-      "key": "client/src/types/appointment -> client/src/utils/booking/BlockFinal -> client/src/utils/booking/partFinalizer -> client/src/types/appointment",
-      "chain": [
-        "client/src/types/appointment",
-        "client/src/utils/booking/BlockFinal",
-        "client/src/utils/booking/partFinalizer",
-        "client/src/types/appointment"
-      ],
-      "length": 3
-    }
-  ],
+  "cycles": [],
   "fanOutViolations": [
     {
       "file": "server/src/db/models/index",
-      "fanOut": 31
-    },
-    {
-      "file": "client/src/components/booking/steps/AvailabilityStep",
-      "fanOut": 27
+      "fanOut": 32
     },
     {
       "file": "client/src/components/booking/BookingWizard",
       "fanOut": 24
     },
     {
+      "file": "client/src/views/admin/tabs/InstancesTab",
+      "fanOut": 23
+    },
+    {
       "file": "client/src/components/admin/generic/EntityCard",
       "fanOut": 22
     },
     {
-      "file": "client/src/views/admin/tabs/InstancesTab",
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator",
       "fanOut": 22
     },
     {
@@ -149,38 +36,46 @@
       "fanOut": 19
     },
     {
-      "file": "client/src/components/booking/steps/PropertyDetailsStep",
+      "file": "server/src/services/computedAvailabilityService",
       "fanOut": 17
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyDetailsStep",
+      "fanOut": 16
     }
   ],
   "fanInViolations": [
     {
       "file": "client/src/types/entities",
-      "fanIn": 125
+      "fanIn": 127
     },
     {
       "file": "client/src/constants/entities",
-      "fanIn": 125
+      "fanIn": 126
     },
     {
       "file": "client/src/constants/primitives",
-      "fanIn": 75
+      "fanIn": 76
     },
     {
       "file": "client/src/utils/logger",
-      "fanIn": 49
+      "fanIn": 61
     },
     {
       "file": "client/src/utils/transformers/globalToBookingTransformer",
-      "fanIn": 49
+      "fanIn": 53
     },
     {
       "file": "client/src/types/appointment",
-      "fanIn": 47
+      "fanIn": 48
     },
     {
       "file": "server/src/utils/logger",
       "fanIn": 45
+    },
+    {
+      "file": "client/src/constants/entityFieldConstants",
+      "fanIn": 40
     },
     {
       "file": "client/src/composables/useGlobal",
@@ -199,20 +94,28 @@
       "fanIn": 31
     },
     {
-      "file": "server/src/config/app",
-      "fanIn": 26
+      "file": "client/src/types/datetime",
+      "fanIn": 29
     },
     {
-      "file": "server/src/constants/router",
-      "fanIn": 26
+      "file": "server/src/routes/internal/entities/entityConstants",
+      "fanIn": 28
     },
     {
       "file": "client/src/utils/api",
       "fanIn": 25
     },
     {
-      "file": "client/src/types/datetime",
-      "fanIn": 25
+      "file": "server/src/constants/router",
+      "fanIn": 24
+    },
+    {
+      "file": "server/src/config/app",
+      "fanIn": 23
+    },
+    {
+      "file": "client/src/composables/useAdmin",
+      "fanIn": 21
     },
     {
       "file": "client/src/utils/transformers/fetchToGlobalTransformer",
@@ -222,107 +125,7 @@
   "crossBoundary": [],
   "files": [
     {
-      "file": "client/src/configs/field/display/fullFieldDisplayConfig",
-      "score": 50,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/types/entities",
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/types/annotations",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/utils/booking/BlockFinal",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/utils/booking/partFinalizer",
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "file": "client/src/components/admin/generic/EntityCard",
-      "score": 13,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/types/appointment",
-      "score": 12,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/composables/booking/useConfirmationStepData",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/utils/booking/confirmationStepData",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/configs/field/display/appliedDisplay/blockShapeDisplays",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/configs/field/display/appliedDisplay/partInstanceDisplays",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/configs/field/display/appliedDisplay/partShapeDisplays",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "server/src/config/googleOAuth",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "server/src/config/googleOAuthTokenPersistence",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/components/admin/generic/fields/FieldRenderer",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/components/admin/generic/collections/RelationshipCollection",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/configs/field/display/appliedDisplay/baseEntityDisplays",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "file": "client/src/types/userTypes",
-      "score": 10,
-      "priority": "P1"
-    },
-    {
       "file": "server/src/db/models/index",
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/components/booking/steps/AvailabilityStep",
       "score": 3,
       "priority": "P2"
     },
@@ -337,6 +140,16 @@
       "priority": "P2"
     },
     {
+      "file": "client/src/components/admin/generic/EntityCard",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/components/admin/generic/fields/SelectInputs",
       "score": 3,
       "priority": "P2"
@@ -347,8 +160,18 @@
       "priority": "P2"
     },
     {
+      "file": "server/src/services/computedAvailabilityService",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/components/booking/steps/PropertyDetailsStep",
       "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/entities",
+      "score": 2,
       "priority": "P2"
     },
     {
@@ -372,7 +195,17 @@
       "priority": "P2"
     },
     {
+      "file": "client/src/types/appointment",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "file": "server/src/utils/logger",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/constants/entityFieldConstants",
       "score": 2,
       "priority": "P2"
     },
@@ -397,12 +230,12 @@
       "priority": "P2"
     },
     {
-      "file": "server/src/config/app",
+      "file": "client/src/types/datetime",
       "score": 2,
       "priority": "P2"
     },
     {
-      "file": "server/src/constants/router",
+      "file": "server/src/routes/internal/entities/entityConstants",
       "score": 2,
       "priority": "P2"
     },
@@ -412,7 +245,17 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/types/datetime",
+      "file": "server/src/constants/router",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/config/app",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useAdmin",
       "score": 2,
       "priority": "P2"
     },

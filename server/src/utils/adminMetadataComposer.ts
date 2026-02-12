@@ -7,6 +7,8 @@
  */
 
 import { AdminMetadata } from '../db/models/admin/adminMetadata.js';
+import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
+import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
 import { Op } from 'sequelize';
 
 export interface FieldMetadataEntry {
@@ -19,7 +21,7 @@ export interface FieldMetadataEntry {
   displayOrder: number;
   renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
-  panel: 'none' | 'parts' | 'relationships' | 'annotations';
+  panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
   bulkEdit: boolean;
   inputConfig?: Record<string, unknown> | null;
 }
@@ -29,9 +31,6 @@ export async function getAdminMetadata(
   entityId: string,
   blockShapeRef?: string | null
 ): Promise<Record<string, Omit<FieldMetadataEntry, 'fieldKey'>>> {
-  const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
-  const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
-
   // PATTERN: Query directly by entityType and entityId
   const whereClause: Record<string, unknown> = {
     entityType: entityType,
@@ -53,8 +52,8 @@ export async function getAdminMetadata(
   // PATTERN: Return instance metadata directly, fallback to global instance config if no instance-specific metadata
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
     if (
-      (entityType === 'partInstance' && entityId === PART_INSTANCE_GLOBAL_CONFIG_ID) ||
-      (entityType === 'blockInstance' && entityId === BLOCK_INSTANCE_GLOBAL_CONFIG_ID)
+      (entityType === 'partInstance' && entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) ||
+      (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE)
     ) {
       if (entityMetadata.length > 0) {
         return buildMetadataRecord(entityMetadata);
@@ -80,7 +79,7 @@ export async function getAdminMetadata(
         const blockShapeSpecificMetadata = await AdminMetadata.findAll({
           where: {
             entityType: entityType,
-            entityId: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
+            entityId: GLOBAL_CONFIG_IDS.BLOCK_INSTANCE,
             blockShapeRef: blockShapeRef,
           },
           order: [['display_order', 'ASC'], ['field_key', 'ASC']],
@@ -92,8 +91,8 @@ export async function getAdminMetadata(
       }
       
       const fallbackEntityId = entityType === 'blockInstance' 
-        ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
-        : PART_INSTANCE_GLOBAL_CONFIG_ID;
+        ? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE 
+        : GLOBAL_CONFIG_IDS.PART_INSTANCE;
       
       const fallbackMetadata = await AdminMetadata.findAll({
         where: {
@@ -131,7 +130,7 @@ function buildMetadataRecord(
     displayOrder: number;
     renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
     statusButtonColor?: string | null;
-    panel: 'none' | 'parts' | 'relationships' | 'annotations';
+    panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
     bulkEdit: boolean;
     inputConfig?: Record<string, unknown> | null;
   }>

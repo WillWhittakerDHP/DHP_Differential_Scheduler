@@ -1,5 +1,7 @@
 import type { AxiosError } from 'axios'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
+import { NULL_UUID } from '@shared/constants/globalConfigIds'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import { getEntityByIdEndpoint } from '@/utils/api'
@@ -48,8 +50,8 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
     }
 
     const entityIdString = String(state.entityId)
-    const isTempEntity = entityIdString.startsWith('new-')
-    const isPlaceholderEntity = entityIdString === '00000000-0000-0000-0000-000000000000'
+    const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
+    const isPlaceholderEntity = entityIdString === NULL_UUID
 
     if (isTempEntity || isPlaceholderEntity) {
       return

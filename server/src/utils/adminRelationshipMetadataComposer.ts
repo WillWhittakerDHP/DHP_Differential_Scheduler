@@ -7,6 +7,8 @@
  */
 
 import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js';
+import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
+import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
 
 export interface RelationshipMetadataEntry {
   relationshipKey: string;
@@ -18,7 +20,7 @@ export interface RelationshipMetadataEntry {
   displayOrder: number;
   renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   statusButtonColor?: string | null;
-  panel: 'none' | 'parts' | 'relationships' | 'annotations';
+  panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
   bulkEdit: boolean;
   inputConfig?: Record<string, unknown> | null;
 }
@@ -37,10 +39,7 @@ export async function getAdminRelationshipMetadata(
 
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
-    const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003';
-    const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004';
-    
-    if (entityType === 'partInstance' && entityId === PART_INSTANCE_GLOBAL_CONFIG_ID) {
+    if (entityType === 'partInstance' && entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
         dataType: meta.dataType,
@@ -57,7 +56,7 @@ export async function getAdminRelationshipMetadata(
       }));
     }
     
-    if (entityType === 'blockInstance' && entityId === BLOCK_INSTANCE_GLOBAL_CONFIG_ID) {
+    if (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
         dataType: meta.dataType,
@@ -76,8 +75,8 @@ export async function getAdminRelationshipMetadata(
     
     if (entityMetadata.length === 0) {
       const fallbackEntityId = entityType === 'blockInstance' 
-        ? BLOCK_INSTANCE_GLOBAL_CONFIG_ID 
-        : PART_INSTANCE_GLOBAL_CONFIG_ID;
+        ? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE 
+        : GLOBAL_CONFIG_IDS.PART_INSTANCE;
       
       const fallbackMetadata = await AdminRelationshipMetadata.findAll({
         where: {

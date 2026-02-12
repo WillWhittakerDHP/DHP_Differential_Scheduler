@@ -51,7 +51,7 @@ export function useEntityDisplay(): UseEntityDisplayReturn {
         // WHY: Direct property access ensures reactivity when entity properties change
         // PATTERN: Access entity[titleField] directly, Vue will track this access
         const value = getEntityFieldValue(entity, titleField)
-        return String(value || '')
+        return value !== undefined && value !== null && value !== '' ? String(value) : ''
       }
       // LEARNING: Access entity.name directly for reactivity
       return entity.name || `${entityKey} ${entity.id}`

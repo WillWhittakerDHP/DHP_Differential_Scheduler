@@ -8,6 +8,7 @@ import type {
   CalendarProvider,
   ConstraintEnforcement
 } from '@/configs/availabilitySettings'
+import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 
 export interface OptionItem<T = string> {
   title: string
@@ -55,7 +56,7 @@ export const ROUNDING_METHOD_OPTIONS: OptionItem<'roundUp' | 'roundDown' | 'roun
 ]
 
 export const CALENDAR_PROVIDER_OPTIONS: OptionItem<CalendarProvider>[] = [
-  { title: 'None', value: 'none' },
+  { title: BUSINESS_RULES_UI.VALIDATION_NONE, value: 'none' },
   { title: 'Google Calendar', value: 'google' },
   { title: 'Microsoft Outlook', value: 'outlook' }
 ]

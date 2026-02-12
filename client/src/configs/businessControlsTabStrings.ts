@@ -149,12 +149,12 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     estimatedTitle: 'Estimated Drive Times',
     estimatedCaption: 'Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times.',
     calculatedRoutesTitle: 'Calculated Drive Times (Routes API Active)',
-    calculatedRoutesCaption: 'Drive times are calculated using Google Maps Routes API based on your default location and appointment addresses. The value below is used as a fallback if the API is unavailable or returns no route.',
-    staticTitle: 'Static Drive Times (Fallback Only)',
+    calculatedRoutesCaption: 'Drive times are calculated using Google Maps Routes API based on your default location and appointment addresses. The value below is used as a backup if the API is unavailable or returns no route.',
+    staticTitle: 'Static Drive Times (Static Only)',
     staticCaption: 'Drive times will use the static value below. Set a default location with a valid address to enable calculated drive times from Google Maps Routes API.',
     minutesLabel: 'Minutes',
-    fallbackMinutesLabel: 'Fallback Minutes',
-    fallbackHint: 'Used if Routes API fails or returns no route'
+    backupMinutesLabel: 'Backup Minutes',
+    backupHint: 'Used if Routes API fails or returns no route'
   },
   differential: {
     sectionTitle: 'Differential Perspectives',

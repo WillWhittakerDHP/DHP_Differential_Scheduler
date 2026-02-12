@@ -1,12 +1,18 @@
+/**
+ * Tests for fetchToGlobalTransformer: stageForHydration, hydrate, dehydrateEntity.
+ * Covers: API batch response shape, empty/error handling, entity orderIndex sort, relationship hydration.
+ * Dependencies: vitest, mocked api (batch endpoints).
+ */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GlobalTransformer } from '../fetchToGlobalTransformer'
 import apiClient from '../../api'
+import { ENTITY_KEYS } from '@/constants/entities'
 
 vi.mock('../../api', () => ({
-  default: {
-    get: vi.fn(),
-  },
+  default: { get: vi.fn() },
+  getEntitiesBatchEndpoint: vi.fn(() => '/entities/batch'),
+  getRelationshipsBatchEndpoint: vi.fn(() => '/relationships/batch'),
   getEntityEndpoint: vi.fn((entityKey: string) => `/api/entities/${entityKey}`),
   getRelationshipEndpoint: vi.fn((relKey: string) => `/api/relationships/${relKey}`),
   getAnnotationEndpoint: vi.fn(() => '/api/annotations'),
@@ -27,54 +33,67 @@ describe('GlobalTransformer', () => {
   describe('stageForHydration and hydrate', () => {
     it('should transform API response to GlobalData format', async () => {
       vi.mocked(apiClient.get).mockImplementation((url: string) => {
-        if (url.includes('/entities/')) {
+        if (url.includes('entities/batch') || url === '/entities/batch') {
           return Promise.resolve({
-            data: url.includes('blockInstance') ? [{
-              id: 'block-1',
-              name: 'Test Block',
-              entity_key: 'blockInstance',
-              block_shape_ref: 'shape-1',
-              order_index: 1,
-              disabled: false,
-            }] : []
+            data: {
+              blockInstance: [{
+                id: 'block-1',
+                name: 'Test Block',
+                entityKey: 'blockInstance',
+                blockShapeRef: 'shape-1',
+                orderIndex: 1,
+                disabled: false,
+              }],
+              blockShape: [],
+              partInstance: [],
+              partShape: [],
+              eventShape: [],
+              eventInstance: [],
+              annotationShape: [],
+              annotationInstance: [],
+            },
           })
         }
-        if (url.includes('/relationships/')) {
-          return Promise.resolve({ data: [] })
-        }
-        if (url.includes('/annotations')) {
-          return Promise.resolve({ data: [] })
+        if (url.includes('relationships/batch') || url === '/relationships/batch') {
+          return Promise.resolve({ data: {} })
         }
         return Promise.resolve({ data: [] })
       })
-      
+
       const staged = await transformer.stageForHydration()
       const result = transformer.hydrate(staged)
-      
+
       expect(result).toBeDefined()
       expect(result.entities).toBeDefined()
       expect(result.relationships).toBeDefined()
     })
-    
+
     it('should handle empty API responses', async () => {
-      vi.mocked(apiClient.get).mockResolvedValue({ data: [] })
-      
+      vi.mocked(apiClient.get).mockImplementation((url: string) => {
+        if (url.includes('entities/batch') || url === '/entities/batch') {
+          return Promise.resolve({ data: {} })
+        }
+        if (url.includes('relationships/batch') || url === '/relationships/batch') {
+          return Promise.resolve({ data: {} })
+        }
+        return Promise.resolve({ data: [] })
+      })
+
       const staged = await transformer.stageForHydration()
       const result = transformer.hydrate(staged)
-      
+
       expect(result.entities).toBeDefined()
-      expect(Object.keys(result.entities)).toHaveLength(4) // 4 entity types
+      expect(Object.keys(result.entities)).toHaveLength(ENTITY_KEYS.length)
     })
-    
+
     it('should handle API errors gracefully', async () => {
       vi.mocked(apiClient.get).mockRejectedValueOnce(new Error('API Error'))
-      
-      // PATTERN: Return empty data structure instead of throwing
+
       const result = await transformer.stageForHydration()
-      
+
       expect(result).toBeDefined()
       expect(result.fetchedEntities).toBeDefined()
-      expect(Object.keys(result.fetchedEntities)).toHaveLength(4)
+      expect(Object.keys(result.fetchedEntities)).toHaveLength(ENTITY_KEYS.length)
     })
   })
   
@@ -96,19 +115,19 @@ describe('GlobalTransformer', () => {
           {
             id: 'rel-1',
             kind: 'partAssignments',
-            parent_id: 'block-1',
-            parent_kind: 'blockInstance',
-            child_id: 'part-1',
-            child_kind: 'partInstance',
+            parentId: 'block-1',
+            parentKind: 'blockInstance',
+            childId: 'part-1',
+            childKind: 'partInstance',
             disabled: false,
           },
           {
             id: 'rel-2',
             kind: 'partAssignments',
-            parent_id: 'block-1',
-            parent_kind: 'blockInstance',
-            child_id: 'part-2',
-            child_kind: 'partInstance',
+            parentId: 'block-1',
+            parentKind: 'blockInstance',
+            childId: 'part-2',
+            childKind: 'partInstance',
             disabled: false,
           },
         ] as any,
@@ -135,10 +154,10 @@ describe('GlobalTransformer', () => {
           {
             id: 'rel-1',
             kind: 'partAssignments',
-            parent_id: 'nonexistent-block',
-            parent_kind: 'blockInstance',
-            child_id: 'nonexistent-part',
-            child_kind: 'partInstance',
+            parentId: 'nonexistent-block',
+            parentKind: 'blockInstance',
+            childId: 'nonexistent-part',
+            childKind: 'partInstance',
             disabled: false,
           },
         ] as any,
@@ -154,60 +173,83 @@ describe('GlobalTransformer', () => {
   
   describe('data integrity', () => {
     it('should preserve entity properties during transformation', async () => {
-      const callCount = 0
       vi.mocked(apiClient.get).mockImplementation((url: string) => {
-        if (url.includes('/entities/partInstance')) {
+        if (url.includes('entities/batch') || url === '/entities/batch') {
           return Promise.resolve({
-            data: [{
-              id: 'part-1',
-              name: 'Test Part',
-              entity_key: 'partInstance',
-              part_shape_ref: 'shape-1',
-              base_time: 60,
-              base_fee: 100,
-              on_site: true,
-              client_present: true,
-              moveable: false,
-              rate_over_base_time: 1.5,
-              rate_over_base_fee: 1.5,
-              order_index: 1,
-              disabled: false,
-            }]
+            data: {
+              blockInstance: [],
+              blockShape: [],
+              partInstance: [{
+                id: 'part-1',
+                name: 'Test Part',
+                entityKey: 'partInstance',
+                partShapeRef: 'shape-1',
+                baseTime: 60,
+                baseFee: 100,
+                onSite: true,
+                clientPresent: true,
+                moveable: false,
+                rateOverBaseTime: 1.5,
+                rateOverBaseFee: 1.5,
+                orderIndex: 1,
+                disabled: false,
+              }],
+              partShape: [],
+              eventShape: [],
+              eventInstance: [],
+              annotationShape: [],
+              annotationInstance: [],
+            },
           })
+        }
+        if (url.includes('relationships/batch') || url === '/relationships/batch') {
+          return Promise.resolve({ data: {} })
         }
         return Promise.resolve({ data: [] })
       })
-      
+
       const staged = await transformer.stageForHydration()
       const result = transformer.hydrate(staged)
-      
+
       const partInstance = result.entities.partInstance?.[0]
       expect(partInstance).toBeDefined()
       if (partInstance) {
         expect(partInstance.id).toBe('part-1')
         expect(partInstance.name).toBe('Test Part')
-        expect((partInstance as any).baseTime).toBeDefined()
-        expect((partInstance as any).baseFee).toBeDefined()
+        expect((partInstance as Record<string, unknown>).baseTime).toBeDefined()
+        expect((partInstance as Record<string, unknown>).baseFee).toBeDefined()
       }
     })
-    
+
     it('should sort entities by orderIndex', async () => {
       vi.mocked(apiClient.get).mockImplementation((url: string) => {
-        if (url.includes('/entities/blockInstance')) {
+        if (url.includes('entities/batch') || url === '/entities/batch') {
           return Promise.resolve({
-            data: [
-              { id: 'block-3', name: 'Block 3', entity_key: 'blockInstance', order_index: 3, disabled: false },
-              { id: 'block-1', name: 'Block 1', entity_key: 'blockInstance', order_index: 1, disabled: false },
-              { id: 'block-2', name: 'Block 2', entity_key: 'blockInstance', order_index: 2, disabled: false },
-            ]
+            data: {
+              blockInstance: [
+                { id: 'block-3', name: 'Block 3', entityKey: 'blockInstance', orderIndex: 3, disabled: false },
+                { id: 'block-1', name: 'Block 1', entityKey: 'blockInstance', orderIndex: 1, disabled: false },
+                { id: 'block-2', name: 'Block 2', entityKey: 'blockInstance', orderIndex: 2, disabled: false },
+              ],
+              blockShape: [],
+              partInstance: [],
+              partShape: [],
+              eventShape: [],
+              eventInstance: [],
+              annotationShape: [],
+              annotationInstance: [],
+            },
           })
+        }
+        if (url.includes('relationships/batch') || url === '/relationships/batch') {
+          return Promise.resolve({ data: {} })
         }
         return Promise.resolve({ data: [] })
       })
-      
+
       const staged = await transformer.stageForHydration()
       const result = transformer.hydrate(staged)
-      
+
       const blockInstances = result.entities.blockInstance
       expect(blockInstances[0].id).toBe('block-1')
       expect(blockInstances[1].id).toBe('block-2')

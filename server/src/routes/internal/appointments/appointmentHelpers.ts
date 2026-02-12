@@ -11,7 +11,7 @@ import { BusinessSettings, BlockInstanceVersion, AppointmentAttendee, PropertyVe
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
-import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT } from './appointmentConstants.js'
+import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
 
 const logger = createLogger('AppointmentRouter')
 
@@ -144,7 +144,7 @@ export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> 
   })
   
   if (count !== snapshotIds.length) {
-    throw new Error('One or more snapshot IDs are invalid')
+    throw new Error(ERROR_MESSAGES.INVALID_SNAPSHOT_IDS)
   }
 }
 

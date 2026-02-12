@@ -8,6 +8,7 @@
 
 import { Router, Request, Response } from 'express'
 import { AnnotationAssignment } from '../../../config/app.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
@@ -26,7 +27,7 @@ const router = Router()
  * PATTERN: Find assignment by blockInstanceId/annotationId, update field, save, return JSON
  * NOTE: This endpoint is specific to annotationAssignments for parent/child ID-based updates
  */
-router.patch('/:blockInstanceId/:annotationId', async (req: Request, res: Response): Promise<void> => {
+router.patch('/:blockInstanceId/:annotationId', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { blockInstanceId, annotationId } = req.params
   const { userTypeBlockInstanceId } = req.body
   

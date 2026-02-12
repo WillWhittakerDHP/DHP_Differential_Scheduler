@@ -20,6 +20,11 @@
         "reason": "Spec files excluded from mutation scanning"
       },
       {
+        "glob": "**/migrations/**",
+        "ruleIds": ["*"],
+        "reason": "Migration scripts legitimately build arrays and mutate state"
+      },
+      {
         "glob": "**/@core/**",
         "ruleIds": ["*"],
         "reason": "Core library files excluded from mutation scanning"

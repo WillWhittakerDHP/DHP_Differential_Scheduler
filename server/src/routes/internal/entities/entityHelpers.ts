@@ -91,7 +91,7 @@ export async function handlePartInstanceCleanup(
     
     const currentRelationships = await PartAssignment.findAll({
       where: {
-        child_id: partInstanceId,
+        childId: partInstanceId,
         disabled: false
       }
     })
@@ -114,8 +114,8 @@ export async function handlePartInstanceCleanup(
             { disabled: true },
             {
               where: {
-                parent_id: currentRel.parent_id,
-                child_id: { [Op.in]: duplicatePartIds },
+                parentId: currentRel.parentId,
+                childId: { [Op.in]: duplicatePartIds },
                 disabled: false
               }
             }
@@ -143,7 +143,8 @@ export function buildFetchOptions(model: ModelStatic<Model>): {
   order?: any[]
   include?: any[]
 } {
-  const modelAttributes = Object.keys(model.rawAttributes || {})
+  const rawAttrs = model.rawAttributes
+  const modelAttributes = Object.keys(rawAttrs !== undefined && rawAttrs !== null ? rawAttrs : {})
   const baseOptions: { attributes?: string[]; order?: any[]; include?: any[] } = {}
   
   const optionsWithAttributes = isModelUnderscored(model)
@@ -163,20 +164,3 @@ export function buildFetchOptions(model: ModelStatic<Model>): {
   return options
 }
 
-/**
- * Transform order_index payload to orderIndex
- * LEARNING: Extracted payload transformation logic
- * WHY: Reusable transformation, handles API-to-model field name conversion
- * PATTERN: Map payload array, transform field names
- * 
- * @param updates - Array of update objects with order_index field
- * @returns Transformed array with orderIndex field
- */
-export function transformOrderIndexPayload(
-  updates: Array<{ id: string; order_index: number }>
-): Array<{ id: string; orderIndex: number }> {
-  return updates.map((update) => ({
-    id: update.id,
-    orderIndex: update.order_index,
-  }))
-}

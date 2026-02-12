@@ -2,7 +2,7 @@
  * User Type Mapping Utility
  * 
  * LEARNING: Bridges hardcoded user roles to dynamic UserTypeBlock system
- * WHY: Users table has hardcoded roles ('client', 'agent', etc.) but
+ * WHY: Users table has hardcoded roles (USER_ROLE_CLIENT, USER_ROLE_AGENT, etc.) but
  *      the UserTypeBlock system uses admin-configurable BlockInstances
  * PATTERN: Maps role strings to UserTypeBlock (BlockInstance) IDs
  * 
@@ -12,18 +12,19 @@
 import { BlockInstance, BlockShape } from '../config/app.js';
 import { Op } from 'sequelize';
 import { createLogger } from './logger.js';
+import { USER_ROLE_CLIENT, USER_ROLE_AGENT, ATTENDEE_ROLE_AGENT } from '../constants/userRoles.js';
 
 const logger = createLogger('UserTypeMapping');
 
 /**
  * Mapping from hardcoded user roles to expected UserTypeBlock names
- * LEARNING: The Users table uses 'client', 'agent', etc. but UserTypeBlocks
- *           use business-friendly names like 'Buyer', 'Agent'
+ * LEARNING: The Users table uses USER_ROLE_CLIENT, USER_ROLE_AGENT, etc. but UserTypeBlocks
+ *           use business-friendly names like 'Buyer', ATTENDEE_ROLE_AGENT
  * WHY: Need to translate between the two systems for calendar invitations
  */
 const ROLE_TO_BLOCK_NAME: Record<string, string> = {
-  'client': 'Buyer',           // Primary client = Buyer in real estate context
-  'agent': 'Agent',            // Real estate agent
+  [USER_ROLE_CLIENT]: 'Buyer',           // Primary client = Buyer in real estate context
+  [USER_ROLE_AGENT]: ATTENDEE_ROLE_AGENT, // Real estate agent
   'transaction_manager': 'Transaction Manager',
   'seller': 'Seller',
   'inspector': 'Inspector',    // The service provider/technician
@@ -51,7 +52,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
  * LEARNING: Translates hardcoded role to UserTypeBlock ID
  * WHY: appointment_attendees needs userTypeBlockInstanceId, not role string
  * 
- * @param role - Hardcoded role from Users table ('client', 'agent', etc.)
+ * @param role - Hardcoded role from Users table (USER_ROLE_CLIENT, USER_ROLE_AGENT, etc.)
  * @returns UserTypeBlock ID or null if not found
  */
 export async function getUserTypeBlockIdForRole(role: string): Promise<string | null> {

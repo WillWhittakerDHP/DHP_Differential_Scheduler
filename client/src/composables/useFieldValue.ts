@@ -53,7 +53,7 @@ export function useFieldValue<GE extends GlobalEntityKey, FieldKey extends Globa
       actualValue = (formValue ?? valueRef) as ValidAdminValue
     }
 
-    return (actualValue ?? '') as ValidAdminValue
+    return (actualValue !== undefined && actualValue !== null ? actualValue : '') as ValidAdminValue
   }) as Ref<ValidAdminValue>
 }
 

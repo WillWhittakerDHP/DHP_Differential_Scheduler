@@ -1,5 +1,10 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import {
+  SUB_PANEL_KEYS,
+  createEmptySubPanelRecord,
+  type SubPanelRecord
+} from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 
 /**
@@ -30,12 +35,7 @@ export interface CategorizedFields {
     inline: GlobalFieldKey<GlobalEntityKey>[]
     stacked: GlobalFieldKey<GlobalEntityKey>[]
   }
-  subPanelFields: {
-    parts: GlobalFieldKey<GlobalEntityKey>[]
-    relationships: GlobalFieldKey<GlobalEntityKey>[]
-    annotations: GlobalFieldKey<GlobalEntityKey>[]
-    events: GlobalFieldKey<GlobalEntityKey>[]
-  }
+  subPanelFields: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
   /**
    * LEARNING: Status button fields extracted from config
    * WHY: Boolean fields with renderAs: 'statusButton' should render as clickable VChips
@@ -71,16 +71,12 @@ export function categorizeFieldsBySection(
       inline: [],
       stacked: []
     },
-    subPanelFields: {
-      parts: [],
-      relationships: [],
-      annotations: [],
-      events: []
-    },
+    subPanelFields: createEmptySubPanelRecord(() => [] as GlobalFieldKey<GlobalEntityKey>[]),
     statusButtonFields: []
   }
   
-  const fieldMetadata: Record<string, FieldMetadataEntry> = options?.fieldMetadata ?? {}
+  const rawMeta = options?.fieldMetadata
+  const fieldMetadata: Record<string, FieldMetadataEntry> = rawMeta !== undefined && rawMeta !== null ? rawMeta : {}
   
   const hasFieldMetadata = Object.keys(fieldMetadata).length > 0
   
@@ -91,12 +87,7 @@ export function categorizeFieldsBySection(
         inline: [],
         stacked: []
       },
-      subPanelFields: {
-        parts: [],
-        relationships: [],
-        annotations: [],
-        events: []
-      },
+      subPanelFields: createEmptySubPanelRecord(() => [] as GlobalFieldKey<GlobalEntityKey>[]),
       statusButtonFields: []
     }
   }
@@ -166,26 +157,21 @@ export function categorizeFieldsBySection(
       } else {
         return { ...acc, directStackedEntries: [...acc.directStackedEntries, fieldEntry] }
       }
-    } else if (panel === 'parts' || panel === 'relationships' || panel === 'annotations' || panel === 'events') {
+    } else if ((SUB_PANEL_KEYS as readonly string[]).includes(panel)) {
       return {
         ...acc,
         subPanelEntries: {
           ...acc.subPanelEntries,
-          [panel]: [...acc.subPanelEntries[panel], fieldEntry]
+          [panel]: [...acc.subPanelEntries[panel as keyof typeof acc.subPanelEntries], fieldEntry]
         }
       }
     }
-    
+
     return acc
   }, {
     directInlineEntries: [] as string[],
     directStackedEntries: [] as string[],
-    subPanelEntries: {
-      parts: [] as string[],
-      relationships: [] as string[],
-      annotations: [] as string[],
-      events: [] as string[]
-    }
+    subPanelEntries: createEmptySubPanelRecord(() => [] as string[])
   })
   
   const normalize = (arr: string[]) =>
@@ -202,12 +188,13 @@ export function categorizeFieldsBySection(
     inline: normalize(categorized.directInlineEntries),
     stacked: normalize(categorized.directStackedEntries)
   }
-  result.subPanelFields = {
-    parts: normalize(categorized.subPanelEntries.parts),
-    relationships: normalize(categorized.subPanelEntries.relationships),
-    annotations: normalize(categorized.subPanelEntries.annotations),
-    events: normalize(categorized.subPanelEntries.events)
-  }
+  result.subPanelFields = SUB_PANEL_KEYS.reduce<SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>>(
+    (acc, key) => ({
+      ...acc,
+      [key]: normalize(categorized.subPanelEntries[key])
+    }),
+    createEmptySubPanelRecord(() => [] as GlobalFieldKey<GlobalEntityKey>[])
+  )
 
   return {
     directFields: result.directFields,

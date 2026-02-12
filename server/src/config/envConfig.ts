@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import Joi from "joi";
+import { NODE_ENV } from "../constants/appConstants.js";
 import { createLogger } from "../utils/logger.js";
 
 const logger = createLogger("EnvConfig");
@@ -15,16 +16,16 @@ export interface EnvConfig {
   DB_PORT: number;
 }
 
-const envFile = `./.env.${process.env.NODE_ENV || "development"}`;
+const envFile = `./.env.${process.env.NODE_ENV || NODE_ENV.DEVELOPMENT}`;
 const result = dotenv.config({ path: envFile });
 
-if (result.error && process.env.NODE_ENV !== "development") {
+if (result.error && process.env.NODE_ENV !== NODE_ENV.DEVELOPMENT) {
   logger.warn(`⚠️  ${envFile} not found, falling back to .env.development`);
-  dotenv.config({ path: "./.env.development" });
+  dotenv.config({ path: `./.env.${NODE_ENV.DEVELOPMENT}` });
 }
 
 const schema = Joi.object({
-  NODE_ENV: Joi.string().valid("development", "test", "production").default("development"),
+  NODE_ENV: Joi.string().valid(NODE_ENV.DEVELOPMENT, NODE_ENV.TEST, NODE_ENV.PRODUCTION).default(NODE_ENV.DEVELOPMENT),
   PORT: Joi.number().default(3000),
   DB_HOST: Joi.string().required(),
   DB_NAME: Joi.string().required(),

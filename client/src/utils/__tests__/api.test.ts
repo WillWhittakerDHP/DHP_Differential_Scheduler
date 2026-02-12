@@ -1,26 +1,33 @@
+/**
+ * API endpoint builder tests
+ * Covers: Current API surface from api/ domain modules (entity, relationship, appointment, availability, admin metadata, property, user).
+ * Validates: Endpoint path construction for all exported getters.
+ */
 
 import { describe, it, expect } from 'vitest'
 import {
   getEntityEndpoint,
   getEntityByIdEndpoint,
   getRelationshipEndpoint,
-  getRelationshipByIdEndpoint,
   getRelationshipByParentChildEndpoint,
   getOrderIndexEndpoint,
-  getAnnotationEndpoint,
-  getAnnotationByIdEndpoint,
+  getBulkPatchEndpoint,
+  getEntitiesBatchEndpoint,
   getBlockInstanceAnnotationsEndpoint,
   getBlockInstanceAnnotationEndpoint,
-  getAnnotationAssignmentsEndpoint,
-  getAnnotationShapeEndpoint,
-  getAnnotationShapeByIdEndpoint,
+  getRelationshipsBatchEndpoint,
   getAvailabilityEndpoint,
   getAppointmentEndpoint,
   getAppointmentByIdEndpoint,
+  getAppointmentVersionsEndpoint,
   getPropertyEndpoint,
   getPropertyByIdEndpoint,
   getUserEndpoint,
   getUserByIdEndpoint,
+  getAdminMetadataEndpoint,
+  getAdminMetadataBatchEndpoint,
+  getAdminPrimitiveMetadataEndpoint,
+  getAdminRelationshipMetadataEndpoint,
 } from '../api'
 
 describe('API Endpoint Builders', () => {
@@ -56,10 +63,6 @@ describe('API Endpoint Builders', () => {
       expect(getRelationshipEndpoint('annotationAssignments')).toBe('/relationships/annotationAssignments')
     })
 
-    it('should build relationship by ID endpoint', () => {
-      expect(getRelationshipByIdEndpoint('annotationAssignments', 'rel-123')).toBe('/relationships/annotationAssignments/rel-123')
-    })
-
     it('should build relationship by parent-child endpoint', () => {
       expect(getRelationshipByParentChildEndpoint('annotation-assignment', 'parent-123', 'child-456')).toBe(
         '/relationships/annotation-assignment/parent-123/child-456'
@@ -73,49 +76,39 @@ describe('API Endpoint Builders', () => {
         `/relationships/annotationAssignments/${parentId}/${childId}`
       )
     })
+
+    it('should build relationships batch endpoint', () => {
+      expect(getRelationshipsBatchEndpoint()).toBe('/relationships/batch')
+    })
+
+    it('should build block instance annotations endpoint (query by blockInstanceId)', () => {
+      expect(getBlockInstanceAnnotationsEndpoint('block-123')).toBe(
+        '/relationships/annotationAssignments?blockInstanceId=block-123'
+      )
+    })
+
+    it('should build block instance annotation endpoint (PATCH/DELETE by blockInstanceId and annotationId)', () => {
+      expect(getBlockInstanceAnnotationEndpoint('block-123', 'ann-456')).toBe(
+        '/relationships/annotationAssignments/block-123/ann-456'
+      )
+    })
   })
 
-  describe('Order index endpoint', () => {
+  describe('Order index and bulk endpoints', () => {
     it('should build order index endpoint', () => {
       expect(getOrderIndexEndpoint('block-instance')).toBe('/entities/block-instance/order_index')
     })
 
-    it('should handle different entity keys', () => {
+    it('should handle different entity keys for order index', () => {
       expect(getOrderIndexEndpoint('part-instance')).toBe('/entities/part-instance/order_index')
     })
-  })
 
-  describe('Annotation endpoints', () => {
-    it('should build annotation endpoint', () => {
-      expect(getAnnotationEndpoint('annotationInstance')).toBe('/annotations/annotationInstance')
+    it('should build bulk PATCH endpoint', () => {
+      expect(getBulkPatchEndpoint('block-instance')).toBe('/entities/block-instance/bulk')
     })
 
-    it('should build annotation by ID endpoint', () => {
-      expect(getAnnotationByIdEndpoint('ann-123')).toBe('/annotations/annotationInstance/ann-123')
-    })
-
-    it('should build block instance annotations endpoint', () => {
-      expect(getBlockInstanceAnnotationsEndpoint('block-123')).toBe('/annotations/annotationInstance/block-instance/block-123')
-    })
-
-    it('should build block instance annotation endpoint', () => {
-      expect(getBlockInstanceAnnotationEndpoint('block-123', 'ann-456')).toBe(
-        '/annotations/annotationInstance/block-instance/block-123/ann-456'
-      )
-    })
-
-    it('should build annotation assignments endpoint', () => {
-      expect(getAnnotationAssignmentsEndpoint()).toBe('/annotations/annotationInstance/annotation-assignments')
-    })
-  })
-
-  describe('Annotation shape endpoints', () => {
-    it('should build annotation shape endpoint', () => {
-      expect(getAnnotationShapeEndpoint()).toBe('/annotations/annotationShape')
-    })
-
-    it('should build annotation shape by ID endpoint', () => {
-      expect(getAnnotationShapeByIdEndpoint('shape-123')).toBe('/annotations/annotationShape/shape-123')
+    it('should build entities batch endpoint', () => {
+      expect(getEntitiesBatchEndpoint()).toBe('/entities/batch')
     })
   })
 
@@ -132,6 +125,30 @@ describe('API Endpoint Builders', () => {
 
     it('should build appointment by ID endpoint', () => {
       expect(getAppointmentByIdEndpoint('appt-123')).toBe('/appointments/appt-123')
+    })
+
+    it('should build appointment versions endpoint', () => {
+      expect(getAppointmentVersionsEndpoint('appt-123')).toBe('/appointments/appt-123/versions')
+    })
+  })
+
+  describe('Admin metadata endpoints', () => {
+    it('should build admin metadata endpoint', () => {
+      expect(getAdminMetadataEndpoint('blockInstance', 'inst-123')).toBe('/admin-metadata/blockInstance/inst-123')
+    })
+
+    it('should build admin metadata batch endpoint', () => {
+      expect(getAdminMetadataBatchEndpoint()).toBe('/admin-metadata/batch')
+    })
+
+    it('should build admin primitive metadata endpoint (alias)', () => {
+      expect(getAdminPrimitiveMetadataEndpoint('partInstance', 'part-1')).toBe('/admin-metadata/partInstance/part-1')
+    })
+
+    it('should build admin relationship metadata endpoint (alias)', () => {
+      expect(getAdminRelationshipMetadataEndpoint('blockInstance', 'block-1')).toBe(
+        '/admin-metadata/blockInstance/block-1'
+      )
     })
   })
 
@@ -168,7 +185,9 @@ describe('API Endpoint Builders', () => {
 
     it('should handle IDs with spaces', () => {
       const idWithSpaces = 'id with spaces'
-      expect(getEntityByIdEndpoint('block-instance', idWithSpaces)).toBe(`/entities/block-instance/${idWithSpaces}`)
+      expect(getEntityByIdEndpoint('block-instance', idWithSpaces)).toBe(
+        `/entities/block-instance/${idWithSpaces}`
+      )
     })
 
     it('should handle unicode characters in IDs', () => {
@@ -177,4 +196,3 @@ describe('API Endpoint Builders', () => {
     })
   })
 })
-

@@ -6,7 +6,7 @@
 
 import type { GlobalEntityKey } from '../../../../constants/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { DisplayFieldType } from '../fullFieldDisplayConfig'
+import type { DisplayFieldType } from '../displayFieldTypes'
 
 export const baseEntityDisplays = {
   id: {

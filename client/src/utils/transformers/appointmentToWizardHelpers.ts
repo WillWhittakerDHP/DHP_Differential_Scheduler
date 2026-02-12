@@ -9,16 +9,18 @@
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'
-import { findById } from '@/utils/collections/findById'
+import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
+import { safeString, safeNumber, convertToTernaryBoolean } from './transformerPrimitives'
 
 /**
  * Version data structure from API
  * LEARNING: Matches server-side version format
  */
-export interface VersionBlockInstance {
+interface VersionBlockInstance {
   id: string // blockInstanceId
   name: string
   icon: string
@@ -58,9 +60,7 @@ export function findBlockInstanceById(
   id: string | null | undefined
 ): BookingBlockInstance | null {
   if (!id || !bookingData) return null
-  
-  const blockInstance = findById(bookingData.blockInstances, id) ?? null
-  return blockInstance
+  return findById(bookingData.blockInstances, id)
 }
 
 /**
@@ -69,33 +69,12 @@ export function findBlockInstanceById(
  * WHY: Maps array of IDs to array of BookingBlockInstance objects
  * PATTERN: Filter blockInstances array by IDs
  */
-export function findBlockInstancesByIds(
+function findBlockInstancesByIds(
   bookingData: BookingData,
   ids: string[] | null | undefined
 ): BookingBlockInstance[] {
   if (!ids || !bookingData || ids.length === 0) return []
-  
-  const requestedIds = new Set(ids.map((id) => String(id)))
-  const found = bookingData.blockInstances.filter((bi) => requestedIds.has(String(bi.id)))
-
-  return found
-}
-
-/**
- * Convert boolean or TernaryBoolean to TernaryBoolean
- * LEARNING: Backward compatibility converter for legacy boolean values
- * WHY: Versions may contain boolean (legacy) or TernaryBoolean (current)
- * PATTERN: Convert boolean to TernaryBoolean, default to 'false'
- * @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility converter
- */
-export function convertToTernary(
-  value: TernaryBoolean | boolean | undefined,
-  defaultValue: TernaryBoolean = 'false'
-): TernaryBoolean {
-  if (value === true) return 'true'
-  if (value === false) return 'false'
-  if (value === 'true' || value === 'false' || value === 'override') return value
-  return defaultValue
+  return findByIds(bookingData.blockInstances, ids)
 }
 
 /**
@@ -104,7 +83,7 @@ export function convertToTernary(
  * WHY: Versions contain versioned fields, but BookingBlockInstance needs additional metadata
  * PATTERN: Merge version data with current instance metadata
  */
-export function transformVersionToBookingInstance(
+function transformVersionToBookingInstance(
   version: VersionBlockInstance,
   currentInstance: BookingBlockInstance | null,
   bookingData: BookingData
@@ -115,7 +94,7 @@ export function transformVersionToBookingInstance(
     id: version.id,
     entityKey: 'blockInstance' as const,
     active: true,
-    bookingMode: 'standalone',
+    bookingMode: DEFAULT_VALUES.BOOKING_MODE,
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',
@@ -126,19 +105,18 @@ export function transformVersionToBookingInstance(
 
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-    
     return {
       id: pi.id,
       entityKey: 'partInstance' as const,
-      name: pi.name ?? '',
+      name: safeString(pi.name, 'VersionBlockInstance.partInstances.name'),
       baseFee: pi.baseFee,
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
       // PATTERN: Events should be accessed via EventAssignment relationships instead
       active: currentPart?.active ?? true,
-      orderIndex: currentPart?.orderIndex ?? 0,
-      partShape: currentPart?.partShape ?? '',
+      orderIndex: safeNumber(currentPart?.orderIndex, 'VersionBlockInstance.partInstances.orderIndex'),
+      partShape: safeString(currentPart?.partShape, 'VersionBlockInstance.partInstances.partShape'),
       disabled: false, // BookingPartInstance requires disabled field
       zeroOutPart: currentPart?.zeroOutPart ?? false, // BookingPartInstance requires zeroOutPart field
     }
@@ -148,13 +126,53 @@ export function transformVersionToBookingInstance(
     ...base,
     id: version.id,
     name: version.name,
-    icon: version.icon ?? '',
-    baseSqFt: version.baseSqFt ?? 0,
+    icon: safeString(version.icon, 'VersionBlockInstance.icon'),
+    baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
     allowMultiple: version.allowMultiple,
     // LEARNING: Convert boolean to TernaryBoolean for differential
-    differential: convertToTernary(version.differential, 'false'),
+    differential: convertToTernaryBoolean(version.differential, 'false'),
     partInstances,
   } as BookingBlockInstance
+}
+
+function getCategoryDisplayName(categoryKey: 'services' | 'properties' | 'options' | 'lineItems'): string {
+  if (categoryKey === 'services') return 'service'
+  if (categoryKey === 'properties') return 'property type block'
+  if (categoryKey === 'options') return 'availability option'
+  return 'line item'
+}
+
+function logMissingAndWrongShapeIds(
+  params: {
+    ids: string[]
+    found: BookingBlockInstance[]
+    bookingData: BookingData
+    blockShapeId: string | null
+    categoryKey: 'services' | 'properties' | 'options' | 'lineItems'
+    logger: Logger
+  }
+): void {
+  const { ids, found, bookingData, blockShapeId, categoryKey, logger } = params
+  if (ids.length === 0 || found.length === ids.length) return
+
+  const foundIds = new Set(found.map(instance => instance.id))
+  const missingIds = ids.filter(id => !foundIds.has(id))
+  const categoryName = categoryKey === 'lineItems' ? 'line item' : getCategoryDisplayName(categoryKey)
+  if (missingIds.length > 0) {
+    logger.warn(`[AppointmentTransformer] Some ${categoryName} IDs not found: ${missingIds.join(', ')}`)
+  }
+
+  if (!blockShapeId || (categoryKey !== 'services' && categoryKey !== 'properties') || found.length >= ids.length) {
+    return
+  }
+  const wrongShapeIds = ids.filter(id => {
+    const instance = findBlockInstanceById(bookingData, id)
+    return instance !== null && instance.blockShapeRef !== blockShapeId
+  })
+  if (wrongShapeIds.length > 0) {
+    const shapeName = categoryKey === 'services' ? 'service' : 'property type block'
+    logger.warn(`[AppointmentTransformer] Some ${shapeName} IDs have wrong block shape: ${wrongShapeIds.join(', ')}`)
+  }
 }
 
 /**
@@ -176,26 +194,22 @@ export function resolveBlockCategory(params: {
 
   // Special handling for line items (they come from bookingData.lineItemBlocks, not blockInstances)
   if (categoryKey === 'lineItems' && lineItemBlocks) {
-    const found = ids.length > 0
-      ? lineItemBlocks.filter(block => ids.includes(block.id))
-      : []
-
-    if (ids.length > 0 && found.length !== ids.length) {
-      const foundIds = new Set(found.map(li => li.id))
-      const missingIds = ids.filter(id => !foundIds.has(id))
-      if (missingIds.length > 0) {
-        logger.warn(`[AppointmentTransformer] Some line item IDs not found: ${missingIds.join(', ')}`)
-      }
-    }
-
-    const versions = versionsData?.lineItems
-    if (versions && versions.length > 0) {
-      return versions.map(version => {
+    const found = ids.length > 0 ? lineItemBlocks.filter(block => ids.includes(block.id)) : []
+    logMissingAndWrongShapeIds({
+      ids,
+      found,
+      bookingData,
+      blockShapeId: null,
+      categoryKey,
+      logger,
+    })
+    const lineVersions = versionsData?.lineItems
+    if (lineVersions && lineVersions.length > 0) {
+      return lineVersions.map(version => {
         const currentInstance = found.find(li => li.id === version.id) ?? null
         return transformVersionToBookingInstance(version, currentInstance, bookingData)
       })
     }
-
     return found
   }
 
@@ -204,31 +218,17 @@ export function resolveBlockCategory(params: {
   const allFound = findBlockInstancesByIds(bookingData, ids)
   const found = blockShapeId
     ? allFound.filter(instance => instance.blockShapeRef === blockShapeId)
-    : allFound // Use all found instances if block shape ID is null
+    : allFound
 
-  // Log missing IDs
-  if (ids.length > 0 && found.length !== ids.length) {
-    const foundIds = new Set(found.map(instance => instance.id))
-    const missingIds = ids.filter(id => !foundIds.has(id))
-    if (missingIds.length > 0) {
-      const categoryName = categoryKey === 'services' ? 'service' : categoryKey === 'properties' ? 'property type block' : 'availability option'
-      logger.warn(`[AppointmentTransformer] Some ${categoryName} IDs not found: ${missingIds.join(', ')}`)
-    }
+  logMissingAndWrongShapeIds({
+    ids,
+    found,
+    bookingData,
+    blockShapeId,
+    categoryKey,
+    logger,
+  })
 
-    // Log wrong shape IDs (only for services and properties)
-    if (blockShapeId && (categoryKey === 'services' || categoryKey === 'properties') && found.length < ids.length) {
-      const wrongShapeIds = ids.filter(id => {
-        const instance = findBlockInstanceById(bookingData, id)
-        return instance && instance.blockShapeRef !== blockShapeId
-      })
-      if (wrongShapeIds.length > 0) {
-        const categoryName = categoryKey === 'services' ? 'service' : 'property type block'
-        logger.warn(`[AppointmentTransformer] Some ${categoryName} IDs have wrong block shape: ${wrongShapeIds.join(', ')}`)
-      }
-    }
-  }
-
-  // Apply versions if available
   const versions = versionsData?.[categoryKey]
   if (versions && versions.length > 0) {
     return versions.map(version => {

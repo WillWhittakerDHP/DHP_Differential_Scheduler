@@ -10,6 +10,11 @@
         "glob": "src/constants/**/*.ts",
         "ruleIds": ["unused-export"],
         "reason": "Constants files may export unused values for future use"
+      },
+      {
+        "glob": "**/index.ts",
+        "ruleIds": ["unused-export"],
+        "reason": "Barrel files re-export for API surface"
       }
     ],
     "specific": []

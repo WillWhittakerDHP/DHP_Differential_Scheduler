@@ -109,7 +109,7 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
       selectedDateRangeEnd: appointment.selectedDateRangeEnd || null,
       selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
         startTime: slot.time,
-        endTime: slot.time, // NOTE: endTime not available in legacy format, using startTime
+        endTime: slot.time, // NOTE: endTime not available in this slot format, using startTime
         duration: slot.duration
       })) : null,
       isQuoteMode: appointment.isQuoteMode,

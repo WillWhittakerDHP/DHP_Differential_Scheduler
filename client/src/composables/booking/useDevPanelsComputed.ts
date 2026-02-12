@@ -64,7 +64,7 @@ export function useDevPanelsComputed(
       differential: block.differential,
       bookingMode: block.bookingMode,
       baseSqFt: block.baseSqFt ?? 0,
-      partCount: block.partInstances?.length || 0
+      partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0
     }))
   })
 

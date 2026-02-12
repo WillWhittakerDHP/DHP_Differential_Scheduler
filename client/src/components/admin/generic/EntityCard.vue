@@ -22,6 +22,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
+import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
@@ -122,6 +123,49 @@ const emit = defineEmits<Emits>()
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
+
+/**
+ * LEARNING: Stop Space/Enter from reaching VExpansionPanelTitle's button when focus is in an editable field
+ * WHY: Title slot is rendered inside a <button>; the button handles keydown in capture phase, so we run in capture on VExpansionPanel to intercept first
+ * PATTERN: Intercept in capture, stop original so button never sees it, then re-dispatch a non-bubbling keydown on the editable so the input still inserts the character
+ */
+function handleTitleKeydown(event: KeyboardEvent): void {
+  if (!event.isTrusted) {
+    return
+  }
+  const target = event.target as Element | null
+  const key = event.key
+  if (key !== ' ' && key !== 'Spacebar' && key !== 'Enter' && event.keyCode !== 32 && event.keyCode !== 13) {
+    return
+  }
+  const editable = target?.closest?.('input, textarea, select, [contenteditable="true"]')
+  if (!editable) {
+    return
+  }
+  event.stopPropagation()
+  event.preventDefault()
+  const synthetic = new KeyboardEvent('keydown', {
+    key: event.key,
+    code: event.code,
+    keyCode: event.keyCode,
+    which: event.which,
+    bubbles: false,
+    cancelable: true
+  })
+  editable.dispatchEvent(synthetic)
+  if (!synthetic.defaultPrevented && (editable instanceof HTMLInputElement || editable instanceof HTMLTextAreaElement)) {
+    const el = editable as HTMLInputElement | HTMLTextAreaElement
+    const start = el.selectionStart ?? el.value.length
+    const end = el.selectionEnd ?? start
+    const char = event.key === 'Enter' ? '\n' : ' '
+    const before = el.value.slice(0, start)
+    const after = el.value.slice(end)
+    const next = before + char + after
+    el.value = next
+    el.setSelectionRange(start + char.length, start + char.length)
+    el.dispatchEvent(new Event('input', { bubbles: true }))
+  }
+}
 
 /**
  * LEARNING: Use entity display composable for display name and messages
@@ -365,7 +409,7 @@ const handleSave = async (): Promise<void> => {
     entityKey: props.entityKey, 
     entityId: props.entity.id,
     isDirty: form.meta.value.dirty,
-    formValues: Object.keys(form.values || {})
+    formValues: Object.keys(form.values !== undefined && form.values !== null ? form.values : {})
   })
   
   await _handleSave()
@@ -466,10 +510,12 @@ defineExpose({
     :value="String(entity.id)"
     :class="$attrs.class"
     @group:selected="handleExpansionChange"
+    @keydown.capture="handleTitleKeydown"
   >
     <template #title>
-      <div 
+      <div
         class="d-flex flex-column gap-2 flex-grow-1"
+        @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
           <!-- LEARNING: Render name field left-justified in panel title -->
@@ -531,6 +577,11 @@ defineExpose({
       <!-- WHY: VExpansionPanel has card-like appearance, adding VCard inside creates "card within card" visual issue -->
       <!-- PATTERN: Use div wrapper when useExpansionPanel=true, VCard wrapper when useExpansionPanel=false -->
       <div class="entity-card-content pa-4">
+        <EntityCardFeePreview
+          v-if="entityKey === 'blockInstance'"
+          :entity-key="entityKey"
+          :entity-id="entity.id"
+        />
         <EntityCardContent
           :entity-key="entityKey"
           :entity-id="entity.id"
@@ -561,7 +612,11 @@ defineExpose({
   <div v-else class="entity-card-content">
     <!-- LEARNING: Title row fields render at top when not using expansion panel -->
     <!-- WHY: TitleRow fields should still be visible even without expansion panel -->
-    <div v-if="titleRowFields.length > 0 && isFormReady" class="d-flex align-center gap-2 mb-4 flex-wrap">
+    <div
+      v-if="titleRowFields.length > 0 && isFormReady"
+      class="d-flex align-center gap-2 mb-4 flex-wrap"
+      @keydown="handleTitleKeydown"
+    >
       <!-- LEARNING: staticAsTitle fields render first, left-justified -->
       <!-- WHY: Name field should be on the left side of the title row, always first -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
@@ -600,6 +655,11 @@ defineExpose({
       </div>
     </div>
 
+    <EntityCardFeePreview
+      v-if="entityKey === 'blockInstance'"
+      :entity-key="entityKey"
+      :entity-id="entity.id"
+    />
     <EntityCardContent
       :entity-key="entityKey"
       :entity-id="entity.id"

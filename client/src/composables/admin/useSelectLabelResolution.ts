@@ -41,7 +41,8 @@ export function useSelectLabelResolution(
    * PATTERN: Replace placeholders in label with actual values from entity relationships
    */
   const resolvedLabel = computed(() => {
-    const rawLabel = fieldContext.displayConfig.label || ''
+    const labelVal = fieldContext.displayConfig.label
+    const rawLabel = labelVal !== undefined && labelVal !== null && labelVal !== '' ? labelVal : ''
     
     if (!rawLabel.includes('{blockShapeName}')) {
       return rawLabel

@@ -7,7 +7,6 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
-
 /**
  * EventInstance Model
  * 
@@ -91,7 +90,6 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'order_index',
         comment: 'Order index for UI drag-and-drop ordering',
       },
       active: {

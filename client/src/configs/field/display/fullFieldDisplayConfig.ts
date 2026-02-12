@@ -6,49 +6,18 @@
 
 import type { GlobalEntityKey } from '../../../constants/entities'
 import type { GlobalFieldKey } from '../../../constants/primitives'
+import type {
+  DisplayFieldConfig,
+  DisplayFieldConfigMap,
+  DisplayFieldTypeMap,
+} from './displayFieldTypes'
 import { blockInstanceDisplays } from './appliedDisplay/blockInstanceDisplays'
 import { blockShapeDisplays } from './appliedDisplay/blockShapeDisplays'
 import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
 import { partShapeDisplays } from './appliedDisplay/partShapeDisplays'
 import { buildSelectableDisplayType, type SelectableDisplayType } from './selectableDisplayConfig'
 
- 
-export interface DisplayFieldType<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
-  label: string;
-  placeholder: string;
-  className?: string;
-  style?: Record<string, string | number>;
-  tooltip?: string;
-  inline?: boolean;
-  stacked?: boolean;
-  width?: number | string;
-  align?: "left" | "center" | "right";
-  meta?: {
-    visible?: boolean;
-    required?: boolean;
-    disabled?: boolean;
-    groupByKey?: GlobalEntityKey;
-    defaultSort?: boolean;
-  };
-}
-
-export type DisplayFieldConfig<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-    primitiveDisplay?: DisplayFieldType<GE, FieldKey>;
-    relationshipDisplay?: SelectableDisplayType<GE>;
-    typeDisplay?: SelectableDisplayType<GE>;
-};
-
-export type DisplayFieldConfigMap = {
-  [GE in GlobalEntityKey]: {
-    [FieldKey in GlobalFieldKey<GE>]?: DisplayFieldConfig<GE, FieldKey>;
-  };
-};
-
-type DisplayFieldTypeMap = {
-  [GE in GlobalEntityKey]: {
-    [FieldKey in GlobalFieldKey<GE>]?: DisplayFieldType<GE, FieldKey>;
-  };
-};
+export type { DisplayFieldType, DisplayFieldConfig, DisplayFieldConfigMap } from './displayFieldTypes'
 
 
 export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
@@ -87,17 +56,17 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   primitiveDisplayConfig: DisplayFieldTypeMap[GE],
   selectableDisplayConfig: Partial<Record<GlobalFieldKey<GE>, SelectableDisplayType<GE>>>
 ): Partial<Record<GlobalFieldKey<GE>, DisplayFieldConfig<GE, GlobalFieldKey<GE>>>> {
-  // ✅ Simplified approach to avoid complex type issues
   const primitiveKeys = Object.keys(primitiveDisplayConfig || {});
   const selectableKeys = Object.keys(selectableDisplayConfig || {});
-  
+
   const allFieldKeys = [...new Set([...primitiveKeys, ...selectableKeys])];
 
   const result: Partial<Record<GlobalFieldKey<GE>, DisplayFieldConfig<GE, GlobalFieldKey<GE>>>> = {};
 
-  Object.assign(result, 
+  Object.assign(
+    result,
     Object.fromEntries(
-      allFieldKeys.map(fieldKey => {
+      allFieldKeys.map((fieldKey) => {
         const primitiveConfig = primitiveDisplayConfig?.[fieldKey as GlobalFieldKey<GE>];
         const selectConfig = selectableDisplayConfig?.[fieldKey as GlobalFieldKey<GE>];
 

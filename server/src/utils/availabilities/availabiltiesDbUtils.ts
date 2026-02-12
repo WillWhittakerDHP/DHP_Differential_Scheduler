@@ -40,8 +40,28 @@
  */
 
 import { createLogger } from '../logger.js';
+import { STATUSES_REQUIRING_CALENDAR_EVENT } from '../../routes/internal/appointments/appointmentConstants.js';
 
 const logger = createLogger('AvailabilitiesDbUtils');
+
+/**
+ * Pure helper: sum all slot durations across appointments (minutes).
+ * Accepts any array of objects with optional selectedTimeSlots (array of { duration?: number } or record).
+ */
+function sumDurationsFromAppointments(
+  appointments: Array<{ selectedTimeSlots?: Array<{ duration?: number } | Record<string, unknown>> | null }>
+): number {
+  return appointments.reduce(
+    (total, apt) =>
+      total +
+      (Array.isArray(apt.selectedTimeSlots) ? apt.selectedTimeSlots : []).reduce(
+        (slotSum, slot) =>
+          slotSum + (typeof (slot as { duration?: number }).duration === 'number' ? (slot as { duration: number }).duration : 0),
+        0
+      ),
+    0
+  );
+}
 
 /**
  * Helper Function: Sum Work Hours for Day
@@ -76,21 +96,11 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
     const appointments = await Appointment.findAll({
       where: {
         selectedDate: dateOnly,
-        status: ['submitted', 'confirmed']
-      }
+        status: [...STATUSES_REQUIRING_CALENDAR_EVENT],
+      },
     });
-    
-    let totalMinutes = 0;
-    for (const appointment of appointments) {
-      if (appointment.selectedTimeSlots && Array.isArray(appointment.selectedTimeSlots)) {
-        for (const slot of appointment.selectedTimeSlots) {
-          if (slot.duration && typeof slot.duration === 'number') {
-            totalMinutes += slot.duration;
-          }
-        }
-      }
-    }
-    
+
+    const totalMinutes = sumDurationsFromAppointments(appointments);
     const totalHours = totalMinutes / 60;
     
     return totalHours;
@@ -130,23 +140,13 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
     const appointments = await Appointment.findAll({
       where: {
         selectedDate: {
-          [Op.between]: [startDateOnly, endDateOnly]
+          [Op.between]: [startDateOnly, endDateOnly],
         },
-        status: ['submitted', 'confirmed']
-      }
+        status: [...STATUSES_REQUIRING_CALENDAR_EVENT],
+      },
     });
-    
-    let totalMinutes = 0;
-    for (const appointment of appointments) {
-      if (appointment.selectedTimeSlots && Array.isArray(appointment.selectedTimeSlots)) {
-        for (const slot of appointment.selectedTimeSlots) {
-          if (slot.duration && typeof slot.duration === 'number') {
-            totalMinutes += slot.duration;
-          }
-        }
-      }
-    }
-    
+
+    const totalMinutes = sumDurationsFromAppointments(appointments);
     const totalHours = totalMinutes / 60;
     
     return totalHours;
@@ -160,48 +160,61 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
 }
 
 /**
+ * Get Monday 00:00 and Sunday 23:59:59 UTC for the calendar week containing the date.
+ */
+function getCalendarWeekRange(date: Date): { start: Date; end: Date } {
+  const dayOfWeek = date.getUTCDay();
+  const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const monday = new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate() - daysFromMonday,
+      0,
+      0,
+      0,
+      0
+    )
+  );
+  const sunday = new Date(
+    Date.UTC(
+      monday.getUTCFullYear(),
+      monday.getUTCMonth(),
+      monday.getUTCDate() + 6,
+      23,
+      59,
+      59,
+      999
+    )
+  );
+  return { start: monday, end: sunday };
+}
+
+/**
  * Helper Function: Sum Work Hours for Calendar Week
  * LEARNING: Calculates total scheduled work hours for the calendar week (Monday-Sunday) containing the date
  * WHY: Used for calendar week capacity filter
  * PATTERN: Calculate Monday and Sunday of the week, then query date range
- * 
+ *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
  * - Only counts appointments with status 'submitted' or 'confirmed'
  * - Supports asynchronous workflow where appointments exist in DB before calendar sync
  * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
- * 
+ *
  * @param date - Date within the calendar week
  * @returns Total work hours in the calendar week (Monday-Sunday)
  */
 export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
   try {
-    // LEARNING: Use UTC methods for all date calculations
-    // WHY: Ensures consistent behavior regardless of server timezone
-    const dayOfWeek = date.getUTCDay();
-    
-    const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    
-    const monday = new Date(Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate() - daysFromMonday,
-      0, 0, 0, 0
-    ));
-    
-    const sunday = new Date(Date.UTC(
-      monday.getUTCFullYear(),
-      monday.getUTCMonth(),
-      monday.getUTCDate() + 6,
-      23, 59, 59, 999
-    ));
-    
-    return await sumWorkHoursForDateRange(monday, sunday);
+    const { start, end } = getCalendarWeekRange(date);
+    return await sumWorkHoursForDateRange(start, end);
   } catch (error) {
-    // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logger.error(`Failed to sum work hours for calendar week containing ${date.toISOString()}:`, errorMessage);
-    
+    logger.error(
+      `Failed to sum work hours for calendar week containing ${date.toISOString()}:`,
+      errorMessage
+    );
     return 0;
   }
 }
@@ -209,103 +222,70 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
 export type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
+ * Get start and end dates for a rolling 7-day window (UTC).
+ */
+function getRollingWeekRange(
+  date: Date,
+  direction: RollingWeekDirection
+): { start: Date; end: Date } {
+  const y = date.getUTCFullYear();
+  const m = date.getUTCMonth();
+  const d = date.getUTCDate();
+
+  switch (direction) {
+    case 'past':
+      return {
+        start: new Date(Date.UTC(y, m, d - 6, 0, 0, 0, 0)),
+        end: new Date(Date.UTC(y, m, d, 23, 59, 59, 999)),
+      };
+    case 'centered':
+      return {
+        start: new Date(Date.UTC(y, m, d - 3, 0, 0, 0, 0)),
+        end: new Date(Date.UTC(y, m, d + 3, 23, 59, 59, 999)),
+      };
+    case 'future':
+      return {
+        start: new Date(Date.UTC(y, m, d, 0, 0, 0, 0)),
+        end: new Date(Date.UTC(y, m, d + 6, 23, 59, 59, 999)),
+      };
+    default:
+      logger.warn(`Invalid rolling week direction: ${direction}, defaulting to 'past'`);
+      return {
+        start: new Date(Date.UTC(y, m, d - 6, 0, 0, 0, 0)),
+        end: new Date(Date.UTC(y, m, d, 23, 59, 59, 999)),
+      };
+  }
+}
+
+/**
  * Helper Function: Sum Work Hours for Rolling Week
  * LEARNING: Calculates total scheduled work hours for a rolling 7-day window based on direction
  * WHY: Used for rolling week capacity filter with configurable direction
  * PATTERN: Calculate date range based on direction, then query date range
- * 
+ *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
  * - Only counts appointments with status 'submitted' or 'confirmed'
  * - Supports asynchronous workflow where appointments exist in DB before calendar sync
  * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
- * 
+ *
  * @param date - Reference date for rolling week calculation
  * @param direction - Direction of rolling week ('past', 'centered', or 'future')
  * @returns Total work hours in the rolling 7-day window
  */
-export async function sumWorkHoursForRollingWeek(date: Date, direction: RollingWeekDirection): Promise<number> {
+export async function sumWorkHoursForRollingWeek(
+  date: Date,
+  direction: RollingWeekDirection
+): Promise<number> {
   try {
-    // LEARNING: Use UTC methods for all date calculations
-    // WHY: Ensures consistent behavior regardless of server timezone
-    let startDate: Date;
-    let endDate: Date;
-    
-    const referenceDateUTC = new Date(Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      0, 0, 0, 0
-    ));
-    
-    switch (direction) {
-      case 'past':
-        endDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate(),
-          23, 59, 59, 999
-        ));
-        startDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate() - 6,
-          0, 0, 0, 0
-        ));
-        break;
-        
-      case 'centered':
-        startDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate() - 3,
-          0, 0, 0, 0
-        ));
-        endDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate() + 3,
-          23, 59, 59, 999
-        ));
-        break;
-        
-      case 'future':
-        startDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate(),
-          0, 0, 0, 0
-        ));
-        endDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate() + 6,
-          23, 59, 59, 999
-        ));
-        break;
-        
-      default:
-        logger.warn(`Invalid rolling week direction: ${direction}, defaulting to 'past'`);
-        endDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate(),
-          23, 59, 59, 999
-        ));
-        startDate = new Date(Date.UTC(
-          referenceDateUTC.getUTCFullYear(),
-          referenceDateUTC.getUTCMonth(),
-          referenceDateUTC.getUTCDate() - 6,
-          0, 0, 0, 0
-        ));
-    }
-    
-    return await sumWorkHoursForDateRange(startDate, endDate);
+    const { start, end } = getRollingWeekRange(date, direction);
+    return await sumWorkHoursForDateRange(start, end);
   } catch (error) {
-    // PATTERN: Log error with context, return safe default
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logger.error(`Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`, errorMessage);
-    
+    logger.error(
+      `Failed to sum work hours for rolling week (${direction}) containing ${date.toISOString()}:`,
+      errorMessage
+    );
     return 0;
   }
 }

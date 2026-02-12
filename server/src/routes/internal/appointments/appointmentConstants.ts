@@ -6,6 +6,15 @@
  * PATTERN: Const objects with categorized constants
  */
 
+import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
+import {
+  APPOINTMENT_NOT_FOUND,
+  ERROR_CREATE_APPOINTMENT,
+  ERROR_UPDATE_APPOINTMENT,
+} from '../../../../../shared/constants/errorMessages.js'
+
+export { AVAILABILITY_SETTINGS_KEY }
+
 /**
  * Error messages for appointment operations
  * LEARNING: Centralized error messages for consistent API responses
@@ -16,9 +25,9 @@ export const ERROR_MESSAGES = {
   // Appointment CRUD operations
   FETCH_APPOINTMENTS: 'Failed to fetch appointments',
   FETCH_APPOINTMENT: 'Error fetching appointment',
-  APPOINTMENT_NOT_FOUND: 'Appointment not found',
-  CREATE_APPOINTMENT: 'Failed to create appointment',
-  UPDATE_APPOINTMENT: 'Failed to update appointment',
+  APPOINTMENT_NOT_FOUND,
+  CREATE_APPOINTMENT: ERROR_CREATE_APPOINTMENT,
+  UPDATE_APPOINTMENT: ERROR_UPDATE_APPOINTMENT,
   PATCH_APPOINTMENT: 'Failed to patch appointment',
   DELETE_APPOINTMENT: 'Failed to delete appointment',
   FETCH_APPOINTMENT_VERSIONS: 'Error fetching appointment versions',
@@ -42,11 +51,3 @@ export const DEFAULT_CALENDAR_EMAIL = 'scheduling@districthomepro.com'
  * PATTERN: Const array with status values
  */
 export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const
-
-/**
- * Availability settings key
- * LEARNING: Key for availability settings in BusinessSettings
- * WHY: Single source of truth for settings key
- * PATTERN: Const string for settings key
- */
-export const AVAILABILITY_SETTINGS_KEY = 'availability_settings'

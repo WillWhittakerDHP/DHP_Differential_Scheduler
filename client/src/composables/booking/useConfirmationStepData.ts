@@ -9,48 +9,9 @@
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
+import type { AvailabilityStepData, PriceData, SummaryData } from '@/types/wizardStepData'
 
-export interface SummaryData {
-  serviceType: string
-  propertyType: string
-  address: string
-  squareFootage: string
-}
-
-/**
- * Price data structure
- * LEARNING: Represents calculated fees and pricing breakdown for confirmation step
- * WHY: Provides fee breakdown (base vs overage) and order totals
- * PATTERN: Includes base fee total, overage fee total, and calculated order totals
- */
-export interface PriceData {
-  totalFee: number
-  currency: string
-  bagTotal: number
-  couponDiscount: number
-  orderTotal: number
-  deliveryCharges: number
-  deliveryFree: boolean
-  finalTotal: number
-  /** Sum of all base fees from all block instances */
-  baseFeeTotal?: number
-  /** Sum of all overage fees (rateOverBaseFee * squareFootage) from all block instances */
-  overageFeeTotal?: number
-  /** Line item fees breakdown */
-  lineItemFees?: {
-    baseFee: number
-    overageFee: number
-    totalFee: number
-  }
-  /** Individual line items for display */
-  lineItems?: Array<{
-    label: string
-    amount: number
-    isFree: boolean
-  }>
-}
-
-import type { AvailabilityStepData } from '@/types/wizardStepData'
+export type { SummaryData, PriceData } from '@/types/wizardStepData'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 
 /**

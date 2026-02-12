@@ -82,7 +82,8 @@ useRelationshipCollection({
   bulkEditComposable: (model) => {
     const bulkEdit = usePartInstanceBulkEdit({
       existingPartInstances: computed(() => {
-        return (model.existingChildren.value || []) as GlobalEntity<'partInstance'>[]
+        const raw = model.existingChildren.value
+return (raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []) as GlobalEntity<'partInstance'>[]
       })
     })
     

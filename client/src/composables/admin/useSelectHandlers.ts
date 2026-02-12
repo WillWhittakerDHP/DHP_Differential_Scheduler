@@ -13,12 +13,13 @@
  * - Value normalization and validation
  */
 
-import { ref, nextTick, type ComputedRef, type Ref } from 'vue'
+import { ref, nextTick, computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '../useFieldContext'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
+import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useSelectHandlers')
@@ -55,6 +56,8 @@ export interface UseSelectHandlersReturn {
   handleFocus: () => void
   
   handleBlur: () => Promise<void>
+  
+  handleKeydown: (event: KeyboardEvent) => void
 }
 
 /**
@@ -221,12 +224,21 @@ export function useSelectHandlers(
     }
   }
 
+  const isEditable = computed(
+    () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+  )
+  const { handleKeydown } = useFieldKeyboardGuard({
+    fieldType: 'select',
+    isEditable
+  })
+
   return {
     isUpdatingProgrammatically,
     handleGroupChange,
     handleChange,
     handleFocus,
-    handleBlur
+    handleBlur,
+    handleKeydown
   }
 }
 

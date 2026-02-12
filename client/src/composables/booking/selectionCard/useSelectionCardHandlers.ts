@@ -81,10 +81,12 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
    * PATTERN: Add or remove child ID from array
    */
   const handleNestedChildUpdate = (childId: string, selected: boolean): void => {
+    const raw = nestedChildSelections.value
+    const current = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
     emit(
       'update:nestedChildSelections',
       updateNestedChildSelections({
-        current: nestedChildSelections.value || [],
+        current,
         childId,
         selected,
       })

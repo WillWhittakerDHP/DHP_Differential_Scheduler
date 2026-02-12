@@ -6,24 +6,38 @@
  * PATTERN: Pure helper functions with proper type guards
  */
 
+import type { Transaction } from 'sequelize'
 import { Address, PropertyVersion, PropertyDetails, PropertyVersionType, BlockInstance, BlockShape } from '../../../config/app.js'
+import { FIELD_NAMES } from '../entities/entityConstants.js'
+
+/** PropertyVersion with associations loaded (propertyDetails, address). */
+export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {
+  propertyDetails?: InstanceType<typeof PropertyDetails> | InstanceType<typeof PropertyDetails>[] | null
+  address?: InstanceType<typeof Address> | null
+}
+
+/** BlockInstance with block_shape association loaded. */
+export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
+  block_shape?: { name: string } | null
+}
 
 /**
  * Type guard for PropertyVersion with associations
  * LEARNING: Type guard to safely access Sequelize associations
  * WHY: Replaces `as any` casts with type-safe checks
  * PATTERN: Type predicate function that narrows type based on runtime check
- * 
+ *
  * @param propertyVersion - PropertyVersion instance
  * @returns true if propertyVersion has propertyDetails association
  */
 export function isPropertyVersionWithAssociations(
-  propertyVersion: any
-): propertyVersion is any & {
-  propertyDetails: any | any[] | null
-  address: any | null
-} {
-  return 'propertyDetails' in propertyVersion || 'address' in propertyVersion
+  propertyVersion: unknown
+): propertyVersion is PropertyVersionWithAssociations {
+  return (
+    typeof propertyVersion === 'object' &&
+    propertyVersion !== null &&
+    ('propertyDetails' in propertyVersion || 'address' in propertyVersion)
+  )
 }
 
 /**
@@ -31,16 +45,14 @@ export function isPropertyVersionWithAssociations(
  * LEARNING: Type guard to safely access Sequelize associations
  * WHY: Replaces `as any` casts with type-safe checks
  * PATTERN: Type predicate function that narrows type based on runtime check
- * 
+ *
  * @param blockInstance - BlockInstance instance
  * @returns true if blockInstance has block_shape association
  */
 export function isBlockInstanceWithShape(
-  blockInstance: any
-): blockInstance is any & {
-  block_shape?: { name: string } | null
-} {
-  return 'block_shape' in blockInstance
+  blockInstance: unknown
+): blockInstance is BlockInstanceWithShape {
+  return typeof blockInstance === 'object' && blockInstance !== null && 'block_shape' in blockInstance
 }
 
 /**
@@ -48,24 +60,22 @@ export function isBlockInstanceWithShape(
  * LEARNING: Type-safe extraction of Sequelize association data
  * WHY: Replaces `as any` pattern with proper type handling
  * PATTERN: Type guard + safe property access
- * 
+ *
  * @param propertyVersion - PropertyVersion with associations
  * @returns PropertyDetails or null
  */
 export function getPropertyDetailsFromVersion(
-  propertyVersion: any
-): any | null {
+  propertyVersion: unknown
+): InstanceType<typeof PropertyDetails> | null {
   if (!isPropertyVersionWithAssociations(propertyVersion)) {
     return null
   }
   
-  const propertyDetails = propertyVersion.propertyDetails
-  
-  if (Array.isArray(propertyDetails)) {
-    return propertyDetails[0] || null
+  const details = (propertyVersion as PropertyVersionWithAssociations).propertyDetails
+  if (Array.isArray(details)) {
+    return details[0] ?? null
   }
-  
-  return propertyDetails || null
+  return details ?? null
 }
 
 /**
@@ -86,7 +96,7 @@ export async function findOrCreateAddress(addressData: {
   placeId?: string | null
   latitude?: number | null
   longitude?: number | null
-}): Promise<any> {
+}): Promise<InstanceType<typeof Address>> {
   const existingAddress = await Address.findOne({
     where: {
       address: addressData.address,
@@ -125,8 +135,8 @@ export async function findOrCreateAddress(addressData: {
  */
 export async function getPropertyWithAssociations(
   propertyVersionId: string,
-  transaction?: any
-): Promise<any | null> {
+  transaction?: Transaction
+): Promise<PropertyVersionWithAssociations | null> {
   return await PropertyVersion.findByPk(propertyVersionId, {
     include: [
       { model: Address, as: 'address' },
@@ -147,7 +157,7 @@ export async function getPropertyWithAssociations(
  */
 export async function buildPropertyTypeResponse(
   propertyTypeId: string
-): Promise<any | null> {
+): Promise<InstanceType<typeof PropertyVersionType> | null> {
   return await PropertyVersionType.findByPk(propertyTypeId, {
     include: [{ model: BlockInstance, as: 'blockInstance' }],
   })
@@ -164,7 +174,7 @@ export async function buildPropertyTypeResponse(
  */
 export async function getBlockInstanceWithShape(
   blockInstanceId: string
-): Promise<any | null> {
+): Promise<BlockInstanceWithShape | null> {
   return await BlockInstance.findByPk(blockInstanceId, {
     include: [{ model: BlockShape, as: 'block_shape' }],
   })
@@ -183,7 +193,7 @@ export async function getBlockInstanceWithShape(
 export async function createPropertyTypesBulk(
   propertyVersionId: string,
   blockInstanceIds: string[],
-  transaction: any
+  transaction: Transaction
 ): Promise<void> {
   await PropertyVersionType.destroy({
     where: { propertyVersionId },
@@ -213,10 +223,10 @@ export async function createPropertyTypesBulk(
  */
 export async function getPropertyTypesWithAssociations(
   propertyVersionId: string
-): Promise<any[]> {
+): Promise<InstanceType<typeof PropertyVersionType>[]> {
   return await PropertyVersionType.findAll({
     where: { propertyVersionId },
     include: [{ model: BlockInstance, as: 'blockInstance' }],
-    order: [['orderIndex', 'ASC']],
+    order: [[FIELD_NAMES.ORDER_INDEX, 'ASC']],
   })
 }

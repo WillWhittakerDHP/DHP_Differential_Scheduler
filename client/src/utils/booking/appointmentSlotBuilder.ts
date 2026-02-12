@@ -1,16 +1,19 @@
 /**
  * Appointment Slot Builder
- * 
+ *
  * LEARNING: Pure utility functions for building AppointmentShape and AppointmentSlot
  * WHY: Separates time-independent structure (shape) from time-applied data (slot)
  * PATTERN: Pure functions, no side effects, no reactivity
  */
 
+import { createLogger } from '@/utils/logger'
 import type {
   AppointmentShape,
   AppointmentSlot
 } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+
+const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
@@ -54,8 +57,15 @@ function lookupEventsForPartShape(
   if (!partShapeEntity) return []
 
   const partInstanceIds = blockInstances
-    .flatMap(bi => bi.partInstances ?? [])
-    .filter(pi => pi.partShape === partShapeName)
+    .flatMap((bi) => {
+      const p = bi.partInstances
+      if (p === undefined || p === null) {
+        logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
+        return []
+      }
+      return p
+    })
+    .filter((pi) => pi.partShape === partShapeName)
     .map(pi => pi.id)
 
   const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
@@ -138,10 +148,17 @@ export function buildAppointmentShape(
         )
       : {}
 
+  let resolvedEventShapes: EventShape[]
+  if (eventShapes !== undefined && eventShapes !== null) {
+    resolvedEventShapes = eventShapes
+  } else {
+    logger.debug('buildAppointmentShape: eventShapes missing, using []')
+    resolvedEventShapes = []
+  }
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
-    eventShapes ?? [],
+    resolvedEventShapes,
     globalData,
     settings ?? null
   )
@@ -188,8 +205,23 @@ export function applyShapeToTime(
   const differentialPerspectives = globalData && availabilitySettings?.differentialPerspectives
     ? availabilitySettings.differentialPerspectives
     : null
-  const majorAttendeeIds = differentialPerspectives?.majorAttendees ?? []
-  const minorAttendeeIds = differentialPerspectives?.minorAttendees ?? []
+  let majorAttendeeIds: string[]
+  let minorAttendeeIds: string[]
+  if (differentialPerspectives) {
+    const rawMajor = differentialPerspectives.majorAttendees
+    const rawMinor = differentialPerspectives.minorAttendees
+    if (rawMajor === undefined || rawMajor === null) {
+      logger.debug('applyShapeToTime: majorAttendees missing, using []')
+    }
+    if (rawMinor === undefined || rawMinor === null) {
+      logger.debug('applyShapeToTime: minorAttendees missing, using []')
+    }
+    majorAttendeeIds = rawMajor !== undefined && rawMajor !== null ? rawMajor : []
+    minorAttendeeIds = rawMinor !== undefined && rawMinor !== null ? rawMinor : []
+  } else {
+    majorAttendeeIds = []
+    minorAttendeeIds = []
+  }
   const resolved =
     differentialPerspectives && effectiveSlotShape.eventFinals.length > 0
       ? resolveEventShapes(majorAttendeeIds, minorAttendeeIds, effectiveSlotShape.eventFinals)

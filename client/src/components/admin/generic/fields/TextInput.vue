@@ -59,7 +59,6 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
-      @keydown.enter="handleEnterKey"
       @keydown="handleKeydown"
     />
   </BaseInput>
@@ -169,44 +168,28 @@ const handleChange = (value: string) => {
   context.setValue(value)
 }
 
-// FIX: Use shared field input handlers from composable
+// FIX: Use shared field input handlers from composable (includes keyboard guard)
 const handlers = computed(() => {
   const context = resolvedFieldContext.value
   if (!context) {
     return {
       handleFocus: () => {},
       handleBlur: () => {},
-      handleEnterKey: () => {}
+      handleKeydown: (_event: KeyboardEvent) => {}
     }
   }
   return useFieldInputHandlers({
     fieldContext: resolvedFieldContext.value,
     disableAutoSave,
-    entityCardSaveContext
+    entityCardSaveContext,
+    fieldType: 'text'
   })
 })
 
-// LEARNING: Access handlers through computed to ensure reactivity
+// LEARNING: Access handlers through computed to ensure reactivity (Enter is handled inside handleKeydown)
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
-const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)
-
-const handleKeydown = (event: KeyboardEvent): void => {
-  if (event.key !== ' ' && event.key !== 'Spacebar' && event.keyCode !== 32) {
-    return
-  }
-  
-  const context = resolvedFieldContext.value
-  if (!context) {
-    return
-  }
-  
-  const isEditable = !context.displayConfig.disabled && !context.displayConfig.readOnly
-  
-  if (isEditable) {
-    event.stopPropagation()
-  }
-}
+const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)
 </script>
 
 <style scoped>

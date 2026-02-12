@@ -8,16 +8,9 @@
 
 /**
  * Sentinel UUIDs for global configuration metadata
- * LEARNING: Global configs use fixed UUIDs to identify entity-type-wide metadata
- * WHY: Consistent identification across frontend and backend
- * PATTERN: Same constants used on frontend and backend for consistency
+ * LEARNING: Re-export from shared for consistency across frontend and backend
  */
-export const GLOBAL_CONFIG_IDS = {
-  BLOCK_SHAPE: '00000000-0000-0000-0000-000000000001',
-  PART_SHAPE: '00000000-0000-0000-0000-000000000002',
-  PART_INSTANCE: '00000000-0000-0000-0000-000000000003',
-  BLOCK_INSTANCE: '00000000-0000-0000-0000-000000000004',
-} as const
+export { GLOBAL_CONFIG_IDS } from '../../../../../shared/constants/globalConfigIds.js'
 
 /**
  * Valid entity types for admin metadata
@@ -58,14 +51,28 @@ export const ERROR_MESSAGES = {
 } as const
 
 /**
- * Required fields for metadata creation/update
- * LEARNING: Centralized required field lists for validation
- * WHY: Single source of truth for required fields, easier to maintain
- * PATTERN: Const array with required field names
+ * Shared required field list for admin metadata (fieldKey-based)
+ * LEARNING: Used by admin metadata and admin primitive metadata
+ * WHY: Single source of truth for required fields, eliminates duplication
  */
-export const REQUIRED_FIELDS = {
-  CREATE_UPDATE: ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const,
-} as const
+export const METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const
+
+/**
+ * Shared required field list for admin relationship metadata (relationshipKey-based)
+ * LEARNING: Same structure as metadata but first key is relationshipKey
+ */
+export const RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['relationshipKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const
+
+/**
+ * Factory for REQUIRED_FIELDS shape (single structure definition for audit)
+ * LEARNING: Both metadata and relationship metadata use same object shape
+ */
+export function createRequiredFields<T extends readonly string[]>(createUpdate: T): { readonly CREATE_UPDATE: T } {
+  return { CREATE_UPDATE: createUpdate }
+}
+
+/** Required fields for metadata creation/update */
+export const REQUIRED_FIELDS = createRequiredFields(METADATA_REQUIRED_FIELDS_CREATE_UPDATE)
 
 /**
  * RenderAs values that require inputConfig

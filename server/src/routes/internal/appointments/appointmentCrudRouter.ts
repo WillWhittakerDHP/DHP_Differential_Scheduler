@@ -8,6 +8,7 @@
 
 import { Request, Response } from 'express'
 import { Appointment } from '../../../config/app.js'
+import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
 import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js'
@@ -42,6 +43,8 @@ const router = createCrudRouter({
     DELETE: ERROR_MESSAGES.DELETE_APPOINTMENT,
   },
   defaultIncludes: appointmentIncludes,
+  /** IDOR: GET by id runs same ownership check as mutations (policy: user can only read own org's appointments when auth is implemented). */
+  getByIdMiddleware: [checkOwnership('appointment', 'id')],
   customGetAllHandler: async (req: Request, res: Response): Promise<void> => {
     try {
       const appointments = await Appointment.findAll({
@@ -79,20 +82,29 @@ const router = createCrudRouter({
     // LEARNING: Complex POST logic moved to afterCreate hook
     // WHY: Keeps factory pattern clean while allowing domain-specific behavior
     // PATTERN: Hook runs after record creation, handles side effects
-    
-    const appointmentData = req.body
-    const attendeesData: AttendeeRequest[] = appointmentData.attendees ?? []
-    
+
+    const appointmentData = req.body as { attendees?: AttendeeRequest[]; selectedServiceIds?: string[]; selectedPropertyIds?: string[]; selectedOptionIds?: string[] }
+    const attendeesData = (() => {
+      const raw = appointmentData.attendees
+      if (raw === undefined || raw === null) {
+        logger.debug('afterCreate: attendees missing, using []')
+        return [] as AttendeeRequest[]
+      }
+      return raw
+    })()
+    const idsOrEmpty = (key: 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'): string[] => {
+      const raw = appointmentData[key]
+      if (raw === undefined || raw === null) {
+        logger.debug(`afterCreate: ${key} missing, using []`)
+        return []
+      }
+      return raw
+    }
+
     // Create snapshots for block instances
-    const serviceSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedServiceIds ?? []
-    )
-    const propertySnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedPropertyIds ?? []
-    )
-    const optionSnapshotIds = await createSnapshotsForAppointment(
-      appointmentData.selectedOptionIds ?? []
-    )
+    const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
+    const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
+    const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
     
     // Validate snapshot IDs (redundant but defensive)
     await validateSnapshotIds(serviceSnapshotIds)
@@ -165,8 +177,9 @@ const router = createCrudRouter({
  * LEARNING: Extra route for fetching appointment version snapshots
  * WHY: Provides historical state of block instances at appointment creation time
  * PATTERN: Fetch appointment, load versions, return JSON
+ * IDOR: Same ownership middleware as GET /:id (user can only read own org's appointments when auth is implemented).
  */
-router.get('/:id/versions', async (req: Request, res: Response): Promise<void> => {
+router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Request, res: Response): Promise<void> => {
   try {
     const appointment = await Appointment.findByPk(req.params.id)
     

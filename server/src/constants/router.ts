@@ -6,13 +6,11 @@
  * PATTERN: Const objects and strings for shared values
  */
 
-/**
- * Unknown error fallback message
- * LEARNING: Fallback message when error type cannot be determined
- * WHY: Consistent error message format when error details are unavailable
- * PATTERN: Const string for unknown errors
- */
-export const UNKNOWN_ERROR_MESSAGE = 'Unknown error'
+/** Unknown error fallback (re-export from shared). */
+export { UNKNOWN_ERROR_MESSAGE } from '../../../shared/constants/errorMessages.js'
+
+import { ERROR_MESSAGES as ENTITY_ERROR_MESSAGES } from '../routes/internal/entities/entityConstants.js'
+import { ERROR_MESSAGES as USER_ERROR_MESSAGES } from '../routes/internal/users/userConstants.js'
 
 /**
  * HTTP status codes
@@ -40,18 +38,18 @@ export const HTTP_STATUS_CODES = {
  */
 export const ERROR_MESSAGE_TEMPLATES = {
   FETCH_FAILED: 'Failed to fetch {displayName}',
-  FETCH_ALL_FAILED: 'Failed to fetch {displayName}s',
+  FETCH_ALL_FAILED: ENTITY_ERROR_MESSAGES.FETCH_ENTITIES,
   CREATE_FAILED: 'Failed to create {displayName}',
   UPDATE_FAILED: 'Failed to update {displayName}',
   DELETE_FAILED: 'Failed to delete {displayName}',
-  NOT_FOUND: '{displayName} not found',
-  VALIDATION_FAILED: 'Validation failed for {displayName}',
+  NOT_FOUND: ENTITY_ERROR_MESSAGES.ENTITY_NOT_FOUND,
+  VALIDATION_FAILED: ENTITY_ERROR_MESSAGES.VALIDATION_FAILED,
 } as const
 
 /**
  * Simple validation error message (no placeholder)
  * LEARNING: Used by error handlers for Sequelize validation errors
  * WHY: Consistent validation error message across all routers
- * PATTERN: Const string for validation errors
+ * PATTERN: Re-export from user constants
  */
-export const VALIDATION_FAILED_MESSAGE = 'Validation failed'
+export const VALIDATION_FAILED_MESSAGE = USER_ERROR_MESSAGES.VALIDATION_FAILED

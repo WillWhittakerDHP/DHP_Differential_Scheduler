@@ -7,6 +7,7 @@
  */
 
 import type { Ref } from 'vue'
+import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus, AttendeeRequest } from '@/types/appointment'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
@@ -20,7 +21,7 @@ import type { PropertyDetailsData } from '@/types/propertyForm'
  */
 interface AttendeeCollectionItem {
   userId: string;
-  role: 'client' | 'agent' | 'transaction_manager' | 'seller';
+  role: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller';
   shouldReceiveInvitation: boolean;
 }
 
@@ -137,7 +138,8 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       }
 
       const createdProperty = await createProperty.mutateAsync(propertyData)
-      const propertyVersionId = createdProperty.propertyVersionId || createdProperty.id // Use propertyVersionId, fallback to id for compatibility
+      const rawVersionId = createdProperty.propertyVersionId
+      const propertyVersionId = rawVersionId !== undefined && rawVersionId !== null ? rawVersionId : createdProperty.id
 
       const contacts = contactsStepData.value
       
@@ -152,12 +154,12 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         lastName: contacts.clientInfo.lastName,
         email: contacts.clientInfo.email,
         phone: null,
-        userRole: 'client'
+        userRole: USER_ROLE_CLIENT
       }
       const createdClient = await createUser.mutateAsync(clientUserData)
       attendeesCollection.push({
         userId: createdClient.id,
-        role: 'client',
+        role: USER_ROLE_CLIENT,
         shouldReceiveInvitation: true
       })
 
@@ -167,12 +169,12 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         lastName: contacts.agentInfo.lastName,
         email: contacts.agentInfo.email,
         phone: null,
-        userRole: 'agent'
+        userRole: USER_ROLE_AGENT
       }
       const createdAgent = await createUser.mutateAsync(agentUserData)
       attendeesCollection.push({
         userId: createdAgent.id,
-        role: 'agent',
+        role: USER_ROLE_AGENT,
         shouldReceiveInvitation: true
       })
 
@@ -183,12 +185,12 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           lastName: contacts.anotherClientInfo.lastName,
           email: contacts.anotherClientInfo.email,
           phone: null,
-          userRole: 'client'
+          userRole: USER_ROLE_CLIENT
         }
         const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
         attendeesCollection.push({
           userId: createdAnotherClient.id,
-          role: 'client',
+          role: USER_ROLE_CLIENT,
           shouldReceiveInvitation: true
         })
       }

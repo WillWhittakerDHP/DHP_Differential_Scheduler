@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-02-11T04:10:07.070Z",
+  "baselineTimestamp": "2026-02-10T23:28:43.713Z",
+  "breakingChanges": [],
+  "nonBreaking": [],
+  "summary": {
+    "breaking": 0,
+    "nonBreaking": 0,
+    "unchanged": 47
+  },
+  "exceptionSummary": {
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
+    "bySource": {
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0
+    }
+  },
+  "files": []
+}

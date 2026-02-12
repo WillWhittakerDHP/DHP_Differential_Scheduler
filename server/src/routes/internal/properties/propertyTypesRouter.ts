@@ -9,7 +9,8 @@
 import { Router, Request, Response } from 'express'
 import { Op } from 'sequelize'
 import { PropertyVersion, PropertyVersionType, BlockInstance, BlockShape } from '../../../config/app.js'
-import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS } from './propertyConstants.js'
+import { FIELD_NAMES } from '../entities/entityConstants.js'
+import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS, BLOCK_SHAPE_NAMES } from './propertyConstants.js'
 import { handleRouteError } from './propertyErrorHandler.js'
 import { validateRequiredField, validateBlockShape, validateBlockInstancesForPropertyTypes } from './propertyValidators.js'
 import { getBlockInstanceWithShape, buildPropertyTypeResponse, createPropertyTypesBulk, getPropertyTypesWithAssociations } from './propertyHelpers.js'
@@ -36,7 +37,7 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
       include: [
         { model: BlockInstance, as: 'blockInstance' },
       ],
-      order: [['orderIndex', 'ASC']],
+      order: [[FIELD_NAMES.ORDER_INDEX, 'ASC']],
     })
     
     sendSuccess(res, propertyTypes)
@@ -50,12 +51,12 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
  * Add a property type to a property version
  * 
  * Request body:
- * - blockInstanceId: UUID of the block_instance (must be "Properties" block_shape)
+ * - blockInstanceId: UUID of the block_instance (must be BLOCK_SHAPE_NAMES.PROPERTIES block_shape)
  * - orderIndex (optional): Order position
- * 
+ *
  * LEARNING: Application-level validation complements database trigger
  * WHY: Better error messages and prevents bad data from being attempted
- * PATTERN: Validate block_shape is "Properties" before attempting insert
+ * PATTERN: Validate block_shape is BLOCK_SHAPE_NAMES.PROPERTIES before attempting insert
  */
 router.post(
   '/:id/types',
@@ -214,7 +215,7 @@ router.put(
       return
     }
     
-    // Validate all blockInstanceIds have "Properties" block_shape
+    // Validate all blockInstanceIds have BLOCK_SHAPE_NAMES.PROPERTIES block_shape
     if (blockInstanceIds.length > 0) {
       const blockInstances = await BlockInstance.findAll({
         where: { id: { [Op.in]: blockInstanceIds } },

@@ -9,6 +9,7 @@
 import { Request, Response } from 'express'
 import { BusinessRule } from '../../config/app.js'
 import { createCrudRouter } from '../helpers/createCrudRouter.js'
+import { FIELD_NAMES, SORT_ORDERS } from './entities/entityConstants.js'
 import { ERROR_MESSAGES } from './businessRulesConstants.js'
 import { handleRouteError } from './businessRulesErrorHandler.js'
 import { validateRequiredFields, validateRuleType } from './businessRulesValidators.js'
@@ -27,7 +28,7 @@ const router = createCrudRouter({
     UPDATE: ERROR_MESSAGES.UPDATE_BUSINESS_RULE,
     DELETE: ERROR_MESSAGES.DELETE_BUSINESS_RULE,
   },
-  defaultOrder: [['createdAt', 'DESC']],
+  defaultOrder: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   customGetAllHandler: async (req: Request, res: Response): Promise<void> => {
     try {
       const { blockInstanceId, ruleType, active } = req.query
@@ -39,7 +40,7 @@ const router = createCrudRouter({
       
       const businessRules = await BusinessRule.findAll({
         where,
-        order: [['createdAt', 'DESC']],
+        order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
       })
       
       sendSuccess(res, businessRules)
@@ -100,7 +101,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     
     const businessRules = await BusinessRule.findAll({
       where,
-      order: [['createdAt', 'DESC']],
+      order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
     })
     
     res.json(businessRules)

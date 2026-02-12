@@ -45,3 +45,17 @@ export const OAUTH_ERROR_MESSAGES = {
 export const OAUTH_SUCCESS_MESSAGES = {
   TOKENS_SAVED: 'Authentication successful - tokens saved for future sessions',
 } as const
+
+/**
+ * Node environment (mirror of process.env.NODE_ENV values)
+ */
+export const NODE_ENV = {
+  DEVELOPMENT: 'development',
+  TEST: 'test',
+  PRODUCTION: 'production',
+} as const
+
+/**
+ * Setting key for availability configuration (shared by appointments and business settings)
+ */
+export const AVAILABILITY_SETTINGS_KEY = 'availability_settings' as const

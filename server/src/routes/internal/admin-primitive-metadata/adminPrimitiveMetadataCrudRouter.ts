@@ -9,7 +9,9 @@
 import { Router, Request, Response } from 'express'
 import { AdminPrimitiveMetadata } from '../../../db/models/admin/adminPrimitiveMetadata.js'
 import { getAdminPrimitiveMetadata } from '../../../utils/adminPrimitiveMetadataComposer.js'
-import { ERROR_MESSAGES } from './adminPrimitiveMetadataConstants.js'
+import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminPrimitiveMetadataConstants.js'
+
+type PrimitiveEntityType = (typeof VALID_ENTITY_TYPES)[number]
 import { handleRouteError } from './adminPrimitiveMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminPrimitiveMetadataValidators.js'
 import { computeRenderAs, transformMetadataToRecord } from './adminPrimitiveMetadataHelpers.js'
@@ -38,7 +40,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
     }
 
     const metadata = await getAdminPrimitiveMetadata(
-      entityType as 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
+      entityType as PrimitiveEntityType,
       entityId
     )
 
@@ -119,7 +121,7 @@ router.post(
 
     const existing = await AdminPrimitiveMetadata.findOne({
       where: {
-        entityType: entityType as any,
+        entityType: entityType as PrimitiveEntityType,
         entityId: entityId,
         fieldKey: fieldKey,
       },
@@ -143,7 +145,7 @@ router.post(
       sendSuccess(res, existing)
     } else {
       const metadata = await AdminPrimitiveMetadata.create({
-        entityType: entityType as any,
+        entityType: entityType as PrimitiveEntityType,
         entityId: entityId,
         fieldKey,
         dataType,
@@ -191,7 +193,7 @@ router.delete(
 
     const metadata = await AdminPrimitiveMetadata.findOne({
       where: {
-        entityType: entityType as any,
+        entityType: entityType as PrimitiveEntityType,
         entityId: entityId,
         fieldKey: fieldKey,
       },

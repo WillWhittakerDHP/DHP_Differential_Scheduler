@@ -134,11 +134,11 @@ const driveTimeApplyToOptions = DRIVE_TIME_APPLY_TO_OPTIONS
               <VTextField
                 :model-value="buffersDriveToCandidateMinutes"
                 @update:model-value="(v: number | string) => emit('update:buffersDriveToCandidateMinutes', Number(v))"
-                :label="defaultLocationPlaceId ? UI_STRINGS.driveTime.fallbackMinutesLabel : UI_STRINGS.driveTime.minutesLabel"
+                :label="defaultLocationPlaceId ? UI_STRINGS.driveTime.backupMinutesLabel : UI_STRINGS.driveTime.minutesLabel"
                 type="number"
                 min="0"
                 step="5"
-                :hint="defaultLocationPlaceId ? UI_STRINGS.driveTime.fallbackHint : UI_STRINGS.hints.driveToCandidateMinutes"
+                :hint="defaultLocationPlaceId ? UI_STRINGS.driveTime.backupHint : UI_STRINGS.hints.driveToCandidateMinutes"
                 persistent-hint
                 :rules="[
                   (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,
@@ -213,11 +213,11 @@ const driveTimeApplyToOptions = DRIVE_TIME_APPLY_TO_OPTIONS
               <VTextField
                 :model-value="buffersDriveFromCandidateMinutes"
                 @update:model-value="(v: number | string) => emit('update:buffersDriveFromCandidateMinutes', Number(v))"
-                :label="defaultLocationPlaceId ? UI_STRINGS.driveTime.fallbackMinutesLabel : UI_STRINGS.driveTime.minutesLabel"
+                :label="defaultLocationPlaceId ? UI_STRINGS.driveTime.backupMinutesLabel : UI_STRINGS.driveTime.minutesLabel"
                 type="number"
                 min="0"
                 step="5"
-                :hint="defaultLocationPlaceId ? UI_STRINGS.driveTime.fallbackHint : UI_STRINGS.hints.driveFromCandidateMinutes"
+                :hint="defaultLocationPlaceId ? UI_STRINGS.driveTime.backupHint : UI_STRINGS.hints.driveFromCandidateMinutes"
                 persistent-hint
                 :rules="[
                   (v: number) => v >= 0 || UI_STRINGS.validation.bufferTimeMin,

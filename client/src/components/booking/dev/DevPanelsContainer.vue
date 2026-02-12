@@ -127,7 +127,7 @@ const servicesSummary = computed<ServiceSummary[]>(() => {
     differential: block.differential,
     bookingMode: block.bookingMode,
     baseSqFt: block.baseSqFt,
-    partCount: block.partInstances?.length || 0
+    partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0
   }))
 })
 
@@ -314,7 +314,8 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.eventAssignmentsByPartShape) return false
   
-  const events = shape.eventAssignmentsByPartShape[partShapeName] || []
+  const rawEvents = shape.eventAssignmentsByPartShape[partShapeName]
+  const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
   if (events.length === 0) return false
   
   const allEventShapes = getGlobalEntities('eventShape') as EventShape[]

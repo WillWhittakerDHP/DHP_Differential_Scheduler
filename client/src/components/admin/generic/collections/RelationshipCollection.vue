@@ -113,8 +113,9 @@
  * PATTERN: Generic rendering of EntityCard component, exposes bulk edit state to parent (when applicable)
  */
 
-import { computed } from 'vue'
-import EntityCard from '../EntityCard.vue'
+import { computed, defineAsyncComponent } from 'vue'
+
+const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
@@ -241,8 +242,8 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   
   try {
     const relationship = relationships.value?.find(
-      rel => String(rel.parent_id) === effectiveParentEntity.value!.id && 
-             String(rel.child_id) === entity.id
+      rel => String(rel.parentId) === effectiveParentEntity.value!.id &&
+             String(rel.childId) === entity.id
     )
     
     if (relationship) {

@@ -121,7 +121,8 @@ export function useEntityStatus(
     if (!composerId) return null
     
     const composer = adminComp.getEntity('blockInstance', composerId)
-    return composer?.name || `BlockInstance ${composerId.slice(0, 8)}`
+    const name = composer?.name
+    return name !== undefined && name !== null && name !== '' ? name : `BlockInstance ${composerId.slice(0, 8)}`
   })
 
   return {

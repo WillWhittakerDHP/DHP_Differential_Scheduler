@@ -22,7 +22,7 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
-      @keydown.enter="handleEnterKey"
+      @keydown="handleKeydown"
     />
   </BaseInput>
 </template>
@@ -77,11 +77,12 @@ const handleChange = (value: string | number) => {
   fieldContext.setValue(isNaN(numValue) ? 0 : numValue)
 }
 
-// FIX: Use shared field input handlers from composable
-const { handleFocus, handleBlur, handleEnterKey } = useFieldInputHandlers({
+// FIX: Use shared field input handlers from composable (includes keyboard guard)
+const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   fieldContext,
   disableAutoSave,
-  entityCardSaveContext
+  entityCardSaveContext,
+  fieldType: 'number'
 })
 </script>
 

@@ -9,9 +9,9 @@ Scope:
 
 ## Summary
 
-- Total errors: **10**
+- Total errors: **0**
 - Total warnings: **0**
-- Files with issues: **7**
+- Files with issues: **0**
 
 ## Categories
 
@@ -20,69 +20,10 @@ Scope:
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
 | Exposed Secrets | P2 | 0 | 0 | 0 |
 | Security Configuration | P2 | 0 | 0 | 0 |
-| CSRF Protection | P0 | 108 | 9 | 0 |
+| CSRF Protection | P2 | 0 | 0 | 0 |
 | Authentication Patterns | P2 | 0 | 0 | 0 |
-| IDOR Vulnerabilities | P1 | 12 | 1 | 0 |
+| IDOR Vulnerabilities | P2 | 0 | 0 | 0 |
 
 ## Issues by File (sorted by priority)
 
 Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2** = low priority (best practices)
-
-### `server/src/routes/internal/appointments/appointmentCrudRouter.ts` [P0] (score: 40)
-
-- ❌ **Missing CSRF protection on PATCH route** (line 162)
-  - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on PATCH route** (line 162)
-  - Route: /:id (PATCH)
-- ❌ **ID parameters detected without authorization checks** (line 1)
-- ❌ **ID parameters detected without authorization checks** (line 1)
-
-### `server/src/routes/internal/entities/entityBulkRouter.ts` [P0] (score: 40)
-
-- ❌ **Missing CSRF protection on PATCH route** (line 35)
-  - Route: /:entityType/order_index (PATCH)
-- ❌ **Missing CSRF protection on PATCH route** (line 66)
-  - Route: /:entityType/bulk (PATCH)
-- ❌ **Missing CSRF protection on PATCH route** (line 35)
-  - Route: /:entityType/order_index (PATCH)
-- ❌ **Missing CSRF protection on PATCH route** (line 66)
-  - Route: /:entityType/bulk (PATCH)
-
-### `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts` [P0] (score: 40)
-
-- ❌ **Missing CSRF protection on PATCH route** (line 29)
-  - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 69)
-  - Route: /:id (DELETE)
-- ❌ **Missing CSRF protection on PATCH route** (line 29)
-  - Route: /:id (PATCH)
-- ❌ **Missing CSRF protection on DELETE route** (line 69)
-  - Route: /:id (DELETE)
-
-### `server/src/api/api.routes.ts` [P0] (score: 20)
-
-- ❌ **Missing CSRF protection on POST route** (line 10)
-  - Route: /post (POST)
-- ❌ **Missing CSRF protection on POST route** (line 10)
-  - Route: /post (POST)
-
-### `server/src/routes/external/mapsDebugRoutes.ts` [P0] (score: 20)
-
-- ❌ **Missing CSRF protection on POST route** (line 73)
-  - Route: /clear-drive-time-cache (POST)
-- ❌ **Missing CSRF protection on POST route** (line 73)
-  - Route: /clear-drive-time-cache (POST)
-
-### `server/src/routes/internal/availabilityRouter.ts` [P0] (score: 20)
-
-- ❌ **Missing CSRF protection on POST route** (line 27)
-  - Route: /computed-data (POST)
-- ❌ **Missing CSRF protection on POST route** (line 27)
-  - Route: /computed-data (POST)
-
-### `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` [P0] (score: 20)
-
-- ❌ **Missing CSRF protection on PATCH route** (line 29)
-  - Route: /:blockInstanceId/:annotationId (PATCH)
-- ❌ **Missing CSRF protection on PATCH route** (line 29)
-  - Route: /:blockInstanceId/:annotationId (PATCH)

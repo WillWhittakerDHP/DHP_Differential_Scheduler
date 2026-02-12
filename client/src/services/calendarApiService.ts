@@ -9,6 +9,7 @@
  */
 
 import axios, { AxiosError } from 'axios'
+import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
 import type {
@@ -104,16 +105,15 @@ function handleApiError(error: unknown): CalendarApiError {
     }
     
     // Default to invalid response for other errors
-    return new CalendarApiError(
-      'invalid_response',
-      axiosError.response?.data?.error || 'Invalid response from server'
-    )
+    const rawMessage = axiosError.response?.data?.error
+    const message = rawMessage !== undefined && rawMessage !== null && rawMessage !== '' ? rawMessage : 'Invalid response from server'
+    return new CalendarApiError('invalid_response', message)
   }
   
   // Unknown error type
   return new CalendarApiError(
     'unknown',
-    error instanceof Error ? error.message : 'Unknown error'
+    error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
   )
 }
 

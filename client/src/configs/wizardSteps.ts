@@ -1,12 +1,14 @@
 /**
  * Wizard Step Configuration
- * 
+ *
  * LEARNING: Centralized step configuration for booking wizard
  * WHY: Extracts hardcoded step config from component to reusable config file
  * PATTERN: Array of step objects with metadata (icon, title, subtitle)
- * 
+ *
  * Component-Composable Alignment: Extracted from BookingWizard.vue
  */
+
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
 /**
  * Wizard Step Configuration Interface
@@ -37,7 +39,7 @@ export const WIZARD_STEPS: WizardStepConfig[] = [
   },
   {
     icon: 'tabler-home',
-    title: 'Property Details',
+    title: APPOINTMENTS_TABLE_UI.PROPERTY_TOOLTIP_TITLE,
     subtitle: 'Provide property info',
   },
   {

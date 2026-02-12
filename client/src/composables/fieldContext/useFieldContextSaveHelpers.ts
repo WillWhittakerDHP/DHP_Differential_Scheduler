@@ -15,6 +15,7 @@ import type { GlobalEntityId } from '@/types/entities'
 import type { CreateRelationshipPayload } from '@/types/relationships'
 import { getRelationshipByParentChildEndpoint, getRelationshipEndpoint } from '@/utils/api'
 import apiClient from '@/utils/api'
+import { normalizePrimitiveForSave } from '@/utils/transformers/transformerPrimitives'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { UseFieldContextStateReturn } from './useFieldContextState'
 import { createLogger } from '@/utils/logger'
@@ -43,9 +44,9 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)
   const newComponentIds = Array.isArray(plainValue)
-    ? new Set(plainValue.map((v: unknown) => String(v)))
+    ? new Set(plainValue.map((v: unknown) => String(v).trim()).filter((s) => s !== ''))
     : plainValue
-      ? new Set([String(plainValue)])
+      ? new Set([String(plainValue).trim()].filter((s) => s !== ''))
       : new Set<string>()
 
   const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))
@@ -104,9 +105,9 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)
   const newValues = Array.isArray(plainValue)
-    ? plainValue.map((v: unknown) => String(v))
+    ? plainValue.map((v: unknown) => String(v).trim()).filter((s) => s !== '')
     : plainValue
-      ? [String(plainValue)]
+      ? [String(plainValue).trim()].filter((s) => s !== '')
       : []
 
   const parentId = String(state.entityId)
@@ -116,8 +117,8 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   const promises: Promise<void>[] = [
     ...toAdd.map((childId) => {
       const payload: CreateRelationshipPayload = {
-        parent_id: parentId as GlobalEntityId,
-        child_id: childId as GlobalEntityId,
+        parentId: parentId as GlobalEntityId,
+        childId: childId as GlobalEntityId,
       }
       return apiClient.post(relationshipEndpoint, payload).then(() => void 0)
     }),
@@ -174,11 +175,12 @@ export async function saveRegularField<GE extends GlobalEntityKey, FieldKey exte
 
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)
+  const valueToSend = normalizePrimitiveForSave(plainValue)
 
   const patchPayload = {
     admin: {
       key: String(state.fieldKey),
-      value: plainValue as ValidAdminValue,
+      value: valueToSend as ValidAdminValue,
     },
     dynamicId: String(state.entityId),
   }

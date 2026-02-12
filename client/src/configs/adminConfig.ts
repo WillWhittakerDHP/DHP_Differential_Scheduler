@@ -8,6 +8,7 @@ PATTERN: Uses dynamic builders to merge primitive + selectable configs
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { SubPanelKey } from '@/constants/fieldMetadata'
 import type { FormFieldConfigMap } from '../types/entity/formFields'
 import type { DisplayFieldConfigMap } from './field/display/fullFieldDisplayConfig'
 import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './field/display/fullFieldDisplayConfig'
@@ -19,7 +20,7 @@ import { buildDisplayFieldConfig as buildDynamicDisplayFieldConfig } from './fie
  * NOTE: These types are used internally in FieldMetadata interface - not exported as they're not used outside this file
  */
 type FieldVisibility = 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
-type SubPanelType = 'parts' | 'relationships' | 'annotations' | 'events' | 'none'
+type SubPanelType = 'none' | SubPanelKey
 type FieldLayout = 'inline' | 'stacked'
 type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
 

@@ -2,18 +2,52 @@
  * LEARNING: Wizard Appointment Management
  * WHY: Encapsulates appointment loading, updating, and wizard reset logic
  * PATTERN: Composable for managing appointment operations and wizard state
- * 
+ *
  * Used by:
  * - BookingWizard.vue
  */
 
 import { ref, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { createLogger } from '@/utils/logger'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import type { UseBookingWizardReturn, WizardStepDataAndValidationRefs } from '@/types/wizard'
 import type { AppointmentRequest } from '@/types/appointment'
+import { APPOINTMENT_NOT_FOUND, ERROR_UPDATE_APPOINTMENT } from '@/constants/errorMessages'
+
+const logger = createLogger('useWizardAppointmentManagement')
+
+/**
+ * Apply transformed wizard state to wizard refs and step data refs in one place.
+ * WHY: Groups all state assignments so failure handling can be consistent.
+ */
+function applyWizardState(
+  wizard: UseBookingWizardReturn,
+  wizardState: WizardStateData,
+  stepDataRefs: {
+    propertyDetailsStepData: Ref<WizardStateData['propertyDetails'] | null>
+    contactsStepData: Ref<unknown>
+  }
+): void {
+  wizard.selectUserTypeBlock(wizardState.userTypeBlock)
+  wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
+  wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
+  wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
+  wizard.isQuoteMode.value = wizardState.isQuoteMode
+  stepDataRefs.propertyDetailsStepData.value = wizardState.propertyDetails
+  stepDataRefs.contactsStepData.value = {
+    clientInfo: wizardState.contacts.client,
+    agentInfo: wizardState.contacts.agent,
+    anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') ?? { firstName: '', lastName: '', email: '' },
+    transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') ?? { firstName: '', lastName: '', email: '' },
+    sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') ?? { firstName: '', lastName: '', email: '' },
+    showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
+    showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
+    showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
+  }
+}
 
 export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
   wizard: UseBookingWizardReturn
@@ -100,12 +134,13 @@ export function useWizardAppointmentManagement(
         try {
           appointment = await loadAppointmentById(appointmentIdOrRandom)
           if (!appointment) {
-            showError('Appointment not found')
+            showError(APPOINTMENT_NOT_FOUND)
             return
           }
           selectedAppointmentId.value = appointment.id
         } catch (error) {
-          showError('Appointment not found')
+          const message = error instanceof Error ? error.message : APPOINTMENT_NOT_FOUND
+          showError(message)
           return
         }
       }
@@ -116,28 +151,17 @@ export function useWizardAppointmentManagement(
       }
       
       const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
-      
-      wizard.selectUserTypeBlock(wizardState.userTypeBlock, true)
-      wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
-      wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
-      wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-      wizard.isQuoteMode.value = wizardState.isQuoteMode
-      
+
+      wizard.batchUpdate(() => {
+        applyWizardState(wizard, wizardState, {
+          propertyDetailsStepData,
+          contactsStepData
+        })
+      })
+
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
-      
-      propertyDetailsStepData.value = wizardState.propertyDetails
-      contactsStepData.value = {
-        clientInfo: wizardState.contacts.client,
-        agentInfo: wizardState.contacts.agent,
-        anotherClientInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'anotherClient') || { firstName: '', lastName: '', email: '' },
-        transactionManagerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'transactionManager') || { firstName: '', lastName: '', email: '' },
-        sellerInfo: wizardState.contacts.additionalContacts.find(c => c.role === 'seller') || { firstName: '', lastName: '', email: '' },
-        showAnotherClient: wizardState.contacts.additionalContacts.some(c => c.role === 'anotherClient'),
-        showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
-        showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
-      }
-      
+
       // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
       // PATTERN: Mark intermediate steps as completed and navigate directly to target step
       completedSteps.value.add(1) // Property Details (step 2)
@@ -177,8 +201,8 @@ export function useWizardAppointmentManagement(
       
       success('Appointment updated successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to update appointment'
-      console.error('[Wizard] Update appointment error:', error)
+      const errorMessage = error instanceof Error ? error.message : ERROR_UPDATE_APPOINTMENT
+      logger.error('Update appointment error', error)
       showError(errorMessage)
     }
   }
@@ -189,7 +213,7 @@ export function useWizardAppointmentManagement(
    * PATTERN: Clear all wizard refs and reset loaded state
    */
   const handleResetWizard = (): void => {
-    wizard.selectUserTypeBlock(null, true)
+    wizard.selectUserTypeBlock(null)
     wizard.selectedServiceTypeBlocks.value = []
     wizard.selectedPropertyTypeBlocks.value = []
     wizard.selectedOptionTypeBlocks.value = []

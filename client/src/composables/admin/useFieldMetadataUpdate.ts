@@ -19,7 +19,8 @@ export function useFieldMetadataUpdate(
   field: string
 ) {
   const updateFieldMetadata = (updates: Partial<FieldMetadataEntry>): void => {
-    const currentMetadata = fieldVisibilityConfig.value.fieldMetadata || {}
+    const raw = fieldVisibilityConfig.value.fieldMetadata
+    const currentMetadata = raw !== undefined && raw !== null ? raw : {}
     const existingEntry = currentMetadata[field]
     
     // PATTERN: If field doesn't exist, only use the provided updates (no defaults)

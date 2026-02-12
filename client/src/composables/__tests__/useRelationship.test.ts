@@ -66,8 +66,8 @@ describe('useRelationshipCrud', () => {
       
       expect(rel).toHaveProperty('id')
       expect(rel).toHaveProperty('kind')
-      expect(rel).toHaveProperty('parent_id')
-      expect(rel).toHaveProperty('child_id')
+      expect(rel).toHaveProperty('parentId')
+      expect(rel).toHaveProperty('childId')
       expect(rel.kind).toBe('partAssignments')
     })
 
@@ -242,8 +242,8 @@ describe('useRelationshipCrud', () => {
       const { relationships } = useRelationshipCrud('partAssignments')
       
       relationships.value.forEach(rel => {
-        expect(rel.parent_kind).toBeDefined()
-        expect(rel.child_kind).toBeDefined()
+        expect(rel.parentKind).toBeDefined()
+        expect(rel.childKind).toBeDefined()
       })
     })
   })

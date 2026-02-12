@@ -35,11 +35,10 @@ export class EventAssignment extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parent_kind: CreationOptional<string>;
-  declare child_kind: CreationOptional<string>;
-  declare parent_id: ForeignKey<string>;
   declare parentKind: 'partInstance' | 'blockInstance';
-  declare child_id: ForeignKey<string>;
+  declare childKind: CreationOptional<string>;
+  declare parentId: ForeignKey<string>;
+  declare childId: ForeignKey<string>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -61,33 +60,26 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
           return "eventAssignments";
         }
       },
-      parent_kind: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return this.parentKind;
-        }
-      },
-      child_kind: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return "eventInstance";
-        }
-      },
-      parent_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        comment: 'Foreign key to parent instance (partInstance or blockInstance, determined by parent_kind)',
-      },
       parentKind: {
         type: DataTypes.ENUM('partInstance', 'blockInstance'),
         allowNull: false,
         field: 'parent_kind',
         comment: 'Type of parent instance (partInstance or blockInstance)',
       },
-      child_id: {
+      childKind: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return 'eventInstance';
+        },
+      },
+      parentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: 'child_id',
+        comment: 'Foreign key to parent instance (partInstance or blockInstance, determined by parent_kind)',
+      },
+      childId: {
+        type: DataTypes.UUID,
+        allowNull: false,
         references: {
           model: 'event_instances',
           key: 'id',
@@ -116,16 +108,16 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
       tableName: 'event_assignments',
       indexes: [
         {
-          fields: ['parent_id'],
+          fields: ['parentId'],
           name: 'idx_event_assignments_parent_id',
         },
         {
-          fields: ['child_id'],
+          fields: ['childId'],
           name: 'idx_event_assignments_child_id',
         },
         {
           unique: true,
-          fields: ['parent_id', 'child_id'],
+          fields: ['parentId', 'childId'],
           name: 'unique_event_assignments_parent_child',
         },
       ],

@@ -72,6 +72,14 @@ function isExcluded(repoPath) {
   if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
     return true
   }
+  // Exclude types directory (public API types, re-exports, consumed indirectly)
+  if (repoPath.includes('/types/')) {
+    return true
+  }
+  // Exclude declaration files (type-only, no runtime exports)
+  if (repoPath.endsWith('.d.ts')) {
+    return true
+  }
   return false
 }
 

@@ -299,7 +299,7 @@ function compareFiles(a, b) {
 }
 
 function renderMarkdownReport(data) {
-  const { entityKeys, files, exceptionSummary } = data
+  const { entityKeys, files, exceptionSummary, canonicalConstantsFiles } = data
   const lines = []
   lines.push('# Hardcoding Audit (Generated)')
   lines.push('')
@@ -313,6 +313,21 @@ function renderMarkdownReport(data) {
   lines.push('- Inline: `// @audit-allow:hardcoding:<ruleId> - <reason>`')
   lines.push('- Config: `.audit/hardcoding-audit-config.json`')
   lines.push('')
+  if (canonicalConstantsFiles && canonicalConstantsFiles.length > 0) {
+    lines.push('## Guidance: when extracting literals')
+    lines.push('')
+    lines.push('When extracting literals to constants, prefer these constant files (from constants-consolidation audit):')
+    lines.push('')
+    const maxShow = 40
+    const toShow = canonicalConstantsFiles.slice(0, maxShow)
+    for (const repoPath of toShow) {
+      lines.push(`- \`${repoPath}\``)
+    }
+    if (canonicalConstantsFiles.length > maxShow) {
+      lines.push(`- … and ${canonicalConstantsFiles.length - maxShow} more (see constants-consolidation-audit.json)`)
+    }
+    lines.push('')
+  }
   lines.push('## Summary')
   lines.push('')
   lines.push(`- Entity keys detected (from \`client/src/constants/entities.ts\`): ${entityKeys.length ? entityKeys.map(k => `\`${k}\``).join(', ') : '(none detected)'}`)
@@ -396,6 +411,21 @@ function renderMarkdownReport(data) {
 function main() {
   ensureDir(OUT_DIR)
 
+  // Optional: load constants-consolidation audit for canonical constant file guidance
+  const constantsConsolidationPath = path.join(OUT_DIR, 'constants-consolidation-audit.json')
+  /** @type {string[] | undefined} */
+  let canonicalConstantsFiles
+  try {
+    if (fs.existsSync(constantsConsolidationPath)) {
+      const data = JSON.parse(fs.readFileSync(constantsConsolidationPath, 'utf8'))
+      if (Array.isArray(data.constantsFiles) && data.constantsFiles.length > 0) {
+        canonicalConstantsFiles = data.constantsFiles
+      }
+    }
+  } catch (_e) {
+    // Missing or invalid: skip
+  }
+
   const entityKeys = extractEntityKeysBestEffort()
   const entityKeyRe = makeEntityKeyRegex(entityKeys)
   
@@ -473,6 +503,7 @@ function main() {
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     exceptionSummary,
     entityKeys,
+    ...(canonicalConstantsFiles ? { canonicalConstantsFiles } : {}),
     files: filesWithFindings,
   }
 

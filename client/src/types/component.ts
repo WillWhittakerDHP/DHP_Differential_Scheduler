@@ -18,9 +18,9 @@ export interface ComponentConfig {
 
 export interface FetchedInstanceComponent {
   id: string;
-  parent_id: string;
-  child_id: string;
-  order_index: number;
+  parentId: string;
+  childId: string;
+  orderIndex: number;
   disabled: boolean;
   createdAt: string;
   updatedAt: string;

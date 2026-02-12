@@ -62,7 +62,8 @@ export function useCascadeInstances(
     const parent = parentInstance.value
     if (!parent) return []
     
-    return parent.activeBlockIds || []
+    const raw = parent.activeBlockIds
+    return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
   })
   
   /**

@@ -1,7 +1,10 @@
+/**
+ * Tests for annotationTransformers: transformApiAnnotation, filterAnnotationsByUserTypeBlock,
+ * sortAnnotationsByOrderIndex, getDefaultAnnotation. transformApiAnnotationShape is not exported.
+ */
 
 import { describe, it, expect } from 'vitest'
 import {
-  transformApiAnnotationShape,
   transformApiAnnotation,
   filterAnnotationsByUserTypeBlock,
   sortAnnotationsByOrderIndex,
@@ -9,41 +12,6 @@ import {
 } from '../annotationTransformers'
 
 describe('annotationTransformers', () => {
-  describe('transformApiAnnotationShape', () => {
-    it('should transform API annotation shape to frontend format', () => {
-      const rawAnnotationShape = {
-        id: 'annot-shape-1',
-        name: 'Client Type',
-        description: 'Client type annotation',
-        disabled: false,
-      }
-      
-      const result = transformApiAnnotationShape(rawAnnotationShape)
-      
-      expect(result).toBeDefined()
-      expect(result?.id).toBe('annot-shape-1')
-      expect(result?.name).toBe('Client Type')
-    })
-    
-    it('should handle null input', () => {
-      const result = transformApiAnnotationShape(null)
-      
-      expect(result).toBeNull()
-    })
-    
-    it('should filter disabled annotation shapes', () => {
-      const rawAnnotationShape = {
-        id: 'annot-shape-1',
-        name: 'Client Type',
-        disabled: true,
-      }
-      
-      const result = transformApiAnnotationShape(rawAnnotationShape)
-      
-      expect(result).toBeNull()
-    })
-  })
-  
   describe('transformApiAnnotation', () => {
     it('should transform API annotation to base AnnotationInstance type', () => {
       const rawAnnotation = {

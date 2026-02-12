@@ -39,8 +39,10 @@ export function sortFieldsByDisplayOrder<GE extends GlobalEntityKey>(
   return [...fields].sort((a, b) => {
     const metaA = metadata[String(a)]
     const metaB = metadata[String(b)]
-    const orderA = metaA?.displayOrder ?? 0
-    const orderB = metaB?.displayOrder ?? 0
+    const rawA = metaA?.displayOrder
+    const rawB = metaB?.displayOrder
+    const orderA = rawA !== undefined && rawA !== null ? rawA : 0
+    const orderB = rawB !== undefined && rawB !== null ? rawB : 0
     
     // PATTERN: Compare displayOrder values
     if (orderA !== orderB) {

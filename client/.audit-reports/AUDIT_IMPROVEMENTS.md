@@ -4,7 +4,7 @@ This document outlines suggestions to reduce false positives in audit reports wi
 
 ## Overview
 
-The audits are flagging legitimate patterns that should be excluded at the configuration level rather than requiring inline exceptions. This document provides specific recommendations for each audit type.
+The audits are flagging legitimate patterns that should be excluded at the configuration level rather than requiring inline exceptions. This document provides specific recommendations for each audit type. The **hardcoding**, **constants-consolidation**, and **naming-convention** audits are grouped as the "Naming & constants" pipeline; see [AUDIT_EXECUTION_ORDER.md](AUDIT_EXECUTION_ORDER.md) for run order and rationale.
 
 ## 1. Hardcoding Audit Improvements
 

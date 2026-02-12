@@ -9,6 +9,7 @@ import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
@@ -17,12 +18,7 @@ import type { ComputedRef } from 'vue'
 interface FieldsByLocation {
   directInline: GlobalFieldKey<GlobalEntityKey>[]
   directStacked: GlobalFieldKey<GlobalEntityKey>[]
-  subPanels: {
-    parts: GlobalFieldKey<GlobalEntityKey>[]
-    relationships: GlobalFieldKey<GlobalEntityKey>[]
-    annotations: GlobalFieldKey<GlobalEntityKey>[]
-    events: GlobalFieldKey<GlobalEntityKey>[]
-  }
+  subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
 }
 
 interface Props {

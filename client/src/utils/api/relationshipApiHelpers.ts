@@ -8,7 +8,10 @@
 
 import type { AxiosError } from 'axios'
 import apiClient from '@/utils/api'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@/types/entities'
+
+const logger = createLogger('relationshipApiHelpers')
 
 export async function createRelationshipWithConflictHandling(
   endpoint: string,
@@ -20,16 +23,14 @@ export async function createRelationshipWithConflictHandling(
     return await apiClient.post(endpoint, {
       parent_id: parentId,
       child_id: childId,
-      order_index: orderIndex,
+      orderIndex: orderIndex,
     })
   } catch (error: unknown) {
-    // LEARNING: Handle 409 Conflict as success (idempotent operation)
-    // WHY: If relationship already exists, desired state is already achieved
-    // PATTERN: Treat duplicate creation as success
     const axiosError = error as AxiosError<{ error?: string; parent_id?: string; child_id?: string }>
     if (axiosError?.response?.status === 409) {
       return { data: { parent_id: parentId, child_id: childId } }
     }
+    logger.error('createRelationshipWithConflictHandling failed', { error, endpoint, parentId, childId })
     throw error
   }
 }

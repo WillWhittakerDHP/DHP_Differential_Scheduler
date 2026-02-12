@@ -6,18 +6,18 @@ Generated from `.audit-reports/pattern-detection-audit.json`.
 
 | Category | Count |
 | --- | ---: |
-| String literals (3+ occurrences) | 1 |
-| Type definitions | 545 |
-| Enum patterns | 4 |
-| Config locations | 37 |
-| Function patterns | 372 |
-| Common patterns | 30 |
+| String literals (3+ occurrences) | 0 |
+| Type definitions | 556 |
+| Enum patterns | 7 |
+| Config locations | 38 |
+| Function patterns | 382 |
+| Common patterns | 24 |
 
 ## Top String Literals (by occurrence count)
 
 | Value | Occurrences |
 | --- | ---: |
-| `OK` | 3 |
+| _No frequent string literals found_ | |
 
 ## Notes
 

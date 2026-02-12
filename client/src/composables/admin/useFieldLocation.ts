@@ -14,6 +14,7 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import {
   getFieldLocation,
@@ -47,12 +48,7 @@ export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
     titleRow: GlobalFieldKey<GE>[]
     directInline: GlobalFieldKey<GE>[]
     directStacked: GlobalFieldKey<GE>[]
-    subPanels: {
-      parts: GlobalFieldKey<GE>[]
-      relationships: GlobalFieldKey<GE>[]
-      annotations: GlobalFieldKey<GE>[]
-      events: GlobalFieldKey<GE>[]
-    }
+    subPanels: SubPanelRecord<GlobalFieldKey<GE>[]>
     hidden: GlobalFieldKey<GE>[]
   }>
   

@@ -15,7 +15,23 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('blockInstanceUtils')
 
+function getBlockShapes(bookingData: BookingData, context: string): BookingBlockShape[] {
+  const raw = bookingData.blockShapes
+  if (raw === undefined || raw === null) {
+    logger.debug(`${context}: blockShapes missing, using []`)
+    return []
+  }
+  return raw
+}
 
+function getBlockInstances(bookingData: BookingData, context: string): BookingBlockInstance[] {
+  const raw = bookingData.blockInstances
+  if (raw === undefined || raw === null) {
+    logger.debug(`${context}: blockInstances missing, using []`)
+    return []
+  }
+  return raw
+}
 
 export function findBlockInstanceByIdAndShapeId(
   bookingData: BookingData,
@@ -39,9 +55,8 @@ export function findBlockInstanceByIdAndShapeId(
 function getStateControlBlockShapes(
   bookingData: BookingData
 ): BookingBlockShape[] {
-  // WHY: Some transformers/tests intentionally pass "empty" booking data objects.
-  const blockShapes = bookingData.blockShapes ?? []
-  
+  const blockShapes = getBlockShapes(bookingData, 'getStateControlBlockShapes')
+
   const filtered = blockShapes.filter(
     blockShape => {
       if (!blockShape.type) {
@@ -64,8 +79,8 @@ export function getStateControlBlockInstances(
   const stateControlBlockShapes = getStateControlBlockShapes(bookingData)
   const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
 
-  const blockInstances = bookingData.blockInstances ?? []
-  
+  const blockInstances = getBlockInstances(bookingData, 'getStateControlBlockInstances')
+
   const filtered = blockInstances.filter(
     instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
   )
@@ -77,11 +92,10 @@ export function getBlockShapeIdByName(
   bookingData: BookingData,
   name: string
 ): string | null {
-  const blockShapes = bookingData.blockShapes ?? []
-  const blockShape = blockShapes.find(
-    bs => bs.name === name
-  )
-  return blockShape?.id ?? null
+  const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByName')
+  const blockShape = blockShapes.find((bs) => bs.name === name)
+  if (blockShape === undefined) return null
+  return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
 }
 
 
@@ -89,22 +103,34 @@ export function getBlockShapeIdByType(
   bookingData: BookingData,
   type: BlockShapeType
 ): string | null {
-  const blockShapes = bookingData.blockShapes ?? []
-  const blockShape = blockShapes.find(
-    bs => bs.type === type
-  )
-  return blockShape?.id ?? null
+  const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByType')
+  const blockShape = blockShapes.find((bs) => bs.type === type)
+  if (blockShape === undefined) return null
+  return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
 }
 
+
+function getGlobalEntitiesForKey<K extends 'blockShape' | 'blockInstance'>(
+  globalData: GlobalData,
+  entityKey: K,
+  context: string
+): GlobalEntity<K>[] {
+  const entities = globalData.entities?.[entityKey]
+  if (entities === undefined || entities === null) {
+    logger.debug(`${context}: entities.${entityKey} missing, using []`)
+    return []
+  }
+  return entities as GlobalEntity<K>[]
+}
 
 export function getStateControlBlockInstanceOptions(
   globalData: GlobalData
 ): Array<{ title: string; value: string | null }> {
-  const blockShapes = (globalData.entities.blockShape || []) as GlobalEntity<'blockShape'>[]
-  const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
-  
-  const blockInstances = (globalData.entities.blockInstance || []) as GlobalEntity<'blockInstance'>[]
+  const blockShapes = getGlobalEntitiesForKey(globalData, 'blockShape', 'getStateControlBlockInstanceOptions') as GlobalEntity<'blockShape'>[]
+  const stateControlBlockShapes = blockShapes.filter((bs) => bs.isStateControl === true)
+  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map((bs) => bs.id))
+
+  const blockInstances = getGlobalEntitiesForKey(globalData, 'blockInstance', 'getStateControlBlockInstanceOptions') as GlobalEntity<'blockInstance'>[]
   const stateControlBlockInstances = blockInstances.filter(
     instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
   )

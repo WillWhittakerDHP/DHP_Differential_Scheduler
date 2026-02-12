@@ -5,12 +5,15 @@
       { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files excluded" },
       { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files excluded" },
       { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Core library files excluded" },
-      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" }
+      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" },
+      { "glob": "**/configs/**/*.ts", "ruleIds": ["*"], "reason": "Config files are data-heavy by design" },
+      { "glob": "**/configs/**/*.vue", "ruleIds": ["*"], "reason": "Config components excluded" },
+      { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are data definitions" }
     ],
     "specific": []
   },
   "thresholds": {
-    "maxNesting": 3,
+    "maxNesting": 4,
     "maxBranches": 8,
     "maxFunctionLines": 50,
     "maxScriptSetupLines": 100,

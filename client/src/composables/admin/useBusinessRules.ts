@@ -11,8 +11,27 @@ import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import type { GlobalEntityId } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import {
+  BUSINESS_RULES_API_BASE,
+  BUSINESS_RULES_MESSAGES,
+} from '@/constants/businessRulesConstants.js'
 
 const logger = createLogger('useBusinessRules')
+
+/** Build query string from filters without mutating (audit: loop-mutation) */
+function buildBusinessRulesQueryString(filters?: {
+  blockInstanceId?: GlobalEntityId
+  ruleType?: RuleType
+  active?: boolean
+}): string {
+  if (!filters) return ''
+  const entries: [string, string][] = []
+  if (filters.blockInstanceId) entries.push(['blockInstanceId', filters.blockInstanceId])
+  if (filters.ruleType) entries.push(['ruleType', filters.ruleType])
+  if (filters.active !== undefined) entries.push(['active', String(filters.active)])
+  if (entries.length === 0) return ''
+  return new URLSearchParams(entries).toString()
+}
 
 /**
  * Rule Type Enumeration
@@ -140,21 +159,16 @@ export function useBusinessRules() {
   }): Promise<void> => {
     loading.value = true
     error.value = null
-    
+
     try {
-      const queryParams = new URLSearchParams()
-      if (filters?.blockInstanceId) queryParams.append('blockInstanceId', filters.blockInstanceId)
-      if (filters?.ruleType) queryParams.append('ruleType', filters.ruleType)
-      if (filters?.active !== undefined) queryParams.append('active', String(filters.active))
-      
-      const queryString = queryParams.toString()
-      const url = `/internal/business-rules${queryString ? `?${queryString}` : ''}`
-      
+      const queryString = buildBusinessRulesQueryString(filters)
+      const url = `${BUSINESS_RULES_API_BASE}${queryString ? `?${queryString}` : ''}`
+
       const response = await apiClient.get<BusinessRule[]>(url)
-      rules.value = response.data || []
+      rules.value = response.data ?? []
     } catch (err) {
       logger.error('Error fetching business rules', { error: err })
-      error.value = err instanceof Error ? err.message : 'Failed to load business rules'
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD
       rules.value = []
     } finally {
       loading.value = false
@@ -170,13 +184,13 @@ export function useBusinessRules() {
   const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {
     loading.value = true
     error.value = null
-    
+
     try {
-      const response = await apiClient.get<BusinessRule[]>(`/internal/business-rules/block/${blockInstanceId}`)
-      return response.data || []
+      const response = await apiClient.get<BusinessRule[]>(`${BUSINESS_RULES_API_BASE}/block/${blockInstanceId}`)
+      return response.data ?? []
     } catch (err) {
       logger.error('Error fetching business rules for block', { error: err, blockInstanceId })
-      error.value = err instanceof Error ? err.message : 'Failed to load business rules for block'
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD_FOR_BLOCK
       return []
     } finally {
       loading.value = false
@@ -193,20 +207,20 @@ export function useBusinessRules() {
     saving.value = true
     error.value = null
     success.value = null
-    
+
     try {
-      const response = await apiClient.post<BusinessRule>('/internal/business-rules', formData)
-      
+      const response = await apiClient.post<BusinessRule>(BUSINESS_RULES_API_BASE, formData)
+
       if (response.data) {
-        success.value = 'Business rule created successfully'
+        success.value = BUSINESS_RULES_MESSAGES.CREATED
         await fetchRules()
         return response.data
       }
-      
+
       return null
     } catch (err) {
-      console.error('Error creating business rule:', err)
-      error.value = err instanceof Error ? err.message : 'Failed to create business rule'
+      logger.error('Error creating business rule', { error: err })
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_CREATE
       return null
     } finally {
       saving.value = false
@@ -223,20 +237,20 @@ export function useBusinessRules() {
     saving.value = true
     error.value = null
     success.value = null
-    
+
     try {
-      const response = await apiClient.put<BusinessRule>(`/internal/business-rules/${id}`, formData)
-      
+      const response = await apiClient.put<BusinessRule>(`${BUSINESS_RULES_API_BASE}/${id}`, formData)
+
       if (response.data) {
-        success.value = 'Business rule updated successfully'
+        success.value = BUSINESS_RULES_MESSAGES.UPDATED
         await fetchRules()
         return response.data
       }
-      
+
       return null
     } catch (err) {
       logger.error('Error updating business rule', { error: err, id, formData })
-      error.value = err instanceof Error ? err.message : 'Failed to update business rule'
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_UPDATE
       return null
     } finally {
       saving.value = false
@@ -253,15 +267,15 @@ export function useBusinessRules() {
     saving.value = true
     error.value = null
     success.value = null
-    
+
     try {
-      await apiClient.delete(`/internal/business-rules/${id}`)
-      success.value = 'Business rule deleted successfully'
+      await apiClient.delete(`${BUSINESS_RULES_API_BASE}/${id}`)
+      success.value = BUSINESS_RULES_MESSAGES.DELETED
       await fetchRules()
       return true
     } catch (err) {
-      console.error('Error deleting business rule:', err)
-      error.value = err instanceof Error ? err.message : 'Failed to delete business rule'
+      logger.error('Error deleting business rule', { error: err, id })
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_DELETE
       return false
     } finally {
       saving.value = false
@@ -277,15 +291,15 @@ export function useBusinessRules() {
   const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {
     saving.value = true
     error.value = null
-    
+
     try {
-      await apiClient.put(`/internal/business-rules/${id}`, { active })
-      success.value = active ? 'Business rule enabled' : 'Business rule disabled'
+      await apiClient.put(`${BUSINESS_RULES_API_BASE}/${id}`, { active })
+      success.value = active ? BUSINESS_RULES_MESSAGES.ENABLED : BUSINESS_RULES_MESSAGES.DISABLED
       await fetchRules()
       return true
     } catch (err) {
       logger.error('Error toggling business rule', { error: err, id, active })
-      error.value = err instanceof Error ? err.message : 'Failed to toggle business rule'
+      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_TOGGLE
       return false
     } finally {
       saving.value = false

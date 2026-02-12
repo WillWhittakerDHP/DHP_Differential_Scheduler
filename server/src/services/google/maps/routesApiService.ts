@@ -17,6 +17,7 @@ import { getCachedDriveTime, cacheDriveTime } from '../../driveTimeCache.js'
 import type {
   RouteLocation,
   RouteMatrixResult,
+  RouteMatrixStatus,
   DriveTimeResult
 } from './mapsTypes.js'
 
@@ -28,7 +29,7 @@ function parseRouteMatrixItem(item: { duration?: string; distanceMeters?: number
     const match = item.duration.match(/^(\d+)s$/)
     if (match) durationSeconds = parseInt(match[1], 10)
   }
-  let status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS' = GOOGLE_API_STATUS.OK
+  let status: RouteMatrixStatus = GOOGLE_API_STATUS.OK
   if (item.condition === ROUTES_CONDITION_NOT_FOUND) status = GOOGLE_API_STATUS.NOT_FOUND
   else if (!item.distanceMeters || durationSeconds === 0) status = GOOGLE_API_STATUS.ZERO_RESULTS
   return {

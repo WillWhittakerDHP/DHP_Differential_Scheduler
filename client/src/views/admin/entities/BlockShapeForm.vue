@@ -96,8 +96,9 @@ onMounted(async () => {
   if (isEdit.value && entityId.value) {
     const entity = getGlobalEntityById('blockShape', entityId.value)
     if (entity) {
+      const rawName = entity.name
       formData.value = {
-        name: entity.name || '',
+        name: rawName !== undefined && rawName !== null && rawName !== '' ? rawName : '',
         orderIndex: entity.orderIndex ?? 0,
         active: entity.active ?? true,
       }

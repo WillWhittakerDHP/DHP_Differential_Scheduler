@@ -50,10 +50,10 @@ export function normalizeRelationshipKind(value: string): RelationshipKind {
  * @returns ValidationResult indicating if required fields are present
  */
 export function validateRequiredFields(data: {
-  parent_id?: unknown
-  child_id?: unknown
+  parentId?: unknown
+  childId?: unknown
 }): ValidationResult {
-  if (!data.parent_id || !data.child_id) {
+  if (!data.parentId || !data.childId) {
     return {
       valid: false,
       error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,

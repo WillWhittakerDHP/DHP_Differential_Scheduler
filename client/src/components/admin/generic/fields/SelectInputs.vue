@@ -78,6 +78,7 @@
           @update:model-value="(value: string | string[] | null) => handleGroupChange(group.groupKey, value)"
           @focus="handleFocus"
           @blur="handleBlur"
+          @keydown="handleKeydown"
         >
           <!-- Selection slot with logging for chip rendering -->
           <template v-if="isMultiple" #selection="{ item }">
@@ -115,14 +116,15 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keydown="handleKeydown"
     >
       <!-- Selection slot with logging for chip rendering -->
-      <template v-if="isMultiple" #selection="{ item }">
-        <VChip>
-          <span>{{ logChipRender(item) || item.title }}</span>
-        </VChip>
-      </template>
-    </AppSelect>
+    <template v-if="isMultiple" #selection="{ item }">
+      <VChip>
+        <span>{{ logChipRender(item) || item.title }}</span>
+      </VChip>
+    </template>
+  </AppSelect>
   </BaseInput>
 </template>
 
@@ -336,7 +338,8 @@ const {
   handleGroupChange,
   handleChange,
   handleFocus,
-  handleBlur
+  handleBlur,
+  handleKeydown
 } = selectHandlersComposable
 
 // LEARNING: Use select DOM targets composable

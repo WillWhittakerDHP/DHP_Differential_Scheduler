@@ -965,14 +965,12 @@ CREATE TABLE public.block_instances (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     icon character varying(255),
-    base_sq_ft integer,
-    particle_required boolean DEFAULT false NOT NULL,
+    base_sq_ft integer NOT NULL,
     active boolean DEFAULT true NOT NULL,
     composite boolean DEFAULT false NOT NULL,
     differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
     allow_multiple boolean DEFAULT false NOT NULL,
     requires_unit_number boolean,
-    available_days jsonb,
     booking_mode public.booking_mode_enum DEFAULT 'standalone'::public.booking_mode_enum NOT NULL,
     is_multi_family boolean DEFAULT false NOT NULL,
     requires_agent boolean DEFAULT false NOT NULL
@@ -991,13 +989,6 @@ COMMENT ON COLUMN public.block_instances.allow_multiple IS 'Whether this block i
 --
 
 COMMENT ON COLUMN public.block_instances.requires_unit_number IS 'If true, this block instance requires a unit number (e.g., condo/co-op). Nullable by design.';
-
-
---
--- Name: COLUMN block_instances.available_days; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.block_instances.available_days IS 'Array of day indices (0-6) when this service is available. Null means all days.';
 
 
 --

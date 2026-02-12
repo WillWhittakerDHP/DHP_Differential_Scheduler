@@ -71,12 +71,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityCrud } from '@/composables/useEntity'
+
+const logger = createLogger('PartInstanceBulkEditModal')
 
 interface Props {
   modelValue?: boolean
@@ -106,7 +109,11 @@ const { globalData } = useGlobal()
 const { entities: partInstances } = useEntityCrud('partInstance')
 
 const firstPartInstanceForMetadata = computed(() => {
-  const relationships = globalData.value?.relationships?.partAssignments ?? []
+  const raw = globalData.value?.relationships?.partAssignments
+  if (raw === undefined || raw === null) {
+    logger.debug('firstPartInstanceForMetadata: partAssignments missing, using []')
+  }
+  const relationships = raw !== undefined && raw !== null ? raw : []
   const constituentIds = new Set(
     relationships
       .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
@@ -122,7 +129,8 @@ const firstPartInstanceForMetadata = computed(() => {
 
 const partShapeRef = computed(() => {
   const firstInstance = firstPartInstanceForMetadata.value
-  return firstInstance?.partShapeRef || ''
+  const raw = firstInstance?.partShapeRef
+  return raw !== undefined && raw !== null && raw !== '' ? raw : ''
 })
 
 /**
@@ -135,7 +143,7 @@ const partShapeRef = computed(() => {
  */
 const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   try {
-    const editData = props.bulkEditData || {}
+    const editData = props.bulkEditData !== undefined && props.bulkEditData !== null ? props.bulkEditData : {}
     if (!partShapeRef.value) {
       return {
         id: '00000000-0000-0000-0000-000000000000',
@@ -170,7 +178,7 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       id: '00000000-0000-0000-0000-000000000000',
       entityKey: 'partInstance',
       name: '',
-      partShapeRef: partShapeRef.value || '',
+      partShapeRef: partShapeRef.value !== undefined && partShapeRef.value !== null && partShapeRef.value !== '' ? partShapeRef.value : '',
       orderIndex: 0,
       baseTime: undefined,
       rateOverBaseTime: undefined,

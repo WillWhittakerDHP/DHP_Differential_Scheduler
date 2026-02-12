@@ -16,7 +16,7 @@ declare global {
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const alphaDashValidator: typeof import('./src/@core/utils/validators').alphaDashValidator
   const alphaValidator: typeof import('./src/@core/utils/validators').alphaValidator
-  const api: typeof import('./src/utils/api').default
+  const api: typeof import('./src/utils/api/index').default
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
   const avatarText: typeof import('./src/@core/utils/formatters').avatarText
@@ -84,10 +84,10 @@ declare global {
   const generateTimeSlots: typeof import('./src/utils/timeSlotCalculations').generateTimeSlots
   const getActivePinia: typeof import('pinia').getActivePinia
   const getAdminInputMetadataEndpoint: typeof import('./src/utils/api').getAdminInputMetadataEndpoint
-  const getAdminMetadataBatchEndpoint: typeof import('./src/utils/api').getAdminMetadataBatchEndpoint
-  const getAdminMetadataEndpoint: typeof import('./src/utils/api').getAdminMetadataEndpoint
-  const getAdminPrimitiveMetadataEndpoint: typeof import('./src/utils/api').getAdminPrimitiveMetadataEndpoint
-  const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api').getAdminRelationshipMetadataEndpoint
+  const getAdminMetadataBatchEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminMetadataBatchEndpoint
+  const getAdminMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminMetadataEndpoint
+  const getAdminPrimitiveMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminPrimitiveMetadataEndpoint
+  const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminRelationshipMetadataEndpoint
   const getAgentEventShape: typeof import('./src/utils/eventAttendeeUtils').getAgentEventShape
   const getAllUserTypeBlockIds: typeof import('./src/utils/eventAttendeeUtils').getAllUserTypeBlockIds
   const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
@@ -101,15 +101,15 @@ declare global {
   const getAnnotationTypeEndpoint: typeof import('./src/utils/api').getAnnotationTypeEndpoint
   const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
   const getApiErrorMessage: typeof import('./src/composables/useApiErrorMessage').getApiErrorMessage
-  const getAppointmentByIdEndpoint: typeof import('./src/utils/api').getAppointmentByIdEndpoint
-  const getAppointmentEndpoint: typeof import('./src/utils/api').getAppointmentEndpoint
+  const getAppointmentByIdEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentByIdEndpoint
+  const getAppointmentEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentEndpoint
   const getAppointmentFieldFormatter: typeof import('./src/utils/appointmentFieldFormatters').getAppointmentFieldFormatter
-  const getAppointmentVersionsEndpoint: typeof import('./src/utils/api').getAppointmentVersionsEndpoint
-  const getAvailabilityEndpoint: typeof import('./src/utils/api').getAvailabilityEndpoint
+  const getAppointmentVersionsEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentVersionsEndpoint
+  const getAvailabilityEndpoint: typeof import('./src/utils/api/availabilityApi').getAvailabilityEndpoint
   const getAvailableUserTypeBlocksForAnnotation: typeof import('./src/utils/annotationUtils').getAvailableUserTypeBlocksForAnnotation
   const getAvailableUserTypeBlocksForDescription: typeof import('./src/utils/descriptionValidation').getAvailableUserTypeBlocksForDescription
-  const getBlockInstanceAnnotationEndpoint: typeof import('./src/utils/api').getBlockInstanceAnnotationEndpoint
-  const getBlockInstanceAnnotationsEndpoint: typeof import('./src/utils/api').getBlockInstanceAnnotationsEndpoint
+  const getBlockInstanceAnnotationEndpoint: typeof import('./src/utils/api/relationshipApi').getBlockInstanceAnnotationEndpoint
+  const getBlockInstanceAnnotationsEndpoint: typeof import('./src/utils/api/relationshipApi').getBlockInstanceAnnotationsEndpoint
   const getBlockInstanceDescriptionEndpoint: typeof import('./src/utils/api').getBlockInstanceDescriptionEndpoint
   const getBlockInstanceDescriptionsEndpoint: typeof import('./src/utils/api').getBlockInstanceDescriptionsEndpoint
   const getBlockInstancesByShapeId: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeId
@@ -118,7 +118,7 @@ declare global {
   const getBlockInstancesByType: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByType
   const getBlockShapeIdByName: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByName
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
-  const getBulkPatchEndpoint: typeof import('./src/utils/api').getBulkPatchEndpoint
+  const getBulkPatchEndpoint: typeof import('./src/utils/api/entityApi').getBulkPatchEndpoint
   const getCalendarAvailability: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailability
   const getCalendarAvailabilitySync: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailabilitySync
   const getClientEventShape: typeof import('./src/utils/eventAttendeeUtils').getClientEventShape
@@ -129,10 +129,10 @@ declare global {
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
   const getDescriptionByIdEndpoint: typeof import('./src/utils/api').getDescriptionByIdEndpoint
   const getDescriptionEndpoint: typeof import('./src/utils/api').getDescriptionEndpoint
-  const getEntitiesBatchEndpoint: typeof import('./src/utils/api').getEntitiesBatchEndpoint
-  const getEntityByIdEndpoint: typeof import('./src/utils/api').getEntityByIdEndpoint
+  const getEntitiesBatchEndpoint: typeof import('./src/utils/api/entityApi').getEntitiesBatchEndpoint
+  const getEntityByIdEndpoint: typeof import('./src/utils/api/entityApi').getEntityByIdEndpoint
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
-  const getEntityEndpoint: typeof import('./src/utils/api').getEntityEndpoint
+  const getEntityEndpoint: typeof import('./src/utils/api/entityApi').getEntityEndpoint
   const getEntityOrderIndexEndpoint: typeof import('./src/utils/api').getEntityOrderIndexEndpoint
   const getEventAssignmentsEndpoint: typeof import('./src/utils/api').getEventAssignmentsEndpoint
   const getEventByIdEndpoint: typeof import('./src/utils/api').getEventByIdEndpoint
@@ -147,17 +147,17 @@ declare global {
   const getMajorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMajorEventShape
   const getMinorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMinorEventShape
   const getMockBusyTimesSync: typeof import('./src/utils/timeSlotCalculations').getMockBusyTimesSync
-  const getOrderIndexEndpoint: typeof import('./src/utils/api').getOrderIndexEndpoint
+  const getOrderIndexEndpoint: typeof import('./src/utils/api/entityApi').getOrderIndexEndpoint
   const getPartShapeEventEndpoint: typeof import('./src/utils/api').getPartShapeEventEndpoint
   const getPartShapeEventsEndpoint: typeof import('./src/utils/api').getPartShapeEventsEndpoint
-  const getPropertyByIdEndpoint: typeof import('./src/utils/api').getPropertyByIdEndpoint
-  const getPropertyEndpoint: typeof import('./src/utils/api').getPropertyEndpoint
+  const getPropertyByIdEndpoint: typeof import('./src/utils/api/propertyApi').getPropertyByIdEndpoint
+  const getPropertyEndpoint: typeof import('./src/utils/api/propertyApi').getPropertyEndpoint
   const getPropertyTypeByIdEndpoint: typeof import('./src/utils/api').getPropertyTypeByIdEndpoint
   const getPropertyTypesEndpoint: typeof import('./src/utils/api').getPropertyTypesEndpoint
   const getRelationshipByIdEndpoint: typeof import('./src/utils/api').getRelationshipByIdEndpoint
-  const getRelationshipByParentChildEndpoint: typeof import('./src/utils/api').getRelationshipByParentChildEndpoint
-  const getRelationshipEndpoint: typeof import('./src/utils/api').getRelationshipEndpoint
-  const getRelationshipsBatchEndpoint: typeof import('./src/utils/api').getRelationshipsBatchEndpoint
+  const getRelationshipByParentChildEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipByParentChildEndpoint
+  const getRelationshipEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipEndpoint
+  const getRelationshipsBatchEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipsBatchEndpoint
   const getShapeFieldMetadataByIdEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataByIdEndpoint
   const getShapeFieldMetadataEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataEndpoint
   const getShapeLayoutConfigByIdEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByIdEndpoint
@@ -166,8 +166,8 @@ declare global {
   const getStateControlBlockInstanceOptions: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstanceOptions
   const getStateControlBlockInstances: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstances
   const getStateControlBlockShapes: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockShapes
-  const getUserByIdEndpoint: typeof import('./src/utils/api').getUserByIdEndpoint
-  const getUserEndpoint: typeof import('./src/utils/api').getUserEndpoint
+  const getUserByIdEndpoint: typeof import('./src/utils/api/userApi').getUserByIdEndpoint
+  const getUserEndpoint: typeof import('./src/utils/api/userApi').getUserEndpoint
   const getUserTypeBlockBlockShapeId: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockBlockShapeId
   const getUserTypeBlockById: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockById
   const getUserTypeBlockName: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockName
@@ -607,7 +607,6 @@ declare module 'vue' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly alphaDashValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['alphaDashValidator']>
     readonly alphaValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['alphaValidator']>
-    readonly api: UnwrapRef<typeof import('./src/utils/api')['default']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>
@@ -657,45 +656,23 @@ declare module 'vue' {
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateIncrementedName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['generateIncrementedName']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
-    readonly getAdminMetadataBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataBatchEndpoint']>
-    readonly getAdminMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminMetadataEndpoint']>
-    readonly getAdminPrimitiveMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminPrimitiveMetadataEndpoint']>
-    readonly getAdminRelationshipMetadataEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAdminRelationshipMetadataEndpoint']>
     readonly getAgentEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAgentEventShape']>
     readonly getAllUserTypeBlockIds: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAllUserTypeBlockIds']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
-    readonly getAppointmentByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentByIdEndpoint']>
-    readonly getAppointmentEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentEndpoint']>
     readonly getAppointmentFieldFormatter: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['getAppointmentFieldFormatter']>
-    readonly getAppointmentVersionsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAppointmentVersionsEndpoint']>
-    readonly getAvailabilityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getAvailabilityEndpoint']>
     readonly getAvailableUserTypeBlocksForAnnotation: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAvailableUserTypeBlocksForAnnotation']>
-    readonly getBlockInstanceAnnotationEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBlockInstanceAnnotationEndpoint']>
-    readonly getBlockInstanceAnnotationsEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBlockInstanceAnnotationsEndpoint']>
     readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
-    readonly getBulkPatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getBulkPatchEndpoint']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
-    readonly getEntitiesBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntitiesBatchEndpoint']>
-    readonly getEntityByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityByIdEndpoint']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
-    readonly getEntityEndpoint: UnwrapRef<typeof import('./src/utils/api')['getEntityEndpoint']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
-    readonly getOrderIndexEndpoint: UnwrapRef<typeof import('./src/utils/api')['getOrderIndexEndpoint']>
-    readonly getPropertyByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyByIdEndpoint']>
-    readonly getPropertyEndpoint: UnwrapRef<typeof import('./src/utils/api')['getPropertyEndpoint']>
-    readonly getRelationshipByParentChildEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipByParentChildEndpoint']>
-    readonly getRelationshipEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipEndpoint']>
-    readonly getRelationshipsBatchEndpoint: UnwrapRef<typeof import('./src/utils/api')['getRelationshipsBatchEndpoint']>
     readonly getStateControlBlockInstanceOptions: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstanceOptions']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
-    readonly getUserByIdEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserByIdEndpoint']>
-    readonly getUserEndpoint: UnwrapRef<typeof import('./src/utils/api')['getUserEndpoint']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasAttendee: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasAttendee']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>

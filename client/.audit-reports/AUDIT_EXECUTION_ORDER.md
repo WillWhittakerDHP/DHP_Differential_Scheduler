@@ -3,8 +3,9 @@
 ## Current Order (package.json `audit:all`)
 
 ```
-Phase 0: Type Governance
+Phase 0: Type Governance + Dependencies
   0. audit:type-similarity
+  0b. audit:dep-freshness          (npm outdated, major/minor/patch behind)
 
 Phase 1: Type Safety
   1. typecheck:audit
@@ -13,36 +14,45 @@ Phase 2: Code Quality
   2. audit:component-logic
   3. audit:composables-logic
   4. audit:loop-mutations
-  5. audit:hardcoding
-  6. audit:function-complexity     ← NEW
+  --- Naming & constants (run in order) ---
+  5. audit:naming-convention       (PascalCase, use-prefix, UPPER_SNAKE, etc.)
+  6. audit:constants-consolidation (duplicates, canonical constant files)
+  7. audit:hardcoding              (extract literals → constants)
+  ---
+  8. audit:function-complexity
 
 Phase 3: Code Cleanup
-  7. audit:pattern-detection
-  8. audit:duplication
-  9. audit:unused-code
- 10. audit:error-handling          ← NEW (merged from fallback + error-logging)
- 11. audit:deprecation             ← EXPANDED (now includes runtime legacy/compat)
- 12. audit:security
- 13. audit:todo-aging              ← NEW
+  9. audit:pattern-detection
+ 10. audit:duplication
+ 11. audit:unused-code
+ 12. audit:error-handling
+ 13. audit:deprecation
+ 14. audit:security
+ 15. audit:todo-aging
 
 Phase 4: Structure
- 14. audit:import-graph            ← NEW
- 15. audit:file-cohesion           ← NEW
- 16. audit:api-contract            ← NEW
+ 16. audit:import-graph
+ 17. audit:file-cohesion
+ 18. audit:api-contract
+ 18b. audit:api-versioning         (baseline diff, breaking changes)
+ 18c. audit:data-flow              (unvalidated req.body/params/query)
+ 18d. audit:bundle-size-budget     (requires prior build)
 
 Phase 5: Testing
- 17. audit:test
+ 19. audit:test
 
 Cross-Audit
- 18. audit:meta                    ← NEW (reads all audit JSONs)
+ 20. audit:coverage-risk-crossref   (reads import-graph + test, high fan-in untested)
+ 21. audit:meta                    (reads all audit JSONs)
 ```
 
 ## Phase Descriptions
 
-### Phase 0: Type Governance (Structural Similarity)
+### Phase 0: Type Governance + Dependencies
 - **audit:type-similarity** - Find structurally identical/similar types BEFORE typechecking
   - Recommends UNIFY, BRAND, EXTEND, or REVIEW for each group
   - Catch structural duplication before it causes type errors
+- **audit:dep-freshness** - npm outdated for client and server; categorizes major/minor/patch behind
 
 ### Phase 1: Foundational (Type Safety)
 - **typecheck:audit** - Fix type errors (informed by Phase 0's findings)
@@ -51,7 +61,10 @@ Cross-Audit
 - **audit:component-logic** - Fix component complexity (Vue SFCs with too much logic)
 - **audit:composables-logic** - Fix composable complexity
 - **audit:loop-mutations** - Refactor mutations to functional patterns (map/reduce/filter)
-- **audit:hardcoding** - Extract hardcoded values to constants/config
+- **Naming & constants** (run in order):
+  - **audit:naming-convention** - Enforce form of names (PascalCase components, use-prefix composables, UPPER_SNAKE constants, camelCase functions). Establishes the shape of constant files and exports.
+  - **audit:constants-consolidation** - Find duplicate constants and canonical locations; assumes consistent naming. Optionally reads naming-convention output to flag constants files with naming violations.
+  - **audit:hardcoding** - Find literals to extract to constants; new extractions should follow naming and live in canonical locations. Optionally reads constants-consolidation output for canonical constant file guidance.
 - **audit:function-complexity** - Nesting depth, branch count, function length, parameter count
 
 ### Phase 3: Code Cleanup
@@ -67,12 +80,16 @@ Cross-Audit
 - **audit:import-graph** - Circular dependencies, fan-in/fan-out hotspots, cross-boundary imports
 - **audit:file-cohesion** - Oversized files, high export counts, mixed concerns
 - **audit:api-contract** - Client/server type mismatches, unvalidated request bodies
+- **audit:api-versioning** - Compares api-contract output to baseline; flags removed endpoints (breaking). Use `--accept` to update baseline.
+- **audit:data-flow** - Flags route handlers using req.body/params/query without validation (Joi/Zod/sanitize). Lightweight heuristic.
+- **audit:bundle-size-budget** - Measures dist/assets chunk sizes (gzip), compares to config budgets. Requires prior `npm run build`.
 
 ### Phase 5: Testing
 - **audit:test** - Write tests for cleaned-up code
 
-### Cross-Audit: Meta Report
-- **audit:meta** - Unified dashboard: health scores, hotspots, trends, exception creep
+### Cross-Audit
+- **audit:coverage-risk-crossref** - Reads import-graph + test audit; flags high fan-in files with no tests (risk score).
+- **audit:meta** - Unified dashboard: health scores, hotspots, trends, deterministic exception analysis
 
 ## Rationale
 
@@ -86,6 +103,11 @@ Cross-Audit
 - Fix logic/complexity issues before removing duplication
 - Removing duplicated bad code is wasteful - fix it first, then deduplicate
 - Hardcoding removal should happen before duplication (constants can be reused)
+
+### Why Naming & Constants in This Order?
+- **naming-convention** defines the shape of constant files and exports (PascalCase, UPPER_SNAKE, etc.). Run it first so constant files have a consistent form.
+- **constants-consolidation** finds duplicate constants and canonical locations; it assumes consistent naming. Run it second so we know where constants live.
+- **hardcoding** finds literals to extract; new extractions should follow naming and go into the canonical constant files identified by constants-consolidation. Run it last so suggestions can reference those locations (when the constants-consolidation JSON is available).
 
 ### Why Structure After Cleanup?
 - Architecture-level analysis (imports, file size, API contracts) is most meaningful after
@@ -118,12 +140,16 @@ npm run audit:hardcoding -- --changed-only --base=main
 ## Execution Flow
 
 ```
-Type Governance → Typecheck → Code Quality → Cleanup → Structure → Tests → Meta
-      ↓               ↓           ↓             ↓          ↓          ↓       ↓
-  Structural       Types       Logic        Dedupe     Architecture Coverage Dashboard
-  Similarity       Errors      Patterns     Legacy     Imports      Valid.   Health
-  (UNIFY/BRAND)               Complexity   Security   Cohesion              Trends
-                              Func-Cmplx   TODO-Age   API-Contract          Hotspots
+Type Gov + Deps → Typecheck → Code Quality → Cleanup → Structure → Tests → Crossref → Meta
+       ↓              ↓            ↓            ↓           ↓          ↓         ↓        ↓
+  TypeSim         Types       Logic       Dedupe    Architecture  Coverage   Risk     Dashboard
+  DepFresh        Errors      Patterns    Legacy    Imports       Test      (fan-in   Health
+  (UNIFY/BRAND)               Complexity  Security  Cohesion      audit     untested) Trends
+                               Func-Cmplx  TODO-Age  API-Contract            + meta
+                               Naming & constants:
+                                 naming-convention → constants-consolidation → hardcoding
+                                           API-Ver   DataFlow
+                                           Bundle
 ```
 
 ## Alternative: Parallel Execution Groups
@@ -137,9 +163,10 @@ npm run audit:type-similarity
 # Phase 1
 npm run typecheck:audit
 
-# Phase 2 (parallel)
+# Phase 2 (parallel; Naming & constants run in order: naming → constants-consolidation → hardcoding)
 npm run audit:component-logic & npm run audit:composables-logic & \
-npm run audit:loop-mutations & npm run audit:hardcoding & \
+npm run audit:loop-mutations & npm run audit:naming-convention & \
+npm run audit:constants-consolidation & npm run audit:hardcoding & \
 npm run audit:function-complexity & wait
 
 # Phase 3 (parallel)

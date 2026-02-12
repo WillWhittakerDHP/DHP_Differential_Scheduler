@@ -11,7 +11,8 @@
  * - Provides fallback error messages
  */
 
-export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An error occurred'): string {
+export function getApiErrorMessage(error: unknown, fallbackMessage?: string): string {
+  const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'
   // PATTERN: Check for AxiosError and extract response message if available
   if (error && typeof error === 'object' && 'isAxiosError' in error) {
     const axiosError = error as {
@@ -29,7 +30,7 @@ export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An
     if (axiosError.response?.data) {
       const data = axiosError.response.data
       // PATTERN: Fall back to 'error' or 'message' fields if 'details' not available
-      return data.details || data.error || data.message || fallbackMessage
+      return data.details || data.error || data.message || resolvedFallback
     } else if (axiosError.message) {
       return axiosError.message
     }
@@ -37,5 +38,5 @@ export function getApiErrorMessage(error: unknown, fallbackMessage: string = 'An
     return error.message
   }
 
-  return fallbackMessage
+  return resolvedFallback
 }

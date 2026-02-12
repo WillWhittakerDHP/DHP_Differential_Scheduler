@@ -12,7 +12,22 @@
  */
 
 import { ref, watch, computed, type Ref } from 'vue'
+import { createLogger } from '@/utils/logger'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+
+const logger = createLogger('useContactsStepData')
+
+/**
+ * Use contact field value or empty string; log when value is unexpectedly null/undefined.
+ * WHY: Avoid silent fallbacks that mask missing data (per explicit-error-handling rule).
+ */
+function contactField(value: string | null | undefined, context: string): string {
+  if (value === null || value === undefined) {
+    logger.warn('Contact field missing', { context })
+    return ''
+  }
+  return value
+}
 
 export interface ContactInfo {
   firstName: string
@@ -138,17 +153,17 @@ export function useContactsStepData(
         
         if (contacts.client) {
           clientInfo.value = {
-            firstName: contacts.client.firstName || '',
-            lastName: contacts.client.lastName || '',
-            email: contacts.client.email || ''
+            firstName: contactField(contacts.client.firstName, 'client.firstName'),
+            lastName: contactField(contacts.client.lastName, 'client.lastName'),
+            email: contactField(contacts.client.email, 'client.email')
           }
         }
-        
+
         if (contacts.agent) {
           agentInfo.value = {
-            firstName: contacts.agent.firstName || '',
-            lastName: contacts.agent.lastName || '',
-            email: contacts.agent.email || ''
+            firstName: contactField(contacts.agent.firstName, 'agent.firstName'),
+            lastName: contactField(contacts.agent.lastName, 'agent.lastName'),
+            email: contactField(contacts.agent.email, 'agent.email')
           }
         }
         
@@ -158,29 +173,29 @@ export function useContactsStepData(
           const anotherClientContact = contacts.additionalContacts.find(c => c.role === 'anotherClient')
           if (anotherClientContact) {
             anotherClientInfo.value = {
-              firstName: anotherClientContact.firstName || '',
-              lastName: anotherClientContact.lastName || '',
-              email: anotherClientContact.email || ''
+              firstName: contactField(anotherClientContact.firstName, 'anotherClient.firstName'),
+              lastName: contactField(anotherClientContact.lastName, 'anotherClient.lastName'),
+              email: contactField(anotherClientContact.email, 'anotherClient.email')
             }
             showAnotherClient.value = true
           }
-          
+
           const transactionManagerContact = contacts.additionalContacts.find(c => c.role === 'transactionManager')
           if (transactionManagerContact) {
             transactionManagerInfo.value = {
-              firstName: transactionManagerContact.firstName || '',
-              lastName: transactionManagerContact.lastName || '',
-              email: transactionManagerContact.email || ''
+              firstName: contactField(transactionManagerContact.firstName, 'transactionManager.firstName'),
+              lastName: contactField(transactionManagerContact.lastName, 'transactionManager.lastName'),
+              email: contactField(transactionManagerContact.email, 'transactionManager.email')
             }
             showTransactionManager.value = true
           }
-          
+
           const sellerContact = contacts.additionalContacts.find(c => c.role === 'seller')
           if (sellerContact) {
             sellerInfo.value = {
-              firstName: sellerContact.firstName || '',
-              lastName: sellerContact.lastName || '',
-              email: sellerContact.email || ''
+              firstName: contactField(sellerContact.firstName, 'seller.firstName'),
+              lastName: contactField(sellerContact.lastName, 'seller.lastName'),
+              email: contactField(sellerContact.email, 'seller.email')
             }
             showSeller.value = true
           }

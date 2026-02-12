@@ -6,21 +6,23 @@
     :show-label="false"
     :is-disabled="fieldContext.isDisabled.value"
   >
-    <AppDateTimePicker
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
-      :model-value="typeof fieldValue === 'string' ? fieldValue : undefined"
-      :label="fieldContext.displayConfig.label"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
-      :config="{ dateFormat: 'Y-m-d' }"
-      @update:model-value="handleChange"
-      @on-open="handleFocus"
-      @on-close="handleBlur"
-    />
+    <div @keydown="handleKeydown">
+      <AppDateTimePicker
+        :id="`field-${String(fieldContext.fieldKey)}`"
+        :name="String(fieldContext.fieldKey)"
+        :model-value="typeof fieldValue === 'string' ? fieldValue : undefined"
+        :label="fieldContext.displayConfig.label"
+        :placeholder="fieldContext.displayConfig.placeholder"
+        :disabled="fieldContext.displayConfig.disabled"
+        :readonly="fieldContext.displayConfig.readOnly"
+        :error="!!fieldContext.error?.value"
+        :error-messages="fieldContext.error?.value"
+        :config="{ dateFormat: 'Y-m-d' }"
+        @update:model-value="handleChange"
+        @on-open="handleFocus"
+        @on-close="handleBlur"
+      />
+    </div>
   </BaseInput>
 </template>
 
@@ -58,7 +60,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { fieldContext } = props
 
-// FIX: Use shared field input setup from composable
-const { fieldValue, handleChange, handleFocus, handleBlur } = useFieldInputSetup(fieldContext)
+// FIX: Use shared field input setup from composable (includes keyboard guard)
+const { fieldValue, handleChange, handleFocus, handleBlur, handleKeydown } = useFieldInputSetup(
+  fieldContext,
+  { fieldType: 'date' }
+)
 </script>
 

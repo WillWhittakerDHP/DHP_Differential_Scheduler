@@ -80,11 +80,12 @@ export const TEMPORARY_ID_PATTERNS = {
  */
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
-  ORDER_INDEX_SNAKE: 'order_index',
   BOOKING_MODE: 'bookingMode',
   BOOKING_MODE_SNAKE: 'booking_mode',
   CREATED_AT: 'createdAt',
   ID: 'id',
+  ANNOTATIONS: 'annotations',
+  ENTITY_KEY: 'entityKey',
 } as const
 
 /**
@@ -121,10 +122,10 @@ export const SORT_ORDERS = {
 /**
  * Unknown error fallback message
  * LEARNING: Re-export from shared constants
- * WHY: Single source of truth, already defined in constants/router.ts
+ * WHY: Single source of truth; avoids circular dependency with router
  * PATTERN: Re-export from shared constants
  */
-export { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
+export { UNKNOWN_ERROR_MESSAGE } from '../../../../../shared/constants/errorMessages.js'
 
 /**
  * Entity keys array for config endpoint

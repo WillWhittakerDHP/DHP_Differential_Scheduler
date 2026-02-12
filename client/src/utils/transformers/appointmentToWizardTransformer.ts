@@ -11,16 +11,10 @@
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
-
-/** Block shape type keys for resolveBlockCategory (avoids magic strings). */
-const BlockShapeTypeKey = {
-  SERVICE: 'SERVICE',
-  PROPERTY: 'PROPERTY',
-  OPTION: 'OPTION',
-} as const satisfies Record<string, keyof typeof BLOCK_SHAPE_TYPES>
+import { safeArray, extractOptionalString, extractOptionalNumber, extractOptionalBoolean } from './transformerPrimitives'
+import { findById } from './transformerCollections'
 import apiClient from '@/utils/api'
 import { getAppointmentVersionsEndpoint } from '@/utils/api'
 import { createLogger } from '@/utils/logger'
@@ -98,25 +92,17 @@ export interface WizardStateData {
 function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVersion']) {
   const address = propertyVersion?.address
   const propertyDetailsArray = propertyVersion?.propertyDetails
-  
   const propertyDetailsRecord = Array.isArray(propertyDetailsArray)
-    ? propertyDetailsArray[0] // Use first/latest property details
+    ? propertyDetailsArray[0]
     : propertyDetailsArray ?? null
-  
-  // PATTERN: Check if value is a string, otherwise return empty string (don't try to extract from objects)
-  const extractString = (value: unknown): string => {
-    if (typeof value === 'string') return value
-    return ''
-  }
-  
-  // PATTERN: Check if value is a number, otherwise return null (don't try to extract from objects)
-  const extractFoundationAccess = (value: unknown): 'basement' | 'crawlspace' | 'slab' | null => {
+
+  function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
     if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
       return value
     }
     return null
   }
-  
+
   interface AddressWithGeo {
     placeId?: string
     latitude?: number
@@ -126,28 +112,24 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
     return v != null && typeof v === 'object'
   }
   const addressWithGeo = address != null && isAddressWithGeo(address) ? address : undefined
-  const extractedPlaceId = typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
+  const extractedPlaceId =
+    typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
   const extractedCoordinates =
     addressWithGeo?.latitude != null && addressWithGeo?.longitude != null
       ? { lat: Number(addressWithGeo.latitude), lng: Number(addressWithGeo.longitude) }
       : undefined
-  
+
   return {
-    address: address?.address ?? '',
-    unit: address?.unit ?? '',
-    city: address?.city ?? '',
-    state: address?.state ?? '',
-    zipCode: address?.zipCode ?? '',
-    // LEARNING: Extract candidatePlaceId and candidateCoordinates from address object
-    // WHY: These are needed for drive time calculations and API orchestrator
-    // PATTERN: Extract from address object if available, otherwise undefined
-    // NOTE: These become "candidate" when loaded into wizard (for editing)
+    address: extractOptionalString(address?.address, 'propertyDetails.address'),
+    unit: extractOptionalString(address?.unit, 'propertyDetails.unit'),
+    city: extractOptionalString(address?.city, 'propertyDetails.city'),
+    state: extractOptionalString(address?.state, 'propertyDetails.state'),
+    zipCode: extractOptionalString(address?.zipCode, 'propertyDetails.zipCode'),
     candidatePlaceId: extractedPlaceId,
     candidateCoordinates: extractedCoordinates,
-    
     propertySize: propertyDetailsRecord?.squareFootage ?? null,
     numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
-    mlsNumber: extractString(propertyDetailsRecord?.mlsNumber),
+    mlsNumber: extractOptionalString(propertyDetailsRecord?.mlsNumber, 'propertyDetails.mlsNumber'),
     squareFootage: propertyDetailsRecord?.squareFootage ?? null,
     bedrooms: propertyDetailsRecord?.bedrooms ?? null,
     bathrooms: propertyDetailsRecord?.bathrooms ?? null,
@@ -163,41 +145,47 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
  * PATTERN: Find client/agent by role, filter others, map to contact format
  */
 function extractContacts(attendees: AppointmentResponse['attendees']) {
-  const clientAttendee = attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
+  const attendeesList = safeArray(attendees)
+  const clientAttendee = attendeesList.find(
+    (a) =>
+      a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||
+      a.user?.userRole === USER_ROLE_CLIENT
   )
-  const agentAttendee = attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
+  const agentAttendee = attendeesList.find(
+    (a) =>
+      a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||
+      a.user?.userRole === USER_ROLE_AGENT
   )
-  
-  const otherAttendees = attendees?.filter(a => 
-    a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_CLIENT && 
-    a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_AGENT &&
-    a.user?.userRole !== USER_ROLE_CLIENT &&
-    a.user?.userRole !== USER_ROLE_AGENT
-  ) ?? []
-  
+  const otherAttendees = attendeesList.filter(
+    (a) =>
+      a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_CLIENT &&
+      a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_AGENT &&
+      a.user?.userRole !== USER_ROLE_CLIENT &&
+      a.user?.userRole !== USER_ROLE_AGENT
+  )
   const mappedAdditionalContacts = otherAttendees.map((attendee) => {
     const user = attendee.user
-    const role = attendee.userTypeBlockInstance?.name?.toLowerCase() ?? 'anotherClient'
+    const role =
+      typeof attendee.userTypeBlockInstance?.name === 'string'
+        ? attendee.userTypeBlockInstance.name.toLowerCase()
+        : 'anotherClient'
     return {
-      firstName: user?.firstName ?? '',
-      lastName: user?.lastName ?? '',
-      email: user?.email ?? '',
-      role: role as 'anotherClient' | 'transactionManager' | 'seller'
+      firstName: extractOptionalString(user?.firstName, 'additionalContact.firstName'),
+      lastName: extractOptionalString(user?.lastName, 'additionalContact.lastName'),
+      email: extractOptionalString(user?.email, 'additionalContact.email'),
+      role: role as 'anotherClient' | 'transactionManager' | 'seller',
     }
   })
-  
   return {
     client: {
-      firstName: clientAttendee?.user?.firstName ?? '',
-      lastName: clientAttendee?.user?.lastName ?? '',
-      email: clientAttendee?.user?.email ?? '',
+      firstName: extractOptionalString(clientAttendee?.user?.firstName, 'client.firstName'),
+      lastName: extractOptionalString(clientAttendee?.user?.lastName, 'client.lastName'),
+      email: extractOptionalString(clientAttendee?.user?.email, 'client.email'),
     },
     agent: {
-      firstName: agentAttendee?.user?.firstName ?? '',
-      lastName: agentAttendee?.user?.lastName ?? '',
-      email: agentAttendee?.user?.email ?? '',
+      firstName: extractOptionalString(agentAttendee?.user?.firstName, 'agent.firstName'),
+      lastName: extractOptionalString(agentAttendee?.user?.lastName, 'agent.lastName'),
+      email: extractOptionalString(agentAttendee?.user?.email, 'agent.email'),
     },
     additionalContacts: mappedAdditionalContacts,
   }
@@ -221,8 +209,8 @@ function extractAvailability(appointment: AppointmentResponse) {
   }
   const candidateTimeSlots = appointment.selectedTimeSlots
     ? (appointment.selectedTimeSlots as TimeSlotLike[]).map((slot) => ({
-        time: typeof slot.startTime === 'string' ? slot.startTime : '',
-        duration: typeof slot.duration === 'number' ? slot.duration : 0,
+        time: extractOptionalString(slot.startTime, 'timeSlot.time'),
+        duration: extractOptionalNumber(slot.duration, 'timeSlot.duration'),
       }))
     : null
   
@@ -258,38 +246,39 @@ function resolveBlockCategories(
   optionTypeBlocks: BookingBlockInstance[]
   lineItemBlocks: BookingBlockInstance[]
 } {
-  const serviceIds = appointment.selectedServiceIds ?? []
+  const serviceIds = safeArray(appointment.selectedServiceIds)
   const services = resolveBlockCategory({
     ids: serviceIds,
     bookingData,
-    blockShapeType: BlockShapeTypeKey.SERVICE,
+    blockShapeType: 'SERVICE',
     versionsData,
     categoryKey: 'services',
     logger,
   })
 
-  const propertyTypeBlockIds = appointment.selectedPropertyIds ?? []
+  const propertyTypeBlockIds = safeArray(appointment.selectedPropertyIds)
   const propertyTypeBlocks = resolveBlockCategory({
     ids: propertyTypeBlockIds,
     bookingData,
-    blockShapeType: BlockShapeTypeKey.PROPERTY,
+    blockShapeType: 'PROPERTY',
     versionsData,
     categoryKey: 'properties',
     logger,
   })
 
-  const optionTypeBlockIds = appointment.selectedOptionIds ?? []
+  const optionTypeBlockIds = safeArray(appointment.selectedOptionIds)
   const optionTypeBlocks = resolveBlockCategory({
     ids: optionTypeBlockIds,
     bookingData,
-    blockShapeType: BlockShapeTypeKey.OPTION,
+    blockShapeType: 'OPTION',
     versionsData,
     categoryKey: 'options',
     logger,
   })
 
-  const lineItemBlockIds =
-    (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds ?? []
+  const lineItemBlockIds = safeArray(
+    (appointment as { selectedLineItemIds?: string[] }).selectedLineItemIds
+  )
   const lineItemBlocks = resolveBlockCategory({
     ids: lineItemBlockIds,
     bookingData,
@@ -318,13 +307,11 @@ export async function transformAppointmentToWizard(
 ): Promise<WizardStateData> {
   const stateControlBlocks = getStateControlBlockInstances(bookingData)
   const userTypeId = appointment.userTypeId
-  const userTypeBlock = userTypeId
-    ? stateControlBlocks.find((block) => block.id === userTypeId)
-    : null
+  const userTypeBlock = findById(stateControlBlocks, userTypeId)
 
   if (userTypeId && !userTypeBlock) {
-    const fallback = findBlockInstanceById(bookingData, userTypeId)
-    if (fallback) {
+    const resolvedBlockInstance = findBlockInstanceById(bookingData, userTypeId)
+    if (resolvedBlockInstance) {
       logger.warn(
         `userTypeId ${userTypeId} resolved to block instance but is not a state control block`
       )
@@ -357,6 +344,6 @@ export async function transformAppointmentToWizard(
     propertyDetails,
     contacts,
     availability,
-    isQuoteMode: appointment.isQuoteMode ?? false,
+    isQuoteMode: extractOptionalBoolean(appointment.isQuoteMode, 'isQuoteMode'),
   }
 }

@@ -77,7 +77,7 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
   // PATTERN: Reduce metadata entries to defaults object
   let defaults: Record<string, ValidAdminValue>
   try {
-    defaults = Object.entries(metadata || {}).reduce((acc, [fieldKey, fieldMetadata]) => {
+    defaults = Object.entries(metadata !== undefined && metadata !== null ? metadata : {}).reduce((acc, [fieldKey, fieldMetadata]) => {
       const { dataType, isRequired } = fieldMetadata
 
       if (fieldKey in acc) return acc

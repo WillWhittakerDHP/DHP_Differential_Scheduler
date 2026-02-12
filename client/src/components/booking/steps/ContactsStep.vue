@@ -20,7 +20,7 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
 /**
- * WHY: Check selected services for database-driven requires_agent flag (not hardcoded)
+ * WHY: Check selected services for database-driven requiresAgent flag (not hardcoded)
  * PATTERN: Inject wizard from parent BookingWizard component
  */
 const wizard = inject<UseBookingWizardReturn>('wizard')
@@ -31,11 +31,11 @@ if (!wizard) {
 
 /**
  * WHY: Database-driven agent requirement (not hardcoded always-required)
- * PATTERN: Check requires_agent flag on selected service block_instances
+ * PATTERN: Check requiresAgent flag on selected service block_instances
  */
 const requiresAgent = computed(() => {
   return wizard.selectedServiceTypeBlocks.value.some(
-    selected => selected.requires_agent === true
+    selected => selected.requiresAgent === true
   )
 })
 

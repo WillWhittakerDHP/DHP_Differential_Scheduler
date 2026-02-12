@@ -11,6 +11,7 @@
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
+import { UNKNOWN_ERROR_MESSAGE } from '../constants/router.js';
 import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('AppointmentCalendarService');
@@ -122,7 +123,8 @@ export async function createCalendarEventForAppointment(
       const createdEvent = await createEvent(eventParams);
       
       // Update attendee records with event ID and status
-      const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) || [];
+      const filtered = appointment.attendees?.filter(a => a.shouldReceiveInvitation)
+      const attendeesToUpdate = filtered !== undefined && filtered !== null ? filtered : []
       let attendeesUpdated = 0;
       
       for (const attendee of attendeesToUpdate) {
@@ -160,7 +162,7 @@ export async function createCalendarEventForAppointment(
     logger.error('Error creating calendar event:', error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE,
       attendeesUpdated: 0,
     };
   }

@@ -53,8 +53,9 @@ export function aggregate(values: TernaryBoolean[]): TernaryBoolean {
  *   - 'inclusive': 'true' or 'override' → true (for totalDuration or future use cases)
  * @returns Boolean value for calculation purposes
  */
-export function toBoolean(value: TernaryBoolean, mode: 'strict' | 'inclusive' = 'strict'): boolean {
-  if (mode === 'strict') {
+export function toBoolean(value: TernaryBoolean, mode?: 'strict' | 'inclusive'): boolean {
+  const resolvedMode = mode !== undefined ? mode : 'strict'
+  if (resolvedMode === 'strict') {
     return value === 'true'
   }
   

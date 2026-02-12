@@ -1,5 +1,6 @@
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { PriceData, SummaryData } from '@/composables/booking/useConfirmationStepData'
+import type { PriceData, SummaryData } from '@/types/wizardStepData'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 import { calculatePartsTotals } from './partsTotals'
 import {
   filterZeroedParts
@@ -125,7 +126,7 @@ export function buildConfirmationSummaryData(
     ? `${propertyDetailsStepData.squareFootage}sqft`
     : propertyDetailsStepData?.propertySize
       ? `${propertyDetailsStepData.propertySize}sqft`
-      : 'Not specified'
+      : APPOINTMENTS_TABLE_UI.NOT_SPECIFIED
 
   return {
     serviceType,

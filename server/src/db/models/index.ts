@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import { FIELD_NAMES } from "../../routes/internal/entities/entityConstants.js";
 import { PartShapeFactory } from "./admin/part_shape.js";
 import { PartInstanceFactory } from "./booking/part_instance.js";
 import { BlockShapeFactory } from "./admin/block_shape.js";
@@ -115,7 +116,7 @@ export function initializeModels(sequelize: Sequelize) {
     through: AnnotationAssignment,
     foreignKey: 'block_instance_id',
     otherKey: 'annotation_id',
-    as: 'annotations',
+    as: FIELD_NAMES.ANNOTATIONS,
   });
 
   AnnotationInstance.belongsToMany(BlockInstance, {

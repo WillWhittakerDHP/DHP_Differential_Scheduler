@@ -3,7 +3,7 @@
  *
 LEARNING: Client-side settings for time slot generation and business hours
 WHY: Centralizes business hours and time slot configuration (admin-configurable via Business Controls tab)
-PATTERN: TypeScript interface with default values, fetches from API with fallback to defaults
+PATTERN: TypeScript interface with default values, fetches from API with defaults when not yet loaded
 Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  */

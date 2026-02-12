@@ -39,8 +39,8 @@ export function useNotification() {
    * WHY: Sets notification state and shows snackbar
    * PATTERN: Function that updates shared reactive state
    */
-  function show(message: string, color: Notification['color'] = 'info', timeout = 4000) {
-    notification.value = { message, color, timeout }
+  function show(message: string, color?: Notification['color'], timeout = 4000) {
+    notification.value = { message, color: color !== undefined ? color : 'info', timeout }
     showNotification.value = true
   }
 

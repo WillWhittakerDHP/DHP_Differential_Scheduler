@@ -24,10 +24,10 @@ export class ValidAnnotation extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parent_kind: CreationOptional<string>;
-  declare child_kind: CreationOptional<string>;  
-  declare parent_id: ForeignKey<string>;
-  declare child_id: ForeignKey<string>;
+  declare parentKind: CreationOptional<string>;
+  declare childKind: CreationOptional<string>;
+  declare parentId: ForeignKey<string>;
+  declare childId: ForeignKey<string>;
   declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -48,31 +48,29 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
           return "validAnnotations";
         }
       },
-      parent_kind: {
+      parentKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "blockShape";
-        }
+          return 'blockShape';
+        },
       },
-      child_kind: {
+      childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "annotationShape";
-        }
-      },      
-      parent_id: {
+          return 'annotationShape';
+        },
+      },
+      parentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: 'parent_id',
         references: {
           model: 'block_shapes',
           key: 'id',
         },
       },
-      child_id: {
+      childId: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: 'child_id',
         references: {
           model: 'annotation_shapes',
           key: 'id',
@@ -105,14 +103,14 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
       indexes: [
         {
           unique: true,
-          fields: ["parent_id", "child_id"]
+          fields: ['parentId', 'childId'],
         },
         {
-          fields: ["parent_id"],
+          fields: ['parentId'],
           name: 'idx_valid_annotations_parent_id',
         },
         {
-          fields: ["child_id"],
+          fields: ['childId'],
           name: 'idx_valid_annotations_child_id',
         },
       ],

@@ -7,12 +7,14 @@ import {
   Sequelize,
 } from 'sequelize';
 
+import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
+
 /**
  * Business Settings Model
- * 
+ *
  * LEARNING: Stores admin-configurable business logic settings as key-value pairs with JSONB
  * WHY: Allows admin to configure availability settings (business hours, time increments, lead time) without code changes
- * PATTERN: Single record pattern with setting_key "availability_settings" storing AvailabilitySettings JSONB object
+ * PATTERN: Single record pattern with setting_key AVAILABILITY_SETTINGS_KEY storing AvailabilitySettings JSONB object
  * 
  * TypeScript types match AvailabilitySettings interface from client/src/configs/availabilitySettings.ts
  */

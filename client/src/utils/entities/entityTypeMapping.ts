@@ -2,33 +2,35 @@
  * LEARNING: Entity Type Mapping Utility
  * WHY: Provides generic entity type handling without special casing
  * PATTERN: Single source of truth for mapping entityKey to metadata entityType
- * 
+ *
  * This utility eliminates the need for if (entityKey === 'blockShape') checks
  * by providing generic mapping functions that work for all entity types.
  */
 
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
+import { GLOBAL_CONFIG_IDS, NULL_UUID } from '@shared/constants/globalConfigIds'
 
 export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
-export const BLOCK_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000001'
-export const PART_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000002'
-export const PART_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000003'
-export const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000004'
-export const EVENT_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000010'
-export const EVENT_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000012'
-export const ANNOTATION_SHAPE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000011'
-export const ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID = '00000000-0000-0000-0000-000000000013'
+export const BLOCK_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.BLOCK_SHAPE
+export const PART_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.PART_SHAPE
+export const PART_INSTANCE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.PART_INSTANCE
+export const BLOCK_INSTANCE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.BLOCK_INSTANCE
+export const EVENT_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.EVENT_SHAPE
+export const EVENT_INSTANCE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.EVENT_INSTANCE
+export const ANNOTATION_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.ANNOTATION_SHAPE
+export const ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.ANNOTATION_INSTANCE
 
 export function getEntityTypeForMetadata(entityKey: GlobalEntityKey): EntityMetadataType | null {
-  if (entityKey === 'blockShape' || entityKey === 'partShape' || 
+  if (entityKey === 'blockShape' || entityKey === 'partShape' ||
       entityKey === 'blockInstance' || entityKey === 'partInstance' ||
       entityKey === 'eventShape' || entityKey === 'eventInstance' ||
       entityKey === 'annotationShape' || entityKey === 'annotationInstance') {
     return entityKey as EntityMetadataType
   }
-  
+
   return null
 }
 
@@ -42,66 +44,61 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
   }
 
   if (entityType === 'blockShape') {
-    return BLOCK_SHAPE_GLOBAL_CONFIG_ID
+    return GLOBAL_CONFIG_IDS.BLOCK_SHAPE
   }
-  
+
   if (entityType === 'partShape') {
-    return PART_SHAPE_GLOBAL_CONFIG_ID
+    return GLOBAL_CONFIG_IDS.PART_SHAPE
   }
 
   if (entityType === 'eventShape') {
-    return EVENT_SHAPE_GLOBAL_CONFIG_ID
+    return GLOBAL_CONFIG_IDS.EVENT_SHAPE
   }
 
   if (entityType === 'annotationShape') {
-    return ANNOTATION_SHAPE_GLOBAL_CONFIG_ID
+    return GLOBAL_CONFIG_IDS.ANNOTATION_SHAPE
   }
 
   const entityId = String(entity.id)
-  
-  const PLACEHOLDER_UUID = '00000000-0000-0000-0000-000000000000'
-  const isPlaceholder = entityId === PLACEHOLDER_UUID
-  
-  // PATTERN: Treat IDs starting with "new-" as placeholders
-  const isTemporaryId = entityId.startsWith('new-')
-  
+
+  const isPlaceholder = entityId === NULL_UUID
+
+  // PATTERN: Treat IDs starting with TEMPORARY_ID_PATTERNS.NEW_PREFIX as placeholders
+  const isTemporaryId = entityId.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
+
   if (entityType === 'partInstance') {
-    if (entityId === PART_INSTANCE_GLOBAL_CONFIG_ID) {
-      return PART_INSTANCE_GLOBAL_CONFIG_ID
+    if (entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) {
+      return GLOBAL_CONFIG_IDS.PART_INSTANCE
     }
-    // For template/temporary partInstance, use global partInstance config
     if (isPlaceholder || isTemporaryId) {
-      return PART_INSTANCE_GLOBAL_CONFIG_ID
+      return GLOBAL_CONFIG_IDS.PART_INSTANCE
     }
-    // PATTERN: Return actual entity ID - backend will handle fallback to global config if no instance-specific metadata exists
     return entityId
   }
-  
+
   if (entityType === 'blockInstance') {
-    // For template/temporary blockInstance, use global blockInstance config sentinel UUID
     if (isPlaceholder || isTemporaryId) {
-      return BLOCK_INSTANCE_GLOBAL_CONFIG_ID
+      return GLOBAL_CONFIG_IDS.BLOCK_INSTANCE
     }
-    // PATTERN: Return actual entity ID - backend will handle fallback to global config if no instance-specific metadata exists
     return entityId
   }
 
   if (entityType === 'eventInstance') {
-    if (entityId === EVENT_INSTANCE_GLOBAL_CONFIG_ID) {
-      return EVENT_INSTANCE_GLOBAL_CONFIG_ID
+    if (entityId === GLOBAL_CONFIG_IDS.EVENT_INSTANCE) {
+      return GLOBAL_CONFIG_IDS.EVENT_INSTANCE
     }
     if (isPlaceholder || isTemporaryId) {
-      return EVENT_INSTANCE_GLOBAL_CONFIG_ID
+      return GLOBAL_CONFIG_IDS.EVENT_INSTANCE
     }
     return entityId
   }
 
   if (entityType === 'annotationInstance') {
-    if (entityId === ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID) {
-      return ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID
+    if (entityId === GLOBAL_CONFIG_IDS.ANNOTATION_INSTANCE) {
+      return GLOBAL_CONFIG_IDS.ANNOTATION_INSTANCE
     }
     if (isPlaceholder || isTemporaryId) {
-      return ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID
+      return GLOBAL_CONFIG_IDS.ANNOTATION_INSTANCE
     }
     return entityId
   }

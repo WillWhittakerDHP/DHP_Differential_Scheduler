@@ -6,7 +6,7 @@
  * PATTERN: Config interface for orchestration; context interface for handler factories
  */
 
-import type { Request, Response } from 'express'
+import type { Request, Response, RequestHandler } from 'express'
 import type { Model, ModelStatic, Includeable, Order } from 'sequelize'
 import type { ValidationResult } from './routerValidators.js'
 
@@ -81,6 +81,8 @@ export interface CrudRouterConfig<T extends Model> {
   customGetAllHandler?: (req: Request, res: Response) => Promise<void>
   /** Custom GET /:id handler (optional - if provided, overrides default GET /:id) */
   customGetByIdHandler?: (req: Request, res: Response) => Promise<void>
+  /** Middleware to run before GET /:id (e.g. checkOwnership for IDOR protection) */
+  getByIdMiddleware?: RequestHandler[]
 }
 
 /**

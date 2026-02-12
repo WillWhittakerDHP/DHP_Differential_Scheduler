@@ -5,6 +5,7 @@
  * NOTE: orderIndex is hidden (managed via drag-and-drop UI, not editable field)
  */
 
+import { ENTITY_STATUS, FIELD_NAMES } from '../../../../constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
 
 /**
@@ -34,14 +35,14 @@ export const annotationShapeFields = {
     primitiveType: PrimitiveTypeEnum.Number,
     primitiveMode: PrimitiveModeEnum.Hidden,
     placeholder: "This Field Should Be Hidden",
-    globalField: "orderIndex" as const,
+    globalField: FIELD_NAMES.ORDER_INDEX,
     expandable: false,
   },
 
   active: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Active",
+    placeholder: ENTITY_STATUS.ACTIVE,
     globalField: "active" as const,
     expandable: false,
   },

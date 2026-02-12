@@ -1,3 +1,5 @@
+import { ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+
 /**
  * LEARNING: AnnotationInstance Display Configs (Configuration Data)
  * WHY: Defines labels, placeholders, and layout for AnnotationInstance fields
@@ -42,8 +44,8 @@ export const annotationInstanceDisplays = {
   },
 
   active: {
-    label: "Active",
-    placeholder: "Active",
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

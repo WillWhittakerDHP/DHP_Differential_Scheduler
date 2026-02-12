@@ -10,18 +10,14 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
 
 export interface FieldsByLocation {
   titleRow: GlobalFieldKey<GlobalEntityKey>[]
   directInline: GlobalFieldKey<GlobalEntityKey>[]
   directStacked: GlobalFieldKey<GlobalEntityKey>[]
-  subPanels: {
-    parts: GlobalFieldKey<GlobalEntityKey>[]
-    relationships: GlobalFieldKey<GlobalEntityKey>[]
-    annotations: GlobalFieldKey<GlobalEntityKey>[]
-    events: GlobalFieldKey<GlobalEntityKey>[]
-  }
+  subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
   hidden: GlobalFieldKey<GlobalEntityKey>[]
 }
 
@@ -65,22 +61,21 @@ export function useConditionalFieldVisibility(
       return true
     })
     
-    const filteredRelationships = base.subPanels.relationships.filter(fieldKey => {
+    const filteredComposition = base.subPanels.composition.filter(fieldKey => {
       if (String(fieldKey) === 'instanceComponents') {
         const compositeValue = formValues.composite === true
         return compositeValue && isComposable.value === true
       }
       return true
     })
-    
+
     return {
       ...base,
       directInline: filteredDirectInline,
       directStacked: filteredDirectStacked,
       subPanels: {
         ...base.subPanels,
-        relationships: filteredRelationships,
-        events: base.subPanels.events || []
+        composition: filteredComposition
       }
     }
   })

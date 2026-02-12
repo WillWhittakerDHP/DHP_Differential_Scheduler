@@ -39,12 +39,14 @@ export function useAvailabilityEmptyState(
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
   
   const { settings: availabilitySettings } = useAvailabilitySettings()
-  const majorLabel = computed(() => 
-    availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
-  )
-  const minorLabel = computed(() => 
-    availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor'
-  )
+  const majorLabel = computed(() => {
+    const raw = availabilitySettings.value?.differentialPerspectives?.majorLabel
+    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'
+  })
+  const minorLabel = computed(() => {
+    const raw = availabilitySettings.value?.differentialPerspectives?.minorLabel
+    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor'
+  })
 
   /**
    * LEARNING: Compute empty state message based on service type and perspective

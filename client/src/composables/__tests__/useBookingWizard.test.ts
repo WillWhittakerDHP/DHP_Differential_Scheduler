@@ -17,42 +17,41 @@ describe('useBookingWizard', () => {
   describe('state management', () => {
     it('should initialize with empty selections', () => {
       const wizard = useBookingWizard()
-      
-      expect(wizard.selectedServices.value).toEqual([])
+
+      expect(wizard.selectedServiceTypeBlocks.value).toEqual([])
       expect(wizard.selectedUserTypeBlock.value).toBeNull()
       expect(wizard.selectedOptionTypeBlocks.value).toEqual([])
       expect(wizard.selectedPropertyTypeBlocks.value).toEqual([])
     })
-    
+
     it('should toggle service selection', () => {
       const wizard = useBookingWizard()
-      const mockService = { 
-        id: 'block-1', 
+      const mockService = {
+        id: 'block-1',
         name: 'Test Service',
         entityKey: 'blockInstance',
         disabled: false,
         orderIndex: 0,
       } as unknown as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance
-      
-      expect(wizard.selectedServices.value.length).toBe(0)
-      
-      wizard.toggleService(mockService)
-      expect(wizard.selectedServices.value.length).toBe(1)
-      expect(wizard.selectedServices.value[0].id).toBe('block-1')
-      
-      wizard.toggleService(mockService)
-      expect(wizard.selectedServices.value.length).toBe(0)
+
+      expect(wizard.selectedServiceTypeBlocks.value.length).toBe(0)
+
+      wizard.toggleServiceTypeBlock(mockService)
+      expect(wizard.selectedServiceTypeBlocks.value.length).toBe(1)
+      expect(wizard.selectedServiceTypeBlocks.value[0].id).toBe('block-1')
+
+      wizard.toggleServiceTypeBlock(mockService)
+      expect(wizard.selectedServiceTypeBlocks.value.length).toBe(0)
     })
-    
-    it('should clear selections on reset', () => {
+
+    it('should clear dependent selections when service is toggled', () => {
       const wizard = useBookingWizard()
-      const mockService = { id: 'block-1', name: 'Test Service' } as const
-      
-      wizard.toggleService(mockService as unknown as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance)
-      expect(wizard.selectedServices.value.length).toBeGreaterThan(0)
-      
-      wizard.resetWizard()
-      expect(wizard.selectedServices.value).toEqual([])
+      const mockService = { id: 'block-1', name: 'Test Service' } as unknown as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance
+
+      wizard.toggleServiceTypeBlock(mockService)
+      wizard.selectedOptionTypeBlocks.value = [{ ...mockService, id: 'opt-1' }] as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance[]
+      wizard.toggleServiceTypeBlock({ ...mockService, id: 'block-2' } as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance)
+      expect(wizard.selectedOptionTypeBlocks.value).toEqual([])
     })
   })
   
@@ -73,28 +72,21 @@ describe('useBookingWizard', () => {
   describe('wizard state', () => {
     it('should have selected services array', () => {
       const wizard = useBookingWizard()
-      
-      expect(wizard.selectedServices.value).toBeInstanceOf(Array)
+
+      expect(wizard.selectedServiceTypeBlocks.value).toBeInstanceOf(Array)
     })
-    
+
     it('should have selected availability options array', () => {
       const wizard = useBookingWizard()
-      
+
       expect(wizard.selectedOptionTypeBlocks.value).toBeInstanceOf(Array)
     })
   })
-  
-  describe('reset functionality', () => {
-    it('should reset wizard to initial state', () => {
+
+  describe('batchUpdate', () => {
+    it('should expose batchUpdate for multi-step updates', () => {
       const wizard = useBookingWizard()
-      const mockService = { id: 'block-1', name: 'Test Service' } as const
-      
-      wizard.toggleService(mockService as unknown as import('@/utils/transformers/globalToBookingTransformer').BookingBlockInstance)
-      expect(wizard.selectedServices.value.length).toBeGreaterThan(0)
-      
-      wizard.resetWizard()
-      
-      expect(wizard.selectedServices.value).toEqual([])
+      expect(typeof wizard.batchUpdate).toBe('function')
     })
   })
 })

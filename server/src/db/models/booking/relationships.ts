@@ -14,10 +14,10 @@ export class Relationship extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parent_kind: CreationOptional<string>;
-  declare child_kind: CreationOptional<string>;  
-  declare parent_id: ForeignKey<string>;
-  declare child_id: ForeignKey<string>;
+  declare parentKind: CreationOptional<string>;
+  declare childKind: CreationOptional<string>;
+  declare parentId: ForeignKey<string>;
+  declare childId: ForeignKey<string>;
   declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -37,21 +37,21 @@ export function RelationshipFactory(sequelize: Sequelize) {
         allowNull: false,
         field: 'type', // Database column name remains 'type' until migration to 'kind'
       },
-      parent_kind: {
+      parentKind: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'parent_type', // Database column name remains 'parent_type' until migration to 'parent_kind'
       },
-      child_kind: {
+      childKind: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'child_type', // Database column name remains 'child_type' until migration to 'child_kind'
       },
-      parent_id: {
+      parentId: {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      child_id: {
+      childId: {
         type: DataTypes.UUID,
         allowNull: false,
       },
@@ -80,8 +80,8 @@ export function RelationshipFactory(sequelize: Sequelize) {
       indexes: [
         {
           unique: true,
-          fields: ["parent_id", "child_id"]
-        }
+          fields: ['parentId', 'childId'],
+        },
       ],
       freezeTableName: true,
     }

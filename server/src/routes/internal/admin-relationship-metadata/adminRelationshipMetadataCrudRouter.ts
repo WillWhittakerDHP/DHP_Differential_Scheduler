@@ -9,7 +9,9 @@
 import { Router, Request, Response } from 'express'
 import { AdminRelationshipMetadata } from '../../../db/models/admin/adminRelationshipMetadata.js'
 import { getAdminRelationshipMetadata } from '../../../utils/adminRelationshipMetadataComposer.js'
-import { ERROR_MESSAGES } from './adminRelationshipMetadataConstants.js'
+import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminRelationshipMetadataConstants.js'
+
+type RelationshipEntityType = (typeof VALID_ENTITY_TYPES)[number]
 import { handleRouteError } from './adminRelationshipMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateInputConfig } from './adminRelationshipMetadataValidators.js'
 import { transformMetadataToRecord } from './adminRelationshipMetadataHelpers.js'
@@ -109,7 +111,7 @@ router.post(
 
     const existing = await AdminRelationshipMetadata.findOne({
       where: {
-        entityType: entityType as any,
+        entityType: entityType as RelationshipEntityType,
         entityId: entityId,
         relationshipKey: relationshipKey,
       },
@@ -133,7 +135,7 @@ router.post(
       sendSuccess(res, existing)
     } else {
       const metadata = await AdminRelationshipMetadata.create({
-        entityType: entityType as any,
+        entityType: entityType as RelationshipEntityType,
         entityId: entityId,
         relationshipKey,
         dataType,
@@ -181,7 +183,7 @@ router.delete(
 
     const metadata = await AdminRelationshipMetadata.findOne({
       where: {
-        entityType: entityType as any,
+        entityType: entityType as RelationshipEntityType,
         entityId: entityId,
         relationshipKey: relationshipKey,
       },

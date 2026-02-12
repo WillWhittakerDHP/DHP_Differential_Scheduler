@@ -6,7 +6,6 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
-
 /**
  * AnnotationInstance Model
  * 
@@ -78,7 +77,6 @@ export function AnnotationInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'order_index',
         comment: 'Order index for UI drag-and-drop ordering',
       },
       active: {

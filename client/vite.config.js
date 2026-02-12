@@ -58,6 +58,43 @@ export default defineConfig({
             },
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: function (id) {
+                    if (id.includes('node_modules/vue/') || id.includes('node_modules/@vue/')) {
+                        return 'vue';
+                    }
+                    if (id.includes('node_modules/vue-router/')) {
+                        return 'vue-router';
+                    }
+                    if (id.includes('node_modules/pinia/')) {
+                        return 'pinia';
+                    }
+                    if (id.includes('node_modules/vuetify/') || id.includes('node_modules/@mdi/')) {
+                        return 'vuetify';
+                    }
+                    if (id.includes('node_modules/@vueuse/')) {
+                        return 'vueuse';
+                    }
+                    if (id.includes('node_modules/axios/')) {
+                        return 'axios';
+                    }
+                    if (id.includes('node_modules/date-fns/')) {
+                        return 'date-fns';
+                    }
+                    if (id.includes('node_modules/@tanstack/vue-query')) {
+                        return 'vue-query';
+                    }
+                    if (id.includes('node_modules/vee-validate/')) {
+                        return 'vee-validate';
+                    }
+                    return undefined;
+                },
+            },
+        },
+        chunkSizeWarningLimit: 600,
+    },
     server: {
         port: 3002,
         proxy: {

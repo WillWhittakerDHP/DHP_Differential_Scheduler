@@ -7,18 +7,19 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import { BLOCK_SHAPE_NAMES } from '../../../routes/internal/properties/propertyConstants.js';
 
 /**
  * PropertyVersionType Model
  * 
  * Junction table linking property_versions to block_instances (property types).
- * Enables properties to have multiple associated types from the "Properties" block_shape.
- * 
- * LEARNING: Property types are stored as block_instances with "Properties" block_shape
+ * Enables properties to have multiple associated types from the block_shape (BLOCK_SHAPE_NAMES.PROPERTIES).
+ *
+ * LEARNING: Property types are stored as block_instances with block_shape BLOCK_SHAPE_NAMES.PROPERTIES
  * WHY: Consistent pattern with services, dwelling adjustments, and other block_instance types
  * PATTERN: Junction table with database-level validation via trigger
  * 
- * Constraint: block_instance_id must reference a block_instance with "Properties" block_shape
+ * Constraint: block_instance_id must reference a block_instance with block_shape BLOCK_SHAPE_NAMES.PROPERTIES
  * This is enforced at both database level (trigger) and application level (API validation).
  */
 export class PropertyVersionType extends Model<
@@ -59,7 +60,7 @@ export function PropertyVersionTypeFactory(sequelize: Sequelize) {
           model: 'block_instances',
           key: 'id',
         },
-        comment: 'Must reference a block_instance with "Properties" block_shape (enforced by trigger)',
+        comment: `Must reference a block_instance with "${BLOCK_SHAPE_NAMES.PROPERTIES}" block_shape (enforced by trigger)`,
       },
       orderIndex: {
         type: DataTypes.INTEGER,

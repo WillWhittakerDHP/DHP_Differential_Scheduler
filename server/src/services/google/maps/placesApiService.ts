@@ -7,6 +7,7 @@
  */
 
 import { createLogger } from '../../../utils/logger.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
 import { getGoogleMapsApiKey } from '../shared/googleApiConfig.js'
 import { MapsApiError } from './mapsErrorHandler.js'
@@ -143,7 +144,7 @@ export async function geocodeAddressToPlaceId(address: string): Promise<string |
       return placeId
     } catch (error) {
       logger.warn('Geocoding error', {
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
       })
       cachePlaceId(address, null)
       return null

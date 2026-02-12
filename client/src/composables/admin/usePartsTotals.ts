@@ -83,11 +83,11 @@ export function usePartsTotals(
     }
 
     const relationships = partAssignments.value.filter(
-      rel => String(rel.parent_id) === entityId && !rel.disabled
+      rel => String(rel.parentId) === entityId && !rel.disabled
     )
 
     // PATTERN: Use Set to deduplicate before resolving
-    const childIdsBeforeDedup = relationships.map(rel => String(rel.child_id))
+    const childIdsBeforeDedup = relationships.map(rel => String(rel.childId))
     const childIds = [...new Set(childIdsBeforeDedup)]
 
     if (childIdsBeforeDedup.length !== childIds.length) {

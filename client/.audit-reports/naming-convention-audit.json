@@ -1,0 +1,1238 @@
+{
+  "generatedAt": "2026-02-11T04:08:23.516Z",
+  "totalScanned": 969,
+  "exceptionSummary": {
+    "totalAllowed": 0,
+    "totalRequiresReview": 81,
+    "bySource": {
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0
+    }
+  },
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "score": 10,
+      "priority": "P0",
+      "count": 5
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
+      "score": 10,
+      "priority": "P0",
+      "count": 5
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "score": 6,
+      "priority": "P1",
+      "count": 3
+    },
+    {
+      "repoPath": "client/src/composables/useLocalTime.ts",
+      "score": 6,
+      "priority": "P1",
+      "count": 3
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
+      "score": 4,
+      "priority": "P1",
+      "count": 2
+    },
+    {
+      "repoPath": "client/src/composables/_archived/useFieldMetadata.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useTableModelHelpers.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/admin/useMetadataCache.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/booking/selectionCard/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/booking/useStepValidation.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/types.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/componentEntity/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/types.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/formFields/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/formFields/types.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/index.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/types.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/useAdminConfig.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/useApiErrorMessage.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/layouts/blank.vue",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/layouts/default.vue",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminMetadata.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminRelationshipMetadata.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/business_rule.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/business_settings.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/part_shape.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_annotation.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_cascade.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_component.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_composition.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_event.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_part.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_annotation.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_event.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_part.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/additional_service_option.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/address.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_assignment.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment_attendee.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/block_instance_version.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/block_instance.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_assignment.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_instance.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_shape_attendee.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_shape.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/instance_component.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_assignment.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_instance_version.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_instance.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_details.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_version_type.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_version.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/booking/relationships.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/db/models/participantModels/Users.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/types/express.d.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    }
+  ],
+  "scanned": [
+    {
+      "repoPath": "client/src/composables/_archived/useFieldMetadata.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 37,
+          "line": "export function clearMetadataCache("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 21,
+          "line": "export function attendeesFromClientAndAgent("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 34,
+          "line": "export function getClientIdFromAttendees("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 39,
+          "line": "export function getAgentIdFromAttendees("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 44,
+          "line": "export function getClientAttendee("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 48,
+          "line": "export function getAgentAttendee("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 13,
+          "line": "export function getStatusColor("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 33,
+          "line": "export function getRoleColor("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useTableModelHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 12,
+          "line": "export function formatNullValue("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 31,
+          "line": "export function calculateMaxBusinessHours("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 8,
+          "line": "export function getPanelsElement("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 46,
+          "line": "export function countDraggableNodes("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 56,
+          "line": "export function createSingleClassDraggableChecker("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 63,
+          "line": "export function createMultiClassDraggableChecker("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 79,
+          "line": "export function createExpansionPanelDraggableChecker("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useMetadataCache.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 169,
+          "line": "export function resetMetadataCache("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: nestedComputedFactory.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/selectionCard/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useStepValidation.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 31,
+          "line": "export function collectErrors("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/types.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: types.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/componentEntity/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 17,
+          "line": "export function createRefetchGlobalDataHandler("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 28,
+          "line": "export function createRefetchQueriesHandler("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 58,
+          "line": "export function createRestorePreviousDataHandler("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/types.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: types.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/formFields/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/formFields/types.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: types.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/index.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: index.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/types.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: types.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useAdminConfig.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 40,
+          "line": "export function _clearCache("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useApiErrorMessage.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 13,
+          "line": "export function getApiErrorMessage("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useLocalTime.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 50,
+          "line": "export function rfc3339ToLocalHHmm("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 232,
+          "line": "export function extractBusinessHoursMinutes("
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 261,
+          "line": "export function rfc3339ToLocalMinutesFromMidnight("
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/layouts/blank.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "componentFileName",
+          "lineNumber": 1,
+          "line": "Component file should be PascalCase: blank.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/layouts/default.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "componentFileName",
+          "lineNumber": 1,
+          "line": "Component file should be PascalCase: default.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "typesFileName",
+          "lineNumber": 1,
+          "line": "Types file should be camelCase: AdminEntity.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminMetadata.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 43,
+          "line": "export function AdminMetadataFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 44,
+          "line": "export function AdminPrimitiveMetadataFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/adminRelationshipMetadata.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 42,
+          "line": "export function AdminRelationshipMetadataFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 32,
+          "line": "export function BlockShapeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/business_rule.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 117,
+          "line": "export function BusinessRuleFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/business_settings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 279,
+          "line": "export function BusinessSettingsFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/part_shape.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 21,
+          "line": "export function PartShapeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_annotation.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function ValidAnnotationFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_cascade.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function ValidCascadeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_component.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function ValidComponentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_composition.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 47,
+          "line": "export function ValidCompositionFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_event.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function ValidEventFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_part.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function ValidPartFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_annotation.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 49,
+          "line": "export function AnnotationAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_event.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 53,
+          "line": "export function EventAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/active_part.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function PartAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/additional_service_option.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 39,
+          "line": "export function AdditionalServiceOptionFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/address.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 33,
+          "line": "export function AddressFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_assignment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 49,
+          "line": "export function AnnotationAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 46,
+          "line": "export function AnnotationInstanceFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 39,
+          "line": "export function AnnotationShapeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 57,
+          "line": "export function AppointmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment_attendee.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 53,
+          "line": "export function AppointmentAttendeeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/block_instance.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 39,
+          "line": "export function BlockInstanceFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/block_instance_version.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function BlockInstanceVersionFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 37,
+          "line": "export function BookingCascadeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 41,
+          "line": "export function DependentInstanceFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_assignment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 47,
+          "line": "export function EventAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_instance.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 46,
+          "line": "export function EventInstanceFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_shape.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 41,
+          "line": "export function EventShapeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/event_shape_attendee.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 47,
+          "line": "export function EventShapeAttendeeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/instance_component.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 38,
+          "line": "export function InstanceComponentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_assignment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function PartAssignmentFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_instance.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 29,
+          "line": "export function PartInstanceFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/part_instance_version.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 37,
+          "line": "export function PartInstanceVersionFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_details.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function PropertyDetailsFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_version.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 27,
+          "line": "export function PropertyVersionFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_version_type.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 36,
+          "line": "export function PropertyVersionTypeFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/booking/relationships.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 25,
+          "line": "export function RelationshipFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/participantModels/Users.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 27,
+          "line": "export function UserFactory("
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/types/express.d.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "typesFileName",
+          "lineNumber": 1,
+          "line": "Types file should be camelCase: express.d.ts"
+        }
+      ]
+    }
+  ]
+}

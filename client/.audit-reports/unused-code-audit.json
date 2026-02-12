@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-10T13:52:10.344Z",
+  "generatedAt": "2026-02-11T04:10:01.052Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -24,9 +24,18 @@
     {
       "severity": "info",
       "type": "unused-function",
+      "message": "Unused function: handleTitleKeydown",
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "line": 131,
+      "code": "function handleTitleKeydown(event: KeyboardEvent): void {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
       "message": "Unused function: togglePartsBulkEditMode",
       "file": "client/src/components/admin/generic/EntityCardSubPanels.vue",
-      "line": 157,
+      "line": 153,
       "code": "const togglePartsBulkEditMode = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -53,7 +62,7 @@
       "type": "unused-export",
       "message": "Unused export: CollectionType (type)",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 131,
+      "line": 132,
       "code": "export type CollectionType = 'parts' | 'annotations' | 'events'",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -63,7 +72,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteChildById",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 230,
+      "line": 231,
       "code": "const handleDeleteChildById = async (id: string) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -72,7 +81,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteChild",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 239,
+      "line": 240,
       "code": "const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -81,7 +90,7 @@
       "type": "unused-function",
       "message": "Unused function: openPicker",
       "file": "client/src/components/admin/generic/fields/IconInput.vue",
-      "line": 150,
+      "line": 154,
       "code": "const openPicker = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -133,10 +142,10 @@
     {
       "severity": "info",
       "type": "unused-function",
-      "message": "Unused function: handleEnterKey",
+      "message": "Unused function: handleKeydown",
       "file": "client/src/components/admin/generic/fields/TextInput.vue",
       "line": 192,
-      "code": "const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)",
+      "code": "const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -178,9 +187,18 @@
     {
       "severity": "info",
       "type": "unused-function",
+      "message": "Unused function: onOptionIdUpdate",
+      "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "line": 70,
+      "code": "function onOptionIdUpdate(id: string | null): void {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
       "message": "Unused function: handlePropertyConfirm",
       "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
-      "line": 213,
+      "line": 212,
       "code": "function handlePropertyConfirm(): void {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -189,7 +207,7 @@
       "type": "unused-function",
       "message": "Unused function: handlePropertyEdit",
       "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
-      "line": 216,
+      "line": 215,
       "code": "function handlePropertyEdit(): void {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -220,6 +238,24 @@
       "code": "export function clearMetadataCache(): void {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: isClientAttendee",
+      "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "line": 9,
+      "code": "function isClientAttendee(a: AttendeeResponse): boolean {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: isAgentAttendee",
+      "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "line": 13,
+      "code": "function isAgentAttendee(a: AttendeeResponse): boolean {",
+      "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "warning",
@@ -256,7 +292,7 @@
       "type": "unused-export",
       "message": "Unused export: UsersTableModel (type)",
       "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
-      "line": 7,
+      "line": 8,
       "code": "export interface UsersTableModel extends CrudDataTableModel<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -286,7 +322,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAttendeeQuickSelectReturn (type)",
       "file": "client/src/composables/admin/useAttendeeQuickSelect.ts",
-      "line": 19,
+      "line": 23,
       "code": "export interface UseAttendeeQuickSelectReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -346,7 +382,7 @@
       "type": "unused-export",
       "message": "Unused export: UseBufferSettingsParams (type)",
       "file": "client/src/composables/admin/useBufferSettings.ts",
-      "line": 18,
+      "line": 19,
       "code": "export interface UseBufferSettingsParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -356,7 +392,7 @@
       "type": "unused-export",
       "message": "Unused export: RequiredFieldsRuleConfig (type)",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 32,
+      "line": 54,
       "code": "export interface RequiredFieldsRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -366,7 +402,7 @@
       "type": "unused-export",
       "message": "Unused export: RequiresAgentRuleConfig (type)",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 43,
+      "line": 65,
       "code": "export interface RequiresAgentRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -376,7 +412,7 @@
       "type": "unused-export",
       "message": "Unused export: ConditionalValidationRuleConfig (type)",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 53,
+      "line": 75,
       "code": "export interface ConditionalValidationRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -386,7 +422,7 @@
       "type": "unused-export",
       "message": "Unused export: ValidationMessageRuleConfig (type)",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 66,
+      "line": 88,
       "code": "export interface ValidationMessageRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -396,7 +432,7 @@
       "type": "unused-export",
       "message": "Unused export: RuleConfig (type)",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 32,
+      "line": 54,
       "code": "export interface RequiredFieldsRuleConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -426,7 +462,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConditionalFieldVisibilityOptions (type)",
       "file": "client/src/composables/admin/useConditionalFieldVisibility.ts",
-      "line": 28,
+      "line": 24,
       "code": "export interface UseConditionalFieldVisibilityOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -436,7 +472,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConditionalFieldVisibilityReturn (type)",
       "file": "client/src/composables/admin/useConditionalFieldVisibility.ts",
-      "line": 35,
+      "line": 31,
       "code": "export interface UseConditionalFieldVisibilityReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -885,8 +921,38 @@
       "type": "unused-export",
       "message": "Unused export: UseFieldInputHandlersParams (type)",
       "file": "client/src/composables/admin/useFieldInputHandlers.ts",
-      "line": 21,
+      "line": 24,
       "code": "export interface UseFieldInputHandlersParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseFieldInputSetupOptions (type)",
+      "file": "client/src/composables/admin/useFieldInputSetup.ts",
+      "line": 20,
+      "code": "export interface UseFieldInputSetupOptions {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseFieldKeyboardGuardOptions (type)",
+      "file": "client/src/composables/admin/useFieldKeyboardGuard.ts",
+      "line": 25,
+      "code": "export interface UseFieldKeyboardGuardOptions {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: UseFieldKeyboardGuardReturn (type)",
+      "file": "client/src/composables/admin/useFieldKeyboardGuard.ts",
+      "line": 32,
+      "code": "export interface UseFieldKeyboardGuardReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -895,7 +961,7 @@
       "type": "unused-export",
       "message": "Unused export: UseFieldLocationOptions (type)",
       "file": "client/src/composables/admin/useFieldLocation.ts",
-      "line": 25,
+      "line": 26,
       "code": "export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -905,7 +971,7 @@
       "type": "unused-export",
       "message": "Unused export: UseFieldLocationReturn (type)",
       "file": "client/src/composables/admin/useFieldLocation.ts",
-      "line": 33,
+      "line": 34,
       "code": "export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1075,7 +1141,7 @@
       "type": "unused-export",
       "message": "Unused export: UseInstanceFilteringOptions (type)",
       "file": "client/src/composables/admin/useInstanceFiltering.ts",
-      "line": 22,
+      "line": 25,
       "code": "export interface UseInstanceFilteringOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1085,7 +1151,7 @@
       "type": "unused-export",
       "message": "Unused export: UseInstanceFilteringReturn (type)",
       "file": "client/src/composables/admin/useInstanceFiltering.ts",
-      "line": 26,
+      "line": 29,
       "code": "export interface UseInstanceFilteringReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1422,7 +1488,7 @@
       "type": "unused-export",
       "message": "Unused export: UseRelationshipCollectionDataOptions (type)",
       "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-      "line": 23,
+      "line": 24,
       "code": "export interface UseRelationshipCollectionDataOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1432,7 +1498,7 @@
       "type": "unused-export",
       "message": "Unused export: UseRelationshipCollectionDataReturn (type)",
       "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-      "line": 35,
+      "line": 36,
       "code": "export interface UseRelationshipCollectionDataReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1442,7 +1508,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectConfigOptions (type)",
       "file": "client/src/composables/admin/useSelectConfig.ts",
-      "line": 26,
+      "line": 29,
       "code": "export interface UseSelectConfigOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1452,7 +1518,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectConfigReturn (type)",
       "file": "client/src/composables/admin/useSelectConfig.ts",
-      "line": 30,
+      "line": 33,
       "code": "export interface UseSelectConfigReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1502,7 +1568,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectFilteringOptions (type)",
       "file": "client/src/composables/admin/useSelectFiltering.ts",
-      "line": 29,
+      "line": 30,
       "code": "export interface UseSelectFilteringOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1522,7 +1588,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectHandlersOptions (type)",
       "file": "client/src/composables/admin/useSelectHandlers.ts",
-      "line": 26,
+      "line": 27,
       "code": "export interface UseSelectHandlersOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1532,7 +1598,7 @@
       "type": "unused-export",
       "message": "Unused export: UseSelectHandlersReturn (type)",
       "file": "client/src/composables/admin/useSelectHandlers.ts",
-      "line": 48,
+      "line": 49,
       "code": "export interface UseSelectHandlersReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1752,7 +1818,7 @@
       "type": "unused-export",
       "message": "Unused export: UseStatusButtonToggleOptions (type)",
       "file": "client/src/composables/admin/useStatusButtonToggle.ts",
-      "line": 22,
+      "line": 25,
       "code": "export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1762,7 +1828,7 @@
       "type": "unused-export",
       "message": "Unused export: UseStatusButtonToggleReturn (type)",
       "file": "client/src/composables/admin/useStatusButtonToggle.ts",
-      "line": 34,
+      "line": 37,
       "code": "export interface UseStatusButtonToggleReturn<GE extends GlobalEntityKey> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1992,7 +2058,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentDataCollectionParams (type)",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 50,
+      "line": 51,
       "code": "export interface UseAppointmentDataCollectionParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2002,7 +2068,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentDataCollectionReturn (type)",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 70,
+      "line": 71,
       "code": "export interface UseAppointmentDataCollectionReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2052,7 +2118,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentShapeParams (type)",
       "file": "client/src/composables/booking/useAppointmentShape.ts",
-      "line": 25,
+      "line": 23,
       "code": "export interface UseAppointmentShapeParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2062,7 +2128,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAppointmentShapeReturn (type)",
       "file": "client/src/composables/booking/useAppointmentShape.ts",
-      "line": 29,
+      "line": 27,
       "code": "export interface UseAppointmentShapeReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2180,9 +2246,19 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: UseAvailabilityOrchestratorParams (type)",
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "line": 32,
+      "code": "export interface UseAvailabilityOrchestratorParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: UseAvailabilitySlotColorParams (type)",
       "file": "client/src/composables/booking/useAvailabilitySlotColor.ts",
-      "line": 11,
+      "line": 17,
       "code": "export interface UseAvailabilitySlotColorParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2192,7 +2268,7 @@
       "type": "unused-export",
       "message": "Unused export: UseAvailabilitySlotColorReturn (type)",
       "file": "client/src/composables/booking/useAvailabilitySlotColor.ts",
-      "line": 15,
+      "line": 23,
       "code": "export interface UseAvailabilitySlotColorReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2342,7 +2418,7 @@
       "type": "unused-export",
       "message": "Unused export: UseComputedAvailabilityParams (type)",
       "file": "client/src/composables/booking/useComputedAvailability.ts",
-      "line": 42,
+      "line": 43,
       "code": "export interface UseComputedAvailabilityParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2352,7 +2428,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConfirmationStepDataParams (type)",
       "file": "client/src/composables/booking/useConfirmationStepData.ts",
-      "line": 61,
+      "line": 22,
       "code": "export interface UseConfirmationStepDataParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2362,7 +2438,7 @@
       "type": "unused-export",
       "message": "Unused export: UseConfirmationStepDataReturn (type)",
       "file": "client/src/composables/booking/useConfirmationStepData.ts",
-      "line": 73,
+      "line": 34,
       "code": "export interface UseConfirmationStepDataReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2412,7 +2488,7 @@
       "type": "unused-export",
       "message": "Unused export: useDependentInstances (function)",
       "file": "client/src/composables/booking/useDependentInstances.ts",
-      "line": 51,
+      "line": 52,
       "code": "export function useDependentInstances(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2422,7 +2498,7 @@
       "type": "unused-export",
       "message": "Unused export: UseDependentInstancesOptions (type)",
       "file": "client/src/composables/booking/useDependentInstances.ts",
-      "line": 22,
+      "line": 23,
       "code": "export interface UseDependentInstancesOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2432,7 +2508,7 @@
       "type": "unused-export",
       "message": "Unused export: UseDependentInstancesReturn (type)",
       "file": "client/src/composables/booking/useDependentInstances.ts",
-      "line": 28,
+      "line": 29,
       "code": "export interface UseDependentInstancesReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2749,7 +2825,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectionCardItemWithComponents (type)",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 29,
+      "line": 32,
       "code": "export interface SelectionCardItemWithComponents extends BookingBlockInstance {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2759,7 +2835,7 @@
       "type": "unused-export",
       "message": "Unused export: UsePropertyDetailsLogicParams (type)",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 34,
+      "line": 37,
       "code": "export interface UsePropertyDetailsLogicParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2769,7 +2845,7 @@
       "type": "unused-export",
       "message": "Unused export: UsePropertyDetailsLogicReturn (type)",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 45,
+      "line": 48,
       "code": "export interface UsePropertyDetailsLogicReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2907,6 +2983,16 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: collectErrors (function)",
+      "file": "client/src/composables/booking/useStepValidation.ts",
+      "line": 31,
+      "code": "export function collectErrors(",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: CustomValidator (type)",
       "file": "client/src/composables/booking/useStepValidation.ts",
       "line": 12,
@@ -2949,7 +3035,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardAppointmentManagementOptions (type)",
       "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-      "line": 18,
+      "line": 52,
       "code": "export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2959,7 +3045,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardAppointmentManagementReturn (type)",
       "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-      "line": 34,
+      "line": 68,
       "code": "export interface UseWizardAppointmentManagementReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3009,7 +3095,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardFilteredOptionsParams (type)",
       "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-      "line": 88,
+      "line": 11,
       "code": "export type UseWizardFilteredOptionsParams = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3019,7 +3105,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardFilteredOptionsReturn (type)",
       "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-      "line": 99,
+      "line": 19,
       "code": "export type UseWizardFilteredOptionsReturn = WizardComputedProperties",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3079,7 +3165,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardSubmissionParams (type)",
       "file": "client/src/composables/booking/useWizardSubmission.ts",
-      "line": 12,
+      "line": 13,
       "code": "export interface UseWizardSubmissionParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3089,7 +3175,7 @@
       "type": "unused-export",
       "message": "Unused export: UseWizardSubmissionReturn (type)",
       "file": "client/src/composables/booking/useWizardSubmission.ts",
-      "line": 23,
+      "line": 24,
       "code": "export interface UseWizardSubmissionReturn {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3232,11 +3318,21 @@
       "fromPatternDetection": false
     },
     {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: DevPanelCacheStats (type)",
+      "file": "client/src/composables/dev/useApiDevPanelData.ts",
+      "line": 26,
+      "code": "export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
       "severity": "info",
       "type": "unused-function",
       "message": "Unused function: fetchOAuthStatus",
       "file": "client/src/composables/dev/useApiDevPanelData.ts",
-      "line": 98,
+      "line": 104,
       "code": "async function fetchOAuthStatus(): Promise<void> {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3245,7 +3341,7 @@
       "type": "unused-function",
       "message": "Unused function: fetchEventsCache",
       "file": "client/src/composables/dev/useApiDevPanelData.ts",
-      "line": 115,
+      "line": 122,
       "code": "async function fetchEventsCache(): Promise<void> {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3254,7 +3350,7 @@
       "type": "unused-function",
       "message": "Unused function: fetchRateLimitStats",
       "file": "client/src/composables/dev/useApiDevPanelData.ts",
-      "line": 134,
+      "line": 142,
       "code": "async function fetchRateLimitStats(): Promise<void> {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3263,7 +3359,7 @@
       "type": "unused-function",
       "message": "Unused function: fetchDriveTimeCache",
       "file": "client/src/composables/dev/useApiDevPanelData.ts",
-      "line": 160,
+      "line": 169,
       "code": "async function fetchDriveTimeCache(): Promise<void> {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3330,7 +3426,7 @@
       "type": "unused-export",
       "message": "Unused export: UseFieldContextActionsReturn (type)",
       "file": "client/src/composables/fieldContext/useFieldContextActions.ts",
-      "line": 14,
+      "line": 16,
       "code": "export type UseFieldContextActionsReturn = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3340,7 +3436,7 @@
       "type": "unused-export",
       "message": "Unused export: SaveComponentEntityParams (type)",
       "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-      "line": 21,
+      "line": 25,
       "code": "export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3350,7 +3446,7 @@
       "type": "unused-export",
       "message": "Unused export: SaveRelationshipFieldParams (type)",
       "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-      "line": 76,
+      "line": 80,
       "code": "export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3360,7 +3456,7 @@
       "type": "unused-export",
       "message": "Unused export: SaveRegularFieldParams (type)",
       "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-      "line": 162,
+      "line": 166,
       "code": "export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3370,7 +3466,7 @@
       "type": "unused-function",
       "message": "Unused function: validationRulesObject",
       "file": "client/src/composables/fieldContext/useFieldContextState.ts",
-      "line": 165,
+      "line": 169,
       "code": "const validationRulesObject = (() => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3379,7 +3475,7 @@
       "type": "unused-export",
       "message": "Unused export: UseFormFieldsContextReturn (type)",
       "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "line": 28,
+      "line": 29,
       "code": "export type UseFormFieldsContextReturn = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3389,7 +3485,7 @@
       "type": "unused-function",
       "message": "Unused function: buildContext",
       "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "line": 244,
+      "line": 245,
       "code": "const buildContext = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -3683,7 +3779,7 @@
       "type": "unused-export",
       "message": "Unused export: buildFormFieldConfig (function)",
       "file": "client/src/configs/adminConfig.ts",
-      "line": 115,
+      "line": 116,
       "code": "export function buildFormFieldConfig(): FormFieldConfigMap {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3693,7 +3789,7 @@
       "type": "unused-export",
       "message": "Unused export: buildAdminConfig (function)",
       "file": "client/src/configs/adminConfig.ts",
-      "line": 60,
+      "line": 61,
       "code": "* NOTE: Internal function only - not exported as it's only used by buildAdminConfig",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3703,7 +3799,7 @@
       "type": "unused-export",
       "message": "Unused export: getWriteToCalendar (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 622,
+      "line": 641,
       "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3713,7 +3809,7 @@
       "type": "unused-export",
       "message": "Unused export: getCalendarEmailsArray (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 642,
+      "line": 661,
       "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3753,7 +3849,7 @@
       "type": "unused-export",
       "message": "Unused export: annotationInstanceDisplays (const)",
       "file": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
-      "line": 8,
+      "line": 10,
       "code": "export const annotationInstanceDisplays = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3763,7 +3859,7 @@
       "type": "unused-export",
       "message": "Unused export: annotationShapeDisplays (const)",
       "file": "client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts",
-      "line": 8,
+      "line": 10,
       "code": "export const annotationShapeDisplays = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3773,7 +3869,7 @@
       "type": "unused-export",
       "message": "Unused export: eventInstanceDisplays (const)",
       "file": "client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts",
-      "line": 8,
+      "line": 10,
       "code": "export const eventInstanceDisplays = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3783,7 +3879,7 @@
       "type": "unused-export",
       "message": "Unused export: eventShapeDisplays (const)",
       "file": "client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts",
-      "line": 8,
+      "line": 10,
       "code": "export const eventShapeDisplays = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3793,7 +3889,7 @@
       "type": "unused-export",
       "message": "Unused export: RelationshipDisplayType (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 24,
+      "line": 25,
       "code": "export type RelationshipDisplayType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3803,7 +3899,7 @@
       "type": "unused-export",
       "message": "Unused export: VirtualDisplayType (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 71,
+      "line": 72,
       "code": "export type VirtualDisplayType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3813,7 +3909,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectableDisplayTypeSuite (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 121,
+      "line": 122,
       "code": "export type SelectableDisplayTypeSuite = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3843,7 +3939,7 @@
       "type": "unused-export",
       "message": "Unused export: buildSelectableFieldType (function)",
       "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "line": 90,
+      "line": 91,
       "code": "export function buildSelectableFieldType(): SelectableFieldTypeSuite {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3853,7 +3949,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectableFieldType (type)",
       "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "line": 78,
+      "line": 79,
       "code": "export type SelectableFieldType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3863,7 +3959,7 @@
       "type": "unused-export",
       "message": "Unused export: annotationInstanceFields (const)",
       "file": "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts",
-      "line": 10,
+      "line": 11,
       "code": "export const annotationInstanceFields = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3873,7 +3969,7 @@
       "type": "unused-export",
       "message": "Unused export: annotationShapeFields (const)",
       "file": "client/src/configs/field/form/appliedForm/annotationShapeFields.ts",
-      "line": 16,
+      "line": 17,
       "code": "export const annotationShapeFields = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3883,7 +3979,7 @@
       "type": "unused-export",
       "message": "Unused export: eventInstanceFields (const)",
       "file": "client/src/configs/field/form/appliedForm/eventInstanceFields.ts",
-      "line": 16,
+      "line": 17,
       "code": "export const eventInstanceFields = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3893,7 +3989,7 @@
       "type": "unused-export",
       "message": "Unused export: eventShapeFields (const)",
       "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
-      "line": 16,
+      "line": 17,
       "code": "export const eventShapeFields = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3903,7 +3999,7 @@
       "type": "unused-export",
       "message": "Unused export: WizardStepConfig (type)",
       "file": "client/src/configs/wizardSteps.ts",
-      "line": 17,
+      "line": 19,
       "code": "export interface WizardStepConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -3985,7 +4081,7 @@
       "type": "unused-function",
       "message": "Unused function: emailRouteComponent",
       "file": "client/src/plugins/1.router/additional-routes.ts",
-      "line": 3,
+      "line": 4,
       "code": "const emailRouteComponent = () => import('@/pages/apps/email/index.vue')",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -4012,39 +4108,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: checkOAuthStatus (function)",
-      "file": "client/src/services/calendarApiService.ts",
-      "line": 82,
-      "code": "export async function checkOAuthStatus(): Promise<OAuthStatus> {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: getOAuthUrl (function)",
-      "file": "client/src/services/calendarApiService.ts",
-      "line": 172,
-      "code": "export function getOAuthUrl(): string {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: OAuthStatus (type)",
-      "file": "client/src/services/calendarApiService.ts",
-      "line": 29,
-      "code": "export interface OAuthStatus {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: CalendarApiOptions (type)",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 40,
+      "line": 30,
       "code": "export interface CalendarApiOptions {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4054,7 +4120,7 @@
       "type": "unused-export",
       "message": "Unused export: CalendarApiErrorType (type)",
       "file": "client/src/services/calendarApiService.ts",
-      "line": 49,
+      "line": 39,
       "code": "export type CalendarApiErrorType =",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4084,7 +4150,7 @@
       "type": "unused-export",
       "message": "Unused export: AdminEntityMap (type)",
       "file": "client/src/types/admin/AdminEntity.ts",
-      "line": 201,
+      "line": 202,
       "code": "export type AdminEntityMap = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4132,26 +4198,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: PartInstanceSnapshot (type)",
-      "file": "client/src/types/appointment.ts",
-      "line": 220,
-      "code": "export interface PartInstanceSnapshot {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: BlockInstanceSnapshot (type)",
-      "file": "client/src/types/appointment.ts",
-      "line": 229,
-      "code": "export interface BlockInstanceSnapshot {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: FetchedInstanceComponent (type)",
       "file": "client/src/types/component.ts",
       "line": 19,
@@ -4164,7 +4210,7 @@
       "type": "unused-export",
       "message": "Unused export: isRFC3339DateTime (function)",
       "file": "client/src/types/datetime.ts",
-      "line": 93,
+      "line": 95,
       "code": "export function isRFC3339DateTime(value: string): value is RFC3339DateTime {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4174,7 +4220,7 @@
       "type": "unused-export",
       "message": "Unused export: validateRFC3339DateTime (function)",
       "file": "client/src/types/datetime.ts",
-      "line": 117,
+      "line": 120,
       "code": "export function validateRFC3339DateTime(value: string): RFC3339DateTime {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4184,7 +4230,7 @@
       "type": "unused-export",
       "message": "Unused export: toDayOfWeek (function)",
       "file": "client/src/types/datetime.ts",
-      "line": 172,
+      "line": 175,
       "code": "export function toDayOfWeek(n: number): DayOfWeek {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4194,18 +4240,8 @@
       "type": "unused-export",
       "message": "Unused export: getDayOfWeek (function)",
       "file": "client/src/types/datetime.ts",
-      "line": 179,
+      "line": 182,
       "code": "export function getDayOfWeek(date: Date): DayOfWeek {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: GlobalEntityMap (type)",
-      "file": "client/src/types/entities.ts",
-      "line": 89,
-      "code": "export type GlobalEntityMap = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -4222,39 +4258,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: GoogleCalendarError (type)",
-      "file": "client/src/types/googleCalendar.ts",
-      "line": 22,
-      "code": "export interface GoogleCalendarError {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: GoogleCalendarFreeBusy (type)",
-      "file": "client/src/types/googleCalendar.ts",
-      "line": 33,
-      "code": "export interface GoogleCalendarFreeBusy {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: GoogleCalendarGroup (type)",
-      "file": "client/src/types/googleCalendar.ts",
-      "line": 38,
-      "code": "export interface GoogleCalendarGroup {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: PropertyTypesRequest (type)",
       "file": "client/src/types/property.ts",
-      "line": 71,
+      "line": 73,
       "code": "export interface PropertyTypesRequest {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4264,7 +4270,7 @@
       "type": "unused-export",
       "message": "Unused export: ShapeFieldMetadata (type)",
       "file": "client/src/types/shapeFieldMetadata.ts",
-      "line": 7,
+      "line": 9,
       "code": "export interface ShapeFieldMetadata {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4274,7 +4280,7 @@
       "type": "unused-export",
       "message": "Unused export: ShapeLayoutConfig (type)",
       "file": "client/src/types/shapeFieldMetadata.ts",
-      "line": 23,
+      "line": 25,
       "code": "export interface ShapeLayoutConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4284,7 +4290,7 @@
       "type": "unused-export",
       "message": "Unused export: ComposedFieldConfig (type)",
       "file": "client/src/types/shapeFieldMetadata.ts",
-      "line": 40,
+      "line": 42,
       "code": "export interface ComposedFieldConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4304,7 +4310,7 @@
       "type": "unused-export",
       "message": "Unused export: WizardState (type)",
       "file": "client/src/types/wizard.ts",
-      "line": 22,
+      "line": 20,
       "code": "export interface WizardState {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4314,7 +4320,7 @@
       "type": "unused-export",
       "message": "Unused export: WizardSelectionMethods (type)",
       "file": "client/src/types/wizard.ts",
-      "line": 43,
+      "line": 41,
       "code": "export interface WizardSelectionMethods {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4363,8 +4369,8 @@
       "severity": "warning",
       "type": "unused-export",
       "message": "Unused export: getAvailabilityEndpoint (function)",
-      "file": "client/src/utils/api.ts",
-      "line": 169,
+      "file": "client/src/utils/api/availabilityApi.ts",
+      "line": 6,
       "code": "export function getAvailabilityEndpoint(): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4373,8 +4379,8 @@
       "severity": "warning",
       "type": "unused-export",
       "message": "Unused export: getBlockInstanceAnnotationsEndpoint (function)",
-      "file": "client/src/utils/api.ts",
-      "line": 227,
+      "file": "client/src/utils/api/relationshipApi.ts",
+      "line": 22,
       "code": "export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4383,8 +4389,8 @@
       "severity": "warning",
       "type": "unused-export",
       "message": "Unused export: getBlockInstanceAnnotationEndpoint (function)",
-      "file": "client/src/utils/api.ts",
-      "line": 231,
+      "file": "client/src/utils/api/relationshipApi.ts",
+      "line": 26,
       "code": "export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4394,7 +4400,7 @@
       "type": "unused-export",
       "message": "Unused export: APPOINTMENT_FIELD_FORMATTERS (const)",
       "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 119,
+      "line": 120,
       "code": "export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4404,7 +4410,7 @@
       "type": "unused-export",
       "message": "Unused export: FieldFormatter (type)",
       "file": "client/src/utils/appointmentFieldFormatters.ts",
-      "line": 18,
+      "line": 19,
       "code": "export type FieldFormatter = (",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4472,9 +4478,69 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: filterByShape (function)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 80,
+      "code": "export function filterByShape(",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: applyFallback (function)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 101,
+      "code": "export function applyFallback(params: FallbackParams): BookingBlockInstance[] {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: CascadeStepResult (type)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 16,
+      "code": "export type CascadeStepResult =",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: CascadeFilterParams (type)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 20,
+      "code": "export interface CascadeFilterParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: FallbackParams (type)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 90,
+      "code": "export interface FallbackParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: PipelineParams (type)",
+      "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "line": 114,
+      "code": "export interface PipelineParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: calculateBlockInstanceFee (function)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 59,
+      "line": 60,
       "code": "export function calculateBlockInstanceFee(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4484,7 +4550,7 @@
       "type": "unused-export",
       "message": "Unused export: BlockInstanceFeeResult (type)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 32,
+      "line": 33,
       "code": "export interface BlockInstanceFeeResult {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4494,7 +4560,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 226,
+      "line": 227,
       "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
       "suggestion": "Review and clean up unused code"
     },
@@ -4503,7 +4569,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 228,
+      "line": 229,
       "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
       "suggestion": "Review and clean up unused code"
     },
@@ -4512,7 +4578,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 229,
+      "line": 230,
       "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
       "suggestion": "Review and clean up unused code"
     },
@@ -4581,7 +4647,7 @@
       "type": "unused-export",
       "message": "Unused export: sumPartFinalsDuration (function)",
       "file": "client/src/utils/booking/partFinalizer.ts",
-      "line": 312,
+      "line": 298,
       "code": "export function sumPartFinalsDuration(parts: PartFinal[]): number {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4761,7 +4827,7 @@
       "type": "unused-export",
       "message": "Unused export: formatBusyPeriod (function)",
       "file": "client/src/utils/dev/formatDevPanelData.ts",
-      "line": 48,
+      "line": 49,
       "code": "export function formatBusyPeriod(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4821,7 +4887,7 @@
       "type": "unused-export",
       "message": "Unused export: getMetadataEntityId (function)",
       "file": "client/src/utils/entities/entityTypeMapping.ts",
-      "line": 35,
+      "line": 37,
       "code": "export function getMetadataEntityId<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4871,7 +4937,7 @@
       "type": "unused-export",
       "message": "Unused export: CategorizedFields (type)",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 23,
+      "line": 28,
       "code": "export interface CategorizedFields {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4901,7 +4967,7 @@
       "type": "unused-export",
       "message": "Unused export: GetFieldKeysOptions (type)",
       "file": "client/src/utils/forms/getFieldKeys.ts",
-      "line": 19,
+      "line": 27,
       "code": "export interface GetFieldKeysOptions<GE extends GlobalEntityKey> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4911,7 +4977,7 @@
       "type": "unused-export",
       "message": "Unused export: mapIcon (function)",
       "file": "client/src/utils/iconMapper.ts",
-      "line": 78,
+      "line": 79,
       "code": "export function mapIcon(iconString: string | null | undefined): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4921,7 +4987,7 @@
       "type": "unused-export",
       "message": "Unused export: LogLevel (type)",
       "file": "client/src/utils/logger.ts",
-      "line": 15,
+      "line": 18,
       "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -4931,7 +4997,7 @@
       "type": "unused-export",
       "message": "Unused export: AppLogger (type)",
       "file": "client/src/utils/logger.ts",
-      "line": 17,
+      "line": 20,
       "code": "export type AppLogger = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5021,7 +5087,7 @@
       "type": "unused-export",
       "message": "Unused export: filterAnnotationsByUserTypeBlock (function)",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 111,
+      "line": 109,
       "code": "export function filterAnnotationsByUserTypeBlock(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5031,7 +5097,7 @@
       "type": "unused-export",
       "message": "Unused export: sortAnnotationsByOrderIndex (function)",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 137,
+      "line": 135,
       "code": "export function sortAnnotationsByOrderIndex(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5041,7 +5107,7 @@
       "type": "unused-export",
       "message": "Unused export: getDefaultAnnotation (function)",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 143,
+      "line": 141,
       "code": "export function getDefaultAnnotation(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5051,48 +5117,8 @@
       "type": "unused-export",
       "message": "Unused export: getThroughAttributes (function)",
       "file": "client/src/utils/transformers/annotationTransformers.ts",
-      "line": 164,
+      "line": 162,
       "code": "export function getThroughAttributes(annotation: Record<string, unknown>): {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: findBlockInstancesByIds (function)",
-      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "line": 72,
-      "code": "export function findBlockInstancesByIds(",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: convertToTernary (function)",
-      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "line": 91,
-      "code": "export function convertToTernary(",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: transformVersionToBookingInstance (function)",
-      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "line": 107,
-      "code": "export function transformVersionToBookingInstance(",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: VersionBlockInstance (type)",
-      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "line": 21,
-      "code": "export interface VersionBlockInstance {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -5101,7 +5127,7 @@
       "type": "unused-export",
       "message": "Unused export: composeProperties (function)",
       "file": "client/src/utils/transformers/componentAggregator.ts",
-      "line": 125,
+      "line": 128,
       "code": "export function composeProperties<GE extends GlobalEntityKey>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5111,7 +5137,7 @@
       "type": "unused-export",
       "message": "Unused export: isComposablePropertyValue (function)",
       "file": "client/src/utils/transformers/composePropertyValue.ts",
-      "line": 18,
+      "line": 19,
       "code": "export function isComposablePropertyValue(value: unknown): value is ComposablePropertyValue {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5121,7 +5147,7 @@
       "type": "unused-export",
       "message": "Unused export: composeProperty (function)",
       "file": "client/src/utils/transformers/composePropertyValue.ts",
-      "line": 38,
+      "line": 39,
       "code": "export function composeProperty<T extends string | number | boolean | unknown[]>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5131,7 +5157,7 @@
       "type": "unused-export",
       "message": "Unused export: ComposablePropertyValue (type)",
       "file": "client/src/utils/transformers/composePropertyValue.ts",
-      "line": 16,
+      "line": 17,
       "code": "export type ComposablePropertyValue = string | number | boolean | unknown[]",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5147,12 +5173,31 @@
       "fromPatternDetection": false
     },
     {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: orderCompare",
+      "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "line": 55,
+      "code": "const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: AdminTransformer (class)",
-      "file": "client/src/utils/transformers/globalToAdminTransformer.ts",
-      "line": 42,
-      "code": "export class AdminTransformer {",
+      "message": "Unused export: DehydrateFieldSets (type)",
+      "file": "client/src/utils/transformers/fieldClassification.ts",
+      "line": 14,
+      "code": "export type DehydrateFieldSets = {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: safeBoolean (function)",
+      "file": "client/src/utils/transformers/transformerPrimitives.ts",
+      "line": 96,
+      "code": "export function safeBoolean(value: unknown, context?: string): boolean {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -5191,6 +5236,33 @@
       "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
       "line": 186,
       "code": "function setMinuteIncrement(v: number): void {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: setRequiredFieldsArray",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 108,
+      "code": "function setRequiredFieldsArray(v: string): void {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: setRequiredFieldsCondition",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 111,
+      "code": "function setRequiredFieldsCondition(v: string): void {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: setRequiresAgent",
+      "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "line": 114,
+      "code": "function setRequiresAgent(v: boolean): void {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -5288,7 +5360,7 @@
       "type": "unused-function",
       "message": "Unused function: handleAnnotationShapeCancelled",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 225,
+      "line": 226,
       "code": "const handleAnnotationShapeCancelled = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5297,7 +5369,7 @@
       "type": "unused-function",
       "message": "Unused function: startCreatingEventShape",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 236,
+      "line": 237,
       "code": "const startCreatingEventShape = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5306,7 +5378,7 @@
       "type": "unused-function",
       "message": "Unused function: handleEventShapeCreate",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 242,
+      "line": 243,
       "code": "const handleEventShapeCreate = async () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5315,7 +5387,7 @@
       "type": "unused-function",
       "message": "Unused function: handleEventShapeCancelled",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 264,
+      "line": 265,
       "code": "const handleEventShapeCancelled = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5324,7 +5396,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeletePartShape",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 371,
+      "line": 372,
       "code": "function handleDeletePartShape(_id: string) {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5333,7 +5405,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteBlockShape",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 380,
+      "line": 381,
       "code": "function handleDeleteBlockShape(_id: string) {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5342,7 +5414,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteAnnotationShape",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 431,
+      "line": 432,
       "code": "function handleDeleteAnnotationShape(_id: string) {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5351,7 +5423,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteEventShape",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 439,
+      "line": 440,
       "code": "function handleDeleteEventShape(_id: string) {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -5360,62 +5432,26 @@
       "type": "unused-function",
       "message": "Unused function: handleExistingShapeSaved",
       "file": "client/src/views/admin/tabs/ShapesTab.vue",
-      "line": 443,
+      "line": 444,
       "code": "function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "info",
       "type": "unused-function",
-      "message": "Unused function: handleSaveCreate",
+      "message": "Unused function: setFormClientId",
       "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 100,
-      "code": "const handleSaveCreate = async () => {",
+      "line": 109,
+      "code": "function setFormClientId(v: string | null): void {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "info",
       "type": "unused-function",
-      "message": "Unused function: handleSaveEdit",
+      "message": "Unused function: setFormAgentId",
       "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 132,
-      "code": "const handleSaveEdit = async () => {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: handleStartEdit",
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 164,
-      "code": "const handleStartEdit = (item: AppointmentResponse) => {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: handleCancelEdit",
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 171,
-      "code": "const handleCancelEdit = () => {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: handleStartCreate",
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 177,
-      "code": "const handleStartCreate = () => {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: handleCancelCreate",
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "line": 183,
-      "code": "const handleCancelCreate = () => {",
+      "line": 112,
+      "code": "function setFormAgentId(v: string | null): void {",
       "suggestion": "Remove if unused or document why kept"
     },
     {
@@ -5511,30 +5547,10 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: EntityType (type)",
-      "file": "server/src/config/entityRegistry.ts",
-      "line": 39,
-      "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: EnvConfig (type)",
       "file": "server/src/config/envConfig.ts",
-      "line": 8,
+      "line": 9,
       "code": "export interface EnvConfig {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: TOKEN_FILE (const)",
-      "file": "server/src/config/googleOAuthTokenPersistence.ts",
-      "line": 24,
-      "code": "export const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -5543,7 +5559,7 @@
       "type": "unused-export",
       "message": "Unused export: TokenData (type)",
       "file": "server/src/config/googleOAuthTokenPersistence.ts",
-      "line": 29,
+      "line": 17,
       "code": "export interface TokenData {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5613,7 +5629,7 @@
       "type": "unused-export",
       "message": "Unused export: AdminPrimitiveMetadataFactory (function)",
       "file": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
-      "line": 44,
+      "line": 45,
       "code": "export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5623,7 +5639,7 @@
       "type": "unused-export",
       "message": "Unused export: AdminRelationshipMetadataFactory (function)",
       "file": "server/src/db/models/admin/adminRelationshipMetadata.ts",
-      "line": 42,
+      "line": 43,
       "code": "export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5691,6 +5707,16 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: BlockInstanceSnapshot (type)",
+      "file": "server/src/db/models/booking/appointment.ts",
+      "line": 11,
+      "code": "export interface BlockInstanceSnapshot {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: RelationshipFactory (function)",
       "file": "server/src/db/models/booking/relationships.ts",
       "line": 26,
@@ -5703,7 +5729,7 @@
       "type": "unused-export",
       "message": "Unused export: requireAuth (function)",
       "file": "server/src/middlewares/security.ts",
-      "line": 60,
+      "line": 59,
       "code": "export function requireAuth(req: Request, res: Response, next: NextFunction): void {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5713,7 +5739,7 @@
       "type": "unused-export",
       "message": "Unused export: requireSecureAccess (function)",
       "file": "server/src/middlewares/security.ts",
-      "line": 118,
+      "line": 117,
       "code": "export function requireSecureAccess(modelName: string, paramKey: string = 'id') {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5723,7 +5749,7 @@
       "type": "unused-export",
       "message": "Unused export: RouteHandler (type)",
       "file": "server/src/routes/helpers/crudRouterTypes.ts",
-      "line": 89,
+      "line": 91,
       "code": "export type RouteHandler = (req: Request, res: Response) => Promise<void>",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5733,7 +5759,7 @@
       "type": "unused-export",
       "message": "Unused export: safeDelete (const)",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 214,
+      "line": 215,
       "code": "export const safeDelete = async ({",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5743,7 +5769,7 @@
       "type": "unused-export",
       "message": "Unused export: DependentDelete (type)",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 201,
+      "line": 202,
       "code": "export type DependentDelete = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5753,8 +5779,18 @@
       "type": "unused-export",
       "message": "Unused export: SafeDeleteOptions (type)",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 206,
+      "line": 207,
       "code": "export interface SafeDeleteOptions {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: METADATA_REQUIRED_FIELDS_CREATE_UPDATE (const)",
+      "file": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
+      "line": 58,
+      "code": "export const METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -5822,7 +5858,7 @@
       "type": "unused-export",
       "message": "Unused export: isPropertyVersionWithAssociations (function)",
       "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-      "line": 20,
+      "line": 21,
       "code": "export function isPropertyVersionWithAssociations(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5832,28 +5868,20 @@
       "type": "unused-export",
       "message": "Unused export: isBlockInstanceWithShape (function)",
       "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-      "line": 38,
+      "line": 39,
       "code": "export function isBlockInstanceWithShape(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
     {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: whereWithParentId",
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: handleInstanceComponentCreate (function)",
       "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-      "line": 72,
-      "code": "const whereWithParentId = (() => {",
-      "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "info",
-      "type": "unused-function",
-      "message": "Unused function: whereClause",
-      "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-      "line": 85,
-      "code": "const whereClause = (() => {",
-      "suggestion": "Remove if unused or document why kept"
+      "line": 95,
+      "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
     },
     {
       "severity": "warning",
@@ -5878,30 +5906,60 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: extractPhone (function)",
-      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 164,
-      "code": "export function extractPhone(text: string | undefined): string | null {",
+      "message": "Unused export: mapAnnotationAssignmentsFields (function)",
+      "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "line": 23,
+      "code": "export function mapAnnotationAssignmentsFields(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: DEFAULT_FIRST_NAME (const)",
-      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 14,
-      "code": "export const DEFAULT_FIRST_NAME = 'Unknown' as const",
+      "message": "Unused export: mapAttendeeAssignmentsFields (function)",
+      "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "line": 36,
+      "code": "export function mapAttendeeAssignmentsFields(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: DEFAULT_LAST_NAME (const)",
-      "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 15,
-      "code": "export const DEFAULT_LAST_NAME = 'Client' as const",
+      "message": "Unused export: mapEventAssignmentsFields (function)",
+      "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "line": 49,
+      "code": "export async function mapEventAssignmentsFields(",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: getComponentChildIds (function)",
+      "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+      "line": 97,
+      "code": "export async function getComponentChildIds(instanceId: string): Promise<string[]> {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: BuildWhereClauseParams (type)",
+      "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
+      "line": 64,
+      "code": "export interface BuildWhereClauseParams {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: BuildQueryOptionsParams (type)",
+      "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
+      "line": 102,
+      "code": "export interface BuildQueryOptionsParams {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -5950,7 +6008,7 @@
       "type": "unused-export",
       "message": "Unused export: isCalendarConfigured (function)",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 340,
+      "line": 341,
       "code": "export async function isCalendarConfigured(): Promise<boolean> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5960,7 +6018,7 @@
       "type": "unused-export",
       "message": "Unused export: syncInvitationStatus (function)",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 357,
+      "line": 358,
       "code": "export async function syncInvitationStatus(appointmentId: string): Promise<number> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5970,7 +6028,7 @@
       "type": "unused-export",
       "message": "Unused export: CalendarEventResult (type)",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 21,
+      "line": 22,
       "code": "export interface CalendarEventResult {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5980,7 +6038,7 @@
       "type": "unused-export",
       "message": "Unused export: loadBlockInstanceFromVersion (function)",
       "file": "server/src/services/appointmentSnapshotLoader.ts",
-      "line": 51,
+      "line": 48,
       "code": "export async function loadBlockInstanceFromVersion(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -5990,30 +6048,19 @@
       "type": "unused-export",
       "message": "Unused export: loadAppointmentVersions (function)",
       "file": "server/src/services/appointmentSnapshotLoader.ts",
-      "line": 69,
+      "line": 66,
       "code": "export async function loadAppointmentVersions(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
     {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: getStatusCodeForError (function)",
+      "severity": "info",
+      "type": "unused-function",
+      "message": "Unused function: _getStatusCodeForError",
       "file": "server/src/services/calendarErrorHandler.ts",
       "line": 84,
-      "code": "export function getStatusCodeForError(errorType: CalendarErrorType): number {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: FallbackResult (type)",
-      "file": "server/src/services/calendarErrorHandler.ts",
-      "line": 202,
-      "code": "export interface FallbackResult<T> {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
+      "code": "function _getStatusCodeForError(errorType: CalendarErrorType): number {",
+      "suggestion": "Remove if unused or document why kept"
     },
     {
       "severity": "warning",
@@ -6103,29 +6150,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: buildFindPlaceUrl (function)",
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "line": 164,
-      "code": "export function buildFindPlaceUrl(address: string, apiKey: string): string {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: parseAddressComponents (function)",
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "line": 216,
-      "code": "export function parseAddressComponents(components: Array<{",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: AutocompleteResponse (type)",
       "file": "server/src/services/google/maps/mapsTypes.ts",
-      "line": 27,
+      "line": 34,
       "code": "export interface AutocompleteResponse {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6135,7 +6162,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateDriveTime (function)",
       "file": "server/src/services/google/maps/routesApiService.ts",
-      "line": 173,
+      "line": 179,
       "code": "export async function calculateDriveTime(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6147,26 +6174,6 @@
       "file": "server/src/services/google/shared/googleApiRateLimiter.ts",
       "line": 17,
       "code": "export type GoogleApiName = 'google-calendar' | 'google-maps'",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: calculateBackoffDelay (function)",
-      "file": "server/src/services/google/shared/googleApiRetry.ts",
-      "line": 54,
-      "code": "export function calculateBackoffDelay(attempt: number, config: RetryConfig): number {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: RetryableError (type)",
-      "file": "server/src/services/google/shared/googleApiRetry.ts",
-      "line": 39,
-      "code": "export interface RetryableError {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -6193,10 +6200,40 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: formatDayKey (function)",
+      "file": "server/src/utils/availabilities/availabilityPrimitives.ts",
+      "line": 40,
+      "code": "export function formatDayKey(date: Date): string {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: sumWorkHoursForDateRange (function)",
       "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-      "line": 122,
+      "line": 132,
       "code": "export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: isDevelopment (function)",
+      "file": "server/src/utils/envHelpers.ts",
+      "line": 15,
+      "code": "export function isDevelopment(): boolean {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: isTest (function)",
+      "file": "server/src/utils/envHelpers.ts",
+      "line": 19,
+      "code": "export function isTest(): boolean {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -6205,7 +6242,7 @@
       "type": "unused-export",
       "message": "Unused export: LogLevel (type)",
       "file": "server/src/utils/logger.ts",
-      "line": 15,
+      "line": 21,
       "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6215,7 +6252,7 @@
       "type": "unused-export",
       "message": "Unused export: AppLogger (type)",
       "file": "server/src/utils/logger.ts",
-      "line": 17,
+      "line": 23,
       "code": "export type AppLogger = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6245,7 +6282,7 @@
       "type": "unused-export",
       "message": "Unused export: getUserTypeBlockIdsForRoles (function)",
       "file": "server/src/utils/userTypeMapping.ts",
-      "line": 102,
+      "line": 103,
       "code": "export async function getUserTypeBlockIdsForRoles(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6255,7 +6292,7 @@
       "type": "unused-export",
       "message": "Unused export: getRoleForBlockName (function)",
       "file": "server/src/utils/userTypeMapping.ts",
-      "line": 215,
+      "line": 216,
       "code": "export function getRoleForBlockName(blockName: string): string | null {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6265,7 +6302,7 @@
       "type": "unused-export",
       "message": "Unused export: getAvailableRoleMappings (function)",
       "file": "server/src/utils/userTypeMapping.ts",
-      "line": 223,
+      "line": 224,
       "code": "export function getAvailableRoleMappings(): Record<string, string> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6275,7 +6312,7 @@
       "type": "unused-export",
       "message": "Unused export: clearUserTypeBlockCache (function)",
       "file": "server/src/utils/userTypeMapping.ts",
-      "line": 230,
+      "line": 231,
       "code": "export function clearUserTypeBlockCache(): void {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -6315,6 +6352,22 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: handleTitleKeydown",
+          "file": "client/src/components/admin/generic/EntityCard.vue",
+          "line": 131,
+          "code": "function handleTitleKeydown(event: KeyboardEvent): void {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/components/admin/generic/EntityCardSubPanels.vue",
       "issues": [
         {
@@ -6322,7 +6375,7 @@
           "type": "unused-function",
           "message": "Unused function: togglePartsBulkEditMode",
           "file": "client/src/components/admin/generic/EntityCardSubPanels.vue",
-          "line": 157,
+          "line": 153,
           "code": "const togglePartsBulkEditMode = () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6363,7 +6416,7 @@
           "type": "unused-export",
           "message": "Unused export: CollectionType (type)",
           "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 131,
+          "line": 132,
           "code": "export type CollectionType = 'parts' | 'annotations' | 'events'",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6373,7 +6426,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteChildById",
           "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 230,
+          "line": 231,
           "code": "const handleDeleteChildById = async (id: string) => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -6382,7 +6435,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteChild",
           "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 239,
+          "line": 240,
           "code": "const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6398,7 +6451,7 @@
           "type": "unused-function",
           "message": "Unused function: openPicker",
           "file": "client/src/components/admin/generic/fields/IconInput.vue",
-          "line": 150,
+          "line": 154,
           "code": "const openPicker = () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6464,10 +6517,10 @@
         {
           "severity": "info",
           "type": "unused-function",
-          "message": "Unused function: handleEnterKey",
+          "message": "Unused function: handleKeydown",
           "file": "client/src/components/admin/generic/fields/TextInput.vue",
           "line": 192,
-          "code": "const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)",
+          "code": "const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -6539,6 +6592,22 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: onOptionIdUpdate",
+          "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+          "line": 70,
+          "code": "function onOptionIdUpdate(id: string | null): void {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/components/booking/steps/PropertyDetailsStep.vue",
       "issues": [
         {
@@ -6546,7 +6615,7 @@
           "type": "unused-function",
           "message": "Unused function: handlePropertyConfirm",
           "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
-          "line": 213,
+          "line": 212,
           "code": "function handlePropertyConfirm(): void {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -6555,7 +6624,7 @@
           "type": "unused-function",
           "message": "Unused function: handlePropertyEdit",
           "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
-          "line": 216,
+          "line": 215,
           "code": "function handlePropertyEdit(): void {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -6603,6 +6672,31 @@
         }
       ],
       "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: isClientAttendee",
+          "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+          "line": 9,
+          "code": "function isClientAttendee(a: AttendeeResponse): boolean {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: isAgentAttendee",
+          "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+          "line": 13,
+          "code": "function isAgentAttendee(a: AttendeeResponse): boolean {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 2,
       "priority": "P2"
     },
     {
@@ -6664,7 +6758,7 @@
           "type": "unused-export",
           "message": "Unused export: UsersTableModel (type)",
           "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
-          "line": 7,
+          "line": 8,
           "code": "export interface UsersTableModel extends CrudDataTableModel<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6715,7 +6809,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAttendeeQuickSelectReturn (type)",
           "file": "client/src/composables/admin/useAttendeeQuickSelect.ts",
-          "line": 19,
+          "line": 23,
           "code": "export interface UseAttendeeQuickSelectReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6796,7 +6890,7 @@
           "type": "unused-export",
           "message": "Unused export: UseBufferSettingsParams (type)",
           "file": "client/src/composables/admin/useBufferSettings.ts",
-          "line": 18,
+          "line": 19,
           "code": "export interface UseBufferSettingsParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6813,7 +6907,7 @@
           "type": "unused-export",
           "message": "Unused export: RequiredFieldsRuleConfig (type)",
           "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 32,
+          "line": 54,
           "code": "export interface RequiredFieldsRuleConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6823,7 +6917,7 @@
           "type": "unused-export",
           "message": "Unused export: RequiresAgentRuleConfig (type)",
           "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 43,
+          "line": 65,
           "code": "export interface RequiresAgentRuleConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6833,7 +6927,7 @@
           "type": "unused-export",
           "message": "Unused export: ConditionalValidationRuleConfig (type)",
           "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 53,
+          "line": 75,
           "code": "export interface ConditionalValidationRuleConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6843,7 +6937,7 @@
           "type": "unused-export",
           "message": "Unused export: ValidationMessageRuleConfig (type)",
           "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 66,
+          "line": 88,
           "code": "export interface ValidationMessageRuleConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6853,7 +6947,7 @@
           "type": "unused-export",
           "message": "Unused export: RuleConfig (type)",
           "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 32,
+          "line": 54,
           "code": "export interface RequiredFieldsRuleConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6904,7 +6998,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConditionalFieldVisibilityOptions (type)",
           "file": "client/src/composables/admin/useConditionalFieldVisibility.ts",
-          "line": 28,
+          "line": 24,
           "code": "export interface UseConditionalFieldVisibilityOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -6914,7 +7008,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConditionalFieldVisibilityReturn (type)",
           "file": "client/src/composables/admin/useConditionalFieldVisibility.ts",
-          "line": 35,
+          "line": 31,
           "code": "export interface UseConditionalFieldVisibilityReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -7524,7 +7618,7 @@
           "type": "unused-export",
           "message": "Unused export: UseFieldInputHandlersParams (type)",
           "file": "client/src/composables/admin/useFieldInputHandlers.ts",
-          "line": 21,
+          "line": 24,
           "code": "export interface UseFieldInputHandlersParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -7534,6 +7628,50 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/composables/admin/useFieldInputSetup.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseFieldInputSetupOptions (type)",
+          "file": "client/src/composables/admin/useFieldInputSetup.ts",
+          "line": 20,
+          "code": "export interface UseFieldInputSetupOptions {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useFieldKeyboardGuard.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseFieldKeyboardGuardOptions (type)",
+          "file": "client/src/composables/admin/useFieldKeyboardGuard.ts",
+          "line": 25,
+          "code": "export interface UseFieldKeyboardGuardOptions {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseFieldKeyboardGuardReturn (type)",
+          "file": "client/src/composables/admin/useFieldKeyboardGuard.ts",
+          "line": 32,
+          "code": "export interface UseFieldKeyboardGuardReturn {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useFieldLocation.ts",
       "issues": [
         {
@@ -7541,7 +7679,7 @@
           "type": "unused-export",
           "message": "Unused export: UseFieldLocationOptions (type)",
           "file": "client/src/composables/admin/useFieldLocation.ts",
-          "line": 25,
+          "line": 26,
           "code": "export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -7551,7 +7689,7 @@
           "type": "unused-export",
           "message": "Unused export: UseFieldLocationReturn (type)",
           "file": "client/src/composables/admin/useFieldLocation.ts",
-          "line": 33,
+          "line": 34,
           "code": "export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -7784,7 +7922,7 @@
           "type": "unused-export",
           "message": "Unused export: UseInstanceFilteringOptions (type)",
           "file": "client/src/composables/admin/useInstanceFiltering.ts",
-          "line": 22,
+          "line": 25,
           "code": "export interface UseInstanceFilteringOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -7794,7 +7932,7 @@
           "type": "unused-export",
           "message": "Unused export: UseInstanceFilteringReturn (type)",
           "file": "client/src/composables/admin/useInstanceFiltering.ts",
-          "line": 26,
+          "line": 29,
           "code": "export interface UseInstanceFilteringReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8250,7 +8388,7 @@
           "type": "unused-export",
           "message": "Unused export: UseRelationshipCollectionDataOptions (type)",
           "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-          "line": 23,
+          "line": 24,
           "code": "export interface UseRelationshipCollectionDataOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8260,7 +8398,7 @@
           "type": "unused-export",
           "message": "Unused export: UseRelationshipCollectionDataReturn (type)",
           "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-          "line": 35,
+          "line": 36,
           "code": "export interface UseRelationshipCollectionDataReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8277,7 +8415,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectConfigOptions (type)",
           "file": "client/src/composables/admin/useSelectConfig.ts",
-          "line": 26,
+          "line": 29,
           "code": "export interface UseSelectConfigOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8287,7 +8425,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectConfigReturn (type)",
           "file": "client/src/composables/admin/useSelectConfig.ts",
-          "line": 30,
+          "line": 33,
           "code": "export interface UseSelectConfigReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8358,7 +8496,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectFilteringOptions (type)",
           "file": "client/src/composables/admin/useSelectFiltering.ts",
-          "line": 29,
+          "line": 30,
           "code": "export interface UseSelectFilteringOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8392,7 +8530,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectHandlersOptions (type)",
           "file": "client/src/composables/admin/useSelectHandlers.ts",
-          "line": 26,
+          "line": 27,
           "code": "export interface UseSelectHandlersOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8402,7 +8540,7 @@
           "type": "unused-export",
           "message": "Unused export: UseSelectHandlersReturn (type)",
           "file": "client/src/composables/admin/useSelectHandlers.ts",
-          "line": 48,
+          "line": 49,
           "code": "export interface UseSelectHandlersReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8692,7 +8830,7 @@
           "type": "unused-export",
           "message": "Unused export: UseStatusButtonToggleOptions (type)",
           "file": "client/src/composables/admin/useStatusButtonToggle.ts",
-          "line": 22,
+          "line": 25,
           "code": "export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -8702,7 +8840,7 @@
           "type": "unused-export",
           "message": "Unused export: UseStatusButtonToggleReturn (type)",
           "file": "client/src/composables/admin/useStatusButtonToggle.ts",
-          "line": 34,
+          "line": 37,
           "code": "export interface UseStatusButtonToggleReturn<GE extends GlobalEntityKey> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9016,7 +9154,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentDataCollectionParams (type)",
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-          "line": 50,
+          "line": 51,
           "code": "export interface UseAppointmentDataCollectionParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9026,7 +9164,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentDataCollectionReturn (type)",
           "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-          "line": 70,
+          "line": 71,
           "code": "export interface UseAppointmentDataCollectionReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9097,7 +9235,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentShapeParams (type)",
           "file": "client/src/composables/booking/useAppointmentShape.ts",
-          "line": 25,
+          "line": 23,
           "code": "export interface UseAppointmentShapeParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9107,7 +9245,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAppointmentShapeReturn (type)",
           "file": "client/src/composables/booking/useAppointmentShape.ts",
-          "line": 29,
+          "line": 27,
           "code": "export interface UseAppointmentShapeReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9269,6 +9407,23 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: UseAvailabilityOrchestratorParams (type)",
+          "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+          "line": 32,
+          "code": "export interface UseAvailabilityOrchestratorParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/composables/booking/useAvailabilitySlotColor.ts",
       "issues": [
         {
@@ -9276,7 +9431,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAvailabilitySlotColorParams (type)",
           "file": "client/src/composables/booking/useAvailabilitySlotColor.ts",
-          "line": 11,
+          "line": 17,
           "code": "export interface UseAvailabilitySlotColorParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9286,7 +9441,7 @@
           "type": "unused-export",
           "message": "Unused export: UseAvailabilitySlotColorReturn (type)",
           "file": "client/src/composables/booking/useAvailabilitySlotColor.ts",
-          "line": 15,
+          "line": 23,
           "code": "export interface UseAvailabilitySlotColorReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9492,7 +9647,7 @@
           "type": "unused-export",
           "message": "Unused export: UseComputedAvailabilityParams (type)",
           "file": "client/src/composables/booking/useComputedAvailability.ts",
-          "line": 42,
+          "line": 43,
           "code": "export interface UseComputedAvailabilityParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9509,7 +9664,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConfirmationStepDataParams (type)",
           "file": "client/src/composables/booking/useConfirmationStepData.ts",
-          "line": 61,
+          "line": 22,
           "code": "export interface UseConfirmationStepDataParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9519,7 +9674,7 @@
           "type": "unused-export",
           "message": "Unused export: UseConfirmationStepDataReturn (type)",
           "file": "client/src/composables/booking/useConfirmationStepData.ts",
-          "line": 73,
+          "line": 34,
           "code": "export interface UseConfirmationStepDataReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9590,7 +9745,7 @@
           "type": "unused-export",
           "message": "Unused export: useDependentInstances (function)",
           "file": "client/src/composables/booking/useDependentInstances.ts",
-          "line": 51,
+          "line": 52,
           "code": "export function useDependentInstances(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9600,7 +9755,7 @@
           "type": "unused-export",
           "message": "Unused export: UseDependentInstancesOptions (type)",
           "file": "client/src/composables/booking/useDependentInstances.ts",
-          "line": 22,
+          "line": 23,
           "code": "export interface UseDependentInstancesOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -9610,7 +9765,7 @@
           "type": "unused-export",
           "message": "Unused export: UseDependentInstancesReturn (type)",
           "file": "client/src/composables/booking/useDependentInstances.ts",
-          "line": 28,
+          "line": 29,
           "code": "export interface UseDependentInstancesReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10032,7 +10187,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectionCardItemWithComponents (type)",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 29,
+          "line": 32,
           "code": "export interface SelectionCardItemWithComponents extends BookingBlockInstance {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10042,7 +10197,7 @@
           "type": "unused-export",
           "message": "Unused export: UsePropertyDetailsLogicParams (type)",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 34,
+          "line": 37,
           "code": "export interface UsePropertyDetailsLogicParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10052,7 +10207,7 @@
           "type": "unused-export",
           "message": "Unused export: UsePropertyDetailsLogicReturn (type)",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 45,
+          "line": 48,
           "code": "export interface UsePropertyDetailsLogicReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10246,6 +10401,16 @@
         {
           "severity": "warning",
           "type": "unused-export",
+          "message": "Unused export: collectErrors (function)",
+          "file": "client/src/composables/booking/useStepValidation.ts",
+          "line": 31,
+          "code": "export function collectErrors(",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
           "message": "Unused export: CustomValidator (type)",
           "file": "client/src/composables/booking/useStepValidation.ts",
           "line": 12,
@@ -10264,7 +10429,7 @@
           "fromPatternDetection": false
         }
       ],
-      "score": 6,
+      "score": 9,
       "priority": "P1"
     },
     {
@@ -10302,7 +10467,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardAppointmentManagementOptions (type)",
           "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-          "line": 18,
+          "line": 52,
           "code": "export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10312,7 +10477,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardAppointmentManagementReturn (type)",
           "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-          "line": 34,
+          "line": 68,
           "code": "export interface UseWizardAppointmentManagementReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10383,7 +10548,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardFilteredOptionsParams (type)",
           "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-          "line": 88,
+          "line": 11,
           "code": "export type UseWizardFilteredOptionsParams = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10393,7 +10558,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardFilteredOptionsReturn (type)",
           "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-          "line": 99,
+          "line": 19,
           "code": "export type UseWizardFilteredOptionsReturn = WizardComputedProperties",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10488,7 +10653,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardSubmissionParams (type)",
           "file": "client/src/composables/booking/useWizardSubmission.ts",
-          "line": 12,
+          "line": 13,
           "code": "export interface UseWizardSubmissionParams {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10498,7 +10663,7 @@
           "type": "unused-export",
           "message": "Unused export: UseWizardSubmissionReturn (type)",
           "file": "client/src/composables/booking/useWizardSubmission.ts",
-          "line": 23,
+          "line": 24,
           "code": "export interface UseWizardSubmissionReturn {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10697,11 +10862,21 @@
       "repoPath": "client/src/composables/dev/useApiDevPanelData.ts",
       "issues": [
         {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: DevPanelCacheStats (type)",
+          "file": "client/src/composables/dev/useApiDevPanelData.ts",
+          "line": 26,
+          "code": "export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
           "severity": "info",
           "type": "unused-function",
           "message": "Unused function: fetchOAuthStatus",
           "file": "client/src/composables/dev/useApiDevPanelData.ts",
-          "line": 98,
+          "line": 104,
           "code": "async function fetchOAuthStatus(): Promise<void> {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -10710,7 +10885,7 @@
           "type": "unused-function",
           "message": "Unused function: fetchEventsCache",
           "file": "client/src/composables/dev/useApiDevPanelData.ts",
-          "line": 115,
+          "line": 122,
           "code": "async function fetchEventsCache(): Promise<void> {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -10719,7 +10894,7 @@
           "type": "unused-function",
           "message": "Unused function: fetchRateLimitStats",
           "file": "client/src/composables/dev/useApiDevPanelData.ts",
-          "line": 134,
+          "line": 142,
           "code": "async function fetchRateLimitStats(): Promise<void> {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -10728,13 +10903,13 @@
           "type": "unused-function",
           "message": "Unused function: fetchDriveTimeCache",
           "file": "client/src/composables/dev/useApiDevPanelData.ts",
-          "line": 160,
+          "line": 169,
           "code": "async function fetchDriveTimeCache(): Promise<void> {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 4,
-      "priority": "P2"
+      "score": 7,
+      "priority": "P1"
     },
     {
       "repoPath": "client/src/composables/dev/useDevPanelTabs.ts",
@@ -10830,7 +11005,7 @@
           "type": "unused-export",
           "message": "Unused export: UseFieldContextActionsReturn (type)",
           "file": "client/src/composables/fieldContext/useFieldContextActions.ts",
-          "line": 14,
+          "line": 16,
           "code": "export type UseFieldContextActionsReturn = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10847,7 +11022,7 @@
           "type": "unused-export",
           "message": "Unused export: SaveComponentEntityParams (type)",
           "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-          "line": 21,
+          "line": 25,
           "code": "export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10857,7 +11032,7 @@
           "type": "unused-export",
           "message": "Unused export: SaveRelationshipFieldParams (type)",
           "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-          "line": 76,
+          "line": 80,
           "code": "export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10867,7 +11042,7 @@
           "type": "unused-export",
           "message": "Unused export: SaveRegularFieldParams (type)",
           "file": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-          "line": 162,
+          "line": 166,
           "code": "export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10884,7 +11059,7 @@
           "type": "unused-function",
           "message": "Unused function: validationRulesObject",
           "file": "client/src/composables/fieldContext/useFieldContextState.ts",
-          "line": 165,
+          "line": 169,
           "code": "const validationRulesObject = (() => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -10900,7 +11075,7 @@
           "type": "unused-export",
           "message": "Unused export: UseFormFieldsContextReturn (type)",
           "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-          "line": 28,
+          "line": 29,
           "code": "export type UseFormFieldsContextReturn = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -10910,7 +11085,7 @@
           "type": "unused-function",
           "message": "Unused function: buildContext",
           "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-          "line": 244,
+          "line": 245,
           "code": "const buildContext = () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -11323,7 +11498,7 @@
           "type": "unused-export",
           "message": "Unused export: buildFormFieldConfig (function)",
           "file": "client/src/configs/adminConfig.ts",
-          "line": 115,
+          "line": 116,
           "code": "export function buildFormFieldConfig(): FormFieldConfigMap {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11333,7 +11508,7 @@
           "type": "unused-export",
           "message": "Unused export: buildAdminConfig (function)",
           "file": "client/src/configs/adminConfig.ts",
-          "line": 60,
+          "line": 61,
           "code": "* NOTE: Internal function only - not exported as it's only used by buildAdminConfig",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11350,7 +11525,7 @@
           "type": "unused-export",
           "message": "Unused export: getWriteToCalendar (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 622,
+          "line": 641,
           "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11360,7 +11535,7 @@
           "type": "unused-export",
           "message": "Unused export: getCalendarEmailsArray (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 642,
+          "line": 661,
           "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11414,7 +11589,7 @@
           "type": "unused-export",
           "message": "Unused export: annotationInstanceDisplays (const)",
           "file": "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts",
-          "line": 8,
+          "line": 10,
           "code": "export const annotationInstanceDisplays = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11431,7 +11606,7 @@
           "type": "unused-export",
           "message": "Unused export: annotationShapeDisplays (const)",
           "file": "client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts",
-          "line": 8,
+          "line": 10,
           "code": "export const annotationShapeDisplays = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11448,7 +11623,7 @@
           "type": "unused-export",
           "message": "Unused export: eventInstanceDisplays (const)",
           "file": "client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts",
-          "line": 8,
+          "line": 10,
           "code": "export const eventInstanceDisplays = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11465,7 +11640,7 @@
           "type": "unused-export",
           "message": "Unused export: eventShapeDisplays (const)",
           "file": "client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts",
-          "line": 8,
+          "line": 10,
           "code": "export const eventShapeDisplays = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11482,7 +11657,7 @@
           "type": "unused-export",
           "message": "Unused export: RelationshipDisplayType (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 24,
+          "line": 25,
           "code": "export type RelationshipDisplayType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11492,7 +11667,7 @@
           "type": "unused-export",
           "message": "Unused export: VirtualDisplayType (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 71,
+          "line": 72,
           "code": "export type VirtualDisplayType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11502,7 +11677,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectableDisplayTypeSuite (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 121,
+          "line": 122,
           "code": "export type SelectableDisplayTypeSuite = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11546,7 +11721,7 @@
           "type": "unused-export",
           "message": "Unused export: buildSelectableFieldType (function)",
           "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-          "line": 90,
+          "line": 91,
           "code": "export function buildSelectableFieldType(): SelectableFieldTypeSuite {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11556,7 +11731,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectableFieldType (type)",
           "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-          "line": 78,
+          "line": 79,
           "code": "export type SelectableFieldType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11573,7 +11748,7 @@
           "type": "unused-export",
           "message": "Unused export: annotationInstanceFields (const)",
           "file": "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts",
-          "line": 10,
+          "line": 11,
           "code": "export const annotationInstanceFields = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11590,7 +11765,7 @@
           "type": "unused-export",
           "message": "Unused export: annotationShapeFields (const)",
           "file": "client/src/configs/field/form/appliedForm/annotationShapeFields.ts",
-          "line": 16,
+          "line": 17,
           "code": "export const annotationShapeFields = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11607,7 +11782,7 @@
           "type": "unused-export",
           "message": "Unused export: eventInstanceFields (const)",
           "file": "client/src/configs/field/form/appliedForm/eventInstanceFields.ts",
-          "line": 16,
+          "line": 17,
           "code": "export const eventInstanceFields = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11624,7 +11799,7 @@
           "type": "unused-export",
           "message": "Unused export: eventShapeFields (const)",
           "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
-          "line": 16,
+          "line": 17,
           "code": "export const eventShapeFields = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11641,7 +11816,7 @@
           "type": "unused-export",
           "message": "Unused export: WizardStepConfig (type)",
           "file": "client/src/configs/wizardSteps.ts",
-          "line": 17,
+          "line": 19,
           "code": "export interface WizardStepConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11758,7 +11933,7 @@
           "type": "unused-function",
           "message": "Unused function: emailRouteComponent",
           "file": "client/src/plugins/1.router/additional-routes.ts",
-          "line": 3,
+          "line": 4,
           "code": "const emailRouteComponent = () => import('@/pages/apps/email/index.vue')",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -11806,39 +11981,9 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: checkOAuthStatus (function)",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 82,
-          "code": "export async function checkOAuthStatus(): Promise<OAuthStatus> {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: getOAuthUrl (function)",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 172,
-          "code": "export function getOAuthUrl(): string {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: OAuthStatus (type)",
-          "file": "client/src/services/calendarApiService.ts",
-          "line": 29,
-          "code": "export interface OAuthStatus {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: CalendarApiOptions (type)",
           "file": "client/src/services/calendarApiService.ts",
-          "line": 40,
+          "line": 30,
           "code": "export interface CalendarApiOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11848,14 +11993,14 @@
           "type": "unused-export",
           "message": "Unused export: CalendarApiErrorType (type)",
           "file": "client/src/services/calendarApiService.ts",
-          "line": 49,
+          "line": 39,
           "code": "export type CalendarApiErrorType =",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 15,
-      "priority": "P0"
+      "score": 6,
+      "priority": "P1"
     },
     {
       "repoPath": "client/src/shims/vue-i18n.ts",
@@ -11892,7 +12037,7 @@
           "type": "unused-export",
           "message": "Unused export: AdminEntityMap (type)",
           "file": "client/src/types/admin/AdminEntity.ts",
-          "line": 201,
+          "line": 202,
           "code": "export type AdminEntityMap = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -11949,33 +12094,6 @@
       "priority": "P0"
     },
     {
-      "repoPath": "client/src/types/appointment.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: PartInstanceSnapshot (type)",
-          "file": "client/src/types/appointment.ts",
-          "line": 220,
-          "code": "export interface PartInstanceSnapshot {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: BlockInstanceSnapshot (type)",
-          "file": "client/src/types/appointment.ts",
-          "line": 229,
-          "code": "export interface BlockInstanceSnapshot {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/types/component.ts",
       "issues": [
         {
@@ -12000,7 +12118,7 @@
           "type": "unused-export",
           "message": "Unused export: isRFC3339DateTime (function)",
           "file": "client/src/types/datetime.ts",
-          "line": 93,
+          "line": 95,
           "code": "export function isRFC3339DateTime(value: string): value is RFC3339DateTime {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12010,7 +12128,7 @@
           "type": "unused-export",
           "message": "Unused export: validateRFC3339DateTime (function)",
           "file": "client/src/types/datetime.ts",
-          "line": 117,
+          "line": 120,
           "code": "export function validateRFC3339DateTime(value: string): RFC3339DateTime {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12020,7 +12138,7 @@
           "type": "unused-export",
           "message": "Unused export: toDayOfWeek (function)",
           "file": "client/src/types/datetime.ts",
-          "line": 172,
+          "line": 175,
           "code": "export function toDayOfWeek(n: number): DayOfWeek {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12030,7 +12148,7 @@
           "type": "unused-export",
           "message": "Unused export: getDayOfWeek (function)",
           "file": "client/src/types/datetime.ts",
-          "line": 179,
+          "line": 182,
           "code": "export function getDayOfWeek(date: Date): DayOfWeek {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12038,23 +12156,6 @@
       ],
       "score": 12,
       "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/types/entities.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: GlobalEntityMap (type)",
-          "file": "client/src/types/entities.ts",
-          "line": 89,
-          "code": "export type GlobalEntityMap = {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
     },
     {
       "repoPath": "client/src/types/entity/formFields.ts",
@@ -12074,43 +12175,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/types/googleCalendar.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: GoogleCalendarError (type)",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 22,
-          "code": "export interface GoogleCalendarError {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: GoogleCalendarFreeBusy (type)",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 33,
-          "code": "export interface GoogleCalendarFreeBusy {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: GoogleCalendarGroup (type)",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 38,
-          "code": "export interface GoogleCalendarGroup {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 9,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/types/property.ts",
       "issues": [
         {
@@ -12118,7 +12182,7 @@
           "type": "unused-export",
           "message": "Unused export: PropertyTypesRequest (type)",
           "file": "client/src/types/property.ts",
-          "line": 71,
+          "line": 73,
           "code": "export interface PropertyTypesRequest {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12135,7 +12199,7 @@
           "type": "unused-export",
           "message": "Unused export: ShapeFieldMetadata (type)",
           "file": "client/src/types/shapeFieldMetadata.ts",
-          "line": 7,
+          "line": 9,
           "code": "export interface ShapeFieldMetadata {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12145,7 +12209,7 @@
           "type": "unused-export",
           "message": "Unused export: ShapeLayoutConfig (type)",
           "file": "client/src/types/shapeFieldMetadata.ts",
-          "line": 23,
+          "line": 25,
           "code": "export interface ShapeLayoutConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12155,7 +12219,7 @@
           "type": "unused-export",
           "message": "Unused export: ComposedFieldConfig (type)",
           "file": "client/src/types/shapeFieldMetadata.ts",
-          "line": 40,
+          "line": 42,
           "code": "export interface ComposedFieldConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12189,7 +12253,7 @@
           "type": "unused-export",
           "message": "Unused export: WizardState (type)",
           "file": "client/src/types/wizard.ts",
-          "line": 22,
+          "line": 20,
           "code": "export interface WizardState {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12199,7 +12263,7 @@
           "type": "unused-export",
           "message": "Unused export: WizardSelectionMethods (type)",
           "file": "client/src/types/wizard.ts",
-          "line": 43,
+          "line": 41,
           "code": "export interface WizardSelectionMethods {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12270,24 +12334,31 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/utils/api.ts",
+      "repoPath": "client/src/utils/api/availabilityApi.ts",
       "issues": [
         {
           "severity": "warning",
           "type": "unused-export",
           "message": "Unused export: getAvailabilityEndpoint (function)",
-          "file": "client/src/utils/api.ts",
-          "line": 169,
+          "file": "client/src/utils/api/availabilityApi.ts",
+          "line": 6,
           "code": "export function getAvailabilityEndpoint(): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
-        },
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/api/relationshipApi.ts",
+      "issues": [
         {
           "severity": "warning",
           "type": "unused-export",
           "message": "Unused export: getBlockInstanceAnnotationsEndpoint (function)",
-          "file": "client/src/utils/api.ts",
-          "line": 227,
+          "file": "client/src/utils/api/relationshipApi.ts",
+          "line": 22,
           "code": "export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12296,14 +12367,14 @@
           "severity": "warning",
           "type": "unused-export",
           "message": "Unused export: getBlockInstanceAnnotationEndpoint (function)",
-          "file": "client/src/utils/api.ts",
-          "line": 231,
+          "file": "client/src/utils/api/relationshipApi.ts",
+          "line": 26,
           "code": "export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 9,
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -12314,7 +12385,7 @@
           "type": "unused-export",
           "message": "Unused export: APPOINTMENT_FIELD_FORMATTERS (const)",
           "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 119,
+          "line": 120,
           "code": "export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12324,7 +12395,7 @@
           "type": "unused-export",
           "message": "Unused export: FieldFormatter (type)",
           "file": "client/src/utils/appointmentFieldFormatters.ts",
-          "line": 18,
+          "line": 19,
           "code": "export type FieldFormatter = (",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12422,6 +12493,73 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/utils/booking/cascadeFilterPipeline.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: filterByShape (function)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 80,
+          "code": "export function filterByShape(",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: applyFallback (function)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 101,
+          "code": "export function applyFallback(params: FallbackParams): BookingBlockInstance[] {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: CascadeStepResult (type)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 16,
+          "code": "export type CascadeStepResult =",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: CascadeFilterParams (type)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 20,
+          "code": "export interface CascadeFilterParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FallbackParams (type)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 90,
+          "code": "export interface FallbackParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PipelineParams (type)",
+          "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
+          "line": 114,
+          "code": "export interface PipelineParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 18,
+      "priority": "P0"
+    },
+    {
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "issues": [
         {
@@ -12429,7 +12567,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateBlockInstanceFee (function)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 59,
+          "line": 60,
           "code": "export function calculateBlockInstanceFee(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12439,7 +12577,7 @@
           "type": "unused-export",
           "message": "Unused export: BlockInstanceFeeResult (type)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 32,
+          "line": 33,
           "code": "export interface BlockInstanceFeeResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12449,7 +12587,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 226,
+          "line": 227,
           "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "suggestion": "Review and clean up unused code"
         },
@@ -12458,7 +12596,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 228,
+          "line": 229,
           "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
           "suggestion": "Review and clean up unused code"
         },
@@ -12467,7 +12605,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 229,
+          "line": 230,
           "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
           "suggestion": "Review and clean up unused code"
         }
@@ -12571,7 +12709,7 @@
           "type": "unused-export",
           "message": "Unused export: sumPartFinalsDuration (function)",
           "file": "client/src/utils/booking/partFinalizer.ts",
-          "line": 312,
+          "line": 298,
           "code": "export function sumPartFinalsDuration(parts: PartFinal[]): number {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12835,7 +12973,7 @@
           "type": "unused-export",
           "message": "Unused export: formatBusyPeriod (function)",
           "file": "client/src/utils/dev/formatDevPanelData.ts",
-          "line": 48,
+          "line": 49,
           "code": "export function formatBusyPeriod(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12916,7 +13054,7 @@
           "type": "unused-export",
           "message": "Unused export: getMetadataEntityId (function)",
           "file": "client/src/utils/entities/entityTypeMapping.ts",
-          "line": 35,
+          "line": 37,
           "code": "export function getMetadataEntityId<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -12987,7 +13125,7 @@
           "type": "unused-export",
           "message": "Unused export: CategorizedFields (type)",
           "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-          "line": 23,
+          "line": 28,
           "code": "export interface CategorizedFields {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13031,7 +13169,7 @@
           "type": "unused-export",
           "message": "Unused export: GetFieldKeysOptions (type)",
           "file": "client/src/utils/forms/getFieldKeys.ts",
-          "line": 19,
+          "line": 27,
           "code": "export interface GetFieldKeysOptions<GE extends GlobalEntityKey> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13048,7 +13186,7 @@
           "type": "unused-export",
           "message": "Unused export: mapIcon (function)",
           "file": "client/src/utils/iconMapper.ts",
-          "line": 78,
+          "line": 79,
           "code": "export function mapIcon(iconString: string | null | undefined): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13065,7 +13203,7 @@
           "type": "unused-export",
           "message": "Unused export: LogLevel (type)",
           "file": "client/src/utils/logger.ts",
-          "line": 15,
+          "line": 18,
           "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13075,7 +13213,7 @@
           "type": "unused-export",
           "message": "Unused export: AppLogger (type)",
           "file": "client/src/utils/logger.ts",
-          "line": 17,
+          "line": 20,
           "code": "export type AppLogger = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13193,7 +13331,7 @@
           "type": "unused-export",
           "message": "Unused export: filterAnnotationsByUserTypeBlock (function)",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 111,
+          "line": 109,
           "code": "export function filterAnnotationsByUserTypeBlock(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13203,7 +13341,7 @@
           "type": "unused-export",
           "message": "Unused export: sortAnnotationsByOrderIndex (function)",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 137,
+          "line": 135,
           "code": "export function sortAnnotationsByOrderIndex(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13213,7 +13351,7 @@
           "type": "unused-export",
           "message": "Unused export: getDefaultAnnotation (function)",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 143,
+          "line": 141,
           "code": "export function getDefaultAnnotation(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13223,60 +13361,13 @@
           "type": "unused-export",
           "message": "Unused export: getThroughAttributes (function)",
           "file": "client/src/utils/transformers/annotationTransformers.ts",
-          "line": 164,
+          "line": 162,
           "code": "export function getThroughAttributes(annotation: Record<string, unknown>): {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
       "score": 15,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: findBlockInstancesByIds (function)",
-          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-          "line": 72,
-          "code": "export function findBlockInstancesByIds(",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: convertToTernary (function)",
-          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-          "line": 91,
-          "code": "export function convertToTernary(",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: transformVersionToBookingInstance (function)",
-          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-          "line": 107,
-          "code": "export function transformVersionToBookingInstance(",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: VersionBlockInstance (type)",
-          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-          "line": 21,
-          "code": "export interface VersionBlockInstance {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 12,
       "priority": "P0"
     },
     {
@@ -13287,7 +13378,7 @@
           "type": "unused-export",
           "message": "Unused export: composeProperties (function)",
           "file": "client/src/utils/transformers/componentAggregator.ts",
-          "line": 125,
+          "line": 128,
           "code": "export function composeProperties<GE extends GlobalEntityKey>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13304,7 +13395,7 @@
           "type": "unused-export",
           "message": "Unused export: isComposablePropertyValue (function)",
           "file": "client/src/utils/transformers/composePropertyValue.ts",
-          "line": 18,
+          "line": 19,
           "code": "export function isComposablePropertyValue(value: unknown): value is ComposablePropertyValue {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13314,7 +13405,7 @@
           "type": "unused-export",
           "message": "Unused export: composeProperty (function)",
           "file": "client/src/utils/transformers/composePropertyValue.ts",
-          "line": 38,
+          "line": 39,
           "code": "export function composeProperty<T extends string | number | boolean | unknown[]>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13324,7 +13415,7 @@
           "type": "unused-export",
           "message": "Unused export: ComposablePropertyValue (type)",
           "file": "client/src/utils/transformers/composePropertyValue.ts",
-          "line": 16,
+          "line": 17,
           "code": "export type ComposablePropertyValue = string | number | boolean | unknown[]",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13351,15 +13442,48 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/transformers/globalToAdminTransformer.ts",
+      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: orderCompare",
+          "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+          "line": 55,
+          "code": "const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/fieldClassification.ts",
       "issues": [
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: AdminTransformer (class)",
-          "file": "client/src/utils/transformers/globalToAdminTransformer.ts",
-          "line": 42,
-          "code": "export class AdminTransformer {",
+          "message": "Unused export: DehydrateFieldSets (type)",
+          "file": "client/src/utils/transformers/fieldClassification.ts",
+          "line": 14,
+          "code": "export type DehydrateFieldSets = {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/transformerPrimitives.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: safeBoolean (function)",
+          "file": "client/src/utils/transformers/transformerPrimitives.ts",
+          "line": 96,
+          "code": "export function safeBoolean(value: unknown, context?: string): boolean {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -13412,6 +13536,40 @@
           "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
           "line": 186,
           "code": "function setMinuteIncrement(v: number): void {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: setRequiredFieldsArray",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 108,
+          "code": "function setRequiredFieldsArray(v: string): void {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: setRequiredFieldsCondition",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 111,
+          "code": "function setRequiredFieldsCondition(v: string): void {",
+          "suggestion": "Remove if unused or document why kept"
+        },
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: setRequiresAgent",
+          "file": "client/src/views/admin/tabs/BusinessRulesTab.vue",
+          "line": 114,
+          "code": "function setRequiresAgent(v: boolean): void {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
@@ -13523,7 +13681,7 @@
           "type": "unused-function",
           "message": "Unused function: handleAnnotationShapeCancelled",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 225,
+          "line": 226,
           "code": "const handleAnnotationShapeCancelled = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13532,7 +13690,7 @@
           "type": "unused-function",
           "message": "Unused function: startCreatingEventShape",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 236,
+          "line": 237,
           "code": "const startCreatingEventShape = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13541,7 +13699,7 @@
           "type": "unused-function",
           "message": "Unused function: handleEventShapeCreate",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 242,
+          "line": 243,
           "code": "const handleEventShapeCreate = async () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13550,7 +13708,7 @@
           "type": "unused-function",
           "message": "Unused function: handleEventShapeCancelled",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 264,
+          "line": 265,
           "code": "const handleEventShapeCancelled = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13559,7 +13717,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeletePartShape",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 371,
+          "line": 372,
           "code": "function handleDeletePartShape(_id: string) {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13568,7 +13726,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteBlockShape",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 380,
+          "line": 381,
           "code": "function handleDeleteBlockShape(_id: string) {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13577,7 +13735,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteAnnotationShape",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 431,
+          "line": 432,
           "code": "function handleDeleteAnnotationShape(_id: string) {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13586,7 +13744,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteEventShape",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 439,
+          "line": 440,
           "code": "function handleDeleteEventShape(_id: string) {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -13595,7 +13753,7 @@
           "type": "unused-function",
           "message": "Unused function: handleExistingShapeSaved",
           "file": "client/src/views/admin/tabs/ShapesTab.vue",
-          "line": 443,
+          "line": 444,
           "code": "function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -13609,60 +13767,24 @@
         {
           "severity": "info",
           "type": "unused-function",
-          "message": "Unused function: handleSaveCreate",
+          "message": "Unused function: setFormClientId",
           "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 100,
-          "code": "const handleSaveCreate = async () => {",
+          "line": 109,
+          "code": "function setFormClientId(v: string | null): void {",
           "suggestion": "Remove if unused or document why kept"
         },
         {
           "severity": "info",
           "type": "unused-function",
-          "message": "Unused function: handleSaveEdit",
+          "message": "Unused function: setFormAgentId",
           "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 132,
-          "code": "const handleSaveEdit = async () => {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: handleStartEdit",
-          "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 164,
-          "code": "const handleStartEdit = (item: AppointmentResponse) => {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: handleCancelEdit",
-          "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 171,
-          "code": "const handleCancelEdit = () => {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: handleStartCreate",
-          "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 177,
-          "code": "const handleStartCreate = () => {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: handleCancelCreate",
-          "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-          "line": 183,
-          "code": "const handleCancelCreate = () => {",
+          "line": 112,
+          "code": "function setFormAgentId(v: string | null): void {",
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 6,
-      "priority": "P1"
+      "score": 2,
+      "priority": "P2"
     },
     {
       "repoPath": "client/src/vite-env.d.ts",
@@ -13763,20 +13885,10 @@
           "code": "export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: EntityType (type)",
-          "file": "server/src/config/entityRegistry.ts",
-          "line": 39,
-          "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
         }
       ],
-      "score": 12,
-      "priority": "P0"
+      "score": 9,
+      "priority": "P1"
     },
     {
       "repoPath": "server/src/config/envConfig.ts",
@@ -13786,7 +13898,7 @@
           "type": "unused-export",
           "message": "Unused export: EnvConfig (type)",
           "file": "server/src/config/envConfig.ts",
-          "line": 8,
+          "line": 9,
           "code": "export interface EnvConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13801,26 +13913,16 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: TOKEN_FILE (const)",
-          "file": "server/src/config/googleOAuthTokenPersistence.ts",
-          "line": 24,
-          "code": "export const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: TokenData (type)",
           "file": "server/src/config/googleOAuthTokenPersistence.ts",
-          "line": 29,
+          "line": 17,
           "code": "export interface TokenData {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 6,
-      "priority": "P1"
+      "score": 3,
+      "priority": "P2"
     },
     {
       "repoPath": "server/src/constants/metadataDefaults.mjs",
@@ -13897,7 +13999,7 @@
           "type": "unused-export",
           "message": "Unused export: AdminPrimitiveMetadataFactory (function)",
           "file": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
-          "line": 44,
+          "line": 45,
           "code": "export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -13914,7 +14016,7 @@
           "type": "unused-export",
           "message": "Unused export: AdminRelationshipMetadataFactory (function)",
           "file": "server/src/db/models/admin/adminRelationshipMetadata.ts",
-          "line": 42,
+          "line": 43,
           "code": "export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14005,6 +14107,23 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/db/models/booking/appointment.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: BlockInstanceSnapshot (type)",
+          "file": "server/src/db/models/booking/appointment.ts",
+          "line": 11,
+          "code": "export interface BlockInstanceSnapshot {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/db/models/booking/relationships.ts",
       "issues": [
         {
@@ -14029,7 +14148,7 @@
           "type": "unused-export",
           "message": "Unused export: requireAuth (function)",
           "file": "server/src/middlewares/security.ts",
-          "line": 60,
+          "line": 59,
           "code": "export function requireAuth(req: Request, res: Response, next: NextFunction): void {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14039,7 +14158,7 @@
           "type": "unused-export",
           "message": "Unused export: requireSecureAccess (function)",
           "file": "server/src/middlewares/security.ts",
-          "line": 118,
+          "line": 117,
           "code": "export function requireSecureAccess(modelName: string, paramKey: string = 'id') {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14056,7 +14175,7 @@
           "type": "unused-export",
           "message": "Unused export: RouteHandler (type)",
           "file": "server/src/routes/helpers/crudRouterTypes.ts",
-          "line": 89,
+          "line": 91,
           "code": "export type RouteHandler = (req: Request, res: Response) => Promise<void>",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14073,7 +14192,7 @@
           "type": "unused-export",
           "message": "Unused export: safeDelete (const)",
           "file": "server/src/routes/helpers/dataController.ts",
-          "line": 214,
+          "line": 215,
           "code": "export const safeDelete = async ({",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14083,7 +14202,7 @@
           "type": "unused-export",
           "message": "Unused export: DependentDelete (type)",
           "file": "server/src/routes/helpers/dataController.ts",
-          "line": 201,
+          "line": 202,
           "code": "export type DependentDelete = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14093,7 +14212,7 @@
           "type": "unused-export",
           "message": "Unused export: SafeDeleteOptions (type)",
           "file": "server/src/routes/helpers/dataController.ts",
-          "line": 206,
+          "line": 207,
           "code": "export interface SafeDeleteOptions {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14101,6 +14220,23 @@
       ],
       "score": 9,
       "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: METADATA_REQUIRED_FIELDS_CREATE_UPDATE (const)",
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
+          "line": 58,
+          "code": "export const METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
     },
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
@@ -14211,7 +14347,7 @@
           "type": "unused-export",
           "message": "Unused export: isPropertyVersionWithAssociations (function)",
           "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-          "line": 20,
+          "line": 21,
           "code": "export function isPropertyVersionWithAssociations(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14221,7 +14357,7 @@
           "type": "unused-export",
           "message": "Unused export: isBlockInstanceWithShape (function)",
           "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-          "line": 38,
+          "line": 39,
           "code": "export function isBlockInstanceWithShape(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14234,25 +14370,17 @@
       "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
       "issues": [
         {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: whereWithParentId",
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: handleInstanceComponentCreate (function)",
           "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-          "line": 72,
-          "code": "const whereWithParentId = (() => {",
-          "suggestion": "Remove if unused or document why kept"
-        },
-        {
-          "severity": "info",
-          "type": "unused-function",
-          "message": "Unused function: whereClause",
-          "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-          "line": 85,
-          "code": "const whereClause = (() => {",
-          "suggestion": "Remove if unused or document why kept"
+          "line": 95,
+          "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
         }
       ],
-      "score": 2,
+      "score": 3,
       "priority": "P2"
     },
     {
@@ -14283,40 +14411,77 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
       "issues": [
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: extractPhone (function)",
-          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-          "line": 164,
-          "code": "export function extractPhone(text: string | undefined): string | null {",
+          "message": "Unused export: mapAnnotationAssignmentsFields (function)",
+          "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+          "line": 23,
+          "code": "export function mapAnnotationAssignmentsFields(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         },
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: DEFAULT_FIRST_NAME (const)",
-          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-          "line": 14,
-          "code": "export const DEFAULT_FIRST_NAME = 'Unknown' as const",
+          "message": "Unused export: mapAttendeeAssignmentsFields (function)",
+          "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+          "line": 36,
+          "code": "export function mapAttendeeAssignmentsFields(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         },
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: DEFAULT_LAST_NAME (const)",
-          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-          "line": 15,
-          "code": "export const DEFAULT_LAST_NAME = 'Client' as const",
+          "message": "Unused export: mapEventAssignmentsFields (function)",
+          "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+          "line": 49,
+          "code": "export async function mapEventAssignmentsFields(",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: getComponentChildIds (function)",
+          "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
+          "line": 97,
+          "code": "export async function getComponentChildIds(instanceId: string): Promise<string[]> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 9,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: BuildWhereClauseParams (type)",
+          "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
+          "line": 64,
+          "code": "export interface BuildWhereClauseParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: BuildQueryOptionsParams (type)",
+          "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
+          "line": 102,
+          "code": "export interface BuildQueryOptionsParams {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -14374,7 +14539,7 @@
           "type": "unused-export",
           "message": "Unused export: isCalendarConfigured (function)",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 340,
+          "line": 341,
           "code": "export async function isCalendarConfigured(): Promise<boolean> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14384,7 +14549,7 @@
           "type": "unused-export",
           "message": "Unused export: syncInvitationStatus (function)",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 357,
+          "line": 358,
           "code": "export async function syncInvitationStatus(appointmentId: string): Promise<number> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14394,7 +14559,7 @@
           "type": "unused-export",
           "message": "Unused export: CalendarEventResult (type)",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 21,
+          "line": 22,
           "code": "export interface CalendarEventResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14411,7 +14576,7 @@
           "type": "unused-export",
           "message": "Unused export: loadBlockInstanceFromVersion (function)",
           "file": "server/src/services/appointmentSnapshotLoader.ts",
-          "line": 51,
+          "line": 48,
           "code": "export async function loadBlockInstanceFromVersion(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14421,7 +14586,7 @@
           "type": "unused-export",
           "message": "Unused export: loadAppointmentVersions (function)",
           "file": "server/src/services/appointmentSnapshotLoader.ts",
-          "line": 69,
+          "line": 66,
           "code": "export async function loadAppointmentVersions(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14434,28 +14599,17 @@
       "repoPath": "server/src/services/calendarErrorHandler.ts",
       "issues": [
         {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: getStatusCodeForError (function)",
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: _getStatusCodeForError",
           "file": "server/src/services/calendarErrorHandler.ts",
           "line": 84,
-          "code": "export function getStatusCodeForError(errorType: CalendarErrorType): number {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: FallbackResult (type)",
-          "file": "server/src/services/calendarErrorHandler.ts",
-          "line": 202,
-          "code": "export interface FallbackResult<T> {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
+          "code": "function _getStatusCodeForError(errorType: CalendarErrorType): number {",
+          "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 6,
-      "priority": "P1"
+      "score": 1,
+      "priority": "P2"
     },
     {
       "repoPath": "server/src/services/calendarEventsCache.ts",
@@ -14578,33 +14732,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: buildFindPlaceUrl (function)",
-          "file": "server/src/services/google/maps/mapsHelpers.ts",
-          "line": 164,
-          "code": "export function buildFindPlaceUrl(address: string, apiKey: string): string {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: parseAddressComponents (function)",
-          "file": "server/src/services/google/maps/mapsHelpers.ts",
-          "line": 216,
-          "code": "export function parseAddressComponents(components: Array<{",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "server/src/services/google/maps/mapsTypes.ts",
       "issues": [
         {
@@ -14612,7 +14739,7 @@
           "type": "unused-export",
           "message": "Unused export: AutocompleteResponse (type)",
           "file": "server/src/services/google/maps/mapsTypes.ts",
-          "line": 27,
+          "line": 34,
           "code": "export interface AutocompleteResponse {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14629,7 +14756,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateDriveTime (function)",
           "file": "server/src/services/google/maps/routesApiService.ts",
-          "line": 173,
+          "line": 179,
           "code": "export async function calculateDriveTime(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14654,33 +14781,6 @@
       ],
       "score": 3,
       "priority": "P2"
-    },
-    {
-      "repoPath": "server/src/services/google/shared/googleApiRetry.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: calculateBackoffDelay (function)",
-          "file": "server/src/services/google/shared/googleApiRetry.ts",
-          "line": 54,
-          "code": "export function calculateBackoffDelay(attempt: number, config: RetryConfig): number {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: RetryableError (type)",
-          "file": "server/src/services/google/shared/googleApiRetry.ts",
-          "line": 39,
-          "code": "export interface RetryableError {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
     },
     {
       "repoPath": "server/src/services/rateLimiter.ts",
@@ -14710,6 +14810,23 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/utils/availabilities/availabilityPrimitives.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: formatDayKey (function)",
+          "file": "server/src/utils/availabilities/availabilityPrimitives.ts",
+          "line": 40,
+          "code": "export function formatDayKey(date: Date): string {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "issues": [
         {
@@ -14717,7 +14834,7 @@
           "type": "unused-export",
           "message": "Unused export: sumWorkHoursForDateRange (function)",
           "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-          "line": 122,
+          "line": 132,
           "code": "export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14727,6 +14844,33 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/utils/envHelpers.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: isDevelopment (function)",
+          "file": "server/src/utils/envHelpers.ts",
+          "line": 15,
+          "code": "export function isDevelopment(): boolean {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: isTest (function)",
+          "file": "server/src/utils/envHelpers.ts",
+          "line": 19,
+          "code": "export function isTest(): boolean {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/utils/logger.ts",
       "issues": [
         {
@@ -14734,7 +14878,7 @@
           "type": "unused-export",
           "message": "Unused export: LogLevel (type)",
           "file": "server/src/utils/logger.ts",
-          "line": 15,
+          "line": 21,
           "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14744,7 +14888,7 @@
           "type": "unused-export",
           "message": "Unused export: AppLogger (type)",
           "file": "server/src/utils/logger.ts",
-          "line": 17,
+          "line": 23,
           "code": "export type AppLogger = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14795,7 +14939,7 @@
           "type": "unused-export",
           "message": "Unused export: getUserTypeBlockIdsForRoles (function)",
           "file": "server/src/utils/userTypeMapping.ts",
-          "line": 102,
+          "line": 103,
           "code": "export async function getUserTypeBlockIdsForRoles(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14805,7 +14949,7 @@
           "type": "unused-export",
           "message": "Unused export: getRoleForBlockName (function)",
           "file": "server/src/utils/userTypeMapping.ts",
-          "line": 215,
+          "line": 216,
           "code": "export function getRoleForBlockName(blockName: string): string | null {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14815,7 +14959,7 @@
           "type": "unused-export",
           "message": "Unused export: getAvailableRoleMappings (function)",
           "file": "server/src/utils/userTypeMapping.ts",
-          "line": 223,
+          "line": 224,
           "code": "export function getAvailableRoleMappings(): Record<string, string> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14825,7 +14969,7 @@
           "type": "unused-export",
           "message": "Unused export: clearUserTypeBlockCache (function)",
           "file": "server/src/utils/userTypeMapping.ts",
-          "line": 230,
+          "line": 231,
           "code": "export function clearUserTypeBlockCache(): void {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -14836,20 +14980,20 @@
     }
   ],
   "recommendations": [
-    "Found 544 unused export(s) - review for removal",
+    "Found 545 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
-    "Found 89 unused function(s) - review for removal",
+    "Found 92 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 709 file(s) (514 client, 195 server). Found 637 issue(s): 544 unused exports, 1 commented exports, 89 unused functions, 3 TODO markers, 0 dead scripts",
+  "summary": "Scanned 742 file(s) (542 client, 200 server). Found 641 issue(s): 545 unused exports, 1 commented exports, 92 unused functions, 3 TODO markers, 0 dead scripts",
   "summaryData": {
-    "totalFiles": 709,
+    "totalFiles": 742,
     "skippedFilesCount": 0,
-    "filesWithIssues": 325,
-    "totalIssues": 637,
-    "unusedExports": 544,
+    "filesWithIssues": 335,
+    "totalIssues": 641,
+    "unusedExports": 545,
     "commentedExports": 1,
-    "unusedFunctions": 89,
+    "unusedFunctions": 92,
     "todoMarkers": 3,
     "deadScripts": 0,
     "usingPatternDetection": true,

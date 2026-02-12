@@ -7,6 +7,7 @@
  */
 
 import { Router, Request, Response } from 'express'
+import { csrfProtection } from '../../middlewares/security.js'
 import { computeAvailabilityData } from '../../services/computedAvailabilityService.js'
 import { ERROR_MESSAGES } from './availabilityConstants.js'
 import { validateComputedAvailabilityRequest } from './availabilityValidators.js'
@@ -24,7 +25,7 @@ const router = Router()
  * 
  * Phase 4: Server-Side Computed Availability Data Refactor
  */
-router.post('/computed-data', async (req: Request, res: Response): Promise<void> => {
+router.post('/computed-data', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   try {
     // Validate request
     const validation = validateComputedAvailabilityRequest(req.body)

@@ -2,6 +2,7 @@ import { computed, ref, toRaw, type Ref, type ComputedRef } from 'vue'
 import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/useEntity'
@@ -74,7 +75,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const isTempEntity = computed(() => {
     if (!entityId) return true
-    return String(entityId).startsWith('new-')
+    return String(entityId).startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
   })
 
   const adminComp = useAdmin()

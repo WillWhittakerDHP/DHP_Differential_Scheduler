@@ -60,7 +60,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
   const { formData, maxBusinessHours } = params
 
   const ensureMaxWorkHours = (current: MaxWorkHours | undefined): MaxWorkHours =>
-    current ?? {}
+    current !== undefined && current !== null ? current : {}
 
   const ensureWorkHoursPerDay = createEnsureNested(
     ensureMaxWorkHours,

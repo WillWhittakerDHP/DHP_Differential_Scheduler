@@ -16,10 +16,10 @@ export interface FetchedRelationship<
 > {
   id: GlobalEntityId
   kind: GlobalRelationshipKey
-  parent_kind: P
-  child_kind: C
-  parent_id: GlobalEntityId
-  child_id: GlobalEntityId
+  parentKind: P
+  childKind: C
+  parentId: GlobalEntityId
+  childId: GlobalEntityId
   disabled: boolean
   userTypeBlockBlockInstanceId?: GlobalEntityId | null  // For annotationAssignments user type override
   partShapeId?: string | null  // For eventAssignments - which partShape uses this event
@@ -48,7 +48,7 @@ export type GlobalRelationship<
  * PATTERN: Simple object with parent and child IDs
  */
 export interface CreateRelationshipPayload {
-  parent_id: GlobalEntityId
-  child_id: GlobalEntityId
+  parentId: GlobalEntityId
+  childId: GlobalEntityId
 }
 

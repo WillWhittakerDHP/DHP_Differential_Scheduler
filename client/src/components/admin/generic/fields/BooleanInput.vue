@@ -9,13 +9,15 @@
     <!-- LEARNING: BooleanInput renders status button chip (not toggle switch) -->
     <!-- WHY: All boolean fields should render as status buttons for consistency -->
     <!-- PATTERN: Use StatusButton component instead of VSwitch toggle -->
-    <StatusButton
-      :label="fieldContext.displayConfig.label"
-      :color="statusButtonColor"
-      :is-active="normalizedValue"
-      :disabled="fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly"
-      @click.stop="handleClick"
-    />
+    <div @keydown="handleKeydown">
+      <StatusButton
+        :label="displayLabel"
+        :color="statusButtonColor"
+        :is-active="normalizedValue"
+        :disabled="fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly"
+        @click.stop="handleClick"
+      />
+    </div>
   </BaseInput>
 </template>
 
@@ -38,10 +40,12 @@ import type { GlobalEntity } from '../../../../types/entities'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import type { FieldContextType } from '../../../../composables/useFieldContext'
 import { useFieldValue } from '../../../../composables/useFieldValue'
+import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
+import { STATUS_BUTTON_LABELS } from '@/constants/statusButtonLabels'
 
 interface Props {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -93,7 +97,25 @@ const statusButtonColor = computed(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
   const fieldKeyStr = String(fieldContext.fieldKey)
   const meta = metadata[fieldKeyStr]
-  return meta?.statusButtonColor || 'default'
+  const color = meta?.statusButtonColor
+  return color !== undefined && color !== null && color !== '' ? color : 'default'
+})
+
+// WHY: Label reflects current state (e.g., Active/Inactive) instead of static field label
+const displayLabel = computed((): string => {
+  const fieldKeyStr = String(fieldContext.fieldKey)
+  const labelMap = STATUS_BUTTON_LABELS[fieldKeyStr]
+  if (!labelMap) {
+    return fieldContext.displayConfig.label
+  }
+  const value = normalizedValue.value
+  if (value === 'override' && labelMap.override) {
+    return labelMap.override
+  }
+  if (value === true || value === 'true') {
+    return labelMap.true
+  }
+  return labelMap.false
 })
 
 // LEARNING: Use status button toggle composable for consistent store updates
@@ -102,6 +124,17 @@ const statusButtonToggle = useStatusButtonToggle({
   entityKey: fieldContext.entityKey!,
   entityId: fieldContext.entityId!,
   entity: entityForMetadata as ReturnType<typeof computed<GlobalEntity<GlobalEntityKey>>>
+})
+
+const isEditable = computed(
+  () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+)
+const { handleKeydown } = useFieldKeyboardGuard({
+  fieldType: 'boolean',
+  isEditable,
+  onToggle: (event: KeyboardEvent) => {
+    handleClick(event)
+  }
 })
 
 // PATTERN: Use toggleStatusButton from composable instead of manual save

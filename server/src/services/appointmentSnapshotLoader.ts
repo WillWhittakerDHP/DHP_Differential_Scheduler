@@ -22,8 +22,12 @@ function transformBlockVersionToBookingInstance(
   blockVersion: InstanceType<typeof BlockInstanceVersion> & { partInstanceVersions?: InstanceType<typeof PartInstanceVersion>[] }
 ): any {
   const versionData = blockVersion instanceof Model ? blockVersion.toJSON() : blockVersion;
-  const partVersions = versionData.partInstanceVersions || [];
-  
+  const rawPartVersions = versionData.partInstanceVersions;
+  if (rawPartVersions === undefined || rawPartVersions === null) {
+    logger.debug('transformBlockVersionToBookingInstance: partInstanceVersions missing, using []');
+  }
+  const partVersions = rawPartVersions !== undefined && rawPartVersions !== null ? rawPartVersions : [];
+
   return {
     id: versionData.blockInstanceId, // Use original instance ID
     name: versionData.name,
@@ -85,6 +89,18 @@ export async function loadAppointmentVersions(
   return validVersions;
 }
 
+function snapshotIdsOrEmpty(
+  appointment: { serviceSnapshotIds?: string[] | null; propertySnapshotIds?: string[] | null; optionSnapshotIds?: string[] | null },
+  key: 'serviceSnapshotIds' | 'propertySnapshotIds' | 'optionSnapshotIds'
+): string[] {
+  const raw = appointment[key];
+  if (raw === undefined || raw === null) {
+    logger.debug(`loadAllAppointmentVersions: ${key} missing, using []`);
+    return [];
+  }
+  return raw;
+}
+
 export async function loadAllAppointmentVersions(appointment: {
   serviceSnapshotIds?: string[] | null;
   propertySnapshotIds?: string[] | null;
@@ -95,9 +111,9 @@ export async function loadAllAppointmentVersions(appointment: {
   options: any[];
 }> {
   const [services, properties, options] = await Promise.all([
-    loadAppointmentVersions(appointment.serviceSnapshotIds || []),
-    loadAppointmentVersions(appointment.propertySnapshotIds || []),
-    loadAppointmentVersions(appointment.optionSnapshotIds || []),
+    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'serviceSnapshotIds')),
+    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'propertySnapshotIds')),
+    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'optionSnapshotIds')),
   ]);
 
   return { services, properties, options };

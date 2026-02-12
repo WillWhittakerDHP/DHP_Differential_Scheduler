@@ -81,8 +81,9 @@ onMounted(async () => {
   if (isEdit.value && entityId.value) {
     const entity = getGlobalEntityById('partShape', entityId.value)
     if (entity) {
+      const rawName = entity.name
       formData.value = {
-        name: entity.name || '',
+        name: rawName !== undefined && rawName !== null && rawName !== '' ? rawName : '',
         orderIndex: entity.orderIndex ?? 0,
       }
     }

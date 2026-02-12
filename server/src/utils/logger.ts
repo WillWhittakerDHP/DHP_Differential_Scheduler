@@ -11,7 +11,13 @@
  * Defaults:
  * - DEV: debug
  * - PROD: warn
+ *
+ * @audit-allow:duplication - Intentional parallel impl for server (Node env) vs client (Vite env); no shared package.
+ * LogLevel and AppLogger are public API types for createLogger; reserved for type-safe logger usage.
  */
+
+import { isProduction } from './envHelpers.js'
+
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
 
 export type AppLogger = {
@@ -77,8 +83,7 @@ function getDebugScopes(): Set<string> | null {
 }
 
 function isDebugScopeEnabled(scope: string): boolean {
-  const isDev = process.env.NODE_ENV !== 'production'
-  if (!isDev) return false
+  if (isProduction()) return false
   const scopes = getDebugScopes()
   if (!scopes) return true
   const normalized = scope.toLowerCase()
@@ -91,8 +96,7 @@ function isDebugScopeEnabled(scope: string): boolean {
  * PATTERN: Returns true only if DEBUG_SCOPES is set and explicitly contains the scope (not via *)
  */
 export function isScopeExplicitlyEnabled(scope: string): boolean {
-  const isDev = process.env.NODE_ENV !== 'production'
-  if (!isDev) return false
+  if (isProduction()) return false
   const scopes = getDebugScopes()
   if (!scopes) return false // Require explicit enabling if DEBUG_SCOPES is not set
   const normalized = scope.toLowerCase()
@@ -102,8 +106,7 @@ export function isScopeExplicitlyEnabled(scope: string): boolean {
 function getConfiguredLogLevel(): LogLevel {
   if (cachedLogLevel === null) {
     const configured = parseLogLevel(process.env.LOG_LEVEL)
-    const isDev = process.env.NODE_ENV !== 'production'
-    cachedLogLevel = configured || (isDev ? 'debug' : 'warn')
+    cachedLogLevel = configured || (isProduction() ? 'warn' : 'debug')
   }
   return cachedLogLevel
 }

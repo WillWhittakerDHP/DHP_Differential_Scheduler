@@ -4,6 +4,7 @@
  * PATTERN: Spreads baseEntityFields and adds entity-specific fields
  */
 
+import { ENTITY_STATUS, FIELD_NAMES } from '../../../../constants/entityFieldConstants'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
 import type { PrimitiveFormField } from '../../../../types/entity/formFields'
@@ -24,13 +25,13 @@ export const partInstancePrimitiveFields = {
     primitiveType: PrimitiveTypeEnum.Number,
     primitiveMode: PrimitiveModeEnum.Hidden,
     placeholder: "This Field Should Be Hidden",
-    globalField: "orderIndex",
+    globalField: FIELD_NAMES.ORDER_INDEX,
   },
 
   active: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Active",
+    placeholder: ENTITY_STATUS.ACTIVE,
     globalField: "active",
   },
   

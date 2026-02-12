@@ -1,0 +1,566 @@
+{
+  "generatedAt": "2026-02-10T23:28:43.713Z",
+  "findings": [
+    {
+      "method": "GET",
+      "url": "/events-cache",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/calendarDebugRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/rate-limit",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/calendarDebugRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/events",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/calendarRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/callback",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/status",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/test-url",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/googleOauthRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/rate-limit",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsDebugRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/drive-time-cache",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsDebugRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/clear-drive-time-cache",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsDebugRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/autocomplete",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/place-details",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/session-token",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/external/mapsRoutes.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/helpers/createCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/helpers/createCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/batch",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:entityType/:entityId/:fieldKey",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:entityType/:entityId/:fieldKey",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:entityType/:entityId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:entityType/:entityId/:relationshipKey",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:id/versions",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/computed-data",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/availabilityRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/block/:blockInstanceId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:key",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PUT",
+      "url": "/:key",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:key",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:key",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/status",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/batch",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityBatchRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:entityType/order_index",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:entityType/bulk",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityBulkRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/config",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityConfigRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:entityType",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:entityType/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:entityType",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PUT",
+      "url": "/:entityType/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:entityType/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:entityType/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/entities/entityCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PUT",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:id/types",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:id/types",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:id/types/:typeId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:id/types/:typeId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PUT",
+      "url": "/:id/types",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:blockInstanceId/:annotationId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/batch",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "GET",
+      "url": "/:relationshipType",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "POST",
+      "url": "/:relationshipType",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:relationshipType/:parentId/:childId",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "PATCH",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "clientFile": null
+    },
+    {
+      "method": "DELETE",
+      "url": "/:id",
+      "type": "orphan-server-route",
+      "severity": "info",
+      "serverFile": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "clientFile": null
+    }
+  ],
+  "endpointKeys": [
+    "GET /events-cache",
+    "GET /rate-limit",
+    "POST /events",
+    "GET /",
+    "GET /callback",
+    "GET /status",
+    "GET /test-url",
+    "GET /drive-time-cache",
+    "POST /clear-drive-time-cache",
+    "GET /autocomplete",
+    "GET /place-details",
+    "GET /session-token",
+    "POST /",
+    "GET /batch",
+    "GET /:entityType/:entityId",
+    "POST /:entityType/:entityId",
+    "DELETE /:entityType/:entityId/:fieldKey",
+    "DELETE /:entityType/:entityId/:relationshipKey",
+    "GET /:id/versions",
+    "POST /computed-data",
+    "GET /block/:blockInstanceId",
+    "GET /:key",
+    "PUT /:key",
+    "PATCH /:key",
+    "DELETE /:key",
+    "PATCH /:entityType/order_index",
+    "PATCH /:entityType/bulk",
+    "GET /config",
+    "GET /:entityType",
+    "GET /:entityType/:id",
+    "POST /:entityType",
+    "PUT /:entityType/:id",
+    "PATCH /:entityType/:id",
+    "DELETE /:entityType/:id",
+    "GET /:id",
+    "PUT /:id",
+    "PATCH /:id",
+    "DELETE /:id",
+    "GET /:id/types",
+    "POST /:id/types",
+    "PATCH /:id/types/:typeId",
+    "DELETE /:id/types/:typeId",
+    "PUT /:id/types",
+    "PATCH /:blockInstanceId/:annotationId",
+    "GET /:relationshipType",
+    "POST /:relationshipType",
+    "DELETE /:relationshipType/:parentId/:childId"
+  ]
+}

@@ -6,6 +6,9 @@
  * PATTERN: Named constants for all user-facing error messages
  */
 
+/** Fallback when error type is unknown (re-export from shared). */
+export { UNKNOWN_ERROR_MESSAGE } from '@shared/constants/errorMessages'
+
 /**
  * Error message for OAuth status fetch failure
  */
@@ -35,3 +38,11 @@ export const ERROR_FETCH_DRIVE_TIME_CACHE = 'Failed to fetch drive time cache'
  * Error message for dev status fetch failure
  */
 export const ERROR_FETCH_DEV_STATUS = 'Failed to fetch dev status'
+
+/** Appointment and business settings error messages (re-export from shared). */
+export {
+  APPOINTMENT_NOT_FOUND,
+  ERROR_CREATE_APPOINTMENT,
+  ERROR_UPDATE_APPOINTMENT,
+  ERROR_FETCH_BUSINESS_SETTINGS,
+} from '@shared/constants/errorMessages'

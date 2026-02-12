@@ -4,15 +4,16 @@
  * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
  */
 
+import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { DisplayFieldType } from '../fullFieldDisplayConfig'
+import type { DisplayFieldType } from '../displayFieldTypes'
 import { baseEntityDisplays } from './baseEntityDisplays'
 
 export const blockInstanceDisplays = {
   ...baseEntityDisplays,
 
   name: {
-    label: "Name",
+    label: DISPLAY_LABELS.NAME,
     placeholder: "Give me a name",
     inline: false,
     stacked: true,
@@ -50,7 +51,7 @@ export const blockInstanceDisplays = {
   },
 
   active: {
-    label: "Active",
+    label: ENTITY_STATUS.ACTIVE,
     placeholder: "",
     inline: true,
     stacked: false,

@@ -16,6 +16,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useForm } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
@@ -179,7 +180,7 @@ export function useSelectFiltering(
     
     // PATTERN: Check if entityId is temp ID, then try to access form values
     const entityIdString = String(fieldContext.entityId)
-    const isTempEntity = entityIdString.startsWith('new-')
+    const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
     
     if (isTempEntity || !currentEntity.value) {
       try {
@@ -293,7 +294,7 @@ export function useSelectFiltering(
     if (isActiveChildSelect.value) {
       // PATTERN: Check parentTypeRef (which checks form values) instead of just currentEntity
       const entityIdString = String(fieldContext.entityId)
-      const isTempEntity = entityIdString.startsWith('new-')
+      const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
       
       // PATTERN: Skip warning for temp entities, only warn for existing entities that should exist
       if (!currentEntity.value && !isTempEntity) {
@@ -372,7 +373,7 @@ export function useSelectFiltering(
       // PATTERN: Check form values similar to parentTypeRef logic
       if (!currentEntityValue) {
         const entityIdString = String(fieldContext.entityId)
-        const isTempEntity = entityIdString.startsWith('new-')
+        const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
         
         if (isTempEntity || !currentEntity.value) {
           try {

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-02-10T13:52:16.511Z",
+  "generatedAt": "2026-02-11T04:10:06.894Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 66,
+  "serverEndpoints": 64,
   "sharedTypes": [
     {
       "name": "RFC3339DateTime",
@@ -132,7 +132,7 @@
       "file": "shared/types/mapsTypes.ts"
     }
   ],
-  "score": 66,
+  "score": 64,
   "findings": [
     {
       "type": "orphan-server-route",
@@ -254,15 +254,6 @@
     {
       "type": "orphan-server-route",
       "severity": "info",
-      "message": "Server route GET /oauth2callback has no client caller found",
-      "clientFile": null,
-      "serverFile": "server/src/routes/external/oauthCallbackRouter.ts",
-      "url": "/oauth2callback",
-      "method": "GET"
-    },
-    {
-      "type": "orphan-server-route",
-      "severity": "info",
       "message": "Server route GET / has no client caller found",
       "clientFile": null,
       "serverFile": "server/src/routes/helpers/createCrudRouter.ts",
@@ -367,15 +358,6 @@
       "serverFile": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
       "url": "/:entityType/:entityId/:relationshipKey",
       "method": "DELETE"
-    },
-    {
-      "type": "orphan-server-route",
-      "severity": "info",
-      "message": "Server route PATCH /:id has no client caller found",
-      "clientFile": null,
-      "serverFile": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "url": "/:id",
-      "method": "PATCH"
     },
     {
       "type": "orphan-server-route",

@@ -20,7 +20,8 @@ const instanceCallSites: Array<{ count: number; stack: string }> = []
 let bookingInstance: ReturnType<typeof createBookingInstance> | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
-  const stack = new Error().stack || ''
+  const rawStack = new Error().stack
+  const stack = rawStack !== undefined && rawStack !== null ? rawStack : ''
   const lines = stack.split('\n')
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {

@@ -6,13 +6,13 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **46**
-- Requiring review: **85**
+- Files with findings: **32**
+- Requiring review: **59**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **5**
-- P1 (console-in-catch, type suppressions): **60**
-- P2 (general console usage): **20**
+- P0 (silent catches): **4**
+- P1 (console-in-catch, type suppressions): **42**
+- P2 (general console usage): **13**
 
 ## Top hotspots (by score)
 
@@ -22,16 +22,10 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
 | `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` | P0 | 15 | 0 | 3 | 0 |
 | `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` | P0 | 15 | 0 | 3 | 0 |
-| `client/src/composables/admin/useBusinessRules.ts` | P0 | 11 | 0 | 2 | 1 |
-| `client/src/components/booking/AppointmentSlotGrid.vue` | P0 | 10 | 1 | 0 | 0 |
 | `client/src/composables/admin/useDragAndDrop.ts` | P0 | 10 | 1 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardActions.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/src/composables/admin/useStatusButtonToggle.ts` | P0 | 10 | 0 | 2 | 0 |
 | `client/src/utils/api/relationshipApiHelpers.ts` | P0 | 10 | 1 | 0 | 0 |
 | `client/src/utils/booking/mockGoogleCalendar.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/src/utils/dev/formatDevPanelData.ts` | P0 | 10 | 0 | 2 | 0 |
-| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | P0 | 10 | 0 | 2 | 0 |
-| `server/src/routes/helpers/routerErrorHandler.ts` | P0 | 10 | 0 | 2 | 0 |
 | `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` | P0 | 10 | 0 | 2 | 0 |
 | `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` | P0 | 10 | 0 | 2 | 0 |
@@ -40,7 +34,6 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 | `server/src/routes/internal/properties/propertyValidators.ts` | P0 | 10 | 0 | 2 | 0 |
 | `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P0 | 10 | 0 | 2 | 0 |
 | `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 10 | 0 | 2 | 0 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | P1 | 7 | 0 | 1 | 2 |
 | `client/src/composables/formFields/useFormFieldsContext.ts` | P1 | 7 | 0 | 1 | 2 |
 | `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/components/admin/MetadataEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
@@ -48,8 +41,15 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/composables/booking/useAppointmentLoader.ts` | P1 | 6 | 0 | 1 | 1 |
+| `client/src/plugins/1.router/guards.ts` | P1 | 6 | 0 | 1 | 1 |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | P1 | 5 | 0 | 1 | 0 |
+| `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` | P1 | 5 | 0 | 1 | 0 |
+| `server/src/scripts/importCalendarData.ts` | P1 | 5 | 0 | 1 | 0 |
+| `server/src/services/appointmentSnapshotLoader.ts` | P1 | 5 | 0 | 1 | 0 |
+| `server/src/services/instanceVersioning.ts` | P1 | 5 | 0 | 1 | 0 |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 0 | 0 | 2 |
 
-*...and 16 more files. See JSON report for details.*
+*...and 2 more files. See JSON report for details.*
 
 ## Per-file findings
 
@@ -57,47 +57,33 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ```
 as-any@5: * WHY: Improves code reusability, eliminates `as any` casts, improves type safety
-as-any@14: * WHY: Replaces `as any` casts with type-safe checks
-as-any@32: * WHY: Replaces `as any` casts with type-safe checks
-as-any@49: * WHY: Replaces `as any` pattern with proper type handling
+as-any@15: * WHY: Replaces `as any` casts with type-safe checks
+as-any@33: * WHY: Replaces `as any` casts with type-safe checks
+as-any@50: * WHY: Replaces `as any` pattern with proper type handling
 ```
 
 ### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` [P0] (score: 15)
 
 ```
-as-any@123: entityType: entityType as any,
-as-any@147: entityType: entityType as any,
-as-any@195: entityType: entityType as any,
+as-any@122: entityType: entityType as any,
+as-any@146: entityType: entityType as any,
+as-any@194: entityType: entityType as any,
 ```
 
 ### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` [P0] (score: 15)
 
 ```
-as-any@113: entityType: entityType as any,
-as-any@137: entityType: entityType as any,
-as-any@185: entityType: entityType as any,
+as-any@112: entityType: entityType as any,
+as-any@136: entityType: entityType as any,
+as-any@184: entityType: entityType as any,
 ```
 
 ### `server/src/routes/internal/businessSettings/businessSettingsHelpers.ts` [P0] (score: 15)
 
 ```
-as-any@49: return null as any
-as-any@67: ...existingValue as any,
-as-any@68: ...newValue as any,
-```
-
-### `client/src/composables/admin/useBusinessRules.ts` [P0] (score: 11)
-
-```
-console-in-catch@205: console.error('Error creating business rule:', err)
-console-in-catch@260: console.error('Error deleting business rule:', err)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/components/booking/AppointmentSlotGrid.vue` [P0] (score: 10)
-
-```
-silent-catch-promise@135: fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'applic...
+as-any@48: return null as any
+as-any@66: ...existingValue as any,
+as-any@67: ...newValue as any,
 ```
 
 ### `client/src/composables/admin/useDragAndDrop.ts` [P0] (score: 10)
@@ -112,13 +98,6 @@ catch-comment-only@114: } catch (error) {
 catch-comment-only@146: } catch (err) {
 ```
 
-### `client/src/composables/admin/useStatusButtonToggle.ts` [P0] (score: 10)
-
-```
-as-any@158: const currentCanHaveParts = (currentEntity as any).canHaveParts === true
-as-any@166: const currentIsStateControl = (currentEntity as any).isStateControl === true
-```
-
 ### `client/src/utils/api/relationshipApiHelpers.ts` [P0] (score: 10)
 
 ```
@@ -131,39 +110,18 @@ catch-comment-only@25: } catch (error: unknown) {
 catch-comment-only@259: } catch (error) {
 ```
 
-### `client/src/utils/dev/formatDevPanelData.ts` [P0] (score: 10)
-
-```
-as-any@57: const startStr = formatDateTimeForDisplay(period.start as any, {
-as-any@65: const endStr = formatTimeForDisplay(period.end as any, {
-```
-
-### `client/src/views/admin/tabs/components/AppointmentsTable.vue` [P0] (score: 10)
-
-```
-as-any@111: (newAppointment.value as any).attendees = attendees
-as-any@143: (editedData.value as any).attendees = attendees
-```
-
-### `server/src/routes/helpers/routerErrorHandler.ts` [P0] (score: 10)
-
-```
-as-any@46: const validationError = error as any
-as-any@65: const validationError = error as any
-```
-
 ### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` [P0] (score: 10)
 
 ```
-as-any@215: entityType: entityType as any,
-as-any@217: metadataType: metadataType as any,
+as-any@214: entityType: entityType as any,
+as-any@216: metadataType: metadataType as any,
 ```
 
 ### `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` [P0] (score: 10)
 
 ```
-as-any@103: entityType: entityType as any,
-as-any@105: metadataType: metadataType as any,
+as-any@102: entityType: entityType as any,
+as-any@104: metadataType: metadataType as any,
 ```
 
 ### `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` [P0] (score: 10)
@@ -190,8 +148,8 @@ as-any@87: if (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {
 ### `server/src/routes/internal/properties/propertyValidators.ts` [P0] (score: 10)
 
 ```
-as-any@72: const blockShape = (blockInstance as any).block_shape
-as-any@104: const blockShape = (bi as any).block_shape
+as-any@71: const blockShape = (blockInstance as any).block_shape
+as-any@103: const blockShape = (bi as any).block_shape
 ```
 
 ### `server/src/routes/internal/relationships/relationshipErrorHandler.ts` [P0] (score: 10)
@@ -204,24 +162,16 @@ as-any@84: (error as any)?.parent?.code === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CO
 ### `server/src/routes/internal/relationships/relationshipHelpers.ts` [P0] (score: 10)
 
 ```
-as-any@171: const parentBlockInstanceWithShape = parentBlockInstance as any
-as-any@178: const childBlockInstanceWithShape = childBlockInstance as any
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue` [P1] (score: 7)
-
-```
-as-any@190: return formatDateTimeForDisplay(isoString as any, {
-console-general@337: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+as-any@178: const parentBlockInstanceWithShape = parentBlockInstance as any
+as-any@185: const childBlockInstanceWithShape = childBlockInstance as any
 ```
 
 ### `client/src/composables/formFields/useFormFieldsContext.ts` [P1] (score: 7)
 
 ```
-console-general@103: console.warn(`[useFormFieldsContext] ${warningMessage}`)
-console-general@177: console.warn(`[useFormFieldsContext] ${warningMessage}`)
-console-in-catch@277: console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
+console-general@104: console.warn(`[useFormFieldsContext] ${warningMessage}`)
+console-general@178: console.warn(`[useFormFieldsContext] ${warningMessage}`)
+console-in-catch@278: console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
 ```
 
 ### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 6)
@@ -266,43 +216,11 @@ console-in-catch@47: console.error('[useAppointmentLoader] Error loading appoint
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
 ```
 
-### `client/src/composables/booking/useWizardAppointmentManagement.ts` [P1] (score: 6)
-
-```
-console-in-catch@181: console.error('[Wizard] Update appointment error:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
 ### `client/src/plugins/1.router/guards.ts` [P1] (score: 6)
 
 ```
 console-in-catch@25: console.warn('[Router Guard] Failed to prefetch admin metadata:', error)
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/types/datetime.ts` [P1] (score: 6)
-
-```
-console-in-catch@113: *   console.error('Invalid datetime from API:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/components/booking/MoveablePartsModal.vue` [P1] (score: 5)
-
-```
-as-any@75: return formatDateTimeForDisplay(isoDate as any, {
-```
-
-### `client/src/utils/dependencyCleanup.ts` [P1] (score: 5)
-
-```
-as-any@49: const config = null as any
-```
-
-### `server/src/config/entityRegistry.ts` [P1] (score: 5)
-
-```
-as-any@25: const blockInstanceWithShape = blockInstance as any;
 ```
 
 ### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P1] (score: 5)
@@ -317,22 +235,16 @@ as-any@214: return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)
 as-any@236: setting.settingValue = mergedValue as any
 ```
 
-### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P1] (score: 5)
-
-```
-as-any@290: sendBadRequest(res, error.message, undefined, (error as any).blockShapeId)
-```
-
 ### `server/src/scripts/importCalendarData.ts` [P1] (score: 5)
 
 ```
-as-any@48: * WHY: Replaces unsafe `as any` cast with type-safe interface
+as-any@36: * WHY: Replaces unsafe `as any` cast with type-safe interface
 ```
 
 ### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 5)
 
 ```
-as-any@80: const validVersions = versions.filter(v => v !== null) as any[];
+as-any@77: const validVersions = versions.filter(v => v !== null) as any[];
 ```
 
 ### `server/src/services/instanceVersioning.ts` [P1] (score: 5)
@@ -341,25 +253,17 @@ as-any@80: const validVersions = versions.filter(v => v !== null) as any[];
 as-any@73: const partInstances = (blockInstanceWithParts as any)?.part_assignment_instances as InstanceType<typeof PartInstance>[] ...
 ```
 
-### `server/src/utils/sequelizeHelpers.ts` [P1] (score: 5)
+### `client/src/components/booking/dev/DevPanelsContainer.vue` [P2] (score: 2)
 
 ```
-as-any@43: const modelOptions = (ModelClass as any).options;
-```
-
-### `client/src/composables/booking/useWizardFilteredOptions.ts` [P2] (score: 3)
-
-```
-console-general@189: console.warn('[useWizardFilteredOptions] Option block shape (type="option") not found')
-console-general@195: console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')
-console-general@208: console.warn('[useWizardFilteredOptions] Cascade results filtered out - no Option blocks found in cascade results', {
-```
-
-### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P2] (score: 2)
-
-```
-console-general@194: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
+console-general@333: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
+
+### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P2] (score: 1)
+
+```
+console-general@197: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
 ```
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)

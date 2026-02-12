@@ -20,14 +20,14 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   baseSqFt: number;
   active: boolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
-  annotations?: import('@/types/annotations').AnnotationWithMetadata[]; // Embedded annotations for optimistic updates and fast reads
-  description?: string; // Derived description from annotations (for legacy support)
+  annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
+  description?: string; // Derived description from annotations for display
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber?: boolean | null;
   differential?: TernaryBoolean;
-  is_multi_family?: boolean;
-  requires_agent?: boolean;
+  isMultiFamily: boolean;
+  requiresAgent: boolean;
 }
 
 export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
@@ -75,6 +75,14 @@ export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationIn
   type: string; // Foreign key to AnnotationShape.id
 }
 
+/** Inline annotation type to avoid circular import with annotations.ts */
+type BlockInstanceAnnotation = AnnotationInstanceEntity & {
+  userTypeBlock: GlobalEntityId | null;
+  annotationShape?: AnnotationShapeEntity;
+  orderIndex: number;
+  isDefault: boolean;
+};
+
 export type GlobalEntity<GE extends GlobalEntityKey> = 
   GE extends "blockInstance" ? BlockInstanceEntity :
   GE extends "blockShape" ? BlockShapeEntity :
@@ -85,8 +93,3 @@ export type GlobalEntity<GE extends GlobalEntityKey> =
   GE extends "annotationShape" ? AnnotationShapeEntity :
   GE extends "annotationInstance" ? AnnotationInstanceEntity :
   never;
-
-export type GlobalEntityMap = {
-  [GE in GlobalEntityKey]: GlobalEntity<GE>[];
-};
-

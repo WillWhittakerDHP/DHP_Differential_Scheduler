@@ -6,17 +6,55 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **709**
-- Files with issues: **325**
-- Issues found: **637**
-- Unused exports: 544
+- Files scanned: **742**
+- Files with issues: **335**
+- Issues found: **641**
+- Unused exports: 545
 - Commented exports: 1
-- Unused functions: 89
+- Unused functions: 92
 - TODO markers: 3
 - Dead scripts: 0
 - Using pattern-detection data: **Yes** (prioritizing exports found by pattern-detection)
 
 ## Issues by File (sorted by priority)
+
+### `client/src/utils/booking/cascadeFilterPipeline.ts` [P0] (score: 18)
+
+- **WARNING** [unused-export] (line 80): Unused export: filterByShape (function)
+  ```
+  export function filterByShape(
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 101): Unused export: applyFallback (function)
+  ```
+  export function applyFallback(params: FallbackParams): BookingBlockInstance[] {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 16): Unused export: CascadeStepResult (type)
+  ```
+  export type CascadeStepResult =
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 20): Unused export: CascadeFilterParams (type)
+  ```
+  export interface CascadeFilterParams {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 90): Unused export: FallbackParams (type)
+  ```
+  export interface FallbackParams {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 114): Unused export: PipelineParams (type)
+  ```
+  export interface PipelineParams {
+  ```
+  💡 Remove if unused or document why kept
 
 ### `client/src/vite-env.d.ts` [P0] (score: 18)
 
@@ -96,65 +134,33 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useBusinessRules.ts` [P0] (score: 15)
 
-- **WARNING** [unused-export] (line 32): Unused export: RequiredFieldsRuleConfig (type)
+- **WARNING** [unused-export] (line 54): Unused export: RequiredFieldsRuleConfig (type)
   ```
   export interface RequiredFieldsRuleConfig {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 43): Unused export: RequiresAgentRuleConfig (type)
+- **WARNING** [unused-export] (line 65): Unused export: RequiresAgentRuleConfig (type)
   ```
   export interface RequiresAgentRuleConfig {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 53): Unused export: ConditionalValidationRuleConfig (type)
+- **WARNING** [unused-export] (line 75): Unused export: ConditionalValidationRuleConfig (type)
   ```
   export interface ConditionalValidationRuleConfig {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 66): Unused export: ValidationMessageRuleConfig (type)
+- **WARNING** [unused-export] (line 88): Unused export: ValidationMessageRuleConfig (type)
   ```
   export interface ValidationMessageRuleConfig {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 32): Unused export: RuleConfig (type)
+- **WARNING** [unused-export] (line 54): Unused export: RuleConfig (type)
   ```
   export interface RequiredFieldsRuleConfig {
-  ```
-  💡 Remove if unused or document why kept
-
-### `client/src/services/calendarApiService.ts` [P0] (score: 15)
-
-- **WARNING** [unused-export] (line 82): Unused export: checkOAuthStatus (function)
-  ```
-  export async function checkOAuthStatus(): Promise<OAuthStatus> {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 172): Unused export: getOAuthUrl (function)
-  ```
-  export function getOAuthUrl(): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 29): Unused export: OAuthStatus (type)
-  ```
-  export interface OAuthStatus {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 40): Unused export: CalendarApiOptions (type)
-  ```
-  export interface CalendarApiOptions {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 49): Unused export: CalendarApiErrorType (type)
-  ```
-  export type CalendarApiErrorType =
   ```
   💡 Remove if unused or document why kept
 
@@ -166,25 +172,25 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 111): Unused export: filterAnnotationsByUserTypeBlock (function)
+- **WARNING** [unused-export] (line 109): Unused export: filterAnnotationsByUserTypeBlock (function)
   ```
   export function filterAnnotationsByUserTypeBlock(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 137): Unused export: sortAnnotationsByOrderIndex (function)
+- **WARNING** [unused-export] (line 135): Unused export: sortAnnotationsByOrderIndex (function)
   ```
   export function sortAnnotationsByOrderIndex(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 143): Unused export: getDefaultAnnotation (function)
+- **WARNING** [unused-export] (line 141): Unused export: getDefaultAnnotation (function)
   ```
   export function getDefaultAnnotation(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 164): Unused export: getThroughAttributes (function)
+- **WARNING** [unused-export] (line 162): Unused export: getThroughAttributes (function)
   ```
   export function getThroughAttributes(annotation: Record<string, unknown>): {
   ```
@@ -228,55 +234,55 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 225): Unused function: handleAnnotationShapeCancelled
+- **INFO** [unused-function] (line 226): Unused function: handleAnnotationShapeCancelled
   ```
   const handleAnnotationShapeCancelled = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 236): Unused function: startCreatingEventShape
+- **INFO** [unused-function] (line 237): Unused function: startCreatingEventShape
   ```
   const startCreatingEventShape = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 242): Unused function: handleEventShapeCreate
+- **INFO** [unused-function] (line 243): Unused function: handleEventShapeCreate
   ```
   const handleEventShapeCreate = async () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 264): Unused function: handleEventShapeCancelled
+- **INFO** [unused-function] (line 265): Unused function: handleEventShapeCancelled
   ```
   const handleEventShapeCancelled = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 371): Unused function: handleDeletePartShape
+- **INFO** [unused-function] (line 372): Unused function: handleDeletePartShape
   ```
   function handleDeletePartShape(_id: string) {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 380): Unused function: handleDeleteBlockShape
+- **INFO** [unused-function] (line 381): Unused function: handleDeleteBlockShape
   ```
   function handleDeleteBlockShape(_id: string) {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 431): Unused function: handleDeleteAnnotationShape
+- **INFO** [unused-function] (line 432): Unused function: handleDeleteAnnotationShape
   ```
   function handleDeleteAnnotationShape(_id: string) {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 439): Unused function: handleDeleteEventShape
+- **INFO** [unused-function] (line 440): Unused function: handleDeleteEventShape
   ```
   function handleDeleteEventShape(_id: string) {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 443): Unused function: handleExistingShapeSaved
+- **INFO** [unused-function] (line 444): Unused function: handleExistingShapeSaved
   ```
   function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
   ```
@@ -310,25 +316,25 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/types/datetime.ts` [P0] (score: 12)
 
-- **WARNING** [unused-export] (line 93): Unused export: isRFC3339DateTime (function)
+- **WARNING** [unused-export] (line 95): Unused export: isRFC3339DateTime (function)
   ```
   export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 117): Unused export: validateRFC3339DateTime (function)
+- **WARNING** [unused-export] (line 120): Unused export: validateRFC3339DateTime (function)
   ```
   export function validateRFC3339DateTime(value: string): RFC3339DateTime {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 172): Unused export: toDayOfWeek (function)
+- **WARNING** [unused-export] (line 175): Unused export: toDayOfWeek (function)
   ```
   export function toDayOfWeek(n: number): DayOfWeek {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 179): Unused export: getDayOfWeek (function)
+- **WARNING** [unused-export] (line 182): Unused export: getDayOfWeek (function)
   ```
   export function getDayOfWeek(date: Date): DayOfWeek {
   ```
@@ -360,55 +366,29 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/utils/transformers/appointmentToWizardHelpers.ts` [P0] (score: 12)
+### `server/src/routes/internal/relationships/relationshipHelpers.ts` [P0] (score: 12)
 
-- **WARNING** [unused-export] (line 72): Unused export: findBlockInstancesByIds (function)
+- **WARNING** [unused-export] (line 23): Unused export: mapAnnotationAssignmentsFields (function)
   ```
-  export function findBlockInstancesByIds(
+  export function mapAnnotationAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 91): Unused export: convertToTernary (function)
+- **WARNING** [unused-export] (line 36): Unused export: mapAttendeeAssignmentsFields (function)
   ```
-  export function convertToTernary(
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 107): Unused export: transformVersionToBookingInstance (function)
-  ```
-  export function transformVersionToBookingInstance(
+  export function mapAttendeeAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 21): Unused export: VersionBlockInstance (type)
+- **WARNING** [unused-export] (line 49): Unused export: mapEventAssignmentsFields (function)
   ```
-  export interface VersionBlockInstance {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/config/entityRegistry.ts` [P0] (score: 12)
-
-- **WARNING** [unused-export] (line 14): Unused export: isBlockInstanceComposable (function)
-  ```
-  export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {
+  export async function mapEventAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 39): Unused export: getComponentConfig (function)
+- **WARNING** [unused-export] (line 97): Unused export: getComponentChildIds (function)
   ```
-  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 121): Unused export: ENTITY_REGISTRY (const)
-  ```
-  export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 39): Unused export: EntityType (type)
-  ```
-  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
+  export async function getComponentChildIds(instanceId: string): Promise<string[]> {
   ```
   💡 Remove if unused or document why kept
 
@@ -440,25 +420,25 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/utils/userTypeMapping.ts` [P0] (score: 12)
 
-- **WARNING** [unused-export] (line 102): Unused export: getUserTypeBlockIdsForRoles (function)
+- **WARNING** [unused-export] (line 103): Unused export: getUserTypeBlockIdsForRoles (function)
   ```
   export async function getUserTypeBlockIdsForRoles(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 215): Unused export: getRoleForBlockName (function)
+- **WARNING** [unused-export] (line 216): Unused export: getRoleForBlockName (function)
   ```
   export function getRoleForBlockName(blockName: string): string | null {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 223): Unused export: getAvailableRoleMappings (function)
+- **WARNING** [unused-export] (line 224): Unused export: getAvailableRoleMappings (function)
   ```
   export function getAvailableRoleMappings(): Record<string, string> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 230): Unused export: clearUserTypeBlockCache (function)
+- **WARNING** [unused-export] (line 231): Unused export: clearUserTypeBlockCache (function)
   ```
   export function clearUserTypeBlockCache(): void {
   ```
@@ -818,19 +798,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useDependentInstances.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 51): Unused export: useDependentInstances (function)
+- **WARNING** [unused-export] (line 52): Unused export: useDependentInstances (function)
   ```
   export function useDependentInstances(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 22): Unused export: UseDependentInstancesOptions (type)
+- **WARNING** [unused-export] (line 23): Unused export: UseDependentInstancesOptions (type)
   ```
   export interface UseDependentInstancesOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 28): Unused export: UseDependentInstancesReturn (type)
+- **WARNING** [unused-export] (line 29): Unused export: UseDependentInstancesReturn (type)
   ```
   export interface UseDependentInstancesReturn {
   ```
@@ -918,21 +898,41 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 29): Unused export: SelectionCardItemWithComponents (type)
+- **WARNING** [unused-export] (line 32): Unused export: SelectionCardItemWithComponents (type)
   ```
   export interface SelectionCardItemWithComponents extends BookingBlockInstance {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 34): Unused export: UsePropertyDetailsLogicParams (type)
+- **WARNING** [unused-export] (line 37): Unused export: UsePropertyDetailsLogicParams (type)
   ```
   export interface UsePropertyDetailsLogicParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 45): Unused export: UsePropertyDetailsLogicReturn (type)
+- **WARNING** [unused-export] (line 48): Unused export: UsePropertyDetailsLogicReturn (type)
   ```
   export interface UsePropertyDetailsLogicReturn {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/composables/booking/useStepValidation.ts` [P1] (score: 9)
+
+- **WARNING** [unused-export] (line 31): Unused export: collectErrors (function)
+  ```
+  export function collectErrors(
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 12): Unused export: CustomValidator (type)
+  ```
+  export type CustomValidator = () => true | string
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 14): Unused export: UseStepValidationParams (type)
+  ```
+  export interface UseStepValidationParams {
   ```
   💡 Remove if unused or document why kept
 
@@ -970,19 +970,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 21): Unused export: SaveComponentEntityParams (type)
+- **WARNING** [unused-export] (line 25): Unused export: SaveComponentEntityParams (type)
   ```
   export interface SaveComponentEntityParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 76): Unused export: SaveRelationshipFieldParams (type)
+- **WARNING** [unused-export] (line 80): Unused export: SaveRelationshipFieldParams (type)
   ```
   export interface SaveRelationshipFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 162): Unused export: SaveRegularFieldParams (type)
+- **WARNING** [unused-export] (line 166): Unused export: SaveRegularFieldParams (type)
   ```
   export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   ```
@@ -1030,81 +1030,41 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/selectableDisplayConfig.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 24): Unused export: RelationshipDisplayType (type)
+- **WARNING** [unused-export] (line 25): Unused export: RelationshipDisplayType (type)
   ```
   export type RelationshipDisplayType<
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 71): Unused export: VirtualDisplayType (type)
+- **WARNING** [unused-export] (line 72): Unused export: VirtualDisplayType (type)
   ```
   export type VirtualDisplayType<
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 121): Unused export: SelectableDisplayTypeSuite (type)
+- **WARNING** [unused-export] (line 122): Unused export: SelectableDisplayTypeSuite (type)
   ```
   export type SelectableDisplayTypeSuite = {
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/types/googleCalendar.ts` [P1] (score: 9)
-
-- **WARNING** [unused-export] (line 22): Unused export: GoogleCalendarError (type)
-  ```
-  export interface GoogleCalendarError {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 33): Unused export: GoogleCalendarFreeBusy (type)
-  ```
-  export interface GoogleCalendarFreeBusy {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 38): Unused export: GoogleCalendarGroup (type)
-  ```
-  export interface GoogleCalendarGroup {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/types/shapeFieldMetadata.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 7): Unused export: ShapeFieldMetadata (type)
+- **WARNING** [unused-export] (line 9): Unused export: ShapeFieldMetadata (type)
   ```
   export interface ShapeFieldMetadata {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 23): Unused export: ShapeLayoutConfig (type)
+- **WARNING** [unused-export] (line 25): Unused export: ShapeLayoutConfig (type)
   ```
   export interface ShapeLayoutConfig {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 40): Unused export: ComposedFieldConfig (type)
+- **WARNING** [unused-export] (line 42): Unused export: ComposedFieldConfig (type)
   ```
   export interface ComposedFieldConfig {
-  ```
-  💡 Remove if unused or document why kept
-
-### `client/src/utils/api.ts` [P1] (score: 9)
-
-- **WARNING** [unused-export] (line 169): Unused export: getAvailabilityEndpoint (function)
-  ```
-  export function getAvailabilityEndpoint(): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 227): Unused export: getBlockInstanceAnnotationsEndpoint (function)
-  ```
-  export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 231): Unused export: getBlockInstanceAnnotationEndpoint (function)
-  ```
-  export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
   ```
   💡 Remove if unused or document why kept
 
@@ -1130,31 +1090,31 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/booking/confirmationStepData.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 59): Unused export: calculateBlockInstanceFee (function)
+- **WARNING** [unused-export] (line 60): Unused export: calculateBlockInstanceFee (function)
   ```
   export function calculateBlockInstanceFee(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 32): Unused export: BlockInstanceFeeResult (type)
+- **WARNING** [unused-export] (line 33): Unused export: BlockInstanceFeeResult (type)
   ```
   export interface BlockInstanceFeeResult {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [todo-marker] (line 226): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 227): TODO/FIXME marker about unused code
   ```
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 228): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 229): TODO/FIXME marker about unused code
   ```
   const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 229): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 230): TODO/FIXME marker about unused code
   ```
   const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...
   ```
@@ -1262,79 +1222,79 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/transformers/composePropertyValue.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 18): Unused export: isComposablePropertyValue (function)
+- **WARNING** [unused-export] (line 19): Unused export: isComposablePropertyValue (function)
   ```
   export function isComposablePropertyValue(value: unknown): value is ComposablePropertyValue {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 38): Unused export: composeProperty (function)
+- **WARNING** [unused-export] (line 39): Unused export: composeProperty (function)
   ```
   export function composeProperty<T extends string | number | boolean | unknown[]>(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 16): Unused export: ComposablePropertyValue (type)
+- **WARNING** [unused-export] (line 17): Unused export: ComposablePropertyValue (type)
   ```
   export type ComposablePropertyValue = string | number | boolean | unknown[]
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/config/entityRegistry.ts` [P1] (score: 9)
+
+- **WARNING** [unused-export] (line 14): Unused export: isBlockInstanceComposable (function)
+  ```
+  export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 39): Unused export: getComponentConfig (function)
+  ```
+  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 121): Unused export: ENTITY_REGISTRY (const)
+  ```
+  export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/routes/helpers/dataController.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 214): Unused export: safeDelete (const)
+- **WARNING** [unused-export] (line 215): Unused export: safeDelete (const)
   ```
   export const safeDelete = async ({
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 201): Unused export: DependentDelete (type)
+- **WARNING** [unused-export] (line 202): Unused export: DependentDelete (type)
   ```
   export type DependentDelete = {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 206): Unused export: SafeDeleteOptions (type)
+- **WARNING** [unused-export] (line 207): Unused export: SafeDeleteOptions (type)
   ```
   export interface SafeDeleteOptions {
   ```
   💡 Remove if unused or document why kept
 
-### `server/src/scripts/helpers/calendarParsingHelpers.ts` [P1] (score: 9)
-
-- **WARNING** [unused-export] (line 164): Unused export: extractPhone (function)
-  ```
-  export function extractPhone(text: string | undefined): string | null {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 14): Unused export: DEFAULT_FIRST_NAME (const)
-  ```
-  export const DEFAULT_FIRST_NAME = 'Unknown' as const
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 15): Unused export: DEFAULT_LAST_NAME (const)
-  ```
-  export const DEFAULT_LAST_NAME = 'Client' as const
-  ```
-  💡 Remove if unused or document why kept
-
 ### `server/src/services/appointmentCalendarService.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 340): Unused export: isCalendarConfigured (function)
+- **WARNING** [unused-export] (line 341): Unused export: isCalendarConfigured (function)
   ```
   export async function isCalendarConfigured(): Promise<boolean> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 357): Unused export: syncInvitationStatus (function)
+- **WARNING** [unused-export] (line 358): Unused export: syncInvitationStatus (function)
   ```
   export async function syncInvitationStatus(appointmentId: string): Promise<number> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 21): Unused export: CalendarEventResult (type)
+- **WARNING** [unused-export] (line 22): Unused export: CalendarEventResult (type)
   ```
   export interface CalendarEventResult {
   ```
@@ -1360,6 +1320,38 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/composables/dev/useApiDevPanelData.ts` [P1] (score: 7)
+
+- **WARNING** [unused-export] (line 26): Unused export: DevPanelCacheStats (type)
+  ```
+  export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 104): Unused function: fetchOAuthStatus
+  ```
+  async function fetchOAuthStatus(): Promise<void> {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 122): Unused function: fetchEventsCache
+  ```
+  async function fetchEventsCache(): Promise<void> {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 142): Unused function: fetchRateLimitStats
+  ```
+  async function fetchRateLimitStats(): Promise<void> {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 169): Unused function: fetchDriveTimeCache
+  ```
+  async function fetchDriveTimeCache(): Promise<void> {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/composables/admin/useAvailabilitySettings.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 46): Unused export: UseAvailabilitySettingsOptions (type)
@@ -1376,13 +1368,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useConditionalFieldVisibility.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 28): Unused export: UseConditionalFieldVisibilityOptions (type)
+- **WARNING** [unused-export] (line 24): Unused export: UseConditionalFieldVisibilityOptions (type)
   ```
   export interface UseConditionalFieldVisibilityOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 35): Unused export: UseConditionalFieldVisibilityReturn (type)
+- **WARNING** [unused-export] (line 31): Unused export: UseConditionalFieldVisibilityReturn (type)
   ```
   export interface UseConditionalFieldVisibilityReturn {
   ```
@@ -1556,15 +1548,29 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/composables/admin/useFieldKeyboardGuard.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 25): Unused export: UseFieldKeyboardGuardOptions (type)
+  ```
+  export interface UseFieldKeyboardGuardOptions {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 32): Unused export: UseFieldKeyboardGuardReturn (type)
+  ```
+  export interface UseFieldKeyboardGuardReturn {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/composables/admin/useFieldLocation.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 25): Unused export: UseFieldLocationOptions (type)
+- **WARNING** [unused-export] (line 26): Unused export: UseFieldLocationOptions (type)
   ```
   export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 33): Unused export: UseFieldLocationReturn (type)
+- **WARNING** [unused-export] (line 34): Unused export: UseFieldLocationReturn (type)
   ```
   export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
   ```
@@ -1656,13 +1662,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useInstanceFiltering.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 22): Unused export: UseInstanceFilteringOptions (type)
+- **WARNING** [unused-export] (line 25): Unused export: UseInstanceFilteringOptions (type)
   ```
   export interface UseInstanceFilteringOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 26): Unused export: UseInstanceFilteringReturn (type)
+- **WARNING** [unused-export] (line 29): Unused export: UseInstanceFilteringReturn (type)
   ```
   export interface UseInstanceFilteringReturn {
   ```
@@ -1808,13 +1814,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 23): Unused export: UseRelationshipCollectionDataOptions (type)
+- **WARNING** [unused-export] (line 24): Unused export: UseRelationshipCollectionDataOptions (type)
   ```
   export interface UseRelationshipCollectionDataOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 35): Unused export: UseRelationshipCollectionDataReturn (type)
+- **WARNING** [unused-export] (line 36): Unused export: UseRelationshipCollectionDataReturn (type)
   ```
   export interface UseRelationshipCollectionDataReturn {
   ```
@@ -1822,13 +1828,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useSelectConfig.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 26): Unused export: UseSelectConfigOptions (type)
+- **WARNING** [unused-export] (line 29): Unused export: UseSelectConfigOptions (type)
   ```
   export interface UseSelectConfigOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 30): Unused export: UseSelectConfigReturn (type)
+- **WARNING** [unused-export] (line 33): Unused export: UseSelectConfigReturn (type)
   ```
   export interface UseSelectConfigReturn {
   ```
@@ -1864,13 +1870,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useSelectHandlers.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 26): Unused export: UseSelectHandlersOptions (type)
+- **WARNING** [unused-export] (line 27): Unused export: UseSelectHandlersOptions (type)
   ```
   export interface UseSelectHandlersOptions {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 48): Unused export: UseSelectHandlersReturn (type)
+- **WARNING** [unused-export] (line 49): Unused export: UseSelectHandlersReturn (type)
   ```
   export interface UseSelectHandlersReturn {
   ```
@@ -1934,13 +1940,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useStatusButtonToggle.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 22): Unused export: UseStatusButtonToggleOptions (type)
+- **WARNING** [unused-export] (line 25): Unused export: UseStatusButtonToggleOptions (type)
   ```
   export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 34): Unused export: UseStatusButtonToggleReturn (type)
+- **WARNING** [unused-export] (line 37): Unused export: UseStatusButtonToggleReturn (type)
   ```
   export interface UseStatusButtonToggleReturn<GE extends GlobalEntityKey> {
   ```
@@ -2074,13 +2080,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 50): Unused export: UseAppointmentDataCollectionParams (type)
+- **WARNING** [unused-export] (line 51): Unused export: UseAppointmentDataCollectionParams (type)
   ```
   export interface UseAppointmentDataCollectionParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 70): Unused export: UseAppointmentDataCollectionReturn (type)
+- **WARNING** [unused-export] (line 71): Unused export: UseAppointmentDataCollectionReturn (type)
   ```
   export interface UseAppointmentDataCollectionReturn {
   ```
@@ -2116,13 +2122,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useAppointmentShape.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 25): Unused export: UseAppointmentShapeParams (type)
+- **WARNING** [unused-export] (line 23): Unused export: UseAppointmentShapeParams (type)
   ```
   export interface UseAppointmentShapeParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 29): Unused export: UseAppointmentShapeReturn (type)
+- **WARNING** [unused-export] (line 27): Unused export: UseAppointmentShapeReturn (type)
   ```
   export interface UseAppointmentShapeReturn {
   ```
@@ -2172,13 +2178,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useAvailabilitySlotColor.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 11): Unused export: UseAvailabilitySlotColorParams (type)
+- **WARNING** [unused-export] (line 17): Unused export: UseAvailabilitySlotColorParams (type)
   ```
   export interface UseAvailabilitySlotColorParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 15): Unused export: UseAvailabilitySlotColorReturn (type)
+- **WARNING** [unused-export] (line 23): Unused export: UseAvailabilitySlotColorReturn (type)
   ```
   export interface UseAvailabilitySlotColorReturn {
   ```
@@ -2256,13 +2262,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useConfirmationStepData.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 61): Unused export: UseConfirmationStepDataParams (type)
+- **WARNING** [unused-export] (line 22): Unused export: UseConfirmationStepDataParams (type)
   ```
   export interface UseConfirmationStepDataParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 73): Unused export: UseConfirmationStepDataReturn (type)
+- **WARNING** [unused-export] (line 34): Unused export: UseConfirmationStepDataReturn (type)
   ```
   export interface UseConfirmationStepDataReturn {
   ```
@@ -2478,20 +2484,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/composables/booking/useStepValidation.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 12): Unused export: CustomValidator (type)
-  ```
-  export type CustomValidator = () => true | string
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 14): Unused export: UseStepValidationParams (type)
-  ```
-  export interface UseStepValidationParams {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/composables/booking/useTimeSlotCalculations.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 59): Unused export: useTimeSlotCalculations (function)
@@ -2508,13 +2500,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 18): Unused export: UseWizardAppointmentManagementOptions (type)
+- **WARNING** [unused-export] (line 52): Unused export: UseWizardAppointmentManagementOptions (type)
   ```
   export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 34): Unused export: UseWizardAppointmentManagementReturn (type)
+- **WARNING** [unused-export] (line 68): Unused export: UseWizardAppointmentManagementReturn (type)
   ```
   export interface UseWizardAppointmentManagementReturn {
   ```
@@ -2550,13 +2542,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 88): Unused export: UseWizardFilteredOptionsParams (type)
+- **WARNING** [unused-export] (line 11): Unused export: UseWizardFilteredOptionsParams (type)
   ```
   export type UseWizardFilteredOptionsParams = {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 99): Unused export: UseWizardFilteredOptionsReturn (type)
+- **WARNING** [unused-export] (line 19): Unused export: UseWizardFilteredOptionsReturn (type)
   ```
   export type UseWizardFilteredOptionsReturn = WizardComputedProperties
   ```
@@ -2578,13 +2570,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useWizardSubmission.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 12): Unused export: UseWizardSubmissionParams (type)
+- **WARNING** [unused-export] (line 13): Unused export: UseWizardSubmissionParams (type)
   ```
   export interface UseWizardSubmissionParams {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 23): Unused export: UseWizardSubmissionReturn (type)
+- **WARNING** [unused-export] (line 24): Unused export: UseWizardSubmissionReturn (type)
   ```
   export interface UseWizardSubmissionReturn {
   ```
@@ -2732,13 +2724,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/adminConfig.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 115): Unused export: buildFormFieldConfig (function)
+- **WARNING** [unused-export] (line 116): Unused export: buildFormFieldConfig (function)
   ```
   export function buildFormFieldConfig(): FormFieldConfigMap {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 60): Unused export: buildAdminConfig (function)
+- **WARNING** [unused-export] (line 61): Unused export: buildAdminConfig (function)
   ```
   * NOTE: Internal function only - not exported as it's only used by buildAdminConfig
   ```
@@ -2746,13 +2738,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/availabilitySettings.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 622): Unused export: getWriteToCalendar (function)
+- **WARNING** [unused-export] (line 641): Unused export: getWriteToCalendar (function)
   ```
   export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 642): Unused export: getCalendarEmailsArray (function)
+- **WARNING** [unused-export] (line 661): Unused export: getCalendarEmailsArray (function)
   ```
   export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
   ```
@@ -2774,15 +2766,29 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/_archived/selectableFieldConfig.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 90): Unused export: buildSelectableFieldType (function)
+- **WARNING** [unused-export] (line 91): Unused export: buildSelectableFieldType (function)
   ```
   export function buildSelectableFieldType(): SelectableFieldTypeSuite {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 78): Unused export: SelectableFieldType (type)
+- **WARNING** [unused-export] (line 79): Unused export: SelectableFieldType (type)
   ```
   export type SelectableFieldType<
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/services/calendarApiService.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 30): Unused export: CalendarApiOptions (type)
+  ```
+  export interface CalendarApiOptions {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 39): Unused export: CalendarApiErrorType (type)
+  ```
+  export type CalendarApiErrorType =
   ```
   💡 Remove if unused or document why kept
 
@@ -2800,29 +2806,15 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/types/appointment.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 220): Unused export: PartInstanceSnapshot (type)
-  ```
-  export interface PartInstanceSnapshot {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 229): Unused export: BlockInstanceSnapshot (type)
-  ```
-  export interface BlockInstanceSnapshot {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/types/wizard.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 22): Unused export: WizardState (type)
+- **WARNING** [unused-export] (line 20): Unused export: WizardState (type)
   ```
   export interface WizardState {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 43): Unused export: WizardSelectionMethods (type)
+- **WARNING** [unused-export] (line 41): Unused export: WizardSelectionMethods (type)
   ```
   export interface WizardSelectionMethods {
   ```
@@ -2842,15 +2834,29 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/utils/api/relationshipApi.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 22): Unused export: getBlockInstanceAnnotationsEndpoint (function)
+  ```
+  export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 26): Unused export: getBlockInstanceAnnotationEndpoint (function)
+  ```
+  export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/utils/appointmentFieldFormatters.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 119): Unused export: APPOINTMENT_FIELD_FORMATTERS (const)
+- **WARNING** [unused-export] (line 120): Unused export: APPOINTMENT_FIELD_FORMATTERS (const)
   ```
   export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 18): Unused export: FieldFormatter (type)
+- **WARNING** [unused-export] (line 19): Unused export: FieldFormatter (type)
   ```
   export type FieldFormatter = (
   ```
@@ -2914,7 +2920,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 23): Unused export: CategorizedFields (type)
+- **WARNING** [unused-export] (line 28): Unused export: CategorizedFields (type)
   ```
   export interface CategorizedFields {
   ```
@@ -2928,67 +2934,15 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/logger.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 15): Unused export: LogLevel (type)
+- **WARNING** [unused-export] (line 18): Unused export: LogLevel (type)
   ```
   export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 17): Unused export: AppLogger (type)
+- **WARNING** [unused-export] (line 20): Unused export: AppLogger (type)
   ```
   export type AppLogger = {
-  ```
-  💡 Remove if unused or document why kept
-
-### `client/src/views/admin/tabs/components/AppointmentsTable.vue` [P1] (score: 6)
-
-- **INFO** [unused-function] (line 100): Unused function: handleSaveCreate
-  ```
-  const handleSaveCreate = async () => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 132): Unused function: handleSaveEdit
-  ```
-  const handleSaveEdit = async () => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 164): Unused function: handleStartEdit
-  ```
-  const handleStartEdit = (item: AppointmentResponse) => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 171): Unused function: handleCancelEdit
-  ```
-  const handleCancelEdit = () => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 177): Unused function: handleStartCreate
-  ```
-  const handleStartCreate = () => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 183): Unused function: handleCancelCreate
-  ```
-  const handleCancelCreate = () => {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/config/googleOAuthTokenPersistence.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 24): Unused export: TOKEN_FILE (const)
-  ```
-  export const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 29): Unused export: TokenData (type)
-  ```
-  export interface TokenData {
   ```
   💡 Remove if unused or document why kept
 
@@ -3036,13 +2990,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/middlewares/security.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 60): Unused export: requireAuth (function)
+- **WARNING** [unused-export] (line 59): Unused export: requireAuth (function)
   ```
   export function requireAuth(req: Request, res: Response, next: NextFunction): void {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 118): Unused export: requireSecureAccess (function)
+- **WARNING** [unused-export] (line 117): Unused export: requireSecureAccess (function)
   ```
   export function requireSecureAccess(modelName: string, paramKey: string = 'id') {
   ```
@@ -3050,13 +3004,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/properties/propertyHelpers.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 20): Unused export: isPropertyVersionWithAssociations (function)
+- **WARNING** [unused-export] (line 21): Unused export: isPropertyVersionWithAssociations (function)
   ```
   export function isPropertyVersionWithAssociations(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 38): Unused export: isBlockInstanceWithShape (function)
+- **WARNING** [unused-export] (line 39): Unused export: isBlockInstanceWithShape (function)
   ```
   export function isBlockInstanceWithShape(
   ```
@@ -3076,31 +3030,31 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/routes/internal/relationships/relationshipQueryBuilders.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 64): Unused export: BuildWhereClauseParams (type)
+  ```
+  export interface BuildWhereClauseParams {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 102): Unused export: BuildQueryOptionsParams (type)
+  ```
+  export interface BuildQueryOptionsParams {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 51): Unused export: loadBlockInstanceFromVersion (function)
+- **WARNING** [unused-export] (line 48): Unused export: loadBlockInstanceFromVersion (function)
   ```
   export async function loadBlockInstanceFromVersion(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 69): Unused export: loadAppointmentVersions (function)
+- **WARNING** [unused-export] (line 66): Unused export: loadAppointmentVersions (function)
   ```
   export async function loadAppointmentVersions(
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/services/calendarErrorHandler.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 84): Unused export: getStatusCodeForError (function)
-  ```
-  export function getStatusCodeForError(errorType: CalendarErrorType): number {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 202): Unused export: FallbackResult (type)
-  ```
-  export interface FallbackResult<T> {
   ```
   💡 Remove if unused or document why kept
 
@@ -3118,34 +3072,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `server/src/services/google/maps/mapsHelpers.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 164): Unused export: buildFindPlaceUrl (function)
-  ```
-  export function buildFindPlaceUrl(address: string, apiKey: string): string {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 216): Unused export: parseAddressComponents (function)
-  ```
-  export function parseAddressComponents(components: Array<{
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/services/google/shared/googleApiRetry.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 54): Unused export: calculateBackoffDelay (function)
-  ```
-  export function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 39): Unused export: RetryableError (type)
-  ```
-  export interface RetryableError {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `server/src/services/rateLimiter.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 71): Unused export: RateLimitStatus (type)
@@ -3160,15 +3086,29 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/utils/envHelpers.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 15): Unused export: isDevelopment (function)
+  ```
+  export function isDevelopment(): boolean {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 19): Unused export: isTest (function)
+  ```
+  export function isTest(): boolean {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/utils/logger.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 15): Unused export: LogLevel (type)
+- **WARNING** [unused-export] (line 21): Unused export: LogLevel (type)
   ```
   export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 17): Unused export: AppLogger (type)
+- **WARNING** [unused-export] (line 23): Unused export: AppLogger (type)
   ```
   export type AppLogger = {
   ```
@@ -3176,59 +3116,33 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue` [P1] (score: 5)
 
-- **WARNING** [unused-export] (line 131): Unused export: CollectionType (type)
+- **WARNING** [unused-export] (line 132): Unused export: CollectionType (type)
   ```
   export type CollectionType = 'parts' | 'annotations' | 'events'
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 230): Unused function: handleDeleteChildById
+- **INFO** [unused-function] (line 231): Unused function: handleDeleteChildById
   ```
   const handleDeleteChildById = async (id: string) => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 239): Unused function: handleDeleteChild
+- **INFO** [unused-function] (line 240): Unused function: handleDeleteChild
   ```
   const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/composables/dev/useApiDevPanelData.ts` [P2] (score: 4)
-
-- **INFO** [unused-function] (line 98): Unused function: fetchOAuthStatus
-  ```
-  async function fetchOAuthStatus(): Promise<void> {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 115): Unused function: fetchEventsCache
-  ```
-  async function fetchEventsCache(): Promise<void> {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 134): Unused function: fetchRateLimitStats
-  ```
-  async function fetchRateLimitStats(): Promise<void> {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 160): Unused function: fetchDriveTimeCache
-  ```
-  async function fetchDriveTimeCache(): Promise<void> {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/composables/formFields/useFormFieldsContext.ts` [P2] (score: 4)
 
-- **WARNING** [unused-export] (line 28): Unused export: UseFormFieldsContextReturn (type)
+- **WARNING** [unused-export] (line 29): Unused export: UseFormFieldsContextReturn (type)
   ```
   export type UseFormFieldsContextReturn = {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 244): Unused function: buildContext
+- **INFO** [unused-function] (line 245): Unused function: buildContext
   ```
   const buildContext = () => {
   ```
@@ -3346,9 +3260,9 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 192): Unused function: handleEnterKey
+- **INFO** [unused-function] (line 192): Unused function: handleKeydown
   ```
-  const handleEnterKey = (event: KeyboardEvent) => handlers.value.handleEnterKey(event)
+  const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)
   ```
   💡 Remove if unused or document why kept
 
@@ -3386,7 +3300,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/tables/useUsersTableModel.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 7): Unused export: UsersTableModel (type)
+- **WARNING** [unused-export] (line 8): Unused export: UsersTableModel (type)
   ```
   export interface UsersTableModel extends CrudDataTableModel<
   ```
@@ -3410,7 +3324,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 19): Unused export: UseAttendeeQuickSelectReturn (type)
+- **WARNING** [unused-export] (line 23): Unused export: UseAttendeeQuickSelectReturn (type)
   ```
   export interface UseAttendeeQuickSelectReturn {
   ```
@@ -3418,7 +3332,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useBufferSettings.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 18): Unused export: UseBufferSettingsParams (type)
+- **WARNING** [unused-export] (line 19): Unused export: UseBufferSettingsParams (type)
   ```
   export interface UseBufferSettingsParams {
   ```
@@ -3482,9 +3396,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useFieldInputHandlers.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 21): Unused export: UseFieldInputHandlersParams (type)
+- **WARNING** [unused-export] (line 24): Unused export: UseFieldInputHandlersParams (type)
   ```
   export interface UseFieldInputHandlersParams {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/composables/admin/useFieldInputSetup.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 20): Unused export: UseFieldInputSetupOptions (type)
+  ```
+  export interface UseFieldInputSetupOptions {
   ```
   💡 Remove if unused or document why kept
 
@@ -3530,7 +3452,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/admin/useSelectFiltering.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 29): Unused export: UseSelectFilteringOptions (type)
+- **WARNING** [unused-export] (line 30): Unused export: UseSelectFilteringOptions (type)
   ```
   export interface UseSelectFilteringOptions {
   ```
@@ -3576,6 +3498,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/composables/booking/useAvailabilityOrchestrator.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 32): Unused export: UseAvailabilityOrchestratorParams (type)
+  ```
+  export interface UseAvailabilityOrchestratorParams {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/composables/booking/useBlockInstanceSelection.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 14): Unused export: SelectionMode (type)
@@ -3586,7 +3516,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/booking/useComputedAvailability.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 42): Unused export: UseComputedAvailabilityParams (type)
+- **WARNING** [unused-export] (line 43): Unused export: UseComputedAvailabilityParams (type)
   ```
   export interface UseComputedAvailabilityParams {
   ```
@@ -3702,7 +3632,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/composables/fieldContext/useFieldContextActions.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 14): Unused export: UseFieldContextActionsReturn (type)
+- **WARNING** [unused-export] (line 16): Unused export: UseFieldContextActionsReturn (type)
   ```
   export type UseFieldContextActionsReturn = {
   ```
@@ -3758,7 +3688,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 8): Unused export: annotationInstanceDisplays (const)
+- **WARNING** [unused-export] (line 10): Unused export: annotationInstanceDisplays (const)
   ```
   export const annotationInstanceDisplays = {
   ```
@@ -3766,7 +3696,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 8): Unused export: annotationShapeDisplays (const)
+- **WARNING** [unused-export] (line 10): Unused export: annotationShapeDisplays (const)
   ```
   export const annotationShapeDisplays = {
   ```
@@ -3774,7 +3704,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 8): Unused export: eventInstanceDisplays (const)
+- **WARNING** [unused-export] (line 10): Unused export: eventInstanceDisplays (const)
   ```
   export const eventInstanceDisplays = {
   ```
@@ -3782,7 +3712,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 8): Unused export: eventShapeDisplays (const)
+- **WARNING** [unused-export] (line 10): Unused export: eventShapeDisplays (const)
   ```
   export const eventShapeDisplays = {
   ```
@@ -3790,7 +3720,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 10): Unused export: annotationInstanceFields (const)
+- **WARNING** [unused-export] (line 11): Unused export: annotationInstanceFields (const)
   ```
   export const annotationInstanceFields = {
   ```
@@ -3798,7 +3728,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 16): Unused export: annotationShapeFields (const)
+- **WARNING** [unused-export] (line 17): Unused export: annotationShapeFields (const)
   ```
   export const annotationShapeFields = {
   ```
@@ -3806,7 +3736,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 16): Unused export: eventInstanceFields (const)
+- **WARNING** [unused-export] (line 17): Unused export: eventInstanceFields (const)
   ```
   export const eventInstanceFields = {
   ```
@@ -3814,7 +3744,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/form/appliedForm/eventShapeFields.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 16): Unused export: eventShapeFields (const)
+- **WARNING** [unused-export] (line 17): Unused export: eventShapeFields (const)
   ```
   export const eventShapeFields = {
   ```
@@ -3822,7 +3752,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/wizardSteps.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 17): Unused export: WizardStepConfig (type)
+- **WARNING** [unused-export] (line 19): Unused export: WizardStepConfig (type)
   ```
   export interface WizardStepConfig {
   ```
@@ -3846,7 +3776,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/types/admin/AdminEntity.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 201): Unused export: AdminEntityMap (type)
+- **WARNING** [unused-export] (line 202): Unused export: AdminEntityMap (type)
   ```
   export type AdminEntityMap = {
   ```
@@ -3860,14 +3790,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/types/entities.ts` [P2] (score: 3)
-
-- **WARNING** [unused-export] (line 89): Unused export: GlobalEntityMap (type)
-  ```
-  export type GlobalEntityMap = {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/types/entity/formFields.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 85): Unused export: SelectableFormFieldType (type)
@@ -3878,7 +3800,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/types/property.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 71): Unused export: PropertyTypesRequest (type)
+- **WARNING** [unused-export] (line 73): Unused export: PropertyTypesRequest (type)
   ```
   export interface PropertyTypesRequest {
   ```
@@ -3905,6 +3827,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 35): Unused export: getEntityTypeName (function)
   ```
   export function getEntityTypeName(entityKey: GlobalEntityKey): string {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/api/availabilityApi.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 6): Unused export: getAvailabilityEndpoint (function)
+  ```
+  export function getAvailabilityEndpoint(): string {
   ```
   💡 Remove if unused or document why kept
 
@@ -3958,7 +3888,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/booking/partFinalizer.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 312): Unused export: sumPartFinalsDuration (function)
+- **WARNING** [unused-export] (line 298): Unused export: sumPartFinalsDuration (function)
   ```
   export function sumPartFinalsDuration(parts: PartFinal[]): number {
   ```
@@ -4014,7 +3944,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/dev/formatDevPanelData.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 48): Unused export: formatBusyPeriod (function)
+- **WARNING** [unused-export] (line 49): Unused export: formatBusyPeriod (function)
   ```
   export function formatBusyPeriod(
   ```
@@ -4030,7 +3960,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/entities/entityTypeMapping.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 35): Unused export: getMetadataEntityId (function)
+- **WARNING** [unused-export] (line 37): Unused export: getMetadataEntityId (function)
   ```
   export function getMetadataEntityId<GE extends GlobalEntityKey>(
   ```
@@ -4054,7 +3984,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/forms/getFieldKeys.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 19): Unused export: GetFieldKeysOptions (type)
+- **WARNING** [unused-export] (line 27): Unused export: GetFieldKeysOptions (type)
   ```
   export interface GetFieldKeysOptions<GE extends GlobalEntityKey> {
   ```
@@ -4062,7 +3992,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/iconMapper.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 78): Unused export: mapIcon (function)
+- **WARNING** [unused-export] (line 79): Unused export: mapIcon (function)
   ```
   export function mapIcon(iconString: string | null | undefined): string {
   ```
@@ -4078,7 +4008,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/transformers/componentAggregator.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 125): Unused export: composeProperties (function)
+- **WARNING** [unused-export] (line 128): Unused export: composeProperties (function)
   ```
   export function composeProperties<GE extends GlobalEntityKey>(
   ```
@@ -4092,11 +4022,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/utils/transformers/globalToAdminTransformer.ts` [P2] (score: 3)
+### `client/src/utils/transformers/fieldClassification.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 42): Unused export: AdminTransformer (class)
+- **WARNING** [unused-export] (line 14): Unused export: DehydrateFieldSets (type)
   ```
-  export class AdminTransformer {
+  export type DehydrateFieldSets = {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/transformers/transformerPrimitives.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 96): Unused export: safeBoolean (function)
+  ```
+  export function safeBoolean(value: unknown, context?: string): boolean {
   ```
   💡 Remove if unused or document why kept
 
@@ -4128,17 +4066,45 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/views/admin/tabs/BusinessRulesTab.vue` [P2] (score: 3)
+
+- **INFO** [unused-function] (line 108): Unused function: setRequiredFieldsArray
+  ```
+  function setRequiredFieldsArray(v: string): void {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 111): Unused function: setRequiredFieldsCondition
+  ```
+  function setRequiredFieldsCondition(v: string): void {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 114): Unused function: setRequiresAgent
+  ```
+  function setRequiresAgent(v: boolean): void {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/config/envConfig.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 8): Unused export: EnvConfig (type)
+- **WARNING** [unused-export] (line 9): Unused export: EnvConfig (type)
   ```
   export interface EnvConfig {
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/config/googleOAuthTokenPersistence.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 17): Unused export: TokenData (type)
+  ```
+  export interface TokenData {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/db/models/admin/adminPrimitiveMetadata.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 44): Unused export: AdminPrimitiveMetadataFactory (function)
+- **WARNING** [unused-export] (line 45): Unused export: AdminPrimitiveMetadataFactory (function)
   ```
   export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
   ```
@@ -4146,9 +4112,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/db/models/admin/adminRelationshipMetadata.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 42): Unused export: AdminRelationshipMetadataFactory (function)
+- **WARNING** [unused-export] (line 43): Unused export: AdminRelationshipMetadataFactory (function)
   ```
   export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/db/models/booking/appointment.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 11): Unused export: BlockInstanceSnapshot (type)
+  ```
+  export interface BlockInstanceSnapshot {
   ```
   💡 Remove if unused or document why kept
 
@@ -4162,9 +4136,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/helpers/crudRouterTypes.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 89): Unused export: RouteHandler (type)
+- **WARNING** [unused-export] (line 91): Unused export: RouteHandler (type)
   ```
   export type RouteHandler = (req: Request, res: Response) => Promise<void>
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 58): Unused export: METADATA_REQUIRED_FIELDS_CREATE_UPDATE (const)
+  ```
+  export const METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const
   ```
   💡 Remove if unused or document why kept
 
@@ -4208,6 +4190,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 95): Unused export: handleInstanceComponentCreate (function)
+  ```
+  export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/services/calendarEventsCache.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 217): Unused export: clearEventsCache (function)
@@ -4226,7 +4216,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/services/google/maps/mapsTypes.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 27): Unused export: AutocompleteResponse (type)
+- **WARNING** [unused-export] (line 34): Unused export: AutocompleteResponse (type)
   ```
   export interface AutocompleteResponse {
   ```
@@ -4234,7 +4224,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/services/google/maps/routesApiService.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 173): Unused export: calculateDriveTime (function)
+- **WARNING** [unused-export] (line 179): Unused export: calculateDriveTime (function)
   ```
   export async function calculateDriveTime(
   ```
@@ -4248,9 +4238,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/utils/availabilities/availabilityPrimitives.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 40): Unused export: formatDayKey (function)
+  ```
+  export function formatDayKey(date: Date): string {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 122): Unused export: sumWorkHoursForDateRange (function)
+- **WARNING** [unused-export] (line 132): Unused export: sumWorkHoursForDateRange (function)
   ```
   export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {
   ```
@@ -4288,13 +4286,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/components/booking/steps/PropertyDetailsStep.vue` [P2] (score: 2)
 
-- **INFO** [unused-function] (line 213): Unused function: handlePropertyConfirm
+- **INFO** [unused-function] (line 212): Unused function: handlePropertyConfirm
   ```
   function handlePropertyConfirm(): void {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 216): Unused function: handlePropertyEdit
+- **INFO** [unused-function] (line 215): Unused function: handlePropertyEdit
   ```
   function handlePropertyEdit(): void {
   ```
@@ -4311,6 +4309,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **INFO** [unused-function] (line 284): Unused function: handleSelectionChange
   ```
   const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/composables/admin/tables/useAppointmentAttendees.ts` [P2] (score: 2)
+
+- **INFO** [unused-function] (line 9): Unused function: isClientAttendee
+  ```
+  function isClientAttendee(a: AttendeeResponse): boolean {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 13): Unused function: isAgentAttendee
+  ```
+  function isAgentAttendee(a: AttendeeResponse): boolean {
   ```
   💡 Remove if unused or document why kept
 
@@ -4356,6 +4368,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/views/admin/tabs/components/AppointmentsTable.vue` [P2] (score: 2)
+
+- **INFO** [unused-function] (line 109): Unused function: setFormClientId
+  ```
+  function setFormClientId(v: string | null): void {
+  ```
+  💡 Remove if unused or document why kept
+
+- **INFO** [unused-function] (line 112): Unused function: setFormAgentId
+  ```
+  function setFormAgentId(v: string | null): void {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/routes/internal/participantRoutes/login-routes.ts` [P2] (score: 2)
 
 - **INFO** [commented-export] (line 2): Commented-out export found
@@ -4363,20 +4389,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   // export const login = async (req: Request, res: Response) => {
   ```
   💡 Review and either uncomment or remove
-
-### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P2] (score: 2)
-
-- **INFO** [unused-function] (line 72): Unused function: whereWithParentId
-  ```
-  const whereWithParentId = (() => {
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 85): Unused function: whereClause
-  ```
-  const whereClause = (() => {
-  ```
-  💡 Remove if unused or document why kept
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue` [P2] (score: 1)
 
@@ -4394,9 +4406,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/components/admin/generic/EntityCard.vue` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 131): Unused function: handleTitleKeydown
+  ```
+  function handleTitleKeydown(event: KeyboardEvent): void {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 157): Unused function: togglePartsBulkEditMode
+- **INFO** [unused-function] (line 153): Unused function: togglePartsBulkEditMode
   ```
   const togglePartsBulkEditMode = () => {
   ```
@@ -4404,7 +4424,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/components/admin/generic/fields/IconInput.vue` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 150): Unused function: openPicker
+- **INFO** [unused-function] (line 154): Unused function: openPicker
   ```
   const openPicker = () => {
   ```
@@ -4442,9 +4462,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 70): Unused function: onOptionIdUpdate
+  ```
+  function onOptionIdUpdate(id: string | null): void {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/composables/fieldContext/useFieldContextState.ts` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 165): Unused function: validationRulesObject
+- **INFO** [unused-function] (line 169): Unused function: validationRulesObject
   ```
   const validationRulesObject = (() => {
   ```
@@ -4476,9 +4504,25 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/plugins/1.router/additional-routes.ts` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 3): Unused function: emailRouteComponent
+- **INFO** [unused-function] (line 4): Unused function: emailRouteComponent
   ```
   const emailRouteComponent = () => import('@/pages/apps/email/index.vue')
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 55): Unused function: orderCompare
+  ```
+  const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/calendarErrorHandler.ts` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 84): Unused function: _getStatusCodeForError
+  ```
+  function _getStatusCodeForError(errorType: CalendarErrorType): number {
   ```
   💡 Remove if unused or document why kept
 

@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-02-11T04:10:08.413Z",
+  "inputSources": {
+    "importGraph": "import-graph-audit.json",
+    "testAudit": "test-audit.json"
+  },
+  "totalFiles": 29,
+  "riskFiles": [
+    {
+      "repoPath": "client/src/constants/entities.ts",
+      "fanIn": 126,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 189,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/types/entities.ts",
+      "fanIn": 126,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 189,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/constants/primitives.ts",
+      "fanIn": 76,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 114,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/types/appointment.ts",
+      "fanIn": 48,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 72,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/constants/entityFieldConstants.ts",
+      "fanIn": 40,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 60,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/types/entityMetadata.ts",
+      "fanIn": 34,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 51,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/components/booking/types/selectionCardTypes.ts",
+      "fanIn": 32,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 48,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/types/datetime.ts",
+      "fanIn": 29,
+      "hasTest": false,
+      "exportCount": 5,
+      "riskScore": 44,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/utils/api",
+      "fanIn": 25,
+      "hasTest": false,
+      "exportCount": 0,
+      "riskScore": 38,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/utils/logger.ts",
+      "fanIn": 61,
+      "hasTest": true,
+      "exportCount": 2,
+      "riskScore": 18,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "fanIn": 53,
+      "hasTest": true,
+      "exportCount": 1,
+      "riskScore": 16,
+      "priority": "P1"
+    }
+  ],
+  "summary": {
+    "highFanInUntested": 9,
+    "highFanInTested": 10,
+    "lowFanInUntested": 692,
+    "coverageOfCriticalFiles": "53%",
+    "totalRiskFiles": 11,
+    "totalFilesWithFanIn": 29
+  },
+  "files": [
+    {
+      "repoPath": "client/src/constants/entities.ts",
+      "score": 189,
+      "priority": "P0",
+      "fanIn": 126,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/types/entities.ts",
+      "score": 189,
+      "priority": "P0",
+      "fanIn": 126,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/constants/primitives.ts",
+      "score": 114,
+      "priority": "P0",
+      "fanIn": 76,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/types/appointment.ts",
+      "score": 72,
+      "priority": "P0",
+      "fanIn": 48,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/constants/entityFieldConstants.ts",
+      "score": 60,
+      "priority": "P0",
+      "fanIn": 40,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/types/entityMetadata.ts",
+      "score": 51,
+      "priority": "P0",
+      "fanIn": 34,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/components/booking/types/selectionCardTypes.ts",
+      "score": 48,
+      "priority": "P0",
+      "fanIn": 32,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/types/datetime.ts",
+      "score": 44,
+      "priority": "P0",
+      "fanIn": 29,
+      "hasTest": false,
+      "exportCount": 5
+    },
+    {
+      "repoPath": "client/src/utils/api",
+      "score": 38,
+      "priority": "P0",
+      "fanIn": 25,
+      "hasTest": false,
+      "exportCount": 0
+    },
+    {
+      "repoPath": "client/src/utils/logger.ts",
+      "score": 18,
+      "priority": "P1",
+      "fanIn": 61,
+      "hasTest": true,
+      "exportCount": 2
+    },
+    {
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "score": 16,
+      "priority": "P1",
+      "fanIn": 53,
+      "hasTest": true,
+      "exportCount": 1
+    }
+  ],
+  "exceptionSummary": {
+    "totalAllowed": 0,
+    "totalRequiresReview": 11,
+    "bySource": {
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0
+    }
+  }
+}

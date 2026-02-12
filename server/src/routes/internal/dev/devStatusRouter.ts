@@ -5,7 +5,7 @@
  * WHY: Single endpoint reduces client requests, improves page load performance
  * PATTERN: Internal route that aggregates external API status and cache stats
  * 
- * SECURITY: Only available in development mode (NODE_ENV !== 'production')
+ * SECURITY: Only available in development mode (when !isProduction())
  */
 
 import { Router, Request, Response } from 'express'
@@ -16,6 +16,7 @@ import { getDriveTimeCacheStats, getAllCachedDriveTimes } from '../../../service
 import { sendSuccess, sendError } from '../../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
+import { isProduction } from '../../../utils/envHelpers.js'
 import { CALENDAR_ROUTE_MESSAGES } from '../../external/calendarRouteConstants.js'
 
 const logger = createLogger('DevStatusRouter')
@@ -39,8 +40,8 @@ const router = Router()
  */
 router.get('/status', (_req: Request, res: Response): void => {
   // Only allow in development
-  if (process.env.NODE_ENV === 'production') {
-    sendError(res, 'Debug endpoints are not available in production', HTTP_STATUS_CODES.FORBIDDEN)
+  if (isProduction()) {
+    sendError(res, CALENDAR_ROUTE_MESSAGES.DEBUG_DISABLED, HTTP_STATUS_CODES.FORBIDDEN)
     return
   }
   

@@ -1,6 +1,7 @@
 import { computed, getCurrentInstance, ref, triggerRef, watchEffect, nextTick, type Ref, type ComputedRef } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@/types/entities'
 import { useFieldContext, type FieldContextType } from '@/composables/useFieldContext'
@@ -62,7 +63,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   // WHY: effectScope() doesn't preserve component instance, which useField needs for lifecycle hooks
   // PATTERN: Verify component instance exists before calling useFieldContext
 
-  const tempEntityId = ref<GlobalEntityId>(('new-' + Date.now()) as GlobalEntityId)
+  const tempEntityId = ref<GlobalEntityId>((TEMPORARY_ID_PATTERNS.NEW_PREFIX + Date.now()) as GlobalEntityId)
 
   const currentEntityId = computed(() => {
     return entityId.value || tempEntityId.value
@@ -91,7 +92,8 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     if (!isFormReady.value) return []
     const metadata = providedFieldMetadata?.value
     const metadataKeys = metadata ? Object.keys(metadata) : []
-    const baseKeys = fieldKeys.value || []
+    const rawKeys = fieldKeys.value
+    const baseKeys = rawKeys !== undefined && rawKeys !== null && Array.isArray(rawKeys) ? rawKeys : []
     const combinedKeys = Array.from(new Set([...baseKeys, ...metadataKeys])) as GlobalFieldKey<GlobalEntityKey>[]
 
     // PATTERN: Gate warnings on isMetadataReady
@@ -209,9 +211,10 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       }
     }
 
-    // PATTERN: Use metadata properties with fallbacks for required fields
+    // PATTERN: Use metadata properties; use fieldKey when label missing (display only)
+    const displayLabel = meta.label !== undefined && meta.label !== null && meta.label !== '' ? meta.label : fieldKey
     return {
-      label: meta.label || fieldKey, // Fallback to fieldKey if label missing
+      label: displayLabel,
       placeholder: (meta as { placeholder?: string }).placeholder ?? undefined, // No default - undefined if not in metadata
       fieldType: getFieldTypeFromMetadata(meta),
       required: meta.isRequired === true, // Explicit boolean check, no default

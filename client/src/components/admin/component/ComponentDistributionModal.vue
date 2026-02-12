@@ -171,7 +171,8 @@ async function handleConfirm() {
       // PATTERN: Reduce array to nested object structure
       const distributionValues = preview.value.reduce<Record<GlobalEntityId, Record<string, unknown>>>(
         (acc, item) => {
-          acc[item.componentId] = acc[item.componentId] ?? {}
+          const existing = acc[item.componentId]
+          acc[item.componentId] = existing !== undefined && existing !== null ? existing : {}
           acc[item.componentId][props.propertyKey] = item.newValue
           return acc
         },

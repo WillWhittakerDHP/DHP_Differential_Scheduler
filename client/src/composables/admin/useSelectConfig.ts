@@ -18,10 +18,13 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useAdmin } from '@/composables/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
+import { createLogger } from '@/utils/logger'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
+
+const logger = createLogger('useSelectConfig')
 
 export interface UseSelectConfigOptions {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -228,7 +231,23 @@ export function useSelectConfig(
     
     // LEARNING: inputConfig is stored in direct format (not wrapped)
     // PATTERN: Use inputConfig directly, check targetMode to determine type
-    const inputConfig = meta.inputConfig as Record<string, unknown>
+    let inputConfig = meta.inputConfig as Record<string, unknown>
+    
+    // DEFENSIVE: Handle legacy wrapped format where inputConfig is { relationshipSelect: { ...actualConfig } }
+    // WHY: Stale metadata rows with metadata_type='primitive' used the old wrapped format.
+    //      If such rows re-appear (e.g., from re-seeding), unwrap and warn loudly so it gets fixed at the source.
+    if (!('targetMode' in inputConfig) && 'relationshipSelect' in inputConfig) {
+      const wrapped = inputConfig.relationshipSelect
+      if (typeof wrapped === 'object' && wrapped !== null && 'targetMode' in wrapped) {
+        logger.warn(
+          `Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+          `inputConfig is wrapped in "relationshipSelect" key — this is stale data that should be fixed in admin_metadata. ` +
+          `Unwrapping automatically, but the database row needs to be corrected.`,
+          { entityKey: fieldContext.entityKey, fieldKey: fieldContext.fieldKey, wrappedKeys: Object.keys(inputConfig) }
+        )
+        inputConfig = wrapped as Record<string, unknown>
+      }
+    }
     
     if ('targetMode' in inputConfig) {
       const targetMode = inputConfig.targetMode as string

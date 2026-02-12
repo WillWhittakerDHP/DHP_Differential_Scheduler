@@ -26,10 +26,11 @@ router.use('/', EntityConfigRouter)
 // PATTERN: More specific routes (batch) before parameterized routes (entityType)
 router.use('/', EntityBatchRouter)
 
+// Mount bulk operations BEFORE CRUD so PATCH /:entityType/order_index is matched literally
+// (not as CRUD PATCH /:entityType/:id with id = 'order_index')
+router.use('/', EntityBulkRouter)
+
 // Mount CRUD routes (entityType param handler registered in EntityCrudRouter)
 router.use('/', EntityCrudRouter)
-
-// Mount bulk operations routes (entityType param handler registered in EntityBulkRouter)
-router.use('/', EntityBulkRouter)
 
 export { router as EntityRouter }

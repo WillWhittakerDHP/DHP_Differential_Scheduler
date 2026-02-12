@@ -23,17 +23,18 @@ const router = Router()
  * PATCH /relationships/instanceComponents/:id
  * Update an instance component
  * 
- * LEARNING: Updates instance component order_index and disabled status
+ * LEARNING: Updates instance component orderIndex and disabled status
  * WHY: Enables instance component updates via API
  * PATTERN: Find component, update fields, save, return JSON
  */
 router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
-  const { order_index, disabled } = req.body
-  
+  const orderIndex = req.body.orderIndex ?? req.body.order_index
+  const { disabled } = req.body
+
   try {
     const component = await InstanceComponent.findByPk(id)
-    
+
     if (!component) {
       res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
         error: ERROR_MESSAGES.INSTANCE_COMPONENT_NOT_FOUND,
@@ -41,9 +42,9 @@ router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promis
       })
       return
     }
-    
-    if (order_index !== undefined) {
-      component.orderIndex = order_index
+
+    if (orderIndex !== undefined) {
+      component.orderIndex = orderIndex
     }
     
     if (disabled !== undefined) {
@@ -85,7 +86,7 @@ router.delete('/:id', csrfProtection, async (req: Request, res: Response): Promi
     await component.save()
     
     // PATTERN: Restore active when no longer in any component relationships
-    await restoreComponentActiveState(component.child_id)
+    await restoreComponentActiveState(component.childId)
     
     res.json({
       message: ERROR_MESSAGES.INSTANCE_COMPONENT_DELETED,

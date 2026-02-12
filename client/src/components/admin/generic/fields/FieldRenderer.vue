@@ -169,7 +169,10 @@ const entityForMetadata = computed(() => {
 
 // PATTERN: Let parent component (EntityCard) handle warnings - it has access to metadata loading state
 
-const fieldMetadataRef = computed(() => props.fieldMetadata ?? {})
+const fieldMetadataRef = computed(() => {
+  const raw = props.fieldMetadata
+  return raw !== undefined && raw !== null ? raw : {}
+})
 
 
 const fieldComponent = useFieldComponent({
@@ -246,7 +249,7 @@ watch(
       suggestedFix: reason === 'notConfigured' 
         ? 'Add field metadata at /admin-input-metadata or /admin-relationship-metadata'
         : reason === 'invalidRenderAs'
-        ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multiselect, reference. Found: ${metadataEntry?.renderAs || 'undefined'}`
+        ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multiselect, reference. Found: ${metadataEntry?.renderAs !== undefined && metadataEntry?.renderAs !== null ? metadataEntry.renderAs : 'undefined'}`
         : 'Unknown error - check field metadata configuration'
     })
   },

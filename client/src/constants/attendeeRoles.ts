@@ -1,12 +1,14 @@
 /**
  * Attendee Role Constants
- * 
- * LEARNING: Centralized constants for attendee role names used in appointment transformers
- * WHY: Eliminates magic strings and enables type-safe role matching
- * PATTERN: Exported const values for attendee and user role strings
+ *
+ * LEARNING: Re-exports shared role constants for client-side use
+ * WHY: Maintains backward compatibility with existing client imports while using shared source
+ * PATTERN: Re-export from shared constants (see shared/constants/roleConstants.ts)
  */
 
-export const ATTENDEE_ROLE_CLIENT = 'Client' as const
-export const ATTENDEE_ROLE_AGENT = 'Agent' as const
-export const USER_ROLE_CLIENT = 'client' as const
-export const USER_ROLE_AGENT = 'agent' as const
+export {
+  USER_ROLE_CLIENT,
+  USER_ROLE_AGENT,
+  ATTENDEE_ROLE_CLIENT,
+  ATTENDEE_ROLE_AGENT,
+} from '@shared/constants/roleConstants'

@@ -32,12 +32,14 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
-const majorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
-)
-const minorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Minor Formal Presentation'
-)
+const majorLabel = computed(() => {
+  const raw = availabilitySettings.value?.differentialPerspectives?.majorLabel
+  return raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'
+})
+const minorLabel = computed(() => {
+  const raw = availabilitySettings.value?.differentialPerspectives?.minorLabel
+  return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor Formal Presentation'
+})
 
 // FIX: Use shared time basis handler from composable
 const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerProps, emit as unknown as TimeBasisHandlerEmits)

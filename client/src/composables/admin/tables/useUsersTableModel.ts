@@ -1,3 +1,4 @@
+import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
@@ -26,7 +27,7 @@ export function useUsersTableModel(): UsersTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    getCreateDefaults: () => ({ userRole: 'client' }) as UserRequest,
+    getCreateDefaults: () => ({ userRole: USER_ROLE_CLIENT }) as UserRequest,
     validateCreate: (payload) => {
       if (!payload.firstName || !payload.lastName || !payload.email) {
         return 'First name, last name, and email are required'

@@ -8,6 +8,7 @@
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
 import type { DisplayFieldType } from '@/configs/field/display/fullFieldDisplayConfig'
@@ -39,8 +40,8 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     
     // PATTERN: Use Object.assign with Object.fromEntries for functional property copying
     const filteredKeys = Object.keys(admin)
-      .filter((key) => key !== 'id' && key !== 'entityKey') as Array<
-      Exclude<keyof GlobalEntity<GE>, 'id' | 'entityKey'>
+      .filter((key) => key !== 'id' && key !== FIELD_NAMES.ENTITY_KEY) as Array<
+      Exclude<keyof GlobalEntity<GE>, 'id' | typeof FIELD_NAMES.ENTITY_KEY>
     >
     Object.assign(
       this,

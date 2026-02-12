@@ -92,7 +92,8 @@ export async function withRetry<T>(
       
       // Check if error is retryable
       if (!isRetryable(error)) {
-        const errorType = (error as RetryableError)?.type || 'unknown'
+        const rawType = (error as RetryableError)?.type
+        const errorType = rawType !== undefined && rawType !== null && rawType !== '' ? rawType : 'unknown'
         logger.error('Non-retryable error', { errorType, message: (error as Error)?.message })
         throw error
       }
@@ -105,7 +106,8 @@ export async function withRetry<T>(
       
       // Calculate and wait for backoff delay
       const delay = calculateBackoffDelay(attempt, retryConfig)
-      const errorType = (error as RetryableError)?.type || 'unknown'
+      const rawTypeRetry = (error as RetryableError)?.type
+      const errorType = rawTypeRetry !== undefined && rawTypeRetry !== null && rawTypeRetry !== '' ? rawTypeRetry : 'unknown'
       logger.warn('Retrying after delay', {
         attempt: attempt + 1,
         maxRetries: retryConfig.maxRetries,

@@ -1,5 +1,6 @@
 import { Op, Model } from 'sequelize';
 import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
+import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityConstants.js';
 
 /**
  * Instance Versioning Service
@@ -111,7 +112,7 @@ export async function createBlockInstanceVersionIfReferenced(
   
   const latestVersion = await BlockInstanceVersion.findOne({
     where: { blockInstanceId },
-    order: [['createdAt', 'DESC']],
+    order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   });
   
   if (latestVersion && versionsMatch(latestVersion, oldBlockInstance)) {
@@ -145,7 +146,7 @@ export async function createBlockInstanceVersion(
 
   const latestVersion = await BlockInstanceVersion.findOne({
     where: { blockInstanceId },
-    order: [['createdAt', 'DESC']],
+    order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   });
 
   if (latestVersion && versionsMatch(latestVersion, instance)) {

@@ -102,11 +102,11 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     if (!partAssignments.value) return []
     
     const relationships = partAssignments.value.filter(
-      rel => String(rel.parent_id) === blockInstanceIdRef.value && !rel.disabled
+      rel => String(rel.parentId) === blockInstanceIdRef.value && !rel.disabled
     )
     
     const partInstances = adminComp.getEntitiesByKey('partInstance') as GlobalEntity<'partInstance'>[]
-    const childIds = relationships.map((rel) => String(rel.child_id))
+    const childIds = relationships.map((rel) => String(rel.childId))
     const { resolved } = resolveByIds(partInstances, childIds)
     return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
   })
@@ -127,7 +127,8 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
    */
   const getPartShapeName = (partShapeId: string): string => {
     const partShape = getGlobalEntityById('partShape', partShapeId)
-    return partShape?.name || `PartShape ${partShapeId.slice(0, 8)}`
+    const name = partShape?.name
+    return name !== undefined && name !== null && name !== '' ? name : `PartShape ${partShapeId.slice(0, 8)}`
   }
   
   /**

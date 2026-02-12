@@ -122,7 +122,7 @@ router.post(
 
         await PropertyDetails.create({
           propertyVersionId: propertyVersion.id,
-          source: source as 'api' | 'manual' | 'client',
+          source: source as 'api' | 'manual' | typeof DEFAULT_VALUES.SOURCE,
           mlsNumber: mlsNumber || null,
           squareFootage: squareFootage || null,
           bedrooms: bedrooms || null,

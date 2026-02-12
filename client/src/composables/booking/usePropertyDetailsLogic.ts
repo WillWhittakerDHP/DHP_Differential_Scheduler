@@ -19,6 +19,14 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('usePropertyDetailsLogic')
 
+function addressField(value: string | undefined | null, fieldName: string): string {
+  if (value === undefined || value === null) {
+    logger.debug('Address component missing', { fieldName })
+    return ''
+  }
+  return value
+}
+
 // FIX: Use shared PropertyDetailsData type from propertyForm.ts
 
 export interface ComponentItem {
@@ -83,12 +91,12 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   })
 
   /**
-   * WHY: Database flag (is_multi_family) instead of hardcoded name matching
+   * WHY: Database flag (isMultiFamily) instead of hardcoded name matching
    * PATTERN: Database-driven validation for multi-family property detection
    */
   const isMultiFamily = computed(() => {
     return wizard.selectedPropertyTypeBlocks.value.some(
-      selected => selected.is_multi_family === true
+      selected => selected.isMultiFamily === true
     )
   })
 
@@ -183,14 +191,13 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
    */
   const handlePlaceSelected = (details: PlaceDetails): void => {
     const { addressComponents, coordinates, placeId } = details
-    
-    // Map address components to form fields
-    const streetNumber = addressComponents.streetNumber || ''
-    const streetName = addressComponents.streetName || ''
+
+    const streetNumber = addressField(addressComponents.streetNumber, 'streetNumber')
+    const streetName = addressField(addressComponents.streetName, 'streetName')
     formData.address.value = `${streetNumber} ${streetName}`.trim()
-    formData.city.value = addressComponents.city || ''
-    formData.state.value = addressComponents.state || ''
-    formData.zipCode.value = addressComponents.postalCode || ''
+    formData.city.value = addressField(addressComponents.city, 'city')
+    formData.state.value = addressField(addressComponents.state, 'state')
+    formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
     
     // Store location data for drive time calculations
     // DEBUG: Log candidatePlaceId being set

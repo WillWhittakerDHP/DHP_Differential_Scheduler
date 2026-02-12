@@ -1,3 +1,5 @@
+import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+
 /**
  * LEARNING: EventInstance Display Configs (Configuration Data)
  * WHY: Defines labels, placeholders, and layout for EventInstance fields
@@ -14,7 +16,7 @@ export const eventInstanceDisplays = {
   },
 
   name: {
-    label: "Name",
+    label: DISPLAY_LABELS.NAME,
     placeholder: "Enter event instance name",
     inline: false,
     stacked: true,
@@ -56,8 +58,8 @@ export const eventInstanceDisplays = {
   },
 
   active: {
-    label: "Active",
-    placeholder: "Active",
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

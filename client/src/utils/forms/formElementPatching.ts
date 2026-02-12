@@ -51,9 +51,9 @@ export async function patchFormFromVFormRef(
   }
 
   await nextTick()
-  const fallback = getFormElementBySelector(formSelector)
-  if (fallback) {
-    patchFormElements(fallback)
+  const elementBySelector = getFormElementBySelector(formSelector)
+  if (elementBySelector) {
+    patchFormElements(elementBySelector)
     return
   }
 

@@ -140,7 +140,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
       const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
       // PATTERN: Use eventTimeRanges keys instead of hardcoded 'Minor'
       // Get first available event time range, or fall back to totalTimeRange
-      const eventTimeRanges = transformed.eventTimeRanges || {}
+      const eventTimeRanges = transformed.eventTimeRanges !== undefined && transformed.eventTimeRanges !== null ? transformed.eventTimeRanges : {}
       const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null
       return firstEventTimeRange || transformed.totalTimeRange || null
     }).filter((slot): slot is TimeSlot => slot !== null)
@@ -188,7 +188,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const { settings: availabilitySettings } = useAvailabilitySettings()
     const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
     // PATTERN: Return first available event time range from eventTimeRanges, or fall back to totalTimeRange
-    const eventTimeRanges = transformed.eventTimeRanges || {}
+    const eventTimeRanges = transformed.eventTimeRanges !== undefined && transformed.eventTimeRanges !== null ? transformed.eventTimeRanges : {}
     const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null
     return firstEventTimeRange || transformed.totalTimeRange || null
   }

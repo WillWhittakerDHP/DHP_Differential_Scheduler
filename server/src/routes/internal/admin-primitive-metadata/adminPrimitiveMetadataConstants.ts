@@ -1,6 +1,6 @@
 /**
  * Admin Primitive Metadata Router Constants
- * 
+ *
  * LEARNING: Centralized constants for admin primitive metadata router operations
  * WHY: Eliminates magic strings, improves maintainability, enables type safety
  * PATTERN: Const objects with categorized constants
@@ -39,15 +39,8 @@ export const ERROR_MESSAGES = {
   METADATA_NOT_FOUND: 'Primitive metadata not found',
 } as const
 
-/**
- * Required fields for metadata creation/update
- * LEARNING: Centralized required field lists for validation
- * WHY: Single source of truth for required fields, easier to maintain
- * PATTERN: Const array with required field names
- */
-export const REQUIRED_FIELDS = {
-  CREATE_UPDATE: ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const,
-} as const
+/** Required fields for metadata creation/update (re-export from admin metadata). */
+export { REQUIRED_FIELDS } from '../admin-metadata/adminMetadataConstants.js'
 
 /**
  * RenderAs values that require inputConfig

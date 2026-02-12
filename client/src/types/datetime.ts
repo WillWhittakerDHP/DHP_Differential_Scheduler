@@ -21,7 +21,8 @@
  * WHY: Documents intent for date-only values, ensures consistency, aligns with RFC3339/UTC approach
  * PATTERN: Type alias provides documentation without runtime overhead
  * 
- * Format: "YYYY-MM-DD" (e.g., "2026-01-15")
+ * Format: YYYY-MM-DD (date-only, no time)
+ * @audit-allow:hardcoding:magicLabel - Format description is the constant; no extraction needed.
  * Characteristics:
  * - Date-only (no time component)
  * - Lexicographically sortable (chronological order matches string order)
@@ -70,6 +71,7 @@ export type ISO8601Date = string
  * - RFC3339: https://datatracker.ietf.org/doc/html/rfc3339
  * - Google Calendar API: https://developers.google.com/calendar/api/v3/reference/freebusy/query
  * - Branded Types: https://www.typescriptlang.org/docs/handbook/advanced-types.html#index-types
+ * @audit-allow:hardcoding:magicLabel - Brand discriminant literal; required for branded type.
  */
 export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
 
@@ -110,9 +112,10 @@ export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
  * try {
  *   const dateTime = validateRFC3339DateTime(apiResponse.timestamp)
  * } catch (error) {
- *   console.error('Invalid datetime from API:', error)
+ *   // Handle invalid datetime from API (e.g. log via logger, show user message)
  * }
  * ```
+ * @audit-allow:error-handling:console-in-catch - Example only; real code should use logger.
  */
 export function validateRFC3339DateTime(value: string): RFC3339DateTime {
   if (!isRFC3339DateTime(value)) {

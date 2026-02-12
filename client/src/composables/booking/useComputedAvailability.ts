@@ -13,6 +13,7 @@
  */
 
 import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
+import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import type { RFC3339DateTime } from '@/types/datetime'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
@@ -95,7 +96,8 @@ export function useComputedAvailability(
     label: string
   ): Promise<void> => {
     const currentPlaceId = placeId.value
-    const currentDuration = duration?.value ?? 60
+    const rawDuration = duration?.value
+    const currentDuration = rawDuration !== undefined && rawDuration !== null ? rawDuration : 60
 
     isLoading.value = true
     error.value = null
@@ -119,7 +121,7 @@ export function useComputedAvailability(
       outOfOfficeEvents.value = data.outOfOfficeEvents
       computedDataMeta.value = data._meta
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+      const errorMessage = err instanceof Error ? err.message : UNKNOWN_ERROR_MESSAGE
       error.value = err instanceof Error ? err : new Error(errorMessage)
       logger.error('[useComputedAvailability] Failed to fetch computed availability', { error: err })
       if (label === 'prefetch') {
@@ -146,7 +148,8 @@ export function useComputedAvailability(
       if (!canFetchAvailability.value) return
 
       const pid = placeId.value
-      const dur = duration?.value ?? 60
+      const rawDur = duration?.value
+      const dur = rawDur !== undefined && rawDur !== null ? rawDur : 60
       if (lastPlaceId.value !== pid || lastDuration.value !== dur) {
         clearSlotsCache()
         lastPlaceId.value = pid

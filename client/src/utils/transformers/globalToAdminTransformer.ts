@@ -11,7 +11,8 @@ import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import { AdminEntity } from '@/types/admin/AdminEntity'
-import { findRelationshipsByParent, extractChildIds } from './relationshipTransformers'
+import { groupByParentId } from './transformerCollections'
+import { safeArray } from './transformerPrimitives'
 
 /**
  * AdminObject type - Enhanced GlobalEntity with relationships and validated properties
@@ -69,17 +70,13 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
 
   return Object.entries(relationshipMappings).reduce<Partial<GlobalEntity<GE>>>(
     (acc, [relType, propName]) => {
-      let relationshipValue: GlobalEntityId[] = []
-      const relationships = globalRelationships[relType]
-      if (relationships && Array.isArray(relationships)) {
-        const parentRelationships = findRelationshipsByParent(entityId, relationships)
-        if (parentRelationships.length > 0) {
-          const childIds = extractChildIds(parentRelationships)
-          if (childIds.length > 0) {
-            relationshipValue = childIds
-          }
-        }
-      }
+      const relationships = safeArray(globalRelationships[relType])
+      const flat = relationships.flatMap((rel) =>
+        rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
+      )
+      const parentToChildren = groupByParentId(flat, (x) => x.parentId, (x) => x.childId)
+      const rawRel = parentToChildren.get(entityId)
+      const relationshipValue = rawRel !== undefined ? rawRel : []
       return { ...acc, [propName]: relationshipValue }
     },
     {}

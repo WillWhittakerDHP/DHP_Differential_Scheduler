@@ -7,6 +7,7 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import { DEFAULT_VALUES } from '../../../routes/internal/properties/propertyConstants.js';
 
 /**
  * PropertyDetails Model
@@ -21,7 +22,7 @@ export class PropertyDetails extends Model<
 > {
   declare id: CreationOptional<string>;
   declare propertyVersionId: ForeignKey<string>;
-  declare source: 'api' | 'manual' | 'client';
+  declare source: 'api' | 'manual' | typeof DEFAULT_VALUES.SOURCE;
   declare mlsNumber: string | null;
   declare squareFootage: number | null;
   declare bedrooms: number | null;
@@ -51,9 +52,9 @@ export function PropertyDetailsFactory(sequelize: Sequelize) {
         },
       },
       source: {
-        type: DataTypes.ENUM('api', 'manual', 'client'),
+        type: DataTypes.ENUM('api', 'manual', DEFAULT_VALUES.SOURCE),
         allowNull: false,
-        defaultValue: 'client',
+        defaultValue: DEFAULT_VALUES.SOURCE,
       },
       mlsNumber: {
         type: DataTypes.STRING,

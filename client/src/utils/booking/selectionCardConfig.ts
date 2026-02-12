@@ -34,7 +34,7 @@ export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig
     selectionComponent: userConfig.selectionComponent || DEFAULT_SELECTION_CARD_CONFIG.selectionComponent,
     selectionGroup: userConfig.selectionGroup || DEFAULT_SELECTION_CARD_CONFIG.selectionGroup,
     stateSource: userConfig.stateSource || DEFAULT_SELECTION_CARD_CONFIG.stateSource,
-    statePlugins: userConfig.statePlugins || [],
+    statePlugins: userConfig.statePlugins !== undefined && userConfig.statePlugins !== null ? userConfig.statePlugins : [],
     layout: userConfig.layout ?? DEFAULT_SELECTION_CARD_CONFIG.layout,
     controlPosition: userConfig.controlPosition ?? DEFAULT_SELECTION_CARD_CONFIG.controlPosition,
     gridColumns: userConfig.gridColumns ?? DEFAULT_SELECTION_CARD_CONFIG.gridColumns,

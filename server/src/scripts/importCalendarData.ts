@@ -8,6 +8,8 @@
 
 import 'dotenv/config';
 import { Address, PropertyVersion, PropertyDetails, User, sequelize, initializeDatabase } from '../config/app.js';
+import { USER_ROLE_CLIENT } from '../constants/userRoles.js';
+import { DEFAULT_VALUES as PROPERTY_DEFAULT_VALUES } from '../routes/internal/properties/propertyConstants.js';
 import { createLogger } from '../utils/logger.js';
 import {
   CalendarEvent,
@@ -27,20 +29,6 @@ const logger = createLogger('CalendarImport');
  * WHY: Eliminates hardcoding audit finding
  */
 const DEFAULT_ORGANIZER_EMAIL = 'will@districthomepro.com';
-
-/**
- * User role constant for calendar imports
- * LEARNING: Named constant replaces inline 'client' string
- * WHY: Addresses constants-consolidation audit finding
- */
-const USER_ROLE_CLIENT = 'client' as const;
-
-/**
- * Property source constant for calendar imports
- * LEARNING: Named constant replaces inline 'client' string
- * WHY: Addresses constants-consolidation audit finding
- */
-const PROPERTY_SOURCE_CLIENT = 'client' as const;
 
 /**
  * Interface for Address with eager-loaded propertyVersions
@@ -196,7 +184,7 @@ async function upsertProperty(property: ParsedProperty): Promise<string> {
       },
       defaults: {
         propertyVersionId: propertyVersion.id,
-        source: PROPERTY_SOURCE_CLIENT,
+        source: PROPERTY_DEFAULT_VALUES.SOURCE,
         mlsNumber: property.mlsNumber,
         squareFootage: property.squareFootage,
         bedrooms: property.bedrooms,

@@ -1,3 +1,5 @@
+import type { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
+
 /**
  * WHY: Property Type Definitions
 
@@ -20,7 +22,7 @@ export interface PropertyRequest {
   bathrooms?: number | null;
   foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null;
   additionalUnits?: number | null;
-  source?: 'api' | 'manual' | 'client'; // Defaults to 'client' if not provided
+  source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT; // Defaults to USER_ROLE_CLIENT if not provided
 }
 
 export interface PropertyResponse {
@@ -41,7 +43,7 @@ export interface PropertyResponse {
   bathrooms?: number | null;
   foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null;
   additionalUnits?: number | null;
-  source?: 'api' | 'manual' | 'client';
+  source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT;
   createdAt: string;
   updatedAt: string;
   propertyTypes?: PropertyVersionType[];

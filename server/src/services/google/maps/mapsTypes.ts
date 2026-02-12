@@ -12,6 +12,7 @@ import type {
   MapsApiErrorType,
   PlaceDetails
 } from '@shared/types/mapsTypes.js'
+import { GOOGLE_API_STATUS } from './mapsConstants.js'
 
 export type {
   AddressComponents,
@@ -20,6 +21,12 @@ export type {
   MapsApiErrorType,
   PlaceDetails
 }
+
+/** Status values for route matrix results (from GOOGLE_API_STATUS) */
+export type RouteMatrixStatus =
+  | typeof GOOGLE_API_STATUS.OK
+  | typeof GOOGLE_API_STATUS.NOT_FOUND
+  | typeof GOOGLE_API_STATUS.ZERO_RESULTS
 
 /**
  * Autocomplete response structure (server-only)
@@ -50,7 +57,7 @@ export interface RouteMatrixResult {
   destinationIndex: number
   durationSeconds: number
   distanceMeters: number
-  status: 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'
+  status: RouteMatrixStatus
   condition?: string
 }
 

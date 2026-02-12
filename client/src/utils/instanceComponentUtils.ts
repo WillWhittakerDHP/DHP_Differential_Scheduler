@@ -43,7 +43,8 @@ export function extractInstanceComponents(params: {
         icon?: string
       }
 
-      const iconValue = componentWithIcon.icon || ''
+      const rawIcon = componentWithIcon.icon
+      const iconValue = rawIcon !== undefined && rawIcon !== null && rawIcon !== '' ? rawIcon : ''
       const mappedIcon = getIcon(iconValue)
 
       return {

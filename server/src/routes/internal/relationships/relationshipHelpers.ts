@@ -15,15 +15,59 @@ import {
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
-import { type RelationshipKind } from './relationshipConstants.js'
+import { type RelationshipKind, ERROR_MESSAGES } from './relationshipConstants.js'
+
+/**
+ * Map annotation assignment API fields to model-specific field names
+ */
+export function mapAnnotationAssignmentsFields(
+  parentId: string,
+  childId: string
+): Record<string, string> {
+  return {
+    blockInstanceId: parentId,
+    annotationId: childId,
+  }
+}
+
+/**
+ * Map attendee assignment API fields to model-specific field names
+ */
+export function mapAttendeeAssignmentsFields(
+  parentId: string,
+  childId: string
+): Record<string, string> {
+  return {
+    eventShapeId: parentId,
+    userTypeBlockInstanceId: childId,
+  }
+}
+
+/**
+ * Map event assignment API fields; resolves parent kind (partInstance vs blockInstance)
+ */
+export async function mapEventAssignmentsFields(
+  parentId: string,
+  childId: string
+): Promise<Record<string, string>> {
+  const partInstance = await PartInstance.findByPk(parentId)
+  if (partInstance) {
+    return { parentId, parentKind: 'partInstance', childId }
+  }
+  const blockInstance = await BlockInstance.findByPk(parentId)
+  if (blockInstance) {
+    return { parentId, parentKind: 'blockInstance', childId }
+  }
+  throw new Error(`Parent ID ${parentId} is not a valid PartInstance or BlockInstance for eventAssignments`)
+}
 
 /**
  * Helper function to map generic parent_id/child_id to model-specific field names
- * 
+ *
  * LEARNING: Different relationship models use different field names
  * WHY: Models have domain-specific field names (blockInstanceId vs parent_id)
- * PATTERN: Map generic API field names to model-specific attributes
- * 
+ * PATTERN: Dispatcher that delegates to kind-specific mappers
+ *
  * @param relationshipKind - Relationship kind
  * @param parentId - Parent ID
  * @param childId - Child ID
@@ -36,52 +80,38 @@ export async function mapRelationshipFields(
 ): Promise<Record<string, string>> {
   switch (relationshipKind) {
     case RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS:
-      return {
-        blockInstanceId: parentId,
-        annotationId: childId,
-      }
+      return mapAnnotationAssignmentsFields(parentId, childId)
     case RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS:
-      return {
-        eventShapeId: parentId,
-        userTypeBlockInstanceId: childId,
-      }
-    case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS: {
-      // LEARNING: eventAssignments uses parent_id/child_id pattern with parent_kind enum
-      // WHY: Matches partAssignments pattern exactly for consistency
-      // PATTERN: Determine parent_kind by checking which table parentId exists in
-      const partInstance = await PartInstance.findByPk(parentId)
-      if (partInstance) {
-        return {
-          parent_id: parentId,
-          parentKind: 'partInstance',
-          child_id: childId,
-        }
-      }
-      const blockInstance = await BlockInstance.findByPk(parentId)
-      if (blockInstance) {
-        return {
-          parent_id: parentId,
-          parentKind: 'blockInstance',
-          child_id: childId,
-        }
-      }
-      throw new Error(`Parent ID ${parentId} is not a valid PartInstance or BlockInstance for eventAssignments`)
-    }
+      return mapAttendeeAssignmentsFields(parentId, childId)
+    case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS:
+      return mapEventAssignmentsFields(parentId, childId)
     default:
-      return {
-        parent_id: parentId,
-        child_id: childId,
-      }
+      return { parentId, childId }
   }
 }
 
 /**
+ * Get child instance IDs for a given parent in the component graph
+ * LEARNING: Extracted for BFS; single place for InstanceComponent query
+ */
+export async function getComponentChildIds(instanceId: string): Promise<string[]> {
+  const parents = await InstanceComponent.findAll({
+    attributes: getModelAttributes(InstanceComponent),
+    where: {
+      parentId: instanceId,
+      disabled: false,
+    },
+  })
+  return parents.map(parent => parent.childId)
+}
+
+/**
  * Helper function to check for circular references in component relationships
- * 
+ *
  * LEARNING: Circular reference detection prevents infinite loops
  * WHY: Components can themselves be parents, but we must prevent cycles
- * PATTERN: Functional BFS traversal without array mutations
- * 
+ * PATTERN: BFS using getComponentChildIds; max nesting kept low
+ *
  * @param parentId - Parent ID to check
  * @param childId - Child ID to check
  * @returns true if circular reference would be created
@@ -91,49 +121,26 @@ export async function hasCircularReference(
   childId: string
 ): Promise<boolean> {
   const visited = new Set<string>()
-  
-  /**
-   * Functional BFS helper that processes queue without mutations
-   * LEARNING: Uses array destructuring and spread to rebuild queue functionally
-   * WHY: Avoids queue.shift() and queue.push() mutations
-   * PATTERN: Process head of queue, rebuild tail with new items
-   */
-  async function processQueue(queue: string[]): Promise<boolean> {
-    if (queue.length === 0) {
-      return false
-    }
-    
+  let queue: string[] = [childId]
+
+  while (queue.length > 0) {
     const [currentId, ...remainingQueue] = queue
-    
+
     if (currentId === parentId) {
-      return true // Circular reference detected
+      return true
     }
-    
     if (visited.has(currentId)) {
-      return processQueue(remainingQueue)
+      queue = remainingQueue
+      continue
     }
-    
     visited.add(currentId)
-    
-    const parents = await InstanceComponent.findAll({
-      attributes: getModelAttributes(InstanceComponent),
-      where: {
-        parent_id: currentId,
-        disabled: false,
-      },
-    })
-    
-    // PATTERN: Map parents to child_ids, filter unvisited, append to remaining queue
-    const childIds = parents
-      .map(parent => parent.child_id)
-      .filter(id => !visited.has(id))
-    
-    const nextQueue = [...remainingQueue, ...childIds]
-    
-    return processQueue(nextQueue)
+
+    const childIds = await getComponentChildIds(currentId)
+    const newIds = childIds.filter(id => !visited.has(id))
+    queue = [...remainingQueue, ...newIds]
   }
-  
-  return processQueue([childId])
+
+  return false
 }
 
 /**
@@ -164,7 +171,7 @@ export async function validateBlockInstancesWithShapes(
   })
   
   if (!parentBlockInstance || !childBlockInstance) {
-    throw new Error('BlockInstance not found')
+    throw new Error(ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND)
   }
   
   // PATTERN: Cast to any to access association, then cast association to proper type
@@ -190,30 +197,27 @@ export async function validateBlockInstancesWithShapes(
   }
 }
 
+const NOT_COMPOSABLE_MSG = (name: string): string =>
+  `BlockShape '${name}' is not composable. Components are only allowed for BlockInstances with composable BlockShapes.`
+
 /**
  * Validate block shapes are composable
  * LEARNING: Validates block shapes allow component relationships
  * WHY: Components are only allowed for composable block shapes
- * PATTERN: Check composable property on block shapes
- * 
- * @param parentBlockShape - Parent block shape
- * @param childBlockShape - Child block shape
- * @throws Error if block shapes are not composable
+ * PATTERN: Early returns with clear error messages
  */
 export function validateBlockShapesComposable(
   parentBlockShape: any,
   childBlockShape: any
 ): void {
   if (!parentBlockShape.composable) {
-    throw new Error(`BlockShape '${parentBlockShape.name}' is not composable. Components are only allowed for BlockInstances with composable BlockShapes.`)
+    throw new Error(NOT_COMPOSABLE_MSG(parentBlockShape.name))
   }
-  
   if (!childBlockShape.composable) {
-    throw new Error(`BlockShape '${childBlockShape.name}' is not composable. Components are only allowed for BlockInstances with composable BlockShapes.`)
+    throw new Error(NOT_COMPOSABLE_MSG(childBlockShape.name))
   }
-  
   if (parentBlockShape.id !== childBlockShape.id) {
-    throw new Error('Components must have the same BlockShape as their parent')
+    throw new Error(ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
   }
 }
 
@@ -284,23 +288,19 @@ export async function updateComponentActiveStates(
  * Restore block instance active state when component is deleted
  * LEARNING: Restores active state when component relationship is deleted
  * WHY: Child should become active if no longer in any component relationships
- * PATTERN: Check if child has other components, restore active if not
- * 
- * @param childId - Child block instance ID
+ * PATTERN: Early return when child still has components; single path to restore
  */
 export async function restoreComponentActiveState(childId: string): Promise<void> {
   const otherComponents = await InstanceComponent.count({
-    where: {
-      child_id: childId,
-      disabled: false,
-    },
+    where: { childId, disabled: false },
   })
-  
-  if (otherComponents === 0) {
-    const childBlockInstance = await BlockInstance.findByPk(childId)
-    if (childBlockInstance) {
-      childBlockInstance.active = true
-      await childBlockInstance.save()
-    }
+  if (otherComponents > 0) {
+    return
   }
+  const childBlockInstance = await BlockInstance.findByPk(childId)
+  if (!childBlockInstance) {
+    return
+  }
+  childBlockInstance.active = true
+  await childBlockInstance.save()
 }

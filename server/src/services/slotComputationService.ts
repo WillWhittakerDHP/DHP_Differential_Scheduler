@@ -24,6 +24,10 @@ import {
   capacityKeyToString,
 } from '../../../shared/utils/capacityKeyUtils.js'
 import { buildDayBoundariesUTC } from '../../../shared/utils/businessHoursUtils.js'
+import {
+  generateSlotTimes,
+  getUniqueDatesInRange,
+} from '../utils/availabilities/availabilityPrimitives.js'
 import { createLogger } from '../utils/logger.js'
 
 const logger = createLogger('SlotComputationService')
@@ -51,7 +55,7 @@ function timeRangesOverlap(
 }
 
 /**
- * Generate raw slot start times for one day at minuteIncrement, then create slots with duration
+ * Generate raw slot time pairs for one day using shared primitive (pure, no mutation).
  */
 function generateSlotsForDay(
   dayStartUtc: Date,
@@ -60,19 +64,52 @@ function generateSlotsForDay(
   minuteIncrement: number,
   requestEndBoundary: Date
 ): Array<{ startTime: Date; endTime: Date }> {
-  const slots: Array<{ startTime: Date; endTime: Date }> = []
-  let slotStart = new Date(dayStartUtc)
+  return generateSlotTimes(
+    dayStartUtc,
+    dayEndUtc,
+    durationMinutes,
+    minuteIncrement,
+    requestEndBoundary
+  )
+}
 
-  while (slotStart < dayEndUtc) {
-    const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60 * 1000)
-    if (slotEnd > requestEndBoundary) break
-    if (slotEnd <= dayEndUtc) {
-      slots.push({ startTime: new Date(slotStart), endTime: slotEnd })
-    }
-    slotStart = new Date(slotStart.getTime() + minuteIncrement * 60 * 1000)
+/**
+ * Check one range constraint for a slot; returns violation key if it fails, null otherwise.
+ */
+function checkOneRangeConstraint(
+  slotStart: Date,
+  slotEnd: Date,
+  constraint: RangeConstraint,
+  now: Date
+): { passes: boolean; violation: string | null } {
+  if (constraint.enforcement === 'off') {
+    return { passes: true, violation: null }
   }
-
-  return slots
+  let passes = true
+  switch (constraint.type) {
+    case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
+      const config = constraint.config as { minutes: number }
+      const minStart = new Date(now.getTime() + config.minutes * 60 * 1000)
+      if (slotStart < minStart) passes = false
+      break
+    }
+    case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
+      const config = constraint.config as { start: string; end: string }
+      const rangeStart = new Date(config.start)
+      const rangeEnd = new Date(config.end)
+      if (slotStart < rangeStart || slotEnd > rangeEnd) passes = false
+      break
+    }
+    case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS:
+      break
+  }
+  if (!passes && constraint.enforcement === 'hard') {
+    return { passes: false, violation: null }
+  }
+  if (!passes && constraint.enforcement === 'flexible') {
+    return { passes: true, violation: `range.${constraint.type}` }
+  }
+  return { passes: true, violation: null }
 }
 
 /**
@@ -84,40 +121,63 @@ function checkRangeConstraints(
   rangeConstraints: RangeConstraint[],
   now: Date
 ): { passes: boolean; violations: string[] } {
-  const violations: string[] = []
-
   for (const constraint of rangeConstraints) {
-    if (constraint.enforcement === 'off') continue
-
-    let passes = true
-    switch (constraint.type) {
-      case RANGE_CONSTRAINT_TYPES.LEAD_TIME: {
-        const config = constraint.config as { minutes: number }
-        const minStart = new Date(now.getTime() + config.minutes * 60 * 1000)
-        if (slotStart < minStart) passes = false
-        break
-      }
-      case RANGE_CONSTRAINT_TYPES.DATE_RANGE: {
-        const config = constraint.config as { start: string; end: string }
-        const rangeStart = new Date(config.start)
-        const rangeEnd = new Date(config.end)
-        if (slotStart < rangeStart || slotEnd > rangeEnd) passes = false
-        break
-      }
-      case RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS:
-        // Already satisfied by slot generation boundaries
-        break
-    }
-
-    if (!passes && constraint.enforcement === 'hard') {
+    const result = checkOneRangeConstraint(slotStart, slotEnd, constraint, now)
+    if (!result.passes) {
       return { passes: false, violations: [] }
     }
-    if (!passes && constraint.enforcement === 'flexible') {
-      violations.push(`range.${constraint.type}`)
+  }
+  const violations = rangeConstraints.flatMap((constraint) => {
+    const result = checkOneRangeConstraint(slotStart, slotEnd, constraint, now)
+    return result.violation ? [result.violation] : []
+  })
+  return { passes: true, violations }
+}
+
+/**
+ * Collect overlap violation strings and whether any is hard for one event.
+ */
+function getOverlapViolationsForEvent(
+  slotRange: { start: Date; end: Date },
+  event: EventWithDrive
+): Array<{ violation: string; hard: boolean }> {
+  const out: Array<{ violation: string; hard: boolean }> = []
+  if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
+    const source = event.source === 'outOfOffice' ? 'outOfOffice' : 'event'
+    const eventEnforcement = event.enforcement ?? 'hard'
+    out.push({
+      violation: `overlap.${source}.direct`,
+      hard: eventEnforcement === 'hard',
+    })
+  }
+  if (event.source !== 'event') {
+    return out
+  }
+  if (event.driveToMinutes != null && event.driveToMinutes > 0) {
+    const bufferStart = new Date(
+      event.start.getTime() - event.driveToMinutes * 60 * 1000
+    )
+    const bufferEnd = event.start
+    if (timeRangesOverlap(slotRange, { start: bufferStart, end: bufferEnd })) {
+      out.push({
+        violation: `overlap.driveToCandidate.buffer:${event.driveToMinutes}`,
+        hard: true,
+      })
     }
   }
-
-  return { passes: true, violations }
+  if (event.driveFromMinutes != null && event.driveFromMinutes > 0) {
+    const bufferStart = event.end
+    const bufferEnd = new Date(
+      event.end.getTime() + event.driveFromMinutes * 60 * 1000
+    )
+    if (timeRangesOverlap(slotRange, { start: bufferStart, end: bufferEnd })) {
+      out.push({
+        violation: `overlap.driveFromCandidate.buffer:${event.driveFromMinutes}`,
+        hard: true,
+      })
+    }
+  }
+  return out
 }
 
 /**
@@ -131,48 +191,49 @@ function checkOverlapConstraints(
   overlapConstraints: OverlapConstraint[]
 ): { passes: boolean; violations: string[] } {
   const slotRange = { start: slotStart, end: slotEnd }
-  const violations: string[] = []
-  let hasHardOverlap = false
-
-  for (const event of eventsWithDrive) {
-    if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
-      const source = event.source === 'outOfOffice' ? 'outOfOffice' : 'event'
-      violations.push(`overlap.${source}.direct`)
-      // LEARNING: Flexible-enforcement events produce violations but don't hard-block the slot
-      // WHY: Allows admin to see OOO conflicts as warnings without preventing booking
-      const eventEnforcement = event.enforcement ?? 'hard'
-      if (eventEnforcement === 'hard') {
-        hasHardOverlap = true
-      }
-    }
-
-    if (event.source !== 'event') continue
-
-    if (event.driveToMinutes != null && event.driveToMinutes > 0) {
-      const bufferStart = new Date(event.start.getTime() - event.driveToMinutes * 60 * 1000)
-      const bufferEnd = event.start
-      if (timeRangesOverlap(slotRange, { start: bufferStart, end: bufferEnd })) {
-        violations.push(`overlap.driveToCandidate.buffer:${event.driveToMinutes}`)
-        hasHardOverlap = true
-      }
-    }
-
-    if (event.driveFromMinutes != null && event.driveFromMinutes > 0) {
-      const bufferStart = event.end
-      const bufferEnd = new Date(event.end.getTime() + event.driveFromMinutes * 60 * 1000)
-      if (timeRangesOverlap(slotRange, { start: bufferStart, end: bufferEnd })) {
-        violations.push(`overlap.driveFromCandidate.buffer:${event.driveFromMinutes}`)
-        hasHardOverlap = true
-      }
-    }
-  }
-
-  const hardOverlapConstraint = overlapConstraints.find(c => c.enforcement === 'hard')
+  const items = eventsWithDrive.flatMap((event) =>
+    getOverlapViolationsForEvent(slotRange, event)
+  )
+  const violations = items.map((item) => item.violation)
+  const hasHardOverlap = items.some((item) => item.hard)
+  const hardOverlapConstraint = overlapConstraints.find(
+    (c) => c.enforcement === 'hard'
+  )
   if (hasHardOverlap && hardOverlapConstraint) {
     return { passes: false, violations }
   }
-
   return { passes: !hasHardOverlap, violations }
+}
+
+/**
+ * Check one capacity constraint; returns pass/fail and optional violation.
+ */
+function checkOneCapacityConstraint(
+  slotDate: string,
+  durationHours: number,
+  constraint: CapacityConstraint
+): { passes: boolean; violation: string | null } {
+  if (constraint.enforcement === 'off') {
+    return { passes: true, violation: null }
+  }
+  const keyParts = buildCapacityKey(constraint, slotDate)
+  const keyString = capacityKeyToString(keyParts)
+  const currentHours = constraint.scheduledHours?.[keyString] ?? 0
+  if (
+    constraint.enforcement === 'hard' &&
+    currentHours + durationHours > constraint.maxHours
+  ) {
+    return { passes: false, violation: null }
+  }
+  if (constraint.enforcement === 'flexible') {
+    if (currentHours >= constraint.maxHours) {
+      return { passes: false, violation: null }
+    }
+    if (currentHours + durationHours > constraint.maxHours) {
+      return { passes: true, violation: `capacity.${constraint.type}` }
+    }
+  }
+  return { passes: true, violation: null }
 }
 
 /**
@@ -186,32 +247,57 @@ function checkCapacityConstraints(
   if (capacityConstraints.length === 0) {
     return { passes: true, violations: [] }
   }
-
   const slotDate = extractDateFromRFC3339(slotStart.toISOString())
   const durationHours = durationMinutes / 60
-  const violations: string[] = []
-
   for (const constraint of capacityConstraints) {
-    if (constraint.enforcement === 'off') continue
-
-    const keyParts = buildCapacityKey(constraint, slotDate)
-    const keyString = capacityKeyToString(keyParts)
-    const currentHours = constraint.scheduledHours?.[keyString] ?? 0
-
-    if (constraint.enforcement === 'hard' && currentHours + durationHours > constraint.maxHours) {
+    const result = checkOneCapacityConstraint(
+      slotDate,
+      durationHours,
+      constraint
+    )
+    if (!result.passes) {
       return { passes: false, violations: [] }
     }
-    if (constraint.enforcement === 'flexible') {
-      if (currentHours >= constraint.maxHours) {
-        return { passes: false, violations: [] }
-      }
-      if (currentHours + durationHours > constraint.maxHours) {
-        violations.push(`capacity.${constraint.type}`)
-      }
-    }
   }
-
+  const violations = capacityConstraints.flatMap((constraint) => {
+    const result = checkOneCapacityConstraint(
+      slotDate,
+      durationHours,
+      constraint
+    )
+    return result.violation ? [result.violation] : []
+  })
   return { passes: true, violations }
+}
+
+/**
+ * Map one calendar event to EventWithDrive or null if filtered (opaque-only).
+ */
+function mapToEventWithDrive(
+  event: CalendarEvent,
+  source: 'event' | 'outOfOffice',
+  driveTimesByPlaceId: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>,
+  onlyOpaque: boolean,
+  enforcement?: 'flexible' | 'hard'
+): EventWithDrive | null {
+  if (onlyOpaque && event.transparency === 'transparent') {
+    return null
+  }
+  const driveTo = event.placeId
+    ? driveTimesByPlaceId[event.placeId]?.driveToCandidate
+    : undefined
+  const driveFrom = event.placeId
+    ? driveTimesByPlaceId[event.placeId]?.driveFromCandidate
+    : undefined
+  return {
+    start: new Date(event.start),
+    end: new Date(event.end),
+    source,
+    enforcement,
+    placeId: event.placeId,
+    driveToMinutes: source === 'event' ? driveTo : undefined,
+    driveFromMinutes: source === 'event' ? driveFrom : undefined,
+  }
 }
 
 /**
@@ -225,28 +311,150 @@ function attachDriveTimesToEvents(
   /** Enforcement level for out-of-office events (defaults to 'hard') */
   oooEnforcement: 'flexible' | 'hard' = 'hard'
 ): EventWithDrive[] {
-  const result: EventWithDrive[] = []
+  const regular = regularEvents
+    .map((e) =>
+      mapToEventWithDrive(e, 'event', driveTimesByPlaceId, onlyOpaque)
+    )
+    .filter((e): e is EventWithDrive => e != null)
+  const ooo = outOfOfficeEvents
+    .map((e) =>
+      mapToEventWithDrive(
+        e,
+        'outOfOffice',
+        driveTimesByPlaceId,
+        onlyOpaque,
+        oooEnforcement
+      )
+    )
+    .filter((e): e is EventWithDrive => e != null)
+  return [...regular, ...ooo]
+}
 
-  const process = (event: CalendarEvent, source: 'event' | 'outOfOffice', enforcement?: 'flexible' | 'hard') => {
-    if (onlyOpaque && event.transparency === 'transparent') return
+/** Day config for slot computation: day key and UTC boundaries */
+interface DayConfig {
+  dayKey: string
+  boundaries: { dayStartUtc: Date; dayEndUtc: Date }
+}
 
-    const driveTo = event.placeId ? driveTimesByPlaceId[event.placeId]?.driveToCandidate : undefined
-    const driveFrom = event.placeId ? driveTimesByPlaceId[event.placeId]?.driveFromCandidate : undefined
-
-    result.push({
-      start: new Date(event.start),
-      end: new Date(event.end),
-      source,
-      enforcement,
-      placeId: event.placeId,
-      driveToMinutes: source === 'event' ? driveTo : undefined,
-      driveFromMinutes: source === 'event' ? driveFrom : undefined,
+/**
+ * Build list of day configs (dayKey + boundaries) for the request range using business hours.
+ */
+function getDayConfigsInRange(
+  requestStart: Date,
+  requestEnd: Date,
+  hoursMap: NonNullable<BusinessHoursConfig['hours']>
+): DayConfig[] {
+  const dateStrings = getUniqueDatesInRange(requestStart, requestEnd)
+  return dateStrings
+    .map((dateStr) => {
+      const [y, m, d] = dateStr.split('-').map(Number)
+      const year = y!
+      const month = (m ?? 1) - 1
+      const day = d ?? 1
+      const dayOfWeek = new Date(
+        Date.UTC(year, month, day, 12, 0, 0)
+      ).getUTCDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+      const dayHours = hoursMap[dayOfWeek]
+      if (!dayHours?.start || !dayHours?.end) return null
+      const boundaries = buildDayBoundariesUTC(
+        year,
+        month,
+        day,
+        dayHours.start,
+        dayHours.end
+      )
+      if (!boundaries) return null
+      return {
+        dayKey: dateStr,
+        boundaries,
+      }
     })
-  }
+    .filter((c): c is DayConfig => c != null)
+}
 
-  for (const e of regularEvents) process(e, 'event')
-  for (const e of outOfOfficeEvents) process(e, 'outOfOffice', oooEnforcement)
-  return result
+/**
+ * Compute computed slots for one day (raw slots filtered by min start, then constraint-checked).
+ */
+function computeSlotsForOneDay(
+  dayConfig: DayConfig,
+  durationMinutes: number,
+  minuteIncrement: number,
+  requestEnd: Date,
+  minSlotStart: Date,
+  rangeConstraints: RangeConstraint[],
+  overlapConstraints: OverlapConstraint[],
+  capacityConstraints: CapacityConstraint[],
+  eventsWithDrive: EventWithDrive[],
+  now: Date
+): ComputedSlot[] {
+  const rawSlots = generateSlotsForDay(
+    dayConfig.boundaries.dayStartUtc,
+    dayConfig.boundaries.dayEndUtc,
+    durationMinutes,
+    minuteIncrement,
+    requestEnd
+  )
+  const slotsFromMinStart = rawSlots.filter(
+    ({ startTime }) => startTime >= minSlotStart
+  )
+  return slotsFromMinStart.map(({ startTime, endTime }) => {
+    const rangeResult = checkRangeConstraints(
+      startTime,
+      endTime,
+      rangeConstraints,
+      now
+    )
+    if (!rangeResult.passes) {
+      return {
+        startTime: startTime.toISOString() as RFC3339DateTime,
+        endTime: endTime.toISOString() as RFC3339DateTime,
+        duration: durationMinutes,
+        isAvailable: false,
+        violations: [],
+      }
+    }
+    const overlapResult = checkOverlapConstraints(
+      startTime,
+      endTime,
+      eventsWithDrive,
+      overlapConstraints
+    )
+    if (!overlapResult.passes) {
+      return {
+        startTime: startTime.toISOString() as RFC3339DateTime,
+        endTime: endTime.toISOString() as RFC3339DateTime,
+        duration: durationMinutes,
+        isAvailable: false,
+        violations: overlapResult.violations,
+      }
+    }
+    const capacityResult = checkCapacityConstraints(
+      startTime,
+      durationMinutes,
+      capacityConstraints
+    )
+    if (!capacityResult.passes) {
+      return {
+        startTime: startTime.toISOString() as RFC3339DateTime,
+        endTime: endTime.toISOString() as RFC3339DateTime,
+        duration: durationMinutes,
+        isAvailable: false,
+        violations: capacityResult.violations,
+      }
+    }
+    const allViolations = [
+      ...rangeResult.violations,
+      ...overlapResult.violations,
+      ...capacityResult.violations,
+    ]
+    return {
+      startTime: startTime.toISOString() as RFC3339DateTime,
+      endTime: endTime.toISOString() as RFC3339DateTime,
+      duration: durationMinutes,
+      isAvailable: allViolations.length === 0,
+      violations: allViolations,
+    }
+  })
 }
 
 /**
@@ -286,107 +494,33 @@ export function computeSlotsForDateRange(
     oooEnforcement
   )
 
-  // Minimum slot start: now + lead time (or now if no lead time). Slots before this are not generated.
-  const leadTimeConstraint = rangeConstraints.find(c => c.type === RANGE_CONSTRAINT_TYPES.LEAD_TIME)
-  const leadMinutes = leadTimeConstraint?.config && typeof (leadTimeConstraint.config as { minutes?: number }).minutes === 'number'
-    ? (leadTimeConstraint.config as { minutes: number }).minutes
-    : 0
+  const leadTimeConstraint = rangeConstraints.find(
+    (c) => c.type === RANGE_CONSTRAINT_TYPES.LEAD_TIME
+  )
+  const leadMinutes =
+    leadTimeConstraint?.config &&
+    typeof (leadTimeConstraint.config as { minutes?: number }).minutes === 'number'
+      ? (leadTimeConstraint.config as { minutes: number }).minutes
+      : 0
   const minSlotStart = new Date(now.getTime() + leadMinutes * 60 * 1000)
 
-  const slotsByDay: Record<string, ComputedSlot[]> = {}
-  const current = new Date(requestStart)
-  current.setUTCHours(0, 0, 0, 0)
-
-  while (current < requestEnd) {
-    const year = current.getUTCFullYear()
-    const month = current.getUTCMonth()
-    const day = current.getUTCDate()
-
-    const dayOfWeek = new Date(Date.UTC(year, month, day, 12, 0, 0)).getUTCDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
-    const dayHours = hoursMap[dayOfWeek]
-    if (!dayHours?.start || !dayHours?.end) {
-      current.setUTCDate(current.getUTCDate() + 1)
-      continue
-    }
-    const boundaries = buildDayBoundariesUTC(year, month, day, dayHours.start, dayHours.end)
-    if (!boundaries) {
-      current.setUTCDate(current.getUTCDate() + 1)
-      continue
-    }
-
-    const rawSlots = generateSlotsForDay(
-      boundaries.dayStartUtc,
-      boundaries.dayEndUtc,
-      durationMinutes,
-      minuteIncrement,
-      requestEnd
-    )
-
-    // Don't generate slots that start before now+leadTime (or before now); exclude them entirely.
-    const slotsFromMinStart = rawSlots.filter(({ startTime }) => startTime >= minSlotStart)
-
-    const dayKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    const computedSlots: ComputedSlot[] = slotsFromMinStart.map(({ startTime, endTime }) => {
-      const rangeResult = checkRangeConstraints(startTime, endTime, rangeConstraints, now)
-      if (!rangeResult.passes) {
-        return {
-          startTime: startTime.toISOString() as RFC3339DateTime,
-          endTime: endTime.toISOString() as RFC3339DateTime,
-          duration: durationMinutes,
-          isAvailable: false,
-          violations: [],
-        }
-      }
-
-      const overlapResult = checkOverlapConstraints(
-        startTime,
-        endTime,
-        eventsWithDrive,
-        overlapConstraints
-      )
-      if (!overlapResult.passes) {
-        return {
-          startTime: startTime.toISOString() as RFC3339DateTime,
-          endTime: endTime.toISOString() as RFC3339DateTime,
-          duration: durationMinutes,
-          isAvailable: false,
-          violations: overlapResult.violations,
-        }
-      }
-
-      const capacityResult = checkCapacityConstraints(
-        startTime,
+  const dayConfigs = getDayConfigsInRange(requestStart, requestEnd, hoursMap)
+  const slotsByDay = Object.fromEntries(
+    dayConfigs.map((dayConfig) => [
+      dayConfig.dayKey,
+      computeSlotsForOneDay(
+        dayConfig,
         durationMinutes,
-        capacityConstraints
-      )
-      if (!capacityResult.passes) {
-        return {
-          startTime: startTime.toISOString() as RFC3339DateTime,
-          endTime: endTime.toISOString() as RFC3339DateTime,
-          duration: durationMinutes,
-          isAvailable: false,
-          violations: capacityResult.violations,
-        }
-      }
-
-      const allViolations = [
-        ...rangeResult.violations,
-        ...overlapResult.violations,
-        ...capacityResult.violations,
-      ]
-
-      return {
-        startTime: startTime.toISOString() as RFC3339DateTime,
-        endTime: endTime.toISOString() as RFC3339DateTime,
-        duration: durationMinutes,
-        isAvailable: allViolations.length === 0,
-        violations: allViolations,
-      }
-    })
-
-    slotsByDay[dayKey] = computedSlots
-    current.setUTCDate(current.getUTCDate() + 1)
-  }
-
+        minuteIncrement,
+        requestEnd,
+        minSlotStart,
+        rangeConstraints,
+        overlapConstraints,
+        capacityConstraints,
+        eventsWithDrive,
+        now
+      ),
+    ])
+  )
   return slotsByDay
 }

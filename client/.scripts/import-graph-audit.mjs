@@ -100,13 +100,24 @@ function extractImports(content, absPath) {
   // Match require: require('xxx')
   const requireRe = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g
   // Match dynamic import: import('xxx')
+  // Excludes defineAsyncComponent(() => import('xxx')) which are intentional lazy loads
+  // that break runtime cycles (common Vue pattern for recursive components).
   const dynamicRe = /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g
+
+  // Build a set of specifiers used inside defineAsyncComponent so we can skip them
+  const asyncComponentRe = /defineAsyncComponent\s*\(\s*\(\)\s*=>\s*import\s*\(\s*['"]([^'"]+)['"]\s*\)\s*\)/g
+  const asyncComponentSpecifiers = new Set(
+    [...content.matchAll(asyncComponentRe)].map(m => m[1])
+  )
 
   for (const re of [esImportRe, requireRe, dynamicRe]) {
     for (const match of content.matchAll(re)) {
       const specifier = match[1]
       // Skip external packages
       if (!specifier.startsWith('.') && !specifier.startsWith('@/') && !specifier.startsWith('~')) continue
+
+      // Skip dynamic imports wrapped in defineAsyncComponent (lazy loads, not real deps)
+      if (re === dynamicRe && asyncComponentSpecifiers.has(specifier)) continue
 
       let resolved = specifier
       if (specifier.startsWith('.')) {

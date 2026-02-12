@@ -6,6 +6,7 @@
 
 import type { GlobalEntityKey } from '../../../constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '../../../constants/entities'
+import { FIELD_NAMES } from '../../../constants/entityFieldConstants'
 import type { GlobalFieldKey } from '../../../constants/primitives'
 import type { GlobalRelationshipKey } from '../../../constants/relationships'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '../../../types/entity/formDataEnums'
@@ -56,7 +57,7 @@ export type RelationshipDisplayType<
   emptyStateText?: string;
   maxDisplayItems?: number;
   showCount?: boolean;
-  sortBy?: "name" | "orderIndex" | "custom";
+  sortBy?: "name" | typeof FIELD_NAMES.ORDER_INDEX | "custom";
   sortDirection?: "asc" | "desc";
   
   meta?: {

@@ -16,6 +16,7 @@ import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import { ERROR_FETCH_BUSINESS_SETTINGS } from '@/constants/errorMessages'
 
 const logger = createLogger('useAttendeeQuickSelect')
 
@@ -64,9 +65,9 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
       const fetchedSettings = await getAvailabilitySettings()
       settings.value = fetchedSettings
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load business settings'
+      const errorMessage = err instanceof Error ? err.message : ERROR_FETCH_BUSINESS_SETTINGS
       error.value = errorMessage
-      logger.error('Failed to fetch business settings', { error: err })
+      logger.error(ERROR_FETCH_BUSINESS_SETTINGS, { error: err })
     } finally {
       isLoading.value = false
     }

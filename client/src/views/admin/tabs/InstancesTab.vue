@@ -31,6 +31,7 @@ import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { createLogger } from '@/utils/logger'
+import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 
 const logger = createLogger('InstancesTab')
 
@@ -371,6 +372,13 @@ function handleDeleteEventInstance(_id: string) {
       </VTab>
       <VSpacer />
       <VTab
+        value="calibration"
+        @click="activeTab = 'calibration'"
+        class="calibration-tab"
+      >
+        Calibration
+      </VTab>
+      <VTab
         value="eventInstances"
         @click="activeTab = 'eventInstances'"
         class="event-instances-tab"
@@ -573,6 +581,11 @@ function handleDeleteEventInstance(_id: string) {
         </div>
       </VWindowItem>
       
+      <!-- Fee Calibration Tab Content -->
+      <VWindowItem value="calibration">
+        <FeeCalibrationPanel />
+      </VWindowItem>
+
       <!-- Event Instances Tab Content -->
       <VWindowItem value="eventInstances">
         <div class="event-instances-tab-content">

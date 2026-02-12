@@ -9,7 +9,9 @@
 import { Router, Request, Response } from 'express'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { getAdminMetadata } from '../../../utils/adminMetadataComposer.js'
-import { ERROR_MESSAGES } from './adminMetadataConstants.js'
+import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminMetadataConstants.js'
+
+type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 import { handleRouteError } from './adminMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminMetadataValidators.js'
 import {
@@ -211,9 +213,9 @@ router.post(
       sendSuccess(res, existing)
     } else {
       const metadata = await AdminMetadata.create({
-        entityType: entityType as any,
+        entityType: entityType as AdminMetadataEntityType,
         entityId: finalEntityId,
-        metadataType: metadataType as any,
+        metadataType,
         fieldKey,
         dataType,
         label,

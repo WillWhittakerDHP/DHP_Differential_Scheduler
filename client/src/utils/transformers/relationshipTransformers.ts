@@ -18,6 +18,8 @@ import { GlobalEntityKey } from '@/constants/entities'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
+import { safeArray } from './transformerPrimitives'
+import { groupByParentId } from './transformerCollections'
 
 /**
  * Transform FetchedRelationship[] to GlobalRelationship[] format
@@ -38,31 +40,22 @@ export function transformApiRelationships(
   const config = RELATIONSHIP_KEYS[relationshipKey]
   if (!config) return []
   
-  // PATTERN: Filter by kind before processing to ensure we only process the correct relationship type
   const filteredRelationships = fetchedRelationships.filter(
-    rel => rel.kind === relationshipKey
+    (rel) => rel.kind === relationshipKey && !rel.disabled
   )
-  
-  // WHY: Functional approach avoids forEach with Map mutations
-  const parentMap = filteredRelationships
-    .filter(rel => !rel.disabled)
-    .reduce((map, rel) => {
-      const existing = map.get(rel.parent_id) ?? []
-      map.set(rel.parent_id, [...existing, rel.child_id])
-      return map
-    }, new Map<string, string[]>())
-  
-  // WHY: Functional approach avoids forEach with array mutations
+  const parentMap = groupByParentId(
+    filteredRelationships,
+    (rel) => rel.parentId,
+    (rel) => rel.childId
+  )
+
   const globalRelationships: GlobalRelationship[] = Array.from(parentMap.entries())
     .map(([parentId, childIds]) => {
-      const parentEntity = findById(entities[config.parentEntity] ?? [], parentId)
+      const parentEntity = findById(safeArray(entities[config.parentEntity]), parentId)
       if (!parentEntity) {
         return null
       }
-      
-      // PATTERN: Resolve child entities from entities Record (includes all entity types)
-      const childEntityArray = entities[config.childEntity] ?? []
-      
+      const childEntityArray = safeArray(entities[config.childEntity])
       const { resolved: childEntities } = resolveByIds(childEntityArray, childIds)
       
       if (childEntities.length > 0) {
@@ -183,7 +176,7 @@ function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
     return {}
   }
   
-  const { resolved: components } = resolveByIds(entities[entityKind] ?? [], componentIds)
+  const { resolved: components } = resolveByIds(safeArray(entities[entityKind]), componentIds)
   
   if (components.length === 0) {
     return {}
@@ -204,7 +197,7 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   relationships: GlobalRelationship[],
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 ): GlobalEntity<GE> | null {
-  const composerEntity = findById(entities[entityKind] ?? [], composerId)
+  const composerEntity = findById(safeArray(entities[entityKind]), composerId)
   if (!composerEntity) {
     
     return null

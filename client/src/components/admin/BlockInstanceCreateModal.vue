@@ -114,8 +114,9 @@ const createButtonText = computed(() => {
  */
 const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   if (props.sourceEntity) {
+    const sourceName = props.sourceEntity.name
     const newName = generateIncrementedName(
-      props.sourceEntity.name || '',
+      sourceName !== undefined && sourceName !== null && sourceName !== '' ? sourceName : '',
       props.sourceEntity.blockShapeRef,
       admin.getEntitiesByKey
     )

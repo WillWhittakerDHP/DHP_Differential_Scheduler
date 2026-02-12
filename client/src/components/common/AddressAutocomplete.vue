@@ -237,15 +237,15 @@ const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
  * Session 2.2.5: Token is pre-fetched by parent component, but lazy-load as fallback
  */
 const handleSearchUpdate = async (value: string | null) => {
-  const input = value || ''
-  
-  // Lazy-load session token on first use (fallback if not pre-fetched)
+  const input = value !== undefined && value !== null && value !== '' ? value : ''
+
+  // Lazy-load session token on first use when not pre-fetched
   // LEARNING: Token should be pre-fetched by PropertyDetailsStep, but fetch if needed
   // WHY: Ensures token is available even if pre-fetch didn't complete
   if (!sessionToken.value && input.length >= props.minInputLength) {
     try {
       await getToken()
-      logger.debug('[handleSearchUpdate] Got session token (lazy-loaded fallback)')
+      logger.debug('[handleSearchUpdate] Got session token (lazy-loaded)')
     } catch (error) {
       logger.warn('[handleSearchUpdate] Failed to get token:', error)
       // Continue without token - will generate client-side fallback

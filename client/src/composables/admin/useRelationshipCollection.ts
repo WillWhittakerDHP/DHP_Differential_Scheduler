@@ -233,7 +233,8 @@ export function useRelationshipCollection(
       queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
         if (!old) return old
         
-        const currentEntities = old.entities[childEntityKey.value] || []
+        const rawEntities = old.entities[childEntityKey.value]
+        const currentEntities = rawEntities !== undefined && rawEntities !== null ? rawEntities : []
         const entityExists = currentEntities.some(e => String(e.id) === String(createdEntity.id))
         
         if (!entityExists) {
@@ -252,8 +253,8 @@ export function useRelationshipCollection(
       await new Promise(resolve => setTimeout(resolve, 0))
       
       await createRelationship({
-        parent_id: parentEntity.value.id,
-        child_id: createdEntity.id,
+        parentId: parentEntity.value.id,
+        childId: createdEntity.id,
       })
       
       await Promise.all([

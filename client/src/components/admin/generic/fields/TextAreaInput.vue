@@ -21,6 +21,7 @@
       @update:model-value="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keydown="handleKeydown"
     />
   </BaseInput>
 </template>
@@ -59,7 +60,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { fieldContext } = props
 
-// FIX: Use shared field input setup from composable
-const { fieldValue, handleChange, handleFocus, handleBlur } = useFieldInputSetup(fieldContext)
+// FIX: Use shared field input setup from composable (includes keyboard guard)
+const { fieldValue, handleChange, handleFocus, handleBlur, handleKeydown } = useFieldInputSetup(
+  fieldContext,
+  { fieldType: 'textarea' }
+)
 </script>
 

@@ -41,7 +41,8 @@ const computedAvailability = inject<UseComputedAvailabilityReturn | null>('compu
 // API base URL for external routes
 // LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
 // WHY: Addresses deprecation audit finding
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
+const rawApiBase = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 
 // API status tracking from shared state
 const { apiStatus } = useApiCallStatus()

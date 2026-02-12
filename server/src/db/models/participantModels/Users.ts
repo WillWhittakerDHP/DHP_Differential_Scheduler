@@ -7,6 +7,8 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import { NODE_ENV } from '../../../constants/appConstants.js';
+import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../../../constants/userRoles.js';
 
 export class User extends Model<
   InferAttributes<User>,
@@ -17,7 +19,7 @@ export class User extends Model<
   declare lastName: string;
   declare email: string;
   declare phone: string | null;
-  declare userRole: 'client' | 'agent' | 'transaction_manager' | 'seller';
+  declare userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller';
   declare loginId: ForeignKey<number> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -47,14 +49,14 @@ export function UserFactory(sequelize: Sequelize) {
         allowNull: false,
         // LEARNING: Allow duplicate emails in development for testing
         // WHY: Makes it easier to create test users without worrying about unique emails
-        unique: process.env.NODE_ENV !== 'development',
+        unique: process.env.NODE_ENV !== NODE_ENV.DEVELOPMENT,
       },
       phone: {
         type: DataTypes.STRING,
         allowNull: true,
       },
       userRole: {
-        type: DataTypes.ENUM('client', 'agent', 'transaction_manager', 'seller', 'inspector'),
+        type: DataTypes.ENUM(USER_ROLE_CLIENT, USER_ROLE_AGENT, 'transaction_manager', 'seller', 'inspector'),
         allowNull: false,
         field: 'user_role',
       },

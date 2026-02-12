@@ -8,7 +8,9 @@
 
 import { Op } from 'sequelize'
 import { isRelationshipKey } from '../../../constants/relationships.js'
-import { GLOBAL_CONFIG_IDS } from './adminMetadataConstants.js'
+import { GLOBAL_CONFIG_IDS, VALID_ENTITY_TYPES } from './adminMetadataConstants.js'
+
+type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 
 /**
  * Determine metadata type from field key
@@ -97,11 +99,11 @@ export function buildMetadataWhereClause(
   metadataType: 'relationship' | 'primitive',
   fieldKey: string,
   blockShapeRef: string | null | undefined
-): any {
-  const where: any = {
-    entityType: entityType as any,
+): Record<string, unknown> {
+  const where: Record<string, unknown> = {
+    entityType: entityType as AdminMetadataEntityType,
     entityId,
-    metadataType: metadataType as any,
+    metadataType,
     fieldKey,
   }
   

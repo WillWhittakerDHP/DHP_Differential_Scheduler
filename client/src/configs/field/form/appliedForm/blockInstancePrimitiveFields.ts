@@ -4,6 +4,7 @@
  * PATTERN: Spreads baseEntityFields and adds entity-specific fields
  */
 
+import { DEFAULT_VALUES, ENTITY_STATUS, FIELD_NAMES } from '../../../../constants/entityFieldConstants'
 import type { GlobalFieldKey } from '../../../../constants/primitives'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
 import type { PrimitiveFormField } from '../../../../types/entity/formFields'
@@ -24,7 +25,7 @@ export const blockInstancePrimitiveFields = {
     primitiveType: PrimitiveTypeEnum.Number,
     primitiveMode: PrimitiveModeEnum.Input,
     placeholder: "This Field Should Be Hidden",
-    globalField: "orderIndex" as const,
+    globalField: FIELD_NAMES.ORDER_INDEX,
     expandable: false,
   },
 
@@ -39,7 +40,7 @@ export const blockInstancePrimitiveFields = {
   active: {
     primitiveType: PrimitiveTypeEnum.Boolean,
     primitiveMode: PrimitiveModeEnum.Toggle,
-    placeholder: "Active",
+    placeholder: ENTITY_STATUS.ACTIVE,
     globalField: "active" as const,
     expandable: false,
   },
@@ -88,10 +89,10 @@ export const blockInstancePrimitiveFields = {
     primitiveType: PrimitiveTypeEnum.String,
     primitiveMode: PrimitiveModeEnum.Select,
     placeholder: "Select booking mode",
-    globalField: "bookingMode" as const,
+    globalField: FIELD_NAMES.BOOKING_MODE,
     expandable: false,
     options: [
-      { value: 'standalone', label: 'Standalone Only' },
+      { value: DEFAULT_VALUES.BOOKING_MODE, label: 'Standalone Only' },
       { value: 'addOn', label: 'Add-On Only' },
       { value: 'both', label: 'Standalone or Add-On' },
     ],

@@ -15,37 +15,48 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
-import { FIELD_VISIBILITY, FIELD_LAYOUT, FIELD_PANEL } from '@/constants/fieldMetadata'
+import {
+  FIELD_VISIBILITY,
+  FIELD_LAYOUT,
+  SUB_PANEL_KEYS,
+  createEmptySubPanelRecord,
+  type SubPanelKey,
+  type SubPanelRecord
+} from '@/constants/fieldMetadata'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
 /**
  * LEARNING: Valid panel values for expandedPanel visibility
- * WHY: Config-driven approach instead of hardcoded string checks
- * PATTERN: Use Set for O(1) lookup instead of multiple OR conditions
+ * WHY: Derived from SUB_PANEL_KEYS so add/remove panels in one place
+ * PATTERN: Set for O(1) lookup
  */
-const VALID_PANELS = new Set([FIELD_PANEL.PARTS, FIELD_PANEL.RELATIONSHIPS, FIELD_PANEL.ANNOTATIONS, FIELD_PANEL.EVENTS] as const)
+const VALID_PANELS = new Set<SubPanelKey>(SUB_PANEL_KEYS)
 
 /**
  * LEARNING: Determine panel type from field key
  * WHY: Panel is automatically determined from field key, not manually configured
  * PATTERN: Check RELATIONSHIP_KEYS to determine panel for relationship fields
  */
-export function determinePanelFromFieldKey(fieldKey: string): 'none' | 'parts' | 'relationships' | 'annotations' | 'events' {
+export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelKey {
   if (fieldKey in RELATIONSHIP_KEYS) {
     // PATTERN: Use RELATIONSHIP_KEYS.frontendKey for comparison
     if (fieldKey === RELATIONSHIP_KEYS.partAssignments.frontendKey) {
       return 'parts'
     }
     if (fieldKey === RELATIONSHIP_KEYS.annotationAssignments.frontendKey) {
-      return 'annotations'
+      return FIELD_NAMES.ANNOTATIONS
     }
     if (fieldKey === RELATIONSHIP_KEYS.eventAssignments.frontendKey) {
       return 'events'
     }
+    if (fieldKey === RELATIONSHIP_KEYS.instanceComponents.frontendKey) {
+      return 'composition'
+    }
     return 'relationships'
   }
-  
+
   return 'none'
 }
 
@@ -58,7 +69,7 @@ export type FieldLocation =
   | { type: 'titleRow'; reason: 'titleRow' | 'staticAsTitle' } // Renders in title row area
   | { type: 'directInline'; reason: 'expandedDirect' } // Renders in form body, inline layout
   | { type: 'directStacked'; reason: 'expandedDirect' } // Renders in form body, stacked layout
-  | { type: 'subPanel'; panel: 'parts' | 'relationships' | 'annotations' | 'events'; reason: 'expandedPanel' }
+  | { type: 'subPanel'; panel: SubPanelKey; reason: 'expandedPanel' }
   | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
 
 /**
@@ -141,8 +152,8 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
       const panelToUse = determinedPanel !== 'none' ? determinedPanel : panel
       
       // PATTERN: Check if panel is valid, then TypeScript knows it's not "none"
-      const isValidPanel = (p: string): p is 'parts' | 'relationships' | 'annotations' | 'events' => {
-        return VALID_PANELS.has(p as 'parts' | 'relationships' | 'annotations' | 'events')
+      const isValidPanel = (p: string): p is SubPanelKey => {
+        return VALID_PANELS.has(p as SubPanelKey)
       }
       if (panelToUse && isValidPanel(panelToUse)) {
         return { type: 'subPanel', panel: panelToUse, reason: 'expandedPanel' }
@@ -171,63 +182,61 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   titleRow: GlobalFieldKey<GE>[]
   directInline: GlobalFieldKey<GE>[]
   directStacked: GlobalFieldKey<GE>[]
-  subPanels: {
-    parts: GlobalFieldKey<GE>[]
-    relationships: GlobalFieldKey<GE>[]
-    annotations: GlobalFieldKey<GE>[]
-    events: GlobalFieldKey<GE>[]
-  }
+  subPanels: SubPanelRecord<GlobalFieldKey<GE>[]>
   hidden: GlobalFieldKey<GE>[]
 } {
+  const emptySubPanels = createEmptySubPanelRecord<GlobalFieldKey<GE>[]>(() => [])
+
   // PATTERN: Reduce fieldKeys to grouped structure, then sort each group
-  const grouped = fieldKeys.reduce((acc, fieldKey) => {
-    const metadata = fieldMetadata[String(fieldKey)]
-    const location = getFieldLocation(fieldKey, metadata, context)
+  const grouped = fieldKeys.reduce(
+    (acc, fieldKey) => {
+      const metadata = fieldMetadata[String(fieldKey)]
+      const location = getFieldLocation(fieldKey, metadata, context)
 
-    switch (location.type) {
-      case 'titleRow':
-        return { ...acc, titleRow: [...acc.titleRow, fieldKey] }
-      case 'directInline':
-        return { ...acc, directInline: [...acc.directInline, fieldKey] }
-      case 'directStacked':
-        return { ...acc, directStacked: [...acc.directStacked, fieldKey] }
-      case 'subPanel':
-        return {
-          ...acc,
-          subPanels: {
-            ...acc.subPanels,
-            [location.panel]: [...acc.subPanels[location.panel], fieldKey]
+      switch (location.type) {
+        case 'titleRow':
+          return { ...acc, titleRow: [...acc.titleRow, fieldKey] }
+        case 'directInline':
+          return { ...acc, directInline: [...acc.directInline, fieldKey] }
+        case 'directStacked':
+          return { ...acc, directStacked: [...acc.directStacked, fieldKey] }
+        case 'subPanel':
+          return {
+            ...acc,
+            subPanels: {
+              ...acc.subPanels,
+              [location.panel]: [...acc.subPanels[location.panel], fieldKey]
+            }
           }
-        }
-      case 'hidden':
-        return { ...acc, hidden: [...acc.hidden, fieldKey] }
-      default:
-        return acc
-    }
-  }, {
-    titleRow: [] as GlobalFieldKey<GE>[],
-    directInline: [] as GlobalFieldKey<GE>[],
-    directStacked: [] as GlobalFieldKey<GE>[],
-    subPanels: {
-      parts: [] as GlobalFieldKey<GE>[],
-      relationships: [] as GlobalFieldKey<GE>[],
-      annotations: [] as GlobalFieldKey<GE>[],
-      events: [] as GlobalFieldKey<GE>[]
+        case 'hidden':
+          return { ...acc, hidden: [...acc.hidden, fieldKey] }
+        default:
+          return acc
+      }
     },
-    hidden: [] as GlobalFieldKey<GE>[]
-  })
+    {
+      titleRow: [] as GlobalFieldKey<GE>[],
+      directInline: [] as GlobalFieldKey<GE>[],
+      directStacked: [] as GlobalFieldKey<GE>[],
+      subPanels: { ...emptySubPanels },
+      hidden: [] as GlobalFieldKey<GE>[]
+    }
+  )
 
-  // PATTERN: Use extracted sorting utility function
+  // PATTERN: Use extracted sorting utility function; build sorted subPanels from SUB_PANEL_KEYS
+  const sortedSubPanels = SUB_PANEL_KEYS.reduce<SubPanelRecord<GlobalFieldKey<GE>[]>>(
+    (acc, key) => ({
+      ...acc,
+      [key]: sortFieldsByDisplayOrder(grouped.subPanels[key], fieldMetadata)
+    }),
+    createEmptySubPanelRecord<GlobalFieldKey<GE>[]>(() => [])
+  )
+
   return {
     titleRow: sortFieldsByDisplayOrder(grouped.titleRow, fieldMetadata),
     directInline: sortFieldsByDisplayOrder(grouped.directInline, fieldMetadata),
     directStacked: sortFieldsByDisplayOrder(grouped.directStacked, fieldMetadata),
-    subPanels: {
-      parts: sortFieldsByDisplayOrder(grouped.subPanels.parts, fieldMetadata),
-      relationships: sortFieldsByDisplayOrder(grouped.subPanels.relationships, fieldMetadata),
-      annotations: sortFieldsByDisplayOrder(grouped.subPanels.annotations, fieldMetadata),
-      events: sortFieldsByDisplayOrder(grouped.subPanels.events, fieldMetadata)
-    },
+    subPanels: sortedSubPanels,
     hidden: sortFieldsByDisplayOrder(grouped.hidden, fieldMetadata)
   }
 }

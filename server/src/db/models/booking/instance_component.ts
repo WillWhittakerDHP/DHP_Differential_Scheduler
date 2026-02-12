@@ -7,7 +7,6 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
-
 /**
  * InstanceComponent Model
  * 
@@ -27,10 +26,10 @@ export class InstanceComponent extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parent_kind: CreationOptional<string>;
-  declare child_kind: CreationOptional<string>;  
-  declare parent_id: ForeignKey<string>;
-  declare child_id: ForeignKey<string>;
+  declare parentKind: CreationOptional<string>;
+  declare childKind: CreationOptional<string>;
+  declare parentId: ForeignKey<string>;
+  declare childId: ForeignKey<string>;
   declare orderIndex: number;
   declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
@@ -52,19 +51,19 @@ export function InstanceComponentFactory(sequelize: Sequelize) {
           return "instanceComponents";
         }
       },
-      parent_kind: {
+      parentKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "blockInstance";
-        }
+          return 'blockInstance';
+        },
       },
-      child_kind: {
+      childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "blockInstance";
-        }
-      },  
-      parent_id: {
+          return 'blockInstance';
+        },
+      },
+      parentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -72,7 +71,7 @@ export function InstanceComponentFactory(sequelize: Sequelize) {
           key: 'id',
         },
       },
-      child_id: {
+      childId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -84,7 +83,6 @@ export function InstanceComponentFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'order_index',
         comment: 'Order in which components should be displayed',
       },
       disabled: {
@@ -112,8 +110,8 @@ export function InstanceComponentFactory(sequelize: Sequelize) {
       indexes: [
         {
           unique: true,
-          fields: ["parent_id", "child_id"]
-        }
+          fields: ['parentId', 'childId'],
+        },
       ],
       freezeTableName: true,
     }

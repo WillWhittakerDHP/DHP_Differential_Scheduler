@@ -7,14 +7,22 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 
 /**
  * System fields that should be excluded from field rendering
  * LEARNING: These fields are managed by the system or handled separately
  * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
- * PATTERN: Centralized list of system fields to filter
+ * PATTERN: Centralized list of system fields to filter (uses entityFieldConstants)
  */
-const SYSTEM_FIELDS = ['id', 'entityKey', 'orderIndex', 'createdAt', 'updatedAt', 'annotations'] as const
+const SYSTEM_FIELDS = [
+  FIELD_NAMES.ID,
+  FIELD_NAMES.ENTITY_KEY,
+  FIELD_NAMES.ORDER_INDEX,
+  FIELD_NAMES.CREATED_AT,
+  FIELD_NAMES.UPDATED_AT,
+  FIELD_NAMES.ANNOTATIONS,
+] as const
 
 export interface GetFieldKeysOptions<GE extends GlobalEntityKey> {
   entity: Record<string, unknown> | null | undefined

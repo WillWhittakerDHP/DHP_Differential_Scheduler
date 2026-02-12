@@ -10,6 +10,7 @@ import type { ComponentStrategy } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { COMPONENT_STRATEGIES } from '@/constants/component'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { findById } from '@/utils/collections/findById'
 
@@ -93,7 +94,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   const propertyKeys = new Set(
     components.flatMap(component =>
       Object.keys(component).filter(key =>
-        key !== 'id' && key !== 'entityKey' && key !== 'instanceComponents' && key !== 'isComposer'
+        key !== 'id' && key !== FIELD_NAMES.ENTITY_KEY && key !== 'instanceComponents' && key !== 'isComposer'
       )
     )
   )

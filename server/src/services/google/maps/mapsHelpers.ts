@@ -7,6 +7,8 @@
  */
 
 import { createLogger } from '../../../utils/logger.js'
+import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
 import { getGoogleMapsApiKey } from '../shared/googleApiConfig.js'
 import { GOOGLE_MAPS_API_BASE } from '../shared/googleApiConfig.js'
 import {
@@ -66,10 +68,15 @@ export function validateGoogleApiResponse(
   data: { status: string; error_message?: string },
   options?: { throwOnZeroResults?: boolean; invalidRequestAsNotFound?: boolean }
 ): void {
-  const { throwOnZeroResults = false, invalidRequestAsNotFound = false } = options ?? {}
+  const opts = options !== undefined && options !== null ? options : {}
+  const throwOnZeroResults = opts.throwOnZeroResults === true
+  const invalidRequestAsNotFound = opts.invalidRequestAsNotFound === true
 
   if (data.status === GOOGLE_API_STATUS.REQUEST_DENIED) {
-    throw new MapsApiError('auth', data.error_message ?? 'API key invalid or restricted')
+    const msg = data.error_message !== undefined && data.error_message !== null && data.error_message !== ''
+      ? data.error_message
+      : 'API key invalid or restricted'
+    throw new MapsApiError('auth', msg)
   }
 
   if (data.status === GOOGLE_API_STATUS.OVER_QUERY_LIMIT) {
@@ -77,7 +84,10 @@ export function validateGoogleApiResponse(
   }
 
   if (data.status === GOOGLE_API_STATUS.INVALID_REQUEST) {
-    const message = invalidRequestAsNotFound ? 'Place not found' : (data.error_message ?? 'Invalid request')
+    const defaultMessage = data.error_message !== undefined && data.error_message !== null && data.error_message !== ''
+      ? data.error_message
+      : OAUTH_ERROR_MESSAGES.INVALID_REQUEST
+    const message = invalidRequestAsNotFound ? 'Place not found' : defaultMessage
     const type = invalidRequestAsNotFound ? 'not_found' : 'invalid'
     throw new MapsApiError(type, message)
   }
@@ -108,15 +118,23 @@ export function buildAutocompleteUrl(input: string, apiKey: string, sessionToken
 /**
  * Transform raw Google Autocomplete predictions to our format
  */
+function optionalText(value: string | undefined | null): string {
+  return value !== undefined && value !== null && value !== '' ? value : ''
+}
+
 export function transformPredictions(
   raw: RawAutocompletePrediction[]
 ): AutocompletePrediction[] {
-  return raw.map((p) => ({
-    placeId: p.place_id,
-    description: p.description,
-    mainText: p.structured_formatting?.main_text ?? p.description,
-    secondaryText: p.structured_formatting?.secondary_text ?? ''
-  }))
+  return raw.map((p) => {
+    const mainText = p.structured_formatting?.main_text
+    const secondaryText = optionalText(p.structured_formatting?.secondary_text)
+    return {
+      placeId: p.place_id,
+      description: p.description,
+      mainText: mainText !== undefined && mainText !== null && mainText !== '' ? mainText : p.description,
+      secondaryText
+    }
+  })
 }
 
 /**
@@ -149,10 +167,17 @@ export function transformPlaceResult(
     throw new MapsApiError('invalid', 'Place has no coordinates')
   }
   const coordinates: Coordinates = { lat, lng }
-  const addressComponents = parseAddressComponents(result.address_components ?? [])
+  const rawAddressComponents = result.address_components
+  const addressComponents = parseAddressComponents(
+    rawAddressComponents !== undefined && rawAddressComponents !== null ? rawAddressComponents : []
+  )
+  const formattedAddress =
+    result.formatted_address !== undefined && result.formatted_address !== null && result.formatted_address !== ''
+      ? result.formatted_address
+      : ''
   return {
     placeId,
-    formattedAddress: result.formatted_address ?? '',
+    formattedAddress,
     addressComponents,
     coordinates
   }
@@ -197,7 +222,7 @@ export async function executeGeocodeApiCall(address: string): Promise<string | n
     return candidate?.place_id ?? null
   } catch (error) {
     geocodeLogger.warn('Geocoding failed', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE,
       addressPreview: address.substring(0, 50)
     })
     return null

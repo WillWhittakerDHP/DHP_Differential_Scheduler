@@ -52,10 +52,10 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
         fetched.push({
           id: `${rel.parent.id}-${child.id}` as GlobalEntityId, // Synthetic ID
           kind: relationshipKey,
-          parent_kind: rel.parent.entityKey,
-          child_kind: child.entityKey,
-          parent_id: rel.parent.id,
-          child_id: child.id,
+          parentKind: rel.parent.entityKey,
+          childKind: child.entityKey,
+          parentId: rel.parent.id,
+          childId: child.id,
           disabled: false, // GlobalRelationship doesn't include disabled flag
         })
       })
@@ -106,8 +106,8 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
         if (!old) return old
 
         const currentRelationships = old.relationships[relationshipKey] || []
-        const parentId = String(payload.parent_id)
-        const childId = String(payload.child_id)
+        const parentId = String(payload.parentId)
+        const childId = String(payload.childId)
 
         const parentEntity = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
         const childEntity = old.entities[config.childEntity]?.find((e) => String(e.id) === childId)

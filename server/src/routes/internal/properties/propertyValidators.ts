@@ -55,7 +55,7 @@ export function validateAddressFields(addressData: {
 }
 
 /**
- * Validate block instance has "Properties" block shape
+ * Validate block instance has Properties block shape (BLOCK_SHAPE_NAMES.PROPERTIES)
  * LEARNING: Extracted block shape validation logic
  * WHY: Reusable validation for property type assignment
  * PATTERN: Check block shape name, return validation result

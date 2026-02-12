@@ -112,8 +112,7 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
             },
           })
         } catch (error) {
-          // PATTERN: Handle error gracefully to prevent breaking Vue's mount process, but log for debugging
-          logger.debug('Failed to initialize drag and drop', { error, group })
+          logger.error('Failed to initialize drag and drop', { error, group })
         }
       })
     }, { immediate: true })

@@ -59,8 +59,16 @@ export function useAppointmentShape(
       // PATTERN: Use getGlobalEntities helper to get event data
       const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
       let eventShapes = getGlobalEntities('eventShape') as EventShape[]
-      const eventAssignmentsRelationships = (globalData?.relationships?.eventAssignments || []) as GlobalRelationship[]
-      const attendeeAssignmentsRelationships = (globalData?.relationships?.attendeeAssignments || []) as GlobalRelationship[]
+      const rawEventAssignments = globalData?.relationships?.eventAssignments
+      const rawAttendeeAssignments = globalData?.relationships?.attendeeAssignments
+      if (rawEventAssignments === undefined || rawEventAssignments === null) {
+        logger.debug('useAppointmentShape: eventAssignments missing, using []')
+      }
+      if (rawAttendeeAssignments === undefined || rawAttendeeAssignments === null) {
+        logger.debug('useAppointmentShape: attendeeAssignments missing, using []')
+      }
+      const eventAssignmentsRelationships = (rawEventAssignments !== undefined && rawEventAssignments !== null ? rawEventAssignments : []) as GlobalRelationship[]
+      const attendeeAssignmentsRelationships = (rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []) as GlobalRelationship[]
       
       // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
       // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
@@ -69,7 +77,14 @@ export function useAppointmentShape(
       if (attendeeAssignmentsRelationships.length > 0) {
         eventShapes = eventShapes.map(eventShape => {
           const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
-          const attendees = matchingRel?.children?.map((child: GlobalEntity<GlobalEntityKey>) => child.id) || []
+          const rawChildren = matchingRel?.children
+          let attendees: string[]
+          if (rawChildren !== undefined && rawChildren !== null) {
+            attendees = rawChildren.map((child: GlobalEntity<GlobalEntityKey>) => child.id)
+          } else {
+            logger.debug('useAppointmentShape: matching rel children missing', { eventShapeId: eventShape.id })
+            attendees = []
+          }
           // WHY: Eliminates hardcoded perspective strings, enables config-driven approach
           // PATTERN: Use EVENT_PERSPECTIVE_KEYS constants for perspective determination
           return { ...eventShape, attendees }

@@ -85,8 +85,10 @@ export function useSelectionCard(options: UseSelectionCardOptions): UseSelection
   }
 
   const handleNestedChildUpdate = (childId: string, selected: boolean): void => {
+    const raw = nestedChildSelections.value
+    const current = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
     const updated = updateNestedChildSelections({
-      current: nestedChildSelections.value || [],
+      current,
       childId,
       selected,
     })

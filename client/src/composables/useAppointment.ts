@@ -104,7 +104,8 @@ export function useAppointment(): UseAppointmentReturn {
         await new Promise(resolve => setTimeout(resolve, 500))
       }
       
-      const appointments = businessData.value?.appointments || []
+      const raw = businessData.value?.appointments
+      const appointments = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
       return pickRandomItem(appointments)
     } catch (_error) {
       return null

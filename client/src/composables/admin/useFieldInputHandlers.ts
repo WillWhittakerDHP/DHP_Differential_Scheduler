@@ -10,10 +10,13 @@
  * - TextAreaInput.vue
  */
 
+import { computed } from 'vue'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
+import type { FieldKeyboardGuardType } from '@/composables/admin/useFieldKeyboardGuard'
+import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useFieldInputHandlers')
@@ -22,6 +25,8 @@ export interface UseFieldInputHandlersParams {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   disableAutoSave?: boolean
   entityCardSaveContext?: EntityCardSaveContext | null
+  /** Keyboard guard field type; default 'text' */
+  fieldType?: FieldKeyboardGuardType
 }
 
 /**
@@ -30,7 +35,16 @@ export interface UseFieldInputHandlersParams {
  * PATTERN: Centralized handlers for focus, blur, and enter key events
  */
 export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
-  const { fieldContext, disableAutoSave = false, entityCardSaveContext = null } = params
+  const {
+    fieldContext,
+    disableAutoSave = false,
+    entityCardSaveContext = null,
+    fieldType = 'text'
+  } = params
+
+  const isEditable = computed(
+    () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+  )
 
   const handleFocus = (): void => {
     fieldContext.setFocus(true)
@@ -99,9 +113,16 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
     }
   }
 
+  const { handleKeydown } = useFieldKeyboardGuard({
+    fieldType,
+    isEditable,
+    onEnter: handleEnterKey
+  })
+
   return {
     handleFocus,
     handleBlur,
-    handleEnterKey
+    handleEnterKey,
+    handleKeydown
   }
 }

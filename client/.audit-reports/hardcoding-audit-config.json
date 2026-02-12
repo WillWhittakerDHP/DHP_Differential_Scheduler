@@ -36,13 +36,23 @@
       },
       {
         "glob": "**/configs/**/*.ts",
-        "ruleIds": ["magicLabel", "caseString"],
+        "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"],
         "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
       },
       {
         "glob": "**/configs/**/*.js",
-        "ruleIds": ["magicLabel", "caseString"],
+        "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"],
         "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
+      },
+      {
+        "glob": "**/*Display*.ts",
+        "ruleIds": ["magicLabel", "caseString"],
+        "reason": "Display config files define labels and case literals by design"
+      },
+      {
+        "glob": "**/*Display*.vue",
+        "ruleIds": ["magicLabel", "caseString"],
+        "reason": "Display components use label strings and case literals by design"
       },
       {
         "glob": "**/*.vue",

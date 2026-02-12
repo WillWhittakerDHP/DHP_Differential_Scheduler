@@ -7,6 +7,7 @@ import {
   ForeignKey,
   Sequelize, 
 } from 'sequelize';
+import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
 
 export class PartInstance extends Model<
   InferAttributes<PartInstance>,
@@ -92,7 +93,7 @@ export function PartInstanceFactory(sequelize: Sequelize) {
       sequelize,
       indexes: [
         {
-          fields: ['orderIndex'],
+          fields: [FIELD_NAMES.ORDER_INDEX],
         },
       ],
       timestamps: false,

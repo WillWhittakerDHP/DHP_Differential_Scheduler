@@ -17,7 +17,7 @@ import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 /**
  * Find UserTypeBlock BlockInstance IDs by name
  * LEARNING: Searches for BlockInstances that are state control blocks with matching name
- * WHY: Provides lookup by name (e.g., "Major", "Minor", "Agent") to get BlockInstance ID
+ * WHY: Provides lookup by name (e.g. Major, Minor, or the agent role label) to get BlockInstance ID
  * PATTERN: Filter BlockInstances by blockShape.isStateControl and name match
  * 
  * @param globalData - GlobalData containing all entities
@@ -126,7 +126,7 @@ export function getMajorEventShape(
 /**
  * Find event shape with minor attendee
  * LEARNING: Finds the first event shape that has a minor attendee UserTypeBlock in its attendees
- * WHY: Used to identify which event represents minor perspective (replaces hardcoded "ClientPresent"/"client" check)
+ * WHY: Used to identify which event represents minor perspective (replaces hardcoded ClientPresent/USER_ROLE_CLIENT check)
  * PATTERN: Filter event shapes by attendee presence using configured minor attendee IDs
  * 
  * @param eventShapes - Array of EventShapeEntity to search

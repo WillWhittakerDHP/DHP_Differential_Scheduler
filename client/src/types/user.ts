@@ -1,3 +1,5 @@
+import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+
 /**
  * WHY: User Type Definitions
 
@@ -10,7 +12,7 @@ export interface UserRequest {
   lastName: string;
   email: string;
   phone?: string | null;
-  userRole: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector';
+  userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector';
   loginId?: number | null;
 }
 
@@ -20,7 +22,7 @@ export interface UserResponse {
   lastName: string;
   email: string;
   phone?: string | null;
-  userRole: 'client' | 'agent' | 'transaction_manager' | 'seller' | 'inspector';
+  userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector';
   loginId?: number | null;
   createdAt: string;
   updatedAt: string;

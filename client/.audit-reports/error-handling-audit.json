@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-10T13:52:10.740Z",
+  "generatedAt": "2026-02-11T04:10:01.504Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1129,
+  "totalScanned": 969,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 85,
+    "totalRequiresReview": 59,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -36,17 +36,17 @@
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 14,
+          "lineNumber": 15,
           "line": "* WHY: Replaces `as any` casts with type-safe checks"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 32,
+          "lineNumber": 33,
           "line": "* WHY: Replaces `as any` casts with type-safe checks"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 49,
+          "lineNumber": 50,
           "line": "* WHY: Replaces `as any` pattern with proper type handling"
         }
       ],
@@ -60,17 +60,17 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 123,
+          "lineNumber": 122,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 147,
+          "lineNumber": 146,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 195,
+          "lineNumber": 194,
           "line": "entityType: entityType as any,"
         }
       ],
@@ -84,17 +84,17 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 113,
+          "lineNumber": 112,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 137,
+          "lineNumber": 136,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 185,
+          "lineNumber": 184,
           "line": "entityType: entityType as any,"
         }
       ],
@@ -108,59 +108,21 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 49,
+          "lineNumber": 48,
           "line": "return null as any"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 67,
+          "lineNumber": 66,
           "line": "...existingValue as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 68,
+          "lineNumber": 67,
           "line": "...newValue as any,"
         }
       ],
       "score": 15,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__admin__useBusinessRules.ts",
-      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 205,
-          "line": "console.error('Error creating business rule:', err)"
-        },
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 260,
-          "line": "console.error('Error deleting business rule:', err)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 11,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__components__booking__AppointmentSlotGrid.vue",
-      "repoPath": "client/src/components/booking/AppointmentSlotGrid.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "silent-catch-promise",
-          "lineNumber": 135,
-          "line": "fetch('http://127.0.0.1:7242/ingest/dee08c11-824d-42a5-9020-c38261879107',{method:'POST',headers:{'Content-Type':'applic..."
-        }
-      ],
-      "score": 10,
       "priority": "P0"
     },
     {
@@ -186,25 +148,6 @@
           "ruleId": "catch-comment-only",
           "lineNumber": 146,
           "line": "} catch (err) {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__admin__useStatusButtonToggle.ts",
-      "repoPath": "client/src/composables/admin/useStatusButtonToggle.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 158,
-          "line": "const currentCanHaveParts = (currentEntity as any).canHaveParts === true"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 166,
-          "line": "const currentIsStateControl = (currentEntity as any).isStateControl === true"
         }
       ],
       "score": 10,
@@ -239,75 +182,18 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__utils__dev__formatDevPanelData.ts",
-      "repoPath": "client/src/utils/dev/formatDevPanelData.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 57,
-          "line": "const startStr = formatDateTimeForDisplay(period.start as any, {"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 65,
-          "line": "const endStr = formatTimeForDisplay(period.end as any, {"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__views__admin__tabs__components__AppointmentsTable.vue",
-      "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 111,
-          "line": "(newAppointment.value as any).attendees = attendees"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 143,
-          "line": "(editedData.value as any).attendees = attendees"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__helpers__routerErrorHandler.ts",
-      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 46,
-          "line": "const validationError = error as any"
-        },
-        {
-          "ruleId": "as-any",
-          "lineNumber": 65,
-          "line": "const validationError = error as any"
-        }
-      ],
-      "score": 10,
-      "priority": "P0"
-    },
-    {
       "id": "server__src__routes__internal__admin-metadata__adminMetadataCrudRouter.ts",
       "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 215,
+          "lineNumber": 214,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 217,
+          "lineNumber": 216,
           "line": "metadataType: metadataType as any,"
         }
       ],
@@ -321,12 +207,12 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 103,
+          "lineNumber": 102,
           "line": "entityType: entityType as any,"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 105,
+          "lineNumber": 104,
           "line": "metadataType: metadataType as any,"
         }
       ],
@@ -397,12 +283,12 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 72,
+          "lineNumber": 71,
           "line": "const blockShape = (blockInstance as any).block_shape"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 104,
+          "lineNumber": 103,
           "line": "const blockShape = (bi as any).block_shape"
         }
       ],
@@ -435,41 +321,17 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 171,
+          "lineNumber": 178,
           "line": "const parentBlockInstanceWithShape = parentBlockInstance as any"
         },
         {
           "ruleId": "as-any",
-          "lineNumber": 178,
+          "lineNumber": 185,
           "line": "const childBlockInstanceWithShape = childBlockInstance as any"
         }
       ],
       "score": 10,
       "priority": "P0"
-    },
-    {
-      "id": "client__src__components__booking__dev__DevPanelsContainer.vue",
-      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 190,
-          "line": "return formatDateTimeForDisplay(isoString as any, {"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 337,
-          "line": "console.error(`[Event Error] Cannot determine ternary value for event shape \"${eventShape.name}\" (${eventShape.id})`)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
     },
     {
       "id": "client__src__composables__formFields__useFormFieldsContext.ts",
@@ -478,17 +340,17 @@
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 103,
+          "lineNumber": 104,
           "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
         },
         {
           "ruleId": "console-general",
-          "lineNumber": 177,
+          "lineNumber": 178,
           "line": "console.warn(`[useFormFieldsContext] ${warningMessage}`)"
         },
         {
           "ruleId": "console-in-catch",
-          "lineNumber": 277,
+          "lineNumber": 278,
           "line": "console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)"
         }
       ],
@@ -610,25 +472,6 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__composables__booking__useWizardAppointmentManagement.ts",
-      "repoPath": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 181,
-          "line": "console.error('[Wizard] Update appointment error:', error)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "id": "client__src__plugins__1.router__guards.ts",
       "repoPath": "client/src/plugins/1.router/guards.ts",
       "allowed": [],
@@ -645,67 +488,6 @@
         }
       ],
       "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__types__datetime.ts",
-      "repoPath": "client/src/types/datetime.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-in-catch",
-          "lineNumber": 113,
-          "line": "*   console.error('Invalid datetime from API:', error)"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__components__booking__MoveablePartsModal.vue",
-      "repoPath": "client/src/components/booking/MoveablePartsModal.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 75,
-          "line": "return formatDateTimeForDisplay(isoDate as any, {"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__utils__dependencyCleanup.ts",
-      "repoPath": "client/src/utils/dependencyCleanup.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 49,
-          "line": "const config = null as any"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__config__entityRegistry.ts",
-      "repoPath": "server/src/config/entityRegistry.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 25,
-          "line": "const blockInstanceWithShape = blockInstance as any;"
-        }
-      ],
-      "score": 5,
       "priority": "P1"
     },
     {
@@ -737,27 +519,13 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__routes__internal__relationships__relationshipCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 290,
-          "line": "sendBadRequest(res, error.message, undefined, (error as any).blockShapeId)"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
       "id": "server__src__scripts__importCalendarData.ts",
       "repoPath": "server/src/scripts/importCalendarData.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 48,
+          "lineNumber": 36,
           "line": "* WHY: Replaces unsafe `as any` cast with type-safe interface"
         }
       ],
@@ -771,7 +539,7 @@
       "requiresReview": [
         {
           "ruleId": "as-any",
-          "lineNumber": 80,
+          "lineNumber": 77,
           "line": "const validVersions = versions.filter(v => v !== null) as any[];"
         }
       ],
@@ -793,41 +561,22 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__utils__sequelizeHelpers.ts",
-      "repoPath": "server/src/utils/sequelizeHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "as-any",
-          "lineNumber": 43,
-          "line": "const modelOptions = (ModelClass as any).options;"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__booking__useWizardFilteredOptions.ts",
-      "repoPath": "client/src/composables/booking/useWizardFilteredOptions.ts",
+      "id": "client__src__components__booking__dev__DevPanelsContainer.vue",
+      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 189,
-          "line": "console.warn('[useWizardFilteredOptions] Option block shape (type=\"option\") not found')"
+          "lineNumber": 333,
+          "line": "console.error(`[Event Error] Cannot determine ternary value for event shape \"${eventShape.name}\" (${eventShape.id})`)"
         },
         {
-          "ruleId": "console-general",
-          "lineNumber": 195,
-          "line": "console.warn('[useWizardFilteredOptions] No cascade results from selected services. Falling back to all Option blocks.')"
-        },
-        {
-          "ruleId": "console-general",
-          "lineNumber": 208,
-          "line": "console.warn('[useWizardFilteredOptions] Cascade results filtered out - no Option blocks found in cascade results', {"
+          "ruleId": "console-no-logger",
+          "lineNumber": 1,
+          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 3,
+      "score": 2,
       "priority": "P2"
     },
     {
@@ -837,16 +586,11 @@
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 194,
+          "lineNumber": 197,
           "line": "console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')"
-        },
-        {
-          "ruleId": "console-no-logger",
-          "lineNumber": 1,
-          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 2,
+      "score": 1,
       "priority": "P2"
     },
     {

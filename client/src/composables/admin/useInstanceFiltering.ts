@@ -7,7 +7,10 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { BookingMode } from '@/constants/entities'
+import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
+
+const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
 
 /**
  * Check if instance is a component child
@@ -47,7 +50,8 @@ export function useInstanceFiltering(
    * PATTERN: Build a Set of all child blockInstance IDs from instanceComponents relationships.
    */
   const componentChildIds = computed((): Set<string> => {
-    const relationships = globalData.value?.relationships?.instanceComponents ?? []
+    const raw = globalData.value?.relationships?.instanceComponents
+    const relationships = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
 
     return relationships.reduce((acc, rel) => {
       if (rel.relationshipKind !== 'instanceComponents') return acc
@@ -71,7 +75,7 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const mainInstances = instances
         .filter((instance) => {
-          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? 'standalone'
+          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? DEFAULT_BOOKING_MODE
           return !isComponentChild(instance, componentChildIds.value) && mode !== 'addOn'
         })
       result.set(blockShapeId, mainInstances)
@@ -86,7 +90,7 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const groupedInstances = instances
         .filter((instance) => {
-          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? 'standalone'
+          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? DEFAULT_BOOKING_MODE
           return isComponentChild(instance, componentChildIds.value) || mode === 'addOn'
         })
       result.set(blockShapeId, groupedInstances)

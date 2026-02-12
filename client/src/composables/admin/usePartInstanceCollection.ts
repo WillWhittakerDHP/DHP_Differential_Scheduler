@@ -123,7 +123,8 @@ export function usePartInstanceCollection(
     const blockInstanceEntity = blockInstance.value as import('@/types/entities').BlockInstanceEntity
     const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
     const partShape = getGlobalEntityById('partShape', partShapeId)
-    const partShapeName = partShape?.name || 'PartShape'
+    const rawName = partShape?.name
+    const partShapeName = rawName !== undefined && rawName !== null && rawName !== '' ? rawName : 'PartShape'
 
     const autoName = generatePartInstanceName(
       blockInstanceName,
@@ -155,8 +156,8 @@ export function usePartInstanceCollection(
       
       // This avoids timing issues where getPartInstanceForShape might not find it yet
       await createPartAssignmentsRelationship({
-        parent_id: blockInstanceEntity.id,
-        child_id: createdEntity.id,
+        parentId: blockInstanceEntity.id,
+        childId: createdEntity.id,
       })
 
       await Promise.all([

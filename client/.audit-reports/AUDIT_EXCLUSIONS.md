@@ -57,6 +57,8 @@ The following patterns were previously hardcoded and have been migrated to confi
 
 ## For More Information
 
+Execution order and audit families (e.g. the "Naming & constants" pipeline: naming-convention → constants-consolidation → hardcoding) are documented in [AUDIT_EXECUTION_ORDER.md](AUDIT_EXECUTION_ORDER.md).
+
 See `AUDIT_EXCEPTIONS_README.md` for:
 - How to add inline exceptions
 - How to configure pattern-based exceptions

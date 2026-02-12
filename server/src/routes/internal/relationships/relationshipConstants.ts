@@ -135,7 +135,7 @@ export const ERROR_MESSAGES = {
   UNKNOWN_RELATIONSHIP_KIND: 'Unknown relationship kind',
   RELATIONSHIP_CONFIG_MISSING: 'Relationship configuration missing',
   MODEL_NOT_AVAILABLE: 'Model not available',
-  MISSING_REQUIRED_FIELDS: 'Missing required fields: parent_id and child_id are required',
+  MISSING_REQUIRED_FIELDS: 'Missing required fields: parentId and childId are required',
   PARENT_CHILD_SAME: 'Parent and child cannot be the same entity',
   PARENT_NOT_FOUND: 'Parent BlockInstance not found',
   CHILD_NOT_FOUND: 'Child BlockInstance not found',

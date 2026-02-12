@@ -14,6 +14,7 @@ import {
   clearDriveTimeCache
 } from '../../services/driveTimeCache.js'
 import { createLogger } from '../../utils/logger.js'
+import { isProduction } from '../../utils/envHelpers.js'
 import { MAPS_ROUTE_MESSAGES } from './mapsRouteConstants.js'
 
 const logger = createLogger('MapsDebugRoutes')
@@ -23,7 +24,7 @@ const DEBUG_TTL_MS = 24 * 60 * 60 * 1000
 const router = Router()
 
 function rejectProduction(_req: Request, res: Response): boolean {
-  if (process.env.NODE_ENV === 'production') {
+  if (isProduction()) {
     res.status(403).json({ error: MAPS_ROUTE_MESSAGES.DEBUG_DISABLED })
     return true
   }

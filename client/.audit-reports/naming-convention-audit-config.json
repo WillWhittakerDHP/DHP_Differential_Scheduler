@@ -1,0 +1,20 @@
+{
+  "$comment": "Configuration for naming-convention-audit.mjs",
+  "rules": {
+    "componentFileName": "PascalCase",
+    "composableFileName": "usePrefixCamelCase",
+    "constantExport": "UPPER_SNAKE_CASE",
+    "functionExport": "camelCase",
+    "typeExport": "PascalCase"
+  },
+  "allowlist": {
+    "patterns": [
+      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Third-party library" },
+      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Third-party library" },
+      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files" },
+      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files" },
+      { "glob": "**/*.spec.*", "ruleIds": ["*"], "reason": "Spec files" }
+    ],
+    "specific": []
+  }
+}

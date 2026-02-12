@@ -320,7 +320,8 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       }, 3000)
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { error?: string } } }
-      error.value = axiosErr.response?.data?.error || 'Failed to save settings. Please try again.'
+      const errMsg = axiosErr.response?.data?.error
+      error.value = errMsg !== undefined && errMsg !== null && errMsg !== '' ? errMsg : 'Failed to save settings. Please try again.'
     } finally {
       saving.value = false
     }

@@ -14,8 +14,6 @@ import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useBooking } from './useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { AppointmentResponse } from '@/types/appointment'
-import { transformAppointmentToWizard, type WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import { useWizardFilteredOptions } from '@/composables/booking/useWizardFilteredOptions'
 
@@ -52,18 +50,31 @@ export function useBookingWizard(): UseBookingWizardReturn {
   // PATTERN: Use useStorage from VueUse for reactive localStorage binding
   const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
 
+  /** When true, selection methods do not clear dependent selections (used by batchUpdate) */
+  const _inBatch = ref(false)
+
+  /**
+   * Run multiple wizard state updates without cascading clears.
+   * Use when loading an appointment so dependent selections are set in the same batch.
+   */
+  const batchUpdate = (fn: () => void): void => {
+    _inBatch.value = true
+    try {
+      fn()
+    } finally {
+      _inBatch.value = false
+    }
+  }
+
   /**
    * Select user type and clear dependent selections
    * LEARNING: Cascading clear pattern - parent selection clears children
    * WHY: Ensures data consistency when parent selection changes
-   * PATTERN: Set parent, clear all dependent selections
-   * Session 1.3.9.3: Updated to clear arrays instead of single values
-   * @param block - Block instance to select
-   * @param skipCascade - If true, skip cascading clears (used during appointment loading)
+   * PATTERN: Set parent, clear all dependent selections (unless inside batchUpdate)
    */
-  const selectUserTypeBlock = (block: BookingBlockInstance | null, skipCascade = false): void => {
+  const selectUserTypeBlock = (block: BookingBlockInstance | null): void => {
     selectedUserTypeBlock.value = block
-    if (!skipCascade) {
+    if (!_inBatch.value) {
       selectedServiceTypeBlocks.value = []
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
@@ -75,17 +86,14 @@ export function useBookingWizard(): UseBookingWizardReturn {
    * LEARNING: Replace pattern for single-select UI with array storage
    * WHY: UI behaves as single-select (selecting one deselects others), but stored as array for consistency
    * PATTERN: Replace array with single selection (keeps array structure for backward compatibility)
-   * Session 1.3.9.3: Changed from toggle to replace for single-select behavior
-   * @param block - Block instance to select
-   * @param skipCascade - If true, skip cascading clears (used during appointment loading)
    */
-  const toggleServiceTypeBlock = (block: BookingBlockInstance, skipCascade = false): void => {
+  const toggleServiceTypeBlock = (block: BookingBlockInstance): void => {
     if (selectedServiceTypeBlocks.value.length === 1 && selectedServiceTypeBlocks.value[0].id === block.id) {
       selectedServiceTypeBlocks.value = []
     } else {
       selectedServiceTypeBlocks.value = [block]
     }
-    if (!skipCascade) {
+    if (!_inBatch.value) {
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
     }
@@ -156,59 +164,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
     selectedPropertyTypeBlocks,
   })
 
-  /**
-   * Load appointment data into wizard state
-   * LEARNING: Populates wizard state from appointment response
-   * WHY: Enables loading existing appointments for testing/editing
-   * PATTERN: Transform appointment to wizard state, then populate wizard selections
-   * Phase 1.2.3: Added for mock data loading functionality
-   * 
-   * @param appointment - Appointment response from API
-   * @returns Wizard state data for populating form fields
-   */
-  const loadAppointment = async (appointment: AppointmentResponse): Promise<WizardStateData | null> => {
-    if (!bookingData.value) {
-      return null
-    }
-
-    try {
-      const wizardStateData = await transformAppointmentToWizard(appointment, bookingData.value)
-      
-      /**
-       * WHY: // WHY: Prevents clearing selections before they're all set, which causes cards to vanish
-       * PATTERN: // PATTERN: Use skipCascade flag to disable cascading clears during appointment loading
-       */
-      selectUserTypeBlock(wizardStateData.userTypeBlock, true) // Skip cascade during load
-      selectedServiceTypeBlocks.value = wizardStateData.services || []
-      selectedPropertyTypeBlocks.value = wizardStateData.propertyTypeBlocks || []
-      selectedOptionTypeBlocks.value = wizardStateData.optionTypeBlocks
-      selectedLineItemBlocks.value = wizardStateData.lineItemBlocks || []
-      isQuoteMode.value = wizardStateData.isQuoteMode || false
-      
-      return wizardStateData
-    } catch (error) {
-      return null
-    }
-  }
-
-  /**
-   * Reset wizard state
-   * LEARNING: Clears all wizard selections
-   * WHY: Enables resetting wizard after loading appointment or starting fresh
-   * PATTERN: Set all selections to null/empty
-   * Phase 1.2.3: Added for mock data loading functionality
-   * Session 1.3.9.3: Updated to clear arrays
-   */
-  const resetWizard = (): void => {
-    selectedUserTypeBlock.value = null
-    selectedServiceTypeBlocks.value = []
-    selectedPropertyTypeBlocks.value = []
-    selectedOptionTypeBlocks.value = []
-    selectedLineItemBlocks.value = []
-    // PATTERN: Setting value will update localStorage via useStorage
-    isQuoteMode.value = false
-  }
-
   return {
     selectedUserTypeBlock,
     selectedServiceTypeBlocks,
@@ -221,8 +176,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
     toggleOptionTypeBlock,
     togglePropertyTypeBlock,
     toggleLineItemBlock,
-    loadAppointment,
-    resetWizard,
+    batchUpdate,
     availableUserTypeBlocks,
     availableServices,
     availableOptionTypeBlocks,

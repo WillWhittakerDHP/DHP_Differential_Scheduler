@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-10T13:52:14.870Z",
+  "generatedAt": "2026-02-11T04:10:05.238Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -13,7 +13,7 @@
     ]
   },
   "summary": {
-    "totalErrors": 10,
+    "totalErrors": 0,
     "totalWarnings": 0,
     "byCategory": {
       "dependencies": {
@@ -29,7 +29,7 @@
         "warnings": 0
       },
       "csrf": {
-        "errors": 9,
+        "errors": 0,
         "warnings": 0
       },
       "auth": {
@@ -37,7 +37,7 @@
         "warnings": 0
       },
       "idor": {
-        "errors": 1,
+        "errors": 0,
         "warnings": 0
       }
     }
@@ -71,171 +71,11 @@
     {
       "id": "csrf",
       "name": "CSRF Protection",
-      "errors": [
-        {
-          "file": "server/src/api/api.routes.ts",
-          "line": 10,
-          "route": "/post",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/external/mapsDebugRoutes.ts",
-          "line": 73,
-          "route": "/clear-drive-time-cache",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 162,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 27,
-          "route": "/computed-data",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 35,
-          "route": "/:entityType/order_index",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 66,
-          "route": "/:entityType/bulk",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
-          "line": 29,
-          "route": "/:blockInstanceId/:annotationId",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 29,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 69,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        }
-      ],
+      "errors": [],
       "warnings": [],
-      "score": 108,
-      "fileIssues": {
-        "server/src/api/api.routes.ts": [
-          {
-            "file": "server/src/api/api.routes.ts",
-            "line": 10,
-            "route": "/post",
-            "method": "POST",
-            "issue": "Missing CSRF protection on POST route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/external/mapsDebugRoutes.ts": [
-          {
-            "file": "server/src/routes/external/mapsDebugRoutes.ts",
-            "line": 73,
-            "route": "/clear-drive-time-cache",
-            "method": "POST",
-            "issue": "Missing CSRF protection on POST route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/appointments/appointmentCrudRouter.ts": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 162,
-            "route": "/:id",
-            "method": "PATCH",
-            "issue": "Missing CSRF protection on PATCH route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/availabilityRouter.ts": [
-          {
-            "file": "server/src/routes/internal/availabilityRouter.ts",
-            "line": 27,
-            "route": "/computed-data",
-            "method": "POST",
-            "issue": "Missing CSRF protection on POST route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/entities/entityBulkRouter.ts": [
-          {
-            "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-            "line": 35,
-            "route": "/:entityType/order_index",
-            "method": "PATCH",
-            "issue": "Missing CSRF protection on PATCH route",
-            "severity": "error"
-          },
-          {
-            "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-            "line": 66,
-            "route": "/:entityType/bulk",
-            "method": "PATCH",
-            "issue": "Missing CSRF protection on PATCH route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
-            "line": 29,
-            "route": "/:blockInstanceId/:annotationId",
-            "method": "PATCH",
-            "issue": "Missing CSRF protection on PATCH route",
-            "severity": "error"
-          }
-        ],
-        "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-            "line": 29,
-            "route": "/:id",
-            "method": "PATCH",
-            "issue": "Missing CSRF protection on PATCH route",
-            "severity": "error"
-          },
-          {
-            "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-            "line": 69,
-            "route": "/:id",
-            "method": "DELETE",
-            "issue": "Missing CSRF protection on DELETE route",
-            "severity": "error"
-          }
-        ]
-      },
-      "priority": "P0"
+      "score": 0,
+      "fileIssues": {},
+      "priority": "P2"
     },
     {
       "id": "auth",
@@ -249,271 +89,12 @@
     {
       "id": "idor",
       "name": "IDOR Vulnerabilities",
-      "errors": [
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "ID parameters detected without authorization checks",
-          "severity": "error"
-        }
-      ],
+      "errors": [],
       "warnings": [],
-      "score": 12,
-      "fileIssues": {
-        "server/src/routes/internal/appointments/appointmentCrudRouter.ts": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 1,
-            "route": "multiple",
-            "method": "various",
-            "issue": "ID parameters detected without authorization checks",
-            "severity": "error"
-          }
-        ]
-      },
-      "priority": "P1"
+      "score": 0,
+      "fileIssues": {},
+      "priority": "P2"
     }
   ],
-  "files": [
-    {
-      "id": "server__src__api__api.routes.ts",
-      "repoPath": "server/src/api/api.routes.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/api/api.routes.ts",
-          "line": 10,
-          "route": "/post",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/api/api.routes.ts",
-          "line": 10,
-          "route": "/post",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__external__mapsDebugRoutes.ts",
-      "repoPath": "server/src/routes/external/mapsDebugRoutes.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/external/mapsDebugRoutes.ts",
-          "line": 73,
-          "route": "/clear-drive-time-cache",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/external/mapsDebugRoutes.ts",
-          "line": 73,
-          "route": "/clear-drive-time-cache",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__appointments__appointmentCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "categories": [
-        "csrf",
-        "idor"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 162,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 162,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "ID parameters detected without authorization checks",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 1,
-          "route": "multiple",
-          "method": "various",
-          "issue": "ID parameters detected without authorization checks",
-          "severity": "error"
-        }
-      ],
-      "score": 40,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__availabilityRouter.ts",
-      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 27,
-          "route": "/computed-data",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/availabilityRouter.ts",
-          "line": 27,
-          "route": "/computed-data",
-          "method": "POST",
-          "issue": "Missing CSRF protection on POST route",
-          "severity": "error"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__entities__entityBulkRouter.ts",
-      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 35,
-          "route": "/:entityType/order_index",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 66,
-          "route": "/:entityType/bulk",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 35,
-          "route": "/:entityType/order_index",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 66,
-          "route": "/:entityType/bulk",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        }
-      ],
-      "score": 40,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__relationships__relationshipAnnotationAssignmentRouter.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
-          "line": 29,
-          "route": "/:blockInstanceId/:annotationId",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
-          "line": 29,
-          "route": "/:blockInstanceId/:annotationId",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "server__src__routes__internal__relationships__relationshipInstanceComponentRouter.ts",
-      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-      "categories": [
-        "csrf"
-      ],
-      "issues": [
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 29,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 69,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 29,
-          "route": "/:id",
-          "method": "PATCH",
-          "issue": "Missing CSRF protection on PATCH route",
-          "severity": "error"
-        },
-        {
-          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
-          "line": 69,
-          "route": "/:id",
-          "method": "DELETE",
-          "issue": "Missing CSRF protection on DELETE route",
-          "severity": "error"
-        }
-      ],
-      "score": 40,
-      "priority": "P0"
-    }
-  ]
+  "files": []
 }

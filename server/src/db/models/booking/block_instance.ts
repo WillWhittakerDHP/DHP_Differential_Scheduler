@@ -8,6 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
+import { DEFAULT_VALUES, FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
 import { PartAssignment } from './part_assignment';
 import { BookingCascade } from './booking_cascade';
 
@@ -20,14 +21,15 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare bookingMode: 'standalone' | 'addOn' | 'both';
+  declare bookingMode: typeof DEFAULT_VALUES.BOOKING_MODE | 'addOn' | 'both';
   declare composite: boolean;
   declare differential: 'true' | 'false' | 'override';
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
   declare requiresUnitNumber: boolean | null;
-  declare availableDays: number[] | null; // Array of day indices (0-6), null = all days
+  declare isMultiFamily: boolean;
+  declare requiresAgent: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -66,10 +68,10 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         defaultValue: true,
       },
       bookingMode: {
-        type: DataTypes.ENUM('standalone', 'addOn', 'both'),
+        type: DataTypes.ENUM(DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'),
         allowNull: false,
-        defaultValue: 'standalone',
-        field: 'booking_mode',
+        defaultValue: DEFAULT_VALUES.BOOKING_MODE,
+        field: FIELD_NAMES.BOOKING_MODE_SNAKE,
       },
       composite: {
         type: DataTypes.BOOLEAN,
@@ -98,11 +100,15 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
-      availableDays: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'available_days',
-        comment: 'Array of day indices (0-6) when this service is available. Null means all days.'
+      isMultiFamily: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      requiresAgent: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -119,7 +125,7 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       sequelize,
       indexes: [
         {
-          fields: ['orderIndex'],
+          fields: [FIELD_NAMES.ORDER_INDEX],
         },
       ],
       timestamps: false,

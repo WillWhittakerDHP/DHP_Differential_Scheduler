@@ -85,14 +85,19 @@ const fieldKeys = computed(() => {
   })
 })
 
-const instanceConfig = computed(() => adminConfig.getInstanceConfig(props.entityKey).value || {})
+const instanceConfig = computed(() => {
+  const v = adminConfig.getInstanceConfig(props.entityKey).value
+  return v !== undefined && v !== null ? v : {}
+})
 const inlineFieldsConfig = computed(() => {
   const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  return (config?.inlineFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  const raw = config?.inlineFields
+  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
 })
 const stackedFieldsConfig = computed(() => {
   const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  return (config?.stackedFields || []) as GlobalFieldKey<GlobalEntityKey>[]
+  const raw = config?.stackedFields
+  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
 })
 
 /**

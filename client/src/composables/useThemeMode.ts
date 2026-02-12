@@ -84,7 +84,7 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
 function hexToRgb(hex: string): string {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   if (!result) {
-    return '0, 0, 0' // Fallback to black
+    return '0, 0, 0' // Default to black when hex parse fails
   }
   const r = parseInt(result[1], 16)
   const g = parseInt(result[2], 16)

@@ -257,7 +257,7 @@ export function generateMockFreeBusyResponse(
             
             return period
           } catch (error) {
-            // PATTERN: Include calendar ID, period index, and error details
+            logger.error('Error adjusting busy period', { error, calendarId, periodIndex: i })
             logger.warn(`Skipping busy period ${i} for ${calendarId}:`, {
               error,
               errorMessage: error instanceof Error ? error.message : String(error),
@@ -292,7 +292,10 @@ export function extractBusyTimesFromFreeBusyResponse(
   
   // PATTERN: Use flatMap to extract busy arrays from all calendars immutably
   const allBusyPeriods = Object.values(response.calendars)
-    .flatMap(calendar => calendar.busy || [])
+    .flatMap((calendar) => {
+      const busy = calendar.busy
+      return busy !== undefined && busy !== null && Array.isArray(busy) ? busy : []
+    })
   
   if (!mergeOverlapping || allBusyPeriods.length === 0) {
     return allBusyPeriods

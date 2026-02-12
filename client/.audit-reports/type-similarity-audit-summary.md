@@ -4,26 +4,26 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- Files scanned: **715**
-- Type definitions: **699**
-- Similarity groups: **95**
+- Files scanned: **751**
+- Type definitions: **716**
+- Similarity groups: **96**
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
 | UNIFY | 37 | Same concept duplicated — consolidate |
-| BRAND | 14 | Different concept, same shape — add branding |
-| EXTEND | 36 | Superset/subset — use extends |
+| BRAND | 13 | Different concept, same shape — add branding |
+| EXTEND | 38 | Superset/subset — use extends |
 | REVIEW | 8 | High overlap — needs judgment |
 
 ## Index (ranked)
 
 | Priority | Action | Relationship | Types | Files | Score |
 | --- | --- | --- | --- | ---: | ---: |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `PartInstanceSnapshot`, `BlockInstanceSnapshot`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 67 |
 | P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsData`, `PropertyDetailsStepData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty` | 11 | 63 |
 | P0 | EXTEND | SUBSET | `DayHours`, `CalendarEvent`, `BusyTimeRange`, `CachedCalendarEvent`, `CreatedEventResponse`, `BusyTimeRange`, `CalendarEvent`, `ComputedAvailabilityRequest`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 8 | 61 |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 57 |
 | P0 | REVIEW | EXACT | `DayHours`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 5 | 35 |
-| P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById`, `EntityWithStringId` | 6 | 32 |
+| P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById`, `EntityWithStringId`, `WithId` | 7 | 34 |
 | P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `TimeSlot`, `ComputedSlot` | 6 | 29 |
 | P0 | REVIEW | EXACT | `ISO8601Date`, `RFC3339DateTime`, `GlobalEntityId`, `RFC3339DateTime` | 3 | 25 |
 | P0 | UNIFY | EXACT | `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection` | 4 | 23 |
@@ -70,11 +70,11 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P0 | REVIEW | HIGH_OVERLAP | `AttendeeRequest`, `AttendeeRequest` | 2 | 14 |
 | P0 | EXTEND | SUBSET | `UsePropertyDetailsLogicParams`, `UsePropertyFormStateReturn`, `UsePropertyFormWatchersParams` | 3 | 14 |
 | P0 | BRAND | EXACT | `UseBlockInstanceFormOptions`, `UsePartInstanceFormOptions` | 2 | 12 |
+| P0 | UNIFY | EXACT | `FieldMetadataEntry`, `FieldMetadataEntry` | 2 | 12 |
 | P0 | BRAND | EXACT | `BusinessDataCollectionEndpoints`, `GlobalDataCollectionEndpoints` | 2 | 12 |
 | P0 | UNIFY | EXACT | `EntityMetadataType`, `EntityMetadataType` | 2 | 12 |
 | P0 | BRAND | EXACT | `UseSelectionCardConfigParams`, `UseSelectionCardGroupConfigParams` | 2 | 12 |
 | P0 | BRAND | EXACT | `BusinessDataCollectionQueryResult`, `GlobalDataCollectionQueryResult` | 2 | 12 |
-| P0 | UNIFY | EXACT | `FieldMetadataEntry`, `FieldMetadataEntry` | 2 | 12 |
 | P0 | BRAND | EXACT | `PropertiesTableModel`, `UsersTableModel` | 2 | 12 |
 | P0 | UNIFY | EXACT | `ContactsStepData`, `ContactsStepData` | 2 | 12 |
 | P0 | BRAND | EXACT | `BusinessDataCollectionByIdQueryResult`, `GlobalDataCollectionByIdQueryResult` | 2 | 12 |
@@ -83,24 +83,24 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P0 | UNIFY | EXACT | `UpdateByIdPayload`, `UpdateByIdPayload` | 2 | 12 |
 | P0 | BRAND | EXACT | `UseInstanceBulkEditOptions`, `UseInstanceFilteringOptions` | 2 | 12 |
 | P0 | REVIEW | EXACT | `Props`, `Props`, `TimeBasisHandlerProps` | 3 | 12 |
-| P0 | BRAND | EXACT | `UseAvailabilitySlotColorParams`, `UsePerspectiveMappingParams` | 2 | 12 |
 | P0 | UNIFY | EXACT | `RelationshipFieldType`, `RelationshipFieldType` | 2 | 12 |
 | P0 | UNIFY | EXACT | `SelectDomTarget`, `SelectDomTarget` | 2 | 12 |
+| P0 | EXTEND | SUBSET | `RelationshipFieldType`, `DependencyImpact`, `RelationshipFieldType` | 3 | 12 |
 | P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `TimeBasisHandlerProps` | 4 | 12 |
-| P0 | EXTEND | SUBSET | `FieldsByLocation`, `FieldsByLocation`, `UseFieldContextManagerOptions` | 3 | 12 |
 | P0 | EXTEND | SUBSET | `LoadingIndicatorInstance`, `UseLoadingIndicatorReturn`, `LoadingIndicatorInstance` | 3 | 12 |
 | P1 | BRAND | EXACT | `AppointmentData`, `DevPanelsComputedData` | 2 | 10 |
 | P1 | BRAND | EXACT | `Props`, `UseSelectConfigOptions` | 2 | 10 |
 | P1 | UNIFY | EXACT | `LoadingIndicatorInstance`, `LoadingIndicatorInstance` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `SelectGroup`, `GroupedEntities` | 2 | 10 |
-| P1 | EXTEND | SUBSET | `PriceData`, `BlockInstanceFeeResult` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseAvailabilityStepDataParams`, `UseAvailabilityValidationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `MinimalSlotParams`, `SlotGenerationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `BusinessRule`, `BusinessRuleFormData` | 1 | 10 |
+| P1 | EXTEND | SUBSET | `PriceData`, `BlockInstanceFeeResult` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `RelationshipCollectionModel`, `UseRelationshipCollectionDataReturn` | 2 | 10 |
+| P1 | EXTEND | SUBSET | `InstanceComponent`, `CreateRelationshipPayload` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseFormElementPatchingOptions`, `FormElementPatchingOptions` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseEntityCrudMutationsReturn`, `UseEntityCrudActionsReturn`, `UseEntityCrudStateReturn` | 3 | 10 |
-| P1 | EXTEND | SUBSET | `UseFieldInputHandlersParams`, `UseSelectHandlersOptions` | 2 | 10 |
+| P1 | EXTEND | SUBSET | `CascadeFilterParams`, `PipelineParams` | 1 | 10 |
 | P1 | EXTEND | SUBSET | `UseFormFieldsReturn`, `UseFormFieldsStandardLayoutReturn` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseSelectionCardComponentParams`, `UseSelectionCardStylesParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseComponentDistributionReturn`, `DistributionPreview` | 2 | 10 |
@@ -112,6 +112,7 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `FieldMetadata`, `DisplayProps` | 1 | 8 |
 | P1 | EXTEND | SUBSET | `UseAppointmentSlotsReturn`, `UseMoveablePartsSchedulingParams` | 2 | 8 |
+| P1 | EXTEND | SUBSET | `FieldsByLocation`, `FieldsByLocation` | 2 | 8 |
 | P2 | EXTEND | SUBSET | `Suggestion`, `SearchResults` | 1 | 6 |
 | P2 | EXTEND | SUBSET | `Props`, `Props` | 2 | 6 |
 

@@ -8,15 +8,7 @@
 
 import { Router, Request, Response } from 'express'
 import { RELATIONSHIP_REGISTRY, type RelationshipKind } from './relationshipConstants.js'
-import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
-import { 
-  EventInstance, 
-  EventShape, 
-  AnnotationInstance, 
-  AnnotationShape, 
-  BlockInstance 
-} from '../../../config/app.js'
-import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js'
+import { buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
@@ -26,79 +18,11 @@ const logger = createLogger('RelationshipBatchRouter')
 
 const router = Router()
 
-/**
- * Build query options for batch relationship fetch
- * LEARNING: Simplified version of buildRelationshipQueryOptions for batch endpoint
- * WHY: Batch endpoint doesn't need query filtering, just basic options
- * PATTERN: Build options with disabled filter, ordering, includes, and attributes
- */
-function buildBatchRelationshipOptions(
-  relationshipType: string,
+function buildBatchWhereClause(
   relationshipConfig: typeof RELATIONSHIP_REGISTRY[RelationshipKind]
-): any {
+): Record<string, unknown> {
   const modelAttributes = relationshipConfig.model.getAttributes()
-  const baseWhere: any = {}
-  
-  // PATTERN: Only filter disabled if model has disabled field
-  const whereClause = 'disabled' in modelAttributes
-    ? { ...baseWhere, disabled: false }
-    : baseWhere
-  
-  const options: any = {
-    where: whereClause
-  }
-  
-  // PATTERN: Use attribute names in Sequelize queries, not database column names
-  if (relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
-    options.order = [['orderIndex', 'ASC']]
-  }
-  
-  // PATTERN: Conditional includes based on relationship type (matching CRUD router logic)
-  if (relationshipType === 'eventAssignments') {
-    options.include = [
-      {
-        model: EventInstance,
-        as: 'eventInstance',
-        attributes: ['id', 'name', 'event_shape_ref', 'title_template', 'description_template', 'location_template'],
-        include: [
-          {
-            model: EventShape,
-            as: 'eventShape',
-            attributes: ['id', 'name']
-          }
-        ]
-      }
-    ]
-  }
-  
-  if (relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS) {
-    options.include = [
-      {
-        model: AnnotationInstance,
-        as: 'annotation',
-        attributes: ['id', 'text', 'userType', 'type'],
-        include: [
-          {
-            model: AnnotationShape,
-            as: 'annotationShape',
-            attributes: ['id', 'name']
-          }
-        ]
-      },
-      {
-        model: BlockInstance,
-        as: 'userTypeBlockInstance',
-        attributes: ['id', 'name'],
-        required: false
-      }
-    ]
-  }
-  
-  if (isModelUnderscored(relationshipConfig.model)) {
-    options.attributes = getModelAttributes(relationshipConfig.model)
-  }
-  
-  return options
+  return 'disabled' in modelAttributes ? { disabled: false } : {}
 }
 
 /**
@@ -118,11 +42,12 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
     // PATTERN: Map relationship keys to fetch promises, await all in parallel
     const relationshipPromises = (Object.keys(RELATIONSHIP_REGISTRY) as RelationshipKind[]).map(async (relationshipKey) => {
       const relationshipConfig = RELATIONSHIP_REGISTRY[relationshipKey]
-      
-      // LEARNING: Build options for batch fetch (no query filtering needed)
-      // WHY: Batch endpoint returns all relationships, simplified options
-      const options = buildBatchRelationshipOptions(relationshipKey, relationshipConfig)
-      
+      const whereClause = buildBatchWhereClause(relationshipConfig)
+      const options = buildRelationshipQueryOptions({
+        relationshipType: relationshipKey,
+        relationshipConfig,
+        whereClause,
+      })
       const data = await relationshipConfig.model.findAll(options)
       return { relationshipKey, data }
     })
