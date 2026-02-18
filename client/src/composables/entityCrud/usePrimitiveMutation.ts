@@ -54,7 +54,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
             
             const currentEntities = old.entities[entityKey] || []
             const filteredEntities = currentEntities.filter(
-              (entity) => String(entity.id) !== String(errorId)
+              (entity) => entity.id !== errorId
             )
             
             // PATTERN: Filter out relationships with children array containing the deleted partInstance
@@ -63,7 +63,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
               updatedRelationships = {
                 ...old.relationships,
                 partAssignments: old.relationships.partAssignments.filter(
-                  rel => !rel.children.some(child => String(child.id) === String(errorId))
+                  rel => !rel.children.some(child => child.id === errorId)
                 )
               }
             }
@@ -105,7 +105,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
 
         const currentEntities = old.entities[entityKey] || []
         const entityIndex = currentEntities.findIndex((entity) => 
-          String(entity.id) === String(variables.dynamicId)
+          entity.id === variables.dynamicId
         )
 
         if (entityIndex === -1) {

@@ -12,7 +12,7 @@ import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 export interface UseSelectLabelResolutionOptions {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
@@ -54,7 +54,7 @@ export function useSelectLabelResolution(
     const blockShapeRef = getEntityFieldValue(entity, 'blockShapeRef') as string | undefined
     if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
     
-    const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
+    const blockShape = adminComp.getEntity('blockShape', toGlobalEntityId(blockShapeRef))
     const shapeName = blockShape?.name as string || 'Instance'
     
     return rawLabel.replace('{blockShapeName}', shapeName)

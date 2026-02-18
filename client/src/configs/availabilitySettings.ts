@@ -6,245 +6,44 @@ WHY: Centralizes business hours and time slot configuration (admin-configurable 
 PATTERN: TypeScript interface with default values, fetches from API with defaults when not yet loaded
 Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
+ * Type similarity UNIFY: availability types imported from shared (single source of truth).
  */
-import type { RFC3339DateTime } from '@/types/datetime'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
+import type {
+  ConstraintEnforcement,
+  Coordinates,
+  DefaultLocation,
+  DriveTimeApplyTo,
+  DriveTimeConfig,
+  RangeConstraintType,
+  WorkCapacityFilter,
+  RollingWeekCapacityFilter,
+  RollingWeekDirection,
+  LeadTimeConfig,
+  BusinessHoursConfig,
+  DateRangeConfig,
+  RangeConstraint as SharedRangeConstraint,
+  DayHours,
+  BufferConfig
+} from '@shared/types/availabilityTypes'
+import type { CalendarConfig, CalendarEntry, CalendarProvider } from '@shared/types/calendarTypes'
 
 const logger = createLogger('availabilitySettings')
 
-/**
- * Business hours for a single day
- * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
- * WHY: Consistent format throughout codebase, matches Google Calendar API
- * PATTERN: Use fixed reference date (2000-01-01) to store time-of-day as RFC3339
- * NOTE: Internal type only - not exported as it's only used in AvailabilitySettings interface
- */
-interface DayHours {
-  start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
-  end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
-}
+// Re-export shared types so existing imports from this file keep working
+export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
+export type { DayHours }
 
 /**
- * Constraint enforcement level
- * LEARNING: Controls how strictly constraints are enforced
- * WHY: Provides flexibility in how constraints are applied (off = not applied, flexible = warn/soft block, hard = hard block)
- * PATTERN: Enum-like string literal union type
+ * Range constraint (storage shape): shared type uses category for discriminated union.
+ * We use the shared type; when building from API/forms, add category: 'range' for compatibility.
  */
-export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
+export type RangeConstraint = SharedRangeConstraint
 
-/**
- * Rolling week calculation direction
- * LEARNING: Determines how rolling 7-day window is calculated relative to appointment date
- * WHY: Different businesses may prefer different rolling week calculations
- * PATTERN: Enum-like string literal union type
- * NOTE: Internal type only - not exported as it's only used in RollingWeekCapacityFilter interface
- */
-type RollingWeekDirection = 'past' | 'centered' | 'future'
-
-/**
- * Work capacity filter configuration
- * LEARNING: Configuration for a single capacity filter (daily, calendar week, or rolling week)
- * WHY: Encapsulates max hours and filter mode together
- * PATTERN: Interface with required fields
- */
-export interface WorkCapacityFilter {
-  maxHours: number
-  enforcement: ConstraintEnforcement
-}
-
-/**
- * Rolling week capacity filter configuration
- * LEARNING: Extends WorkCapacityFilter with direction setting
- * WHY: Rolling week needs direction to determine date range calculation
- * PATTERN: Extends base interface with additional field
- */
-export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
-  direction: RollingWeekDirection
-}
-
-/**
- * Range constraint type
- * LEARNING: Identifies the type of time-based restriction
- * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
- * PATTERN: Enum-like string literal union type
- * NOTE: Exported for use in constraintTypes.ts constants
- */
-export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
-
-/**
- * Range constraint configuration
- * LEARNING: Configuration for business hours constraint
- * WHY: Encapsulates business hours per day
- * PATTERN: Interface with business hours map
- */
-export interface BusinessHoursConfig {
-  hours: AvailabilitySettings['businessHours']
-}
-
-/**
- * Range constraint configuration
- * LEARNING: Configuration for lead time constraint
- * WHY: Encapsulates minimum lead time in minutes
- * PATTERN: Interface with minutes field
- * NOTE: Internal type only - not exported as it's only used in RangeConstraint interface
- */
-interface LeadTimeConfig {
-  minutes: number
-}
-
-/**
- * Range constraint configuration
- * LEARNING: Configuration for date range constraint
- * WHY: Encapsulates absolute start and end boundaries
- * PATTERN: Interface with start and end RFC3339 datetime strings
- */
-export interface DateRangeConfig {
-  start: string  // RFC3339 datetime
-  end: string    // RFC3339 datetime
-}
-
-/**
- * Range constraint
- * LEARNING: Time-based restrictions that filter slots by when they can occur
- * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
- * PATTERN: Interface with type, enforcement, and config
- */
-export interface RangeConstraint {
-  type: RangeConstraintType
-  enforcement: ConstraintEnforcement
-  config: BusinessHoursConfig | LeadTimeConfig | DateRangeConfig
-}
-
-/**
- * Buffer type for distinguishing buffer purposes
- * LEARNING: Identifies the purpose of a buffer configuration
- * WHY: Allows different buffer types (appointment, driveTime, lunch) to coexist
- * PATTERN: Enum-like string literal union type
- * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
- */
-type BufferType = 'appointment' | 'driveTime' | 'lunch'
-
-/**
- * Buffer placement for controlling where buffer is applied
- * LEARNING: Controls where buffer time is placed around slots
- * WHY: Different buffer placements (before, after, both) serve different purposes
- * PATTERN: Enum-like string literal union type
- * NOTE: Internal type only - not exported as it's only used in BufferConfig interface
- */
-type BufferPlacement = 'off' | 'before' | 'after' | 'both'
-
-/**
- * Buffer configuration (now OverlapConstraint)
- * LEARNING: Configuration for a single buffer type (appointment, driveTime, or lunch)
- * WHY: Encapsulates buffer type, minutes, placement, and enforcement together
- * PATTERN: Interface with required fields, similar to WorkCapacityFilter
- */
-export interface BufferConfig {
-  type: BufferType
-  minutes: number
-  placement: BufferPlacement  // Renamed from mode
-  enforcement: ConstraintEnforcement  // Added enforcement property
-}
-
-/**
- * Drive time application rules
- * LEARNING: Controls when drive time buffers are applied based on slot position
- * WHY: Slots at business hours boundaries may need different handling than middle slots
- * PATTERN: Enum-like string literal union type
- * 
- * - 'all': Apply to all slots (default - includes day start and day end)
- * - 'skipDayStart': Apply to all slots EXCEPT those at day start (allows early slots without drive time blocking)
- * - 'skipDayEnd': Apply to all slots EXCEPT those at day end (allows late slots without drive time blocking)
- * - 'none': Disabled - don't apply this buffer
- */
-export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
-
-/**
- * Drive time buffer configuration
- * LEARNING: Semantic buffer for travel time with application rules
- * WHY: driveToCandidate/driveFromCandidate have implicit placement (before/after) - no ambiguity
- * PATTERN: Interface with minutes, enforcement, and applyTo (no placement needed)
- * 
- * Unlike BufferConfig which has explicit 'placement', DriveTimeConfig uses semantic naming:
- * - driveToCandidate: Travel time to arrive at appointment (always applied BEFORE)
- * - driveFromCandidate: Travel time to depart from appointment (always applied AFTER)
- */
-export interface DriveTimeConfig {
-  minutes: number
-  enforcement: ConstraintEnforcement
-  applyTo: DriveTimeApplyTo
-}
-
-/**
- * Coordinates interface for location data
- * LEARNING: Latitude/longitude coordinates from Google Places API
- * WHY: Required for distance calculations in Phase 2.2
- * PATTERN: Simple coordinate pair matching Google Maps format
- * Session 2.2.1: Extracted for reusability
- */
-export interface Coordinates {
-  lat: number
-  lng: number
-}
-
-/**
- * Default location for drive time calculations
- * LEARNING: Starting/ending point for first/last appointment drive times
- * WHY: Needed to calculate travel time from home/office to first appointment
- * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
- * 
- * This is used as:
- * - Starting point for travel to first appointment of the day
- * - Ending point for travel from last appointment of the day
- * 
- * Session 2.2.2: Added placeId for Routes API integration
- * Session 2.2.3: placeId is now primary location identifier throughout codebase
- */
-export interface DefaultLocation {
-  placeId: string           // Google Place ID (primary location identifier)
-  address?: string          // Address string for UI display only (optional, from autocomplete)
-  label?: string            // Optional label like "Home Office", "Shop", etc.
-  coordinates?: Coordinates // Optional - populated by Google Places API (Session 2.2.1)
-}
-
-/**
- * Calendar provider type
- * LEARNING: Identifies the calendar service provider
- * WHY: Supports multiple calendar providers (Google, Outlook)
- * PATTERN: Enum-like string literal union type
- * Session 2.0.1: Added for calendar configuration
- */
-export type CalendarProvider = 'google' | 'outlook' | 'none'
-
-/**
- * Calendar entry with read/write permissions
- * LEARNING: Individual calendar configuration with explicit permissions
- * WHY: Allows admin to configure which calendars are read vs written to
- * PATTERN: Interface with email, optional label, and permission flags
- */
-export interface CalendarEntry {
-  email: string           // Calendar email address (e.g., "will@districthomepro.com")
-  label?: string          // Optional friendly name (e.g., "Work Calendar")
-  readFrom: boolean       // Check this calendar for availability (free-busy)
-  writeTo: boolean        // Create appointments on this calendar
-}
-
-/**
- * Calendar configuration
- * LEARNING: Configuration for which calendars to check for free-busy data and where to create events
- * WHY: Allows admin to configure multiple calendar sources with explicit read/write permissions
- * PATTERN: Dynamic array of calendar entries instead of fixed labeled fields
- * Session 2.0.1: Added for Google Calendar API integration
- * Session 2.X: Refactored to support dynamic calendar list with read/write permissions
- */
-export interface CalendarConfig {
-  enabled: boolean
-  provider: CalendarProvider
-  calendars: CalendarEntry[]  // Dynamic list instead of fixed object
-}
-
+// Re-export calendar types from shared (Phase 1.2 type-similarity)
+export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
 /**
  * Default calendar configuration
@@ -386,6 +185,18 @@ export interface AvailabilitySettings {
   calendarConfig?: CalendarConfig
 }
 
+/** API may omit category; normalize to shared RangeConstraint (category: 'range') when reading. */
+function ensureRangeConstraintCategory(rc: RawAvailabilitySettings['rangeConstraints']): AvailabilitySettings['rangeConstraints'] {
+  if (!rc) return undefined
+  const withCategory = (c: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' })): RangeConstraint =>
+    ('category' in c && c.category === 'range' ? c : { ...c, category: 'range' as const }) as RangeConstraint
+  return {
+    businessHours: rc.businessHours ? withCategory(rc.businessHours) : undefined,
+    leadTime: rc.leadTime ? withCategory(rc.leadTime) : undefined,
+    dateRange: rc.dateRange ? withCategory(rc.dateRange) : undefined
+  }
+}
+
 /**
  * LEARNING: Raw availability settings type from API response
  * WHY: Eliminates duplication between useAvailabilitySettings and availabilitySettings config
@@ -394,9 +205,9 @@ export interface AvailabilitySettings {
 export interface RawAvailabilitySettings {
   minuteIncrement: number
   rangeConstraints: {
-    businessHours: RangeConstraint
-    leadTime?: RangeConstraint
-    dateRange?: RangeConstraint
+    businessHours: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' })
+    leadTime?: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' })
+    dateRange?: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' })
   }
   buffers?: {
     appointment?: BufferConfig
@@ -510,19 +321,26 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
       
       const businessHoursConfig = rawSettings.rangeConstraints.businessHours.config as BusinessHoursConfig
       const businessHours = businessHoursConfig.hours
-      
+      // Ensure shared RangeConstraint shape (category: 'range') for API responses that may omit it
+      const rangeConstraints = ensureRangeConstraintCategory(rawSettings.rangeConstraints)
       // LEARNING: Server sends RFC3339 format directly in current structure
       // WHY: Server is source of truth for RFC3339 format, no conversion needed
       // PATTERN: Use settings directly from API response
       const convertedSettings: AvailabilitySettings = {
         businessHours: businessHours,
         minuteIncrement: rawSettings.minuteIncrement,
-        rangeConstraints: rawSettings.rangeConstraints,
+        rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
         timezone: rawSettings.timezone,
         durationRounding: rawSettings.durationRounding,
-        differentialPerspectives: rawSettings.differentialPerspectives,
+        differentialPerspectives: rawSettings.differentialPerspectives
+          ? {
+              ...rawSettings.differentialPerspectives,
+              majorAttendees: rawSettings.differentialPerspectives.majorAttendees?.map(toGlobalEntityId),
+              minorAttendees: rawSettings.differentialPerspectives.minorAttendees?.map(toGlobalEntityId),
+            }
+          : undefined,
         // Session 2.1.2: Include calendarConfig from raw settings
         calendarConfig: rawSettings.calendarConfig,
         // Drive time buffer refactor: Include defaultLocation for drive time calculations

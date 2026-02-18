@@ -3,7 +3,7 @@
 **Purpose:** Master checklist and ordered todo list for preparing the Differential Scheduler for alpha/beta launch. This document is designed to be revisited across multiple Cursor sessions and serves as the single tracking artifact for launch readiness.
 
 **Created:** 2026-02-18
-**Last Updated:** 2026-02-18 (Review pass: Phase 0, milestones, time estimates, dependency notes, rollback plan)
+**Last Updated:** 2026-02-18 (Added Phase 7: Native App Shell — Capacitor + Ionic strategy)
 **Status:** Active — Pre-Launch Planning
 **Hosting Target:** Render (API + static site)
 **Related:** `.project-manager/PROJECT_PLAN.md` (feature development tracking)
@@ -152,6 +152,8 @@ Google Calendar API / Google Maps API
 - No production environment variable management
 - No beta tester onboarding / guided testing system (see Phase 6A for full design)
 - No email/notification system (Phase 2A adds transactional email for magic links)
+- No native app shell (no Capacitor, no PWA — see Phase 7 for Capacitor + Ionic strategy)
+- No admin override for availability blockers (see Phase 8A for force-create + blocker exception records)
 
 ---
 
@@ -161,7 +163,8 @@ Google Calendar API / Google Maps API
 |-----------|-------------------|----------------|
 | **Alpha Ready** | App deployed on Render, auth working, core booking + admin flows functional. You (Will) can use it end-to-end from a browser that isn't localhost. No external testers yet. | P0 + P1 complete (items #0–#23) |
 | **Beta Ready** | E2E tests cover critical paths, error tracking live, guided testing system seeded, testers can log in via magic link, submit feedback, and follow assigned test tasks. Ready to invite 5–10 trusted testers. | P0 + P1 + P2 + P3 + P4 complete (items #0–#69) |
-| **Production Ready** | Password auth, full test coverage, custom domain, polished UI, rollback procedures documented and tested. Ready for public access. | All priorities complete |
+| **Production Ready** | Password auth, full test coverage, custom domain, polished UI, rollback procedures documented and tested. Ready for public access. | All priorities complete (P0–P5) |
+| **Native App Ready** | SPA wrapped in Capacitor, running on iOS simulator + Android emulator, connected to production API. Ready for App Store / Play Store submission. | P6 complete (items #83–#92) |
 
 ---
 
@@ -1641,6 +1644,11 @@ See **Phase 3A** for full details on test quality validation (mutation testing, 
   - Verify: `cd client && npx tsc --noEmit` passes with zero errors including test files
   - Verify: `cd client && npm run lint` passes with test files included
   - Verify: `cd server && npm run lint` passes with test files included
+- [ ] **3.0a** Turn test audits back on before starting the testing build
+  - Set `testsDisabled` to `false` (or equivalent) in `client/.audit-reports/audit-global-config.json` so that test-related audits (audit:test, coverage-risk-crossref) run and contribute to the meta report
+  - If audit:all or coverage-risk-crossref was changed to skip these when tests are disabled, remove or reverse that conditional so they run again
+  - Re-run `audit:meta` to confirm coverage-risk and test-audit outputs appear in the dashboard
+  - See Plan D in the fix_constants_types_component_audits plan (`.cursor/plans/` or audit script docs) for central config details
 - [ ] **3.1** Create feature documentation in `.project-manager/features/test-suite-setup/`
   - `README.md` — Feature overview
   - `feature-plan.md` — Detailed plan with phases/sessions
@@ -3080,6 +3088,377 @@ Behaviors:
 
 ---
 
+## Phase 7: Native App Shell (Capacitor → Ionic)
+
+**Goal:** Package the existing Vue SPA as a native iOS/Android app using Capacitor, with a path toward selective Ionic Vue conversion for the customer-facing booking flow after the Admin UI Overhaul simplifies the component architecture.
+
+**Why Two Stages:** Capacitor wraps the existing SPA as-is — zero component changes, immediate App Store / Play Store presence. Ionic Vue conversion (replacing Vuetify components with native-feeling Ionic components) is a larger effort that benefits from happening *after* the Admin UI Overhaul (Feature 13) dramatically reduces and simplifies the component count. Converting 15 standard components is a different proposition than converting 40+ metadata-driven generic components.
+
+**Strategy:**
+- **Stage 1 (Capacitor Shell):** Wrap the existing Vuetify SPA in Capacitor. Web version stays identical. Native app is the same UI in a native container. Access to native APIs (push notifications, biometrics, etc.) via Capacitor plugins.
+- **Stage 2 (Selective Ionic Conversion):** After the Admin UI Overhaul, optionally convert the customer-facing booking wizard to Ionic Vue components for native-feeling mobile UX. Admin panel stays Vuetify (better for complex desktop workflows). Informed by real user feedback from beta.
+
+**Dependencies:**
+- Stage 1 depends on Phase 1 (Hosting & Deployment) — the app needs a deployed API for the native shell to talk to
+- Stage 2 depends on Feature 13 (Admin UI Overhaul) — simplification must happen first to reduce conversion scope
+- Stage 2 depends on Feature 12 Phase 12.3 (Responsive Design & Mobile Optimization) — mobile UX baseline established first
+
+### Stage 1: Capacitor Shell
+
+**Goal:** Wrap the existing Vue + Vuetify SPA as a native iOS and Android app. No component changes — the web build is loaded inside native WebView containers.
+
+#### Checklist
+
+- [ ] **7.1** Install Capacitor dependencies
+  - `npm install @capacitor/core @capacitor/cli` in `client/`
+  - `npx cap init` — generates `capacitor.config.ts` (set `webDir: 'dist'`)
+- [ ] **7.2** Add iOS platform
+  - `npx cap add ios` — generates `ios/` folder with Xcode project
+  - Requires macOS with Xcode installed
+  - Verify: `npx cap open ios` → app loads in Xcode simulator
+- [ ] **7.3** Add Android platform
+  - `npx cap add android` — generates `android/` folder with Android Studio project
+  - Requires Android Studio installed
+  - Verify: `npx cap open android` → app loads in Android emulator
+- [ ] **7.4** Configure Capacitor for production API
+  - Set `server.url` in `capacitor.config.ts` for development (local API)
+  - Production builds use the bundled `dist/` assets, pointing at the Render API via `VITE_API_BASE_URL`
+  - Verify: native app connects to hosted API, not localhost
+- [ ] **7.5** Add PWA support (web fallback)
+  - Install `vite-plugin-pwa` in `client/`
+  - Add `manifest.json` with app name, icons, theme colors
+  - Configure service worker for offline caching of static assets
+  - Users who don't install the native app can "Add to Home Screen" from the browser
+- [ ] **7.6** Add app icons and splash screens
+  - Generate icon set for iOS (1024x1024 base) and Android (512x512 base)
+  - Use `@capacitor/splash-screen` plugin for launch screen
+  - Configure splash screen auto-hide after app loads
+- [ ] **7.7** Configure native permissions
+  - Audit which Capacitor plugins are needed (push notifications, camera, etc.)
+  - Add required permissions to `Info.plist` (iOS) and `AndroidManifest.xml` (Android)
+  - Start minimal — only add permissions as features require them
+- [ ] **7.8** Add Capacitor sync to build pipeline
+  - After `vite build`, run `npx cap sync` to copy `dist/` into native projects
+  - Add npm script: `"cap:sync": "npx cap sync"`, `"cap:build": "npm run build && npx cap sync"`
+  - Update `.gitignore` for native build artifacts (keep `ios/` and `android/` in git for reproducibility)
+- [ ] **7.9** Test native app end-to-end
+  - Booking wizard flow works on iOS simulator
+  - Booking wizard flow works on Android emulator
+  - Admin panel works (desktop-oriented but functional on tablet)
+  - API calls reach hosted backend
+  - Deep links / routing works within the native shell
+- [ ] **7.10** App Store / Play Store preparation (optional — can defer)
+  - Create Apple Developer account ($99/year) if targeting iOS App Store
+  - Create Google Play Developer account ($25 one-time) if targeting Play Store
+  - Prepare store metadata: description, screenshots, category, privacy policy URL
+
+### Stage 2: Selective Ionic Vue Conversion (Post Admin UI Overhaul)
+
+**Goal:** After the Admin UI Overhaul simplifies the component architecture, selectively convert the customer-facing booking wizard to Ionic Vue components for a native-feeling mobile experience. Admin panel stays on Vuetify.
+
+**Prerequisite:** Feature 13 (Admin UI Overhaul) must be complete — the overhaul will dump the metadata-driven generic components and replace them with simpler, more standard components. This dramatically reduces the scope of any framework conversion.
+
+#### Checklist
+
+- [ ] **7.11** Evaluate whether Ionic conversion is warranted
+  - Review real user feedback from beta on mobile booking UX
+  - Assess whether Vuetify-in-Capacitor provides adequate mobile experience
+  - If mobile UX is satisfactory, skip Stage 2 entirely
+  - Decision gate: only proceed if user feedback indicates mobile-native UX is needed
+- [ ] **7.12** Install Ionic Vue alongside Vuetify
+  - `npm install @ionic/vue @ionic/vue-router` in `client/`
+  - Configure Ionic CSS imports (core, normalize, structure, typography)
+  - Verify: both Vuetify and Ionic components render without CSS conflicts
+- [ ] **7.13** Create Ionic-based booking wizard shell
+  - New route group for the booking wizard using `IonPage`, `IonContent`, `IonHeader`
+  - Booking wizard steps use Ionic navigation patterns (slide transitions, swipe-back)
+  - Keep admin panel routes on Vuetify — no changes to admin
+- [ ] **7.14** Convert booking wizard components to Ionic
+  - Replace Vuetify components with Ionic equivalents in booking step components
+  - `v-btn` → `ion-button`, `v-card` → `ion-card`, `v-text-field` → `ion-input`, etc.
+  - Composable logic stays untouched — only templates change
+  - Verify: all booking wizard functionality preserved with Ionic components
+- [ ] **7.15** Test hybrid app (Vuetify admin + Ionic booking)
+  - Admin panel: Vuetify components render correctly, all CRUD operations work
+  - Booking wizard: Ionic components render with native-feeling UX
+  - Transitions between admin and booking routes are smooth
+  - Bundle size impact is acceptable (two component libraries)
+- [ ] **7.16** Optimize bundle for hybrid setup
+  - Tree-shake unused Ionic and Vuetify components
+  - Consider code-splitting: Ionic CSS only loaded on booking routes
+  - Measure and document bundle size impact
+
+### Decision Log
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Stage 1 framework | Capacitor (no Ionic UI) | Zero component changes, immediate native shell, preserves all existing Vuetify UI |
+| Stage 2 timing | After Admin UI Overhaul | Overhaul simplifies components first — fewer to convert, cleaner architecture |
+| Stage 2 scope | Booking wizard only | Customer-facing flow benefits most from native mobile UX; admin panel is desktop-focused |
+| Admin panel framework | Stays Vuetify | Vuetify has superior data tables, form components, and desktop layout tools |
+| PWA | Added in Stage 1 | Low-effort fallback for users who don't install native app; complements Capacitor |
+| Stage 2 gate | User feedback driven | Only convert to Ionic if real beta feedback indicates mobile-native UX is needed |
+
+---
+
+## Phase 8A: Admin Force-Create & Blocker Exception Records
+
+**Goal:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers (capacity limits, overlap conflicts, business hours, lead time) — and persist a record of which constraints were overridden so the system can honor those same exceptions during a future reschedule.
+
+**Why:** Real-world scheduling requires override capability. A VIP client calls and needs a specific slot. The inspector wants to squeeze in a short job after hours. The current constraint system correctly blocks these — but an admin needs a deliberate escape hatch that is auditable, recorded, and carried forward if the appointment is later rescheduled.
+
+**Dependency:** Phase 2A (Authentication) must be complete — force-create requires `req.user` to record who authorized the override.
+
+### Architecture
+
+```
+Admin Force-Create & Blocker Exception Flow
+──────────────────────────────────────────────────────────
+
+  FORCE-CREATE FLOW (admin-initiated)
+  ────────────────────────────────────
+  1. Admin picks a date/time (even a blocked slot)
+  2. Client calls POST /api/v1/internal/appointments/force-create
+     with: { appointmentData, selectedSlot: { startTime, endTime } }
+  3. Server runs normal slot computation for that exact time
+     → collects ALL violations (range, overlap, capacity) instead of rejecting
+  4. Server creates the appointment regardless of violations
+  5. Server creates a constraint_override record linking:
+     - appointment_id → the new appointment
+     - overridden_violations → ['overlap.event.direct', 'capacity.daily', ...]
+     - authorized_by_id → req.user.id (the admin who approved)
+     - reason → optional free-text note ("VIP client requested this slot")
+  6. Response includes both the appointment and the override record
+
+  RESCHEDULE FLOW (honoring existing overrides)
+  ──────────────────────────────────────────────
+  1. Admin initiates reschedule for an appointment that has a constraint_override record
+  2. Client fetches the override record for that appointment
+  3. When computing availability for the new slot, client passes overridden_violations
+     to the server as allowedExceptions
+  4. Server slot computation treats those specific constraint types as 'off' for this request
+     → the rescheduled slot is not blocked by the same constraints the original override allowed
+  5. New override record is created for the rescheduled appointment (preserves audit trail)
+
+  DATA MODEL
+  ──────────
+  constraint_overrides table
+  ├── id                    UUID PK
+  ├── appointment_id        FK → appointments.id (ON DELETE CASCADE)
+  ├── overridden_violations STRING[] — violation keys from ComputedSlot.violations
+  ├── authorized_by_id      FK → users.id (the admin who approved)
+  ├── reason                TEXT — optional free-text note
+  ├── slot_start            TIMESTAMPTZ — the slot that was force-booked
+  ├── slot_end              TIMESTAMPTZ — the slot that was force-booked
+  ├── created_at            TIMESTAMPTZ
+  └── updated_at            TIMESTAMPTZ
+```
+
+### How It Integrates with the Existing Constraint System
+
+Your `slotComputationService.ts` already produces violation keys for every slot:
+
+```typescript
+// Existing violation keys your system already generates:
+// Range:    'range.leadTime', 'range.dateRange'
+// Overlap:  'overlap.event.direct', 'overlap.outOfOffice.direct',
+//           'overlap.driveToCandidate.buffer:25', 'overlap.driveFromCandidate.buffer:20'
+// Capacity: 'capacity.daily', 'capacity.calendarWeek', 'capacity.rollingWeek'
+```
+
+The force-create endpoint re-uses `computeSlotsForDateRange()` but changes the interpretation: instead of filtering to `isAvailable: true` slots only, it runs the computation, collects violations for the requested slot, and records them as the override.
+
+The reschedule integration modifies `computeSlotsForDateRange()` to accept an optional `allowedExceptions: string[]` parameter. When present, any constraint whose violation key is in `allowedExceptions` is temporarily treated as `enforcement: 'off'` for that computation only. This requires no changes to the constraint data in the database — it's a per-request override at the computation layer.
+
+### Key Implementation Detail: Slot Computation with Exceptions
+
+The existing `computeSlotsForOneDay()` function checks constraints in sequence:
+
+```typescript
+// Existing flow in slotComputationService.ts (simplified):
+// 1. checkRangeConstraints()   → passes/fails + violations
+// 2. checkOverlapConstraints() → passes/fails + violations
+// 3. checkCapacityConstraints() → passes/fails + violations
+// Hard failures return isAvailable: false immediately.
+```
+
+For force-create, you need a variant that collects ALL violations without short-circuiting:
+
+```typescript
+// New function: computeViolationsForSlot()
+// Runs all three constraint checks but never short-circuits on hard failures.
+// Returns: { violations: string[], wouldBeAvailable: boolean }
+//
+// Used by:
+//   - force-create endpoint: to record what was overridden
+//   - admin UI: to show the admin exactly what they're overriding before confirming
+
+interface ForceCreateViolationReport {
+  violations: string[]
+  wouldBeAvailable: boolean
+  violationsByCategory: {
+    range: string[]
+    overlap: string[]
+    capacity: string[]
+  }
+}
+```
+
+For reschedule with exceptions, you wrap the existing constraint arrays before passing them to `computeSlotsForDateRange()`:
+
+```typescript
+// Before calling computeSlotsForDateRange(), temporarily relax matching constraints:
+//
+// function relaxConstraintsForExceptions(
+//   constraints: Constraint[],
+//   allowedExceptions: string[]
+// ): Constraint[]
+//
+// For each constraint, check if its violation key pattern matches an allowedExceptions entry.
+// If so, clone the constraint with enforcement: 'off'.
+// This is a pure function — original constraints are not mutated.
+//
+// Example:
+//   allowedExceptions: ['capacity.daily', 'overlap.event.direct']
+//   → daily capacity constraint cloned with enforcement: 'off'
+//   → overlap constraints for regular events cloned with enforcement: 'off'
+//   → all other constraints unchanged
+```
+
+### Checklist
+
+#### Database & Model
+
+- [ ] **8A.1** Create `constraint_overrides` migration
+  - Table: `constraint_overrides`
+  - Columns: `id` (UUID PK), `appointment_id` (FK → appointments, ON DELETE CASCADE), `overridden_violations` (TEXT ARRAY), `authorized_by_id` (FK → users), `reason` (TEXT, nullable), `slot_start` (TIMESTAMPTZ), `slot_end` (TIMESTAMPTZ), `created_at`, `updated_at`
+  - Index on `appointment_id` (most lookups are "get overrides for this appointment")
+- [ ] **8A.2** Create `ConstraintOverride` Sequelize model
+  - File: `server/src/db/models/booking/constraint_override.ts`
+  - Association: `Appointment.hasOne(ConstraintOverride)`, `ConstraintOverride.belongsTo(Appointment)`
+  - Association: `ConstraintOverride.belongsTo(User, { as: 'authorizedBy' })`
+
+#### Server: Force-Create Endpoint
+
+- [ ] **8A.3** Create `computeViolationsForSlot()` in `slotComputationService.ts`
+  - Re-uses existing `checkRangeConstraints()`, `checkOverlapConstraints()`, `checkCapacityConstraints()`
+  - Never short-circuits on hard failures — collects all violations
+  - Returns `ForceCreateViolationReport` with categorized violations
+  - Pure function, no side effects
+- [ ] **8A.4** Create force-create route: `POST /api/v1/internal/appointments/force-create`
+  - File: `server/src/routes/internal/appointments/appointmentForceCreateRouter.ts`
+  - Middleware: `requireAuth`, `requireRole('admin')`
+  - Request body: same as normal appointment creation + `{ forceSlot: { startTime, endTime }, reason?: string }`
+  - Calls `computeViolationsForSlot()` to determine what's being overridden
+  - Creates appointment via existing `afterCreate` logic (snapshots, attendees, calendar event)
+  - Creates `ConstraintOverride` record with violations, admin ID, reason
+  - Response: `{ appointment, constraintOverride, violationReport }`
+- [ ] **8A.5** Create force-create validator
+  - File: `server/src/routes/internal/appointments/appointmentForceCreateValidator.ts`
+  - Validate `forceSlot.startTime` and `forceSlot.endTime` are valid ISO timestamps
+  - Validate `reason` is string if present (max 500 chars)
+  - Validate all normal appointment fields
+- [ ] **8A.6** Mount force-create router in `appointmentRouter.ts`
+  - `router.use('/', AppointmentForceCreateRouter)`
+
+#### Server: Reschedule with Exceptions
+
+- [ ] **8A.7** Create `relaxConstraintsForExceptions()` utility
+  - File: `server/src/utils/availabilities/constraintRelaxation.ts`
+  - Pure function: `(constraints: Constraint[], allowedExceptions: string[]) => Constraint[]`
+  - Clones matching constraints with `enforcement: 'off'` — does not mutate originals
+  - Matching logic: violation key prefix match (e.g., `'capacity.daily'` matches any `capacity.daily` violation; `'overlap.event.direct'` matches that exact violation)
+- [ ] **8A.8** Extend `computeAvailabilityData()` to accept optional `allowedExceptions`
+  - Add optional parameter: `allowedExceptions?: string[]`
+  - When present, call `relaxConstraintsForExceptions()` before passing constraints to `computeSlotsForDateRange()`
+  - Update `availabilityRouter.ts` POST body to accept `allowedExceptions` (only when `appointmentId` is also provided — server verifies the appointment has a matching override record)
+- [ ] **8A.9** Add server-side authorization check for exception usage
+  - When `allowedExceptions` is passed in the availability request, the server must verify:
+    1. The `appointmentId` exists
+    2. The appointment has a `ConstraintOverride` record
+    3. The requested `allowedExceptions` are a subset of `overridden_violations` from that record
+  - Reject if the client tries to pass exceptions that weren't in the original override
+  - This prevents a client from fabricating arbitrary exceptions
+
+#### Client: Admin Force-Create UI
+
+- [ ] **8A.10** Create `useForceCreateAppointment` composable
+  - File: `client/src/composables/admin/useForceCreateAppointment.ts`
+  - Calls the force-create endpoint
+  - Manages: violation preview state, confirmation flow, reason input
+  - Returns: `{ violations, isLoading, forceCreate, previewViolations }`
+- [ ] **8A.11** Create force-create confirmation dialog
+  - Shows the admin exactly which constraints will be overridden
+  - Groups violations by category (range, overlap, capacity) with human-readable labels
+  - Requires explicit confirmation ("I understand this appointment bypasses X constraints")
+  - Optional reason field (free text)
+  - Violation label mapping:
+
+```typescript
+// Human-readable violation labels for the confirmation dialog
+const VIOLATION_LABELS: Record<string, string> = {
+  'range.leadTime': 'Lead time requirement (slot is too soon)',
+  'range.dateRange': 'Outside allowed date range',
+  'overlap.event.direct': 'Conflicts with existing calendar event',
+  'overlap.outOfOffice.direct': 'Conflicts with out-of-office event',
+  'overlap.driveToCandidate.buffer': 'Insufficient drive time to appointment',
+  'overlap.driveFromCandidate.buffer': 'Insufficient drive time from previous appointment',
+  'capacity.daily': 'Exceeds daily work hour limit',
+  'capacity.calendarWeek': 'Exceeds weekly work hour limit',
+  'capacity.rollingWeek': 'Exceeds rolling week work hour limit',
+}
+
+// Drive time violations include minutes — extract for display:
+// 'overlap.driveToCandidate.buffer:25' → 'Insufficient drive time to appointment (25 min)'
+```
+
+- [ ] **8A.12** Add "Force Schedule" button to admin appointments UI
+  - Only visible to admin role users
+  - Located in appointments table toolbar or as a standalone action
+  - Opens a simplified booking flow (date/time picker + service selection)
+  - Shows blocked slots in a distinct color (red/orange) but makes them selectable
+  - Clicking a blocked slot triggers the violation preview + confirmation dialog
+
+#### Client: Reschedule Integration
+
+- [ ] **8A.13** Extend reschedule flow to check for existing overrides
+  - When rescheduling an appointment, fetch its `ConstraintOverride` record (if any)
+  - Pass `allowedExceptions` from the override to the availability computation request
+  - In the availability calendar, slots that would be blocked but are allowed by the exception should show with a distinct visual indicator (e.g., amber/yellow instead of green, with a tooltip explaining "Available via admin override")
+- [ ] **8A.14** Create override record for rescheduled appointment
+  - When a reschedule completes, create a new `ConstraintOverride` record for the new slot
+  - Link to the same `authorized_by_id` as the original override (or to the current admin if an admin is doing the reschedule)
+  - New violations may differ from the original (different slot = different conflicts)
+
+### Violation Key Reference
+
+These are the violation keys your constraint system already produces. The `overridden_violations` column stores these exact strings:
+
+| Constraint Category | Violation Key Pattern | Example | Source Function |
+|---|---|---|---|
+| Range | `range.leadTime` | Slot starts before lead time window | `checkOneRangeConstraint()` |
+| Range | `range.dateRange` | Slot outside allowed date boundaries | `checkOneRangeConstraint()` |
+| Overlap | `overlap.event.direct` | Slot overlaps a calendar event | `getOverlapViolationsForEvent()` |
+| Overlap | `overlap.outOfOffice.direct` | Slot overlaps out-of-office event | `getOverlapViolationsForEvent()` |
+| Overlap | `overlap.driveToCandidate.buffer:N` | Slot within N-minute drive-to buffer | `getOverlapViolationsForEvent()` |
+| Overlap | `overlap.driveFromCandidate.buffer:N` | Slot within N-minute drive-from buffer | `getOverlapViolationsForEvent()` |
+| Capacity | `capacity.daily` | Exceeds max daily work hours | `checkOneCapacityConstraint()` |
+| Capacity | `capacity.calendarWeek` | Exceeds max calendar week hours | `checkOneCapacityConstraint()` |
+| Capacity | `capacity.rollingWeek` | Exceeds max rolling week hours | `checkOneCapacityConstraint()` |
+
+### Decision Log
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Override storage | Separate `constraint_overrides` table | Keeps appointment model clean; one appointment may have zero or one override; CASCADE delete keeps data consistent |
+| Violation recording | Store exact violation key strings | Re-uses existing violation key system from `slotComputationService.ts`; no new enum or mapping needed |
+| Reschedule exception passing | Server-side verification | Client sends `allowedExceptions` + `appointmentId`; server verifies the exceptions match the override record. Prevents fabricated exceptions. |
+| Constraint relaxation approach | Clone constraints with `enforcement: 'off'` | Pure function, no mutation of DB-sourced constraints, no changes to `extractConstraints()` or `AvailabilitySettingsData` |
+| Admin UI approach | Show all slots (blocked = distinct color) | Admin needs to see what they're overriding; hiding blocked slots defeats the purpose |
+| Reason field | Optional free-text | Low friction for quick overrides; available for audit trail when needed |
+
+---
+
 ## Ordered Todo List
 
 This is the implementation order. Work through these sequentially (some can be parallelized as noted). Each item maps to a checklist item above.
@@ -3132,6 +3511,7 @@ E2E tests come first because they validate "does the product work for a user?" M
 
 | # | Item | Phase | Time | Deps | Notes |
 |---|------|-------|------|------|-------|
+| 23a | Turn test audits back on (before testing build) | 3.0a | ½h | — | Set `testsDisabled` false in `audit-global-config.json`; ensure audit:test + coverage-risk run; do before #24 |
 | 24 | Audit existing test coverage | 3.2 | 1h | — | Run coverage reports, identify gaps |
 | 25 | Define coverage targets | 3.3 | ½h | #24 | Decision + document |
 | 26 | Expand CI branch triggers | 4.1 | ½h | — | Update `.github/workflows/ci.yml` to trigger on all branches |
@@ -3213,6 +3593,34 @@ E2E tests come first because they validate "does the product work for a user?" M
 | 80 | Security headers review (CSP) | 2.6 | 1h | — | Content-Security-Policy |
 | 81 | CSRF protection | 2.7 | ½d | — | Recommended for cookie-based session auth |
 | 82 | **Bright MLS API credentials** | Post-Beta | 1h | — | Provider requires beta launch before issuing credentials |
+| 83 | **Capacitor: Install + init** | 7.1 | 1h | #23 | `@capacitor/core`, `@capacitor/cli`, `capacitor.config.ts` |
+| 84 | **Capacitor: Add iOS platform** | 7.2 | 1h | #83 | `npx cap add ios`, verify in Xcode simulator |
+| 85 | **Capacitor: Add Android platform** | 7.3 | 1h | #83 | `npx cap add android`, verify in Android emulator |
+| 86 | **Capacitor: Configure production API** | 7.4 | 1h | #83 | Native app connects to Render API, not localhost |
+| 87 | **PWA: manifest + service worker** | 7.5 | ½d | #23 | `vite-plugin-pwa`, offline caching, Add to Home Screen |
+| 88 | **Capacitor: Icons + splash screens** | 7.6 | ½d | #84, #85 | iOS 1024x1024, Android 512x512, splash screen plugin |
+| 89 | **Capacitor: Permissions + plugins** | 7.7 | 1h | #84, #85 | Start minimal — only add as features require |
+| 90 | **Capacitor: Build pipeline sync** | 7.8 | 1h | #83 | `cap:sync` + `cap:build` npm scripts, `.gitignore` update |
+| 91 | **Capacitor: E2E native testing** | 7.9 | 1d | #84, #85, #86 | Booking + admin flows on iOS sim + Android emulator |
+| 92 | **App Store / Play Store prep** | 7.10 | ½d | #91 | Developer accounts, metadata, screenshots (can defer) |
+| 93 | **Ionic: Evaluate conversion need** | 7.11 | — | Beta feedback | Decision gate — only proceed if mobile-native UX needed |
+| 94 | **Ionic: Install alongside Vuetify** | 7.12 | ½d | #93, Feature 13 | `@ionic/vue`, verify CSS coexistence |
+| 95 | **Ionic: Booking wizard shell** | 7.13 | 1d | #94 | IonPage/IonContent routing for booking flow |
+| 96 | **Ionic: Convert booking components** | 7.14 | 2–3d | #95 | Template-only changes, composable logic untouched |
+| 97 | **Ionic: Hybrid testing** | 7.15 | 1d | #96 | Vuetify admin + Ionic booking coexistence |
+| 98 | **Ionic: Bundle optimization** | 7.16 | ½d | #97 | Tree-shaking, code-splitting, size audit |
+| 99 | **Force-create: DB migration + model** | 8A.1–8A.2 | ½d | **#16** | `constraint_overrides` table + Sequelize model. **Blocked by: #16** (auth) |
+| 100 | **Force-create: `computeViolationsForSlot()`** | 8A.3 | ½d | — | Non-short-circuiting variant of slot constraint checking |
+| 101 | **Force-create: API endpoint + validator** | 8A.4–8A.5 | 1d | #99, #100 | `POST /appointments/force-create`, requireRole('admin') |
+| 102 | **Force-create: Mount router** | 8A.6 | ½h | #101 | Wire into `appointmentRouter.ts` |
+| 103 | **Force-create: `relaxConstraintsForExceptions()`** | 8A.7 | ½d | — | Pure function to clone constraints with enforcement:'off' |
+| 104 | **Force-create: Extend availability endpoint** | 8A.8 | ½d | #99, #103 | Accept `allowedExceptions` + `appointmentId` in POST body |
+| 105 | **Force-create: Server-side exception auth** | 8A.9 | ½d | #104 | Verify exceptions are subset of stored override record |
+| 106 | **Force-create: `useForceCreateAppointment` composable** | 8A.10 | ½d | #101 | Client-side API integration + violation preview state |
+| 107 | **Force-create: Confirmation dialog** | 8A.11 | 1d | #106 | Violation preview, category grouping, reason field, explicit confirm |
+| 108 | **Force-create: Admin UI "Force Schedule" button** | 8A.12 | 1d | #107 | Blocked slots shown in distinct color, selectable by admin |
+| 109 | **Force-create: Reschedule override fetch** | 8A.13 | ½d | #104 | Fetch override for appointment, pass exceptions to availability |
+| 110 | **Force-create: Reschedule override creation** | 8A.14 | ½d | #109 | New override record for rescheduled appointment |
 
 ### Time Estimate Summary
 
@@ -3224,6 +3632,9 @@ E2E tests come first because they validate "does the product work for a user?" M
 | P3: Hardening | #45–54 | ~4–5 days | Production-grade ops |
 | P4: Polish + Guided Testing | #55–69 | ~8–10 days | **Beta Ready** |
 | P5: Production Auth | #70–74 | ~3 days | Production Ready |
+| P6: Native App (Capacitor) | #83–92 | ~3–4 days | App in stores |
+| P7: Ionic Conversion (optional) | #93–98 | ~5–7 days | Native mobile UX |
+| P8: Force-Create & Overrides | #99–110 | ~5–7 days | Admin override capability |
 | **Total to Beta Ready** | **#0–69** | **~30–37 days** | |
 
 These are rough estimates for a solo developer learning as you go. Actual time may vary — some items will go faster than expected, others will surface surprises. The estimates help with sprint planning, not with deadlines.
@@ -3248,11 +3659,17 @@ These are rough estimates for a solo developer learning as you go. Actual time m
 | 5. Production Readiness | Not Started | 0 | 8 |
 | 6. Pre-Launch Polish | Not Started | 0 | 6 |
 | 6A. Beta Tester Onboarding & Guided Testing | Not Started | 0 | 14 |
-| **Total** | | **0** | **107** |
+| 7. Native App Shell — Stage 1 (Capacitor) | Not Started | 0 | 10 |
+| 7. Native App Shell — Stage 2 (Ionic) | Not Started | 0 | 6 |
+| 8A. Admin Force-Create & Blocker Exceptions | Not Started | 0 | 14 |
+| **Total** | | **0** | **137** |
 
 **Notes:**
 - Phase 2A items 2A.19–2A.22 (Password Strategy) are deferred to production transition.
 - Phase 6A items depend on Phase 2A (authentication) — cannot start until auth is deployed.
+- Phase 7 Stage 1 (Capacitor) can begin any time after the app is deployed (Phase 1 complete).
+- Phase 7 Stage 2 (Ionic) is a decision gate — only proceed if beta user feedback indicates mobile-native UX is needed. Depends on Feature 13 (Admin UI Overhaul) completing first.
+- Phase 8A (Force-Create & Overrides) depends on Phase 2A (authentication) — needs `req.user` to record who authorized the override. Connects to Feature 8 Phase 8.4 (Rescheduling Flow).
 - Priority numbering (#0–82) is the implementation sequence. Phase numbering (0.1, 2A.7, etc.) maps to the detailed checklist sections above.
 
 ---
@@ -3369,6 +3786,9 @@ This checklist (BETA_LAUNCH_CHECKLIST.md) tracks **launch infrastructure**. The 
 | Pricing Cascades | **Complete** (undocumented) | Already built | Server models, admin UI, booking fee flow. Needs feature docs in `.project-manager/`. |
 | **Auth: Magic Link (Beta)** | **Phase 2A** | **Yes** | Collects user emails, enables role-based access, auto-populate |
 | **Auth: Password (Production)** | **Phase 2A** | No | Deferred to production transition (items 2A.19–2A.22) |
+| **Native App (Capacitor)** | **Phase 7 Stage 1** | No | Post-beta. Wraps existing SPA as iOS/Android app. Zero component changes. |
+| **Ionic Booking Conversion** | **Phase 7 Stage 2** | No | Post Admin UI Overhaul (Feature 13). Decision gate — only if mobile-native UX needed per beta feedback. |
+| **Admin Force-Create & Overrides** | **Phase 8A** | No | Post-auth admin power tool. Force-create appointments bypassing blockers; exceptions honored on reschedule. |
 
 **Action Item:** Before starting Priority 1, review PROJECT_PLAN.md features and decide which are alpha-blocking. Update this table accordingly. The PROJECT_PLAN.md is stale — Feature 1 is listed as "Planning" but is complete, Feature 2 phase statuses are outdated, and several built features (Beta Feedback, Pricing Cascades, Property Enrichment) are undocumented. The project manager audit (separate session) should fix these discrepancies.
 

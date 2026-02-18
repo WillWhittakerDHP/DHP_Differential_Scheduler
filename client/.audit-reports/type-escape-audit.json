@@ -1,0 +1,699 @@
+{
+  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
+  "generatedAt": "2026-02-18T21:18:58.064Z",
+  "totalScanned": 784,
+  "findings": [
+    {
+      "file": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "lineNumber": 54,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'blockInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "lineNumber": 71,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'blockInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "lineNumber": 89,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'blockInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "lineNumber": 87,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'partInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "lineNumber": 101,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'partInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "lineNumber": 116,
+      "ruleId": "as-unknown-as",
+      "snippet": "} as unknown as GlobalEntity<'partInstance'>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/generic/DynamicForm.vue",
+      "lineNumber": 127,
+      "ruleId": "as-unknown-as",
+      "snippet": "const formRefForComposable = ref<FormContext | undefined>(formInstance as unk...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "lineNumber": 291,
+      "ruleId": "as-unknown-as",
+      "snippet": "form: ref<FormContext | undefined>(form as unknown as FormContext | undefined...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "lineNumber": 389,
+      "ruleId": "as-unknown-as",
+      "snippet": "return savedEntity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityFormContent.vue",
+      "lineNumber": 101,
+      "ruleId": "as-unknown-as",
+      "snippet": "const formRefForComposable = ref<FormContext | undefined>(props.form as unkno...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/booking/TimeBasisButtonGrid.vue",
+      "lineNumber": 43,
+      "ruleId": "as-unknown-as",
+      "snippet": "const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandle...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/booking/TimeBasisSelector.vue",
+      "lineNumber": 45,
+      "ruleId": "as-unknown-as",
+      "snippet": "const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandle...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
+      "lineNumber": 224,
+      "ruleId": "as-unknown-as",
+      "snippet": "const panelEl = (panelRef.value as unknown as ComponentPublicInstance).$el as...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
+      "lineNumber": 66,
+      "ruleId": "as-unknown-as",
+      "snippet": "const blockInstance = item as unknown as BookingBlockInstance",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "lineNumber": 50,
+      "ruleId": "as-unknown-as",
+      "snippet": "const value = (appointment as unknown as Record<string, unknown>)[field]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useBufferSettings.ts",
+      "lineNumber": 34,
+      "ruleId": "as-unknown-as",
+      "snippet": "return (bufferValue as unknown as Record<string, TValue>)[property]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useBufferSettings.ts",
+      "lineNumber": 63,
+      "ruleId": "as-unknown-as",
+      "snippet": "return (bufferValue as unknown as Record<string, TValue>)[property]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useCalibrationChart.ts",
+      "lineNumber": 135,
+      "ruleId": "as-unknown-as",
+      "snippet": "const themeColors = theme.current.value.colors as unknown as Parameters<typeo...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useCapacitySettings.ts",
+      "lineNumber": 33,
+      "ruleId": "as-unknown-as",
+      "snippet": "return (filterValue as unknown as Record<string, TValue>)[property]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "lineNumber": 116,
+      "ruleId": "as-unknown-as",
+      "snippet": "const oldValue = (oldStoreEntity as unknown as Record<string, unknown>)[key]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "lineNumber": 117,
+      "ruleId": "as-unknown-as",
+      "snippet": "const newValue = (newStoreEntity as unknown as Record<string, unknown>)[key]",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "lineNumber": 126,
+      "ruleId": "as-unknown-as",
+      "snippet": "formInstance.setFieldValue(fieldKey, (newStoreEntity as unknown as Record<str...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
+      "lineNumber": 60,
+      "ruleId": "as-unknown-as",
+      "snippet": "return entity as unknown as GlobalEntity<GlobalEntityTypeKey>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useInputConfigEditor.ts",
+      "lineNumber": 67,
+      "ruleId": "as-unknown",
+      "snippet": "options: (inputConfig.options as unknown[]) || null, // Options array (for op...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "client/src/composables/admin/useInstanceFiltering.ts",
+      "lineNumber": 78,
+      "ruleId": "as-unknown-as",
+      "snippet": "const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMo...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useInstanceFiltering.ts",
+      "lineNumber": 93,
+      "ruleId": "as-unknown-as",
+      "snippet": "const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMo...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useStatusButtonToggle.ts",
+      "lineNumber": 161,
+      "ruleId": "as-unknown-as",
+      "snippet": "const currentCanHaveParts = (currentEntity as unknown as Record<string, unkno...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useStatusButtonToggle.ts",
+      "lineNumber": 169,
+      "ruleId": "as-unknown-as",
+      "snippet": "const currentIsStateControl = (currentEntity as unknown as Record<string, unk...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/admin/useStatusButtonValue.ts",
+      "lineNumber": 20,
+      "ruleId": "as-unknown-as",
+      "snippet": "const entityRecord = entity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
+      "lineNumber": 68,
+      "ruleId": "as-unknown-as",
+      "snippet": "return { selectedBlockId } as unknown as UseBlockInstanceSelectionReturn<Mode>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
+      "lineNumber": 86,
+      "ruleId": "as-unknown-as",
+      "snippet": "return { selectedBlockIds } as unknown as UseBlockInstanceSelectionReturn<Mode>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 110,
+      "ruleId": "as-unknown-as",
+      "snippet": "const entityRecord = entity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 151,
+      "ruleId": "as-unknown-as",
+      "snippet": "bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/booki...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 158,
+      "ruleId": "as-unknown-as",
+      "snippet": "allowMultiple: (entity as unknown as { allowMultiple?: boolean }).allowMultip...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 160,
+      "ruleId": "as-unknown-as",
+      "snippet": "(entity as unknown as { requiresUnitNumber?: boolean | null }).requiresUnitNu...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 163,
+      "ruleId": "as-unknown-as",
+      "snippet": "isMultiFamily: (entity as unknown as { isMultiFamily?: boolean }).isMultiFami...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "lineNumber": 164,
+      "ruleId": "as-unknown-as",
+      "snippet": "requiresAgent: (entity as unknown as { requiresAgent?: boolean }).requiresAge...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+      "lineNumber": 87,
+      "ruleId": "as-unknown-as",
+      "snippet": "const transformedResponse = transformApiEntity(response.data as unknown as Re...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "lineNumber": 34,
+      "ruleId": "as-unknown",
+      "snippet": "queryKeys.map(queryKey => queryClient.refetchQueries({ queryKey: queryKey as ...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "lineNumber": 49,
+      "ruleId": "as-unknown",
+      "snippet": "queryKeys.map(queryKey => queryClient.cancelQueries({ queryKey: queryKey as u...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "lineNumber": 72,
+      "ruleId": "as-unknown",
+      "snippet": "queryClient.setQueryData(queryKey as unknown[], previousData)",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "lineNumber": 57,
+      "ruleId": "as-unknown-as",
+      "snippet": "const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, G...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "lineNumber": 267,
+      "ruleId": "as-unknown-as",
+      "snippet": ") as unknown as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntity...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "lineNumber": 331,
+      "ruleId": "as-unknown-as",
+      "snippet": "return context as unknown as FieldContextType<GE, FieldKey>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "lineNumber": 120,
+      "ruleId": "as-unknown-as",
+      "snippet": "selectedChildPath: [\"bookingCascades\"] as unknown as GlobalFieldKey<typeof EN...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "lineNumber": 140,
+      "ruleId": "as-unknown-as",
+      "snippet": "selectedChildPath: [\"partAssignments\"] as unknown as GlobalFieldKey<typeof EN...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "lineNumber": 159,
+      "ruleId": "as-unknown-as",
+      "snippet": "selectedChildPath: [\"dependentInstances\"] as unknown as GlobalFieldKey<typeof...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "lineNumber": 218,
+      "ruleId": "as-unknown-as",
+      "snippet": "selectedChildPath: [\"validCascades\"] as unknown as GlobalFieldKey<typeof ENTI...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "lineNumber": 248,
+      "ruleId": "as-unknown-as",
+      "snippet": "selectedChildPath: [\"validParts\"] as unknown as GlobalFieldKey<typeof ENTITY_...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/debug/windowDebug.ts",
+      "lineNumber": 43,
+      "ruleId": "as-unknown-as",
+      "snippet": "const windowWithDebug = window as unknown as WindowWithDebug",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/dependencyCleanup.ts",
+      "lineNumber": 62,
+      "ruleId": "as-unknown-as",
+      "snippet": "const entityRecord = entity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/dependencyCleanup.ts",
+      "lineNumber": 80,
+      "ruleId": "as-unknown-as",
+      "snippet": "const entityRecord = affectedEntity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/dependencyCleanup.ts",
+      "lineNumber": 103,
+      "ruleId": "as-unknown-as",
+      "snippet": "const childRecord = childEntity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/entities/entityFieldPatch.ts",
+      "lineNumber": 14,
+      "ruleId": "as-unknown-as",
+      "snippet": "return { [fieldKey]: value } as unknown as Partial<GlobalEntityType>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/forms/formElementPatching.ts",
+      "lineNumber": 38,
+      "ruleId": "as-unknown-as",
+      "snippet": "const maybeEl = (formRef.value as unknown as { $el?: unknown }).$el",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/patchFormElements.ts",
+      "lineNumber": 23,
+      "ruleId": "as-unknown-as",
+      "snippet": "const hasControl = 'control' in el && (el as unknown as { control?: unknown }...",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/transformers/entityTransformers.ts",
+      "lineNumber": 32,
+      "ruleId": "as-unknown-as",
+      "snippet": "return transformed as unknown as GlobalEntity<GE>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "lineNumber": 39,
+      "ruleId": "as-unknown-as",
+      "snippet": "const record = entity as unknown as Record<string, unknown>",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "lineNumber": 80,
+      "ruleId": "as-unknown-as",
+      "snippet": "const withMode = blockInstance as unknown as { bookingMode?: string }",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "lineNumber": 12,
+      "ruleId": "as-unknown",
+      "snippet": "* WHY: Provides type-safe way to create where clauses without using 'as unkno...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "lineNumber": 138,
+      "ruleId": "as-unknown",
+      "snippet": "// WHY: Avoids 'as unknown as' by using proper type extraction from model att...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "lineNumber": 156,
+      "ruleId": "as-unknown",
+      "snippet": "// WHY: Avoids 'as unknown as' by using proper type extraction from model att...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "lineNumber": 176,
+      "ruleId": "as-unknown",
+      "snippet": "* WHY: // WHY: Avoids 'as unknown as' by using proper type extraction from mo...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "lineNumber": 191,
+      "ruleId": "as-unknown",
+      "snippet": "// WHY: Avoids 'as unknown as' by using proper type extraction from model att...",
+      "message": "Single as unknown"
+    },
+    {
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "lineNumber": 214,
+      "ruleId": "as-any",
+      "snippet": "return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)",
+      "message": "Type assertion to any"
+    },
+    {
+      "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "lineNumber": 236,
+      "ruleId": "as-any",
+      "snippet": "setting.settingValue = mergedValue as any",
+      "message": "Type assertion to any"
+    },
+    {
+      "file": "server/src/scripts/importCalendarData.ts",
+      "lineNumber": 36,
+      "ruleId": "as-any",
+      "snippet": "* WHY: Replaces unsafe `as any` cast with type-safe interface",
+      "message": "Type assertion to any"
+    },
+    {
+      "file": "server/src/services/appointmentCalendarService.ts",
+      "lineNumber": 106,
+      "ruleId": "as-unknown-as",
+      "snippet": "}) as unknown as AppointmentWithDetails | null;",
+      "message": "Double assertion escape hatch"
+    },
+    {
+      "file": "server/src/services/appointmentSnapshotLoader.ts",
+      "lineNumber": 81,
+      "ruleId": "as-any",
+      "snippet": "const validVersions = versions.filter(v => v !== null) as any[];",
+      "message": "Type assertion to any"
+    },
+    {
+      "file": "server/src/services/instanceVersioning.ts",
+      "lineNumber": 73,
+      "ruleId": "as-any",
+      "snippet": "const partInstances = (blockInstanceWithParts as any)?.part_assignment_instan...",
+      "message": "Type assertion to any"
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/composables/booking/useDependentInstances.ts",
+      "score": 24,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "file": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/dependencyCleanup.ts",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "server/src/routes/helpers/dataController.ts",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useBufferSettings.ts",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useInstanceFiltering.ts",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useStatusButtonToggle.ts",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/components/admin/generic/DynamicForm.vue",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityFormContent.vue",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/TimeBasisButtonGrid.vue",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/TimeBasisSelector.vue",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useCalibrationChart.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useCapacitySettings.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useStatusButtonValue.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/debug/windowDebug.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/entities/entityFieldPatch.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/forms/formElementPatching.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/patchFormElements.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/transformers/entityTransformers.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/services/appointmentCalendarService.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/scripts/importCalendarData.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/services/appointmentSnapshotLoader.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/services/instanceVersioning.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useInputConfigEditor.ts",
+      "score": 2,
+      "priority": "P2"
+    }
+  ]
+}

@@ -59,9 +59,6 @@
  */
 
 import { computed } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
@@ -71,12 +68,9 @@ import BooleanInput from './BooleanInput.vue'
 import DateInput from './DateInput.vue'
 import TextAreaInput from './TextAreaInput.vue'
 
-interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  showLabel?: boolean
-}
+import type { FieldInputProps } from './fieldTypes'
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 

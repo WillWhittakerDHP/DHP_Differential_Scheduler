@@ -9,6 +9,7 @@
 import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '../../../../../shared/constants/errorMessages.js'
+import type { RFC3339DateTime } from '../../../../../shared/types/availabilityTypes.js'
 
 export { AVAILABILITY_SETTINGS_KEY }
 
@@ -18,34 +19,39 @@ export { AVAILABILITY_SETTINGS_KEY }
  * WHY: Provides default values when availability settings don't exist
  * PATTERN: Const object with default settings
  */
+const DEFAULT_DAY_START = "2000-01-01T09:00:00Z" as RFC3339DateTime
+const DEFAULT_DAY_END = "2000-01-01T19:00:00Z" as RFC3339DateTime
+
 export const defaultAvailabilitySettings: AvailabilitySettingsData = {
   businessHours: {
-    0: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Sunday
-    1: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Monday
-    2: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Tuesday
-    3: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Wednesday
-    4: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Thursday
-    5: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Friday
-    6: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Saturday
+    0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Sunday
+    1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Monday
+    2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Tuesday
+    3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Wednesday
+    4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Thursday
+    5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Friday
+    6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Saturday
   },
   minuteIncrement: 15, // 15-minute intervals
   rangeConstraints: {
     businessHours: {
+      category: 'range',
       type: 'businessHours',
       enforcement: 'hard',
       config: {
         hours: {
-          0: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Sunday
-          1: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Monday
-          2: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Tuesday
-          3: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Wednesday
-          4: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Thursday
-          5: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Friday
-          6: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T19:00:00Z" }, // Saturday
+          0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Sunday
+          1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Monday
+          2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Tuesday
+          3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Wednesday
+          4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Thursday
+          5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Friday
+          6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Saturday
         }
       }
     },
     leadTime: {
+      category: 'range',
       type: 'leadTime',
       enforcement: 'hard',
       config: {

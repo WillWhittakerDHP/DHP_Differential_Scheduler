@@ -62,7 +62,7 @@ export async function transformEventsWithGeocoding(
   // LEARNING: Convert address strings to placeIds for accurate drive time calculations
   // WHY: placeId is primary location identifier throughout codebase
   // PATTERN: Process geocoding in parallel for all events with locations
-  const events: CachedCalendarEvent[] = await Promise.all(
+  const events = await Promise.all(
     eventsWithLocations.map(async (event) => {
       if (event.location) {
         try {
@@ -107,5 +107,5 @@ export async function transformEventsWithGeocoding(
     })
   )
   
-  return events
+  return events as CachedCalendarEvent[]
 }

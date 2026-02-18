@@ -6,7 +6,7 @@
 
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
-import type { BookingMode } from '@/constants/entities'
+import type { BookingMode } from '@/constants/bookingMode'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
 
@@ -18,7 +18,7 @@ const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
  * PATTERN: Check if instance ID is in componentChildIds set
  */
 function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChildIds: Set<string>): boolean {
-  return componentChildIds.has(String(instance.id))
+  return componentChildIds.has(instance.id)
 }
 
 
@@ -56,7 +56,7 @@ export function useInstanceFiltering(
     return relationships.reduce((acc, rel) => {
       if (rel.relationshipKind !== 'instanceComponents') return acc
       rel.children.forEach((child) => {
-        acc.add(String(child.id))
+        acc.add(child.id)
       })
       return acc
     }, new Set<string>())

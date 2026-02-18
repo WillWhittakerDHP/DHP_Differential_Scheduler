@@ -129,6 +129,42 @@ export interface RangeConstraint {
 }
 
 /**
+ * Buffer type for distinguishing buffer purposes (storage/API shape)
+ * LEARNING: Identifies the purpose of a buffer configuration
+ * PATTERN: Enum-like string literal union type
+ */
+export type BufferType = 'appointment' | 'driveTime' | 'lunch'
+
+/**
+ * Buffer placement for controlling where buffer is applied
+ * PATTERN: Enum-like string literal union type
+ */
+export type BufferPlacement = 'off' | 'before' | 'after' | 'both'
+
+/**
+ * Buffer configuration (storage/API shape for overlap buffers)
+ * LEARNING: Configuration for a single buffer type (appointment, driveTime, or lunch)
+ * PATTERN: Interface with required fields
+ */
+export interface BufferConfig {
+  type: BufferType
+  minutes: number
+  placement: BufferPlacement
+  enforcement: ConstraintEnforcement
+}
+
+/**
+ * Drive time buffer configuration (storage/API shape)
+ * LEARNING: Semantic buffer for travel time with application rules
+ * PATTERN: Interface with minutes, enforcement, and applyTo
+ */
+export interface DriveTimeConfig {
+  minutes: number
+  enforcement: ConstraintEnforcement
+  applyTo: DriveTimeApplyTo
+}
+
+/**
  * Overlap constraint (buffer) interface
  * LEARNING: Unified structure for all buffer types (appointment, driveToCandidate, driveFromCandidate, lunch)
  * WHY: Consolidates buffer checking into single pathway
@@ -221,15 +257,10 @@ export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
 }
 
 /**
- * Coordinates interface for location data
- * LEARNING: Latitude/longitude coordinates from Google Places API
- * WHY: Required for distance calculations
- * PATTERN: Simple coordinate pair matching Google Maps format
+ * Coordinates: from mapsTypes (canonical for geo types; Phase 1.1/3 type-similarity)
  */
-export interface Coordinates {
-  lat: number
-  lng: number
-}
+import type { Coordinates } from './mapsTypes'
+export type { Coordinates }
 
 /**
  * Default location for drive time calculations

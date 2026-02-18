@@ -121,7 +121,7 @@ export function useCrudDataTableModel<
       await updateItem(editingId.value, editedData.value as UpdatePayload)
       notifySuccess(`${entityLabel} updated successfully`)
       cancelEdit()
-    } catch (caughtError) {
+    } catch (_error) {
       notifyError(`Failed to update ${entityLabel.toLowerCase()}`)
     }
   }
@@ -147,7 +147,7 @@ export function useCrudDataTableModel<
       await createItem(newItem.value)
       notifySuccess(`${entityLabel} created successfully`)
       cancelCreate()
-    } catch (caughtError) {
+    } catch (_error) {
       notifyError(`Failed to create ${entityLabel.toLowerCase()}`)
     }
   }
@@ -169,7 +169,7 @@ export function useCrudDataTableModel<
       await deleteItem(deletingId.value)
       notifySuccess(`${entityLabel} deleted successfully`)
       cancelDelete()
-    } catch (caughtError) {
+    } catch (_error) {
       notifyError(`Failed to delete ${entityLabel.toLowerCase()}`)
     }
   }

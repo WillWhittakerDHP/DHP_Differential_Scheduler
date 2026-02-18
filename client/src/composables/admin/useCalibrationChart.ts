@@ -10,7 +10,7 @@ import { useEntityCrud } from '@/composables/useEntity'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useTheme } from 'vuetify'
 import { calculatePartsTotals } from '@/utils/booking/partsTotals'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { getLineChartConfig } from '@/@core/libs/chartjs/chartjsConfig'
@@ -55,22 +55,22 @@ function getServiceFeeTotals(
   partAssignments: Array<{ parentId: string; childId: string; disabled?: boolean }>,
   partInstances: GlobalEntity<'partInstance'>[]
 ): Array<{ name: string; totalBaseFee: number; totalRateOverBaseFee: number }> {
-  const shapeById = new Map(blockShapes.map(s => [String(s.id), s]))
+  const shapeById = new Map(blockShapes.map(s => [s.id, s]))
   const serviceBlocks = blockInstances.filter(block => {
-    const shape = shapeById.get(String(block.blockShapeRef))
+    const shape = shapeById.get(toGlobalEntityId(block.blockShapeRef))
     return shape?.type === BLOCK_SHAPE_TYPES.SERVICE
   })
 
   return serviceBlocks.map(block => {
     const relationships = partAssignments.filter(
-      rel => String(rel.parentId) === String(block.id) && !rel.disabled
+      rel => rel.parentId === block.id && !rel.disabled
     )
     const childIds = [...new Set(relationships.map(rel => String(rel.childId)))]
     const { resolved } = resolveByIds(partInstances, childIds)
     const nonZeroed = resolved.filter(p => !p.zeroOutPart)
     const totals = calculatePartsTotals(nonZeroed)
     return {
-      name: block.name ?? String(block.id),
+      name: block.name ?? block.id,
       totalBaseFee: totals.totalBaseFee,
       totalRateOverBaseFee: totals.totalRateOverBaseFee,
     }

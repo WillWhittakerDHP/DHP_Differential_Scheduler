@@ -21,9 +21,4 @@ export const ENTITY_KEYS = [
   ENTITY_KEY_ANNOTATION_INSTANCE
 ] as const;
 
-export type GlobalEntityKey = (typeof ENTITY_KEYS)[number];
-
-import { DEFAULT_VALUES } from './entityFieldConstants'
-
-export const BOOKING_MODES = [DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'] as const;
-export type BookingMode = typeof BOOKING_MODES[number];
+export type GlobalEntityKey = (typeof ENTITY_KEYS)[number]

@@ -1,0 +1,3 @@
+{
+  "$comment": "Configuration for type-import-audit.mjs. Allowlist is centralized in audit-global-config.json (allowlists.type-import). No other options in this file."
+}

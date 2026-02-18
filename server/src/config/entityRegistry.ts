@@ -1,6 +1,7 @@
 import { ModelStatic, Model } from 'sequelize';
 import { PartShape, PartInstance, BlockShape, BlockInstance, EventShape, EventInstance, AnnotationShape, AnnotationInstance } from './app.js';
 import { createLogger } from '../utils/logger.js';
+import type { ComponentConfig, ComponentStrategy } from '../../../shared/types/componentTypes.js';
 
 const logger = createLogger('EntityRegistry');
 
@@ -38,7 +39,7 @@ export async function isBlockInstanceComposable(blockInstanceId: string): Promis
 
 export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
   const config = ENTITY_REGISTRY[entityType];
-  
+  if (!config) return undefined;
   if (entityType === 'blockInstance') {
     return {
       enabled: true, // Enabled at type level, but checked per-instance
@@ -51,7 +52,6 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
       },
     };
   }
-  
   return config.component;
 }
 
@@ -69,26 +69,7 @@ export function getComponentConfig(entityType: EntityType): ComponentConfig | un
  */
 export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
 
-/**
- * Component strategy for combining properties
- * 
- * LEARNING: Different properties need different component strategies
- * WHY: Numeric values sum, arrays merge, booleans use AND, strings use first
- * PATTERN: Config-driven component per property
- */
-export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
-
-/**
- * Component configuration for entities
- * 
- * LEARNING: Config-driven component enables flexible component rules
- * WHY: Different entity types and properties need different component behavior
- * PATTERN: Optional config that enables component relationships with property-specific rules
- */
-export interface ComponentConfig {
-  enabled: boolean;
-  componentRules?: Record<string, ComponentStrategy>;
-}
+export type { ComponentConfig, ComponentStrategy };
 
 /**
  * Entity configuration structure

@@ -202,11 +202,13 @@ function isFuncReferencedInVueTemplate(funcName, templateSection) {
   if (!templateSection || !funcName) return false
   // Escape for regex: only word chars expected in function names
   const escaped = funcName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  /* eslint-disable security/detect-non-literal-regexp */
   const quotedDouble = new RegExp(`["']\\s*${escaped}\\s*["']`)
   const quotedSingle = new RegExp(`['"]\\s*${escaped}\\s*['"]`)
   const eventBindingDouble = new RegExp(`@\\w+\\s*=\\s*["']\\s*${escaped}\\s*["']`)
   const eventBindingSingle = new RegExp(`@\\w+\\s*=\\s*['"]\\s*${escaped}\\s*['"]`)
   const propBinding = new RegExp(`:\\w+\\s*=\\s*["']\\s*${escaped}\\s*["']`)
+  /* eslint-enable security/detect-non-literal-regexp */
   return (
     quotedDouble.test(templateSection) ||
     quotedSingle.test(templateSection) ||

@@ -91,7 +91,7 @@ function createGlobalInstance() {
     id: string
   ): GlobalEntity<GE> | undefined {
     const entities = getGlobalEntities(entityKey)
-    return entities.find((e) => String(e.id) === String(id))
+    return entities.find((e) => e.id === id)
   }
   
   /**

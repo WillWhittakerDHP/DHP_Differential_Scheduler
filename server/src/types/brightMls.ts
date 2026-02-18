@@ -4,7 +4,12 @@
  * LEARNING: RESO Data Dictionary uses PascalCase field names
  * WHY: OData responses from Bright MLS align with RESO Property resource
  * RESOURCE: https://ddwiki.reso.org/display/DDW17/Property+Resource
+ * Type similarity UNIFY: PropertyEnrichmentResponse from shared (Phase 1.3).
  */
+
+import type { PropertyEnrichmentResponse } from '../../../shared/types/propertyEnrichmentTypes.js'
+
+export type { PropertyEnrichmentResponse }
 
 /**
  * RESO Property resource response (partial; only fields we consume)
@@ -38,17 +43,4 @@ export interface BrightMlsPropertyResponse {
  */
 export interface BrightMlsODataResponse {
   value?: BrightMlsPropertyResponse[];
-}
-
-/**
- * Transformed property enrichment response for client
- */
-export interface PropertyEnrichmentResponse {
-  mlsNumber: string | null;
-  squareFootage: number | null;
-  bedrooms: number | null;
-  bathrooms: number | null;
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
-  additionalUnits: number | null;
-  suggestedBlockInstanceIds: string[];
 }

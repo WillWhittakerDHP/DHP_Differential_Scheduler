@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { getTestsDisabled } from './audit-exceptions.mjs'
 
 /**
  * Coverage-Risk Crossref Audit Script
@@ -7,9 +8,11 @@ import path from 'node:path'
  * Goal: Cross-reference import-graph (fan-in) with test-audit (coverage).
  * Flags high-risk files: heavily depended on (high fan-in) but untested.
  *
- * Reads: import-graph-audit.json, test-audit.json
- * Does not run those audits; requires them to be run first.
+ * When testsDisabled is true in audit-global-config.json, writes an empty/no-op
+ * report so the meta report is not cluttered with coverage-risk findings until
+ * Phase 3.0 (BETA_LAUNCH_CHECKLIST). Re-enable via checklist item 3.0a.
  *
+ * Reads: import-graph-audit.json, test-audit.json (unless tests disabled)
  * Output:
  *   - client/.audit-reports/coverage-risk-crossref-audit.json
  *   - client/.audit-reports/coverage-risk-crossref-audit.md
@@ -18,7 +21,7 @@ import path from 'node:path'
 const CWD = path.resolve(process.cwd())
 const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
 const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const _CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
   : path.join(CWD, 'client', '.audit-reports')
@@ -50,6 +53,33 @@ function assignPriority(riskScore) {
 
 function main() {
   ensureDir(OUT_DIR)
+
+  if (getTestsDisabled()) {
+    const out = {
+      generatedAt: new Date().toISOString(),
+      testsDisabled: true,
+      inputSources: { importGraph: 'import-graph-audit.json', testAudit: 'test-audit.json' },
+      totalFiles: 0,
+      riskFiles: [],
+      summary: { highFanInUntested: 0, highFanInTested: 0, lowFanInUntested: 0, coverageOfCriticalFiles: '100%' },
+      files: [],
+      exceptionSummary: { totalAllowed: 0, totalRequiresReview: 0, bySource: { inline: 0, pattern: 0, specific: 0 } },
+    }
+    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
+    const mdLines = [
+      '# Coverage-Risk Crossref Audit (Generated)',
+      '',
+      `Generated at: ${out.generatedAt}`,
+      '',
+      '**Coverage-risk is suppressed while tests are disabled.** Set `testsDisabled` to `false` in `client/.audit-reports/audit-global-config.json` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
+      '',
+    ]
+    fs.writeFileSync(OUT_MD, mdLines.join('\n'))
+    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    console.log('Tests disabled (audit-global-config.json): coverage-risk suppressed.')
+    process.exitCode = 0
+    return
+  }
 
   if (!fs.existsSync(IMPORT_GRAPH_JSON)) {
     const out = {

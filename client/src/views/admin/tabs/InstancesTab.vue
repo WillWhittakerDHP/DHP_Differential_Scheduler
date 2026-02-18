@@ -7,7 +7,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
@@ -187,11 +187,11 @@ const { handleExistingBlockInstanceSaved } = useInstanceSaveHandlers()
  * PATTERN: Simple boolean + optional sourceEntity for duplicate
  */
 const createModalOpen = ref(false)
-const createModalBlockShapeId = ref<string>('')
+const createModalBlockShapeId = ref<GlobalEntityId>(toGlobalEntityId(''))
 const createModalSourceEntity = ref<GlobalEntity<'blockInstance'> | undefined>(undefined)
 
 const handleCreateClick = (blockShapeId: string): void => {
-  createModalBlockShapeId.value = blockShapeId
+  createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)
   createModalSourceEntity.value = undefined
   createModalOpen.value = true
 }
@@ -199,7 +199,7 @@ const handleCreateClick = (blockShapeId: string): void => {
 const handleDuplicateClick = (sourceEntity: GlobalEntity<GlobalEntityKey>): void => {
   // PATTERN: Type assertion since InstancesTab only uses EntityCard with entity-key="blockInstance"
   const blockInstanceEntity = sourceEntity as GlobalEntity<'blockInstance'>
-  createModalBlockShapeId.value = blockInstanceEntity.blockShapeRef
+  createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)
   createModalSourceEntity.value = blockInstanceEntity
   createModalOpen.value = true
 }
@@ -364,11 +364,11 @@ function handleDeleteEventInstance(_id: string) {
     >
       <VTab
         v-for="blockShape in sortedBlockShapes"
-        :key="String(blockShape.id)"
-        :value="String(blockShape.id)"
-        @click="handleTabClick(String(blockShape.id))"
+        :key="blockShape.id"
+        :value="blockShape.id"
+        @click="handleTabClick(blockShape.id)"
       >
-        {{ blockShape.name }} ({{ blockInstancesCountByShape.get(String(blockShape.id)) || 0 }})
+        {{ blockShape.name }} ({{ blockInstancesCountByShape.get(blockShape.id) || 0 }})
       </VTab>
       <VSpacer />
       <VTab
@@ -397,8 +397,8 @@ function handleDeleteEventInstance(_id: string) {
     >
       <VWindowItem
         v-for="blockShape in sortedBlockShapes"
-        :key="String(blockShape.id)"
-        :value="String(blockShape.id)"
+        :key="blockShape.id"
+        :value="blockShape.id"
       >
         <div class="block-shape-tab-content">
           <!--
@@ -411,7 +411,7 @@ function handleDeleteEventInstance(_id: string) {
             <div class="d-flex align-center gap-2 flex-wrap">
               <!-- Composable Badge -->
               <VChip
-                v-if="blockShapeComposable.get(String(blockShape.id))"
+                v-if="blockShapeComposable.get(blockShape.id)"
                 color="success"
                 size="small"
                 prepend-icon="tabler-link"
@@ -422,7 +422,7 @@ function handleDeleteEventInstance(_id: string) {
               
               <!-- State Control Badge -->
               <VChip
-                v-if="blockShapeStateControl.get(String(blockShape.id))"
+                v-if="blockShapeStateControl.get(blockShape.id)"
                 color="secondary"
                 size="small"
                 prepend-icon="tabler-toggle-left"
@@ -433,13 +433,13 @@ function handleDeleteEventInstance(_id: string) {
               
               <!-- Valid Cascades Badge -->
               <VChip
-                :color="(blockShapeValidCascades.get(String(blockShape.id)) || []).length > 0 ? 'info' : 'default'"
+                :color="(blockShapeValidCascades.get(blockShape.id) || []).length > 0 ? 'info' : 'default'"
                 size="small"
                 prepend-icon="tabler-hierarchy"
                 variant="tonal"
               >
                 {{ (() => {
-                  const cascades = blockShapeValidCascades.get(String(blockShape.id)) || []
+                  const cascades = blockShapeValidCascades.get(blockShape.id) || []
                   return cascades.length > 0 
                     ? `Cascades: ${cascades.join(', ')}` 
                     : 'No Cascades'
@@ -452,23 +452,23 @@ function handleDeleteEventInstance(_id: string) {
               <VBtn
                 color="primary"
                 prepend-icon="tabler-plus"
-                @click="handleCreateClick(String(blockShape.id))"
+                @click="handleCreateClick(blockShape.id)"
               >
                 Create
               </VBtn>
               <VBtn
-                :color="bulkEditMode.get(String(blockShape.id)) ? 'success' : 'default'"
-                :variant="bulkEditMode.get(String(blockShape.id)) ? 'flat' : 'outlined'"
+                :color="bulkEditMode.get(blockShape.id) ? 'success' : 'default'"
+                :variant="bulkEditMode.get(blockShape.id) ? 'flat' : 'outlined'"
                 prepend-icon="tabler-edit"
-                @click="toggleBulkEditMode(String(blockShape.id))"
+                @click="toggleBulkEditMode(blockShape.id)"
               >
-                {{ bulkEditMode.get(String(blockShape.id)) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+                {{ bulkEditMode.get(blockShape.id) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
               </VBtn>
               <VBtn
-                :color="shapeEditModalOpen.get(String(blockShape.id)) ? 'primary' : 'default'"
-                :variant="shapeEditModalOpen.get(String(blockShape.id)) ? 'flat' : 'outlined'"
+                :color="shapeEditModalOpen.get(blockShape.id) ? 'primary' : 'default'"
+                :variant="shapeEditModalOpen.get(blockShape.id) ? 'flat' : 'outlined'"
                 prepend-icon="tabler-settings"
-                @click="toggleShapeEditModal(String(blockShape.id))"
+                @click="toggleShapeEditModal(blockShape.id)"
               >
                 Instance Fields
               </VBtn>
@@ -481,13 +481,13 @@ function handleDeleteEventInstance(_id: string) {
             PATTERN: VExpansionPanels directly in tab (matches ShapesTab pattern)
           -->
           <div 
-            :ref="el => groupContainers.set(String(blockShape.id), el as HTMLElement)"
+            :ref="el => groupContainers.set(blockShape.id, el as HTMLElement)"
             class="block-instances-container"
           >
             <VExpansionPanels
-              v-if="(blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length > 0"
+              v-if="(blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length > 0"
               :ref="el => {
-                const blockShapeId = String(blockShape.id)
+                const blockShapeId = blockShape.id
                 if (!groupPanelsContainers.has(blockShapeId)) {
                   groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
                 } else {
@@ -505,13 +505,13 @@ function handleDeleteEventInstance(_id: string) {
               <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
               <!-- PATTERN: Use EntityCard directly - no need for parent VExpansionPanel wrapper -->
               <EntityCard
-                v-for="instance in (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || [])"
-                :key="String(instance.id)"
+                v-for="instance in (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || [])"
+                :key="instance.id"
                 :class="`draggable-instance-${blockShape.id} draggable-instance-item`"
-                :data-drag-id="String(instance.id)"
+                :data-drag-id="instance.id"
                 entity-key="blockInstance"
                 :entity="instance"
-                :expanded="isPanelExpanded(String(instance.id))"
+                :expanded="isPanelExpanded(instance.id)"
                 @saved="handleExistingBlockInstanceSaved"
                 @delete="handleDeleteBlockInstance"
                 @duplicate="handleDuplicateClick"
@@ -520,7 +520,7 @@ function handleDeleteEventInstance(_id: string) {
 
             <!-- Grouped: Add-On Only & Components (Hidden from Main Booking List) -->
             <VCard
-              v-if="(groupedInstancesByShape.get(String(blockShape.id)) || []).length > 0"
+              v-if="(groupedInstancesByShape.get(blockShape.id) || []).length > 0"
               variant="outlined"
               color="warning"
               class="mt-4 grouped-instances-card"
@@ -529,7 +529,7 @@ function handleDeleteEventInstance(_id: string) {
                 <VIcon icon="tabler-folders" size="small" />
                 Add-On Only & Components (Hidden from Main Booking List)
                 <VChip size="small" variant="tonal" class="ml-2">
-                  {{ (groupedInstancesByShape.get(String(blockShape.id)) || []).length }}
+                  {{ (groupedInstancesByShape.get(blockShape.id) || []).length }}
                 </VChip>
               </VCardTitle>
               <VCardText>
@@ -538,11 +538,11 @@ function handleDeleteEventInstance(_id: string) {
                 <!-- PATTERN: Use VExpansionPanels wrapper, EntityCard handles its own expansion -->
                 <VExpansionPanels v-model="expandedInstances" multiple>
                   <EntityCard
-                    v-for="instance in (groupedInstancesByShape.get(String(blockShape.id)) || [])"
-                    :key="String(instance.id)"
+                    v-for="instance in (groupedInstancesByShape.get(blockShape.id) || [])"
+                    :key="instance.id"
                     entity-key="blockInstance"
                     :entity="instance"
-                    :expanded="isPanelExpanded(String(instance.id))"
+                    :expanded="isPanelExpanded(instance.id)"
                     @saved="handleExistingBlockInstanceSaved"
                     @delete="handleDeleteBlockInstance"
                   />
@@ -553,8 +553,8 @@ function handleDeleteEventInstance(_id: string) {
             <!-- Empty state -->
             <VAlert
               v-if="
-                (blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&
-                (groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0
+                (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&
+                (groupedInstancesByShape.get(blockShape.id) || []).length === 0
               "
               type="info"
               variant="tonal"
@@ -573,7 +573,7 @@ function handleDeleteEventInstance(_id: string) {
               <EntityCard
                 entity-key="blockShape"
                 :entity="blockShape"
-                :expanded="isPanelExpanded(String(blockShape.id))"
+                :expanded="isPanelExpanded(blockShape.id)"
               />
             </VExpansionPanels>
           </div>
@@ -748,15 +748,15 @@ function handleDeleteEventInstance(_id: string) {
       WHY: Modals for bulk editing BlockInstances per BlockShape
       PATTERN: One modal per BlockShape, conditionally rendered
     -->
-    <template v-for="blockShape in sortedBlockShapes" :key="String(blockShape.id)">
+    <template v-for="blockShape in sortedBlockShapes" :key="blockShape.id">
       <InstanceBulkEditModal
-        :model-value="bulkEditMode.get(String(blockShape.id)) || false"
-        :block-shape-id="String(blockShape.id)"
+        :model-value="bulkEditMode.get(blockShape.id) || false"
+        :block-shape-id="blockShape.id"
         :block-shape-name="blockShape.name"
-        :bulk-edit-data="getBulkEditData(String(blockShape.id))"
-        :instance-count="blockInstancesCountByShape.get(String(blockShape.id)) || 0"
-        @update:model-value="(value) => bulkEditMode.set(String(blockShape.id), value)"
-        @confirm="(data) => handleBulkEditConfirm(String(blockShape.id), data)"
+        :bulk-edit-data="getBulkEditData(blockShape.id)"
+        :instance-count="blockInstancesCountByShape.get(blockShape.id) || 0"
+        @update:model-value="(value) => bulkEditMode.set(blockShape.id, value)"
+        @confirm="(data) => handleBulkEditConfirm(blockShape.id, data)"
       />
     </template>
     
@@ -767,16 +767,16 @@ function handleDeleteEventInstance(_id: string) {
     -->
     <template v-for="blockShape in sortedBlockShapes" :key="`shape-${blockShape.id}`">
       <MetadataEditModal
-        :model-value="shapeEditModalOpen.get(String(blockShape.id)) || false"
+        :model-value="shapeEditModalOpen.get(blockShape.id) || false"
         entity-key="blockInstance"
         :entity="{ 
-          id: BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
+          id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
           blockShapeRef: blockShape.id 
-        } as GlobalEntity<'blockInstance'>"
-        :block-shape-ref="String(blockShape.id)"
+        } as unknown as GlobalEntity<'blockInstance'>"
+        :block-shape-ref="blockShape.id"
         :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
-        @update:model-value="(value) => shapeEditModalOpen.set(String(blockShape.id), value)"
-        @saved="() => handleExistingBlockShapeSaved(String(blockShape.id))"
+        @update:model-value="(value) => shapeEditModalOpen.set(blockShape.id, value)"
+        @saved="() => handleExistingBlockShapeSaved(blockShape.id)"
       />
     </template>
     
@@ -801,7 +801,7 @@ function handleDeleteEventInstance(_id: string) {
     <MetadataEditModal
       v-model="eventInstanceMetadataModalOpen"
       entity-key="eventInstance"
-      :entity="{ id: '00000000-0000-0000-0000-000000000012', name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: '', titleTemplate: null, descriptionTemplate: null, locationTemplate: null }"
+      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000012'), name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: toGlobalEntityId(''), titleTemplate: null, descriptionTemplate: null, locationTemplate: null }"
       entity-name="Event Instance Fields (Global)"
     />
   </div>

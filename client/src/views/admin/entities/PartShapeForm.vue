@@ -59,7 +59,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
 import { useGlobal } from '@/composables/useGlobal'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 const router = useRouter()
 const route = useRoute()
@@ -96,7 +96,7 @@ async function handleSubmit() {
   
   try {
     if (isEdit.value && entityId.value) {
-      await update(formData.value as Partial<GlobalEntity<'partShape'>>, entityId.value)
+      await update(formData.value as Partial<GlobalEntity<'partShape'>>, toGlobalEntityId(entityId.value))
     } else {
       await create(formData.value as Partial<GlobalEntity<'partShape'>>)
     }

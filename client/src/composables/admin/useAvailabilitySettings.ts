@@ -247,6 +247,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       } else {
         settingsToSave.rangeConstraints = {
           businessHours: {
+            category: 'range',
             type: 'businessHours',
             enforcement: 'hard',
             config: {

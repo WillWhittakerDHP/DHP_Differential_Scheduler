@@ -60,7 +60,7 @@ function createBookingInstance() {
     
     try {
       return bookingTransformer.transformGlobalToBooking(data)
-    } catch (error) {
+    } catch (_error) {
       return null
     }
   })

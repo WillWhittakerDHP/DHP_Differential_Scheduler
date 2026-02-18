@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T19:23:56.446Z",
+  "generatedAt": "2026-02-18T20:57:18.738Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   "totalScanned": 1012,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 26,
+    "totalRequiresReview": 111,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -75,6 +75,11 @@
           "line": "console.log('\\n✅ All migrations completed successfully!')"
         },
         {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 104,
+          "line": "} catch (error) {"
+        },
+        {
           "ruleId": "console-in-catch",
           "lineNumber": 105,
           "line": "console.error('❌ Migration error:', error)"
@@ -85,7 +90,51 @@
           "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 19,
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__businessSettings__businessSettingsCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 49,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 77,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 133,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 187,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "as-any",
+          "lineNumber": 236,
+          "line": "setting.settingValue = mergedValue as any"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 240,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 276,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 11,
       "priority": "P0"
     },
     {
@@ -93,6 +142,11 @@
       "repoPath": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
       "allowed": [],
       "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 163,
+          "line": "} catch (err) {"
+        },
         {
           "ruleId": "console-in-catch",
           "lineNumber": 164,
@@ -104,7 +158,7 @@
           "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 6,
+      "score": 7,
       "priority": "P1"
     },
     {
@@ -112,6 +166,11 @@
       "repoPath": "client/src/composables/booking/useAppointmentLoader.ts",
       "allowed": [],
       "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 46,
+          "line": "} catch (error) {"
+        },
         {
           "ruleId": "console-in-catch",
           "lineNumber": 47,
@@ -123,7 +182,7 @@
           "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 6,
+      "score": 7,
       "priority": "P1"
     },
     {
@@ -131,6 +190,11 @@
       "repoPath": "client/src/plugins/1.router/guards.ts",
       "allowed": [],
       "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 24,
+          "line": "} catch (error) {"
+        },
         {
           "ruleId": "console-in-catch",
           "lineNumber": 25,
@@ -142,7 +206,7 @@
           "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
         }
       ],
-      "score": 6,
+      "score": 7,
       "priority": "P1"
     },
     {
@@ -151,9 +215,87 @@
       "allowed": [],
       "requiresReview": [
         {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 104,
+          "line": "} catch (error) {"
+        },
+        {
           "ruleId": "console-in-catch",
           "lineNumber": 105,
           "line": "console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 40,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 64,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 141,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 201,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 243,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 273,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__routes__helpers__crudRouteHandlers.ts",
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 66,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 96,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 151,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 227,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 266,
+          "line": "} catch (error) {"
         }
       ],
       "score": 5,
@@ -174,14 +316,34 @@
       "priority": "P1"
     },
     {
-      "id": "server__src__routes__internal__businessSettings__businessSettingsCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+      "id": "server__src__routes__internal__properties__propertyTypesRouter.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyTypesRouter.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "as-any",
-          "lineNumber": 236,
-          "line": "setting.settingValue = mergedValue as any"
+          "ruleId": "catch-without-logger",
+          "lineNumber": 44,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 104,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 153,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 185,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 241,
+          "line": "} catch (error) {"
         }
       ],
       "score": 5,
@@ -230,13 +392,114 @@
       "priority": "P1"
     },
     {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 55,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 93,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 236,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 296,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 50,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 166,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 210,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 50,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 156,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 200,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__businessRulesCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/businessRulesCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 47,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 108,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 134,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__components__booking__dev__DevPanelsContainer.vue",
       "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "console-general",
-          "lineNumber": 334,
+          "lineNumber": 335,
           "line": "console.error(`[Event Error] Cannot determine ternary value for event shape \"${eventShape.name}\" (${eventShape.id})`)"
         },
         {
@@ -249,6 +512,250 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__composables__booking__useWizardAppointmentManagement.ts",
+      "repoPath": "client/src/composables/booking/useWizardAppointmentManagement.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 141,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 172,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__appointments__appointmentCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 54,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 205,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__google__maps__placesApiService.ts",
+      "repoPath": "server/src/services/google/maps/placesApiService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 68,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 107,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__availabilities__availabiltiesDbUtils.ts",
+      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 107,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 153,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__beta__BetaFeedbackDetailModal.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackDetailModal.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 49,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__beta__BetaFeedbackModal.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackModal.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 107,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useAttendeeQuickSelect.ts",
+      "repoPath": "client/src/composables/admin/useAttendeeQuickSelect.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 67,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useAvailabilitySettings.ts",
+      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 146,
+          "line": "} catch (err: unknown) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useBlockInstanceForm.ts",
+      "repoPath": "client/src/composables/admin/useBlockInstanceForm.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 208,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useEntityDragHandlers.ts",
+      "repoPath": "client/src/composables/admin/useEntityDragHandlers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 97,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useEntityList.ts",
+      "repoPath": "client/src/composables/admin/useEntityList.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 178,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__usePartInstanceCollection.ts",
+      "repoPath": "client/src/composables/admin/usePartInstanceCollection.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 174,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__usePartInstanceForm.ts",
+      "repoPath": "client/src/composables/admin/usePartInstanceForm.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 208,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 326,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__booking__useComputedAvailability.ts",
+      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 123,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__booking__useWizardSubmission.ts",
+      "repoPath": "client/src/composables/booking/useWizardSubmission.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 69,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__composables__entityCrud__usePrimitiveMutation.ts",
       "repoPath": "client/src/composables/entityCrud/usePrimitiveMutation.ts",
       "allowed": [],
@@ -257,6 +764,356 @@
           "ruleId": "console-general",
           "lineNumber": 134,
           "line": "console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__fieldContext__useFieldContextActions.ts",
+      "repoPath": "client/src/composables/fieldContext/useFieldContextActions.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 120,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__fieldContext__useFieldContextSaveHelpers.ts",
+      "repoPath": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 61,
+          "line": "}).catch((error: unknown) => {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__useAdminConfig.ts",
+      "repoPath": "client/src/composables/useAdminConfig.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 69,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__useAppointment.ts",
+      "repoPath": "client/src/composables/useAppointment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 110,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__useBooking.ts",
+      "repoPath": "client/src/composables/useBooking.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 63,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__types__datetime.ts",
+      "repoPath": "client/src/types/datetime.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 114,
+          "line": "* } catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__transformers__fetchToBusinessTransformer.ts",
+      "repoPath": "client/src/utils/transformers/fetchToBusinessTransformer.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 65,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__views__admin__entities__BlockShapeForm.vue",
+      "repoPath": "client/src/views/admin/entities/BlockShapeForm.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 58,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__views__admin__entities__PartShapeForm.vue",
+      "repoPath": "client/src/views/admin/entities/PartShapeForm.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 48,
+          "line": "} catch (err) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__views__admin__tabs__ShapesTab.vue",
+      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 212,
+          "line": "} catch (_error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__external__propertyEnrichmentRoutes.ts",
+      "repoPath": "server/src/routes/external/propertyEnrichmentRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 134,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__availabilityRouter.ts",
+      "repoPath": "server/src/routes/internal/availabilityRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 41,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__beta-feedback__betaFeedbackCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 51,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__beta-feedback__betaFeedbackRouter.ts",
+      "repoPath": "server/src/routes/internal/beta-feedback/betaFeedbackRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 64,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__dev__devStatusRouter.ts",
+      "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 61,
+          "line": "} catch (credError: any) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__entities__entityConfigRouter.ts",
+      "repoPath": "server/src/routes/internal/entities/entityConfigRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 31,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipBatchRouter.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipBatchRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 68,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 217,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__appointmentCalendarService.ts",
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 153,
+          "line": "} catch (createError) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__brightMls__brightMlsApiClient.ts",
+      "repoPath": "server/src/services/brightMls/brightMlsApiClient.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 204,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__calendarErrorHandler.ts",
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 191,
+          "line": "} catch (e) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__google__calendar__eventCreationService.ts",
+      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 156,
+          "line": "} catch (error: any) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__google__maps__mapsHelpers.ts",
+      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 223,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__google__maps__routesApiService.ts",
+      "repoPath": "server/src/services/google/maps/routesApiService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 148,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__test__setup__testDb.ts",
+      "repoPath": "server/src/test/setup/testDb.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 69,
+          "line": "} catch (error) {"
         }
       ],
       "score": 1,

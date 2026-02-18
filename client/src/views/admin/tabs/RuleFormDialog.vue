@@ -21,12 +21,20 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
+  'update:formData': [value: BusinessRuleFormData]
   'update:requiredFieldsArray': [value: string]
   'update:requiredFieldsCondition': [value: string]
   'update:requiresAgent': [value: boolean]
   save: []
   close: []
 }>()
+
+function updateField<Field extends keyof BusinessRuleFormData>(
+  field: Field,
+  value: BusinessRuleFormData[Field]
+): void {
+  emit('update:formData', { ...props.formData, [field]: value })
+}
 </script>
 
 <template>
@@ -44,11 +52,12 @@ const emit = defineEmits<{
       <VCardText>
         <VForm @submit.prevent="emit('save')">
           <VSelect
-            v-model="props.formData.ruleType"
+            :model-value="props.formData.ruleType"
             :items="props.ruleTypeOptions"
             :label="BUSINESS_RULES_UI.RULE_TYPE_LABEL"
             required
             class="mb-4"
+            @update:model-value="(v: string) => updateField('ruleType', v)"
           />
 
           <div v-if="props.formData.ruleType === 'required_fields'" class="mb-4">
@@ -89,20 +98,22 @@ const emit = defineEmits<{
           </VAlert>
 
           <VSelect
-            v-model="props.formData.validationMessageAnnotationId"
+            :model-value="props.formData.validationMessageAnnotationId"
             :items="props.availableValidationMessages"
             :label="BUSINESS_RULES_UI.VALIDATION_MESSAGE_LABEL"
             :hint="BUSINESS_RULES_UI.VALIDATION_MESSAGE_HINT"
             persistent-hint
             clearable
             class="mb-4"
+            @update:model-value="(v: string | null) => updateField('validationMessageAnnotationId', v as BusinessRuleFormData['validationMessageAnnotationId'])"
           />
 
           <VSwitch
-            v-model="props.formData.active"
+            :model-value="props.formData.active"
             :label="BUSINESS_RULES_UI.ACTIVE_LABEL"
             :hint="BUSINESS_RULES_UI.ACTIVE_HINT"
             persistent-hint
+            @update:model-value="(v: boolean | null) => updateField('active', v ?? false)"
           />
         </VForm>
       </VCardText>

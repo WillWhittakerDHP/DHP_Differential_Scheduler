@@ -55,3 +55,15 @@ export interface PlaceDetails {
   addressComponents: AddressComponents
   coordinates: Coordinates
 }
+
+/**
+ * Location input for route calculations
+ * LEARNING: Routes API accepts placeId, coordinates, or address
+ * WHY: Flexibility in how locations are specified (Phase 1.3 type-similarity UNIFY)
+ * PATTERN: Priority order for accuracy: placeId > coordinates > address
+ */
+export interface RouteLocation {
+  placeId?: string
+  coordinates?: Coordinates
+  address?: string
+}

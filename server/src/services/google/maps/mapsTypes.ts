@@ -10,7 +10,8 @@ import type {
   AutocompletePrediction,
   Coordinates,
   MapsApiErrorType,
-  PlaceDetails
+  PlaceDetails,
+  RouteLocation
 } from '@shared/types/mapsTypes.js'
 import { GOOGLE_API_STATUS } from './mapsConstants.js'
 
@@ -19,7 +20,8 @@ export type {
   AutocompletePrediction,
   Coordinates,
   MapsApiErrorType,
-  PlaceDetails
+  PlaceDetails,
+  RouteLocation
 }
 
 /** Status values for route matrix results (from GOOGLE_API_STATUS) */
@@ -34,18 +36,6 @@ export type RouteMatrixStatus =
 export interface AutocompleteResponse {
   predictions: AutocompletePrediction[]
   status: string
-}
-
-/**
- * Location input for route calculations
- * LEARNING: Routes API accepts placeId, coordinates, or address
- * WHY: Provides flexibility in how locations are specified
- * PATTERN: Priority order for accuracy: placeId > coordinates > address
- */
-export interface RouteLocation {
-  placeId?: string
-  coordinates?: Coordinates
-  address?: string
 }
 
 /**

@@ -66,7 +66,7 @@ export function useAdminConfig() {
     if (!cachedConfig) {
       try {
         cachedConfig = getAdminConfig()
-      } catch (error) {
+      } catch (_error) {
         cachedConfig = {
           displayFieldConfig: {} as DisplayFieldConfigMap,
           formFieldConfig: {} as FormFieldConfigMap,
@@ -188,7 +188,7 @@ export function useAdminConfig() {
       try {
         const config = getConfig()
         return (config?.instanceConfig?.[entityKey] || { titleField: 'name' }) as InstanceConfig[GE]
-      } catch (error) {
+      } catch (_error) {
         return { titleField: 'name' } as InstanceConfig[GE]
       }
     })

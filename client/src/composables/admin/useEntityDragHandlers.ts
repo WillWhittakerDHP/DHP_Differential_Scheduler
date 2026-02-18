@@ -61,7 +61,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       // PATTERN: Map for O(1) lookup
       const entityMap = new Map<string, GlobalEntity<EntityKey>>()
       allEntities.forEach(entity => {
-        entityMap.set(String(entity.id), entity)
+        entityMap.set(entity.id, entity)
       })
       
       // PATTERN: Set for O(1) membership check
@@ -73,7 +73,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
         .filter((entity): entity is GlobalEntity<EntityKey> => entity !== undefined)
       
       const nonDraggedEntities = allEntities.filter(
-        entity => !draggedIds.has(String(entity.id))
+        entity => !draggedIds.has(entity.id)
       )
       
       // PATTERN: Spread operator to combine arrays
@@ -94,7 +94,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       }))
       
       await patchOrderIndex(updates)
-    } catch (error) {
+    } catch (_error) {
       syncArrays()
     }
   }
@@ -106,7 +106,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
    */
   const syncArrays = (): void => {
     entityList.value = [...filteredEntities.value] as typeof entityList.value
-    entityIds.value = filteredEntities.value.map(entity => String(entity.id))
+    entityIds.value = filteredEntities.value.map(entity => entity.id)
   }
 
   return {

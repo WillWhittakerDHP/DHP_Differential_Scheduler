@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-18T19:14:12.426Z**
-- Files scanned: **792**
-- Type definitions found: **737**
+- Generated at: **2026-02-18T21:18:54.354Z**
+- Files scanned: **793**
+- Type definitions found: **735**
 - Similarity groups: **99**
 - UNIFY candidates: **39**
 - BRAND candidates: **13**
@@ -376,7 +376,7 @@ These types are structurally identical but may represent different concepts. Add
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `AppointmentData` | interface | `client/src/components/booking/dev/DevPanelsContainer.vue` | 48 | no |
+| `AppointmentData` | interface | `client/src/components/booking/dev/DevPanelsContainer.vue` | 49 | no |
 | `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts` | 17 | yes |
 
 ### sim-exact-4cd1202ed155
@@ -444,7 +444,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 ### sim-subset-a327c0b2d783
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **57**
-- Structure: `{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/entities').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }`
+- Structure: `{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/bookingMode').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
@@ -644,7 +644,7 @@ These types have high structural overlap. Review to determine if they should be 
 | --- | --- | --- | ---: | --- |
 | `ISO8601Date` | type-alias-primitive | `client/src/types/datetime.ts` | 46 | yes |
 | `RFC3339DateTime` | type-alias-primitive | `client/src/types/datetime.ts` | 76 | yes |
-| `GlobalEntityId` | type-alias-primitive | `client/src/types/entities.ts` | 1 | yes |
+| `GlobalEntityId` | type-alias-primitive | `client/src/types/entities.ts` | 6 | yes |
 | `RFC3339DateTime` | type-alias-primitive | `shared/types/availabilityTypes.ts` | 20 | yes |
 
 ### sim-high_overlap-8c88e15327e4

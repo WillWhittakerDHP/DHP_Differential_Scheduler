@@ -67,9 +67,9 @@ export interface StatePlugin {
  */
 export interface SelectionCardConfig {
   selectionType: 'radio' | 'checkbox' | 'none'
-  
+  // @audit-allow:hardcoding:magicLabel - UI component type unions for selection config
   selectionComponent: 'VRadio' | 'VCheckbox' | 'custom'
-  
+  // @audit-allow:hardcoding:magicLabel - UI component type unions for selection config
   selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
   
   /**

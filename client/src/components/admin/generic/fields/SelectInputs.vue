@@ -148,8 +148,6 @@ import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppSelect from '@/@core/components/app-form-elements/AppSelect.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useAdmin } from '@/composables/useAdmin'
 import type { GlobalEntity } from '@/types/entities'
@@ -165,13 +163,9 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
+import type { FieldInputProps } from './fieldTypes'
 
-interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  showLabel?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 

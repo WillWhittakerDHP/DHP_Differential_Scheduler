@@ -8,7 +8,7 @@
 
 import type { AnnotationInstance, AnnotationWithMetadata, AnnotationShape } from '@/types/annotations'
 import type { UserTypeBlock } from '@/types/userTypes'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, toGlobalEntityIdOrNull, type GlobalEntityId } from '@/types/entities'
 
 /**
  * Transform API annotation type to AnnotationShape
@@ -41,7 +41,7 @@ function transformApiAnnotationShape(rawAnnotationShape: unknown): AnnotationSha
   if (typeof id === 'string' && typeof name === 'string') {
     // PATTERN: Include all BaseGlobalEntity properties when transforming API response
     return { 
-      id, 
+      id: toGlobalEntityId(id), 
       name,
       entityKey: 'annotationShape' as const,
       orderIndex: 0,
@@ -69,7 +69,7 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
   // Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility
   const userTypeBlock = rawAnnotation.userTypeBlock ?? null
   const normalizedUserTypeBlock: UserTypeBlock = typeof userTypeBlock === 'string'
-    ? userTypeBlock as GlobalEntityId
+    ? toGlobalEntityId(userTypeBlock)
     : null
 
   const type = rawAnnotation.type ?? rawAnnotation.annotationShapeId
@@ -84,7 +84,7 @@ export function transformApiAnnotation(rawAnnotation: Record<string, unknown>): 
 
   // PATTERN: Include all BaseGlobalEntity properties when transforming API response
   const result: AnnotationInstance = {
-    id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',
+    id: typeof rawAnnotation.id === 'string' ? toGlobalEntityId(rawAnnotation.id) : toGlobalEntityId(''),
     entityKey: 'annotationInstance' as const,
     orderIndex: 0,
     active: true,
@@ -170,7 +170,9 @@ export function getThroughAttributes(annotation: Record<string, unknown>): {
   if (through && typeof through === 'object') {
     const t = through as Record<string, unknown>
     return {
-      userTypeBlockBlockInstanceId: (t.userTypeBlockBlockInstanceId ?? null) as GlobalEntityId | null,
+      userTypeBlockBlockInstanceId: toGlobalEntityIdOrNull(
+      typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null
+    ),
       orderIndex: (t.orderIndex ?? 0) as number,
       isDefault: (t.isDefault ?? false) as boolean,
     }

@@ -113,9 +113,6 @@ import { Icon } from '@iconify/vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import IconPicker from './IconPicker.vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
@@ -123,12 +120,9 @@ import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCard
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY)
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  showLabel?: boolean
-}
+import type { FieldInputProps } from './fieldTypes'
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 

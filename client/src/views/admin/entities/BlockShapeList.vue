@@ -76,9 +76,13 @@
 
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
+import { useNotification } from '@/composables/useNotification'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@/types/entities'
 
+const logger = createLogger('BlockShapeList')
 const router = useRouter()
+const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('blockShape')
 
 function goToCreate() {
@@ -93,8 +97,9 @@ async function handleDelete(id: GlobalEntityId) {
   if (confirm('Are you sure you want to delete this block type?')) {
     try {
       await remove(id)
-    } catch (err) {
-      alert('Failed to delete block type')
+    } catch (error) {
+      logger.error('Failed to delete block type', { error })
+      notifyError('Failed to delete block type')
     }
   }
 }

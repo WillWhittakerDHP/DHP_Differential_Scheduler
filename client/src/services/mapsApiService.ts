@@ -18,10 +18,11 @@ import type {
   AutocompletePrediction,
   Coordinates,
   MapsApiErrorType,
-  PlaceDetails
+  PlaceDetails,
+  RouteLocation
 } from '@shared/types/mapsTypes'
 
-export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails }
+export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails, RouteLocation }
 
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
@@ -232,18 +233,6 @@ function handleApiError(error: unknown): MapsApiError {
 // =============================================================================
 // ROUTES API - Session 2.2.2
 // =============================================================================
-
-/**
- * Location input for route calculations
- * LEARNING: Routes API accepts placeId, coordinates, or address
- * WHY: Provides flexibility in how locations are specified
- * PATTERN: Priority order for accuracy: placeId > coordinates > address
- */
-export interface RouteLocation {
-  placeId?: string
-  coordinates?: Coordinates
-  address?: string
-}
 
 /**
  * Drive time result from Routes API

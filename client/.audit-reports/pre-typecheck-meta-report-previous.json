@@ -1,0 +1,333 @@
+{
+  "generatedAt": "2026-02-18T20:28:52.799Z",
+  "auditSummaries": [
+    {
+      "auditId": "type-similarity",
+      "totalFindings": 99,
+      "filesWithFindings": 99,
+      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 99"
+    },
+    {
+      "auditId": "dep-freshness",
+      "totalFindings": 62,
+      "filesWithFindings": 62,
+      "detail": "Outdated: 62 (major: 23, minor: 20, patch: 18)"
+    },
+    {
+      "auditId": "import-hygiene",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Barrel: 0, Deep relative: 0, Type re-export: 0, Inconsistent: 0, Duplicate re-exports: 0"
+    },
+    {
+      "auditId": "import-graph",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Cycles: 0, Fan-out violations: 0, Fan-in violations: 0"
+    },
+    {
+      "auditId": "api-contract",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Client/server type mismatches: 0"
+    },
+    {
+      "auditId": "type-escape",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Type escape hatches (as any, ts-ignore, etc.): 0"
+    },
+    {
+      "auditId": "type-import",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Value-from-type-only: 0, Type-used-as-value: 0"
+    }
+  ],
+  "hotspots": [
+    {
+      "repoPath": "client:@iconify/vue",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-placeholder",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-text-align",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-underline",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/starter-kit",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/vue-3",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@types/dotenv",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@types/helmet",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@types/jest",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@types/node",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@types/node",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:cookie-es",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:cross-env",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:date-fns",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:dotenv",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:dotenv-cli",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:express",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:googleapis",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:joi",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:unplugin-auto-import",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vitest",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vue-flatpickr-component",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vue-router",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@casl/ability",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@floating-ui/dom",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@formkit/drag-and-drop",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tanstack/vue-query",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@typescript-eslint/eslint-plugin",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@typescript-eslint/parser",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@vueuse/core",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    }
+  ],
+  "trend": [
+    {
+      "auditId": "type-similarity",
+      "current": 99,
+      "previous": 0,
+      "delta": 99
+    },
+    {
+      "auditId": "dep-freshness",
+      "current": 62,
+      "previous": 0,
+      "delta": 62
+    },
+    {
+      "auditId": "import-hygiene",
+      "current": 0,
+      "previous": 0,
+      "delta": 0
+    },
+    {
+      "auditId": "import-graph",
+      "current": 0,
+      "previous": 28,
+      "delta": -28
+    },
+    {
+      "auditId": "api-contract",
+      "current": 0,
+      "previous": 66,
+      "delta": -66
+    },
+    {
+      "auditId": "type-escape",
+      "current": 0,
+      "previous": 70,
+      "delta": -70
+    },
+    {
+      "auditId": "type-import",
+      "current": 0,
+      "previous": 125,
+      "delta": -125
+    }
+  ]
+}

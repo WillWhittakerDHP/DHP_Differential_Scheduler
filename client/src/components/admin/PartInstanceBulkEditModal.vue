@@ -116,11 +116,11 @@ const firstPartInstanceForMetadata = computed(() => {
   const relationships = raw !== undefined && raw !== null ? raw : []
   const constituentIds = new Set(
     relationships
-      .filter(rel => String(rel.parent.id) === String(props.blockInstanceId))
-      .flatMap(rel => rel.children.map(child => String(child.id)))
+      .filter(rel => rel.parent.id === props.blockInstanceId)
+      .flatMap(rel => rel.children.map(child => child.id))
   )
 
-  const instances = partInstances.value.filter(pi => constituentIds.has(String(pi.id)))
+  const instances = partInstances.value.filter(pi => constituentIds.has(pi.id))
   
   if (instances.length === 0) return null
   

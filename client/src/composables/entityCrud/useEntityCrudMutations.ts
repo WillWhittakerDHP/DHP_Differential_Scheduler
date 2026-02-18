@@ -171,7 +171,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       entity: Partial<GlobalEntity<GlobalEntityTypeKey>>
       id: GlobalEntityId
     }) => {
-      const updateEndpoint = getEntityByIdEndpoint(entityKey, String(id))
+      const updateEndpoint = getEntityByIdEndpoint(entityKey, id)
 
       const rawEntity: Partial<GlobalEntity<GlobalEntityTypeKey>> & { entityKey: GlobalEntityTypeKey } = {
         ...entity,
@@ -188,7 +188,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         throw new Error(errorMessage)
       }
       
-      return { ...response.data, id: String(id) }
+      return { ...response.data, id }
     },
     onMutate: async (variables) => {
       // LEARNING: Optimistic update pattern for update
@@ -200,7 +200,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         if (!old) return old
 
         const currentEntities = getEntitiesForKey(old)
-        const entityIndex = currentEntities.findIndex((e) => String(e.id) === String(variables.id))
+        const entityIndex = currentEntities.findIndex((e) => e.id === variables.id)
 
         if (entityIndex === -1) {
           if (isDevModeEnabled()) {
@@ -236,7 +236,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
           if (!old) return old
 
           const currentEntities = getEntitiesForKey(old)
-          const entityIndex = currentEntities.findIndex((e) => String(e.id) === String(data.id))
+          const entityIndex = currentEntities.findIndex((e) => e.id === data.id)
 
           if (entityIndex === -1) return old
 
@@ -276,7 +276,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
   const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({
     mutationFn: async (id: GlobalEntityId) => {
-      const deleteEndpoint = getEntityByIdEndpoint(entityKey, String(id))
+      const deleteEndpoint = getEntityByIdEndpoint(entityKey, id)
       const response = await apiClient.delete(deleteEndpoint)
       
       // PATTERN: Check response status, log error if failed, throw explicit error
@@ -286,7 +286,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         throw new Error(errorMessage)
       }
       
-      return { deletedId: String(id) }
+      return { deletedId: id }
     },
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['globalData'] })
@@ -295,7 +295,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
         const currentEntities = getEntitiesForKey(old)
-        const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== String(id))
+        const updatedEntities = currentEntities.filter((entity) => entity.id !== id)
         return {
           ...old,
           entities: {
@@ -335,9 +335,9 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
         const currentEntities = getEntitiesForKey(old)
-        const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))
+        const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))
         const updatedEntities = currentEntities.map((entity) => {
-          const newOrder = updateMap.get(String(entity.id))
+          const newOrder = updateMap.get(entity.id)
           let orderIndex: number
           if (newOrder !== undefined) {
             orderIndex = newOrder
@@ -401,10 +401,10 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
 
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
-        const updateMap = new Map(updates.map((update) => [String(update.id), update]))
+        const updateMap = new Map(updates.map((update) => [update.id, update]))
         const currentEntities = getEntitiesForKey(old)
         const updatedEntities = currentEntities.map((entity) => {
-          const update = updateMap.get(String(entity.id))
+          const update = updateMap.get(entity.id)
           if (!update) return entity
           return {
             ...entity,

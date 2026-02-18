@@ -78,7 +78,7 @@ function convertDateRangeConstraint(dbConstraint: DbRangeConstraint): RangeConst
 
 /** LeadTime has no string conversion; pass through as shared RangeConstraint. */
 function convertLeadTimeConstraint(dbConstraint: DbRangeConstraint): RangeConstraint {
-  return { category: 'range', ...dbConstraint } as RangeConstraint
+  return { ...dbConstraint, category: 'range' }
 }
 
 const RANGE_CONVERTER_MAP: Record<

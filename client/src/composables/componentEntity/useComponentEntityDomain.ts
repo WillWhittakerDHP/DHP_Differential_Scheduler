@@ -176,7 +176,7 @@ export function useComponentEntityDomain<GE extends GlobalEntityKey>(
     })()
 
     return components.map((component, index: number) => ({
-      componentId: String(component.id),
+      componentId: component.id,
       currentValue: currentValues[index],
       newValue: newValues[index],
       change: newValues[index] - currentValues[index],

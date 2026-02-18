@@ -55,7 +55,7 @@ export function useEntityGrouping<
     // WHY: Functional approach avoids mutations, aligns with workspace rules
     // PATTERN: Reduce groupEntities to Map, creating new arrays instead of mutating
     return groupEntities.reduce((map, groupEntity) => {
-      const groupId = String(groupEntity.id)
+      const groupId = groupEntity.id
       const groupEntitiesList = entities
         .filter(entity => groupBy(entity) === groupId)
         // PATTERN: Spread operator creates new array

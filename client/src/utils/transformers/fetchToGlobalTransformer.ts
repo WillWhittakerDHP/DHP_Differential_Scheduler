@@ -11,7 +11,7 @@ import { ENTITY_KEYS } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, toGlobalEntityIdOrNull, type GlobalEntity } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { FetchedRelationship } from '@/types/relationships'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
@@ -193,17 +193,17 @@ function transformApiRelationship(
     logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
   }
   return {
-    id: (idResolved !== undefined ? idResolved : '') as GlobalEntityId,
+    id: toGlobalEntityId(idResolved ?? ''),
     kind: relationshipKey,
     parentKind: (parentKindOverride ?? parentKind) as GlobalEntityKey,
     childKind: childKind as GlobalEntityKey,
-    parentId: parentId as GlobalEntityId,
-    childId: childId as GlobalEntityId,
+    parentId: toGlobalEntityId(parentId),
+    childId: toGlobalEntityId(childId),
     disabled: Boolean(raw.disabled ?? false),
     ...(userTypeBlockBlockInstanceId !== undefined &&
       (userTypeBlockBlockInstanceId === null ||
         typeof userTypeBlockBlockInstanceId === 'string') && {
-        userTypeBlockBlockInstanceId: userTypeBlockBlockInstanceId as GlobalEntityId | null,
+        userTypeBlockBlockInstanceId: toGlobalEntityIdOrNull(userTypeBlockBlockInstanceId),
       }),
   }
 }

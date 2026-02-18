@@ -14,7 +14,7 @@ import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityTabState } from '@/composables/admin/useEntityTabState'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
@@ -927,7 +927,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
     <MetadataEditModal
       v-model="annotationShapeMetadataModalOpen"
       entity-key="annotationShape"
-      :entity="{ id: ANNOTATION_SHAPE_GLOBAL_CONFIG_ID, name: 'Annotation Shape Fields (Global)', entityKey: 'annotationShape', orderIndex: 0, active: true }"
+      :entity="{ id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID), name: 'Annotation Shape Fields (Global)', entityKey: 'annotationShape', orderIndex: 0, active: true }"
       entity-name="Annotation Shape Fields (Global)"
       @saved="() => annotationShapeMetadataModalOpen = false"
     />
@@ -940,7 +940,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
     <MetadataEditModal
       v-model="eventShapeMetadataModalOpen"
       entity-key="eventShape"
-      :entity="{ id: '00000000-0000-0000-0000-000000000010', name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true, isTernary: false, ternaryDefault: null }"
+      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'), name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true, isTernary: false, ternaryDefault: null }"
       entity-name="Event Shape Fields (Global)"
     />
   </div>

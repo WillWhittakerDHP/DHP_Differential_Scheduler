@@ -1,0 +1,211 @@
+{
+  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
+  "generatedAt": "2026-02-18T21:18:58.434Z",
+  "totalScanned": 784,
+  "valueImportFromTypeOnlyFile": [],
+  "typeUsedAsValue": [
+    {
+      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "lineNumber": 90,
+      "symbol": "FieldMetadataEntry"
+    },
+    {
+      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "lineNumber": 96,
+      "symbol": "FieldMetadataEntry"
+    },
+    {
+      "file": "client/src/composables/admin/usePartsCollectionField.ts",
+      "lineNumber": 97,
+      "symbol": "RelationshipFieldType"
+    },
+    {
+      "file": "client/src/composables/booking/usePerspectiveMapping.ts",
+      "lineNumber": 4,
+      "symbol": "PerspectiveKey"
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextState.ts",
+      "lineNumber": 95,
+      "symbol": "GlobalEntity"
+    },
+    {
+      "file": "client/src/composables/useLocalTime.ts",
+      "lineNumber": 65,
+      "symbol": "RFC3339DateTime"
+    },
+    {
+      "file": "client/src/composables/useLocalTime.ts",
+      "lineNumber": 182,
+      "symbol": "RFC3339DateTime"
+    },
+    {
+      "file": "client/src/composables/useLocalTime.ts",
+      "lineNumber": 221,
+      "symbol": "RFC3339DateTime"
+    },
+    {
+      "file": "client/src/types/appointmentApi.ts",
+      "lineNumber": 34,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/appointmentApi.ts",
+      "lineNumber": 51,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/appointmentApi.ts",
+      "lineNumber": 34,
+      "symbol": "USER_ROLE_AGENT"
+    },
+    {
+      "file": "client/src/types/appointmentApi.ts",
+      "lineNumber": 51,
+      "symbol": "USER_ROLE_AGENT"
+    },
+    {
+      "file": "client/src/types/property.ts",
+      "lineNumber": 25,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/property.ts",
+      "lineNumber": 46,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/user.ts",
+      "lineNumber": 15,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/user.ts",
+      "lineNumber": 25,
+      "symbol": "USER_ROLE_CLIENT"
+    },
+    {
+      "file": "client/src/types/user.ts",
+      "lineNumber": 15,
+      "symbol": "USER_ROLE_AGENT"
+    },
+    {
+      "file": "client/src/types/user.ts",
+      "lineNumber": 25,
+      "symbol": "USER_ROLE_AGENT"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 92,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 93,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 94,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 95,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 96,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/types/wizard.ts",
+      "lineNumber": 97,
+      "symbol": "Ref"
+    },
+    {
+      "file": "client/src/utils/booking/partFinalizer.ts",
+      "lineNumber": 62,
+      "symbol": "PartFinal"
+    },
+    {
+      "file": "client/src/utils/booking/slotShapeLookups.ts",
+      "lineNumber": 4,
+      "symbol": "SlotShape"
+    },
+    {
+      "file": "client/src/utils/datetime.ts",
+      "lineNumber": 34,
+      "symbol": "RFC3339DateTime"
+    },
+    {
+      "file": "client/src/utils/transformers/annotationTransformers.ts",
+      "lineNumber": 66,
+      "symbol": "AnnotationInstance"
+    },
+    {
+      "file": "client/src/utils/transformers/transformerPrimitives.ts",
+      "lineNumber": 113,
+      "symbol": "TernaryBoolean"
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/types/wizard.ts",
+      "score": 12
+    },
+    {
+      "file": "client/src/types/appointmentApi.ts",
+      "score": 8
+    },
+    {
+      "file": "client/src/types/user.ts",
+      "score": 8
+    },
+    {
+      "file": "client/src/composables/useLocalTime.ts",
+      "score": 6
+    },
+    {
+      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
+      "score": 4
+    },
+    {
+      "file": "client/src/types/property.ts",
+      "score": 4
+    },
+    {
+      "file": "client/src/composables/admin/usePartsCollectionField.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/composables/booking/usePerspectiveMapping.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextState.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/utils/booking/partFinalizer.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/utils/booking/slotShapeLookups.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/utils/datetime.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/utils/transformers/annotationTransformers.ts",
+      "score": 2
+    },
+    {
+      "file": "client/src/utils/transformers/transformerPrimitives.ts",
+      "score": 2
+    }
+  ]
+}

@@ -9,7 +9,7 @@
 import { ref, computed, watch, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import DynamicForm from './DynamicForm.vue'
 import { FieldRenderer } from './fields'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -55,7 +55,7 @@ const dynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null)
  * WHY: Need stable reference for composable
  * PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID
  */
-const currentEntityId = ref<GlobalEntityId>(props.entityId || ('new-' + Date.now()) as GlobalEntityId)
+const currentEntityId = ref<GlobalEntityId>(props.entityId ?? toGlobalEntityId('new-' + String(Date.now())))
 
 watch(() => props.entityId, (newId) => {
   if (newId) {

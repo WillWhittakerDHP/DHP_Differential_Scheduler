@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { isTestFileFromCentralConfig } from './audit-exceptions.mjs'
 
 /**
  * Test Audit Script
@@ -47,12 +48,9 @@ function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
 }
 
+/** Use central config (audit-global-config.json testFile patterns) so test-file classification is a single source of truth. */
 function isTestFile(repoPath) {
-  return (
-    repoPath.includes('/__tests__/') ||
-    /\.test\.(ts|tsx|js|jsx)$/.test(repoPath) ||
-    /\.spec\.(ts|tsx|js|jsx)$/.test(repoPath)
-  )
+  return isTestFileFromCentralConfig(repoPath)
 }
 
 function isSourceFile(repoPath) {

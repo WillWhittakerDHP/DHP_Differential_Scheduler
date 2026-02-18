@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
+import { AUDIT_REPORT_AI_INSTRUCTIONS, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Audit Meta Report Script
@@ -67,6 +68,10 @@ const AUDIT_SOURCES = [
   { id: 'api-versioning', file: 'api-versioning-audit.json', weight: 1.5 },
   { id: 'data-flow', file: 'data-flow-audit.json', weight: 2 },
   { id: 'dep-freshness', file: 'dep-freshness-audit.json', weight: 1 },
+  { id: 'type-escape', file: 'type-escape-audit.json', weight: 1 },
+  { id: 'type-import', file: 'type-import-audit.json', weight: 1 },
+  { id: 'lint', file: 'lint-audit.json', weight: 1.5 },
+  { id: 'lint-warnings', file: 'lint-warnings-audit.json', weight: 0.5 },
 ]
 
 function loadAuditJson(auditFile) {
@@ -93,7 +98,7 @@ function aggregateFileScores(auditResults) {
     const files = Array.isArray(data.files) ? data.files : []
     for (const f of files) {
       const repoPath = f.repoPath || f.file || ''
-      if (!repoPath) continue
+      if (!repoPath || isGloballyExcluded(repoPath)) continue
       const score = (f.score || f.complexityScore || 0) * weight
 
       if (!fileScores.has(repoPath)) {
@@ -106,7 +111,7 @@ function aggregateFileScores(auditResults) {
     if (id === 'import-graph' && Array.isArray(data.files)) {
       for (const f of data.files) {
         const repoPath = f.file || ''
-        if (!repoPath) continue
+        if (!repoPath || isGloballyExcluded(repoPath)) continue
         if (!fileScores.has(repoPath)) fileScores.set(repoPath, [])
         fileScores.get(repoPath).push({ auditId: id, score: (f.score || 0) * weight })
       }
@@ -116,7 +121,7 @@ function aggregateFileScores(auditResults) {
     if (id === 'api-contract' && Array.isArray(data.findings)) {
       for (const f of data.findings) {
         for (const fileKey of [f.clientFile, f.serverFile]) {
-          if (!fileKey) continue
+          if (!fileKey || isGloballyExcluded(fileKey)) continue
           if (!fileScores.has(fileKey)) fileScores.set(fileKey, [])
           fileScores.get(fileKey).push({ auditId: id, score: (f.severity === 'warning' ? 3 : 1) * weight })
         }
@@ -180,12 +185,25 @@ function hashConfigAllowlist(configFilePath) {
   }
 }
 
+/** Audits whose allowlist lives in audit-global-config.json (allowlists.<id>) */
+const CENTRAL_ALLOWLIST_AUDITS = ['type-escape', 'type-import']
+
 /**
  * Build a config fingerprint map for all audit config files.
- * This lets us detect when the actual allowlist rules changed
- * between runs (vs just more files matching existing rules).
+ * type-escape and type-import use central allowlist (audit-global-config.json allowlists.*).
  */
 function computeConfigFingerprints(auditDir) {
+  const globalPath = path.join(auditDir, 'audit-global-config.json')
+  let centralAllowlists = null
+  if (fs.existsSync(globalPath)) {
+    try {
+      const raw = JSON.parse(fs.readFileSync(globalPath, 'utf8'))
+      centralAllowlists = raw.allowlists ?? null
+    } catch {
+      centralAllowlists = null
+    }
+  }
+
   const configFiles = [
     ...AUDIT_SOURCES.map(src => ({
       auditId: src.id,
@@ -195,7 +213,14 @@ function computeConfigFingerprints(auditDir) {
   ]
 
   return configFiles.reduce((fingerprints, { auditId, fileName }) => {
-    const hash = hashConfigAllowlist(path.join(auditDir, fileName))
+    let hash = null
+    if (CENTRAL_ALLOWLIST_AUDITS.includes(auditId) && centralAllowlists) {
+      const entry = centralAllowlists[auditId] ?? {}
+      const allowlistContent = JSON.stringify(entry)
+      hash = crypto.createHash('sha256').update(allowlistContent).digest('hex').slice(0, 16)
+    } else {
+      hash = hashConfigAllowlist(path.join(auditDir, fileName))
+    }
     if (hash !== null) {
       fingerprints[auditId] = hash
     }
@@ -205,15 +230,30 @@ function computeConfigFingerprints(auditDir) {
 
 /**
  * Count the total glob patterns defined across all config files.
- * This gives a quick sense of how many architectural exclusions exist.
+ * type-escape and type-import count from audit-global-config.json allowlists.*.
  */
 function countConfigPatterns(auditDir) {
-  const configGlobs = [
-    ...AUDIT_SOURCES.map(src => `${src.id}-audit-config.json`),
-    'typecheck/typecheck-audit-config.json',
+  const globalPath = path.join(auditDir, 'audit-global-config.json')
+  let centralAllowlists = null
+  if (fs.existsSync(globalPath)) {
+    try {
+      const raw = JSON.parse(fs.readFileSync(globalPath, 'utf8'))
+      centralAllowlists = raw.allowlists ?? null
+    } catch {
+      centralAllowlists = null
+    }
+  }
+
+  const configFiles = [
+    ...AUDIT_SOURCES.map(src => ({ auditId: src.id, fileName: `${src.id}-audit-config.json` })),
+    { auditId: 'typecheck', fileName: 'typecheck/typecheck-audit-config.json' },
   ]
 
-  return configGlobs.reduce((total, fileName) => {
+  return configFiles.reduce((total, { auditId, fileName }) => {
+    if (CENTRAL_ALLOWLIST_AUDITS.includes(auditId) && centralAllowlists?.[auditId]) {
+      const entry = centralAllowlists[auditId]
+      return total + (entry.patterns?.length ?? 0) + (entry.specific?.length ?? 0)
+    }
     const filePath = path.join(auditDir, fileName)
     if (!fs.existsSync(filePath)) return total
     try {
@@ -370,6 +410,8 @@ function computeAuditSummaries(auditResults) {
 function renderMarkdownReport(result) {
   const lines = []
   lines.push('# Audit Meta Report (Generated)')
+  lines.push('')
+  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
   lines.push('')
   lines.push(`Generated at: ${result.generatedAt}`)
   lines.push('')
@@ -545,6 +587,7 @@ function main() {
   const exceptionDiff = computeExceptionDiff(exceptionAnalysis, previousExceptionAnalysis)
 
   const result = {
+    instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS,
     generatedAt: new Date().toISOString(),
     auditSummaries,
     hotspots: hotspots.slice(0, 50),

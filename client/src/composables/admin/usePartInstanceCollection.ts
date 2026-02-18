@@ -105,7 +105,7 @@ export function usePartInstanceCollection(
     let defaults
     try {
       defaults = getDefaultEntityValues('partInstance')
-    } catch (error) {
+    } catch (_error) {
       defaults = { orderIndex: 0 }
     }
     
@@ -203,7 +203,7 @@ export function usePartInstanceCollection(
   const bulkEditDataRef = bulkEditData
 
   const expandedPartInstances = ref<string[]>([])
-  const isPanelExpanded = (partInstanceId: string): boolean => expandedPartInstances.value.includes(String(partInstanceId))
+  const isPanelExpanded = (partInstanceId: string): boolean => expandedPartInstances.value.includes(partInstanceId)
 
   return {
     validPartShapes,

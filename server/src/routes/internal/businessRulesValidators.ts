@@ -6,7 +6,7 @@
  * PATTERN: Pure validation functions that return validation results
  */
 
-import { ValidationResult } from '../helpers/routerValidators.js'
+import type { ValidationResult } from '../helpers/routerValidators.js'
 import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_RULE_TYPES } from './businessRulesConstants.js'
 import type { RuleType } from '../../db/models/admin/business_rule.js'
 

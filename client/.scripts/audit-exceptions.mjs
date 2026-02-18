@@ -16,7 +16,11 @@ import { execSync } from 'node:child_process'
  *    Format: // @audit-allow:<auditType>:<ruleId> - <reason>
  *    Example: // @audit-allow:hardcoding:entityKeyString - Required for entity routing
  * 
- * 3. PER-AUDIT CONFIG FILE - For audit-specific patterns/broad exceptions
+ * 3. CENTRAL ALLOWLIST - For type-escape and type-import (and others that opt in)
+ *    Location: .audit-reports/audit-global-config.json under "allowlists.<auditType>"
+ *    Usage: loadCentralAllowlist(auditType)
+ *
+ * 4. PER-AUDIT CONFIG FILE - For audit-specific patterns/broad exceptions
  *    Location: .audit-reports/<auditType>-audit-config.json
  *    Schema: See loadConfigAllowlist() for structure
  * 
@@ -26,6 +30,14 @@ import { execSync } from 'node:child_process'
  * - Exceptions should be AUDITABLE (can review exception creep)
  * - Easy to ADD when legitimate, easy to REMOVE when stale
  */
+
+/**
+ * Standard line to emit at the top of audit report markdown so AI/tooling treats
+ * findings as canonical and does not change audit scripts without explicit user approval.
+ * Include this in renderMarkdownReport() for any audit that emits a .md report.
+ */
+export const AUDIT_REPORT_AI_INSTRUCTIONS =
+  '**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.'
 
 /**
  * Detect if a .js file is compiled output from a TypeScript source (sibling .ts exists).
@@ -127,6 +139,70 @@ export function isGloballyExcluded(repoPath) {
     if (simpleGlobMatch(normalized, entry.pattern)) return true
   }
   return false
+}
+
+/**
+ * Whether test-related audits (e.g. coverage-risk-crossref) should be suppressed.
+ * Read from audit-global-config.json "testsDisabled". When true, coverage-risk
+ * and optionally test-audit write no-op/empty reports. See BETA_LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
+ *
+ * @returns {boolean}
+ */
+export function getTestsDisabled() {
+  const configPath = resolveGlobalConfigPath()
+  if (!fs.existsSync(configPath)) return false
+  try {
+    const raw = fs.readFileSync(configPath, 'utf8')
+    const config = JSON.parse(raw)
+    return config?.testsDisabled === true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Whether the repo-relative path is a test file according to central config.
+ * Uses globalExclusions entries with "testFile": true (same patterns as test-file exclusions).
+ * Use in test-audit and elsewhere so test-file classification is a single source of truth.
+ *
+ * @param {string} repoPath - Repo-relative file path
+ * @returns {boolean}
+ */
+export function isTestFileFromCentralConfig(repoPath) {
+  const exclusions = loadGlobalExclusions()
+  const testEntries = exclusions.filter(e => e.testFile === true)
+  const normalized = repoPath.replaceAll('\\', '/')
+  for (const entry of testEntries) {
+    if (simpleGlobMatch(normalized, entry.pattern)) return true
+  }
+  return false
+}
+
+/**
+ * Load allowlist for an audit type from the central audit-global-config.json.
+ * Use this for audits that centralize allow/ignore lists (e.g. type-escape, type-import).
+ * Same shape as loadConfigAllowlist(): { patterns, specific } for checkConfigAllowlist().
+ *
+ * @param {string} auditType - Key under allowlists (e.g. 'type-escape', 'type-import')
+ * @returns {{patterns: Array, specific: Array}}
+ */
+export function loadCentralAllowlist(auditType) {
+  const configPath = resolveGlobalConfigPath()
+  if (!fs.existsSync(configPath)) {
+    return { patterns: [], specific: [] }
+  }
+  try {
+    const raw = fs.readFileSync(configPath, 'utf8')
+    const config = JSON.parse(raw)
+    const entry = config?.allowlists?.[auditType]
+    return {
+      patterns: entry?.patterns ?? [],
+      specific: entry?.specific ?? [],
+    }
+  } catch (err) {
+    console.warn(`Warning: Could not parse central allowlist for ${auditType} at ${configPath}: ${err.message}`)
+    return { patterns: [], specific: [] }
+  }
 }
 
 /**

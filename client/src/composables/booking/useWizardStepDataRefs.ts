@@ -10,7 +10,7 @@
 import { ref, provide } from 'vue'
 import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, WizardStepDataAndValidationRefs } from '@/types/wizard'
 
-export interface UseWizardStepDataRefsReturn extends WizardStepDataAndValidationRefs {}
+export type UseWizardStepDataRefsReturn = WizardStepDataAndValidationRefs
 
 export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
   const propertyDetailsStepData = ref<PropertyDetailsStepData | null>(null)

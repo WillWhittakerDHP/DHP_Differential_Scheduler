@@ -15,6 +15,13 @@ import {
   BUSINESS_RULES_API_BASE,
   BUSINESS_RULES_MESSAGES,
 } from '@/constants/businessRulesConstants.js'
+import type {
+  ConditionalValidationRuleConfig,
+  RequiredFieldsRuleConfig,
+  RequiresAgentRuleConfig,
+  RuleConfig,
+  ValidationMessageRuleConfig,
+} from '@shared/types/businessRulesTypes'
 
 const logger = createLogger('useBusinessRules')
 
@@ -45,62 +52,14 @@ export type RuleType =
   | 'conditional_validation' // Field validation depends on other field values
   | 'validation_message'     // Custom validation messages for fields/blocks
 
-/**
- * Required Fields Rule Config
- * LEARNING: Defines additional required fields when block is selected
- * WHY: Multi-family properties require numberOfUnits, some services require specific fields
- * PATTERN: Array of field names with optional condition
- */
-export interface RequiredFieldsRuleConfig {
-  fields: string[]           // Array of field names that become required
-  condition?: string         // Optional condition (e.g., "isMultiFamily", "hasDeck")
+// Re-export shared rule config types (Phase 1.2 type-similarity)
+export type {
+  ConditionalValidationRuleConfig,
+  RequiredFieldsRuleConfig,
+  RequiresAgentRuleConfig,
+  RuleConfig,
+  ValidationMessageRuleConfig,
 }
-
-/**
- * Requires Agent Rule Config
- * LEARNING: Indicates service requires agent/client contact information
- * WHY: Some services need agent details (e.g., Buyers Inspection), others don't
- * PATTERN: Simple boolean flag
- */
-export interface RequiresAgentRuleConfig {
-  requiresAgent: boolean
-}
-
-/**
- * Conditional Validation Rule Config
- * LEARNING: Field validation depends on other field values
- * WHY: Complex validation logic (e.g., field X required when field Y equals value Z)
- * PATTERN: Dependent field, condition type, condition value
- */
-export interface ConditionalValidationRuleConfig {
-  field: string              // Field to validate
-  dependsOn: string          // Field that determines validation
-  condition: string          // Condition type (e.g., "equals", "contains", "greaterThan")
-  value: unknown             // Value to compare against
-}
-
-/**
- * Validation Message Rule Config
- * LEARNING: Custom validation messages for fields/blocks
- * WHY: Admin-configurable error messages instead of hardcoded strings
- * PATTERN: Field name and message type
- */
-export interface ValidationMessageRuleConfig {
-  field: string              // Field this message applies to
-  messageType: 'required' | 'invalid' | 'custom' // Type of validation message
-}
-
-/**
- * Rule Config Union Type
- * LEARNING: TypeScript union type for all possible rule configs
- * WHY: Type safety for JSONB field based on rule_type
- * PATTERN: Discriminated union based on rule_type
- */
-export type RuleConfig = 
-  | RequiredFieldsRuleConfig 
-  | RequiresAgentRuleConfig 
-  | ConditionalValidationRuleConfig
-  | ValidationMessageRuleConfig
 
 /**
  * Business Rule Model

@@ -219,7 +219,7 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
   }
 }
 
-export type RollingWeekDirection = 'past' | 'centered' | 'future'
+import type { RollingWeekDirection } from '../../../../shared/types/availabilityTypes.js'
 
 /**
  * Get start and end dates for a rolling 7-day window (UTC).

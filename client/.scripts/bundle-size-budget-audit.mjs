@@ -109,7 +109,7 @@ function checkBudgets(totals, budgets) {
   return result
 }
 
-function assignPriority(budgetResults, chunks) {
+function assignPriority(budgetResults, _chunks) {
   const violations = Object.values(budgetResults).filter(b => !b.pass).length
   const nearLimit = Object.values(budgetResults).filter(b => b.pctOfBudget >= 80 && b.pass).length
   if (violations > 0) return 'P0'

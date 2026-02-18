@@ -86,7 +86,7 @@ function createAdminInstance() {
     entityId: GlobalEntityId
   ): AdminObject<GE> | undefined {
     const entities = transformedEntities.value[entityKey]
-    return entities.find((e) => String(e.id) === String(entityId)) as AdminObject<GE> | undefined
+    return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined
   }
   
   /**

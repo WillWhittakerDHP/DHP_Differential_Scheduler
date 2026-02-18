@@ -21,7 +21,7 @@ export interface UseEntityTabStateOptions<EntityKey extends GlobalEntityKey> {
   }
 }
 
-export interface UseEntityTabStateReturn {}
+export type UseEntityTabStateReturn = Record<string, never>
 
 /**
  * Entity Tab State Composable

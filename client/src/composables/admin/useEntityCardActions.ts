@@ -181,7 +181,7 @@ export function useEntityCardActions(
       await remove(entity.value.id)
       showDeleteDialog.value = false
       success(`${getEntityDeleteTitle(entityKey)} deleted successfully`)
-      onDelete?.(String(entity.value.id))
+      onDelete?.(entity.value.id)
     } catch (err) {
       logger.error('Entity delete failed', { err, entityKey })
       const errorMessage = err instanceof Error ? err.message : `Failed to delete ${entityKey}`

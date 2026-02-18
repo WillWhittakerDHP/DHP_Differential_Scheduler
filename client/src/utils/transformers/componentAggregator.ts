@@ -9,7 +9,7 @@
  * PATTERN: Property-specific component strategies (sum, merge, first, every)
  */
 
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalData } from './fetchToGlobalTransformer'
@@ -41,7 +41,7 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
     )
     .flatMap(rel => 
       rel.children.map(child => ({
-        id: `${rel.parent.id}-${child.id}`, // Generate ID from parent-child pair
+        id: toGlobalEntityId(`${rel.parent.id}-${child.id}`), // Generate ID from parent-child pair
         parentId: rel.parent.id,
         childId: child.id,
         orderIndex: 0, // Default orderIndex (not available in GlobalRelationship)

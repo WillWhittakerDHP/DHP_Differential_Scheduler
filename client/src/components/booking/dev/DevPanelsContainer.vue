@@ -19,9 +19,10 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import type { AppointmentSlot } from '@/types/appointment'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
-import type { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
+import { toGlobalEntityId } from '@/types/entities'
 import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
 
 interface Props {
@@ -322,7 +323,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))
   
   const matchingEvent = events.find(ei => {
-    const es = eventShapeById.get(ei.eventShapeRef)
+    const es = eventShapeById.get(toGlobalEntityId(ei.eventShapeRef))
     return es?.id === eventShape.id
   })
   

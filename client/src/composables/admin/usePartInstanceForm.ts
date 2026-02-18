@@ -16,7 +16,7 @@ import { ref, computed, onMounted, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../useEntity'
 import { useGlobal } from '../useGlobal'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 export interface PartInstanceFormData {
   name: string
@@ -139,7 +139,7 @@ export function usePartInstanceForm(
    */
   const partTypeOptions = computed(() => {
     return getGlobalEntities('partShape').map(pt => ({
-      id: String(pt.id),
+      id: pt.id,
       name: pt.name || `Part Type ${pt.id}`,
     }))
   })
@@ -178,7 +178,7 @@ export function usePartInstanceForm(
   const loadEntity = async (): Promise<void> => {
     if (!isEdit.value || !entityId.value) return
     
-    const entity = getGlobalEntities('partInstance').find(e => String(e.id) === entityId.value)
+    const entity = getGlobalEntities('partInstance').find(e => e.id === entityId.value)
     if (entity) {
       formData.value = {
         name: entity.name || '',
@@ -200,7 +200,7 @@ export function usePartInstanceForm(
     
     try {
       if (isEdit.value && entityId.value) {
-        await update(formData.value as Partial<GlobalEntity<'partInstance'>>, entityId.value)
+        await update(formData.value as Partial<GlobalEntity<'partInstance'>>, toGlobalEntityId(entityId.value!))
       } else {
         await create(formData.value as Partial<GlobalEntity<'partInstance'>>)
       }

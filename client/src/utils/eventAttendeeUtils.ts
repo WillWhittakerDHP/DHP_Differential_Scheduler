@@ -10,7 +10,7 @@
  */
 
 import type { EventShapeEntity } from '@/types/entities'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import type { BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
@@ -35,7 +35,7 @@ export function findUserTypeBlockIdsByName(
   const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]
   const stateControlBlockInstances = blockInstances.filter(
     instance => 
-      stateControlBlockShapeIds.has(instance.blockShapeRef) && 
+stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) &&
       instance.active &&
       instance.name.toLowerCase() === name.toLowerCase()
   )
@@ -94,7 +94,7 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
   const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]
   const stateControlBlockInstances = blockInstances.filter(
     instance => 
-      stateControlBlockShapeIds.has(instance.blockShapeRef)
+      stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef))
   )
   
   return stateControlBlockInstances.map(instance => instance.id)

@@ -124,7 +124,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     }
 
     if (composedEntityComposable) {
-      const components = composedEntityComposable.getComponents(String(entityId))
+      const components = composedEntityComposable.getComponents(entityId)
       return components.map((ea) => ea.childId)
     }
 

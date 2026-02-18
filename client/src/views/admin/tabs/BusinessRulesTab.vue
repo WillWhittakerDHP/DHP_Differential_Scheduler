@@ -207,7 +207,7 @@ function setRequiresAgent(v: boolean): void {
 
     <RuleFormDialog
       v-model="showRuleDialog"
-      :form-data="formData"
+      v-model:form-data="formData"
       :editing-rule="editingRule"
       :rule-type-options="ruleTypeOptions"
       :available-block-instances="availableBlockInstances"

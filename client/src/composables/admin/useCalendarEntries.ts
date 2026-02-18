@@ -162,7 +162,7 @@ export function useCalendarEntries(
       if (updates.writeTo !== undefined) {
         setWriteTo(index, updates.writeTo)
         // Don't apply writeTo update directly - setWriteTo handles it
-        const { writeTo, ...otherUpdates } = updates
+        const { writeTo: _writeTo, ...otherUpdates } = updates
         formData.value.calendarConfig.calendars[index] = {
           ...entries.value[index],
           ...otherUpdates

@@ -10,7 +10,7 @@ import type { TimeRange, AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import type { EventShapeEntity } from '@/types/entities'
+import type { EventShapeEntity, GlobalEntityId } from '@/types/entities'
 import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
@@ -28,8 +28,8 @@ export interface ResolvedEventShapes {
  * WHY: Eliminates duplication and reduces nesting in callers.
  */
 export function resolveEventShapes(
-  majorAttendeeIds: string[],
-  minorAttendeeIds: string[],
+  majorAttendeeIds: GlobalEntityId[],
+  minorAttendeeIds: GlobalEntityId[],
   eventFinals: SlotShape['eventFinals']
 ): ResolvedEventShapes {
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]

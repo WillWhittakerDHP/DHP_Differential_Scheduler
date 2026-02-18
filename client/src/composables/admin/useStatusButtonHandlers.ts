@@ -45,12 +45,12 @@ export function useStatusButtonHandlers<GE extends GlobalEntityKey>(
    */
   watch(() => filteredEntities.value, (entities) => {
     entities.forEach((entity) => {
-      if (!statusButtonHandlers.value.has(String(entity.id))) {
+      if (!statusButtonHandlers.value.has(entity.id)) {
         statusButtonHandlers.value.set(
-          String(entity.id),
+          entity.id,
           useStatusButtonToggle({
             entityKey,
-            entityId: String(entity.id)
+            entityId: entity.id
           })
         )
       }

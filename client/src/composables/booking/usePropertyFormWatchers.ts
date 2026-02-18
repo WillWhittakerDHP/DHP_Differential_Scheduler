@@ -18,7 +18,7 @@ export interface UsePropertyFormWatchersParams {
   isAddressExpanded: Ref<boolean>
 }
 
-export interface UsePropertyFormWatchersReturn {}
+export type UsePropertyFormWatchersReturn = Record<string, never>
 
 /**
  * usePropertyFormWatchers composable

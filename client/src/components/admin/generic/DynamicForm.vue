@@ -74,7 +74,7 @@ import { computed, ref, watch, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
 import { useFormFields } from '@/composables/useFormFields'
@@ -128,7 +128,7 @@ const formInstance = props.form || useForm()
  * WHY: Need stable reference for composable
  * PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID
  */
-const tempEntityId = ref<GlobalEntityId>(('new-' + Date.now()) as GlobalEntityId)
+const tempEntityId = ref<GlobalEntityId>(toGlobalEntityId('new-' + String(Date.now())))
 const currentEntityId = ref<GlobalEntityId>(props.entityId || tempEntityId.value)
 
 watch(() => props.entityId, (newId) => {

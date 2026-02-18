@@ -81,7 +81,7 @@ export function useInstanceDragAndDrop(
     instancesMap.forEach((instances, blockShapeId) => {
       if (!blockInstancesLists.value.has(blockShapeId)) {
         blockInstancesLists.value.set(blockShapeId, ref([...instances]))
-        blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => String(i.id))))
+        blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => i.id)))
         
         const filteredInstances = computed(() => {
           const raw = mainInstancesByShape.value.get(blockShapeId)

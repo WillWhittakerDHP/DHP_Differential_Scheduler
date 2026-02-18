@@ -14,7 +14,7 @@ import { ERROR_MESSAGES } from './businessRulesConstants.js'
 import { handleRouteError } from './businessRulesErrorHandler.js'
 import { validateRequiredFields, validateRuleType } from './businessRulesValidators.js'
 import { sendSuccess } from '../helpers/routerResponseHelpers.js'
-import { ValidationResult } from '../helpers/routerValidators.js'
+import type { ValidationResult } from '../helpers/routerValidators.js'
 
 // Create base CRUD router using factory with custom GET / handler for query filtering
 const router = createCrudRouter({

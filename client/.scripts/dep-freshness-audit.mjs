@@ -79,7 +79,7 @@ function runNpmOutdated(dirPath) {
 
 function main() {
   ensureDir(OUT_DIR)
-  const config = loadConfig()
+  const _config = loadConfig()
 
   const packages = []
   const dirs = [

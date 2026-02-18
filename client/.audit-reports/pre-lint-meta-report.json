@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-02-18T21:30:32.250Z",
+  "auditSummaries": [
+    {
+      "auditId": "lint",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Errors + warnings: 0 in 0 files"
+    },
+    {
+      "auditId": "lint-warnings",
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Warnings only: 0 in 0 files"
+    }
+  ],
+  "hotspots": []
+}

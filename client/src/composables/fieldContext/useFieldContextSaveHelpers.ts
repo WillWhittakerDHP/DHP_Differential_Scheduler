@@ -11,7 +11,7 @@ import type { AxiosError } from 'axios'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/types/entities'
 import type { CreateRelationshipPayload } from '@/types/relationships'
 import { getRelationshipByParentChildEndpoint, getRelationshipEndpoint } from '@/utils/api'
 import apiClient from '@/utils/api'
@@ -38,7 +38,7 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
 
   const { addToComponent, removeFromComponent, getComponents } = state.composedEntityComposable
 
-  const currentComponents = getComponents(String(state.entityId))
+  const currentComponents = getComponents(toGlobalEntityId(String(state.entityId)))
   const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))
 
   const rawValue = state.value.value
@@ -49,14 +49,14 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
       ? new Set([String(plainValue).trim()].filter((s) => s !== ''))
       : new Set<string>()
 
-  const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(id))
-  const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(id))
+  const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(toGlobalEntityId(id)))
+  const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(String(id)))
 
   const promises: Promise<void>[] = [
     ...toAdd.map((componentId, index) =>
       addToComponent({
-        composerId: String(state.entityId),
-        componentId,
+        composerId: toGlobalEntityId(String(state.entityId)),
+        componentId: toGlobalEntityId(componentId),
         orderIndex: currentComponents.length + index,
       }).catch((error: unknown) => {
         const axiosErr = error as AxiosError
@@ -68,8 +68,8 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
     ),
     ...toRemove.map((componentId) =>
       removeFromComponent({
-        composerId: String(state.entityId),
-        componentId,
+        composerId: toGlobalEntityId(String(state.entityId)),
+        componentId: toGlobalEntityId(componentId),
       })
     ),
   ]
@@ -117,8 +117,8 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   const promises: Promise<void>[] = [
     ...toAdd.map((childId) => {
       const payload: CreateRelationshipPayload = {
-        parentId: parentId as GlobalEntityId,
-        childId: childId as GlobalEntityId,
+        parentId: toGlobalEntityId(parentId),
+        childId: toGlobalEntityId(childId),
       }
       return apiClient.post(relationshipEndpoint, payload).then(() => void 0)
     }),
@@ -138,7 +138,7 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
         state.entityKey,
         state.entityId,
         relationshipKey,
-        newValues as GlobalEntityId[],
+        newValues.map(toGlobalEntityId),
         queryClient
       )
     } catch (error) {

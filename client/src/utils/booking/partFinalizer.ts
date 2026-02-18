@@ -17,7 +17,7 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity } from '@/types/entities'
+import { toGlobalEntityId, type EventShapeEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
@@ -131,10 +131,10 @@ export function calculateSlotShape(
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
   
   // PATTERN: Use availabilitySettings to get major/minor attendee IDs, fall back to name-based logic if not available
-  let majorAttendeeIds: string[] = []
-  let minorAttendeeIds: string[] = []
+  let majorAttendeeIds: import('@/types/entities').GlobalEntityId[] = []
+  let minorAttendeeIds: import('@/types/entities').GlobalEntityId[] = []
   let useAttendeeBasedLogic = false
-  
+
   if (globalData && availabilitySettings?.differentialPerspectives) {
     const rawMajor = availabilitySettings.differentialPerspectives.majorAttendees
     const rawMinor = availabilitySettings.differentialPerspectives.minorAttendees
@@ -170,7 +170,7 @@ export function calculateSlotShape(
           const updatedEventRawDurations = new Map(partAcc.eventRawDurations)
           
           for (const eventInstance of events) {
-            const eventShape = eventShapeById.get(eventInstance.eventShapeRef)
+            const eventShape = eventShapeById.get(toGlobalEntityId(eventInstance.eventShapeRef))
             if (!eventShape) continue
             
             const eventShapeId = eventShape.id
@@ -245,7 +245,7 @@ export function calculateSlotShape(
   // PATTERN: Iterate over eventRawDurations to only include event shapes that have durations accumulated
   const eventFinals: import('@/types/appointment').EventFinal[] = Array.from(eventRawDurationsByShapeId.entries())
     .map(([eventShapeId, rawDuration]) => {
-      const eventShape = eventShapeById.get(eventShapeId)
+      const eventShape = eventShapeById.get(toGlobalEntityId(eventShapeId))
       if (!eventShape) {
         return null
       }

@@ -8,20 +8,27 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-12T01:55:36.140Z**
+- Generated at: **2026-02-18T20:47:17.497Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 3**
+- **Errors requiring review: 10**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **2**
+- Pools: **9**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2322-ts2322-assign-string-null-string` | 24 | 2 | 1 | 0 | 0 |
-| P1 | `TS2367-ts2367-this-comparison-appears-to-be-unintentional-because-the-types-roundup-rounddown-roundnearest-and-have-no-overlap` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-skippedcount` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS6133-ts6133-editorref-is-declared-but-its-value-is-never-read` | 12 | 2 | 2 | 0 | 0 |
+| P2 | `TS6133-ts6133-annotationshapescontainer-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-annotationshapespanelscontainer-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-dynamicformref-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-eventinstancescontainer-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-formref-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-panelref-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P2 | `TS6133-ts6133-refsearchinput-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -33,19 +40,75 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/utils/transformers/fetchToGlobalTransformer.ts`
+### `src/views/admin/tabs/ShapesTab.vue`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@164:5 Type 'string | null' is not assignable to type 'string'.
-TS2322@165:5 Type 'string | null' is not assignable to type 'string'.
+TS6133@282:7 'annotationShapesContainer' is declared but its value is never read.
+TS6133@291:7 'annotationShapesPanelsContainer' is declared but its value is never read.
 ```
 
-### `src/utils/booking/durationRounding.ts`
+### `src/@core/components/AppBarSearch.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2367@116:108 This comparison appears to be unintentional because the types '"roundUp" | "roundDown" | "roundNearest"' and '""' have no overlap.
+TS6133@28:7 'refSearchInput' is declared but its value is never read.
+```
+
+### `src/@core/components/ProductDescriptionEditor.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@17:7 'editorRef' is declared but its value is never read.
+```
+
+### `src/@core/components/TiptapEditor.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@17:7 'editorRef' is declared but its value is never read.
+```
+
+### `src/components/admin/dev/ApiDevPanel.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@36:7 'panelRef' is declared but its value is never read.
+```
+
+### `src/components/admin/generic/EntityFormContent.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@51:7 'dynamicFormRef' is declared but its value is never read.
+```
+
+### `src/components/booking/steps/PropertyDetailsStep.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@186:7 'formRef' is declared but its value is never read.
+```
+
+### `src/composables/useSelectOptions.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@261:13 Cannot find name 'skippedCount'.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@240:7 'eventInstancesContainer' is declared but its value is never read.
 ```

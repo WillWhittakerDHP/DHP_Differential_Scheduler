@@ -17,7 +17,7 @@
 import { computed } from 'vue'
 import { useAdmin } from '@/composables/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
@@ -257,7 +257,7 @@ export function useRelationshipCollectionField<
    */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | undefined>(() => {
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return undefined
-    return adminComp.getEntity(parentTypeEntityKey.value, parentTypeRef.value)
+    return adminComp.getEntity(parentTypeEntityKey.value, toGlobalEntityId(parentTypeRef.value))
   })
 
   /**

@@ -17,7 +17,7 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity } from '@/types/entities'
+import type { EventShapeEntity, GlobalEntityId } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 const logger = createLogger('differentialScheduling')
@@ -25,7 +25,7 @@ const logger = createLogger('differentialScheduling')
 function resolveAttendeeIds(
   perspectives: AvailabilitySettings['differentialPerspectives'],
   context: string
-): { major: string[]; minor: string[] } {
+): { major: GlobalEntityId[]; minor: GlobalEntityId[] } {
   const rawMajor = perspectives?.majorAttendees
   const rawMinor = perspectives?.minorAttendees
   if (rawMajor === undefined || rawMajor === null) {

@@ -14,7 +14,7 @@ import path from 'node:path'
 const CWD = path.resolve(process.cwd())
 const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
 const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
+const _CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
 const OUT_DIR = IS_CLIENT_DIR
   ? path.join(CWD, '.audit-reports')
   : path.join(CWD, 'client', '.audit-reports')

@@ -6,7 +6,7 @@
  * PATTERN: Pure validation functions that return validation results
  */
 
-import { ValidationResult } from '../../helpers/routerValidators.js'
+import type { ValidationResult } from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_ENTITY_TYPES, RENDER_AS_REQUIRING_INPUT_CONFIG } from './adminRelationshipMetadataConstants.js'
 
 /**

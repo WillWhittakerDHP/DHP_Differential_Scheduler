@@ -6,25 +6,18 @@
  * PATTERN: Memory-efficient cache with TTL-based expiration, following freeBusyCache pattern
  * 
  * CRITICAL: Cache reduces API calls and enables location-based features (drive time buffers)
+ * Type similarity BRAND: CachedCalendarEvent is CalendarEvent with a type brand (Phase 2).
  */
 
+import type { CalendarEvent } from '../../../shared/types/availabilityTypes.js'
+
 /**
- * Cached calendar event structure
- * LEARNING: Minimal event data needed for drive time calculations
- * WHY: Only cache essential fields to reduce memory usage
- * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
- * 
- * Session 2.2.3: Updated to use placeId instead of location string
+ * Cached calendar event: same shape as CalendarEvent but branded so typecheck distinguishes cache vs API.
+ * LEARNING: Brand allows functions to accept only cached events or only fresh API events
+ * WHY: Prevents mixing cache and API event types by mistake
+ * PATTERN: Type-level brand; no runtime property
  */
-export interface CachedCalendarEvent {
-  id: string;
-  start: string;
-  end: string;
-  placeId?: string;        // Google Place ID (primary location identifier)
-  summary: string | null;   // Event title for context/debugging
-  eventType?: string;       // 'default' | 'outOfOffice' - distinguishes regular events from out-of-office events
-  transparency?: string;    // Google: 'opaque' = blocks time (busy), 'transparent' = free (does not block)
-}
+export type CachedCalendarEvent = CalendarEvent & { readonly __brand: 'Cached' }
 
 interface EventsCacheEntry {
   data: CachedCalendarEvent[];

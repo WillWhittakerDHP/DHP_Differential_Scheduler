@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T19:14:12.426Z",
+  "generatedAt": "2026-02-18T21:18:54.354Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 792,
-  "totalDefinitions": 737,
+  "fileCount": 793,
+  "totalDefinitions": 735,
   "groups": [
     {
       "groupId": "sim-subset-6a5e2c8b16e9",
@@ -366,7 +366,7 @@
           "line": 51,
           "exported": true,
           "propertyCount": 18,
-          "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/entities').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }"
+          "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/bookingMode').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }"
         },
         {
           "name": "SelectionCardItem",
@@ -450,7 +450,7 @@
           "signature": "{ composite?: boolean, instanceComponents?: ComponentItem[] }"
         }
       ],
-      "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/entities').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }",
+      "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/bookingMode').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }",
       "propertyCount": 18,
       "score": 57,
       "priority": "P0"
@@ -713,7 +713,7 @@
           "name": "GlobalEntityId",
           "kind": "type-alias-primitive",
           "file": "client/src/types/entities.ts",
-          "line": 1,
+          "line": 6,
           "exported": true,
           "primitiveAlias": "string",
           "unionMembers": null
@@ -3136,7 +3136,7 @@
           "name": "AppointmentData",
           "kind": "interface",
           "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 48,
+          "line": 49,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -3882,7 +3882,7 @@
           "name": "Props",
           "kind": "interface",
           "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 26,
+          "line": 27,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -3960,7 +3960,7 @@
           "name": "ServiceSummary",
           "kind": "interface",
           "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "line": 113,
+          "line": 114,
           "exported": false,
           "primitiveAlias": null,
           "unionMembers": null
@@ -4482,6 +4482,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "InputLike",
+      "kind": "type-alias-object",
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "line": 153,
+      "exported": false,
+      "fingerprint": "a633579fe94d",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "FieldsByLocation",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCardContent.vue",
@@ -4595,7 +4605,7 @@
       "name": "EntityCardSaveContext",
       "kind": "interface",
       "file": "client/src/components/admin/generic/entityCardConstants.ts",
-      "line": 16,
+      "line": 19,
       "exported": true,
       "fingerprint": "373bb7d91583",
       "propertyCount": 3,
@@ -4935,7 +4945,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 26,
+      "line": 27,
       "exported": false,
       "fingerprint": "25ce0b0b97b7",
       "propertyCount": 1,
@@ -4945,7 +4955,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 30,
+      "line": 31,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -4955,7 +4965,7 @@
       "name": "AppointmentData",
       "kind": "interface",
       "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 48,
+      "line": 49,
       "exported": false,
       "fingerprint": "1690f84cc8dc",
       "propertyCount": 5,
@@ -4965,7 +4975,7 @@
       "name": "ServiceSummary",
       "kind": "interface",
       "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 113,
+      "line": 114,
       "exported": false,
       "fingerprint": "f595cbbaf0fe",
       "propertyCount": 5,
@@ -5599,16 +5609,6 @@
       "exported": true,
       "fingerprint": "cebeb0c9b28e",
       "propertyCount": 5,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseEntityTabStateReturn",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useEntityTabState.ts",
-      "line": 23,
-      "exported": true,
-      "fingerprint": "empty",
-      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -7305,7 +7305,7 @@
       "name": "UseInstanceComponentsListOptions",
       "kind": "interface",
       "file": "client/src/composables/booking/useInstanceComponentsList.ts",
-      "line": 20,
+      "line": 21,
       "exported": true,
       "fingerprint": "3c8a3b722bb2",
       "propertyCount": 2,
@@ -7539,16 +7539,6 @@
       "exported": true,
       "fingerprint": "c10b1db629f3",
       "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UsePropertyFormWatchersReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
-      "line": 20,
-      "exported": true,
-      "fingerprint": "empty",
-      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -7872,16 +7862,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseWizardStepDataRefsReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useWizardStepDataRefs.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "empty",
-      "propertyCount": 0,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseWizardSubmissionParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardSubmission.ts",
@@ -8045,7 +8025,7 @@
       "name": "UseComponentEntityQueryReturn",
       "kind": "type-alias-object",
       "file": "client/src/composables/componentEntity/useComponentEntityQuery.ts",
-      "line": 5,
+      "line": 6,
       "exported": true,
       "fingerprint": "81888b2ef65c",
       "propertyCount": 2,
@@ -9385,7 +9365,7 @@
       "name": "GlobalEntityId",
       "kind": "type-alias-primitive",
       "file": "client/src/types/entities.ts",
-      "line": 1,
+      "line": 6,
       "exported": true,
       "fingerprint": "primitive:string",
       "propertyCount": 0,
@@ -10317,7 +10297,7 @@
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "line": 51,
       "exported": true,
-      "fingerprint": "02b34c1cf16e",
+      "fingerprint": "84f79b54c26c",
       "propertyCount": 18,
       "primitiveAlias": null
     },
@@ -10337,7 +10317,7 @@
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "line": 189,
       "exported": false,
-      "fingerprint": "160a08ea71e1",
+      "fingerprint": "59575c86c20d",
       "propertyCount": 9,
       "primitiveAlias": null
     },

@@ -2,7 +2,13 @@
   "$comment": "Configuration for file-cohesion-audit.mjs",
   "allowlist": {
     "patterns": [],
-    "specific": []
+    "specific": [
+      {
+        "file": "client/src/components/admin/generic/EntityCard.vue",
+        "ruleId": "oversized",
+        "reason": "Orchestrator component; further extraction in progress (Plan C)"
+      }
+    ]
   },
   "thresholds": {
     "components": 500,

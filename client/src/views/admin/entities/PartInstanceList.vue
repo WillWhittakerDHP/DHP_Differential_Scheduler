@@ -68,9 +68,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
+import { useNotification } from '@/composables/useNotification'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@/types/entities'
 
+const logger = createLogger('PartInstanceList')
 const router = useRouter()
+const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('partInstance')
 
 function goToCreate() {
@@ -85,8 +89,9 @@ async function handleDelete(id: GlobalEntityId) {
   if (confirm('Are you sure you want to delete this part instance?')) {
     try {
       await remove(id)
-    } catch (_err) {
-      alert('Failed to delete part instance')
+    } catch (error) {
+      logger.error('Failed to delete part instance', { error })
+      notifyError('Failed to delete part instance')
     }
   }
 }

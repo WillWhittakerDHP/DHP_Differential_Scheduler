@@ -116,6 +116,7 @@ export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
  * }
  * ```
  * @audit-allow:error-handling:console-in-catch - Example only; real code should use logger.
+ * @audit-allow:error-handling:catch-without-logger - JSDoc example only; no executable catch in this file.
  */
 export function validateRFC3339DateTime(value: string): RFC3339DateTime {
   if (!isRFC3339DateTime(value)) {

@@ -9,7 +9,7 @@
 
 import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/useBookingWizard'
 
 export interface UseWizardDevModeOptions {
   isDevMode: boolean

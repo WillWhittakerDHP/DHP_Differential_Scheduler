@@ -14,7 +14,7 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import { useGlobal } from '@/composables/useGlobal'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { createLogger } from '@/utils/logger'
 
@@ -78,7 +78,7 @@ export function useAppointmentShape(
         eventShapes = eventShapes.map(eventShape => {
           const matchingRel = attendeeAssignmentsRelationships.find(rel => rel.parent?.id === eventShape.id)
           const rawChildren = matchingRel?.children
-          let attendees: string[]
+          let attendees: GlobalEntityId[]
           if (rawChildren !== undefined && rawChildren !== null) {
             attendees = rawChildren.map((child: GlobalEntity<GlobalEntityKey>) => child.id)
           } else {

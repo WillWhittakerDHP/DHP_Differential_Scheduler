@@ -605,7 +605,7 @@ function checkIDOR(files) {
       let hasIDParams = false
       let hasAuthorization = false
       
-      lines.forEach((line, index) => {
+      lines.forEach((line, _index) => {
         // Check for ID parameters
         if (ID_PATTERNS.some(pattern => pattern.test(line))) {
           hasIDParams = true

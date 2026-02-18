@@ -54,6 +54,6 @@ export default defineComponent({
         plugins: props.plugins,
         options: props.chartOptions,
         data: props.chartData,
-      } as any)
+      } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
   },
 })

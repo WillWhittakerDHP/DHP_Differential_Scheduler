@@ -78,7 +78,7 @@ export function useInstanceGrouping(
       const instances = blockInstances
         .filter(bi => bi.blockShapeRef === blockShape.id)
         .sort((a, b) => a.orderIndex - b.orderIndex)
-      map.set(String(blockShape.id), instances)
+      map.set(blockShape.id, instances)
       return map
     }, new Map<string, GlobalEntity<'blockInstance'>[]>())
   })
@@ -108,7 +108,7 @@ export function useInstanceGrouping(
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of composable flags
     return blockShapes.reduce((map, blockShape) => {
-      map.set(String(blockShape.id), blockShape.composable === true)
+      map.set(blockShape.id, blockShape.composable === true)
       return map
     }, new Map<string, boolean>())
   })
@@ -124,7 +124,7 @@ export function useInstanceGrouping(
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of state control flags
     return blockShapes.reduce((map, blockShape) => {
-      map.set(String(blockShape.id), blockShape.isStateControl === true)
+      map.set(blockShape.id, blockShape.isStateControl === true)
       return map
     }, new Map<string, boolean>())
   })
@@ -140,7 +140,7 @@ export function useInstanceGrouping(
     
     if (!globalData || !globalData.relationships || !globalData.relationships.validCascades) {
       return blockShapes.reduce((map, blockShape) => {
-        map.set(String(blockShape.id), [])
+        map.set(blockShape.id, [])
         return map
       }, new Map<string, string[]>())
     }
@@ -149,7 +149,7 @@ export function useInstanceGrouping(
     // PATTERN: Reduce blockShapes into a Map of valid cascade names
     return blockShapes.reduce((map, blockShape) => {
       const validCascadeRels = globalData.relationships.validCascades.filter(
-        rel => String(rel.parent.id) === String(blockShape.id)
+        rel => rel.parent.id === blockShape.id
       )
       
       const cascadeNames = validCascadeRels
@@ -157,7 +157,7 @@ export function useInstanceGrouping(
         .map(child => child.name)
         .filter(Boolean) as string[]
       
-      map.set(String(blockShape.id), cascadeNames)
+      map.set(blockShape.id, cascadeNames)
       return map
     }, new Map<string, string[]>())
   })
@@ -169,8 +169,8 @@ export function useInstanceGrouping(
    */
   watch(sortedBlockShapes, (shapes) => {
     if (activeTab && shapes.length > 0) {
-      if (!activeTab.value || !shapes.some(s => String(s.id) === activeTab.value)) {
-        activeTab.value = String(shapes[0].id)
+      if (!activeTab.value || !shapes.some(s => s.id === activeTab.value)) {
+        activeTab.value = shapes[0].id
       }
     }
   }, { immediate: true })

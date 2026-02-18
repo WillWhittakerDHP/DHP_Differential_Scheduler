@@ -36,7 +36,7 @@ export function useShapeDisplayNames(): UseShapeDisplayNamesReturn {
     const map = new Map<string, string>()
     blockShapes.forEach(blockShape => {
       const displayName = getEntityDisplayName('blockShape', blockShape)
-      map.set(String(blockShape.id), displayName)
+      map.set(blockShape.id, displayName)
     })
     return map
   })
@@ -46,7 +46,7 @@ export function useShapeDisplayNames(): UseShapeDisplayNamesReturn {
     const map = new Map<string, string>()
     partShapes.forEach(partShape => {
       const displayName = getEntityDisplayName('partShape', partShape)
-      map.set(String(partShape.id), displayName)
+      map.set(partShape.id, displayName)
     })
     return map
   })

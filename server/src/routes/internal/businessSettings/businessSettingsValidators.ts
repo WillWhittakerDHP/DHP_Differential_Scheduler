@@ -7,7 +7,7 @@
  */
 
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
-import { ValidationResult } from '../../helpers/routerValidators.js'
+import type { ValidationResult } from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsConstants.js'
 
 /**

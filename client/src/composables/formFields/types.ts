@@ -4,7 +4,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@/types/entities'
 import type { FieldContextType } from '@/composables/useFieldContext'
-import type { useAdminConfig } from '@/composables/useAdminConfig'
+import { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 

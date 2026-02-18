@@ -17,7 +17,7 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import {
   calculateSlotShape
@@ -205,8 +205,8 @@ export function applyShapeToTime(
   const differentialPerspectives = globalData && availabilitySettings?.differentialPerspectives
     ? availabilitySettings.differentialPerspectives
     : null
-  let majorAttendeeIds: string[]
-  let minorAttendeeIds: string[]
+  let majorAttendeeIds: GlobalEntityId[]
+  let minorAttendeeIds: GlobalEntityId[]
   if (differentialPerspectives) {
     const rawMajor = differentialPerspectives.majorAttendees
     const rawMinor = differentialPerspectives.minorAttendees

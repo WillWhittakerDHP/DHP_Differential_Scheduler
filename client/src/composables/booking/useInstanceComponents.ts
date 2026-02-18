@@ -18,7 +18,7 @@ import { useComponentEntity } from '../useComponentEntity'
 import { extractInstanceComponents, isServiceComposable } from '@/utils/instanceComponentUtils'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 export interface UseInstanceComponentsOptions {
   service: ComputedRef<BookingBlockInstance | null>
@@ -83,7 +83,7 @@ export function useInstanceComponents(
     const blockInstance = service.value
     if (!isComposable.value || !blockInstance) return []
     
-    const instanceComponentsRelationships = componentEntity.getComponents(blockInstance.id)
+    const instanceComponentsRelationships = componentEntity.getComponents(toGlobalEntityId(blockInstance.id))
     if (!instanceComponentsRelationships || instanceComponentsRelationships.length === 0) {
       return []
     }

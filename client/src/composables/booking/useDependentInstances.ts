@@ -148,7 +148,7 @@ export function useDependentInstances(
           baseSqFt: (entityRecord.baseSqFt as number) || 0,
           icon,
           active: (entityRecord.active as boolean) ?? true,
-          bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/entities').BookingMode }).bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/entities').BookingMode,
+          bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/bookingMode').BookingMode }).bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/bookingMode').BookingMode,
           differential: ((entityRecord.differential as boolean) ?? false) ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
           blockShape,

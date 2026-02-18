@@ -49,7 +49,7 @@ function createBlockInstance(
   options: {
     name?: string
     orderIndex?: number
-    bookingMode?: import('@/constants/entities').BookingMode
+    bookingMode?: import('@/constants/bookingMode').BookingMode
     description?: string
     icon?: string
   } = {}

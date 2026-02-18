@@ -3,7 +3,7 @@ import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import { useFieldContext, type FieldContextType } from '@/composables/useFieldContext'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useNotification } from '@/composables/useNotification'
@@ -63,7 +63,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   // WHY: effectScope() doesn't preserve component instance, which useField needs for lifecycle hooks
   // PATTERN: Verify component instance exists before calling useFieldContext
 
-  const tempEntityId = ref<GlobalEntityId>((TEMPORARY_ID_PATTERNS.NEW_PREFIX + Date.now()) as GlobalEntityId)
+  const tempEntityId = ref<GlobalEntityId>(toGlobalEntityId(TEMPORARY_ID_PATTERNS.NEW_PREFIX + String(Date.now())))
 
   const currentEntityId = computed(() => {
     return entityId.value || tempEntityId.value

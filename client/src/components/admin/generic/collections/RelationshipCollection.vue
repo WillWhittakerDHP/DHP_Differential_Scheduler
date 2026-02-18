@@ -33,15 +33,15 @@
     >
       <template
         v-for="shape in validShapes"
-        :key="String(shape.id)"
+        :key="shape.id"
       >
         <!-- Existing child entity -->
         <EntityCard
-          v-if="getChildForShape(String(shape.id))"
-          :key="String(getChildForShape(String(shape.id))!.id)"
+          v-if="getChildForShape(shape.id)"
+          :key="getChildForShape(shape.id)!.id"
           :entity-key="childEntityKey"
-          :entity="getChildForShape(String(shape.id))!"
-          :expanded="isPanelExpanded(String(getChildForShape(String(shape.id))!.id))"
+          :entity="getChildForShape(shape.id)!"
+          :expanded="isPanelExpanded(getChildForShape(shape.id)!.id)"
           @delete="handleDeleteChildById"
         />
       </template>
@@ -54,17 +54,17 @@
     >
       <template
         v-for="shape in validShapes"
-        :key="`placeholder-${String(shape.id)}`"
+        :key="`placeholder-${shape.id}`"
       >
         <VExpansionPanel
-          v-if="!getChildForShape(String(shape.id))"
-          :value="String(shape.id)"
+          v-if="!getChildForShape(shape.id)"
+          :value="shape.id"
           :class="placeholderCardClass"
         >
           <template #title>
             <div class="d-flex align-center gap-2 flex-grow-1">
               <VIcon icon="tabler-plus" size="small" class="text-primary" />
-              <span>{{ getShapeName(String(shape.id)) }}</span>
+              <span>{{ getShapeName(shape.id) }}</span>
               <span class="text-caption text-medium-emphasis ml-2">{{ placeholderText }}</span>
             </div>
           </template>
@@ -75,12 +75,12 @@
             <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
             <EntityCard
               :entity-key="childEntityKey"
-              :entity="getNewChildEntity(String(shape.id))"
+              :entity="getNewChildEntity(shape.id)"
               :expanded="true"
               :is-new="true"
               :use-expansion-panel="false"
-              @saved="(entity) => handleNewChildSaved(String(shape.id), entity as GlobalEntity<GlobalEntityKey>)"
-              @cancelled="handleNewChildCancelled(String(shape.id))"
+              @saved="(entity) => handleNewChildSaved(shape.id, entity as GlobalEntity<GlobalEntityKey>)"
+              @cancelled="handleNewChildCancelled(shape.id)"
             />
           </template>
         </VExpansionPanel>
@@ -229,7 +229,7 @@ const relationshipCrud = useRelationshipCrud(relationshipKey.value as import('@/
 const { relationships, remove: removeRelationship } = relationshipCrud
 
 const handleDeleteChildById = async (id: string) => {
-  const entity = existingChildren.value.find(child => String(child.id) === id)
+  const entity = existingChildren.value.find(child => child.id === id)
   if (!entity) {
     logger.warn('Could not find entity with id', { id })
     return
@@ -242,8 +242,8 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   
   try {
     const relationship = relationships.value?.find(
-      rel => String(rel.parentId) === effectiveParentEntity.value!.id &&
-             String(rel.childId) === entity.id
+      rel => rel.parentId === effectiveParentEntity.value!.id &&
+             rel.childId === entity.id
     )
     
     if (relationship) {
@@ -256,7 +256,7 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
       ])
     }
-  } catch (error) {
+  } catch (_error) {
     notifyError(`Failed to remove ${childEntityKey.value}`)
   }
 }

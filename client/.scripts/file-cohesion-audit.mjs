@@ -254,6 +254,10 @@ function main() {
     if (isExcluded(repoPath, configAllowlist)) continue
 
     const result = analyzeFile(abs, thresholds)
+    // Filter out violations that are allowed by config (e.g. specific file + ruleId)
+    result.violations = result.violations.filter(
+      (v) => !checkConfigAllowlist(repoPath, v.rule, 1, configAllowlist).allowed
+    )
     if (result.violations.length === 0) continue
 
     const lineThreshold = thresholds[result.category] || thresholds.general

@@ -109,7 +109,7 @@ export function useShapeSaveHandlers(
    * PATTERN: Remove entity ID from expandedShapes to collapse the panel
    */
   const handleExistingShapeSaved = (entity: GlobalEntity<GlobalEntityKey>): void => {
-    expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
+    expandedShapes.value = expandedShapes.value.filter(id => id !== entity.id)
   }
 
   return {

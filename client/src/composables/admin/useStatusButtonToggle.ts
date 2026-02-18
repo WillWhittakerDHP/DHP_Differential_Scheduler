@@ -123,7 +123,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         const updatePayload: Array<{ admin: { key: string; value: TernaryBoolean }; dynamicId: string }> = [
           {
             admin: { key: String(fieldKey), value: newTernary },
-            dynamicId: String(currentEntity.id)
+            dynamicId: currentEntity.id
           }
         ]
         
@@ -132,7 +132,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         }
         
         queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
-        onToggle?.(String(fieldKey))
+        onToggle?.(fieldKey)
         return
       }
       
@@ -152,7 +152,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       const updatePayload: Array<{ admin: { key: string; value: boolean }; dynamicId: string }> = [
         {
           admin: { key: String(fieldKey), value: newValue },
-          dynamicId: String(currentEntity.id)
+          dynamicId: currentEntity.id
         }
       ]
       
@@ -162,7 +162,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
           if (currentCanHaveParts) {
             updatePayload.push({
               admin: { key: 'canHaveParts', value: false },
-              dynamicId: String(currentEntity.id)
+              dynamicId: currentEntity.id
             })
           }
         } else if (fieldKey === 'canHaveParts') {
@@ -170,7 +170,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
           if (currentIsStateControl) {
             updatePayload.push({
               admin: { key: 'isStateControl', value: false },
-              dynamicId: String(currentEntity.id)
+              dynamicId: currentEntity.id
             })
           }
         }
@@ -189,7 +189,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       // PATTERN: Call optional callback after successful mutation
       onToggle?.(String(fieldKey))
     } catch (error) {
-      logger.warn('Failed to toggle status button', { error, entityKey, entityId: String(entityId), fieldKey })
+      logger.warn('Failed to toggle status button', { error, entityKey, entityId, fieldKey })
     } finally {
       // PATTERN: Use finally block to ensure cleanup happens even if update fails
       pendingToggles.value.delete(toggleKey)

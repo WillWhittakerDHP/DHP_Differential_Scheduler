@@ -11,7 +11,7 @@
 
 import { computed, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import { useAdmin } from './useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
@@ -165,7 +165,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   const getGroupOptions = (group: GroupedEntities): SelectOption[] => {
     return group.entities.map((entity) => ({
       title: (getEntityFieldValue(entity, String(optionLabelKey.value)) as string | undefined) || String(entity.id),
-      value: String(entity.id)
+      value: entity.id
     }))
   }
   
@@ -176,18 +176,18 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
    */
   const getGroupValue = (group: GroupedEntities): string | string[] | null => {
     const currentValue = rawFieldValue.value
-    const groupEntityIds = new Set(group.entities.map(e => String(e.id)))
+    const groupEntityIds = new Set(group.entities.map(e => e.id))
     
     if (isMultiple.value) {
       const valueArray = Array.isArray(currentValue) 
         ? currentValue.map(v => String(v))
         : currentValue ? [String(currentValue)] : []
       
-      const groupValues = valueArray.filter(v => groupEntityIds.has(v))
+      const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))
       return groupValues.length > 0 ? groupValues : []
     } else {
       const valueString = currentValue ? String(currentValue) : null
-      return valueString && groupEntityIds.has(valueString) ? valueString : null
+      return valueString && groupEntityIds.has(toGlobalEntityId(valueString)) ? valueString : null
     }
   }
   
@@ -228,8 +228,8 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         // LEARNING: Handle both direct property access and ref pattern (e.g., blockShape vs blockShapeRef)
         // PATTERN: Try direct property first, then ref pattern, matching React's getProperty fallback
-        let skippedCount = 0
-        let addedCount = 0
+        let _skippedCount = 0
+        let _addedCount = 0
         
         entities.forEach((entity) => {
           const groupKey =
@@ -237,28 +237,28 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
             getEntityFieldValue(entity, `${groupByKey}Ref`)
           
           if (!groupKey) {
-            skippedCount++
+            _skippedCount++
             return
           }
           
           if (!groupedMap.has(String(groupKey))) {
-            const groupParent = groupParentMap.get(String(groupKey))
+            const groupParent = groupParentMap.get(toGlobalEntityId(String(groupKey)))
             if (groupParent) {
               groupedMap.set(String(groupKey), {
                 parent: groupParent,
                 children: []
               })
             } else {
-              skippedCount++
+              _skippedCount++
               return
             }
           }
           
           if (groupedMap.has(String(groupKey))) {
             groupedMap.get(String(groupKey))!.children.push(entity as GlobalEntity<GlobalEntityKey>)
-            addedCount++
+            _addedCount++
           } else {
-            skippedCount++
+            _skippedCount++
           }
         })
         
@@ -275,7 +275,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
             const title = (getEntityFieldValue(entity, String(optionLabelKey.value)) as string | undefined) || String(entity.id)
             return {
               title,
-              value: String(entity.id)
+              value: entity.id
             }
           })
         }))

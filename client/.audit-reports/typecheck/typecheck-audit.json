@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T01:55:36.140Z",
+  "generatedAt": "2026-02-18T20:47:17.497Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -14,7 +14,7 @@
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 10,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -23,70 +23,111 @@
   },
   "errors": [
     {
-      "file": "src/utils/booking/durationRounding.ts",
-      "line": 116,
-      "col": 108,
-      "code": "TS2367",
-      "message": "This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap.",
-      "raw": "src/utils/booking/durationRounding.ts(116,108): error TS2367: This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap.",
+      "file": "src/@core/components/AppBarSearch.vue",
+      "line": 28,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'refSearchInput' is declared but its value is never read.",
+      "raw": "src/@core/components/AppBarSearch.vue(28,7): error TS6133: 'refSearchInput' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/utils/booking/durationRounding.ts"
+      "repoPath": "src/@core/components/AppBarSearch.vue"
     },
     {
-      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 164,
-      "col": 5,
-      "code": "TS2322",
-      "message": "Type 'string | null' is not assignable to type 'string'.",
-      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(164,5): error TS2322: Type 'string | null' is not assignable to type 'string'.",
+      "file": "src/@core/components/ProductDescriptionEditor.vue",
+      "line": 17,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'editorRef' is declared but its value is never read.",
+      "raw": "src/@core/components/ProductDescriptionEditor.vue(17,7): error TS6133: 'editorRef' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+      "repoPath": "src/@core/components/ProductDescriptionEditor.vue"
     },
     {
-      "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 165,
-      "col": 5,
-      "code": "TS2322",
-      "message": "Type 'string | null' is not assignable to type 'string'.",
-      "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(165,5): error TS2322: Type 'string | null' is not assignable to type 'string'.",
+      "file": "src/@core/components/TiptapEditor.vue",
+      "line": 17,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'editorRef' is declared but its value is never read.",
+      "raw": "src/@core/components/TiptapEditor.vue(17,7): error TS6133: 'editorRef' is declared but its value is never read.",
       "scope": "client",
-      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+      "repoPath": "src/@core/components/TiptapEditor.vue"
+    },
+    {
+      "file": "src/components/admin/dev/ApiDevPanel.vue",
+      "line": 36,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'panelRef' is declared but its value is never read.",
+      "raw": "src/components/admin/dev/ApiDevPanel.vue(36,7): error TS6133: 'panelRef' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/dev/ApiDevPanel.vue"
+    },
+    {
+      "file": "src/components/admin/generic/EntityFormContent.vue",
+      "line": 51,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'dynamicFormRef' is declared but its value is never read.",
+      "raw": "src/components/admin/generic/EntityFormContent.vue(51,7): error TS6133: 'dynamicFormRef' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/admin/generic/EntityFormContent.vue"
+    },
+    {
+      "file": "src/components/booking/steps/PropertyDetailsStep.vue",
+      "line": 186,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'formRef' is declared but its value is never read.",
+      "raw": "src/components/booking/steps/PropertyDetailsStep.vue(186,7): error TS6133: 'formRef' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/components/booking/steps/PropertyDetailsStep.vue"
+    },
+    {
+      "file": "src/composables/useSelectOptions.ts",
+      "line": 261,
+      "col": 13,
+      "code": "TS2304",
+      "message": "Cannot find name 'skippedCount'.",
+      "raw": "src/composables/useSelectOptions.ts(261,13): error TS2304: Cannot find name 'skippedCount'.",
+      "scope": "client",
+      "repoPath": "src/composables/useSelectOptions.ts"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 240,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'eventInstancesContainer' is declared but its value is never read.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(240,7): error TS6133: 'eventInstancesContainer' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/ShapesTab.vue",
+      "line": 282,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'annotationShapesContainer' is declared but its value is never read.",
+      "raw": "src/views/admin/tabs/ShapesTab.vue(282,7): error TS6133: 'annotationShapesContainer' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/ShapesTab.vue"
+    },
+    {
+      "file": "src/views/admin/tabs/ShapesTab.vue",
+      "line": 291,
+      "col": 7,
+      "code": "TS6133",
+      "message": "'annotationShapesPanelsContainer' is declared but its value is never read.",
+      "raw": "src/views/admin/tabs/ShapesTab.vue(291,7): error TS6133: 'annotationShapesPanelsContainer' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/ShapesTab.vue"
     }
   ],
   "allowedErrors": [],
   "pools": [
     {
-      "poolId": "TS2322-ts2322-assign-string-null-string",
-      "groupKey": "TS2322::assign:string | null=>string",
-      "errorCount": 2,
-      "fileCount": 1,
-      "severityScore": 20,
-      "blastRadiusScore": 2,
-      "repetitionScore": 2,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 24,
-      "sample": [
-        {
-          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 164,
-          "col": 5,
-          "code": "TS2322",
-          "message": "Type 'string | null' is not assignable to type 'string'."
-        },
-        {
-          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 165,
-          "col": 5,
-          "code": "TS2322",
-          "message": "Type 'string | null' is not assignable to type 'string'."
-        }
-      ],
-      "priority": "P0"
-    },
-    {
-      "poolId": "TS2367-ts2367-this-comparison-appears-to-be-unintentional-because-the-types-roundup-rounddown-roundnearest-and-have-no-overlap",
-      "groupKey": "TS2367::This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap.",
+      "poolId": "TS2304-ts2304-cannot-find-name-skippedcount",
+      "groupKey": "TS2304::Cannot find name 'skippedCount'.",
       "errorCount": 1,
       "fileCount": 1,
       "severityScore": 10,
@@ -97,60 +138,369 @@
       "totalScore": 13,
       "sample": [
         {
-          "repoPath": "src/utils/booking/durationRounding.ts",
-          "line": 116,
-          "col": 108,
-          "code": "TS2367",
-          "message": "This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap."
+          "repoPath": "src/composables/useSelectOptions.ts",
+          "line": 261,
+          "col": 13,
+          "code": "TS2304",
+          "message": "Cannot find name 'skippedCount'."
         }
       ],
       "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-editorref-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'editorRef' is declared but its value is never read.",
+      "errorCount": 2,
+      "fileCount": 2,
+      "severityScore": 6,
+      "blastRadiusScore": 4,
+      "repetitionScore": 2,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 12,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/ProductDescriptionEditor.vue",
+          "line": 17,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'editorRef' is declared but its value is never read."
+        },
+        {
+          "repoPath": "src/@core/components/TiptapEditor.vue",
+          "line": 17,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'editorRef' is declared but its value is never read."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS6133-ts6133-annotationshapescontainer-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'annotationShapesContainer' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 282,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'annotationShapesContainer' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-annotationshapespanelscontainer-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'annotationShapesPanelsContainer' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 291,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'annotationShapesPanelsContainer' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-dynamicformref-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'dynamicFormRef' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/generic/EntityFormContent.vue",
+          "line": 51,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'dynamicFormRef' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-eventinstancescontainer-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'eventInstancesContainer' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 240,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'eventInstancesContainer' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-formref-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'formRef' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/booking/steps/PropertyDetailsStep.vue",
+          "line": 186,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'formRef' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-panelref-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'panelRef' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/components/admin/dev/ApiDevPanel.vue",
+          "line": 36,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'panelRef' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    },
+    {
+      "poolId": "TS6133-ts6133-refsearchinput-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'refSearchInput' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/@core/components/AppBarSearch.vue",
+          "line": 28,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'refSearchInput' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
     }
   ],
   "files": [
     {
-      "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts",
+      "repoPath": "src/views/admin/tabs/ShapesTab.vue",
       "errorCount": 2,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
       "errors": [
         {
-          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 164,
-          "col": 5,
-          "code": "TS2322",
-          "message": "Type 'string | null' is not assignable to type 'string'.",
-          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(164,5): error TS2322: Type 'string | null' is not assignable to type 'string'.",
+          "file": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 282,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'annotationShapesContainer' is declared but its value is never read.",
+          "raw": "src/views/admin/tabs/ShapesTab.vue(282,7): error TS6133: 'annotationShapesContainer' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue"
         },
         {
-          "file": "src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 165,
-          "col": 5,
-          "code": "TS2322",
-          "message": "Type 'string | null' is not assignable to type 'string'.",
-          "raw": "src/utils/transformers/fetchToGlobalTransformer.ts(165,5): error TS2322: Type 'string | null' is not assignable to type 'string'.",
+          "file": "src/views/admin/tabs/ShapesTab.vue",
+          "line": 291,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'annotationShapesPanelsContainer' is declared but its value is never read.",
+          "raw": "src/views/admin/tabs/ShapesTab.vue(291,7): error TS6133: 'annotationShapesPanelsContainer' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/utils/transformers/fetchToGlobalTransformer.ts"
+          "repoPath": "src/views/admin/tabs/ShapesTab.vue"
         }
       ]
     },
     {
-      "repoPath": "src/utils/booking/durationRounding.ts",
+      "repoPath": "src/@core/components/AppBarSearch.vue",
       "errorCount": 1,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
       "errors": [
         {
-          "file": "src/utils/booking/durationRounding.ts",
-          "line": 116,
-          "col": 108,
-          "code": "TS2367",
-          "message": "This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap.",
-          "raw": "src/utils/booking/durationRounding.ts(116,108): error TS2367: This comparison appears to be unintentional because the types '\"roundUp\" | \"roundDown\" | \"roundNearest\"' and '\"\"' have no overlap.",
+          "file": "src/@core/components/AppBarSearch.vue",
+          "line": 28,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'refSearchInput' is declared but its value is never read.",
+          "raw": "src/@core/components/AppBarSearch.vue(28,7): error TS6133: 'refSearchInput' is declared but its value is never read.",
           "scope": "client",
-          "repoPath": "src/utils/booking/durationRounding.ts"
+          "repoPath": "src/@core/components/AppBarSearch.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/components/ProductDescriptionEditor.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/components/ProductDescriptionEditor.vue",
+          "line": 17,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'editorRef' is declared but its value is never read.",
+          "raw": "src/@core/components/ProductDescriptionEditor.vue(17,7): error TS6133: 'editorRef' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/@core/components/ProductDescriptionEditor.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/@core/components/TiptapEditor.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/@core/components/TiptapEditor.vue",
+          "line": 17,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'editorRef' is declared but its value is never read.",
+          "raw": "src/@core/components/TiptapEditor.vue(17,7): error TS6133: 'editorRef' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/@core/components/TiptapEditor.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/dev/ApiDevPanel.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/dev/ApiDevPanel.vue",
+          "line": 36,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'panelRef' is declared but its value is never read.",
+          "raw": "src/components/admin/dev/ApiDevPanel.vue(36,7): error TS6133: 'panelRef' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/dev/ApiDevPanel.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/admin/generic/EntityFormContent.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/admin/generic/EntityFormContent.vue",
+          "line": 51,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'dynamicFormRef' is declared but its value is never read.",
+          "raw": "src/components/admin/generic/EntityFormContent.vue(51,7): error TS6133: 'dynamicFormRef' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/admin/generic/EntityFormContent.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/components/booking/steps/PropertyDetailsStep.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/components/booking/steps/PropertyDetailsStep.vue",
+          "line": 186,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'formRef' is declared but its value is never read.",
+          "raw": "src/components/booking/steps/PropertyDetailsStep.vue(186,7): error TS6133: 'formRef' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/components/booking/steps/PropertyDetailsStep.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/useSelectOptions.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/useSelectOptions.ts",
+          "line": 261,
+          "col": 13,
+          "code": "TS2304",
+          "message": "Cannot find name 'skippedCount'.",
+          "raw": "src/composables/useSelectOptions.ts(261,13): error TS2304: Cannot find name 'skippedCount'.",
+          "scope": "client",
+          "repoPath": "src/composables/useSelectOptions.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 240,
+          "col": 7,
+          "code": "TS6133",
+          "message": "'eventInstancesContainer' is declared but its value is never read.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(240,7): error TS6133: 'eventInstancesContainer' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
         }
       ]
     }

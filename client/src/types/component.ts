@@ -1,6 +1,8 @@
 import { GlobalEntityId } from './entities';
+import type { ComponentConfig as SharedComponentConfig, ComponentStrategy as SharedComponentStrategy } from '@shared/types/componentTypes';
 
-export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
+export type ComponentStrategy = SharedComponentStrategy;
+export type ComponentConfig = SharedComponentConfig;
 
 /**
  * Distribution strategy for parent changes
@@ -10,11 +12,6 @@ export type ComponentStrategy = 'sum' | 'merge' | 'first' | 'every' | 'custom';
  * PATTERN: Three strategies: proportional (by current values), equal (split evenly), manual (user specifies)
  */
 export type DistributionStrategy = 'proportional' | 'equal' | 'manual';
-
-export interface ComponentConfig {
-  enabled: boolean;
-  componentRules?: Record<string, ComponentStrategy>;
-}
 
 export interface FetchedInstanceComponent {
   id: string;

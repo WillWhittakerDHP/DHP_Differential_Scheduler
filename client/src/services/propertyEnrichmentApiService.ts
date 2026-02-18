@@ -8,20 +8,13 @@
 
 import axios from 'axios'
 import { createLogger } from '@/utils/logger'
+import type { PropertyEnrichmentResponse } from '@shared/types/propertyEnrichmentTypes'
 
 const logger = createLogger('propertyEnrichmentApiService')
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
-export interface PropertyEnrichmentResponse {
-  mlsNumber: string | null
-  squareFootage: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits: number | null
-  suggestedBlockInstanceIds: string[]
-}
+export type { PropertyEnrichmentResponse }
 
 /**
  * Fetch property enrichment data by address

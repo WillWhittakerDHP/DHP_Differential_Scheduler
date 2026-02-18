@@ -5,7 +5,7 @@
 
 import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import { RULE_TYPE_OPTIONS } from '@/constants/businessRulesConstants.js'
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {
@@ -13,7 +13,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   const editingRule: Ref<BusinessRule | null> = ref(null)
 
   const formData: Ref<BusinessRuleFormData> = ref({
-    blockInstanceId: '',
+    blockInstanceId: toGlobalEntityId(''),
     ruleType: 'required_fields',
     ruleConfig: { fields: [] },
     validationMessageAnnotationId: null,
@@ -92,7 +92,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   const openCreateDialog = (): void => {
     editingRule.value = null
     formData.value = {
-      blockInstanceId: selectedBlockId.value ?? '',
+      blockInstanceId: selectedBlockId.value ?? toGlobalEntityId(''),
       ruleType: 'required_fields',
       ruleConfig: { fields: [] },
       validationMessageAnnotationId: null,
@@ -117,7 +117,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
     showRuleDialog.value = false
     editingRule.value = null
     formData.value = {
-      blockInstanceId: selectedBlockId.value ?? '',
+      blockInstanceId: selectedBlockId.value ?? toGlobalEntityId(''),
       ruleType: 'required_fields',
       ruleConfig: { fields: [] },
       validationMessageAnnotationId: null,

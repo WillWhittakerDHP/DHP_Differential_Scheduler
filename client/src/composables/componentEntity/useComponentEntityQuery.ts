@@ -1,4 +1,5 @@
 import { computed, type ComputedRef } from 'vue'
+import { toGlobalEntityId } from '@/types/entities'
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalRelationship } from '@/types/relationships'
 import { useGlobal } from '../useGlobal'
@@ -16,7 +17,7 @@ function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalR
 
     rel.children.forEach((child, index) => {
       instanceComponents.push({
-        id: `${rel.parent.id}-${child.id}`, // synthetic ID for lookup
+        id: toGlobalEntityId(`${rel.parent.id}-${child.id}`), // synthetic ID for lookup
         parentId: rel.parent.id,
         childId: child.id,
         orderIndex: index,

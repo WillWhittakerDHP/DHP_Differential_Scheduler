@@ -5,6 +5,7 @@ import { useFormFieldsContext } from './useFormFieldsContext'
 import { useFormFieldsStandardLayout } from './useFormFieldsStandardLayout'
 import { useAdmin } from '@/composables/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsReturn {
@@ -66,14 +67,14 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     }
 
     const entityIdValue = context.currentEntityId.value
-    const blockInstance = adminComp.getEntity('blockInstance', entityIdValue)
+    const blockInstance = adminComp.getEntity('blockInstance', toGlobalEntityId(entityIdValue))
     if (!blockInstance) {
       return { composable: false, canHaveParts: false }
     }
 
     const blockShapeRef = blockInstance.blockShapeRef
 
-    const blockShape = adminComp.getEntity('blockShape', blockShapeRef)
+    const blockShape = adminComp.getEntity('blockShape', toGlobalEntityId(blockShapeRef))
     if (!blockShape) {
       return { composable: false, canHaveParts: false }
     }

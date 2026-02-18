@@ -9,7 +9,7 @@
  * ARCHITECTURE: This runs after relationship saves to maintain data integrity
  */
 
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'
@@ -91,11 +91,11 @@ export async function cleanupInvalidActiveRelationships(
     const invalidRelationships: Array<{ parentId: GlobalEntityId; childId: GlobalEntityId }> = []
     
     for (const childId of activeRelationships) {
-      const childEntity = adminComp.getEntity(childEntityKey, String(childId))
+      const childEntity = adminComp.getEntity(childEntityKey, toGlobalEntityId(String(childId)))
       if (!childEntity) {
         invalidRelationships.push({
           parentId: affectedEntity.id,
-          childId: String(childId)
+          childId: toGlobalEntityId(String(childId))
         })
         continue
       }
@@ -106,7 +106,7 @@ export async function cleanupInvalidActiveRelationships(
       if (!childTypeRef || !validChildIdsSet.has(String(childTypeRef))) {
         invalidRelationships.push({
           parentId: affectedEntity.id,
-          childId: String(childId)
+          childId: toGlobalEntityId(String(childId))
         })
       }
     }

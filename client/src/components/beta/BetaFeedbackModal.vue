@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
-import type { VForm } from 'vuetify/components';
+import { VForm } from 'vuetify/components';
 import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
 import { useNotification } from '@/composables/useNotification';
 import type { FeedbackCategory, FeedbackSeverity } from '@/types/betaFeedback';

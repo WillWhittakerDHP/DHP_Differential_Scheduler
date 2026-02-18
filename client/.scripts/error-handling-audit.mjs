@@ -19,8 +19,10 @@ import {
  * Rule categories:
  * - silent-catch (P0): empty catch, .catch(() => {}), catch with only comments
  * - console-in-catch (P1): console.log/warn/error inside catch blocks
+ * - alert-in-catch (P1): alert() in catch — use logger + notifyError instead
  * - type-suppression (P1): as any, @ts-ignore, @ts-expect-error, eslint-disable
  * - console-general (P2): console usage outside error paths
+ * - catch-without-logger (P2): catch block does not call logger.error/warn/info/debug
  * - console-no-logger (P2): console.* usage without createLogger import (file-level)
  *
  * Scope:
@@ -90,6 +92,16 @@ const RULES = [
       return /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(l)
     },
   },
+  // P1: alert() in catch — use logger + notifyError instead
+  {
+    id: 'alert-in-catch',
+    label: 'alert() in catch block',
+    severity: 'P1',
+    test: (l, ctx) => {
+      if (!ctx || !ctx.inCatchBlock) return false
+      return /\balert\s*\(/.test(l)
+    },
+  },
 
   // P1: Type suppressions
   {
@@ -125,6 +137,17 @@ const RULES = [
     test: (l, ctx) => {
       if (ctx && ctx.inCatchBlock) return false // Already caught by console-in-catch
       return /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(l)
+    },
+  },
+  // P2: Catch block does not log the error — use logger.error() for ops visibility
+  {
+    id: 'catch-without-logger',
+    label: 'Catch block does not log error',
+    severity: 'P2',
+    test: (l, ctx) => {
+      if (!ctx || !ctx.inCatchBlock || !ctx.catchBlockLines?.length) return false
+      const hasLoggerCall = ctx.catchBlockLines.some(cl => /logger\.(error|warn|info|debug)\s*\(/.test(cl))
+      return !hasLoggerCall
     },
   },
   // P2: File-level rule for console usage without logger import
@@ -274,7 +297,7 @@ function detectCatchBlocks(lines) {
   return catchContextMap
 }
 
-function scanFile(filePath, configAllowlist) {
+function scanFile(filePath, _configAllowlist) {
   const repoPath = toRepoPath(filePath)
   let content = fs.readFileSync(filePath, 'utf-8')
 
@@ -306,6 +329,19 @@ function scanFile(filePath, configAllowlist) {
           const isFirstLine = !catchContextMap.has(i - 1) || !catchContextMap.get(i - 1).inCatchBlock
           if (isFirstLine) {
             matches.push({ ruleId: rule.id, lineNumber, line: trimmed })
+          }
+        }
+        continue
+      }
+      // Special handling for catch-without-logger: only report once per catch block
+      if (rule.id === 'catch-without-logger') {
+        if (ctx.inCatchBlock && ctx.catchBlockLines?.length) {
+          const hasLoggerCall = ctx.catchBlockLines.some(cl => /logger\.(error|warn|info|debug)\s*\(/.test(cl))
+          if (!hasLoggerCall) {
+            const isFirstLine = !catchContextMap.has(i - 1) || !catchContextMap.get(i - 1).inCatchBlock
+            if (isFirstLine) {
+              matches.push({ ruleId: rule.id, lineNumber, line: trimmed.length > 120 ? trimmed.substring(0, 120) + '...' : trimmed })
+            }
           }
         }
         continue
@@ -367,8 +403,8 @@ function renderMarkdownReport(filesWithFindings, exceptionSummary) {
     }
   }
   lines.push(`- P0 (silent catches): **${bySeverity.P0}**`)
-  lines.push(`- P1 (console-in-catch, type suppressions): **${bySeverity.P1}**`)
-  lines.push(`- P2 (general console usage): **${bySeverity.P2}**`)
+  lines.push(`- P1 (console-in-catch, alert-in-catch, type suppressions): **${bySeverity.P1}**`)
+  lines.push(`- P2 (general console, catch-without-logger): **${bySeverity.P2}**`)
   lines.push('')
 
   lines.push('## Top hotspots (by score)')

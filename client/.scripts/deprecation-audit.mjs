@@ -168,7 +168,7 @@ function extractReplacement(line) {
 }
 
 function scanFile(filePath) {
-  const repoPath = toRepoPath(filePath)
+  const _repoPath = toRepoPath(filePath)
   let content = fs.readFileSync(filePath, 'utf-8')
 
   if (filePath.endsWith('.vue')) {
@@ -186,7 +186,7 @@ function scanFile(filePath) {
     const trimmed = line.trim()
     if (trimmed === '') continue
 
-    let matched = false
+    let _matched = false
     for (const rule of ALL_RULES) {
       if (rule.test(line)) {
         const replacement = ANNOTATION_RULES.includes(rule) ? extractReplacement(line) : null
@@ -197,7 +197,7 @@ function scanFile(filePath) {
           section: ANNOTATION_RULES.includes(rule) ? 'annotation' : 'legacy-accommodation',
           ...(replacement ? { replacement } : {}),
         })
-        matched = true
+        _matched = true
         break // One match per line per section to avoid duplicates
       }
     }

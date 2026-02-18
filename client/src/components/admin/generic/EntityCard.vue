@@ -28,7 +28,7 @@ import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSy
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useConditionalFieldVisibility } from '@/composables/admin/useConditionalFieldVisibility'
 import { useFieldContextManager } from '@/composables/admin/useFieldContextManager'
-import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, KEY_ENTER } from './entityCardConstants'
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -135,7 +135,7 @@ function handleTitleKeydown(event: KeyboardEvent): void {
   }
   const target = event.target as Element | null
   const key = event.key
-  if (key !== ' ' && key !== 'Spacebar' && key !== 'Enter' && event.keyCode !== 32 && event.keyCode !== 13) {
+  if (key !== ' ' && key !== 'Spacebar' && key !== KEY_ENTER && event.keyCode !== 32 && event.keyCode !== 13) {
     return
   }
   const editable = target?.closest?.('input, textarea, select, [contenteditable="true"]')
@@ -153,18 +153,20 @@ function handleTitleKeydown(event: KeyboardEvent): void {
     cancelable: true
   })
   editable.dispatchEvent(synthetic)
-  if (!synthetic.defaultPrevented && (editable instanceof HTMLInputElement || editable instanceof HTMLTextAreaElement)) {
-    const el = editable as HTMLInputElement | HTMLTextAreaElement
-    const start = el.selectionStart ?? el.value.length
-    const end = el.selectionEnd ?? start
-    const char = event.key === 'Enter' ? '\n' : ' '
-    const before = el.value.slice(0, start)
-    const after = el.value.slice(end)
-    const next = before + char + after
-    el.value = next
-    el.setSelectionRange(start + char.length, start + char.length)
-    el.dispatchEvent(new Event('input', { bubbles: true }))
+  if (synthetic.defaultPrevented || !('value' in editable) || !('setSelectionRange' in editable)) {
+    return
   }
+  // Use shape-compatible type to avoid DOM global reference (lint no-undef in non-DOM env)
+  type InputLike = { value: string; selectionStart: number | null; selectionEnd: number | null; setSelectionRange(start: number, end: number): void }
+  const el = editable as InputLike
+  const start = el.selectionStart ?? el.value.length
+  const end = el.selectionEnd ?? start
+  const char = event.key === KEY_ENTER ? '\n' : ' '
+  const before = el.value.slice(0, start)
+  const after = el.value.slice(end)
+  el.value = before + char + after
+  el.setSelectionRange(start + char.length, start + char.length)
+  el.dispatchEvent(new Event('input', { bubbles: true }))
 }
 
 /**
@@ -235,20 +237,17 @@ if (!props.form) {
  * PATTERN: Composable handles all sync scenarios (ID change, initial load, field updates)
  * NOTE: Only sync if form wasn't provided by parent (parent handles sync in that case)
  */
-// WHY: Composable sets up watchers, we don't need to use the return value
-// PATTERN: Call composable without storing result when only side effects are needed
+function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {
+  if (props.isNew) return undefined
+  return admin.getEntity(props.entityKey, props.entity.id) || undefined
+}
 if (!props.form && !props.isNew) {
   useEntityCardStoreSync({
     entityKey: props.entityKey,
-    entityId: computed(() => String(props.entity.id)),
+    entityId: computed(() => props.entity.id),
     form,
     isNew: props.isNew,
-    getStoreEntity: () => {
-      if (props.isNew) {
-        return undefined
-      }
-      return admin.getEntity(props.entityKey, props.entity.id) || undefined
-    },
+    getStoreEntity: getStoreEntityForSync,
     initialEntity: props.entity
   })
 }
@@ -295,6 +294,7 @@ const {
 const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
+  // @audit-allow:type-escape:as-unknown-as - vee-validate useForm return type boundary; form is FormContext at runtime
   form: ref<FormContext | undefined>(form as unknown as FormContext | undefined) as Ref<FormContext | undefined>,
   fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
@@ -388,15 +388,26 @@ const {
 const unifiedSaveState = useEntityCardSaveState({
   form,
   entityKey: props.entityKey,
-  entityId: String(props.entity.id),
+  entityId: props.entity.id,
   getEntityValues: () => {
     // PATTERN: Get entity from store (has latest saved values) or fall back to props.entity
     const savedEntity = props.isNew ? props.entity : (admin.getEntity(props.entityKey, props.entity.id) || props.entity)
-    // LEARNING: Convert entity to Record<string, unknown> via unknown for type safety
-    // PATTERN: Convert via unknown first, then to Record<string, unknown>
+    // @audit-allow:type-escape:as-unknown-as - Entity from store is object; generic getEntityValues expects Record<string, unknown>
     return savedEntity as unknown as Record<string, unknown>
   }
 })
+
+/** Reset form with saved entity from store; throws if entity not found (reduces handleSave nesting). */
+function resetFormWithSavedEntity(): void {
+  const savedEntity = admin.getEntity(props.entityKey, props.entity.id)
+  if (!savedEntity) {
+    logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+    throw new Error(`Saved entity not found after save: ${props.entityKey} ${props.entity.id}`)
+  }
+  form.resetForm({ values: { ...savedEntity } })
+  form.setValues({ ...savedEntity })
+  logger.debug('Form reset after save', { entityId: props.entity.id })
+}
 
 /**
  * LEARNING: Wrapped save handler that resets unified save state and form after save
@@ -411,30 +422,11 @@ const handleSave = async (): Promise<void> => {
     isDirty: form.meta.value.dirty,
     formValues: Object.keys(form.values !== undefined && form.values !== null ? form.values : {})
   })
-  
   await _handleSave()
-  
-  // PATTERN: Wait for next tick to ensure store is updated, then get entity and reset form
   await nextTick()
-  
   if (!props.isNew) {
-    const savedEntity = admin.getEntity(props.entityKey, props.entity.id)
-    if (!savedEntity) {
-      logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-      throw new Error(`Saved entity not found after save: ${props.entityKey} ${props.entity.id}`)
-    }
-    
-    form.resetForm({
-      values: {
-        ...savedEntity,
-      }
-    })
-    form.setValues({
-      ...savedEntity,
-    })
-    logger.debug('Form reset after save', { entityId: props.entity.id })
+    resetFormWithSavedEntity()
   }
-  
   unifiedSaveState.resetSaveState()
 }
 
@@ -507,7 +499,7 @@ defineExpose({
   -->
   <VExpansionPanel
     v-if="props.useExpansionPanel"
-    :value="String(entity.id)"
+    :value="entity.id"
     :class="$attrs.class"
     @group:selected="handleExpansionChange"
     @keydown.capture="handleTitleKeydown"

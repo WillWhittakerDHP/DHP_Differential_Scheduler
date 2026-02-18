@@ -6,7 +6,7 @@
  * PATTERN: Error class with user-friendly messages
  */
 
-import { MapsApiErrorType } from './mapsTypes.js'
+import type { MapsApiErrorType } from './mapsTypes.js'
 import { ERROR_MESSAGES } from './mapsConstants.js'
 
 /**

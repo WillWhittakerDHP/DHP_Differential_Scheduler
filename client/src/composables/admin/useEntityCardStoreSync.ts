@@ -84,7 +84,7 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
         return
       }
       
-      const newEntityId = String(newStoreEntity.id)
+      const newEntityId = newStoreEntity.id
       const entityIdChanged = newEntityId !== lastEntityId
       const isInitialLoad = oldStoreEntity === undefined
       // PATTERN: Check if oldStoreEntity was undefined and newStoreEntity is different from initialEntity

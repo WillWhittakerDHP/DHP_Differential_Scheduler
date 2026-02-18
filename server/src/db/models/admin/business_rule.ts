@@ -8,14 +8,21 @@ import {
   Sequelize,
 } from 'sequelize';
 
+import type {
+  ConditionalValidationRuleConfig,
+  RequiredFieldsRuleConfig,
+  RequiresAgentRuleConfig,
+  RuleConfig,
+  ValidationMessageRuleConfig,
+} from '../../../../../shared/types/businessRulesTypes.js'
+
 /**
  * Business Rule Model
  * 
  * LEARNING: Stores admin-configurable validation rules as typed JSONB configs
  * WHY: Replaces hardcoded validation logic (isMultiFamily, requiresAgent) with database-driven rules
  * PATTERN: One-to-many relationship (block_instance → business_rules) with rule_type determining config schema
- * 
- * TypeScript types provide compile-time safety for JSONB rule_config based on rule_type
+ * Type similarity UNIFY: rule config types imported from shared (Phase 1.2).
  */
 
 /**
@@ -30,70 +37,13 @@ export type RuleType =
   | 'conditional_validation' // Field validation depends on other field values
   | 'validation_message';    // Custom validation messages for fields/blocks
 
-/**
- * Required Fields Rule Config
- * LEARNING: Defines additional required fields when block is selected
- * WHY: Multi-family properties require numberOfUnits, some services require specific fields
- * PATTERN: Array of field names with optional condition
- * 
- * Example: { fields: ["numberOfUnits"], condition: "isMultiFamily" }
- */
-export interface RequiredFieldsRuleConfig {
-  fields: string[];           // Array of field names that become required
-  condition?: string;         // Optional condition (e.g., "isMultiFamily", "hasDeck")
+export type {
+  ConditionalValidationRuleConfig,
+  RequiredFieldsRuleConfig,
+  RequiresAgentRuleConfig,
+  RuleConfig,
+  ValidationMessageRuleConfig,
 }
-
-/**
- * Requires Agent Rule Config
- * LEARNING: Indicates service requires agent/client contact information
- * WHY: Some services need agent details (e.g., Buyers Inspection), others don't
- * PATTERN: Simple boolean flag
- * 
- * Example: { requiresAgent: true }
- */
-export interface RequiresAgentRuleConfig {
-  requiresAgent: boolean;
-}
-
-/**
- * Conditional Validation Rule Config
- * LEARNING: Field validation depends on other field values
- * WHY: Complex validation logic (e.g., field X required when field Y equals value Z)
- * PATTERN: Dependent field, condition type, condition value
- * 
- * Example: { field: "deckSquareFootage", dependsOn: "hasDeck", condition: "equals", value: true }
- */
-export interface ConditionalValidationRuleConfig {
-  field: string;              // Field to validate
-  dependsOn: string;          // Field that determines validation
-  condition: string;          // Condition type (e.g., "equals", "contains", "greaterThan")
-  value: unknown;             // Value to compare against
-}
-
-/**
- * Validation Message Rule Config
- * LEARNING: Custom validation messages for fields/blocks
- * WHY: Admin-configurable error messages instead of hardcoded strings
- * PATTERN: Field name and message type
- * 
- * Example: { field: "propertyTypeBlock", messageType: "required" }
- */
-export interface ValidationMessageRuleConfig {
-  field: string;              // Field this message applies to
-  messageType: 'required' | 'invalid' | 'custom'; // Type of validation message
-}
-
-/**
- * Rule Config Union Type
- * LEARNING: TypeScript union type for all possible rule configs
- * WHY: Type safety for JSONB field based on rule_type
- * PATTERN: Discriminated union based on rule_type
- */
-export type RuleConfig = 
-  | RequiredFieldsRuleConfig 
-  | RequiresAgentRuleConfig 
-  | ConditionalValidationRuleConfig
-  | ValidationMessageRuleConfig;
 
 /**
  * Business Rule Model Class

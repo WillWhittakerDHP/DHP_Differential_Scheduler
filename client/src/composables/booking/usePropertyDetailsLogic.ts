@@ -11,7 +11,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntity } from '@/composables/useComponentEntity'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 import type { PlaceDetails } from '@/services/mapsApiService'
@@ -140,7 +140,7 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
       let instanceComponents: ComponentItem[] = []
       
       if (isComposable) {
-        const instanceComponentsRelationships = componentEntity.getComponents(adjustment.id)
+        const instanceComponentsRelationships = componentEntity.getComponents(toGlobalEntityId(adjustment.id))
         if (instanceComponentsRelationships && instanceComponentsRelationships.length > 0) {
           // FIX: Use shared utility function instead of duplicated logic
           instanceComponents = extractInstanceComponents({

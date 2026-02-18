@@ -13,23 +13,13 @@
  * - PROD: warn
  *
  * @audit-allow:duplication - Intentional parallel impl for server (Node env) vs client (Vite env); no shared package.
- * LogLevel and AppLogger are public API types for createLogger; reserved for type-safe logger usage.
+ * LogLevel and AppLogger from shared (Phase 1.3 type-similarity UNIFY).
  */
 
 import { isProduction } from './envHelpers.js'
+import type { AppLogger, LogLevel, Logger } from '../../../shared/types/loggerTypes.js'
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
-
-export type AppLogger = {
-  debug: (...args: unknown[]) => void
-  info: (...args: unknown[]) => void
-  warn: (...args: unknown[]) => void
-  error: (...args: unknown[]) => void
-  groupCollapsed: (title: string, ...args: unknown[]) => void
-  groupEnd: () => void
-}
-
-export type Logger = AppLogger
+export type { AppLogger, LogLevel, Logger }
 
 function parseLogLevel(raw: string | undefined): LogLevel | null {
   if (!raw) return null

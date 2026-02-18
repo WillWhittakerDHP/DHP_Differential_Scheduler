@@ -56,7 +56,7 @@ export type BookingBlockInstance = {
   active: boolean
   baseSqFt: number
   icon: string
-  bookingMode: import('@/constants/entities').BookingMode // Controls where instance appears in booking flows
+  bookingMode: import('@/constants/bookingMode').BookingMode // Controls where instance appears in booking flows
   differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
@@ -189,7 +189,7 @@ function resolvePartInstanceIds(
 type BlockInstanceOptionalProps = {
   baseSqFt?: number
   icon?: string
-  bookingMode?: import('@/constants/entities').BookingMode
+  bookingMode?: import('@/constants/bookingMode').BookingMode
   differential?: TernaryBoolean | boolean
   number?: number | null
   allowMultiple?: boolean
@@ -231,7 +231,7 @@ function buildBookingBlockInstance(
     active: isEntityActive(blockInstance),
     baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/entities').BookingMode,
+    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/bookingMode').BookingMode,
     differential,
     orderIndex: blockInstance.orderIndex,
     blockShape,

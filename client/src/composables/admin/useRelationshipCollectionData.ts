@@ -12,7 +12,7 @@
  */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
@@ -116,7 +116,7 @@ export function useRelationshipCollectionData(
    */
   const parentTypeEntity = computed(() => {
     if (!parentTypeRef.value) return null
-    return adminComp.getEntity(parentTypeEntityKey.value, parentTypeRef.value) || null
+    return adminComp.getEntity(parentTypeEntityKey.value, toGlobalEntityId(parentTypeRef.value)) || null
   })
   
   /**
@@ -172,7 +172,7 @@ export function useRelationshipCollectionData(
   const getChildForShape = (shapeId: string): GlobalEntity<GlobalEntityKey> | undefined => {
     return existingChildren.value.find(child => {
       const shapeRef = getEntityFieldValue(child, shapeRefProperty)
-      return String(shapeRef) === String(shapeId)
+      return shapeRef === shapeId
     })
   }
   

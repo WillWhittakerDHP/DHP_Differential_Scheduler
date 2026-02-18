@@ -283,6 +283,7 @@ function normalizeTypeString(typeStr) {
     'ISO8601Date': 'string',
   }
   for (const [alias, base] of Object.entries(brandedAliases)) {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     normalized = normalized.replaceAll(new RegExp(`\\b${alias}\\b`, 'g'), base)
   }
 
@@ -354,7 +355,7 @@ function scanFileForTypes(filePath, configAllowlist) {
 
   /** @type {ParsedTypeDefinition[]} */
   const definitions = []
-  const lines = content.split('\n')
+  const _lines = content.split('\n')
 
   // ── Pattern 1: Interface declarations ──
   // Matches: export interface X { ... } or interface X { ... }

@@ -52,7 +52,7 @@ const { entities: blockShapes } = useEntityCrud('blockShape')
 const blockShapeName = computed((): string => {
   if (props.entityKey !== 'blockInstance') return ''
   const entity = props.entity as GlobalEntity<'blockInstance'>
-  const blockShape = blockShapes.value.find(bs => String(bs.id) === String(entity.blockShapeRef))
+  const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)
   const name = blockShape?.name
   return name !== undefined && name !== null && name !== '' ? name : 'Block'
 })

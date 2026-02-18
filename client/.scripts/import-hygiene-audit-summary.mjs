@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { AUDIT_REPORT_AI_INSTRUCTIONS } from './audit-exceptions.mjs'
 
 const CWD = path.resolve(process.cwd())
 const CLIENT_AUDIT = path.join(CWD, '.audit-reports')
@@ -24,6 +25,8 @@ function render(data) {
   const lines = []
   lines.push('# Import Hygiene Audit Summary (Generated)')
   lines.push('')
+  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
+  lines.push('')
   lines.push(`Generated from \`${toRepoPath(AUDIT_JSON)}\`.`)
   lines.push('')
 
@@ -37,6 +40,7 @@ function render(data) {
   lines.push(`| Inconsistent import paths | ${(data.inconsistentPaths ?? []).length} |`)
   lines.push(`| Duplicate re-exports | ${(data.duplicateReexports ?? []).length} |`)
   lines.push(`| Deep relative imports | ${(data.relativeWhenAlias ?? []).length} |`)
+  lines.push(`| Type/value re-exports | ${(data.typeValueReexport ?? []).length} |`)
   lines.push('')
 
   const MAX_ROWS = 20
@@ -45,12 +49,12 @@ function render(data) {
   if (files.length > 0) {
     lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked by severity)`)
     lines.push('')
-    lines.push('| File | Priority | Score | Barrel Bypass | Deep Relative |')
-    lines.push('| --- | --- | ---: | ---: | ---: |')
+    lines.push('| File | Priority | Score | Barrel Bypass | Deep Relative | Type/Value Re-export |')
+    lines.push('| --- | --- | ---: | ---: | ---: | ---: |')
 
     for (const f of files.slice(0, MAX_ROWS)) {
       lines.push(
-        `| \`${f.file}\` | ${f.priority} | ${f.score} | ${f.barrelBypass || 0} | ${f.relativeWhenAlias || 0} |`
+        `| \`${f.file}\` | ${f.priority} | ${f.score} | ${f.barrelBypass || 0} | ${f.relativeWhenAlias || 0} | ${f.typeValueReexport || 0} |`
       )
     }
 
@@ -66,6 +70,7 @@ function render(data) {
   lines.push('- Full report with line-level detail: `client/.audit-reports/import-hygiene-audit.md`')
   lines.push('- Barrel bypass = importing directly from a file when a barrel index.ts exists in that directory')
   lines.push('- Deep relative = relative imports traversing 3+ parent directories (use @/ alias instead)')
+  lines.push('- Type/value re-export = barrel re-exporting a symbol that the source exports only as a type (use `export type { X }`)')
   lines.push('')
   return lines.join('\n')
 }

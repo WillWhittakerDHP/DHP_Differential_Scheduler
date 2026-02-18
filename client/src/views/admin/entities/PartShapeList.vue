@@ -67,9 +67,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
+import { useNotification } from '@/composables/useNotification'
+import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@/types/entities'
 
+const logger = createLogger('PartShapeList')
 const router = useRouter()
+const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('partShape')
 
 function goToCreate() {
@@ -84,8 +88,9 @@ async function handleDelete(id: GlobalEntityId) {
   if (confirm('Are you sure you want to delete this part type?')) {
     try {
       await remove(id)
-    } catch (_err) {
-      alert('Failed to delete part type')
+    } catch (error) {
+      logger.error('Failed to delete part type', { error })
+      notifyError('Failed to delete part type')
     }
   }
 }

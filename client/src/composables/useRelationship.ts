@@ -13,7 +13,7 @@ import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoin
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FetchedRelationship, CreateRelationshipPayload, GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -50,12 +50,12 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       
       rel.children.forEach((child: { id: string; entityKey: GlobalEntityKey }) => {
         fetched.push({
-          id: `${rel.parent.id}-${child.id}` as GlobalEntityId, // Synthetic ID
+          id: toGlobalEntityId(`${rel.parent.id}-${child.id}`), // Synthetic ID
           kind: relationshipKey,
           parentKind: rel.parent.entityKey,
           childKind: child.entityKey,
-          parentId: rel.parent.id,
-          childId: child.id,
+          parentId: toGlobalEntityId(rel.parent.id),
+          childId: toGlobalEntityId(child.id),
           disabled: false, // GlobalRelationship doesn't include disabled flag
         })
       })

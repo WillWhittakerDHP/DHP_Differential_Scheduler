@@ -7,7 +7,7 @@
  */
 
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { findById } from '@/utils/collections/findById'
@@ -82,7 +82,7 @@ export function getStateControlBlockInstances(
   const blockInstances = getBlockInstances(bookingData, 'getStateControlBlockInstances')
 
   const filtered = blockInstances.filter(
-    instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
+    instance => stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
   )
   
   return filtered
@@ -132,7 +132,7 @@ export function getStateControlBlockInstanceOptions(
 
   const blockInstances = getGlobalEntitiesForKey(globalData, 'blockInstance', 'getStateControlBlockInstanceOptions') as GlobalEntity<'blockInstance'>[]
   const stateControlBlockInstances = blockInstances.filter(
-    instance => stateControlBlockShapeIds.has(instance.blockShapeRef) && instance.active
+    instance => stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
   )
   
   return [

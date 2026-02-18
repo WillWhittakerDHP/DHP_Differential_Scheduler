@@ -6,6 +6,9 @@
  * PATTERN: Separate constants file for symbols used in provide/inject
  */
 
+/** Keyboard key for Enter (used in title keydown handler to avoid hardcoding magic strings) */
+export const KEY_ENTER = 'Enter'
+
 /**
  * Symbol key for EntityCard save context injection
  * LEARNING: Used for provide/inject to pass handleSave and isNew to child input components

@@ -18,7 +18,7 @@ import { useForm } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { useAdmin } from '../useAdmin'
@@ -208,7 +208,7 @@ export function useSelectFiltering(
    */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return null
-    const entity = adminComp.getEntity(parentTypeEntityKey.value, parentTypeRef.value)
+    const entity = adminComp.getEntity(parentTypeEntityKey.value, toGlobalEntityId(parentTypeRef.value))
     return entity || null
   })
 
@@ -277,7 +277,7 @@ export function useSelectFiltering(
       ])
       
       const selectedComponentEntities = allSelectedComponentIds.size > 0
-        ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(String(candidate.id)))
+        ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))
         : []
       
       const allComponents = [...availableComponentsFiltered, ...selectedComponentEntities]
@@ -400,7 +400,7 @@ export function useSelectFiltering(
       const filtered = allEntities.value.filter((candidate) => {
         // WHY: Can't select the same entity as a component of itself
         // PATTERN: Check entity ID to exclude self
-        if (String(candidate.id) === String(fieldContext.entityId)) {
+        if (candidate.id === fieldContext.entityId) {
           return false
         }
         
@@ -440,7 +440,7 @@ export function useSelectFiltering(
         const blockInstanceTyped = candidate as GlobalEntity<'blockInstance'>
         const blockShapeRef = getEntityFieldValue(blockInstanceTyped, 'blockShapeRef')
         if (!blockShapeRef) return false
-        return stateControlBlockShapeIds.has(String(blockShapeRef))
+        return stateControlBlockShapeIds.has(toGlobalEntityId(String(blockShapeRef)))
       })
       
       return filtered

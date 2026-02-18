@@ -7,7 +7,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/useAdmin'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 export interface UseInstanceShapeOptions {
   entityKey: 'blockInstance' | 'partInstance'
@@ -31,7 +31,7 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
   
   // PATTERN: Use adminComp.getEntity for consistency
   const instance = computed(() => {
-    return adminComp.getEntity(entityKey, entityIdRef.value)
+    return adminComp.getEntity(entityKey, toGlobalEntityId(entityIdRef.value))
   })
   
   // LEARNING: Get shapeRef from instance - same pattern for both entity types
@@ -51,7 +51,7 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     if (entityKey !== 'blockInstance' || !shapeRef.value) return null
     
     const shape = globalData.value?.entities?.blockShape?.find(
-      bs => String(bs.id) === String(shapeRef.value)
+      bs => bs.id === shapeRef.value
     ) || null
         
     return shape as import('@/types/entities').BlockShapeEntity | null
@@ -61,7 +61,7 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     if (entityKey !== 'partInstance' || !shapeRef.value) return null
     
     const shape = globalData.value?.entities?.partShape?.find(
-      ps => String(ps.id) === String(shapeRef.value)
+      ps => ps.id === shapeRef.value
     ) || null
             
     return shape as import('@/types/entities').PartShapeEntity | null

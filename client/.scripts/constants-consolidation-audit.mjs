@@ -574,7 +574,7 @@ function findInlineOrphans(catalog, allFiles) {
       }
     } else if (entry.type === 'object') {
       // Extract string values from object
-      for (const [key, val] of Object.entries(entry.value)) {
+      for (const [_key, val] of Object.entries(entry.value)) {
         if (typeof val === 'string' && val.length >= 4) {
           stringValues.add(val)
           if (!valueToExport.has(val)) {
@@ -608,6 +608,7 @@ function findInlineOrphans(catalog, allFiles) {
       
       // Build regex to find the value as a string literal
       const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      // eslint-disable-next-line security/detect-non-literal-regexp
       const regex = new RegExp(`['"]${escaped}['"]`, 'g')
       
       for (let i = 0; i < lines.length; i++) {

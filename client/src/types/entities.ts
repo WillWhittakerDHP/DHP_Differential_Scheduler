@@ -1,4 +1,19 @@
-export type GlobalEntityId = string;
+/**
+ * Branded type for global entity IDs.
+ * WHY: Prevents passing arbitrary strings where an entity ID is expected.
+ * PATTERN: Same as RFC3339DateTime in client/src/types/datetime.ts
+ */
+export type GlobalEntityId = string & { readonly __brand: "GlobalEntityId" };
+
+export function toGlobalEntityId(value: string): GlobalEntityId {
+  return value as GlobalEntityId;
+}
+
+export function toGlobalEntityIdOrNull(
+  value: string | null | undefined
+): GlobalEntityId | null {
+  return value != null ? (value as GlobalEntityId) : null;
+}
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
@@ -10,7 +25,7 @@ interface BaseGlobalEntity<GE extends GlobalEntityKey> {
   name: string;
   orderIndex: number;
   active: boolean;
-  bookingMode?: import('@/constants/entities').BookingMode;
+  bookingMode?: import('@/constants/bookingMode').BookingMode;
   instanceComponents?: GlobalEntityId[]; // IDs of entities that are instance components of this composer
   isComposer?: boolean; // True if this entity is a composer (has components)
 }
@@ -68,8 +83,7 @@ export interface EventInstanceEntity extends BaseGlobalEntity<"eventInstance"> {
   locationTemplate: string | null;
 }
 
-export interface AnnotationShapeEntity extends BaseGlobalEntity<"annotationShape"> {
-}
+export type AnnotationShapeEntity = BaseGlobalEntity<"annotationShape">
 
 export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id

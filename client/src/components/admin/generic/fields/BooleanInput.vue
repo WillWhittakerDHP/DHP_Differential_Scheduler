@@ -37,8 +37,6 @@ import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -46,13 +44,9 @@ import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldConte
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { STATUS_BUTTON_LABELS } from '@/constants/statusButtonLabels'
+import type { FieldInputProps } from './fieldTypes'
 
-interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  showLabel?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 
