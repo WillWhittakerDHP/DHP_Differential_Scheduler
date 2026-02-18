@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -129,17 +129,7 @@ function toStableId(repoPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
-  // Exclude migration files (one-time scripts, not Vue components)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts|vue)$/i.test(repoPath)) {
-    return true
-  }
-  // Exclude test files and directories (test components have different patterns)
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding, not Vue components)
-  if (isSeedScript(repoPath)) return true
-  // Check if file matches any exclusion pattern in config
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }

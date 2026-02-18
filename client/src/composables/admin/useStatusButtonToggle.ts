@@ -12,7 +12,7 @@
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
-import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
+import { usePrimitiveMutation } from '@/composables/entityCrud'
 import { useGlobal } from '../useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

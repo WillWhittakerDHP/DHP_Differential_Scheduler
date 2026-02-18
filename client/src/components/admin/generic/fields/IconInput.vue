@@ -110,13 +110,13 @@
 
 import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
-import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
+import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import IconPicker from './IconPicker.vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldContextType } from '../../../../composables/useFieldContext'
-import { useFieldValue } from '../../../../composables/useFieldValue'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldContextType } from '@/composables/useFieldContext'
+import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 

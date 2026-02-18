@@ -41,12 +41,12 @@
  *            App components handle labels internally.
  */
 
-import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
+import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppTextarea from '@/@core/components/app-form-elements/AppTextarea.vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldContextType } from '../../../../composables/useFieldContext'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldContextType } from '@/composables/useFieldContext'
 import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'
 
 interface Props {

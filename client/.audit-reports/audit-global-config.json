@@ -1,0 +1,19 @@
+{
+  "$comment": "Central audit configuration — global exclusions shared by ALL audit scripts. Per-audit configs still handle audit-specific allowlists, thresholds, and priorities. Managed via audit-exceptions.mjs loadGlobalExclusions().",
+  "$docs": "To re-enable test files: remove the test/spec patterns below. See BETA_LAUNCH_CHECKLIST.md Phase 3.0.",
+
+  "globalExclusions": [
+    { "pattern": "**/__tests__/**", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)" },
+    { "pattern": "**/*.test.*", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)" },
+    { "pattern": "**/*.spec.*", "reason": "Spec files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)" },
+    { "pattern": "**/@core/**", "reason": "Core library files — third-party/framework code" },
+    { "pattern": "**/@layouts/**", "reason": "Layout library files — third-party/framework code" },
+    { "pattern": "**/node_modules/**", "reason": "Dependencies — not project source code" },
+    { "pattern": "**/dist/**", "reason": "Build output — not source code" },
+    { "pattern": "**/.git/**", "reason": "Git internals" },
+    { "pattern": "**/.scripts/**", "reason": "Audit scripts themselves — not application code" },
+    { "pattern": "**/.audit-reports/**", "reason": "Audit output artifacts" },
+    { "pattern": "**/migrations/**", "reason": "One-time migration scripts — intentionally permissive patterns" },
+    { "pattern": "**/*seed*", "reason": "Seed scripts — intentionally hardcoded test data" }
+  ]
+}

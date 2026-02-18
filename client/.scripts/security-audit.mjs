@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
-import { isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Security Audit Script
@@ -57,19 +57,7 @@ function toStableId(repoPath) {
 }
 
 function shouldExcludeDir(repoPath) {
-  // Exclude migration files (one-time scripts, security patterns are expected)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  if (repoPath.includes('/__tests__/') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding, not production security surface)
-  if (isSeedScript(repoPath)) return true
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
-    return true
-  }
-  return false
+  return isGloballyExcluded(repoPath)
 }
 
 function isScannable(absPath) {

@@ -4,8 +4,8 @@
  * PATTERN: Combines primitive + selectable display configs, iterates over all field keys
  */
 
-import type { GlobalEntityKey } from '../../../constants/entities'
-import type { GlobalFieldKey } from '../../../constants/primitives'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type {
   DisplayFieldConfig,
   DisplayFieldConfigMap,

@@ -10,6 +10,10 @@ export function createEmptyGlobalData(): GlobalData {
       partInstance: [],
       blockShape: [],
       partShape: [],
+      eventShape: [],
+      eventInstance: [],
+      annotationShape: [],
+      annotationInstance: [],
     },
     relationships: {
       partAssignments: [],
@@ -18,6 +22,13 @@ export function createEmptyGlobalData(): GlobalData {
       validCascades: [],
       validParts: [],
       dependentInstances: [],
+      validAnnotations: [],
+      validEvents: [],
+      pricingCascades: [],
+      validPricingCascades: [],
+      annotationAssignments: [],
+      eventAssignments: [],
+      attendeeAssignments: [],
     },
   }
 }

@@ -113,12 +113,11 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       rateOverBaseFee: pi.rateOverBaseFee,
       rateOverBaseTime: pi.rateOverBaseTime,
-      // PATTERN: Events should be accessed via EventAssignment relationships instead
       active: currentPart?.active ?? true,
       orderIndex: safeNumber(currentPart?.orderIndex, 'VersionBlockInstance.partInstances.orderIndex'),
       partShape: safeString(currentPart?.partShape, 'VersionBlockInstance.partInstances.partShape'),
-      disabled: false, // BookingPartInstance requires disabled field
-      zeroOutPart: currentPart?.zeroOutPart ?? false, // BookingPartInstance requires zeroOutPart field
+      zeroOutPart: currentPart?.zeroOutPart ?? false,
+      activePartIds: currentPart?.activePartIds ?? [],
     }
   })
 

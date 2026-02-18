@@ -19,22 +19,22 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-12T01:54:52.870Z**
-- Files scanned: **754**
-- Type definitions found: **719**
-- Similarity groups: **97**
-- UNIFY candidates: **38**
+- Generated at: **2026-02-18T19:14:12.426Z**
+- Files scanned: **792**
+- Type definitions found: **737**
+- Similarity groups: **99**
+- UNIFY candidates: **39**
 - BRAND candidates: **13**
-- EXTEND candidates: **38**
+- EXTEND candidates: **39**
 - REVIEW candidates: **8**
 
-- P0 (high): **69**, P1 (medium): **26**, P2 (low): **2**
+- P0 (high): **70**, P1 (medium): **27**, P2 (low): **2**
 
 ## Groups (ranked by score)
 
 | Priority | Action | Relationship | Types | Files | Score | Signature |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsData`, `PropertyDetailsStepData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty` | 11 | 63 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
+| P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsStepData`, `PropertyDetailsData`, `PropertyEnrichmentResponse`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty`, `PartialPropertyDetails`, `PropertyEnrichmentResponse` | 14 | 75 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
 | P0 | EXTEND | SUBSET | `DayHours`, `CalendarEvent`, `BusyTimeRange`, `CachedCalendarEvent`, `CreatedEventResponse`, `BusyTimeRange`, `CalendarEvent`, `ComputedAvailabilityRequest`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 8 | 61 | `{ attendees?: Array<{, email: string, end: string, htmlLi...` |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 57 | `{ active: boolean, activeBlockIds: string[], allowMultipl...` |
 | P0 | REVIEW | EXACT | `DayHours`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 5 | 35 | `{ end: string, start: string }` |
@@ -63,6 +63,7 @@ Each group has a recommended action:
 | P0 | UNIFY | EXACT | `CalendarEntry`, `CalendarEntry` | 2 | 17 | `{ email: string, label?: string, readFrom: boolean, write...` |
 | P0 | UNIFY | EXACT | `ConditionalValidationRuleConfig`, `ConditionalValidationRuleConfig` | 2 | 17 | `{ condition: string, dependsOn: string, field: string, va...` |
 | P0 | UNIFY | EXACT | `BufferConfig`, `BufferConfig` | 2 | 17 | `{ enforcement: ConstraintEnforcement, minutes: number, pl...` |
+| P0 | UNIFY | EXACT | `PropertyEnrichmentResponse`, `PropertyEnrichmentResponse` | 2 | 17 | `{ additionalUnits: number | null, bathrooms: number | nul...` |
 | P0 | BRAND | EXACT | `CachedCalendarEvent`, `CalendarEvent` | 2 | 17 | `{ end: string, eventType?: string, id: string, placeId?: ...` |
 | P0 | UNIFY | EXACT | `RequiredFieldsRuleConfig`, `RequiredFieldsRuleConfig` | 2 | 17 | `{ condition?: string, fields: string[] }` |
 | P0 | UNIFY | EXACT | `RouteLocation`, `RouteLocation` | 2 | 17 | `{ address?: string, coordinates?: Coordinates, placeId?: ...` |
@@ -73,10 +74,9 @@ Each group has a recommended action:
 | P0 | UNIFY | EXACT | `RangeConstraint`, `RangeConstraint` | 2 | 17 | `{ config: BusinessHoursConfig | LeadTimeConfig | DateRang...` |
 | P0 | UNIFY | EXACT | `DefaultLocation`, `DefaultLocation` | 2 | 17 | `{ address?: string, coordinates?: Coordinates, label?: st...` |
 | P0 | UNIFY | EXACT | `DriveTimeConfig`, `DriveTimeConfig` | 2 | 17 | `{ applyTo: DriveTimeApplyTo, enforcement: ConstraintEnfor...` |
-| P0 | UNIFY | EXACT | `LogLevel`, `LogLevel` | 2 | 17 | `= 'debug' | 'error' | 'info' | 'silent' | 'warn'` |
-| ... | ... | ... | ... | ... | ... | (57 more groups) |
+| ... | ... | ... | ... | ... | ... | (59 more groups) |
 
-## UNIFY Candidates (38)
+## UNIFY Candidates (39)
 
 These types are structurally identical and likely represent the same concept. Import from a single source to prevent drift.
 
@@ -225,6 +225,16 @@ These types are structurally identical and likely represent the same concept. Im
 | `BufferConfig` | interface | `client/src/configs/availabilitySettings.ts` | 144 | yes |
 | `BufferConfig` | interface | `server/src/db/models/admin/business_settings.ts` | 132 | yes |
 
+### sim-exact-2a8aa740b48c
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, suggestedBlockInstanceIds: string[] }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `PropertyEnrichmentResponse` | interface | `client/src/services/propertyEnrichmentApiService.ts` | 15 | yes |
+| `PropertyEnrichmentResponse` | interface | `server/src/types/brightMls.ts` | 46 | yes |
+
 ### sim-exact-45324740cd81
 
 - Relationship: **EXACT**, Priority: **P0**, Score: **17**
@@ -235,17 +245,7 @@ These types are structurally identical and likely represent the same concept. Im
 | `RequiredFieldsRuleConfig` | interface | `client/src/composables/admin/useBusinessRules.ts` | 54 | yes |
 | `RequiredFieldsRuleConfig` | interface | `server/src/db/models/admin/business_rule.ts` | 41 | yes |
 
-### sim-exact-4f8a212b07d3
-
-- Relationship: **EXACT**, Priority: **P0**, Score: **17**
-- Structure: `{ address?: string, coordinates?: Coordinates, placeId?: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `RouteLocation` | interface | `client/src/services/mapsApiService.ts` | 242 | yes |
-| `RouteLocation` | interface | `server/src/services/google/maps/mapsTypes.ts` | 45 | yes |
-
-_(23 more UNIFY groups omitted — see JSON for full data)_
+_(24 more UNIFY groups omitted — see JSON for full data)_
 
 ## BRAND Candidates (13)
 
@@ -366,7 +366,7 @@ These types are structurally identical but may represent different concepts. Add
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseInstanceBulkEditOptions` | interface | `client/src/composables/admin/useInstanceBulkEdit.ts` | 19 | yes |
+| `UseInstanceBulkEditOptions` | interface | `client/src/composables/admin/useInstanceBulkEdit.ts` | 22 | yes |
 | `UseInstanceFilteringOptions` | interface | `client/src/composables/admin/useInstanceFiltering.ts` | 23 | yes |
 
 ### sim-exact-1690f84cc8dc
@@ -389,13 +389,13 @@ These types are structurally identical but may represent different concepts. Add
 | `Props` | interface | `client/src/components/admin/generic/collections/PartsCollection.vue` | 20 | no |
 | `UseSelectConfigOptions` | interface | `client/src/composables/admin/useSelectConfig.ts` | 28 | yes |
 
-## EXTEND Candidates (38)
+## EXTEND Candidates (39)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
-### sim-subset-b80ed59d039b
+### sim-subset-6a5e2c8b16e9
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **63**
+- Relationship: **SUBSET**, Priority: **P0**, Score: **75**
 - Structure: `{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }`
 
 | Type | Kind | File | Line | Exported |
@@ -409,12 +409,15 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `AppointmentWithDetails` | interface | `server/src/services/appointmentCalendarService.ts` | 49 | no |
 | `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
 | `PropertyDetails` | interface | `client/src/types/availability.ts` | 17 | yes |
-| `PropertyDetailsData` | interface | `client/src/types/propertyForm.ts` | 19 | yes |
-| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 16 | no |
+| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 17 | no |
+| `PropertyDetailsData` | interface | `client/src/types/propertyForm.ts` | 20 | yes |
+| `PropertyEnrichmentResponse` | interface | `client/src/services/propertyEnrichmentApiService.ts` | 15 | yes |
 | `PropertyResponse` | interface | `client/src/types/appointmentApi.ts` | 10 | yes |
 | `PropertyRequest` | interface | `client/src/types/property.ts` | 10 | yes |
 | `PropertyResponse` | interface | `client/src/types/property.ts` | 27 | yes |
 | `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 79 | yes |
+| `PartialPropertyDetails` | interface | `server/src/services/propertyFieldMapper.ts` | 12 | yes |
+| `PropertyEnrichmentResponse` | interface | `server/src/types/brightMls.ts` | 46 | yes |
 
 ### sim-subset-cff243989e82
 
@@ -446,18 +449,18 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 8 | yes |
-| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 31 | yes |
+| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 32 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 67 | yes |
-| `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 49 | yes |
+| `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 51 | yes |
 | `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 14 | yes |
 | `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 60 | yes |
 | `PropertyVersionType` | interface | `client/src/types/property.ts` | 58 | yes |
 | `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 23 | no |
 | `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 26 | yes |
-| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 40 | yes |
+| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 42 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 20 | yes |
-| `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 39 | yes |
+| `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 40 | yes |
 
 ### sim-subset-7540ccfe621d
 
@@ -603,15 +606,15 @@ Overlap: **83%** shared properties
 ### sim-subset-3c6e1b42082d
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **14**
-- Structure: `{ availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, wizard: { }`
+- Structure: `{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 44 | yes |
+| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 45 | yes |
 | `UsePropertyFormStateReturn` | interface | `client/src/composables/booking/usePropertyFormState.ts` | 16 | yes |
 | `UsePropertyFormWatchersParams` | interface | `client/src/composables/booking/usePropertyFormWatchers.ts` | 14 | yes |
 
-_(23 more EXTEND groups omitted — see JSON for full data)_
+_(24 more EXTEND groups omitted — see JSON for full data)_
 
 ## REVIEW Candidates (8)
 

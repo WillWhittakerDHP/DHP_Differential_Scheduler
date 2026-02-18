@@ -8,13 +8,7 @@
     "typeExport": "PascalCase"
   },
   "allowlist": {
-    "patterns": [
-      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Third-party library" },
-      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Third-party library" },
-      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files" },
-      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files" },
-      { "glob": "**/*.spec.*", "ruleIds": ["*"], "reason": "Spec files" }
-    ],
+    "patterns": [],
     "specific": []
   }
 }

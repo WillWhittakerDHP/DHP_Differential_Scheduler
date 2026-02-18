@@ -4,12 +4,12 @@
  * PATTERN: Configures display properties for selectable fields
  */
 
-import type { GlobalEntityKey } from '../../../constants/entities'
-import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '../../../constants/entities'
-import { FIELD_NAMES } from '../../../constants/entityFieldConstants'
-import type { GlobalFieldKey } from '../../../constants/primitives'
-import type { GlobalRelationshipKey } from '../../../constants/relationships'
-import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '../../../types/entity/formDataEnums'
+import type { GlobalEntityKey } from '@/constants/entities'
+import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { GlobalRelationshipKey } from '@/constants/relationships'
+import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
 
 // FIX: Use entity key constants (these are string literals, so they work in types)
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;

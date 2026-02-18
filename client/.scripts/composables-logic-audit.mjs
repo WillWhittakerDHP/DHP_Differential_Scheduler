@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
@@ -84,17 +84,7 @@ function ensureDir(dirPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
-  // Exclude migration files (one-time scripts, not composables)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  // Exclude test files and directories (test utilities have different patterns)
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding, not composable patterns)
-  if (isSeedScript(repoPath)) return true
-  // Check if file matches any exclusion pattern in config
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }

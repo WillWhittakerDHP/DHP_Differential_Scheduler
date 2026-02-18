@@ -5,7 +5,7 @@
  */
 
 import type { Ref } from 'vue'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { useEntityCrud } from '@/composables/entityCrud'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

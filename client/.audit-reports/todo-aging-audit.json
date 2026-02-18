@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-12T01:57:22.540Z",
-  "totalScanned": 972,
+  "generatedAt": "2026-02-18T19:13:42.740Z",
+  "totalScanned": 1012,
   "totals": {
-    "totalScanned": 972,
+    "totalScanned": 1012,
     "totalMarkers": 28,
     "fresh": 2,
     "aging": 0,
@@ -109,7 +109,7 @@
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "markers": [
         {
-          "lineNumber": 227,
+          "lineNumber": 248,
           "marker": "TODO",
           "line": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "category": "ancient",
@@ -117,7 +117,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 229,
+          "lineNumber": 250,
           "marker": "TODO",
           "line": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented",
           "category": "ancient",
@@ -125,7 +125,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 230,
+          "lineNumber": 251,
           "marker": "TODO",
           "line": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is implemented",
           "category": "ancient",
@@ -325,7 +325,7 @@
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
           "category": "fresh",
-          "days": 11,
+          "days": 17,
           "orphaned": true
         }
       ],
@@ -340,7 +340,7 @@
           "marker": "TODO",
           "line": "// TODO: handle relationshipCollection renderAs when needed",
           "category": "fresh",
-          "days": 1,
+          "days": 7,
           "orphaned": true
         }
       ],

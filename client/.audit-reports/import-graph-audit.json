@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-12T01:57:22.757Z",
-  "totalFiles": 972,
+  "generatedAt": "2026-02-18T19:22:14.232Z",
+  "totalFiles": 1012,
   "thresholds": {
     "maxFanOut": 15,
     "maxFanIn": 20
@@ -9,7 +9,7 @@
   "fanOutViolations": [
     {
       "file": "server/src/db/models/index",
-      "fanOut": 32
+      "fanOut": 38
     },
     {
       "file": "client/src/components/booking/BookingWizard",
@@ -59,19 +59,19 @@
     },
     {
       "file": "client/src/utils/logger",
-      "fanIn": 69
+      "fanIn": 73
     },
     {
       "file": "client/src/utils/transformers/globalToBookingTransformer",
-      "fanIn": 53
+      "fanIn": 55
+    },
+    {
+      "file": "server/src/utils/logger",
+      "fanIn": 50
     },
     {
       "file": "client/src/types/appointment",
       "fanIn": 48
-    },
-    {
-      "file": "server/src/utils/logger",
-      "fanIn": 46
     },
     {
       "file": "client/src/constants/entityFieldConstants",
@@ -103,15 +103,15 @@
     },
     {
       "file": "client/src/utils/api",
-      "fanIn": 25
+      "fanIn": 27
+    },
+    {
+      "file": "server/src/config/app",
+      "fanIn": 26
     },
     {
       "file": "server/src/constants/router",
       "fanIn": 24
-    },
-    {
-      "file": "server/src/config/app",
-      "fanIn": 23
     },
     {
       "file": "client/src/composables/useAdmin",
@@ -195,12 +195,12 @@
       "priority": "P2"
     },
     {
-      "file": "client/src/types/appointment",
+      "file": "server/src/utils/logger",
       "score": 2,
       "priority": "P2"
     },
     {
-      "file": "server/src/utils/logger",
+      "file": "client/src/types/appointment",
       "score": 2,
       "priority": "P2"
     },
@@ -245,12 +245,12 @@
       "priority": "P2"
     },
     {
-      "file": "server/src/constants/router",
+      "file": "server/src/config/app",
       "score": 2,
       "priority": "P2"
     },
     {
-      "file": "server/src/config/app",
+      "file": "server/src/constants/router",
       "score": 2,
       "priority": "P2"
     },

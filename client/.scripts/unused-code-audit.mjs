@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions, checkInlineException, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseInlineExceptions, checkInlineException, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Unused Code Audit Script
@@ -54,32 +54,9 @@ function isScannable(absPath) {
 }
 
 function isExcluded(repoPath) {
-  // Exclude migration files (one-time scripts, exports may be intentionally unused)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  // Exclude test files and directories (test utilities may appear unused but are used by tests)
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding, exports used by test infrastructure)
-  if (isSeedScript(repoPath)) return true
-  // Exclude @core and @layouts for client files only
-  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
-    return true
-  }
-  // Exclude node_modules, dist, etc.
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
-    return true
-  }
-  // Exclude types directory (public API types, re-exports, consumed indirectly)
-  if (repoPath.includes('/types/')) {
-    return true
-  }
-  // Exclude declaration files (type-only, no runtime exports)
-  if (repoPath.endsWith('.d.ts')) {
-    return true
-  }
+  if (isGloballyExcluded(repoPath)) return true
+  if (repoPath.includes('/types/')) return true
+  if (repoPath.endsWith('.d.ts')) return true
   return false
 }
 

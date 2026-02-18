@@ -1,4 +1,4 @@
-import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
  * LEARNING: EventInstance Display Configs (Configuration Data)

@@ -31,9 +31,9 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ### Key Files
 
-- `client-vue/src/views/admin/AdminPanel.vue`
-- `client-vue/src/components/admin/`
-- `client-vue/src/components/admin/generic/`
+- `client/src/views/admin/AdminPanel.vue`
+- `client/src/components/admin/`
+- `client/src/components/admin/generic/`
 
 ### Success Criteria
 
@@ -116,13 +116,13 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ### Key Files
 
-- `client-vue/src/components/booking/BookingWizard.vue` (nav bar redesign)
-- `client-vue/src/components/booking/steps/ServiceSelectionStep.vue` (service UI updates)
-- `client-vue/src/components/booking/steps/PropertyDetailsStep.vue` (property UI updates)
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue` (calendar layout)
-- `client-vue/src/components/booking/steps/ConfirmationStep.vue` (summary polish)
-- `client-vue/src/components/booking/QuoteModeToggle.vue` (new)
-- `client-vue/src/composables/useQuoteMode.ts` (new, for color palette)
+- `client/src/components/booking/BookingWizard.vue` (nav bar redesign)
+- `client/src/components/booking/steps/ServiceSelectionStep.vue` (service UI updates)
+- `client/src/components/booking/steps/PropertyDetailsStep.vue` (property UI updates)
+- `client/src/components/booking/steps/AvailabilityStep.vue` (calendar layout)
+- `client/src/components/booking/steps/ConfirmationStep.vue` (summary polish)
+- `client/src/components/booking/QuoteModeToggle.vue` (new)
+- `client/src/composables/useQuoteMode.ts` (new, for color palette)
 
 ### Success Criteria
 
@@ -151,8 +151,8 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 ### Key Files
 
 - All UI components
-- `client-vue/src/components/admin/`
-- `client-vue/src/components/booking/`
+- `client/src/components/admin/`
+- `client/src/components/booking/`
 
 ### Success Criteria
 
@@ -177,9 +177,9 @@ Polish admin panel and booking wizard UI to be "niceish". Fix flow/interactions,
 
 ### Key Files
 
-- `client-vue/src/composables/useBulkUpdate.ts` (new)
-- `client-vue/src/components/admin/bulk/BulkUpdateTemplateRow.vue` (new)
-- `client-vue/src/components/admin/PartInstanceNestedList.vue`
+- `client/src/composables/useBulkUpdate.ts` (new)
+- `client/src/components/admin/bulk/BulkUpdateTemplateRow.vue` (new)
+- `client/src/components/admin/PartInstanceNestedList.vue`
 
 ### Key Deliverables
 

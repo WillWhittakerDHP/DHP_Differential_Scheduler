@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T02:06:41.672Z",
+  "generatedAt": "2026-02-18T19:23:56.446Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 972,
+  "totalScanned": 1012,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 16,
+    "totalRequiresReview": 26,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -24,6 +24,70 @@
     }
   },
   "files": [
+    {
+      "id": "server__src__scripts__run-migrations.mjs",
+      "repoPath": "server/src/scripts/run-migrations.mjs",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "console-general",
+          "lineNumber": 34,
+          "line": "console.log('✅ Database connection established')"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 44,
+          "line": "console.log(`\\n📋 Found ${targetMigrations.length} migration files:`)"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 45,
+          "line": "targetMigrations.forEach(f => console.log(`   - ${f}`))"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 62,
+          "line": "console.log('\\n✅ All migrations have already been executed')"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 66,
+          "line": "console.log(`\\n🔄 Running ${pendingMigrations.length} pending migrations...`)"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 69,
+          "line": "console.log(`\\n📝 Running: ${migrationFile}`)"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 96,
+          "line": "console.log(`   ✅ ${migrationFile} completed successfully`)"
+        },
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 98,
+          "line": "console.error(`   ❌ Error running ${migrationFile}:`, error)"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 103,
+          "line": "console.log('\\n✅ All migrations completed successfully!')"
+        },
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 105,
+          "line": "console.error('❌ Migration error:', error)"
+        },
+        {
+          "ruleId": "console-no-logger",
+          "lineNumber": 1,
+          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead."
+        }
+      ],
+      "score": 19,
+      "priority": "P0"
+    },
     {
       "id": "client__src__composables__admin__usePartInstanceBulkEdit.ts",
       "repoPath": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
@@ -182,20 +246,6 @@
         }
       ],
       "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__booking__usePropertyDetailsLogic.ts",
-      "repoPath": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "console-general",
-          "lineNumber": 204,
-          "line": "console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')"
-        }
-      ],
-      "score": 1,
       "priority": "P2"
     },
     {

@@ -224,28 +224,28 @@ Add a GPT controller that can create and configure admin entities (part types, p
 **Tasks:**
 
 1. **AI Assistant Composable**
-   - [ ] Create `client-vue/src/composables/useAIAssistant.ts`
+   - [ ] Create `client/src/composables/useAIAssistant.ts`
    - [ ] Implement API calls to `/ai/execute` and `/ai/validate`
    - [ ] Manage chat history state
    - [ ] Handle loading and error states
    - [ ] Add TypeScript types
 
 2. **AI Assistant View**
-   - [ ] Create `client-vue/src/views/admin/ai/AIAssistant.vue`
+   - [ ] Create `client/src/views/admin/ai/AIAssistant.vue`
    - [ ] Build chat interface UI (Vuetify components)
    - [ ] Display conversation history
    - [ ] Show execution results
    - [ ] Add error display
 
 3. **Command Input Component**
-   - [ ] Create `client-vue/src/components/admin/ai/AICommandInput.vue`
+   - [ ] Create `client/src/components/admin/ai/AICommandInput.vue`
    - [ ] Natural language input field
    - [ ] Command history/suggestions
    - [ ] Auto-complete for common commands
    - [ ] Input validation
 
 4. **Execution Preview Component**
-   - [ ] Create `client-vue/src/components/admin/ai/AIExecutionPreview.vue`
+   - [ ] Create `client/src/components/admin/ai/AIExecutionPreview.vue`
    - [ ] Display proposed actions before execution
    - [ ] Show entity changes preview
    - [ ] Confirmation dialog
@@ -390,7 +390,7 @@ server/src/
 └── routes/internal/ai/
     └── aiRouter.ts                     # AI API endpoints
 
-client-vue/src/
+client/src/
 ├── views/admin/ai/
 │   └── AIAssistant.vue                 # Main AI assistant view
 ├── components/admin/ai/
@@ -407,7 +407,7 @@ server/src/
 ├── config/app.ts                       # Add AI env vars validation
 └── routes/internal/index.ts            # Add AI router
 
-client-vue/src/
+client/src/
 └── views/admin/
     └── AdminPanel.vue                  # Add AI Assistant tab/button
 ```

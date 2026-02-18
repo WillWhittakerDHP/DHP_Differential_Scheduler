@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Type Similarity Audit Script (Structural Type Governance)
@@ -82,6 +82,7 @@ function shortHash(text) {
 }
 
 function isExcluded(repoPath, configAllowlist) {
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }
@@ -91,21 +92,7 @@ function isScannable(absPath) {
 }
 
 function shouldExcludeDir(repoPath) {
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding, not representative type definitions)
-  if (isSeedScript(repoPath)) return true
-  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
-    return true
-  }
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
-    return true
-  }
-  return false
+  return isGloballyExcluded(repoPath)
 }
 
 /**

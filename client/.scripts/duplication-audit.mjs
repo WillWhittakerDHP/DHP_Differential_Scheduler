@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Duplication Audit Script (DRY opportunities)
@@ -66,8 +66,7 @@ function toStableId(repoPath) {
  * Uses config-based allowlist for file-level exclusions
  */
 function isExcluded(repoPath, configAllowlist) {
-  // Check if file matches any exclusion pattern in config
-  // For duplication audit, we exclude entire files, so we check with a wildcard ruleId
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }
@@ -80,29 +79,9 @@ function isScannable(absPath) {
  * Check if a file should be excluded from scanning
  */
 function shouldExcludeDir(repoPath) {
-  // Exclude migration files (one-time scripts, duplication is expected)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  // Exclude test files and directories (test patterns are often intentionally duplicated)
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding with intentional duplication)
-  if (isSeedScript(repoPath)) return true
-  // Exclude @core and @layouts for client files only
-  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
-    return true
-  }
-  // Exclude compiled JavaScript files (TypeScript-generated code)
-  // LEARNING: Compiled JS files contain TypeScript helper code (__extends, etc.) that is intentionally duplicated
-  // WHY: These are generated files - duplication is expected and not actionable
-  // PATTERN: Exclude .js files in server/src/db/models/ directory (compiled from TypeScript)
+  if (isGloballyExcluded(repoPath)) return true
+  // Audit-specific: compiled .js in server/src/db/models/ (TypeScript-generated helpers, duplication expected)
   if (repoPath.startsWith('server/src') && repoPath.endsWith('.js') && repoPath.includes('/db/models/')) {
-    return true
-  }
-  // Exclude node_modules, dist, etc.
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
     return true
   }
   return false

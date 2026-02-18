@@ -4,8 +4,8 @@
  * PATTERN: Base displays spread into entity-specific display configs
  */
 
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type { DisplayFieldType } from '../displayFieldTypes'
 
 export const baseEntityDisplays = {

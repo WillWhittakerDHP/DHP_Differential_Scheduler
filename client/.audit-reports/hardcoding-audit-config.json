@@ -1,77 +1,76 @@
 {
   "$comment": "Configuration for hardcoding-audit.mjs exception handling",
   "$schema": "Allowlist for intentional/necessary hardcoding patterns",
-  
   "allowlist": {
     "patterns": [
       {
-        "glob": "**/__tests__/**",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from hardcoding scanning"
-      },
-      {
-        "glob": "**/*.test.*",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from hardcoding scanning"
-      },
-      {
-        "glob": "**/*.spec.*",
-        "ruleIds": ["*"],
-        "reason": "Spec files excluded from hardcoding scanning"
-      },
-      {
-        "glob": "**/@core/**",
-        "ruleIds": ["*"],
-        "reason": "Core library files excluded from hardcoding scanning"
-      },
-      {
-        "glob": "**/@layouts/**",
-        "ruleIds": ["*"],
-        "reason": "Layout library files excluded from hardcoding scanning"
-      },
-      {
         "glob": "**/constants/**/*.ts",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "Constants files are the canonical source for hardcoded values - this is by design"
       },
       {
         "glob": "**/configs/**/*.ts",
-        "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"],
+        "ruleIds": [
+          "magicLabel",
+          "caseString",
+          "fieldEqualsString"
+        ],
         "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
       },
       {
         "glob": "**/configs/**/*.js",
-        "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"],
+        "ruleIds": [
+          "magicLabel",
+          "caseString",
+          "fieldEqualsString"
+        ],
         "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
       },
       {
         "glob": "**/*Display*.ts",
-        "ruleIds": ["magicLabel", "caseString"],
+        "ruleIds": [
+          "magicLabel",
+          "caseString"
+        ],
         "reason": "Display config files define labels and case literals by design"
       },
       {
         "glob": "**/*Display*.vue",
-        "ruleIds": ["magicLabel", "caseString"],
+        "ruleIds": [
+          "magicLabel",
+          "caseString"
+        ],
         "reason": "Display components use label strings and case literals by design"
       },
       {
         "glob": "**/*.vue",
-        "ruleIds": ["entityKeyString"],
+        "ruleIds": [
+          "entityKeyString"
+        ],
         "reason": "Vue slot names and template attributes legitimately use entity keys as strings"
       },
       {
         "glob": "**/utils/logger.ts",
-        "ruleIds": ["caseString"],
+        "ruleIds": [
+          "caseString"
+        ],
         "reason": "Log level strings are standard and intentional - part of logger API"
       },
       {
         "glob": "**/types/**/*.ts",
-        "ruleIds": ["entityKeyString", "caseString"],
+        "ruleIds": [
+          "entityKeyString",
+          "caseString"
+        ],
         "reason": "Type definitions legitimately use string literals for type unions"
       },
       {
         "glob": "**/transformers/**/*.ts",
-        "ruleIds": ["entityKeyString"],
+        "ruleIds": [
+          "entityKeyString"
+        ],
         "reason": "API transformers necessarily reference entity keys for type-safe mapping"
       }
     ],

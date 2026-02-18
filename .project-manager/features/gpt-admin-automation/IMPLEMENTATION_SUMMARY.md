@@ -69,7 +69,7 @@ server/src/routes/internal/ai/
 
 ### Frontend Structure
 ```
-client-vue/src/
+client/src/
 ├── views/admin/ai/
 │   └── AIAssistant.vue        # Main chat interface
 ├── components/admin/ai/
@@ -233,7 +233,7 @@ curl -X POST http://localhost:3000/api/internal/ai/execute \
 - `server/src/routes/internal/entities/entityRouter.ts` - Entity CRUD endpoints
 - `server/src/routes/internal/compositions/compositionRouter.ts` - Composition logic
 - `server/src/config/entityRegistry.ts` - Entity configurations
-- `client-vue/src/views/admin/AdminPanel.vue` - Admin panel integration point
+- `client/src/views/admin/AdminPanel.vue` - Admin panel integration point
 
 ### New Files to Create
 See [feature-plan.md](./feature-plan.md) for complete file list.

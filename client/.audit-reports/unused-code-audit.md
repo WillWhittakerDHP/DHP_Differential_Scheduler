@@ -6,10 +6,10 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **730**
-- Files with issues: **135**
-- Issues found: **238**
-- Unused exports: 193
+- Files scanned: **751**
+- Files with issues: **144**
+- Issues found: **249**
+- Unused exports: 204
 - Commented exports: 1
 - Unused functions: 41
 - TODO markers: 3
@@ -186,25 +186,25 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/relationships/relationshipHelpers.ts` [P0] (score: 12)
 
-- **WARNING** [unused-export] (line 23): Unused export: mapAnnotationAssignmentsFields (function)
+- **WARNING** [unused-export] (line 25): Unused export: mapAnnotationAssignmentsFields (function)
   ```
   export function mapAnnotationAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 36): Unused export: mapAttendeeAssignmentsFields (function)
+- **WARNING** [unused-export] (line 38): Unused export: mapAttendeeAssignmentsFields (function)
   ```
   export function mapAttendeeAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 49): Unused export: mapEventAssignmentsFields (function)
+- **WARNING** [unused-export] (line 51): Unused export: mapEventAssignmentsFields (function)
   ```
   export async function mapEventAssignmentsFields(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 97): Unused export: getComponentChildIds (function)
+- **WARNING** [unused-export] (line 99): Unused export: getComponentChildIds (function)
   ```
   export async function getComponentChildIds(instanceId: string): Promise<string[]> {
   ```
@@ -284,19 +284,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/field/display/selectableDisplayConfig.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 25): Unused export: RelationshipDisplayType (type)
+- **WARNING** [unused-export] (line 27): Unused export: RelationshipDisplayType (type)
   ```
   export type RelationshipDisplayType<
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 72): Unused export: VirtualDisplayType (type)
+- **WARNING** [unused-export] (line 74): Unused export: VirtualDisplayType (type)
   ```
   export type VirtualDisplayType<
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 122): Unused export: SelectableDisplayTypeSuite (type)
+- **WARNING** [unused-export] (line 124): Unused export: SelectableDisplayTypeSuite (type)
   ```
   export type SelectableDisplayTypeSuite = {
   ```
@@ -344,31 +344,31 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/booking/confirmationStepData.ts` [P1] (score: 9)
 
-- **WARNING** [unused-export] (line 60): Unused export: calculateBlockInstanceFee (function)
+- **WARNING** [unused-export] (line 62): Unused export: calculateBlockInstanceFee (function)
   ```
   export function calculateBlockInstanceFee(
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 33): Unused export: BlockInstanceFeeResult (type)
+- **WARNING** [unused-export] (line 34): Unused export: BlockInstanceFeeResult (type)
   ```
   export interface BlockInstanceFeeResult {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [todo-marker] (line 227): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 248): TODO/FIXME marker about unused code
   ```
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 229): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 250): TODO/FIXME marker about unused code
   ```
   const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...
   ```
   💡 Review and clean up unused code
 
-- **INFO** [todo-marker] (line 230): TODO/FIXME marker about unused code
+- **INFO** [todo-marker] (line 251): TODO/FIXME marker about unused code
   ```
   const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...
   ```
@@ -514,26 +514,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `server/src/routes/internal/properties/propertyHelpers.ts` [P1] (score: 9)
-
-- **WARNING** [unused-export] (line 33): Unused export: isPropertyVersionWithAssociations (function)
-  ```
-  export function isPropertyVersionWithAssociations(
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 14): Unused export: PropertyVersionWithAssociations (type)
-  ```
-  export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 20): Unused export: BlockInstanceWithShape (type)
-  ```
-  export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `server/src/services/appointmentCalendarService.ts` [P1] (score: 9)
 
 - **WARNING** [unused-export] (line 342): Unused export: isCalendarConfigured (function)
@@ -635,6 +615,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 36): Unused export: validateAnnotationMetadata (function)
   ```
   export function validateAnnotationMetadata(metadata: AnnotationMetadata): boolean {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/api/propertyMappingsApi.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 10): Unused export: getPropertyFieldMappingByIdEndpoint (function)
+  ```
+  export function getPropertyFieldMappingByIdEndpoint(id: string): string {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 18): Unused export: getPropertyFeatureMappingByIdEndpoint (function)
+  ```
+  export function getPropertyFeatureMappingByIdEndpoint(id: string): string {
   ```
   💡 Remove if unused or document why kept
 
@@ -750,6 +744,34 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/views/admin/tabs/PropertyMappingsTab.vue` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 19): Unused export: PropertyFieldMappingRow (type)
+  ```
+  export interface PropertyFieldMappingRow {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 32): Unused export: PropertyFeatureMappingRow (type)
+  ```
+  export interface PropertyFeatureMappingRow {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/config/brightMlsFoundationMapping.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 15): Unused export: FOUNDATION_MAPPING (const)
+  ```
+  export const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 9): Unused export: FoundationAccessType (type)
+  ```
+  export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/db/models/admin/valid_component.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 36): Unused export: ValidComponentFactory (function)
@@ -803,6 +825,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 117): Unused export: requireSecureAccess (function)
   ```
   export function requireSecureAccess(modelName: string, paramKey: string = 'id') {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/routes/internal/properties/propertyHelpers.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 33): Unused export: isPropertyVersionWithAssociations (function)
+  ```
+  export function isPropertyVersionWithAssociations(
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 14): Unused export: PropertyVersionWithAssociations (type)
+  ```
+  export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {
   ```
   💡 Remove if unused or document why kept
 
@@ -876,6 +912,20 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/test/setup/testDb.ts` [P1] (score: 6)
+
+- **WARNING** [unused-export] (line 51): Unused export: getTestDb (function)
+  ```
+  export function getTestDb(): Sequelize {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 59): Unused export: withTransaction (function)
+  ```
+  export async function withTransaction<T>(
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/utils/envHelpers.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 15): Unused export: isDevelopment (function)
@@ -901,20 +951,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 23): Unused export: AppLogger (type)
   ```
   export type AppLogger = {
-  ```
-  💡 Remove if unused or document why kept
-
-### `client/src/components/admin/generic/collections/RelationshipCollection.vue` [P2] (score: 4)
-
-- **WARNING** [unused-export] (line 132): Unused export: CollectionType (type)
-  ```
-  export type CollectionType = 'parts' | 'annotations' | 'events'
-  ```
-  💡 Remove if unused or document why kept
-
-- **INFO** [unused-function] (line 240): Unused function: handleDeleteChild
-  ```
-  const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
   ```
   💡 Remove if unused or document why kept
 
@@ -1206,6 +1242,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/utils/booking/pricingCascadeResolver.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 23): Unused export: resolvePricingCascadeParts (function)
+  ```
+  export function resolvePricingCascadeParts(
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/utils/booking/selectionCardComponent.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 7): Unused export: getSelectionControlOrder (function)
@@ -1398,6 +1442,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/db/models/mappings/property_feature_mapping.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 19): Unused export: FeatureMatchType (type)
+  ```
+  export type FeatureMatchType = 'exists' | 'contains' | 'equals' | 'greater_than';
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/routes/helpers/crudRouterTypes.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 91): Unused export: RouteHandler (type)
@@ -1456,7 +1508,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 95): Unused export: handleInstanceComponentCreate (function)
+- **WARNING** [unused-export] (line 96): Unused export: handleInstanceComponentCreate (function)
   ```
   export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
   ```
@@ -1499,6 +1551,30 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 17): Unused export: GoogleApiName (type)
   ```
   export type GoogleApiName = 'google-calendar' | 'google-maps'
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/propertyEnrichmentCache.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 14): Unused export: PropertyEnrichmentCacheEntry (type)
+  ```
+  export interface PropertyEnrichmentCacheEntry {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/propertyFeatureMatcher.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 12): Unused export: FeatureMatchResult (type)
+  ```
+  export interface FeatureMatchResult {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/propertyFieldMapper.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 13): Unused export: PartialPropertyDetails (type)
+  ```
+  export interface PartialPropertyDetails {
   ```
   💡 Remove if unused or document why kept
 
@@ -1611,6 +1687,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   // export const login = async (req: Request, res: Response) => {
   ```
   💡 Review and either uncomment or remove
+
+### `client/src/components/admin/generic/collections/RelationshipCollection.vue` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 240): Unused function: handleDeleteChild
+  ```
+  const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
+  ```
+  💡 Remove if unused or document why kept
 
 ### `client/src/components/admin/generic/fields/IconPicker.vue` [P2] (score: 1)
 

@@ -6,7 +6,7 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **68**
+- Total files: **73**
 
 ## Top hotspots (by heuristic score)
 
@@ -22,6 +22,7 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/admin/generic/EntityCard.vue` | 6 | 1 | 4 | 1 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 8 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | 7 | 0 | 0 | 1 | 0 | 0 | 0 |
+| `src/components/beta/BetaFeedbackModal.vue` | 0 | 1 | 3 | 0 | 4 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | 0 | 1 | 7 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | 5 | 1 | 0 | 1 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | 4 | 0 | 3 | 0 | 0 | 0 | 0 |
@@ -35,8 +36,7 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/views/admin/entities/PartShapeForm.vue` | 2 | 0 | 4 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | 13 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/TextInput.vue` | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/PartInstanceBulkEditModal.vue` | 2 | 0 | 0 | 2 | 0 | 0 | 1 |
-| `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 1 | 0 | 4 | 0 | 0 | 0 | 0 |
+| `src/components/beta/BetaFeedbackDashboard.vue` | 3 | 0 | 2 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
@@ -263,6 +263,24 @@ computed@349: const groupedByKeyComputed = computed(() => groupedByKey.value.map
 map@349: const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
 ```
 
+### `src/components/beta/BetaFeedbackModal.vue`
+
+- counts: computed=0, ref=2, watch=1, async=1, await=2, map=0, reduce=0, dom=4, inlineConfig=0, console=0, alert=0
+
+```
+ref@131: const sending = ref(false);
+ref@132: const submitError = ref('');
+reactive@151: const form = reactive({
+dom@165: if (typeof window === 'undefined') {
+dom@168: const nav = typeof window.navigator !== 'undefined' ? window.navigator : null;
+dom@170: pageUrl: window.location.href,
+dom@172: screenSize: `${window.innerWidth}x${window.innerHeight}`,
+watch@176: watch(
+async@183: async function handleSubmit() {
+await@184: const valid = await formRef.value?.validate();
+await@190: await submitFeedback({
+```
+
 ### `src/components/common/AddressAutocomplete.vue`
 
 - counts: computed=0, ref=4, watch=1, async=3, await=4, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -294,7 +312,7 @@ computed@103: const partsSummary = computed((): string => {
 computed@145: const partsBulkEditMode = computed(() => {
 watch@173: watch(partsBulkEditMode, (isEnabled) => {
 computed@184: const relationshipsSummary = computed((): string => {
-computed@217: const hasAnySubPanelFields = computed(() =>
+computed@227: const hasAnySubPanelFields = computed(() =>
 ```
 
 ### `src/components/admin/generic/fields/BooleanInput.vue`
@@ -470,6 +488,21 @@ computed@147: const shouldUseTextarea = computed(() => {
 computed@172: const handlers = computed(() => {
 ```
 
+### `src/components/beta/BetaFeedbackDashboard.vue`
+
+- counts: computed=3, ref=2, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+ref@126: const loading = ref(false);
+ref@129: const detailOpen = ref(false);
+computed@166: const openBugsCount = computed(() => {
+filter@167: return items.value.filter(
+computed@172: const featureRequestsCount = computed(() => {
+computed@176: const criticalCount = computed(() => {
+async@222: async function load(): Promise<void> {
+await@225: const [list, statsData] = await Promise.all([
+```
+
 ### `src/components/admin/PartInstanceBulkEditModal.vue`
 
 - counts: computed=2, ref=0, watch=0, async=0, await=0, map=1, reduce=1, dom=0, inlineConfig=0, console=1, alert=0
@@ -499,6 +532,25 @@ await@321: // PATTERN: Mutations already invalidate cache, just refetch and awai
 await@323: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 ```
 
+### `src/views/admin/tabs/PropertyMappingsTab.vue`
+
+- counts: computed=1, ref=2, watch=0, async=2, await=2, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@7: import { ref, computed, inject, type Ref } from 'vue'
+vueQuery@8: import { useQuery } from '@tanstack/vue-query'
+provideInject@14: const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
+computed@15: const isTabActive = computed(() => adminCurrentTab?.value === 'property-mappings')
+vueQuery@50: } = useQuery({
+async@52: queryFn: async () => {
+await@53: const res = await apiClient.get<PropertyFieldMappingRow[]>(getPropertyFieldMappingsEndpoint())
+vueQuery@62: } = useQuery({
+async@64: queryFn: async () => {
+await@65: const res = await apiClient.get<PropertyFeatureMappingRow[]>(getPropertyFeatureMappingsEndpoint())
+ref@71: const showFieldDialog = ref(false)
+ref@72: const showBlockDialog = ref(false)
+```
+
 ### `src/components/admin/generic/CardButton.vue`
 
 - counts: computed=4, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -521,17 +573,6 @@ computed@53: selectedValue: computed(() => wizard.selectedServiceTypeBlocks.valu
 map@75: get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
 ```
 
-### `src/components/admin/MetadataEditModal.vue`
-
-- counts: computed=1, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=1, alert=0
-
-```
-computed@88: const modalTitle = computed(() => {
-async@105: async function handleSave(): Promise<void> {
-await@112: await editorRef.value.save()
-console@114: console.error('[MetadataEditModal] Error saving metadata:', err)
-```
-
 ### `src/components/booking/steps/PropertyDetailsStep.vue`
 
 - counts: computed=1, ref=2, watch=3, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -541,15 +582,15 @@ provideInject@13: import { ref, inject, computed, watch, onMounted, type Ref } f
 provideInject@50: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 ref@55: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
 provideInject@55: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
-computed@174: hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
-provideInject@179: const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
-provideInject@180: const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
-provideInject@181: const parentPropertyDetailsStepValidate = inject<Ref<(() => boolean) | null>>('propertyDetailsStepValidate')
-provideInject@182: const parentPropertyDetailsFieldErrors = inject<Ref<Record<string, string>>>('propertyDetailsFieldErrors')
-watch@188: watch(stepData, (newData) => {
-watch@195: watch(isFormValid, (newValid) => {
-watch@203: watch(fieldErrors, (newErrors) => {
-ref@210: const showPropertyConfirmationModal = ref(false)
+computed@183: hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
+provideInject@188: const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
+provideInject@189: const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
+provideInject@190: const parentPropertyDetailsStepValidate = inject<Ref<(() => boolean) | null>>('propertyDetailsStepValidate')
+provideInject@191: const parentPropertyDetailsFieldErrors = inject<Ref<Record<string, string>>>('propertyDetailsFieldErrors')
+watch@197: watch(stepData, (newData) => {
+watch@204: watch(isFormValid, (newValid) => {
+watch@212: watch(fieldErrors, (newErrors) => {
+ref@219: const showPropertyConfirmationModal = ref(false)
 ```
 
 ### `src/views/admin/tabs/components/FeeCalibrationPanel.vue`
@@ -597,6 +638,16 @@ computed@204: const contingencyPeriodModel = computed({
 computed@211: const canConfirm = computed(() => {
 ```
 
+### `src/components/admin/MetadataEditModal.vue`
+
+- counts: computed=1, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@91: const modalTitle = computed(() => {
+async@108: async function handleSave(): Promise<void> {
+await@115: await editorRef.value.save()
+```
+
 ### `src/components/booking/steps/ContactsStep.vue`
 
 - counts: computed=1, ref=0, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -611,6 +662,19 @@ provideInject@83: const parentContactsStepValid = inject<Ref<boolean>>('contacts
 provideInject@84: const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
 watch@90: watch(stepData, (newData) => {
 watch@97: watch(isFormValid, (newValid) => {
+```
+
+### `src/components/beta/BetaFeedbackDetailModal.vue`
+
+- counts: computed=0, ref=3, watch=1, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+ref@109: const localResolutionNotes = ref('');
+ref@110: const saving = ref(false);
+ref@111: const saveError = ref('');
+watch@121: watch(
+async@133: async function handleSave() {
+await@138: await updateFeedback(props.feedback.id, {
 ```
 
 ### `src/layouts/components/NavSearchBar.vue`
@@ -795,16 +859,6 @@ watch@72: watch(() => props.visible, (isVisible) => {
 dom@199: :deep(.v-window-item) {
 ```
 
-### `src/components/admin/InstanceBulkEditModal.vue`
-
-- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=1, dom=0, inlineConfig=0, console=1, alert=0
-
-```
-console@142: console.error('[InstanceBulkEditModal] Error creating templateEntity:', error)
-filter@178: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
-reduce@198: const bulkEditData: Record<string, number | null | undefined> = Object.keys(filteredMetadata.value).reduce((acc, field) => {
-```
-
 ### `src/components/booking/dev/DevPanelToggle.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
@@ -891,6 +945,15 @@ inlineConfig@20: :config="{ dateFormat: 'Y-m-d' }"
 provideInject@38: *             Both provide date input with validation.
 ```
 
+### `src/components/admin/InstanceBulkEditModal.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=1, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+filter@181: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+reduce@201: const bulkEditData: Record<string, number | null | undefined> = Object.keys(filteredMetadata.value).reduce((acc, field) => {
+```
+
 ### `src/components/booking/steps/AvailabilityOptionsSection.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
@@ -927,6 +990,14 @@ provideInject@69: const disableAutoSave = inject<boolean | undefined>(ENTITY_CAR
 provideInject@38: *             Both provide multi-line text input.
 ```
 
+### `src/components/beta/BetaFeedbackWidget.vue`
+
+- counts: computed=0, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+ref@16: const showModal = ref(false);
+```
+
 ### `src/components/booking/steps/AvailabilityStep.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -959,9 +1030,9 @@ provideInject@25: const availabilityStepData = inject<Ref<AvailabilityStepData> 
 
 ```
 provideInject@9: import { ref, provide } from 'vue'
-ref@30: const currentTab = ref('instances')
-provideInject@35: * PATTERN: Provide/inject pattern for cross-component communication
-provideInject@37: provide('adminCurrentTab', currentTab)
+ref@31: const currentTab = ref('instances')
+provideInject@36: * PATTERN: Provide/inject pattern for cross-component communication
+provideInject@38: provide('adminCurrentTab', currentTab)
 ```
 
 ### `src/views/admin/tabs/components/AppointmentsCreateForm.vue`

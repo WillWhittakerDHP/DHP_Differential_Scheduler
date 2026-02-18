@@ -27,6 +27,7 @@ export default apiClient
 
 export * from './entityApi'
 export * from './relationshipApi'
+export * from './relationshipApiHelpers'
 export * from './appointmentApi'
 export * from './availabilityApi'
 export * from './adminMetadataApi'

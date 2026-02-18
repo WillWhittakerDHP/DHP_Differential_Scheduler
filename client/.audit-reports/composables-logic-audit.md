@@ -8,7 +8,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **246**
+- Total composable files scanned: **248**
 
 ## Top hotspots (heuristic)
 
@@ -129,14 +129,6 @@ Legend:
 - return keys (first return): `calculateDistributionPreview`, `canBeComposed`, `getAvailableComponents`, `getComponents`, `getComposedEntity`, `getComposerId`, `isComponent`
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
-
-### `src/composables/formFields/useFormFieldsContext.ts`
-
-- exports: `useFormFieldsContext`
-- score: **7**
-- return keys (first return): `disabled`, `fieldType`, `label`, `placeholder`, `required`
-
-- **P2** (logging): Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).
 
 ### `src/composables/booking/useAppointmentShape.ts`
 
@@ -1096,20 +1088,20 @@ computed@401: const optionLabelKey = computed(() => {
 
 ```
 async@98: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
-await@140: const createdProperty = await createProperty.mutateAsync(propertyData)
-await@159: const createdClient = await createUser.mutateAsync(clientUserData)
-await@174: const createdAgent = await createUser.mutateAsync(agentUserData)
-await@190: const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
-await@207: const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
-await@224: const createdSeller = await createUser.mutateAsync(sellerData)
-map@234: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
-map@247: ? availability.candidateTimeSlots.map(slot => ({
-reduce@273: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
-reduce@281: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
-reduce@289: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
-map@300: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
-map@303: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
-map@307: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
+await@141: const createdProperty = await createProperty.mutateAsync(propertyData)
+await@160: const createdClient = await createUser.mutateAsync(clientUserData)
+await@175: const createdAgent = await createUser.mutateAsync(agentUserData)
+await@191: const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
+await@208: const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
+await@225: const createdSeller = await createUser.mutateAsync(sellerData)
+map@235: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
+map@248: ? availability.candidateTimeSlots.map(slot => ({
+reduce@274: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
+reduce@282: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
+reduce@290: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
+map@301: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
+map@304: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
+map@308: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
 ```
 
 ### `src/composables/booking/useAvailabilityOrchestrator.ts`
@@ -1450,6 +1442,24 @@ lifecycle@124: * PATTERN: Use onBeforeUnmount to stop watchers before Vue starts
 lifecycle@126: onBeforeUnmount(() => {
 lifecycle@136: * PATTERN: Use onUnmounted for final cleanup after Vue finishes unmounting
 lifecycle@138: onUnmounted(() => {
+```
+
+### `src/composables/beta/useBetaFeedback.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=6, await=5, dom=0, console=0
+
+```
+async@6: * PATTERN: Composable that returns async functions calling apiClient
+async@22: async function fetchAllFeedback(filters?: BetaFeedbackFilters): Promise<BetaFeedback[]> {
+await@29: const { data } = await apiClient.get<BetaFeedback[]>(url);
+async@33: async function fetchFeedbackStats(): Promise<BetaFeedbackStats> {
+await@34: const { data } = await apiClient.get<BetaFeedbackStats>(getBetaFeedbackStatsEndpoint());
+async@38: async function submitFeedback(payload: BetaFeedbackSubmission): Promise<BetaFeedback> {
+await@39: const { data } = await apiClient.post<BetaFeedback>(getBetaFeedbackEndpoint(), payload);
+async@43: async function updateFeedback(
+await@47: const { data } = await apiClient.patch<BetaFeedback>(
+async@54: async function deleteFeedback(id: string): Promise<void> {
+await@55: await apiClient.delete(getBetaFeedbackByIdEndpoint(id));
 ```
 
 ### `src/composables/booking/selectionCard/useSelectionCard.ts`
@@ -1869,6 +1879,21 @@ map@122: return instances.map(i => i.id)
 watch@141: watch(loadedWizardState, (newState) => {
 ```
 
+### `src/composables/booking/usePricingCascadeInstances.ts`
+
+- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@32: *   parentPartInstance: computed(() => selectedPart.value),
+computed@33: *   allPartInstances: computed(() => allPartsFromWizard.value),
+computed@42: const cascadePartInstanceIds = computed((): string[] => {
+computed@49: const cascadePartInstances = computed((): BookingPartInstance[] => {
+map@54: const byId = new Map(all.map((p) => [p.id, p]))
+map@56: .map((id) => byId.get(id))
+filter@57: .filter((p): p is BookingPartInstance => p !== undefined)
+computed@60: const hasCascades = computed((): boolean => cascadePartInstances.value.length > 0)
+```
+
 ### `src/composables/booking/useTimeSlotCalculations.ts`
 
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
@@ -2047,6 +2072,20 @@ watch@145: watch(
 watch@166: watch(
 ```
 
+### `src/composables/booking/usePropertyDetailsLogic.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=1, async=1, await=1, dom=0, console=0
+
+```
+computed@95: const requiresUnitNumber = computed(() => {
+computed@103: const isMultiFamily = computed(() => {
+computed@137: const propertyTypeBlocksWithComponents = computed(() => {
+map@138: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
+ref@195: const isEnrichmentLoading = ref(false)
+async@249: const syncMLSData = async (): Promise<void> => {
+await@264: const enrichment = await fetchPropertyEnrichment(
+```
+
 ### `src/composables/booking/usePropertyFormState.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=6, async=0, await=0, dom=0, console=0
@@ -2057,23 +2096,20 @@ ref@36: const unit = ref('')
 ref@37: const city = ref('')
 ref@38: const state = ref('')
 ref@39: const zipCode = ref('')
-ref@56: const isAddressExpanded = ref(false)
-reactive@62: * NOTE: Don't wrap in reactive() - refs are already reactive and wrapping breaks ref access
+ref@58: const isAddressExpanded = ref(false)
+reactive@64: * NOTE: Don't wrap in reactive() - refs are already reactive and wrapping breaks ref access
 ```
 
 ### `src/composables/formFields/useFormFieldsContext.ts`
 
-- counts: vueQuery=0, watch=1, computed=3, ref=0, async=1, await=0, dom=0, console=3
+- counts: vueQuery=0, watch=1, computed=3, ref=0, async=1, await=0, dom=0, console=0
 
 ```
 computed@68: const currentEntityId = computed(() => {
 computed@72: const isFormReady = computed(() => {
 computed@85: const isMetadataReady = computed(() => {
-console@105: console.warn(`[useFormFieldsContext] ${warningMessage}`)
 filter@112: return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))
-console@179: console.warn(`[useFormFieldsContext] ${warningMessage}`)
 lifecycle@233: // WHY: useField from vee-validate requires a component instance (uses lifecycle hooks like onMounted, provide)
-console@280: console.error(`[useFormFieldsContext] ${entityKey} ${entityIdValue} - Error creating context for ${fieldKey}:`, error)
 async@308: // PATTERN: Eager creation from initial field keys, then watchEffect to catch async metadata loads
 watchEffect@312: watchEffect(() => {
 ```
@@ -2258,15 +2294,14 @@ computed@117: const composerName = computed(() => {
 
 ### `src/composables/admin/useInstanceBulkEdit.ts`
 
-- counts: vueQuery=0, watch=1, computed=1, ref=0, async=1, await=1, dom=0, console=1
+- counts: vueQuery=0, watch=1, computed=1, ref=0, async=1, await=1, dom=0, console=0
 
 ```
-async@114: const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
-map@126: const updates = instances.map(instance => ({
-await@132: await patchBulk(updates)
-console@137: console.error('[useInstanceBulkEdit] Error in applyBulkEdit:', err)
-watch@148: watch(blockInstancesByShape, (map) => {
-computed@151: bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({
+async@117: const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
+map@129: const updates = instances.map(instance => ({
+await@135: await patchBulk(updates)
+watch@151: watch(blockInstancesByShape, (map) => {
+computed@154: bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({
 ```
 
 ### `src/composables/admin/useSelectFieldValue.ts`
@@ -2429,18 +2464,6 @@ computed@44: *   instances: computed(() => wizard.availableUserTypeBlocks.value)
 computed@49: *   instances: computed(() => wizard.availableServices.value),
 computed@50: *   selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value),
 computed@67: const instancesWithDisplay = computed(() => {
-```
-
-### `src/composables/booking/usePropertyDetailsLogic.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=1
-
-```
-computed@89: const requiresUnitNumber = computed(() => {
-computed@97: const isMultiFamily = computed(() => {
-computed@131: const propertyTypeBlocksWithComponents = computed(() => {
-map@132: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
-console@204: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
 ```
 
 ### `src/composables/booking/useWizardStepSync.ts`

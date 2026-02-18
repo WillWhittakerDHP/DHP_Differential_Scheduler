@@ -1,0 +1,143 @@
+{
+  "$comment": "Configuration for import-hygiene-audit.mjs",
+  "allowlist": {
+    "patterns": [
+      {
+        "glob": "client/src/plugins/5.vuetify/**",
+        "ruleIds": ["*"],
+        "reason": "Vuetify plugin barrel is default-export only; config modules (defaults, icons, theme) are intentionally imported directly"
+      },
+      {
+        "glob": "server/src/**/security.js",
+        "ruleIds": ["*"],
+        "reason": "Server middlewares barrel does not re-export security; direct import is intentional"
+      },
+      {
+        "glob": "server/src/**/oauthCallbackRouter.js",
+        "ruleIds": ["*"],
+        "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter is intentional"
+      },
+      {
+        "glob": "server/src/**/calendarRouteConstants.js",
+        "ruleIds": ["*"],
+        "reason": "Server routes/external barrel composes router; direct import of calendarRouteConstants is intentional"
+      }
+    ],
+    "specific": [
+      {
+        "file": "client/src/main.ts",
+        "ruleId": "*",
+        "reason": "Vuetify plugin barrel is default-export only; main.ts intentionally imports defaults, icons, theme directly"
+      },
+      {
+        "file": "client/src/composables/useThemeMode.ts",
+        "ruleId": "*",
+        "reason": "Vuetify plugin barrel is default-export only; theme config imported directly"
+      },
+      {
+        "file": "server/src/api/api.routes.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/app.ts",
+        "ruleId": "*",
+        "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter intentional"
+      },
+      {
+        "file": "server/src/config/googleOAuthTokenPersistence.ts",
+        "ruleId": "*",
+        "reason": "Server routes/external; direct import of calendarRouteConstants intentional"
+      },
+      {
+        "file": "server/src/routes/external/calendarRoutes.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/external/mapsDebugRoutes.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/helpers/createCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/availabilityRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/dev/devStatusRouter.ts",
+        "ruleId": "*",
+        "reason": "Server routes/external; direct import of calendarRouteConstants intentional"
+      },
+      {
+        "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/entities/entityCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      },
+      {
+        "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+        "ruleId": "*",
+        "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+      }
+    ]
+  },
+  "priorities": {
+    "p0MinSeverityScore": 15,
+    "p1MinSeverityScore": 6
+  }
+}

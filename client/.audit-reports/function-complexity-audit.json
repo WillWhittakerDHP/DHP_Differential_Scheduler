@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-12T01:55:38.992Z",
-  "totalScanned": 972,
+  "generatedAt": "2026-02-18T19:22:19.348Z",
+  "totalScanned": 1012,
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,
@@ -426,6 +426,79 @@
               "rule": "length",
               "value": 85,
               "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
+      "functions": [
+        {
+          "name": "getSourceValue",
+          "startLine": 17,
+          "endLine": 31,
+          "length": 15,
+          "maxNesting": 5,
+          "branches": 5,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "matches",
+          "startLine": 33,
+          "endLine": 66,
+          "length": 34,
+          "maxNesting": 9,
+          "branches": 10,
+          "params": 0,
+          "returns": 10,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8
+            },
+            {
+              "rule": "returns",
+              "value": 10,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "matchFeaturesToBlocks",
+          "startLine": 71,
+          "endLine": 97,
+          "length": 27,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
             }
           ]
         }
@@ -896,8 +969,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 221,
-          "length": 221,
+          "endLine": 231,
+          "length": 231,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -905,7 +978,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 221,
+              "value": 231,
               "threshold": 100
             }
           ]
@@ -1087,8 +1160,8 @@
       "functions": [
         {
           "name": "handleInstanceComponentCreate",
-          "startLine": 95,
-          "endLine": 170,
+          "startLine": 96,
+          "endLine": 171,
           "length": 76,
           "maxNesting": 13,
           "branches": 13,
@@ -1119,8 +1192,8 @@
         },
         {
           "name": "if",
-          "startLine": 206,
-          "endLine": 232,
+          "startLine": 214,
+          "endLine": 240,
           "length": 27,
           "maxNesting": 8,
           "branches": 7,
@@ -1130,6 +1203,62 @@
             {
               "rule": "nesting",
               "value": 8,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 16,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/services/brightMls/brightMlsApiClient.ts",
+      "functions": [
+        {
+          "name": "buildFilter",
+          "startLine": 59,
+          "endLine": 92,
+          "length": 34,
+          "maxNesting": 7,
+          "branches": 6,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "searchPropertyByAddress",
+          "startLine": 131,
+          "endLine": 211,
+          "length": 81,
+          "maxNesting": 14,
+          "branches": 13,
+          "params": 0,
+          "returns": 9,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 14,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 81,
+              "threshold": 50
+            },
+            {
+              "rule": "returns",
+              "value": 9,
               "threshold": 4
             }
           ]
@@ -2451,8 +2580,8 @@
       "functions": [
         {
           "name": "useInstanceBulkEdit",
-          "startLine": 45,
-          "endLine": 175,
+          "startLine": 48,
+          "endLine": 178,
           "length": 131,
           "maxNesting": 20,
           "branches": 17,
@@ -3232,10 +3361,10 @@
         {
           "name": "from",
           "startLine": 79,
-          "endLine": 335,
-          "length": 257,
+          "endLine": 336,
+          "length": 258,
           "maxNesting": 22,
-          "branches": 31,
+          "branches": 32,
           "params": 0,
           "returns": 10,
           "violations": [
@@ -3246,12 +3375,12 @@
             },
             {
               "rule": "branches",
-              "value": 31,
+              "value": 32,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 257,
+              "value": 258,
               "threshold": 50
             },
             {
@@ -3621,32 +3750,32 @@
       "functions": [
         {
           "name": "usePropertyDetailsLogic",
-          "startLine": 75,
-          "endLine": 249,
-          "length": 175,
-          "maxNesting": 17,
-          "branches": 17,
+          "startLine": 81,
+          "endLine": 324,
+          "length": 244,
+          "maxNesting": 31,
+          "branches": 30,
           "params": 1,
-          "returns": 12,
+          "returns": 15,
           "violations": [
             {
               "rule": "nesting",
-              "value": 17,
+              "value": 31,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 17,
+              "value": 30,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 175,
+              "value": 244,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 12,
+              "value": 15,
               "threshold": 4
             }
           ]
@@ -4774,6 +4903,52 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/components/beta/BetaFeedbackModal.vue",
+      "functions": [
+        {
+          "name": "handleSubmit",
+          "startLine": 66,
+          "endLine": 116,
+          "length": 51,
+          "maxNesting": 5,
+          "branches": 6,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "length",
+              "value": 51,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "<script setup>",
+          "startLine": 1,
+          "endLine": 117,
+          "length": 117,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "script-setup-length",
+              "value": 117,
+              "threshold": 100
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useBufferSettings.ts",
       "functions": [
         {
@@ -5438,8 +5613,8 @@
       "functions": [
         {
           "name": "to",
-          "startLine": 109,
-          "endLine": 144,
+          "startLine": 111,
+          "endLine": 146,
           "length": 36,
           "maxNesting": 7,
           "branches": 5,
@@ -5455,8 +5630,8 @@
         },
         {
           "name": "validateAttendeeAssignmentEntities",
-          "startLine": 234,
-          "endLine": 259,
+          "startLine": 268,
+          "endLine": 293,
           "length": 26,
           "maxNesting": 8,
           "branches": 6,
@@ -5625,6 +5800,40 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
+      "functions": [
+        {
+          "name": "mapFieldsToModel",
+          "startLine": 25,
+          "endLine": 95,
+          "length": 71,
+          "maxNesting": 11,
+          "branches": 17,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 11,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 17,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
       "functions": [
         {
@@ -5684,6 +5893,40 @@
             {
               "rule": "returns",
               "value": 6,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 9,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/services/propertyEnrichmentApiService.ts",
+      "functions": [
+        {
+          "name": "fetchPropertyEnrichment",
+          "startLine": 35,
+          "endLine": 74,
+          "length": 40,
+          "maxNesting": 12,
+          "branches": 12,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 12,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8
+            },
+            {
+              "rule": "returns",
+              "value": 5,
               "threshold": 4
             }
           ]
@@ -5847,8 +6090,8 @@
       "functions": [
         {
           "name": "handleApply",
-          "startLine": 119,
-          "endLine": 141,
+          "startLine": 122,
+          "endLine": 144,
           "length": 23,
           "maxNesting": 7,
           "branches": 4,
@@ -5865,8 +6108,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 142,
-          "length": 142,
+          "endLine": 145,
+          "length": 145,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -5874,7 +6117,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 142,
+              "value": 145,
               "threshold": 100
             }
           ]
@@ -7169,8 +7412,8 @@
       "functions": [
         {
           "name": "transformSingleEntity",
-          "startLine": 91,
-          "endLine": 152,
+          "startLine": 97,
+          "endLine": 158,
           "length": 62,
           "maxNesting": 6,
           "branches": 4,
@@ -7198,9 +7441,9 @@
       "functions": [
         {
           "name": "transformBlockInstance",
-          "startLine": 249,
-          "endLine": 302,
-          "length": 54,
+          "startLine": 253,
+          "endLine": 309,
+          "length": 57,
           "maxNesting": 0,
           "branches": 2,
           "params": 0,
@@ -7208,16 +7451,16 @@
           "violations": [
             {
               "rule": "length",
-              "value": 54,
+              "value": 57,
               "threshold": 50
             }
           ]
         },
         {
           "name": "transformPartInstance",
-          "startLine": 304,
-          "endLine": 334,
-          "length": 31,
+          "startLine": 311,
+          "endLine": 346,
+          "length": 36,
           "maxNesting": 0,
           "branches": 11,
           "params": 0,
@@ -7232,9 +7475,9 @@
         },
         {
           "name": "transformGlobalToBooking",
-          "startLine": 340,
-          "endLine": 408,
-          "length": 69,
+          "startLine": 352,
+          "endLine": 423,
+          "length": 72,
           "maxNesting": 0,
           "branches": 0,
           "params": 1,
@@ -7242,7 +7485,7 @@
           "violations": [
             {
               "rule": "length",
-              "value": 69,
+              "value": 72,
               "threshold": 50
             }
           ]
@@ -7513,6 +7756,35 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/scripts/run-migrations.mjs",
+      "functions": [
+        {
+          "name": "runMigrations",
+          "startLine": 31,
+          "endLine": 110,
+          "length": 80,
+          "maxNesting": 12,
+          "branches": 8,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 12,
+              "threshold": 4
+            },
+            {
+              "rule": "length",
+              "value": 80,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/utils/logger.ts",
       "functions": [
         {
@@ -7617,6 +7889,35 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/composables/beta/useBetaFeedback.ts",
+      "functions": [
+        {
+          "name": "useBetaFeedback",
+          "startLine": 21,
+          "endLine": 65,
+          "length": 45,
+          "maxNesting": 5,
+          "branches": 6,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/booking/useAvailabilityEmptyState.ts",
       "functions": [
         {
@@ -7637,6 +7938,35 @@
             {
               "rule": "returns",
               "value": 7,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/booking/usePricingCascadeInstances.ts",
+      "functions": [
+        {
+          "name": "usePricingCascadeInstances",
+          "startLine": 37,
+          "endLine": 67,
+          "length": 31,
+          "maxNesting": 5,
+          "branches": 4,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 6,
               "threshold": 4
             }
           ]
@@ -7791,6 +8121,64 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "functions": [
+        {
+          "name": "validateBlockInstancesForPropertyTypes",
+          "startLine": 105,
+          "endLine": 141,
+          "length": 37,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/brightMls/brightMlsAuth.ts",
+      "functions": [
+        {
+          "name": "getAccessToken",
+          "startLine": 35,
+          "endLine": 83,
+          "length": 49,
+          "maxNesting": 7,
+          "branches": 6,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/components/admin/dev/ApiDevPanelComputedTab.vue",
       "functions": [
         {
@@ -7819,8 +8207,8 @@
       "functions": [
         {
           "name": "handleSave",
-          "startLine": 48,
-          "endLine": 64,
+          "startLine": 51,
+          "endLine": 67,
           "length": 17,
           "maxNesting": 5,
           "branches": 3,
@@ -8299,8 +8687,8 @@
       "functions": [
         {
           "name": "if",
-          "startLine": 57,
-          "endLine": 72,
+          "startLine": 62,
+          "endLine": 77,
           "length": 16,
           "maxNesting": 7,
           "branches": 5,
@@ -8607,6 +8995,30 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/config/brightMlsFoundationMapping.ts",
+      "functions": [
+        {
+          "name": "mapFoundationType",
+          "startLine": 30,
+          "endLine": 54,
+          "length": 25,
+          "maxNesting": 7,
+          "branches": 4,
+          "params": 0,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/routes/external/calendarRoutes.ts",
       "functions": [
         {
@@ -8814,30 +9226,6 @@
             {
               "rule": "nesting",
               "value": 6,
-              "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
-      "functions": [
-        {
-          "name": "validateBlockInstancesForPropertyTypes",
-          "startLine": 97,
-          "endLine": 132,
-          "length": 36,
-          "maxNesting": 5,
-          "branches": 4,
-          "params": 0,
-          "returns": 4,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
               "threshold": 4
             }
           ]
@@ -9087,6 +9475,30 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/components/beta/BetaFeedbackDashboard.vue",
+      "functions": [
+        {
+          "name": "<script setup>",
+          "startLine": 1,
+          "endLine": 119,
+          "length": 119,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "script-setup-length",
+              "value": 119,
+              "threshold": 100
+            }
+          ]
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/components/booking/AppointmentSlotGrid.vue",
       "functions": [
         {
@@ -9260,8 +9672,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 217,
-          "length": 217,
+          "endLine": 226,
+          "length": 226,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9269,7 +9681,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 217,
+              "value": 226,
               "threshold": 100
             }
           ]
@@ -9442,17 +9854,17 @@
       "functions": [
         {
           "name": "buildConfirmationPriceData",
-          "startLine": 150,
-          "endLine": 251,
-          "length": 102,
-          "maxNesting": 0,
-          "branches": 2,
+          "startLine": 162,
+          "endLine": 272,
+          "length": 111,
+          "maxNesting": 3,
+          "branches": 4,
           "params": 0,
           "returns": 6,
           "violations": [
             {
               "rule": "length",
-              "value": 102,
+              "value": 111,
               "threshold": 50
             },
             {
@@ -9712,8 +10124,8 @@
         {
           "name": "usePropertyFormState",
           "startLine": 29,
-          "endLine": 86,
-          "length": 58,
+          "endLine": 90,
+          "length": 62,
           "maxNesting": 2,
           "branches": 1,
           "params": 0,
@@ -9721,7 +10133,7 @@
           "violations": [
             {
               "rule": "length",
-              "value": 58,
+              "value": 62,
               "threshold": 50
             }
           ]
@@ -9794,30 +10206,6 @@
             {
               "rule": "length",
               "value": 79,
-              "threshold": 50
-            }
-          ]
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "functions": [
-        {
-          "name": "transformVersionToBookingInstance",
-          "startLine": 86,
-          "endLine": 136,
-          "length": 51,
-          "maxNesting": 4,
-          "branches": 7,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "length",
-              "value": 51,
               "threshold": 50
             }
           ]
@@ -9962,6 +10350,54 @@
             {
               "rule": "length",
               "value": 77,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_pricing_cascade.ts",
+      "functions": [
+        {
+          "name": "ValidPricingCascadeFactory",
+          "startLine": 35,
+          "endLine": 111,
+          "length": 77,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 1,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 77,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/db/models/beta/beta_feedback.ts",
+      "functions": [
+        {
+          "name": "BetaFeedbackFactory",
+          "startLine": 55,
+          "endLine": 161,
+          "length": 107,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 107,
               "threshold": 50
             }
           ]
@@ -10359,8 +10795,8 @@
       "functions": [
         {
           "name": "PartInstanceFactory",
-          "startLine": 30,
-          "endLine": 109,
+          "startLine": 33,
+          "endLine": 112,
           "length": 80,
           "maxNesting": 0,
           "branches": 0,
@@ -10370,6 +10806,30 @@
             {
               "rule": "length",
               "value": 80,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/db/models/booking/pricing_cascade.ts",
+      "functions": [
+        {
+          "name": "PricingCascadeFactory",
+          "startLine": 36,
+          "endLine": 112,
+          "length": 77,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 1,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 77,
               "threshold": 50
             }
           ]
@@ -10455,9 +10915,9 @@
       "functions": [
         {
           "name": "initializeModels",
-          "startLine": 35,
-          "endLine": 283,
-          "length": 249,
+          "startLine": 41,
+          "endLine": 317,
+          "length": 277,
           "maxNesting": 2,
           "branches": 1,
           "params": 1,
@@ -10465,7 +10925,55 @@
           "violations": [
             {
               "rule": "length",
-              "value": 249,
+              "value": 277,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/db/models/mappings/property_feature_mapping.ts",
+      "functions": [
+        {
+          "name": "PropertyFeatureMappingFactory",
+          "startLine": 38,
+          "endLine": 116,
+          "length": 79,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 79,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/db/models/mappings/property_field_mapping.ts",
+      "functions": [
+        {
+          "name": "PropertyFieldMappingFactory",
+          "startLine": 34,
+          "endLine": 103,
+          "length": 70,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 70,
               "threshold": 50
             }
           ]

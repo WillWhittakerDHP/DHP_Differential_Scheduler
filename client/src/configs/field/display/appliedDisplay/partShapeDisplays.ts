@@ -4,8 +4,8 @@
  * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
  */
 
-import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
+import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type { DisplayFieldType } from '../displayFieldTypes'
 import { baseEntityDisplays } from './baseEntityDisplays'
 

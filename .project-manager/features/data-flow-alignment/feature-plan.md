@@ -214,13 +214,13 @@ Fix data flow issues, broken interactions, and admin panel functionality. Ensure
 
 ### Key Files
 
-- `client-vue/src/composables/useBookingWizard.ts`
-- `client-vue/src/composables/useBooking.ts`
-- `client-vue/src/components/booking/steps/`
-- `client-vue/src/utils/transformers/globalToBookingTransformer.ts`
-- `client-vue/src/components/booking/steps/ServiceSelectionStep.vue`
-- `client-vue/src/components/booking/steps/PropertyDetailsStep.vue`
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue`
+- `client/src/composables/useBookingWizard.ts`
+- `client/src/composables/useBooking.ts`
+- `client/src/components/booking/steps/`
+- `client/src/utils/transformers/globalToBookingTransformer.ts`
+- `client/src/components/booking/steps/ServiceSelectionStep.vue`
+- `client/src/components/booking/steps/PropertyDetailsStep.vue`
+- `client/src/components/booking/steps/AvailabilityStep.vue`
 
 ### Success Criteria
 
@@ -258,13 +258,13 @@ Fix data flow issues, broken interactions, and admin panel functionality. Ensure
 - Auto-load random appointment in dev mode
 
 **Files Modified:**
-- `client-vue/src/components/booking/BookingWizard.vue`
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue`
-- `client-vue/src/components/booking/steps/PropertyDetailsStep.vue`
-- `client-vue/src/components/booking/steps/ServiceSelectionStep.vue`
-- `client-vue/src/components/booking/SelectionCardGroup.vue`
-- `client-vue/src/composables/useBookingWizard.ts`
-- `client-vue/src/utils/transformers/appointmentToWizardTransformer.ts` (new)
+- `client/src/components/booking/BookingWizard.vue`
+- `client/src/components/booking/steps/AvailabilityStep.vue`
+- `client/src/components/booking/steps/PropertyDetailsStep.vue`
+- `client/src/components/booking/steps/ServiceSelectionStep.vue`
+- `client/src/components/booking/SelectionCardGroup.vue`
+- `client/src/composables/useBookingWizard.ts`
+- `client/src/utils/transformers/appointmentToWizardTransformer.ts` (new)
 
 **Known Limitations:**
 - Inspector/client time slots use same slots for now (Feature 4 will implement differential scheduling)
@@ -303,11 +303,11 @@ Fix data flow issues, broken interactions, and admin panel functionality. Ensure
 
 ### Key Files
 
-- `client-vue/src/components/admin/generic/fields/`
-- `client-vue/src/components/booking/steps/`
-- `client-vue/src/composables/useFormValidation.ts` (if exists)
-- `client-vue/src/composables/useBookingWizard.ts` (state refactoring)
-- `client-vue/src/composables/useQuoteMode.ts` (new)
+- `client/src/components/admin/generic/fields/`
+- `client/src/components/booking/steps/`
+- `client/src/composables/useFormValidation.ts` (if exists)
+- `client/src/composables/useBookingWizard.ts` (state refactoring)
+- `client/src/composables/useQuoteMode.ts` (new)
 
 ### Success Criteria
 
@@ -345,11 +345,11 @@ Fix data flow issues, broken interactions, and admin panel functionality. Ensure
 
 ### Key Files
 
-- `client-vue/src/composables/useGlobal.ts`
-- `client-vue/src/composables/useEntity.ts`
-- `client-vue/src/composables/useRelationship.ts`
-- `client-vue/src/views/admin/AdminPanel.vue`
-- `client-vue/src/components/admin/`
+- `client/src/composables/useGlobal.ts`
+- `client/src/composables/useEntity.ts`
+- `client/src/composables/useRelationship.ts`
+- `client/src/views/admin/AdminPanel.vue`
+- `client/src/components/admin/`
 
 ### Success Criteria
 
@@ -389,10 +389,10 @@ Phase 1.4 consists of **two sessions**:
 - `server/src/db/migrations/[timestamp]_create_business_settings_table.mjs` (new)
 - `server/src/db/models/admin/business_settings.ts` (new)
 - `server/src/api/routes/businessSettingsRouter.ts` (new)
-- `client-vue/src/views/admin/tabs/BusinessControlsTab.vue` (new)
-- `client-vue/src/configs/availabilitySettings.ts` (modify)
+- `client/src/views/admin/tabs/BusinessControlsTab.vue` (new)
+- `client/src/configs/availabilitySettings.ts` (modify)
 - `server/src/routes/internal/availabilityRouter.ts` (modify)
-- `client-vue/src/views/admin/AdminPanel.vue` (modify)
+- `client/src/views/admin/AdminPanel.vue` (modify)
 
 **Success Criteria:**
 - ✅ Database table created with proper schema
@@ -658,10 +658,10 @@ Phase 1.4 consists of **two sessions**:
 - `server/src/db/seeders/` (all seed scripts - update/create)
 - `server/src/db/migrations/` (verify all migrations applied)
 - `server/src/config/database.ts` (database configuration)
-- `client-vue/src/components/booking/BookingWizard.vue` (main wizard component)
-- `client-vue/src/components/booking/steps/` (all wizard steps)
-- `client-vue/src/views/admin/AdminPanel.vue` (admin panel)
-- `client-vue/src/views/admin/tabs/` (all admin tabs)
+- `client/src/components/booking/BookingWizard.vue` (main wizard component)
+- `client/src/components/booking/steps/` (all wizard steps)
+- `client/src/views/admin/AdminPanel.vue` (admin panel)
+- `client/src/views/admin/tabs/` (all admin tabs)
 - Test documentation: `project-manager/features/data-flow-alignment/phases/phase-1.4-uat-findings.md` (created during testing)
 
 **Success Criteria:**
@@ -733,10 +733,10 @@ Phase 1.4 consists of **two sessions**:
 
 - `server/src/db/models/admin/business_rule.ts` (new, if using database)
 - `server/src/db/migrations/[timestamp]_create_business_rules_table.mjs` (new, if using database)
-- `client-vue/src/views/admin/tabs/BusinessRulesTab.vue` (new)
-- `client-vue/src/composables/useBusinessRules.ts` (new)
-- `client-vue/src/components/booking/modals/RequiredFieldsModal.vue` (new)
-- `client-vue/src/components/booking/modals/RequiresAgentModal.vue` (new)
+- `client/src/views/admin/tabs/BusinessRulesTab.vue` (new)
+- `client/src/composables/useBusinessRules.ts` (new)
+- `client/src/components/booking/modals/RequiredFieldsModal.vue` (new)
+- `client/src/components/booking/modals/RequiresAgentModal.vue` (new)
 
 ### Success Criteria
 

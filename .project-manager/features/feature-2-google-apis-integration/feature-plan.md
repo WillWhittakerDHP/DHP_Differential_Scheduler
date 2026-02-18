@@ -353,8 +353,8 @@ getAvailabilitySettings() → CalendarConfig → getCalendarAvailability()
 
 ### Key Files
 
-- `client-vue/src/api/external/googleMaps.ts` (new)
-- `client-vue/src/composables/useGoogleMaps.ts` (new)
+- `client/src/api/external/googleMaps.ts` (new)
+- `client/src/composables/useGoogleMaps.ts` (new)
 
 ### Sessions
 

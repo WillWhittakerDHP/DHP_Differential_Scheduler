@@ -4,10 +4,10 @@
  * PATTERN: Spreads baseEntityFields and adds entity-specific fields
  */
 
-import { DEFAULT_VALUES, ENTITY_STATUS, FIELD_NAMES } from '../../../../constants/entityFieldConstants'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
-import type { PrimitiveFormField } from '../../../../types/entity/formFields'
+import { DEFAULT_VALUES, ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
+import type { PrimitiveFormField } from '@/types/entity/formFields'
 import { baseEntityFields } from './baseEntityFields'
 
 export const blockInstancePrimitiveFields = {

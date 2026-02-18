@@ -43,13 +43,13 @@
  */
 
 import { inject } from 'vue'
-import { AUTCOMPLETE_OFF } from '../../../../utils/autocomplete'
+import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppTextField from '@/@core/components/app-form-elements/AppTextField.vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldContextType } from '../../../../composables/useFieldContext'
-import { useFieldValue } from '../../../../composables/useFieldValue'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldContextType } from '@/composables/useFieldContext'
+import { useFieldValue } from '@/composables/useFieldValue'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 

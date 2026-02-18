@@ -59,9 +59,9 @@
  */
 
 import { computed } from 'vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldContextType } from '../../../../composables/useFieldContext'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldContextType } from '@/composables/useFieldContext'
 import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'

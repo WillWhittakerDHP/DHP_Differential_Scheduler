@@ -17,12 +17,12 @@ This feature implements a comprehensive appointment status workflow with 8 statu
    - Updated status type definition
    - Added `scheduledById` field
 
-3. **Client Type Updates** - `client-vue/src/types/appointment.ts`
+3. **Client Type Updates** - `client/src/types/appointment.ts`
    - Created `AppointmentStatus` type
    - Exported `APPOINTMENT_STATUSES` array
    - Added `scheduledById` to request/response interfaces
 
-4. **UI Enhancements** - `client-vue/src/views/admin/tabs/components/AppointmentsTable.vue`
+4. **UI Enhancements** - `client/src/views/admin/tabs/components/AppointmentsTable.vue`
    - Removed ID column (not needed for display)
    - Removed Quote Mode column from display (kept in DB for business logic)
    - Added Scheduled By column
@@ -30,7 +30,7 @@ This feature implements a comprehensive appointment status workflow with 8 statu
    - Click-to-navigate to Properties/Users tabs
    - Status displayed with color-coded chips
 
-5. **Tab Navigation** - `client-vue/src/views/admin/tabs/DataManagementTab.vue`
+5. **Tab Navigation** - `client/src/views/admin/tabs/DataManagementTab.vue`
    - Added event handler for cross-tab navigation
 
 ---
@@ -93,7 +93,7 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 
 **Related Files:**
 - `server/src/routes/internal/appointments/appointmentRouter.ts`
-- `client-vue/src/composables/booking/` (new payment composable)
+- `client/src/composables/booking/` (new payment composable)
 - `server/src/utils/availabilities/` (slot reservation)
 
 ---
@@ -116,7 +116,7 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 - Scheduled confirmation: Batch confirm at specific times
 
 **Related Files:**
-- `client-vue/src/views/admin/tabs/components/AppointmentsTable.vue`
+- `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 - `server/src/routes/internal/appointments/appointmentRouter.ts`
 - Notification system (to be created)
 
@@ -144,8 +144,8 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 6. Goes through confirmation routine
 
 **Related Files:**
-- `client-vue/src/views/admin/tabs/components/AppointmentsTable.vue`
-- `client-vue/src/composables/booking/useWizardAppointmentLoading.ts`
+- `client/src/views/admin/tabs/components/AppointmentsTable.vue`
+- `client/src/composables/booking/useWizardAppointmentLoading.ts`
 - Booking wizard components
 
 ---
@@ -170,7 +170,7 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 
 **Related Files:**
 - `server/src/routes/internal/appointments/appointmentRouter.ts`
-- `client-vue/src/views/admin/tabs/components/AppointmentsTable.vue`
+- `client/src/views/admin/tabs/components/AppointmentsTable.vue`
 
 ---
 
@@ -187,7 +187,7 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 
 **Related Files:**
 - Auth system
-- `client-vue/src/composables/admin/tables/useAppointmentsTableModel.ts`
+- `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
 - `server/src/routes/internal/appointments/appointmentRouter.ts`
 
 ---
@@ -211,10 +211,10 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 
 - `server/src/db/migrations/20260108_02_update_appointment_statuses_and_add_scheduled_by.mjs` (new)
 - `server/src/db/models/booking/appointment.ts`
-- `client-vue/src/types/appointment.ts`
-- `client-vue/src/views/admin/tabs/components/AppointmentsTable.vue`
-- `client-vue/src/views/admin/tabs/DataManagementTab.vue`
-- `client-vue/src/composables/admin/tables/useAppointmentsTableModel.ts`
+- `client/src/types/appointment.ts`
+- `client/src/views/admin/tabs/components/AppointmentsTable.vue`
+- `client/src/views/admin/tabs/DataManagementTab.vue`
+- `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
 
 ---
 

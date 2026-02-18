@@ -1,4 +1,4 @@
-import { ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+import { ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
  * LEARNING: AnnotationInstance Display Configs (Configuration Data)

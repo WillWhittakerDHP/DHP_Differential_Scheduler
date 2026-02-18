@@ -2,13 +2,27 @@
   "$comment": "Configuration for function-complexity-audit.mjs",
   "allowlist": {
     "patterns": [
-      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files excluded" },
-      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files excluded" },
-      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Core library files excluded" },
-      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" },
-      { "glob": "**/configs/**/*.ts", "ruleIds": ["*"], "reason": "Config files are data-heavy by design" },
-      { "glob": "**/configs/**/*.vue", "ruleIds": ["*"], "reason": "Config components excluded" },
-      { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are data definitions" }
+      {
+        "glob": "**/configs/**/*.ts",
+        "ruleIds": [
+          "*"
+        ],
+        "reason": "Config files are data-heavy by design"
+      },
+      {
+        "glob": "**/configs/**/*.vue",
+        "ruleIds": [
+          "*"
+        ],
+        "reason": "Config components excluded"
+      },
+      {
+        "glob": "**/constants/**/*.ts",
+        "ruleIds": [
+          "*"
+        ],
+        "reason": "Constants files are data definitions"
+      }
     ],
     "specific": []
   },

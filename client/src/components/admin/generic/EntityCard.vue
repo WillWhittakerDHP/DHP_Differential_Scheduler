@@ -19,7 +19,7 @@ import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata
 import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import FieldRenderer from './fields/FieldRenderer.vue'
+import { FieldRenderer } from './fields'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'

@@ -1,195 +1,69 @@
-# GPT-Powered Admin Panel Automation
+# Feature 14: Admin Assistance Wizard
 
-**Feature Branch:** `feature/gpt-admin-automation`  
-**Status:** Planning  
+**Feature Number:** 14
+**Status:** 🔮 Future
 **Created:** 2025-02-01
+**Updated:** 2026-02-18
+**Depends On:** Feature 13 (Admin UI Overhaul)
 
 ---
 
 ## Overview
 
-This feature adds GPT-powered natural language automation to the admin panel, allowing administrators to create and configure entities (part types, profiles, composites, relationships) using natural language commands instead of manual form filling.
+> **Note:** This feature was originally planned as "GPT-Powered Admin Panel Automation." It has been redesigned as a deterministic guided wizard with no external AI dependency. The existing planning documents in this directory contain the original GPT-based design — they will be replaced when work begins.
 
-### Example Use Cases
+Step-by-step guided wizard that walks administrators through setting up services, parts, relationships, and compositions. Replaces manual form-filling with a structured walkthrough that explains each step, validates inputs, and provides contextual help.
 
-1. **Simple Entity Creation:**
-   ```
-   "Create an infrared scan part type"
-   ```
+### Target Users
+- Non-technical administrators
+- Primary use case: initial bulk service setup, then periodic adjustments/additions
 
-2. **Complex Composite Creation:**
-   ```
-   "Create infrared scan part type/profile composite, but condos shouldn't have attics"
-   ```
-
-3. **Conditional Rules:**
-   ```
-   "Add attic part to all profiles except condos"
-   ```
+### Design Philosophy
+- **Deterministic:** No external AI dependency — pure guided workflows
+- **Educational:** Each step explains *why* the configuration matters
+- **Validating:** Prevents errors through step-by-step input validation
+- **Template-driven:** Common inspection types available as one-click templates
 
 ---
 
-## Quick Start
+## Key Objectives
 
-### Prerequisites
-
-1. OpenAI API key
-2. Node.js and npm installed
-3. Access to admin panel
-
-### Setup
-
-1. **Get OpenAI API Key:**
-   - Sign up at https://platform.openai.com/
-   - Create API key
-   - Add to `.env.development`:
-     ```bash
-     OPENAI_API_KEY=sk-...
-     AI_ENABLED=true
-     ```
-
-2. **Install Dependencies:**
-   ```bash
-   cd server
-   npm install openai zod express-rate-limit
-   ```
-
-3. **Start Development:**
-   ```bash
-   npm run start:dev
-   ```
+1. Reduce time to create a service from 15+ minutes to under 5 minutes
+2. Eliminate configuration errors through step-by-step validation
+3. Provide contextual help that explains each configuration choice
+4. Support template-based quick setup for common service types
+5. Guide administrators through relationship and composition setup
 
 ---
 
-## Documentation
+## Planned Phases
 
-- **[Feature Plan](./feature-plan.md)** - Complete feature specification
-- **[Phase 1 Tasks](./phase-1-tasks.md)** - Detailed Phase 1 implementation tasks
-- **[Phase 1 Todos](./todos/phase-1-todos.json)** - Task tracking
-
----
-
-## Architecture
-
-```
-Frontend (Vue.js)
-  └─ AIAssistant.vue
-       │
-       └─ POST /api/internal/ai/execute
-              │
-Backend (Express)
-  └─ aiRouter.ts
-       │
-       ├─ GPT Service (OpenAI)
-       ├─ Tool Wrappers (entityTools, relationshipTools)
-       └─ Domain Knowledge (schemas, rules)
-              │
-       └─ Existing Admin APIs
-              └─ Database
-```
+1. **Foundation & Wizard Framework** — Wizard shell component, step navigation, progress tracking
+2. **Service Setup Wizard** — Walk through creating shapes, instances, and their relationships
+3. **Relationship & Composition Wizard** — Guided cascades, constituents, and compositions setup
+4. **Templates & Quick Setup** — Pre-configured service templates for common inspection types
+5. **Contextual Help & Validation** — Inline help, smart suggestions, validation before each step
 
 ---
 
-## Implementation Phases
+## How It Relates to Other Features
 
-1. **Phase 1:** Foundation & GPT Integration (Week 1)
-2. **Phase 2:** Relationship & Composition Management (Week 2)
-3. **Phase 3:** Conditional Rules Engine (Week 3)
-4. **Phase 4:** Frontend Integration (Week 4)
-5. **Phase 5:** Polish, Security & Testing (Week 5)
-
-See [feature-plan.md](./feature-plan.md) for detailed phase breakdowns.
+- **Feature 9 (UI Polish):** Visual polish comes first — the wizard builds on a polished admin panel
+- **Feature 10 (Admin UI Overhaul):** The overhaul redesigns the admin panel structure — the wizard adds guided workflows within that redesigned structure
+- **Feature 11 (this):** Adds the overlay wizard experience after the admin panel is redesigned
 
 ---
 
-## API Endpoints
+## Historical Context
 
-### POST /api/internal/ai/execute
-Execute natural language command via GPT.
+This directory originally contained plans for a GPT-powered natural language automation system. The approach was redesigned because:
+- External AI dependency adds cost and complexity
+- Deterministic wizards are more reliable for critical admin operations
+- Step-by-step guidance achieves the same goal (reducing setup time) without AI
+- Templates cover the most common use cases more predictably
 
-**Request:**
-```json
-{
-  "prompt": "Create an infrared scan part type"
-}
-```
-
-**Response:**
-```json
-{
-  "result": {
-    "entityId": "uuid-here",
-    "entityType": "partShape",
-    "name": "Infrared Scan"
-  },
-  "executionLog": [...],
-  "errors": []
-}
-```
-
-### POST /api/internal/ai/validate
-Validate command without executing.
-
-### GET /api/internal/ai/tools
-Get available tool definitions.
+The original planning documents (`feature-plan.md`, `phase-1-tasks.md`, `IMPLEMENTATION_SUMMARY.md`) reflect the GPT-based design and will be replaced when work on this feature begins.
 
 ---
 
-## Security
-
-- **Authentication:** Admin-only access required
-- **Rate Limiting:** 10 requests/minute per user
-- **Validation:** All GPT actions validated before execution
-- **Audit Logging:** All AI-generated changes logged
-
----
-
-## Testing
-
-### Unit Tests
-```bash
-cd server
-npm test -- ai
-```
-
-### Manual Testing
-1. Start server: `npm run start:dev`
-2. Access admin panel
-3. Navigate to AI Assistant
-4. Try prompts:
-   - "Create a part type called 'Test'"
-   - "Create a block type called 'Profile'"
-
----
-
-## Troubleshooting
-
-### GPT API Errors
-- Check `OPENAI_API_KEY` is set correctly
-- Verify API key has credits
-- Check rate limits
-
-### Tool Execution Errors
-- Check entity types are valid
-- Verify required fields provided
-- Check database connection
-
----
-
-## Contributing
-
-1. Follow existing code patterns
-2. Add tests for new features
-3. Update documentation
-4. Follow TypeScript best practices
-
----
-
-## Questions?
-
-See [feature-plan.md](./feature-plan.md) for detailed specifications and open questions.
-
----
-
-**Last Updated:** 2025-02-01
-
+**Last Updated:** 2026-02-18

@@ -46,9 +46,9 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
   - Shows examples of valid/invalid configurations
 
 **Implementation:**
-- Create `client-vue/src/components/admin/wizards/ServiceCreationWizard.vue`
-- Create `client-vue/src/components/admin/wizards/PartCreationWizard.vue`
-- Create `client-vue/src/components/admin/wizards/RelationshipWizard.vue`
+- Create `client/src/components/admin/wizards/ServiceCreationWizard.vue`
+- Create `client/src/components/admin/wizards/PartCreationWizard.vue`
+- Create `client/src/components/admin/wizards/RelationshipWizard.vue`
 - Use Vuetify VStepper component for step navigation
 - Add contextual help panels with examples
 
@@ -82,8 +82,8 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
   - One-click to apply suggested relationships
 
 **Implementation:**
-- Create `client-vue/src/components/admin/relationship-builder/RelationshipGraph.vue`
-- Create `client-vue/src/components/admin/relationship-builder/RelationshipMatrix.vue`
+- Create `client/src/components/admin/relationship-builder/RelationshipGraph.vue`
+- Create `client/src/components/admin/relationship-builder/RelationshipMatrix.vue`
 - Use D3.js or vis.js for graph visualization
 - Integrate with existing relationship APIs
 - Add suggestion engine based on pattern matching
@@ -119,7 +119,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 **Implementation:**
 - Create `server/src/db/models/template.ts` (database model)
-- Create `client-vue/src/components/admin/templates/TemplateLibrary.vue`
+- Create `client/src/components/admin/templates/TemplateLibrary.vue`
 - Create template CRUD APIs
 - Add "Save as Template" action in service forms
 - Add template selection step in service creation wizard
@@ -155,10 +155,10 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
   - "Copy configuration" button to use as starting point
 
 **Implementation:**
-- Create `client-vue/src/composables/useSmartSuggestions.ts`
+- Create `client/src/composables/useSmartSuggestions.ts`
 - Create suggestion engine analyzing existing data patterns
 - Add validation rules engine (extends existing validation)
-- Create `client-vue/src/components/admin/examples/ExampleViewer.vue`
+- Create `client/src/components/admin/examples/ExampleViewer.vue`
 - Integrate suggestions into forms and wizards
 
 **Success Criteria:**
@@ -209,7 +209,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 **Features:**
 - **Shared Calculation Composable**
-  - `client-vue/src/composables/useBookingCalculator.ts`
+  - `client/src/composables/useBookingCalculator.ts`
   - Calculates pricing: Base fees + (Rate × sqft)
   - Calculates time: Base time + (Rate × sqft), rounded to nearest :15
   - Checks service applicability (cascades, constituents, property type)
@@ -283,8 +283,8 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
     - "Invalid Cascade" if relationships misconfigured
 
 **Implementation:**
-- Create `client-vue/src/components/admin/preview/BookingPreviewPanel.vue`
-- Create `client-vue/src/composables/useAdminPreview.ts`
+- Create `client/src/components/admin/preview/BookingPreviewPanel.vue`
+- Create `client/src/composables/useAdminPreview.ts`
 - Integrate with `useBookingCalculator` composable
 - Add split-pane layout using Vuetify or custom component
 - Add example properties configuration
@@ -364,7 +364,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 - Adapt existing GPT feature plan (Phase 1-4 from `feature-plan.md`)
 - Integrate GPT tools into UI components (not standalone chat)
 - Add AI suggestion buttons to forms and wizards
-- Create `client-vue/src/composables/useAISuggestions.ts` (wraps GPT API)
+- Create `client/src/composables/useAISuggestions.ts` (wraps GPT API)
 - Add AI-powered search component
 
 **Success Criteria:**
@@ -470,7 +470,7 @@ The existing GPT feature plan (`project-manager/features/gpt-admin-automation/fe
 ### New Components
 
 ```
-client-vue/src/
+client/src/
 ├── components/admin/
 │   ├── wizards/
 │   │   ├── ServiceCreationWizard.vue
@@ -502,7 +502,7 @@ client-vue/src/
 ### Modified Components
 
 ```
-client-vue/src/
+client/src/
 ├── views/admin/
 │   ├── AdminPanel.vue (add template management, AI search)
 │   ├── dialogs/

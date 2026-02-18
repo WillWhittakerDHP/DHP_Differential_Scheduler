@@ -1,37 +1,30 @@
 {
   "$comment": "Configuration for composables-logic-audit.mjs exception handling",
   "$schema": "Allowlist for intentional/necessary composable logic patterns",
-  
   "allowlist": {
     "patterns": [
       {
-        "glob": "**/__tests__/**",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from composables logic scanning"
-      },
-      {
-        "glob": "**/*.test.*",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from composables logic scanning"
-      },
-      {
-        "glob": "**/*.spec.*",
-        "ruleIds": ["*"],
-        "reason": "Spec files excluded from composables logic scanning"
-      },
-      {
         "glob": "**/composables/**/*Mutations.ts",
-        "ruleIds": ["vueQuery", "async", "await"],
+        "ruleIds": [
+          "vueQuery",
+          "async",
+          "await"
+        ],
         "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern"
       },
       {
         "glob": "**/composables/**/*Query.ts",
-        "ruleIds": ["vueQuery"],
+        "ruleIds": [
+          "vueQuery"
+        ],
         "reason": "Query composables necessarily use Vue Query - this is the correct pattern"
       },
       {
         "glob": "**/composables/**/*Actions.ts",
-        "ruleIds": ["async", "await"],
+        "ruleIds": [
+          "async",
+          "await"
+        ],
         "reason": "Action composables necessarily use async/await - this is the correct pattern"
       }
     ],

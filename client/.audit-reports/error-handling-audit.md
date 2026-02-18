@@ -7,17 +7,18 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 ## Summary
 
 - Files with findings: **12**
-- Requiring review: **16**
+- Requiring review: **26**
 - Allowed (with justification): 0
 
 - P0 (silent catches): **0**
-- P1 (console-in-catch, type suppressions): **9**
-- P2 (general console usage): **7**
+- P1 (console-in-catch, type suppressions): **11**
+- P2 (general console usage): **15**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `server/src/scripts/run-migrations.mjs` | P0 | 19 | 0 | 2 | 9 |
 | `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/composables/booking/useAppointmentLoader.ts` | P1 | 6 | 0 | 1 | 1 |
 | `client/src/plugins/1.router/guards.ts` | P1 | 6 | 0 | 1 | 1 |
@@ -28,10 +29,25 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 5 | 0 | 1 | 0 |
 | `server/src/services/instanceVersioning.ts` | P1 | 5 | 0 | 1 | 0 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 0 | 0 | 2 |
-| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P2 | 1 | 0 | 0 | 1 |
 | `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
+
+### `server/src/scripts/run-migrations.mjs` [P0] (score: 19)
+
+```
+console-general@34: console.log('✅ Database connection established')
+console-general@44: console.log(`\n📋 Found ${targetMigrations.length} migration files:`)
+console-general@45: targetMigrations.forEach(f => console.log(`   - ${f}`))
+console-general@62: console.log('\n✅ All migrations have already been executed')
+console-general@66: console.log(`\n🔄 Running ${pendingMigrations.length} pending migrations...`)
+console-general@69: console.log(`\n📝 Running: ${migrationFile}`)
+console-general@96: console.log(`   ✅ ${migrationFile} completed successfully`)
+console-in-catch@98: console.error(`   ❌ Error running ${migrationFile}:`, error)
+console-general@103: console.log('\n✅ All migrations completed successfully!')
+console-in-catch@105: console.error('❌ Migration error:', error)
+console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
+```
 
 ### `client/src/composables/admin/usePartInstanceBulkEdit.ts` [P1] (score: 6)
 
@@ -95,12 +111,6 @@ as-any@73: const partInstances = (blockInstanceWithParts as any)?.part_assignmen
 ```
 console-general@334: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
 console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P2] (score: 1)
-
-```
-console-general@204: console.log('[usePropertyDetailsLogic] Setting candidatePlaceId:', placeId, 'from place-selected event')
 ```
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)

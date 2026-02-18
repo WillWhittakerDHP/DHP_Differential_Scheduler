@@ -4,8 +4,8 @@ import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoin
 import type { GlobalEntityId } from '@/types/entities'
 import type { DistributionStrategy } from '@/types/component'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { createRefetchGlobalDataHandler } from '../entityCrud/useSharedMutationHandlers'
-import { createMultipleRelationships, createRelationshipWithConflictHandling } from '@/utils/api/relationshipApiHelpers'
+import { createRefetchGlobalDataHandler } from '@/composables/entityCrud'
+import { createMultipleRelationships, createRelationshipWithConflictHandling } from '@/utils/api'
 
 export type UseComponentEntityActionsReturn = {
   createComponent: (args: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => Promise<void>

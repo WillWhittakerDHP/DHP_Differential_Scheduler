@@ -27,7 +27,7 @@
    - Real-time availability updates (WebSocket consideration for future)
 
 4. **File path corrections:**
-   - Vue codebase is now at `client/` (not `client-vue/`)
+   - Vue codebase is now at `client/` (not `client/`)
    - React codebase was archived
 
 **Action:** Run Phase 3.0 (Audit) before proceeding with Phase 3.1.

@@ -16,5 +16,5 @@ export { default as DateInput } from './DateInput.vue'
 export { default as TextAreaInput } from './TextAreaInput.vue'
 export { default as SelectInputs } from './SelectInputs.vue'
 
-export type { FieldContextType, FieldDisplayConfig, FieldValidationRules } from '../../../../composables/useFieldContext'
+export type { FieldContextType, FieldDisplayConfig, FieldValidationRules } from '@/composables/useFieldContext'
 

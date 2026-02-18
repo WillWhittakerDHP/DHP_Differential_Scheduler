@@ -17,7 +17,7 @@ import type { GlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from './entityCrud/useSharedMutationHandlers'
+import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from '@/composables/entityCrud'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useRelationship')

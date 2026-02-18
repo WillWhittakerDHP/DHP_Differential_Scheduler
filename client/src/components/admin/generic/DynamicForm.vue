@@ -72,18 +72,18 @@
 
 import { computed, ref, watch, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
-import type { GlobalEntityKey } from '../../../constants/entities'
-import type { GlobalFieldKey } from '../../../constants/primitives'
-import type { GlobalEntityId } from '../../../types/entities'
-import { useAdminConfig } from '../../../composables/useAdminConfig'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { GlobalEntityId } from '@/types/entities'
+import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
-import { useFormFields } from '../../../composables/useFormFields'
-import { useFormElementPatching } from '../../../composables/admin/useFormElementPatching'
-import { useEntityMetadata } from '../../../composables/admin/useEntityMetadata'
-import { getFieldKeys } from '../../../utils/forms/getFieldKeys'
-import { AUTCOMPLETE_OFF } from '../../../utils/autocomplete'
+import { useFormFields } from '@/composables/useFormFields'
+import { useFormElementPatching } from '@/composables/admin/useFormElementPatching'
+import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { getFieldKeys } from '@/utils/forms/getFieldKeys'
+import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 
-import FieldRenderer from './fields/FieldRenderer.vue'
+import { FieldRenderer } from './fields'
 
 const autocompleteOff = AUTCOMPLETE_OFF
 

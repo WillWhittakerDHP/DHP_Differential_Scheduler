@@ -1,12 +1,12 @@
-
 import type { GlobalRelationship } from '@/utils/transformers/fetchToGlobalTransformer'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
 export function createPartAssignmentsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'partAssignments'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'partAssignments',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
@@ -17,7 +17,7 @@ export function createPartAssignmentsRel(
 export function createActiveComponentsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'instanceComponents'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'instanceComponents',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
@@ -28,7 +28,7 @@ export function createActiveComponentsRel(
 export function createActiveCascadesRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'bookingCascades'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'bookingCascades',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
@@ -39,7 +39,7 @@ export function createActiveCascadesRel(
 export function createValidPartsRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'validParts'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'validParts',
     parent: { id: parentId, entityKey: 'blockShape' } as GlobalEntity<'blockShape'>,
@@ -50,7 +50,7 @@ export function createValidPartsRel(
 export function createValidCascadesRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'validCascades'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'validCascades',
     parent: { id: parentId, entityKey: 'blockShape' } as GlobalEntity<'blockShape'>,
@@ -61,7 +61,7 @@ export function createValidCascadesRel(
 export function createDependentInstancesRel(
   parentId: string,
   childIds: string[]
-): GlobalRelationship<'dependentInstances'> {
+): GlobalRelationship {
   return {
     relationshipKind: 'dependentInstances',
     parent: { id: parentId, entityKey: 'blockInstance' } as GlobalEntity<'blockInstance'>,
@@ -69,18 +69,18 @@ export function createDependentInstancesRel(
   }
 }
 
-export function createRelationship<RK extends GlobalRelationshipKey>(
-  relationshipKind: RK,
+export function createRelationship(
+  relationshipKind: GlobalRelationshipKey,
   parentId: string,
   parentEntityKey: GlobalEntityKey,
   childIds: string[],
   childEntityKey: GlobalEntityKey
-): GlobalRelationship<RK> {
+): GlobalRelationship {
   return {
     relationshipKind,
     parent: { id: parentId, entityKey: parentEntityKey } as GlobalEntity<GlobalEntityKey>,
     children: childIds.map(id => ({ id, entityKey: childEntityKey } as GlobalEntity<GlobalEntityKey>)),
-  } as GlobalRelationship<RK>
+  }
 }
 
 export function createCompositeRelationships(

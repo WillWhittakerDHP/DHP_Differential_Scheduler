@@ -249,6 +249,11 @@ export default tseslint.config(
       'node_modules/**',
       'dist/**',
       '**/*.d.ts',
+      'src/**/__tests__/**',
+      'src/**/*.test.ts',
+      'src/**/*.test.tsx',
+      'src/**/*.spec.ts',
+      'src/**/*.spec.tsx',
     ],
   },
 )

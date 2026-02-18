@@ -24,8 +24,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **574**
-- Groups (window=10 lines, minOccurrences=2): **214**
+- Files scanned: **605**
+- Groups (window=10 lines, minOccurrences=2): **218**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
@@ -45,6 +45,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-255152a3acf3` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
 | `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@142`, `server/src/utils/adminPrimitiveMetadataComposer.ts@124`, `server/src/utils/adminRelationshipMetadataComposer.ts@123` |
 | `dup-50a8f2834a9b` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
+| `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@72`, `server/src/db/models/booking/part_assignment.ts@72`, `server/src/db/models/booking/pricing_cascade.ts@72` |
 | `dup-742168327377` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
 | `dup-7c1fb46c98e0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
 | `dup-838f910a5e1e` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
@@ -56,7 +57,6 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@242`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
 | `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@94`, `server/src/utils/adminPrimitiveMetadataComposer.ts@110`, `server/src/utils/adminRelationshipMetadataComposer.ts@93`, … |
 | `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@39`, `server/src/utils/logger.ts@42` |
-| `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@51`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@36` |
 
 ## Per-group details (top)
 
@@ -371,6 +371,28 @@ missing: missingFields,
 return { valid: true }
 ```
 
+### Group `dup-62f6fece13d9`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/active_part.ts` @ lines 72-97
+- `server/src/db/models/booking/part_assignment.ts` @ lines 72-97
+- `server/src/db/models/booking/pricing_cascade.ts` @ lines 72-97
+
+```
+type: DataTypes.UUID,
+model: 'part_instances',
+type: DataTypes.BOOLEAN,
+defaultValue: false,
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+timestamps: false,
+underscored: true,
+```
+
 ### Group `dup-742168327377`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -501,26 +523,4 @@ type: DataTypes.DATE,
 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 timestamps: false,
 underscored: true,
-```
-
-### Group `dup-d8836f9bbfdd`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 50-67
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 50-67
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 50-67
-
-```
-visibility?: unknown
-displayOrder?: unknown
-}): ValidationResult {
-const missingFields: string[] = []
-for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
-if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
-missingFields.push(field)
-if (missingFields.length > 0) {
-error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
-required: REQUIRED_FIELDS.CREATE_UPDATE,
 ```

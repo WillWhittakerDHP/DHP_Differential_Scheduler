@@ -4,11 +4,11 @@
  * PATTERN: Base fields spread into entity-specific field configs
  */
 
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import { FIELD_NAMES } from '../../../../constants/entityFieldConstants'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import { PrimitiveTypeEnum, PrimitiveModeEnum } from '../../../../types/entity/formDataEnums'
-import type { PrimitiveFormField } from '../../../../types/entity/formFields'
+import type { GlobalEntityKey } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
+import type { PrimitiveFormField } from '@/types/entity/formFields'
 
 export const baseEntityFields = {
   id: {

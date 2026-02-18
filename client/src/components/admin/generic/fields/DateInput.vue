@@ -44,9 +44,9 @@
 
 import BaseInput from './BaseInput.vue'
 import AppDateTimePicker from '@/@core/components/app-form-elements/AppDateTimePicker.vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldContextType } from '../../../../composables/useFieldContext'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldContextType } from '@/composables/useFieldContext'
 import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'
 
 interface Props {

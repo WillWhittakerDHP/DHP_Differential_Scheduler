@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T01:55:40.886Z",
+  "generatedAt": "2026-02-18T19:14:12.094Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 574,
+  "fileCount": 605,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -939,6 +939,39 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-62f6fece13d9",
+      "hash": "62f6fece13d9",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/active_part.ts",
+          "startLine": 72,
+          "endLine": 97,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/booking/active_part.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/part_assignment.ts",
+          "startLine": 72,
+          "endLine": 97,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/booking/part_assignment.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/pricing_cascade.ts",
+          "startLine": 72,
+          "endLine": 97,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/booking/pricing_cascade.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-742168327377",
       "hash": "742168327377",
       "uniqueFiles": 3,
@@ -1348,6 +1381,32 @@
           "endLine": 49,
           "windowText": "const selectType = inputConfig.selectType as string | undefined\nif (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-03a9d4ee0d53",
+      "hash": "03a9d4ee0d53",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 68,
+          "endLine": 111,
+          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 68,
+          "endLine": 111,
+          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -2082,6 +2141,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-2a65fd444518",
+      "hash": "2a65fd444518",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.UUID,\nmodel: 'part_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/valid_part.ts",
+          "startLine": 72,
+          "endLine": 97,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'part_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/admin/valid_part.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/valid_pricing_cascade.ts",
+          "startLine": 71,
+          "endLine": 96,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'part_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/admin/valid_pricing_cascade.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-2a9bc70544b5",
+      "hash": "2a9bc70544b5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 67,
+          "endLine": 110,
+          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 67,
+          "endLine": 110,
+          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-2b2b33d71fb7",
       "hash": "2b2b33d71fb7",
       "uniqueFiles": 2,
@@ -2680,6 +2791,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-49dbbdfc4150",
+      "hash": "49dbbdfc4150",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 21,
+          "endLine": 50,
+          "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 21,
+          "endLine": 50,
+          "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-4aa5341ce55e",
       "hash": "4aa5341ce55e",
       "uniqueFiles": 2,
@@ -2804,32 +2941,6 @@
           "endLine": 46,
           "windowText": "InferAttributes<AnnotationAssignment>,\nInferCreationAttributes<AnnotationAssignment>\ndeclare id: CreationOptional<string>;\ndeclare blockInstanceId: ForeignKey<string>;\ndeclare annotationId: ForeignKey<string>;\ndeclare userTypeBlockInstanceId: ForeignKey<string> | null;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\ndeclare blockInstance?: BlockInstance;\ndeclare annotation?: AnnotationInstance;",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-4fbfbe542dc5",
-      "hash": "4fbfbe542dc5",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 21,
-          "endLine": 50,
-          "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 21,
-          "endLine": 50,
-          "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3226,26 +3337,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-62f6fece13d9",
-      "hash": "62f6fece13d9",
+      "groupId": "dup-61f5f07856c8",
+      "hash": "61f5f07856c8",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+      "windowText": "if (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
       "locations": [
         {
-          "repoPath": "server/src/db/models/booking/active_part.ts",
-          "startLine": 72,
-          "endLine": 97,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/booking/active_part.ts"
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 22,
+          "endLine": 52,
+          "windowText": "if (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/db/models/booking/part_assignment.ts",
-          "startLine": 72,
-          "endLine": 97,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/booking/part_assignment.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 22,
+          "endLine": 52,
+          "windowText": "if (typeof entityType !== 'string' || !VALID_ENTITY_TYPES.includes(entityType as (typeof VALID_ENTITY_TYPES)[number])) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3558,6 +3669,32 @@
           "endLine": 36,
           "windowText": "declare id: CreationOptional<string>;\ndeclare kind: CreationOptional<string>;\ndeclare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-734db2649ff5",
+      "hash": "734db2649ff5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 15,
+          "endLine": 41,
+          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 15,
+          "endLine": 41,
+          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -4526,32 +4663,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-995f62abfe6b",
-      "hash": "995f62abfe6b",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 68,
-          "endLine": 111,
-          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 68,
-          "endLine": 111,
-          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-9b05a520b6ad",
       "hash": "9b05a520b6ad",
       "uniqueFiles": 2,
@@ -4708,32 +4819,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-9f9182e7b8f2",
-      "hash": "9f9182e7b8f2",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 22,
-          "endLine": 52,
-          "windowText": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 22,
-          "endLine": 52,
-          "windowText": "if (!VALID_ENTITY_TYPES.includes(entityType as any)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-a003e948a6aa",
       "hash": "a003e948a6aa",
       "uniqueFiles": 2,
@@ -4832,32 +4917,6 @@
           "endLine": 55,
           "windowText": "declare userTypeBlockInstanceId: ForeignKey<string> | null;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\ndeclare blockInstance?: BlockInstance;\ndeclare annotation?: AnnotationInstance;\ndeclare userTypeBlockInstance?: BlockInstance;\nexport function AnnotationAssignmentFactory(sequelize: Sequelize) {\nAnnotationAssignment.init(\ntype: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-a3f0c2cd61f4",
-      "hash": "a3f0c2cd61f4",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 73,
-          "endLine": 114,
-          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 73,
-          "endLine": 114,
-          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -5020,6 +5079,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-b1033ba80907",
+      "hash": "b1033ba80907",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 85,
+          "endLine": 116,
+          "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 85,
+          "endLine": 116,
+          "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b2a4fde398f2",
+      "hash": "b2a4fde398f2",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 73,
+          "endLine": 114,
+          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 73,
+          "endLine": 114,
+          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-b32e32aa5499",
       "hash": "b32e32aa5499",
       "uniqueFiles": 2,
@@ -5072,32 +5183,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-b4cda6a22fa5",
-      "hash": "b4cda6a22fa5",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 85,
-          "endLine": 116,
-          "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 85,
-          "endLine": 116,
-          "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-b579c99d5cc7",
       "hash": "b579c99d5cc7",
       "uniqueFiles": 2,
@@ -5118,6 +5203,32 @@
           "endLine": 119,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/composables/booking/useDevPanelsComputed.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b8057a0bf562",
+      "hash": "b8057a0bf562",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 10,
+          "endLine": 40,
+          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 10,
+          "endLine": 40,
+          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -5222,6 +5333,32 @@
           "endLine": 37,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn metadataRecord",
           "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c2ccd09b612f",
+      "hash": "c2ccd09b612f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "BlockInstanceVersion,\nPartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 9,
+          "endLine": 34,
+          "windowText": "BlockInstanceVersion,\nPartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 9,
+          "endLine": 34,
+          "windowText": "BlockInstanceVersion,\nPartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -5566,25 +5703,25 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-dbee71a4317a",
-      "hash": "dbee71a4317a",
+      "groupId": "dup-dcf156aff1ac",
+      "hash": "dcf156aff1ac",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {",
+      "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 67,
-          "endLine": 110,
-          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {",
+          "startLine": 86,
+          "endLine": 122,
+          "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 67,
-          "endLine": 110,
-          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {",
+          "startLine": 86,
+          "endLine": 122,
+          "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as (typeof RENDER_AS_REQUIRING_INPUT_CONFIG)[number])) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
@@ -6184,32 +6321,6 @@
           "endLine": 73,
           "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
           "target": "server/src/utils/logger.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-fd98bf213832",
-      "hash": "fd98bf213832",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 86,
-          "endLine": 122,
-          "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 86,
-          "endLine": 122,
-          "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (RENDER_AS_REQUIRING_INPUT_CONFIG.includes(renderAs as any)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,

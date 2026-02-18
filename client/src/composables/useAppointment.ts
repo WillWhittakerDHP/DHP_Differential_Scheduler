@@ -18,7 +18,7 @@ import { getAppointmentByIdEndpoint, getAppointmentEndpoint } from '@/utils/api'
 import type { AppointmentRequest, AppointmentResponse } from '@/types/appointment'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 import { pickRandomItem } from '@/utils/collections/pickRandomItem'
-import { useBusinessDataCollectionCrud } from './businessDataCollections/useBusinessDataCollectionCrud'
+import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollections'
 import { useBusiness, BUSINESS_DATA_QUERY_KEY } from './useBusiness'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 

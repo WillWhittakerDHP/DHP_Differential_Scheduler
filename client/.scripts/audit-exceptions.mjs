@@ -1,18 +1,23 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import { execSync } from 'node:child_process'
 
 /**
  * Audit Exception Utility
  * 
  * Shared module for handling audit exceptions across all audit scripts.
- * Supports two complementary approaches:
+ * Supports three complementary layers:
  * 
- * 1. INLINE COMMENTS - For specific, one-off exceptions with inline justification
+ * 1. GLOBAL EXCLUSIONS - Central file for patterns that apply to ALL audits
+ *    Location: .audit-reports/audit-global-config.json
+ *    Usage: isGloballyExcluded(repoPath) — call at the top of each audit's isExcluded()
+ * 
+ * 2. INLINE COMMENTS - For specific, one-off exceptions with inline justification
  *    Format: // @audit-allow:<auditType>:<ruleId> - <reason>
  *    Example: // @audit-allow:hardcoding:entityKeyString - Required for entity routing
  * 
- * 2. CONFIG FILE - For patterns/broad exceptions
- *    Location: .audit/<auditType>-audit-config.json
+ * 3. PER-AUDIT CONFIG FILE - For audit-specific patterns/broad exceptions
+ *    Location: .audit-reports/<auditType>-audit-config.json
  *    Schema: See loadConfigAllowlist() for structure
  * 
  * Philosophy:
@@ -56,6 +61,72 @@ export function isSeedScript(repoPath) {
   // Files with 'seed' in the filename
   const fileName = repoPath.split('/').pop() || ''
   return /seed/i.test(fileName)
+}
+
+// ─── Global Exclusions ────────────────────────────────────────────────────────
+// Central exclusion patterns shared by ALL audit scripts.
+// Loaded once per audit run from .audit-reports/audit-global-config.json.
+// Individual audits should call isGloballyExcluded(repoPath) at the top of
+// their isExcluded() / shouldExcludeDir() functions.
+
+let _globalExclusionsCache = undefined
+
+/**
+ * Resolve the path to audit-global-config.json from wherever the audit is run.
+ * Works whether CWD is client/ or the project root.
+ *
+ * @returns {string} Absolute path to the global config file
+ */
+function resolveGlobalConfigPath() {
+  const cwd = path.resolve(process.cwd())
+  const isClientDir = fs.existsSync(path.join(cwd, 'src'))
+  const clientRoot = isClientDir ? cwd : path.join(cwd, 'client')
+  return path.join(clientRoot, '.audit-reports', 'audit-global-config.json')
+}
+
+/**
+ * Load global exclusion patterns from audit-global-config.json.
+ * Result is cached for the lifetime of the process.
+ *
+ * @returns {Array<{pattern: string, reason: string}>}
+ */
+export function loadGlobalExclusions() {
+  if (_globalExclusionsCache !== undefined) return _globalExclusionsCache
+
+  const configPath = resolveGlobalConfigPath()
+  if (!fs.existsSync(configPath)) {
+    _globalExclusionsCache = []
+    return _globalExclusionsCache
+  }
+
+  try {
+    const raw = fs.readFileSync(configPath, 'utf8')
+    const config = JSON.parse(raw)
+    _globalExclusionsCache = config?.globalExclusions ?? []
+  } catch (err) {
+    console.warn(`Warning: Could not parse global audit config at ${configPath}: ${err.message}`)
+    _globalExclusionsCache = []
+  }
+
+  return _globalExclusionsCache
+}
+
+/**
+ * Check whether a repo-relative file path matches any global exclusion pattern.
+ * Call this at the top of every audit script's isExcluded() function to apply
+ * centralized exclusions (test files, @core, @layouts, node_modules, etc.).
+ *
+ * @param {string} repoPath - Repo-relative file path (e.g. "client/src/utils/foo.ts")
+ * @returns {boolean} true if the file should be excluded from auditing
+ */
+export function isGloballyExcluded(repoPath) {
+  const exclusions = loadGlobalExclusions()
+  const normalized = repoPath.replaceAll('\\', '/')
+
+  for (const entry of exclusions) {
+    if (simpleGlobMatch(normalized, entry.pattern)) return true
+  }
+  return false
 }
 
 /**

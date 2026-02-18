@@ -7,7 +7,7 @@ import {
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   isCompiledJsFile,
-  isSeedScript,
+  isGloballyExcluded,
 } from './audit-exceptions.mjs'
 
 /**
@@ -186,13 +186,7 @@ function toStableId(repoPath) {
 }
 
 function isExcluded(repoPath, configAllowlist) {
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) return true
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) return true
-  if (isSeedScript(repoPath)) return true
-  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) return true
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) return true
-  if (repoPath.includes('.scripts/') || repoPath.includes('.audit-reports/')) return true
-  // Exclude logger utility files themselves
+  if (isGloballyExcluded(repoPath)) return true
   if (repoPath.includes('logger') && (repoPath.endsWith('.ts') || repoPath.endsWith('.js'))) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed

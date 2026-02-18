@@ -1,82 +1,70 @@
 {
   "$comment": "Configuration for loop-mutation-audit.mjs exception handling",
   "$schema": "Allowlist for intentional/necessary loop mutations",
-  
   "allowlist": {
     "patterns": [
       {
-        "glob": "**/__tests__/**",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from mutation scanning"
-      },
-      {
-        "glob": "**/*.test.*",
-        "ruleIds": ["*"],
-        "reason": "Test files excluded from mutation scanning"
-      },
-      {
-        "glob": "**/*.spec.*",
-        "ruleIds": ["*"],
-        "reason": "Spec files excluded from mutation scanning"
-      },
-      {
-        "glob": "**/migrations/**",
-        "ruleIds": ["*"],
-        "reason": "Migration scripts legitimately build arrays and mutate state"
-      },
-      {
-        "glob": "**/@core/**",
-        "ruleIds": ["*"],
-        "reason": "Core library files excluded from mutation scanning"
-      },
-      {
-        "glob": "**/@layouts/**",
-        "ruleIds": ["*"],
-        "reason": "Layout library files excluded from mutation scanning"
-      },
-      {
         "glob": "**/*.vue",
-        "ruleIds": ["assignProp"],
+        "ruleIds": [
+          "assignProp"
+        ],
         "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns"
       },
       {
         "glob": "**/composables/**/*.ts",
-        "ruleIds": ["assignProp", "push"],
+        "ruleIds": [
+          "assignProp",
+          "push"
+        ],
         "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern"
       },
       {
         "glob": "**/views/**/*.vue",
-        "ruleIds": ["assignProp"],
+        "ruleIds": [
+          "assignProp"
+        ],
         "reason": "Vue views use ref.value assignments for reactive state - legitimate Vue pattern"
       },
       {
         "glob": "**/components/**/*.vue",
-        "ruleIds": ["assignProp"],
+        "ruleIds": [
+          "assignProp"
+        ],
         "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern"
       },
       {
         "glob": "server/src/routes/**/*.ts",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
       },
       {
         "glob": "server/src/routes/**/*.js",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
       },
       {
         "glob": "server/src/scripts/**/*.ts",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
       },
       {
         "glob": "server/src/scripts/**/*.js",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
       },
       {
         "glob": "server/src/scripts/**/*.mjs",
-        "ruleIds": ["*"],
+        "ruleIds": [
+          "*"
+        ],
         "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
       }
     ],

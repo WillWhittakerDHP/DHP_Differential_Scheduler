@@ -102,7 +102,7 @@
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useIconPickerState } from '@/composables/admin/useIconPickerState'
-import { tablerIcons } from '../../../../utils/tablerIcons'
+import { tablerIcons } from '@/utils/tablerIcons'
 
 interface Props {
   modelValue: boolean

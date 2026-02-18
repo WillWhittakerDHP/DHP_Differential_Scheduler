@@ -41,9 +41,9 @@
  */
 
 import { computed } from 'vue'
-import type { GlobalEntityKey } from '../../../../constants/entities'
-import type { GlobalFieldKey } from '../../../../constants/primitives'
-import type { FieldDisplayConfig } from '../../../../composables/useFieldContext'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import type { FieldDisplayConfig } from '@/composables/useFieldContext'
 
 interface Props {
   fieldKey: string

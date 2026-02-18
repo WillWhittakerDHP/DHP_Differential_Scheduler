@@ -4,8 +4,8 @@
  * PATTERN: Types live here; fullFieldDisplayConfig and appliedDisplay files import from this file only.
  */
 
-import type { GlobalEntityKey } from '../../../constants/entities'
-import type { GlobalFieldKey } from '../../../constants/primitives'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type { SelectableDisplayType } from './selectableDisplayConfig'
 
 export interface DisplayFieldType<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {

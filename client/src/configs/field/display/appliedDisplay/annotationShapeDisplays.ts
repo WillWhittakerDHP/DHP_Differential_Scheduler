@@ -1,4 +1,4 @@
-import { DISPLAY_LABELS, ENTITY_STATUS } from '../../../../constants/entityFieldConstants'
+import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
  * LEARNING: AnnotationShape Display Configs (Configuration Data)

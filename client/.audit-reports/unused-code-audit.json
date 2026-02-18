@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T02:25:51.584Z",
+  "generatedAt": "2026-02-18T19:26:18.247Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -20,16 +20,6 @@
       "line": 145,
       "code": "const getActiveFieldContext = () => {",
       "suggestion": "Remove if unused or document why kept"
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: CollectionType (type)",
-      "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 132,
-      "code": "export type CollectionType = 'parts' | 'annotations' | 'events'",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
     },
     {
       "severity": "info",
@@ -398,7 +388,7 @@
       "type": "unused-export",
       "message": "Unused export: RelationshipDisplayType (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 25,
+      "line": 27,
       "code": "export type RelationshipDisplayType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -408,7 +398,7 @@
       "type": "unused-export",
       "message": "Unused export: VirtualDisplayType (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 72,
+      "line": 74,
       "code": "export type VirtualDisplayType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -418,7 +408,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectableDisplayTypeSuite (type)",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 122,
+      "line": 124,
       "code": "export type SelectableDisplayTypeSuite = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -663,6 +653,26 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: getPropertyFieldMappingByIdEndpoint (function)",
+      "file": "client/src/utils/api/propertyMappingsApi.ts",
+      "line": 10,
+      "code": "export function getPropertyFieldMappingByIdEndpoint(id: string): string {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: getPropertyFeatureMappingByIdEndpoint (function)",
+      "file": "client/src/utils/api/propertyMappingsApi.ts",
+      "line": 18,
+      "code": "export function getPropertyFeatureMappingByIdEndpoint(id: string): string {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: getBlockInstanceAnnotationsEndpoint (function)",
       "file": "client/src/utils/api/relationshipApi.ts",
       "line": 22,
@@ -825,7 +835,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateBlockInstanceFee (function)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 60,
+      "line": 62,
       "code": "export function calculateBlockInstanceFee(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -835,7 +845,7 @@
       "type": "unused-export",
       "message": "Unused export: BlockInstanceFeeResult (type)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 33,
+      "line": 34,
       "code": "export interface BlockInstanceFeeResult {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -845,7 +855,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 227,
+      "line": 248,
       "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
       "suggestion": "Review and clean up unused code"
     },
@@ -854,7 +864,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 229,
+      "line": 250,
       "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
       "suggestion": "Review and clean up unused code"
     },
@@ -863,7 +873,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 230,
+      "line": 251,
       "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
       "suggestion": "Review and clean up unused code"
     },
@@ -964,6 +974,16 @@
       "file": "client/src/utils/booking/perspectiveResolver.ts",
       "line": 18,
       "code": "export interface ResolvedEventShapes {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: resolvePricingCascadeParts (function)",
+      "file": "client/src/utils/booking/pricingCascadeResolver.ts",
+      "line": 23,
+      "code": "export function resolvePricingCascadeParts(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -1499,6 +1519,46 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: PropertyFieldMappingRow (type)",
+      "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+      "line": 19,
+      "code": "export interface PropertyFieldMappingRow {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: PropertyFeatureMappingRow (type)",
+      "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+      "line": 32,
+      "code": "export interface PropertyFeatureMappingRow {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: FOUNDATION_MAPPING (const)",
+      "file": "server/src/config/brightMlsFoundationMapping.ts",
+      "line": 15,
+      "code": "export const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: FoundationAccessType (type)",
+      "file": "server/src/config/brightMlsFoundationMapping.ts",
+      "line": 9,
+      "code": "export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: isBlockInstanceComposable (function)",
       "file": "server/src/config/entityRegistry.ts",
       "line": 14,
@@ -1729,6 +1789,16 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: FeatureMatchType (type)",
+      "file": "server/src/db/models/mappings/property_feature_mapping.ts",
+      "line": 19,
+      "code": "export type FeatureMatchType = 'exists' | 'contains' | 'equals' | 'greater_than';",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: requireAuth (function)",
       "file": "server/src/middlewares/security.ts",
       "line": 59,
@@ -1887,19 +1957,9 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: BlockInstanceWithShape (type)",
-      "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-      "line": 20,
-      "code": "export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: handleInstanceComponentCreate (function)",
       "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-      "line": 95,
+      "line": 96,
       "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1929,7 +1989,7 @@
       "type": "unused-export",
       "message": "Unused export: mapAnnotationAssignmentsFields (function)",
       "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "line": 23,
+      "line": 25,
       "code": "export function mapAnnotationAssignmentsFields(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1939,7 +1999,7 @@
       "type": "unused-export",
       "message": "Unused export: mapAttendeeAssignmentsFields (function)",
       "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "line": 36,
+      "line": 38,
       "code": "export function mapAttendeeAssignmentsFields(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1949,7 +2009,7 @@
       "type": "unused-export",
       "message": "Unused export: mapEventAssignmentsFields (function)",
       "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "line": 49,
+      "line": 51,
       "code": "export async function mapEventAssignmentsFields(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1959,7 +2019,7 @@
       "type": "unused-export",
       "message": "Unused export: getComponentChildIds (function)",
       "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "line": 97,
+      "line": 99,
       "code": "export async function getComponentChildIds(instanceId: string): Promise<string[]> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2201,6 +2261,36 @@
     {
       "severity": "warning",
       "type": "unused-export",
+      "message": "Unused export: PropertyEnrichmentCacheEntry (type)",
+      "file": "server/src/services/propertyEnrichmentCache.ts",
+      "line": 14,
+      "code": "export interface PropertyEnrichmentCacheEntry {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: FeatureMatchResult (type)",
+      "file": "server/src/services/propertyFeatureMatcher.ts",
+      "line": 12,
+      "code": "export interface FeatureMatchResult {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: PartialPropertyDetails (type)",
+      "file": "server/src/services/propertyFieldMapper.ts",
+      "line": 13,
+      "code": "export interface PartialPropertyDetails {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
       "message": "Unused export: RateLimitStatus (type)",
       "file": "server/src/services/rateLimiter.ts",
       "line": 71,
@@ -2215,6 +2305,26 @@
       "file": "server/src/services/rateLimiter.ts",
       "line": 73,
       "code": "export interface RateLimitResult {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: getTestDb (function)",
+      "file": "server/src/test/setup/testDb.ts",
+      "line": 51,
+      "code": "export function getTestDb(): Sequelize {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: withTransaction (function)",
+      "file": "server/src/test/setup/testDb.ts",
+      "line": 59,
+      "code": "export async function withTransaction<T>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2369,16 +2479,6 @@
       "repoPath": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
       "issues": [
         {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: CollectionType (type)",
-          "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 132,
-          "code": "export type CollectionType = 'parts' | 'annotations' | 'events'",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
           "severity": "info",
           "type": "unused-function",
           "message": "Unused function: handleDeleteChild",
@@ -2388,7 +2488,7 @@
           "suggestion": "Remove if unused or document why kept"
         }
       ],
-      "score": 4,
+      "score": 1,
       "priority": "P2"
     },
     {
@@ -2899,7 +2999,7 @@
           "type": "unused-export",
           "message": "Unused export: RelationshipDisplayType (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 25,
+          "line": 27,
           "code": "export type RelationshipDisplayType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -2909,7 +3009,7 @@
           "type": "unused-export",
           "message": "Unused export: VirtualDisplayType (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 72,
+          "line": 74,
           "code": "export type VirtualDisplayType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -2919,7 +3019,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectableDisplayTypeSuite (type)",
           "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-          "line": 122,
+          "line": 124,
           "code": "export type SelectableDisplayTypeSuite = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3292,6 +3392,33 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/utils/api/propertyMappingsApi.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: getPropertyFieldMappingByIdEndpoint (function)",
+          "file": "client/src/utils/api/propertyMappingsApi.ts",
+          "line": 10,
+          "code": "export function getPropertyFieldMappingByIdEndpoint(id: string): string {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: getPropertyFeatureMappingByIdEndpoint (function)",
+          "file": "client/src/utils/api/propertyMappingsApi.ts",
+          "line": 18,
+          "code": "export function getPropertyFeatureMappingByIdEndpoint(id: string): string {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/utils/api/relationshipApi.ts",
       "issues": [
         {
@@ -3508,7 +3635,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateBlockInstanceFee (function)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 60,
+          "line": 62,
           "code": "export function calculateBlockInstanceFee(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3518,7 +3645,7 @@
           "type": "unused-export",
           "message": "Unused export: BlockInstanceFeeResult (type)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 33,
+          "line": 34,
           "code": "export interface BlockInstanceFeeResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3528,7 +3655,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 227,
+          "line": 248,
           "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "suggestion": "Review and clean up unused code"
         },
@@ -3537,7 +3664,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 229,
+          "line": 250,
           "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
           "suggestion": "Review and clean up unused code"
         },
@@ -3546,7 +3673,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 230,
+          "line": 251,
           "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
           "suggestion": "Review and clean up unused code"
         }
@@ -3696,6 +3823,23 @@
           "file": "client/src/utils/booking/perspectiveResolver.ts",
           "line": 18,
           "code": "export interface ResolvedEventShapes {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/booking/pricingCascadeResolver.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: resolvePricingCascadeParts (function)",
+          "file": "client/src/utils/booking/pricingCascadeResolver.ts",
+          "line": 23,
+          "code": "export function resolvePricingCascadeParts(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -4450,6 +4594,60 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PropertyFieldMappingRow (type)",
+          "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+          "line": 19,
+          "code": "export interface PropertyFieldMappingRow {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PropertyFeatureMappingRow (type)",
+          "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+          "line": 32,
+          "code": "export interface PropertyFeatureMappingRow {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/config/brightMlsFoundationMapping.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FOUNDATION_MAPPING (const)",
+          "file": "server/src/config/brightMlsFoundationMapping.ts",
+          "line": 15,
+          "code": "export const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FoundationAccessType (type)",
+          "file": "server/src/config/brightMlsFoundationMapping.ts",
+          "line": 9,
+          "code": "export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/config/entityRegistry.ts",
       "issues": [
         {
@@ -4757,6 +4955,23 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/db/models/mappings/property_feature_mapping.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FeatureMatchType (type)",
+          "file": "server/src/db/models/mappings/property_feature_mapping.ts",
+          "line": 19,
+          "code": "export type FeatureMatchType = 'exists' | 'contains' | 'equals' | 'greater_than';",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/middlewares/security.ts",
       "issues": [
         {
@@ -4993,19 +5208,9 @@
           "code": "export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: BlockInstanceWithShape (type)",
-          "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-          "line": 20,
-          "code": "export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
         }
       ],
-      "score": 9,
+      "score": 6,
       "priority": "P1"
     },
     {
@@ -5016,7 +5221,7 @@
           "type": "unused-export",
           "message": "Unused export: handleInstanceComponentCreate (function)",
           "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-          "line": 95,
+          "line": 96,
           "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5060,7 +5265,7 @@
           "type": "unused-export",
           "message": "Unused export: mapAnnotationAssignmentsFields (function)",
           "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-          "line": 23,
+          "line": 25,
           "code": "export function mapAnnotationAssignmentsFields(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5070,7 +5275,7 @@
           "type": "unused-export",
           "message": "Unused export: mapAttendeeAssignmentsFields (function)",
           "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-          "line": 36,
+          "line": 38,
           "code": "export function mapAttendeeAssignmentsFields(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5080,7 +5285,7 @@
           "type": "unused-export",
           "message": "Unused export: mapEventAssignmentsFields (function)",
           "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-          "line": 49,
+          "line": 51,
           "code": "export async function mapEventAssignmentsFields(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5090,7 +5295,7 @@
           "type": "unused-export",
           "message": "Unused export: getComponentChildIds (function)",
           "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-          "line": 97,
+          "line": 99,
           "code": "export async function getComponentChildIds(instanceId: string): Promise<string[]> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5425,6 +5630,57 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/services/propertyEnrichmentCache.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PropertyEnrichmentCacheEntry (type)",
+          "file": "server/src/services/propertyEnrichmentCache.ts",
+          "line": 14,
+          "code": "export interface PropertyEnrichmentCacheEntry {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: FeatureMatchResult (type)",
+          "file": "server/src/services/propertyFeatureMatcher.ts",
+          "line": 12,
+          "code": "export interface FeatureMatchResult {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: PartialPropertyDetails (type)",
+          "file": "server/src/services/propertyFieldMapper.ts",
+          "line": 13,
+          "code": "export interface PartialPropertyDetails {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/services/rateLimiter.ts",
       "issues": [
         {
@@ -5444,6 +5700,33 @@
           "file": "server/src/services/rateLimiter.ts",
           "line": 73,
           "code": "export interface RateLimitResult {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/test/setup/testDb.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: getTestDb (function)",
+          "file": "server/src/test/setup/testDb.ts",
+          "line": 51,
+          "code": "export function getTestDb(): Sequelize {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: withTransaction (function)",
+          "file": "server/src/test/setup/testDb.ts",
+          "line": 59,
+          "code": "export async function withTransaction<T>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -5622,18 +5905,18 @@
     }
   ],
   "recommendations": [
-    "Found 193 unused export(s) - review for removal",
+    "Found 204 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
     "Found 41 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 730 file(s) (524 client, 206 server). Found 238 issue(s): 193 unused exports, 1 commented exports, 41 unused functions, 3 TODO markers, 0 dead scripts",
+  "summary": "Scanned 751 file(s) (529 client, 222 server). Found 249 issue(s): 204 unused exports, 1 commented exports, 41 unused functions, 3 TODO markers, 0 dead scripts",
   "summaryData": {
-    "totalFiles": 730,
+    "totalFiles": 751,
     "skippedFilesCount": 0,
-    "filesWithIssues": 135,
-    "totalIssues": 238,
-    "unusedExports": 193,
+    "filesWithIssues": 144,
+    "totalIssues": 249,
+    "unusedExports": 204,
     "commentedExports": 1,
     "unusedFunctions": 41,
     "todoMarkers": 3,

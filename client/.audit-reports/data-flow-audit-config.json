@@ -2,8 +2,13 @@
   "$comment": "Configuration for data-flow-audit.mjs - allowlist routes that intentionally pass through raw bodies",
   "allowlist": {
     "patterns": [
-      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files" },
-      { "glob": "**/dev/**", "ruleIds": ["*"], "reason": "Dev-only routes" }
+      {
+        "glob": "**/dev/**",
+        "ruleIds": [
+          "*"
+        ],
+        "reason": "Dev-only routes"
+      }
     ],
     "specific": []
   }

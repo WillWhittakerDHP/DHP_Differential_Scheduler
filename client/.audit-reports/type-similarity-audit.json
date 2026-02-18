@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T01:54:52.870Z",
+  "generatedAt": "2026-02-18T19:14:12.426Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,11 +14,11 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 754,
-  "totalDefinitions": 719,
+  "fileCount": 792,
+  "totalDefinitions": 737,
   "groups": [
     {
-      "groupId": "sim-subset-b80ed59d039b",
+      "groupId": "sim-subset-6a5e2c8b16e9",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -104,22 +104,31 @@
           "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, squareFootage?: number | null }"
         },
         {
-          "name": "PropertyDetailsData",
-          "kind": "interface",
-          "file": "client/src/types/propertyForm.ts",
-          "line": 19,
-          "exported": true,
-          "propertyCount": 16,
-          "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidatePlaceId?: string, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, lng: number }, mlsNumber: string, numberOfUnits: number | null, propertySize: number | null, squareFootage: number | null, state: string, unit: string, zipCode: string }"
-        },
-        {
           "name": "PropertyDetailsStepData",
           "kind": "type-alias-object",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 16,
+          "line": 17,
           "exported": false,
           "propertyCount": 7,
           "signature": "{ address: string, city: string, propertySize: number | null, squareFootage: number | null, state: string, unit: string, zipCode: string }"
+        },
+        {
+          "name": "PropertyDetailsData",
+          "kind": "interface",
+          "file": "client/src/types/propertyForm.ts",
+          "line": 20,
+          "exported": true,
+          "propertyCount": 18,
+          "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidatePlaceId?: string, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, lng: number }, mlsNumber: string, numberOfUnits: number | null, propertySize: number | null, source?: PropertySource, squareFootage: number | null, state: string, suggestedBlockInstanceIds?: string[], unit: string, zipCode: string }"
+        },
+        {
+          "name": "PropertyEnrichmentResponse",
+          "kind": "interface",
+          "file": "client/src/services/propertyEnrichmentApiService.ts",
+          "line": 15,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, suggestedBlockInstanceIds: string[] }"
         },
         {
           "name": "PropertyResponse",
@@ -156,11 +165,29 @@
           "exported": true,
           "propertyCount": 11,
           "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, state: string, unit: string | null, zipCode: string }"
+        },
+        {
+          "name": "PartialPropertyDetails",
+          "kind": "interface",
+          "file": "server/src/services/propertyFieldMapper.ts",
+          "line": 12,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber?: string | null, squareFootage?: number | null }"
+        },
+        {
+          "name": "PropertyEnrichmentResponse",
+          "kind": "interface",
+          "file": "server/src/types/brightMls.ts",
+          "line": 46,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, suggestedBlockInstanceIds: string[] }"
         }
       ],
       "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }",
       "propertyCount": 42,
-      "score": 63,
+      "score": 75,
       "priority": "P0"
     },
     {
@@ -318,7 +345,7 @@
           "name": "ComponentItem",
           "kind": "interface",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 31,
+          "line": 32,
           "exported": true,
           "propertyCount": 5,
           "signature": "{ active: boolean, description?: string, icon?: string, id: string, name: string }"
@@ -336,7 +363,7 @@
           "name": "BookingBlockInstance",
           "kind": "type-alias-object",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 49,
+          "line": 51,
           "exported": true,
           "propertyCount": 18,
           "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: import('@/constants/entities').BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }"
@@ -383,14 +410,14 @@
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
           "line": 26,
           "exported": true,
-          "propertyCount": 11,
-          "signature": "{ active: boolean, baseFee: number, baseTime: number, entityKey: 'partInstance', id: string, name: string, orderIndex: number, partShape: string, rateOverBaseFee: number, rateOverBaseTime: number, zeroOutPart: boolean }"
+          "propertyCount": 12,
+          "signature": "{ active: boolean, activePartIds: string[], baseFee: number, baseTime: number, entityKey: 'partInstance', id: string, name: string, orderIndex: number, partShape: string, rateOverBaseFee: number, rateOverBaseTime: number, zeroOutPart: boolean }"
         },
         {
           "name": "BookingBlockShape",
           "kind": "type-alias-object",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 40,
+          "line": 42,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ canHaveParts: boolean, composable: boolean, id: string, isStateControl: boolean, name: string, type: BlockShapeType }"
@@ -417,7 +444,7 @@
           "name": "SelectionCardItemWithComponents",
           "kind": "interface",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 39,
+          "line": 40,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ composite?: boolean, instanceComponents?: ComponentItem[] }"
@@ -1742,6 +1769,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-2a8aa740b48c",
+      "relationship": "EXACT",
+      "action": "UNIFY",
+      "members": [
+        {
+          "name": "PropertyEnrichmentResponse",
+          "kind": "interface",
+          "file": "client/src/services/propertyEnrichmentApiService.ts",
+          "line": 15,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "PropertyEnrichmentResponse",
+          "kind": "interface",
+          "file": "server/src/types/brightMls.ts",
+          "line": 46,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, suggestedBlockInstanceIds: string[] }",
+      "propertyCount": 7,
+      "score": 17,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-exact-3cf76c390008",
       "relationship": "EXACT",
       "action": "BRAND",
@@ -2428,10 +2484,10 @@
           "name": "UsePropertyDetailsLogicParams",
           "kind": "interface",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 44,
+          "line": 45,
           "exported": true,
-          "propertyCount": 7,
-          "signature": "{ availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, wizard: { }"
+          "propertyCount": 11,
+          "signature": "{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }"
         },
         {
           "name": "UsePropertyFormStateReturn",
@@ -2452,8 +2508,8 @@
           "signature": "{ formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null }"
         }
       ],
-      "signature": "{ availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, wizard: { }",
-      "propertyCount": 7,
+      "signature": "{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }",
+      "propertyCount": 11,
       "score": 14,
       "priority": "P0"
     },
@@ -2832,7 +2888,7 @@
           "name": "UseInstanceBulkEditOptions",
           "kind": "interface",
           "file": "client/src/composables/admin/useInstanceBulkEdit.ts",
-          "line": 19,
+          "line": 22,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -3338,7 +3394,7 @@
           "name": "BlockInstanceFeeResult",
           "kind": "interface",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 33,
+          "line": 34,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ baseFee: number, overageFee: number, totalFee: number }"
@@ -3504,6 +3560,59 @@
       "uniqueToSecond": [
         "observerTimeoutMs"
       ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-subset-7ed09c97c191",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "BetaFeedback",
+          "kind": "interface",
+          "file": "client/src/types/betaFeedback.ts",
+          "line": 24,
+          "exported": true,
+          "propertyCount": 18,
+          "signature": "{ actualBehavior: string | null, browserInfo: string | null, category: FeedbackCategory, createdAt: string, description: string, expectedBehavior: string | null, id: string, pageUrl: string | null, reporterEmail: string | null, reporterName: string, resolutionNotes: string | null, screenSize: string | null, severity: FeedbackSeverity, status: FeedbackStatus, stepsToReproduce: string | null, tags: string[], title: string, updatedAt: string }"
+        },
+        {
+          "name": "BetaFeedbackFilters",
+          "kind": "interface",
+          "file": "client/src/types/betaFeedback.ts",
+          "line": 68,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ category?: FeedbackCategory, severity?: FeedbackSeverity, status?: FeedbackStatus }"
+        }
+      ],
+      "signature": "{ actualBehavior: string | null, browserInfo: string | null, category: FeedbackCategory, createdAt: string, description: string, expectedBehavior: string | null, id: string, pageUrl: string | null, reporterEmail: string | null, reporterName: string, resolutionNotes: string | null, screenSize: string | null, severity: FeedbackSeverity, status: FeedbackStatus, stepsToReproduce: string | null, tags: string[], title: string, updatedAt: string }",
+      "propertyCount": 18,
+      "overlapPercent": 17,
+      "sharedProperties": [
+        "category",
+        "severity",
+        "status"
+      ],
+      "uniqueToFirst": [
+        "actualBehavior",
+        "browserInfo",
+        "createdAt",
+        "description",
+        "expectedBehavior",
+        "id",
+        "pageUrl",
+        "reporterEmail",
+        "reporterName",
+        "resolutionNotes",
+        "screenSize",
+        "stepsToReproduce",
+        "tags",
+        "title",
+        "updatedAt"
+      ],
+      "uniqueToSecond": [],
       "score": 10,
       "priority": "P1"
     },
@@ -4129,7 +4238,7 @@
           "name": "Props",
           "kind": "interface",
           "file": "client/src/components/admin/MetadataEditModal.vue",
-          "line": 9,
+          "line": 12,
           "exported": false,
           "propertyCount": 5,
           "signature": "{ blockShapeRef?: string, entity: GlobalEntity<GlobalEntityKey>, entityKey: GlobalEntityKey, entityName?: string, modelValue: boolean }"
@@ -4186,7 +4295,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/InstanceBulkEditModal.vue",
-      "line": 5,
+      "line": 8,
       "exported": false,
       "fingerprint": "96117a418f9e",
       "propertyCount": 5,
@@ -4196,7 +4305,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/admin/InstanceBulkEditModal.vue",
-      "line": 13,
+      "line": 16,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -4206,7 +4315,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/MetadataEditModal.vue",
-      "line": 9,
+      "line": 12,
       "exported": false,
       "fingerprint": "cf32964282b6",
       "propertyCount": 5,
@@ -4216,7 +4325,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/admin/MetadataEditModal.vue",
-      "line": 17,
+      "line": 20,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -4477,7 +4586,7 @@
       "kind": "type-alias-union",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
       "line": 26,
-      "exported": true,
+      "exported": false,
       "fingerprint": "a3cc0e4aa1fa",
       "propertyCount": 0,
       "primitiveAlias": null
@@ -5696,7 +5805,7 @@
       "name": "UseInstanceBulkEditOptions",
       "kind": "interface",
       "file": "client/src/composables/admin/useInstanceBulkEdit.ts",
-      "line": 19,
+      "line": 22,
       "exported": true,
       "fingerprint": "a0c2208e5495",
       "propertyCount": 1,
@@ -5706,7 +5815,7 @@
       "name": "UseInstanceBulkEditReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useInstanceBulkEdit.ts",
-      "line": 23,
+      "line": 26,
       "exported": true,
       "fingerprint": "9e8da13faa18",
       "propertyCount": 6,
@@ -7353,10 +7462,30 @@
       "primitiveAlias": null
     },
     {
+      "name": "UsePricingCascadeInstancesOptions",
+      "kind": "interface",
+      "file": "client/src/composables/booking/usePricingCascadeInstances.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "11b244612482",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UsePricingCascadeInstancesReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/usePricingCascadeInstances.ts",
+      "line": 16,
+      "exported": true,
+      "fingerprint": "ae6fdc676024",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "ComponentItem",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "be2e69c15656",
       "propertyCount": 5,
@@ -7366,7 +7495,7 @@
       "name": "SelectionCardItemWithComponents",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 39,
+      "line": 40,
       "exported": true,
       "fingerprint": "cabfbbb8f9c9",
       "propertyCount": 2,
@@ -7376,20 +7505,20 @@
       "name": "UsePropertyDetailsLogicParams",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 44,
+      "line": 45,
       "exported": true,
-      "fingerprint": "dad913f78b84",
-      "propertyCount": 7,
+      "fingerprint": "cce38abda7a2",
+      "propertyCount": 11,
       "primitiveAlias": null
     },
     {
       "name": "UsePropertyDetailsLogicReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 55,
+      "line": 60,
       "exported": true,
-      "fingerprint": "61fef7a098b0",
-      "propertyCount": 8,
+      "fingerprint": "0d0aa6dfeab0",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
@@ -8736,7 +8865,7 @@
       "name": "RelationshipDisplayType",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 24,
+      "line": 26,
       "exported": true,
       "fingerprint": "f3baec35d9c3",
       "propertyCount": 34,
@@ -8746,7 +8875,7 @@
       "name": "VirtualDisplayType",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 71,
+      "line": 73,
       "exported": true,
       "fingerprint": "9ec47ec3e867",
       "propertyCount": 32,
@@ -8756,7 +8885,7 @@
       "name": "SelectableDisplayTypeSuite",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 121,
+      "line": 123,
       "exported": true,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -8930,6 +9059,16 @@
       "exported": true,
       "fingerprint": "8e4ee344fe4b",
       "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyEnrichmentResponse",
+      "kind": "interface",
+      "file": "client/src/services/propertyEnrichmentApiService.ts",
+      "line": 15,
+      "exported": true,
+      "fingerprint": "2a8aa740b48c",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -9130,6 +9269,46 @@
       "exported": true,
       "fingerprint": "c9ba659724b1",
       "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BetaFeedback",
+      "kind": "interface",
+      "file": "client/src/types/betaFeedback.ts",
+      "line": 24,
+      "exported": true,
+      "fingerprint": "3f5d06b55c2d",
+      "propertyCount": 18,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BetaFeedbackSubmission",
+      "kind": "interface",
+      "file": "client/src/types/betaFeedback.ts",
+      "line": 45,
+      "exported": true,
+      "fingerprint": "39c11fa8f308",
+      "propertyCount": 13,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BetaFeedbackStats",
+      "kind": "interface",
+      "file": "client/src/types/betaFeedback.ts",
+      "line": 61,
+      "exported": true,
+      "fingerprint": "ee76282597cc",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BetaFeedbackFilters",
+      "kind": "interface",
+      "file": "client/src/types/betaFeedback.ts",
+      "line": 68,
+      "exported": true,
+      "fingerprint": "5614cf981119",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -9396,20 +9575,30 @@
       "name": "PropertyDetailsData",
       "kind": "interface",
       "file": "client/src/types/propertyForm.ts",
-      "line": 19,
+      "line": 20,
       "exported": true,
-      "fingerprint": "8a0b4dc75dfc",
-      "propertyCount": 16,
+      "fingerprint": "76743bcdc8e5",
+      "propertyCount": 18,
       "primitiveAlias": null
     },
     {
       "name": "PropertyFormData",
       "kind": "interface",
       "file": "client/src/types/propertyForm.ts",
-      "line": 42,
+      "line": 46,
       "exported": true,
-      "fingerprint": "2db0d40ebf75",
-      "propertyCount": 16,
+      "fingerprint": "6b1844a37a5e",
+      "propertyCount": 18,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertySource",
+      "kind": "type-alias-union",
+      "file": "client/src/types/propertyForm.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "d1dad67ad13f",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -9686,7 +9875,7 @@
       "name": "BlockInstanceFeeResult",
       "kind": "interface",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 33,
+      "line": 34,
       "exported": true,
       "fingerprint": "edb21a12c838",
       "propertyCount": 3,
@@ -9696,7 +9885,7 @@
       "name": "WizardSelectionState",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 9,
+      "line": 10,
       "exported": false,
       "fingerprint": "4c5d84ec88b3",
       "propertyCount": 4,
@@ -9706,7 +9895,7 @@
       "name": "PropertyDetailsStepData",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 16,
+      "line": 17,
       "exported": false,
       "fingerprint": "25dc3bed168a",
       "propertyCount": 7,
@@ -10096,7 +10285,7 @@
       "name": "AdminObjectMap",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToAdminTransformer.ts",
-      "line": 33,
+      "line": 35,
       "exported": true,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -10108,15 +10297,15 @@
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "line": 26,
       "exported": true,
-      "fingerprint": "9061d557060f",
-      "propertyCount": 11,
+      "fingerprint": "98440fda860f",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
       "name": "BookingBlockShape",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 40,
+      "line": 42,
       "exported": true,
       "fingerprint": "1c889e079dd3",
       "propertyCount": 6,
@@ -10126,7 +10315,7 @@
       "name": "BookingBlockInstance",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 49,
+      "line": 51,
       "exported": true,
       "fingerprint": "02b34c1cf16e",
       "propertyCount": 18,
@@ -10136,7 +10325,7 @@
       "name": "BookingData",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 70,
+      "line": 72,
       "exported": true,
       "fingerprint": "bd42d1d690ba",
       "propertyCount": 3,
@@ -10146,7 +10335,7 @@
       "name": "BlockInstanceOptionalProps",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 185,
+      "line": 189,
       "exported": false,
       "fingerprint": "160a08ea71e1",
       "propertyCount": 9,
@@ -10190,6 +10379,26 @@
       "exported": true,
       "fingerprint": "2a61ab4fbf72",
       "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyFieldMappingRow",
+      "kind": "interface",
+      "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "66adaa9438de",
+      "propertyCount": 10,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyFeatureMappingRow",
+      "kind": "interface",
+      "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+      "line": 26,
+      "exported": true,
+      "fingerprint": "566c1411ad62",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
@@ -10583,6 +10792,26 @@
       "primitiveAlias": null
     },
     {
+      "name": "CreateBody",
+      "kind": "interface",
+      "file": "server/src/routes/internal/beta-feedback/betaFeedbackValidators.ts",
+      "line": 17,
+      "exported": false,
+      "fingerprint": "301d4e91ebc1",
+      "propertyCount": 13,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UpdateBody",
+      "kind": "interface",
+      "file": "server/src/routes/internal/beta-feedback/betaFeedbackValidators.ts",
+      "line": 33,
+      "exported": false,
+      "fingerprint": "c0c4212e5713",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "BusinessSettingRecord",
       "kind": "interface",
       "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
@@ -10596,7 +10825,7 @@
       "name": "RelationshipConfig",
       "kind": "interface",
       "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
-      "line": 36,
+      "line": 38,
       "exported": true,
       "fingerprint": "fe28d196bb80",
       "propertyCount": 4,
@@ -10606,9 +10835,9 @@
       "name": "RelationshipKind",
       "kind": "type-alias-union",
       "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
-      "line": 35,
+      "line": 37,
       "exported": true,
-      "fingerprint": "c07b4f2eb6ca",
+      "fingerprint": "3ee86d4459e5",
       "propertyCount": 0,
       "primitiveAlias": null
     },
@@ -10893,6 +11122,36 @@
       "primitiveAlias": null
     },
     {
+      "name": "PropertyEnrichmentCacheEntry",
+      "kind": "interface",
+      "file": "server/src/services/propertyEnrichmentCache.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "61402db70ad5",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "FeatureMatchResult",
+      "kind": "interface",
+      "file": "server/src/services/propertyFeatureMatcher.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "6eb37ae47075",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PartialPropertyDetails",
+      "kind": "interface",
+      "file": "server/src/services/propertyFieldMapper.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "5d9218a826cf",
+      "propertyCount": 6,
+      "primitiveAlias": null
+    },
+    {
       "name": "RateLimitConfig",
       "kind": "interface",
       "file": "server/src/services/rateLimiter.ts",
@@ -10940,6 +11199,36 @@
       "exported": false,
       "fingerprint": "538a89a485e8",
       "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BrightMlsPropertyResponse",
+      "kind": "interface",
+      "file": "server/src/types/brightMls.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "1f37c69dd634",
+      "propertyCount": 21,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BrightMlsODataResponse",
+      "kind": "interface",
+      "file": "server/src/types/brightMls.ts",
+      "line": 39,
+      "exported": true,
+      "fingerprint": "19068864386e",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyEnrichmentResponse",
+      "kind": "interface",
+      "file": "server/src/types/brightMls.ts",
+      "line": 46,
+      "exported": true,
+      "fingerprint": "2a8aa740b48c",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {

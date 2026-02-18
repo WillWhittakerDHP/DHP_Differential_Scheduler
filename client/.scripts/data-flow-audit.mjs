@@ -6,7 +6,7 @@ import {
   categorizeMatches,
   summarizeExceptions,
   renderAllowedExceptionsSection,
-  isSeedScript,
+  isGloballyExcluded,
 } from './audit-exceptions.mjs'
 
 /**
@@ -48,9 +48,7 @@ const VALIDATION_HINT = /\b(Joi|Zod|validate|\.schema\b|sanitize|parse\(|validat
 const SEQUELIZE_CREATE_UPDATE = /\.(create|update|bulkCreate)\s*\(\s*req\.body/
 
 function isExcluded(repoPath, configAllowlist) {
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/')) return true
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) return true
-  if (isSeedScript(repoPath)) return true
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }

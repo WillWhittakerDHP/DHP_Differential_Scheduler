@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isSeedScript } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Pattern Detection Audit Script
@@ -66,7 +66,7 @@ function _toStableId(repoPath) {
  * Check if a file should be excluded from pattern detection scanning
  */
 function isExcluded(repoPath, configAllowlist) {
-  // Check if file matches any exclusion pattern in config
+  if (isGloballyExcluded(repoPath)) return true
   const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
   return result.allowed
 }
@@ -79,25 +79,7 @@ function isScannable(absPath) {
  * Check if a file should be excluded from scanning
  */
 function shouldExcludeDir(repoPath) {
-  // Exclude migration files (one-time scripts with patterns)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return true
-  }
-  // Exclude test files and directories
-  if (repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-    return true
-  }
-  // Exclude seed scripts (test data seeding with intentional patterns)
-  if (isSeedScript(repoPath)) return true
-  // Exclude @core and @layouts for client files only
-  if (repoPath.startsWith('client/src') && (repoPath.includes('@core/') || repoPath.includes('@layouts/'))) {
-    return true
-  }
-  // Exclude node_modules, dist, etc.
-  if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) {
-    return true
-  }
-  return false
+  return isGloballyExcluded(repoPath)
 }
 
 /**

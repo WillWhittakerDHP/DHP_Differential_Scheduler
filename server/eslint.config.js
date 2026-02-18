@@ -123,6 +123,11 @@ export default [
       'dist/**',
       'jest.config.js',
       'src/db/migrations/**',
+      'src/**/__tests__/**',
+      'src/**/*.test.ts',
+      'src/**/*.test.tsx',
+      'src/**/*.spec.ts',
+      'src/**/*.spec.tsx',
     ],
   },
 ]

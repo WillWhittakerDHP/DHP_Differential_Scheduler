@@ -30,8 +30,8 @@ Build calendar component for appointment availability, time slot selection, and 
 
 ### Key Files
 
-- `client-vue/src/components/booking/Calendar.vue` (new)
-- `client-vue/src/components/booking/TimeSlotGrid.vue` (new)
+- `client/src/components/booking/Calendar.vue` (new)
+- `client/src/components/booking/TimeSlotGrid.vue` (new)
 
 ### Success Criteria
 
@@ -57,9 +57,9 @@ Build calendar component for appointment availability, time slot selection, and 
 
 ### Key Files
 
-- `client-vue/src/composables/useAvailability.ts` (new)
-- `client-vue/src/composables/useBookingWizard.ts` (update)
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue` (update)
+- `client/src/composables/useAvailability.ts` (new)
+- `client/src/composables/useBookingWizard.ts` (update)
+- `client/src/components/booking/steps/AvailabilityStep.vue` (update)
 
 ### Success Criteria
 
@@ -85,9 +85,9 @@ Build calendar component for appointment availability, time slot selection, and 
 
 ### Key Files
 
-- `client-vue/src/composables/useAvailability.ts` (update)
-- `client-vue/src/utils/differentialScheduling.ts` (new)
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue` (update)
+- `client/src/composables/useAvailability.ts` (update)
+- `client/src/utils/differentialScheduling.ts` (new)
+- `client/src/components/booking/steps/AvailabilityStep.vue` (update)
 
 ### Success Criteria
 
@@ -114,9 +114,9 @@ Build calendar component for appointment availability, time slot selection, and 
 
 ### Key Files
 
-- `client-vue/src/components/booking/steps/AvailabilityStep.vue` (update)
-- `client-vue/src/components/booking/steps/ConfirmationStep.vue` (update)
-- `client-vue/src/components/booking/BookingWizard.vue` (update)
+- `client/src/components/booking/steps/AvailabilityStep.vue` (update)
+- `client/src/components/booking/steps/ConfirmationStep.vue` (update)
+- `client/src/components/booking/BookingWizard.vue` (update)
 
 ### Success Criteria
 

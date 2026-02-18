@@ -4,7 +4,7 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
-import FieldRenderer from './fields/FieldRenderer.vue'
+import { FieldRenderer } from './fields'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

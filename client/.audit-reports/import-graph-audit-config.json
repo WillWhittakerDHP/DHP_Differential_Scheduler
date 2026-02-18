@@ -1,12 +1,7 @@
 {
   "$comment": "Configuration for import-graph-audit.mjs",
   "allowlist": {
-    "patterns": [
-      { "glob": "**/__tests__/**", "ruleIds": ["*"], "reason": "Test files excluded" },
-      { "glob": "**/*.test.*", "ruleIds": ["*"], "reason": "Test files excluded" },
-      { "glob": "**/@core/**", "ruleIds": ["*"], "reason": "Core library files excluded" },
-      { "glob": "**/@layouts/**", "ruleIds": ["*"], "reason": "Layout library files excluded" }
-    ],
+    "patterns": [],
     "specific": []
   },
   "thresholds": {
