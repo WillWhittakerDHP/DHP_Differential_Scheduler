@@ -38,7 +38,6 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 | P1 | `TS2352-ts2352-conversion-of-type-readonly-x-string-string-readonly-background-string-readonly-surface-string-readonly-primary-s` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2352-ts2352-conversion-of-type-selectedblockid-globalthis-writablecomputedref-string-null-string-null-to-type-useblockinstanc` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2352-ts2352-conversion-of-type-selectedblockids-globalthis-writablecomputedref-string-string-to-type-useblockinstanceselectio` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-selectioncarditemwithcomponents-to-type-selectioncarditem-may-be-a-mistake-because-neither-typ` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2352-ts2352-conversion-of-type-window-typeof-globalthis-to-type-windowwithdebug-may-be-a-mistake-because-neither-type-suffici` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2352-ts2352-conversion-of-type-workcapacityfilter-rollingweekcapacityfilter-to-type-record-string-tvalue-may-be-a-mistake-bec` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
 | P1 | `TS2724-ts2724-types-entities-has-no-exported-member-named-globalentitykey-did-you-mean-globalentity` | 12 | 1 | 1 | 9 | 2 | 1 | 0 | 0 |
@@ -62,7 +61,6 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 | `src/composables/formFields/useFormFieldsStandardLayout.ts` | 2 | 0 | 0 |
 | `src/composables/useSelectOptions.ts` | 2 | 0 | 0 |
 | `src/components/admin/generic/collections/PartsCollection.vue` | 1 | 0 | 0 |
-| `src/components/booking/steps/PropertyDetailsStep.vue` | 1 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | 1 | 0 | 0 |
 | `src/composables/admin/tables/useAppointmentsTableModel.ts` | 1 | 0 | 0 |
 | `src/composables/admin/useCalibrationChart.ts` | 1 | 0 | 0 |

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T13:39:11.199Z",
+  "generatedAt": "2026-02-19T18:59:43.422Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 811,
-  "totalDefinitions": 661,
+  "fileCount": 812,
+  "totalDefinitions": 664,
   "groups": [
     {
       "groupId": "sim-subset-225e518d80ec",
@@ -62,7 +62,7 @@
           "name": "WizardStateData",
           "kind": "interface",
           "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-          "line": 34,
+          "line": 37,
           "exported": true,
           "propertyCount": 42,
           "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }"
@@ -182,7 +182,7 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-a327c0b2d783",
+      "groupId": "sim-subset-0780f77cc3a9",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -199,7 +199,7 @@
           "name": "ComponentItem",
           "kind": "interface",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 32,
+          "line": 34,
           "exported": true,
           "propertyCount": 5,
           "signature": "{ active: boolean, description?: string, icon?: string, id: string, name: string }"
@@ -293,20 +293,11 @@
           "exported": true,
           "propertyCount": 4,
           "signature": "{ active: boolean, blockShapeRef: string, name: string, orderIndex: number }"
-        },
-        {
-          "name": "SelectionCardItemWithComponents",
-          "kind": "interface",
-          "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 40,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ composite?: boolean, instanceComponents?: ComponentItem[] }"
         }
       ],
       "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }",
       "propertyCount": 18,
-      "score": 57,
+      "score": 53,
       "priority": "P0"
     },
     {
@@ -995,7 +986,7 @@
           "name": "UsePropertyDetailsLogicParams",
           "kind": "interface",
           "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 45,
+          "line": 49,
           "exported": true,
           "propertyCount": 11,
           "signature": "{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }"
@@ -1268,6 +1259,44 @@
         "createdAt",
         "id",
         "updatedAt"
+      ],
+      "uniqueToSecond": [],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-subset-5a10cd3ef8e7",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "SelectOption",
+          "kind": "interface",
+          "file": "client/src/composables/useSelectOptions.ts",
+          "line": 22,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ children?: SelectOption[], title: string, value: string }"
+        },
+        {
+          "name": "USStateOption",
+          "kind": "interface",
+          "file": "client/src/configs/usStates.ts",
+          "line": 6,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ title: string, value: string }"
+        }
+      ],
+      "signature": "{ children?: SelectOption[], title: string, value: string }",
+      "propertyCount": 3,
+      "overlapPercent": 67,
+      "sharedProperties": [
+        "title",
+        "value"
+      ],
+      "uniqueToFirst": [
+        "children"
       ],
       "uniqueToSecond": [],
       "score": 10,
@@ -4370,10 +4399,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "AttendeeSpec",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "line": 64,
+      "exported": false,
+      "fingerprint": "127be454b394",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseAppointmentDataCollectionReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 62,
+      "line": 92,
       "exported": true,
       "fingerprint": "eb85b286448f",
       "propertyCount": 1,
@@ -4755,8 +4794,8 @@
       "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
       "line": 13,
       "exported": true,
-      "fingerprint": "e47a6bdd04b6",
-      "propertyCount": 8,
+      "fingerprint": "505db2740b54",
+      "propertyCount": 10,
       "primitiveAlias": null
     },
     {
@@ -5193,7 +5232,7 @@
       "name": "ComponentItem",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 32,
+      "line": 34,
       "exported": true,
       "fingerprint": "be2e69c15656",
       "propertyCount": 5,
@@ -5203,17 +5242,17 @@
       "name": "SelectionCardItemWithComponents",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 40,
+      "line": 44,
       "exported": true,
-      "fingerprint": "cabfbbb8f9c9",
-      "propertyCount": 2,
+      "fingerprint": "07453d8b81f4",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
       "name": "UsePropertyDetailsLogicParams",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 45,
+      "line": 49,
       "exported": true,
       "fingerprint": "cce38abda7a2",
       "propertyCount": 11,
@@ -5223,7 +5262,7 @@
       "name": "UsePropertyDetailsLogicReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 60,
+      "line": 64,
       "exported": true,
       "fingerprint": "0d0aa6dfeab0",
       "propertyCount": 9,
@@ -6340,6 +6379,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "USStateOption",
+      "kind": "interface",
+      "file": "client/src/configs/usStates.ts",
+      "line": 6,
+      "exported": true,
+      "fingerprint": "fbee4b3e4137",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "WizardStepConfig",
       "kind": "interface",
       "file": "client/src/configs/wizardSteps.ts",
@@ -7060,13 +7109,23 @@
       "primitiveAlias": null
     },
     {
+      "name": "ConfirmationStepData",
+      "kind": "interface",
+      "file": "client/src/types/wizard.ts",
+      "line": 145,
+      "exported": true,
+      "fingerprint": "53f85169b5e7",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "WizardStepDataAndValidationRefs",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 147,
+      "line": 156,
       "exported": true,
-      "fingerprint": "32896f4a0858",
-      "propertyCount": 10,
+      "fingerprint": "134fe37a39b1",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
@@ -7175,8 +7234,8 @@
       "file": "client/src/utils/booking/bookingWizardStepValidators.ts",
       "line": 2,
       "exported": true,
-      "fingerprint": "e150a321b004",
-      "propertyCount": 7,
+      "fingerprint": "e61c7f2b638f",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
@@ -7510,30 +7569,30 @@
       "primitiveAlias": null
     },
     {
-      "name": "WizardStateData",
-      "kind": "interface",
-      "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "line": 34,
-      "exported": true,
-      "fingerprint": "63f5f46e30b6",
-      "propertyCount": 42,
-      "primitiveAlias": null
-    },
-    {
       "name": "AddressWithGeo",
       "kind": "interface",
-      "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "line": 105,
+      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "line": 277,
       "exported": false,
       "fingerprint": "53a8bf4d5fc2",
       "propertyCount": 3,
       "primitiveAlias": null
     },
     {
+      "name": "WizardStateData",
+      "kind": "interface",
+      "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "line": 37,
+      "exported": true,
+      "fingerprint": "63f5f46e30b6",
+      "propertyCount": 42,
+      "primitiveAlias": null
+    },
+    {
       "name": "TimeSlotLike",
       "kind": "interface",
       "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "line": 205,
+      "line": 175,
       "exported": false,
       "fingerprint": "c6fd70284919",
       "propertyCount": 2,

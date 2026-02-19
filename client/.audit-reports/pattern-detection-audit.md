@@ -14,11 +14,11 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **796**
+- Files scanned: **797**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **562**
+- Type definitions found: **564**
 - Enum patterns found: **7**
-- Config locations found: **39**
+- Config locations found: **40**
 - Function patterns found: **397**
 - Common patterns found: **24**
 
@@ -114,6 +114,7 @@ _No frequent string literals found._
 | `ComponentStrategy` | type | `client/src/types/component.ts:4` |
 | `ComposablePropertyValue` | type | `client/src/utils/transformers/composePropertyValue.ts:17` |
 | `ComposedFieldConfig` | interface | `client/src/types/shapeFieldMetadata.ts:42` |
+| `ConfirmationStepData` | interface | `client/src/types/wizard.ts:145` |
 | `ContactInfo` | interface | `client/src/composables/booking/useContactsStepData.ts:32` |
 | `ContactsStepData` | interface | `client/src/types/wizard.ts:129` |
 | `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts:10` |
@@ -131,8 +132,7 @@ _No frequent string literals found._
 | `DayBusinessHours` | interface | `client/src/utils/booking/timeSlotTypes.ts:37` |
 | `DayOfWeek` | type | `client/src/types/datetime.ts:164` |
 | `DehydrateFieldSets` | type | `client/src/utils/transformers/fieldClassification.ts:14` |
-| `DependentDelete` | type | `server/src/routes/helpers/dataController.ts:202` |
-| ... | ... | (+462 more) |
+| ... | ... | (+464 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -179,6 +179,7 @@ _No frequent string literals found._
 | `client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts` | config-file |
 | `client/src/configs/propertyValidationStrings.ts` | config-file |
+| `client/src/configs/usStates.ts` | config-file |
 | `client/src/configs/wizardSteps.ts` | config-file |
 | `server/src/config/app.ts` | config-file |
 | `server/src/config/brightMlsFoundationMapping.ts` | config-file |

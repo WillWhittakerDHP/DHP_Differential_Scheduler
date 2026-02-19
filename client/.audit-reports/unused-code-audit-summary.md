@@ -68,6 +68,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `client/src/configs/usStates.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/configs/wizardSteps.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/1.router/guards.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/5.vuetify/theme.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -96,6 +97,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/forms/getFieldKeys.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/ternary/ternaryUtils.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/transformers/componentAggregator.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/transformers/fetchToBusinessTransformer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/transformers/fieldClassification.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -127,7 +129,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/services/propertyFeatureMatcher.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/propertyFieldMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabilityPrimitives.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/utils/propertyTransformers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/sequelizeHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `client/src/composables/admin/tables/useAppointmentAttendees.ts` | P2 | 2 | 0 | 0 | 2 | 0 |

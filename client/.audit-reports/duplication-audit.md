@@ -22,14 +22,14 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+23 more) | 37 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+23 more) | 38 |
 | `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts` (+70 more) | 138 |
 | `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+212 more) | 219 |
 
 ## Summary
 
-- Files scanned: **608**
-- Groups (window=10 lines, minOccurrences=2): **212**
+- Files scanned: **609**
+- Groups (window=10 lines, minOccurrences=2): **215**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
@@ -55,12 +55,12 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 | `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@210`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
 | `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@82`, `server/src/utils/adminPrimitiveMetadataComposer.ts@98`, `server/src/utils/adminRelationshipMetadataComposer.ts@93`, … |
+| `dup-01452b96803f` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@48`, `client/src/components/booking/BookingWizard.vue@176`, `client/src/composables/booking/useWizardStepDataRefs.ts@50` |
+| `dup-639d6f3d1bfe` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@47`, `client/src/components/booking/BookingWizard.vue@175`, `client/src/composables/booking/useWizardStepDataRefs.ts@49` |
 | `dup-72bfca850e56` | 2 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@16`, `server/src/utils/adminMetadataComposer.ts@125`, `server/src/utils/adminRelationshipMetadataComposer.ts@15` |
+| `dup-c83d80935f34` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@45`, `client/src/components/booking/BookingWizard.vue@173`, `client/src/composables/booking/useWizardStepDataRefs.ts@47` |
 | `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@32`, `server/src/utils/logger.ts@32` |
 | `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@51`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@36` |
-| `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@47`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@32` |
-| `dup-054b5d13687d` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@65`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@65` |
-| `dup-0650894690ad` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@73`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@73` |
 
 ## Per-group details (top)
 
@@ -499,24 +499,24 @@ inputConfig: meta.inputConfig || null,
 return entityMetadata.map(meta => ({
 ```
 
-### Group `dup-72bfca850e56`
+### Group `dup-01452b96803f`
 
 - unique files: **2**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 16-26
-- `server/src/utils/adminMetadataComposer.ts` @ lines 125-135
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 15-25
+- `client/src/components/booking/BookingWizard.vue` @ lines 48-57
+- `client/src/components/booking/BookingWizard.vue` @ lines 176-185
+- `client/src/composables/booking/useWizardStepDataRefs.ts` @ lines 50-59
 
 ```
-dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-isRequired: boolean;
-visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-layout: 'inline' | 'stacked';
-displayOrder: number;
-renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-statusButtonColor?: string | null;
-panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
-bulkEdit: boolean;
-inputConfig?: Record<string, unknown> | null;
+confirmationStepData,
+propertyDetailsStepValid,
+propertyDetailsStepValidate,
+propertyDetailsFieldErrors,
+contactsStepValid,
+contactsStepValidate,
+availabilityStepValid,
+availabilityStepValidate,
+confirmationStepValid,
+confirmationStepValidate,
 ```

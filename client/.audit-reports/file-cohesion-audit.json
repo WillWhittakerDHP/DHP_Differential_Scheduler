@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T13:39:42.194Z",
-  "totalScanned": 797,
+  "generatedAt": "2026-02-19T19:00:14.357Z",
+  "totalScanned": 798,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -56,16 +56,16 @@
     {
       "repoPath": "client/src/components/booking/BookingWizard.vue",
       "category": "components",
-      "lineCount": 636,
+      "lineCount": 644,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 636,
+          "value": 644,
           "threshold": 500,
-          "detail": "636 lines (components max: 500)"
+          "detail": "644 lines (components max: 500)"
         }
       ],
       "score": 6,
@@ -342,18 +342,36 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "category": "utils",
+      "lineCount": 334,
+      "exportCount": 7,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 334,
+          "threshold": 300,
+          "detail": "334 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
       "category": "utils",
-      "lineCount": 350,
+      "lineCount": 320,
       "exportCount": 2,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 350,
+          "value": 320,
           "threshold": 300,
-          "detail": "350 lines (utils max: 300)"
+          "detail": "320 lines (utils max: 300)"
         }
       ],
       "score": 3,

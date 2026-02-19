@@ -7,9 +7,9 @@ Generated from `.audit-reports/pattern-detection-audit.json`.
 | Category | Count |
 | --- | ---: |
 | String literals (3+ occurrences) | 0 |
-| Type definitions | 562 |
+| Type definitions | 564 |
 | Enum patterns | 7 |
-| Config locations | 39 |
+| Config locations | 40 |
 | Function patterns | 397 |
 | Common patterns | 24 |
 

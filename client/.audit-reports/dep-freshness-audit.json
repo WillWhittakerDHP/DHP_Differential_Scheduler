@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-19T13:39:17.131Z",
-  "totalScanned": 13,
+  "generatedAt": "2026-02-19T18:59:45.595Z",
+  "totalScanned": 14,
   "byBehind": {
-    "major-behind": 10,
+    "major-behind": 11,
     "minor-behind": 2,
     "patch-behind": 0,
     "current": 1
@@ -61,6 +61,15 @@
       "latest": "25.3.0",
       "behind": "minor-behind",
       "score": 2
+    },
+    {
+      "package": "eslint-plugin-security",
+      "dependent": "client",
+      "current": "3.0.1",
+      "wanted": "3.0.1",
+      "latest": "4.0.0",
+      "behind": "major-behind",
+      "score": 5
     },
     {
       "package": "vitest",
@@ -205,6 +214,17 @@
       "behind": "major-behind"
     },
     {
+      "repoPath": "client:eslint-plugin-security",
+      "score": 5,
+      "priority": "P0",
+      "package": "eslint-plugin-security",
+      "dependent": "client",
+      "current": "3.0.1",
+      "wanted": "3.0.1",
+      "latest": "4.0.0",
+      "behind": "major-behind"
+    },
+    {
       "repoPath": "server:express",
       "score": 5,
       "priority": "P0",
@@ -262,7 +282,7 @@
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 12,
+    "totalRequiresReview": 13,
     "bySource": {
       "inline": 0,
       "pattern": 0,

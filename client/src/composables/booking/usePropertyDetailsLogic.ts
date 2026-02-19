@@ -7,7 +7,8 @@
  */
 
 import { computed, ref, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntity } from '@/composables/useComponentEntity'
@@ -17,6 +18,7 @@ import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 import type { PlaceDetails } from '@/services/mapsApiService'
 import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
 import { createLogger } from '@/utils/logger'
+import { extractOptionalString, safeArray } from '@/utils/transformers/transformerPrimitives'
 
 const logger = createLogger('usePropertyDetailsLogic')
 
@@ -38,9 +40,11 @@ export interface ComponentItem {
   active: boolean
 }
 
-export interface SelectionCardItemWithComponents extends BookingBlockInstance {
-  composite?: boolean
-  instanceComponents?: ComponentItem[]
+/** Extends SelectionCardItem so items are assignable to SelectionCardGroup without cast */
+export interface SelectionCardItemWithComponents extends SelectionCardItem {
+  blockShapeName?: string
+  bookingMode?: string
+  partInstances?: BookingPartInstance[]
 }
 
 export interface UsePropertyDetailsLogicParams {
@@ -272,22 +276,21 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
         return
       }
 
-      formData.mlsNumber.value = enrichment.mlsNumber ?? ''
+      formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')
       formData.squareFootage.value = enrichment.squareFootage
       formData.bedrooms.value = enrichment.bedrooms
       formData.bathrooms.value = enrichment.bathrooms
       formData.foundationAccess.value = enrichment.foundationAccess
       formData.additionalUnits.value = enrichment.additionalUnits
       if (formData.source) formData.source.value = 'api'
+      const suggestedIds = safeArray(enrichment.suggestedBlockInstanceIds)
       if (formData.suggestedBlockInstanceIds) {
-        formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []
+        formData.suggestedBlockInstanceIds.value = suggestedIds
       }
 
       if (enrichment.squareFootage != null) {
         formData.propertySize.value = enrichment.squareFootage
       }
-
-      const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []
       if (suggestedIds.length > 0) {
         wizard.batchUpdate(() => {
           const propBlocks = wizard.availablePropertyTypeBlocks.value

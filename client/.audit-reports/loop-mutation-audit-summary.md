@@ -18,6 +18,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `server/src/services/calendarErrorHandler.ts` | P0 | 16 | 0 | 0 | 0 | 8 | 0 |
 | `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/utils/entityDefaults.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/utils/transformers/fieldClassification.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `server/src/services/google/maps/mapsHelpers.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
 | `client/src/utils/forms/formElementPatching.ts` | P0 | 13 | 1 | 4 | 0 | 4 | 0 |
@@ -29,13 +30,12 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/utils/booking/constraintColors.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `client/src/utils/eventAttendeeUtils.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 12 | 0 | 0 | 1 | 5 | 0 |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `server/src/services/instanceVersioning.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
 | `client/src/main.ts` | P1 | 11 | 1 | 2 | 0 | 4 | 0 |
 | `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | P1 | 10 | 0 | 6 | 1 | 8 | 0 |
+| `client/src/components/booking/IndependentSelectCard.vue` | P1 | 10 | 0 | 0 | 5 | 2 | 0 |
 
 *...and 177 more files. See full report for details.*
 

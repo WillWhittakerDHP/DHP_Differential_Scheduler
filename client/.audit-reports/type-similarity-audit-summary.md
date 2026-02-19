@@ -4,15 +4,15 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- Files scanned: **811**
-- Type definitions: **661**
-- Similarity groups: **45**
+- Files scanned: **812**
+- Type definitions: **664**
+- Similarity groups: **46**
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
 | UNIFY | 0 | Same concept duplicated — consolidate |
 | BRAND | 5 | Different concept, same shape — add branding |
-| EXTEND | 34 | Superset/subset — use extends |
+| EXTEND | 35 | Superset/subset — use extends |
 | REVIEW | 6 | High overlap — needs judgment |
 
 ## Index (ranked)
@@ -20,7 +20,7 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | Priority | Action | Relationship | Types | Files | Score |
 | --- | --- | --- | --- | ---: | ---: |
 | P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsStepData`, `PropertyDetailsData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty`, `PartialPropertyDetails`, `PropertyEnrichmentResponse` | 13 | 71 |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 57 |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData` | 9 | 53 |
 | P0 | EXTEND | SUBSET | `CalendarEvent`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DayHours`, `DateRangeConfig`, `CalendarEvent`, `BusyTimeRange`, `CreatedEventResponse`, `BusyTimeRange`, `ComputedAvailabilityRequest` | 5 | 47 |
 | P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `ServerTimeSlot`, `ComputedSlot` | 6 | 31 |
 | P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById` | 5 | 28 |
@@ -42,6 +42,7 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 | P1 | EXTEND | SUBSET | `UseAvailabilityStepDataParams`, `UseAvailabilityValidationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `MinimalSlotParams`, `SlotGenerationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `BusinessRule`, `BusinessRuleFormData` | 1 | 10 |
+| P1 | EXTEND | SUBSET | `SelectOption`, `USStateOption` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `RelationshipCollectionModel`, `UseRelationshipCollectionDataReturn` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `InstanceComponent`, `CreateRelationshipPayload` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseFormElementPatchingOptions`, `FormElementPatchingOptions` | 2 | 10 |

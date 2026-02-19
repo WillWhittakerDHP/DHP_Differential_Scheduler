@@ -47,8 +47,8 @@ When extracting literals to constants, prefer these constant files (from constan
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **247**
-- **Requiring review: 840**
-- Allowed (with justification): 455 (inline: 2, pattern: 453, specific: 0)
+- **Requiring review: 842**
+- Allowed (with justification): 495 (inline: 2, pattern: 493, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -56,6 +56,7 @@ When extracting literals to constants, prefer these constant files (from constan
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `server/src/services/brightMls/brightMlsApiClient.ts` | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/routesApiService.ts` | 22 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | 21 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/placesApiService.ts` | 21 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -68,7 +69,6 @@ When extracting literals to constants, prefer these constant files (from constan
 | `client/src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/mapsHelpers.ts` | 14 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `client/src/components/beta/BetaFeedbackDashboard.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | 13 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 13 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -78,12 +78,12 @@ When extracting literals to constants, prefer these constant files (from constan
 | `server/src/services/propertyFeatureMatcher.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/InstancesTab.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/services/mapsApiService.ts` | 10 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminPrimitiveMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/calendar/eventCreationService.ts` | 9 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -100,6 +100,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 ### `server/src/services/google/maps/routesApiService.ts`
 
 - score: **22**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/composables/booking/useAppointmentDataCollection.ts`
+
+- score: **21**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
@@ -158,12 +164,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/components/booking/steps/PropertyDetailsStep.vue`
-
-- score: **13**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `server/src/services/computedAvailabilityService.ts`
 
 - score: **13**
@@ -185,6 +185,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 ### `client/src/views/admin/tabs/InstancesTab.vue`
 
 - score: **11**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
+### `client/src/components/booking/steps/PropertyDetailsStep.vue`
+
+- score: **10**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -377,6 +383,25 @@ magicLabel@157: error instanceof Error ? error.message : 'Network error',
 magicLabel@188: logger.warn('Missing origin location data')
 magicLabel@193: logger.warn('Missing destination location data')
 magicLabel@208: logger.warn('No route found between locations')
+```
+
+### `client/src/composables/booking/useAppointmentDataCollection.ts`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
+- requiring review: 11, allowed: 0
+
+```
+magicLabel@123: showError('Please select at least one service type')
+magicLabel@129: showError('Property details are required')
+magicLabel@134: showError('Contact information is required')
+magicLabel@139: showError('Availability selection is required')
+fieldMapping@172: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+fieldMapping@173: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
+fieldMapping@174: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
+fieldMapping@175: { info: contacts.transactionManagerInfo, role: 'transaction_manager', shouldCreate: contacts.showTransactionManager },
+fieldMapping@176: { info: contacts.sellerInfo, role: 'seller', shouldCreate: contacts.showSeller },
+magicLabel@285: logger.error('Failed to collect appointment data', { error })
+magicLabel@286: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
 ```
 
 ### `server/src/services/google/maps/placesApiService.ts`
@@ -631,27 +656,6 @@ magicLabel@160: { title: 'Severity', key: 'severity', sortable: false, width: '9
 magicLabel@162: { title: 'Reporter', key: 'reporterName', sortable: false, width: '140px' },
 ```
 
-### `client/src/components/booking/steps/PropertyDetailsStep.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=13
-- requiring review: 13, allowed: 0
-
-```
-magicLabel@31: const logger = createLogger('PropertyDetailsStep')
-magicLabel@121: { value: 'FL', title: 'Florida' },
-magicLabel@122: { value: 'VA', title: 'Virginia' },
-magicLabel@123: { value: 'DC', title: 'District of Columbia' },
-magicLabel@284: label="Property Address"
-magicLabel@301: label="Street Address"
-magicLabel@323: placeholder="Los Angeles"
-magicLabel@348: label="Zip Code"
-magicLabel@419: label="MLS Number"
-magicLabel@427: label="Bedrooms"
-magicLabel@436: label="Bathrooms"
-magicLabel@445: label="Foundation Access"
-magicLabel@456: label="Number of Units"
-```
-
 ### `server/src/services/computedAvailabilityService.ts`
 
 - total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
@@ -685,18 +689,18 @@ caseString@247: case 'future':
 - requiring review: 12, allowed: 0
 
 ```
-magicLabel@130: label="First Name"
-magicLabel@141: label="Last Name"
-magicLabel@173: label="First Name"
-magicLabel@184: label="Last Name"
-magicLabel@228: label="First Name"
-magicLabel@239: label="Last Name"
-magicLabel@283: label="First Name"
-magicLabel@294: label="Last Name"
-magicLabel@295: placeholder="Johnson"
-magicLabel@338: label="First Name"
-magicLabel@349: label="Last Name"
-magicLabel@350: placeholder="Williams"
+magicLabel@116: label="First Name"
+magicLabel@127: label="Last Name"
+magicLabel@159: label="First Name"
+magicLabel@170: label="Last Name"
+magicLabel@214: label="First Name"
+magicLabel@225: label="Last Name"
+magicLabel@269: label="First Name"
+magicLabel@280: label="Last Name"
+magicLabel@281: placeholder="Johnson"
+magicLabel@324: label="First Name"
+magicLabel@335: label="Last Name"
+magicLabel@336: placeholder="Williams"
 ```
 
 ### `client/src/utils/booking/constraintColors.ts`
@@ -798,6 +802,24 @@ magicLabel@651: label="Event Shape"
 magicLabel@664: label="Title Template"
 magicLabel@672: label="Description Template"
 magicLabel@680: label="Location Template"
+```
+
+### `client/src/components/booking/steps/PropertyDetailsStep.vue`
+
+- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
+- requiring review: 10, allowed: 0
+
+```
+magicLabel@32: const logger = createLogger('PropertyDetailsStep')
+magicLabel@261: label="Property Address"
+magicLabel@278: label="Street Address"
+magicLabel@300: placeholder="Los Angeles"
+magicLabel@325: label="Zip Code"
+magicLabel@396: label="MLS Number"
+magicLabel@404: label="Bedrooms"
+magicLabel@413: label="Bathrooms"
+magicLabel@422: label="Foundation Access"
+magicLabel@433: label="Number of Units"
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
@@ -1140,20 +1162,6 @@ magicLabel@181: logger.error('Error creating business rule', { error: err })
 magicLabel@211: logger.error('Error updating business rule', { error: err, id, formData })
 magicLabel@236: logger.error('Error deleting business rule', { error: err, id })
 magicLabel@260: logger.error('Error toggling business rule', { error: err, id, active })
-```
-
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@93: showError('Please select at least one service type')
-magicLabel@99: showError('Property details are required')
-magicLabel@104: showError('Contact information is required')
-magicLabel@109: showError('Availability selection is required')
-magicLabel@331: logger.error('Failed to collect appointment data', { error })
-magicLabel@332: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
 ```
 
 ### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
@@ -2156,8 +2164,8 @@ magicLabel@85: error.value = err instanceof Error ? err : new Error('Failed to r
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@25: logger.debug('Address component missing', { fieldName })
-magicLabel@221: logger.warn('MLS enrichment failed', { err })
+magicLabel@27: logger.debug('Address component missing', { fieldName })
+magicLabel@225: logger.warn('MLS enrichment failed', { err })
 ```
 
 ### `client/src/composables/booking/useTimeSlotCalculations.ts`
@@ -2265,8 +2273,8 @@ magicLabel@41: // PATTERN: Filter out known system/special fields to prevent "Un
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@253: blockShapeType: 'SERVICE',
-magicLabel@263: blockShapeType: 'PROPERTY',
+magicLabel@223: blockShapeType: 'SERVICE',
+magicLabel@233: blockShapeType: 'PROPERTY',
 ```
 
 ### `server/src/db/models/admin/business_rule.ts`
@@ -2392,7 +2400,7 @@ magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || '
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@341: {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
+magicLabel@349: {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
 ```
 
 ### `client/src/components/booking/modals/PropertyConfirmationModal.vue`

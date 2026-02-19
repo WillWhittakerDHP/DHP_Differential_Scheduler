@@ -574,26 +574,6 @@ filter@199: Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEd
 reduce@219: const bulkEditData: PartInstanceBulkEditData = Object.keys(filteredMetadata.value).reduce((acc, field) => {
 ```
 
-### `src/components/booking/steps/PropertyDetailsStep.vue`
-
-- counts: computed=1, ref=2, watch=3, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@13: import { ref, inject, computed, watch, onMounted, type Ref } from 'vue'
-provideInject@50: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-ref@55: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
-provideInject@55: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
-computed@183: hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
-provideInject@189: const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
-provideInject@190: const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
-provideInject@191: const parentPropertyDetailsStepValidate = inject<Ref<(() => boolean) | null>>('propertyDetailsStepValidate')
-provideInject@192: const parentPropertyDetailsFieldErrors = inject<Ref<Record<string, string>>>('propertyDetailsFieldErrors')
-watch@198: watch(stepData, (newData) => {
-watch@205: watch(isFormValid, (newValid) => {
-watch@213: watch(fieldErrors, (newErrors) => {
-ref@220: const showPropertyConfirmationModal = ref(false)
-```
-
 ### `src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
 - counts: computed=1, ref=0, watch=0, async=0, await=0, map=3, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -647,22 +627,6 @@ computed@212: const canConfirm = computed(() => {
 computed@91: const modalTitle = computed(() => {
 async@108: async function handleSave(): Promise<void> {
 await@115: await editorRef.value.save()
-```
-
-### `src/components/booking/steps/ContactsStep.vue`
-
-- counts: computed=1, ref=0, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@13: import { inject, watch, computed, type Ref } from 'vue'
-provideInject@20: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
-provideInject@26: const wizard = inject<UseBookingWizardReturn>('wizard')
-computed@36: const requiresAgent = computed(() => {
-provideInject@82: const parentContactsStepData = inject<Ref<ContactsStepData | null>>('contactsStepData')
-provideInject@83: const parentContactsStepValid = inject<Ref<boolean>>('contactsStepValid')
-provideInject@84: const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
-watch@90: watch(stepData, (newData) => {
-watch@97: watch(isFormValid, (newValid) => {
 ```
 
 ### `src/components/beta/BetaFeedbackDetailModal.vue`
@@ -770,17 +734,17 @@ ref@146: const showPicker = ref(false)
 provideInject@11: import { computed, provide, ref } from 'vue'
 provideInject@38: provide('wizard', wizard)
 provideInject@42: // WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-vueQuery@112: // PATTERN: useMutation from useAppointment composable
-computed@202: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
-provideInject@219: provide('loadedWizardState', loadedWizardState)
-provideInject@223: // PATTERN: Defaults to current month, Step 3 can update via inject
-provideInject@230: // Allow Step 3 to update displayedMonth via provide/inject
-provideInject@231: provide('displayedMonth', displayedMonth)
-provideInject@232: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
-provideInject@242: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
-provideInject@244: provide('appointmentDuration', appointmentDurationRef)
-computed@247: const selectedDateForSlots = computed(() => {
-provideInject@263: provide('computedAvailability', computedAvailability)
+vueQuery@117: // PATTERN: useMutation from useAppointment composable
+computed@210: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+provideInject@227: provide('loadedWizardState', loadedWizardState)
+provideInject@231: // PATTERN: Defaults to current month, Step 3 can update via inject
+provideInject@238: // Allow Step 3 to update displayedMonth via provide/inject
+provideInject@239: provide('displayedMonth', displayedMonth)
+provideInject@240: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
+provideInject@250: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
+provideInject@252: provide('appointmentDuration', appointmentDurationRef)
+computed@255: const selectedDateForSlots = computed(() => {
+provideInject@271: provide('computedAvailability', computedAvailability)
 ```
 
 ### `src/components/booking/IndependentSelectCard.vue`
@@ -934,6 +898,30 @@ provideInject@58: *             in templates. Both provide same functionality.
 computed@77: const fieldType = computed(() => {
 ```
 
+### `src/components/booking/steps/ContactsStep.vue`
+
+- counts: computed=1, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@13: import { inject, computed, type Ref } from 'vue'
+provideInject@20: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+provideInject@26: const wizard = inject<UseBookingWizardReturn>('wizard')
+computed@36: const requiresAgent = computed(() => {
+```
+
+### `src/components/booking/steps/PropertyDetailsStep.vue`
+
+- counts: computed=1, ref=2, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@13: import { ref, inject, computed, onMounted, type Ref } from 'vue'
+provideInject@51: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+ref@56: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+provideInject@56: const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+computed@179: hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
+ref@197: const showPropertyConfirmationModal = ref(false)
+```
+
 ### `src/components/admin/generic/fields/DateInput.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
@@ -1013,13 +1001,14 @@ provideInject@46: const appointmentDurationRef = inject<Ref<number | null>>('app
 
 ### `src/components/booking/steps/ConfirmationStep.vue`
 
-- counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+- counts: computed=0, ref=1, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@10: import { inject, type Ref } from 'vue'
-provideInject@14: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
-provideInject@24: const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
-provideInject@25: const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
+provideInject@10: import { inject, ref, type Ref } from 'vue'
+provideInject@17: const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+provideInject@22: const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
+provideInject@23: const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
+ref@27: const isFormValid = ref(true)
 ```
 
 ### `src/views/admin/AdminPanel.vue`

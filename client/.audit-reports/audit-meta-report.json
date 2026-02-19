@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-19T13:40:56.989Z",
+  "generatedAt": "2026-02-19T19:01:52.176Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -25,7 +25,7 @@
     {
       "auditId": "hardcoding",
       "filesWithFindings": 247,
-      "totalFindings": 840
+      "totalFindings": 842
     },
     {
       "auditId": "function-complexity",
@@ -44,8 +44,8 @@
     },
     {
       "auditId": "unused-code",
-      "filesWithFindings": 144,
-      "totalFindings": 144
+      "filesWithFindings": 145,
+      "totalFindings": 145
     },
     {
       "auditId": "error-handling",
@@ -54,8 +54,8 @@
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 57,
-      "totalFindings": 143
+      "filesWithFindings": 56,
+      "totalFindings": 140
     },
     {
       "auditId": "security",
@@ -74,8 +74,8 @@
     },
     {
       "auditId": "file-cohesion",
-      "filesWithFindings": 90,
-      "totalFindings": 90
+      "filesWithFindings": 91,
+      "totalFindings": 91
     },
     {
       "auditId": "api-contract",
@@ -114,8 +114,8 @@
     },
     {
       "auditId": "dep-freshness",
-      "filesWithFindings": 12,
-      "totalFindings": 12
+      "filesWithFindings": 13,
+      "totalFindings": 13
     },
     {
       "auditId": "type-escape",
@@ -328,6 +328,17 @@
       ]
     },
     {
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "totalScore": 45.5,
+      "auditCount": 4,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "deprecation"
+      ]
+    },
+    {
       "repoPath": "client/src/utils/transformers/relationshipTransformers.ts",
       "totalScore": 41,
       "auditCount": 2,
@@ -446,17 +457,6 @@
         "function-complexity",
         "unused-code",
         "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "totalScore": 36.5,
-      "auditCount": 4,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "file-cohesion"
       ]
     },
     {
@@ -646,17 +646,6 @@
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "totalScore": 30.5,
-      "auditCount": 4,
-      "auditIds": [
-        "loop-mutation",
-        "hardcoding",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "totalScore": 30,
       "auditCount": 5,
@@ -665,6 +654,17 @@
         "hardcoding",
         "unused-code",
         "error-handling",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "totalScore": 30,
+      "auditCount": 4,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
         "file-cohesion"
       ]
     },
@@ -680,37 +680,37 @@
       ]
     }
   ],
-  "totalExceptions": 1773,
-  "previousExceptions": 1357,
+  "totalExceptions": 1801,
+  "previousExceptions": 1762,
   "exceptionAnalysis": {
     "totals": {
-      "structural": 1750,
+      "structural": 1778,
       "specific": 23,
-      "total": 1773
+      "total": 1801
     },
     "perAudit": [
       {
         "auditId": "loop-mutation",
-        "structural": 1136,
+        "structural": 1124,
         "specific": 2,
-        "total": 1138,
-        "totalScanned": 685,
-        "ratio": 1.658
+        "total": 1126,
+        "totalScanned": 686,
+        "ratio": 1.638
       },
       {
         "auditId": "hardcoding",
-        "structural": 453,
+        "structural": 493,
         "specific": 2,
-        "total": 455,
-        "totalScanned": 769,
-        "ratio": 0.589
+        "total": 495,
+        "totalScanned": 770,
+        "ratio": 0.64
       },
       {
         "auditId": "error-handling",
         "structural": 45,
         "specific": 0,
         "total": 45,
-        "totalScanned": 797,
+        "totalScanned": 798,
         "ratio": 0.056
       },
       {
@@ -718,7 +718,7 @@
         "structural": 31,
         "specific": 16,
         "total": 47,
-        "totalScanned": 797,
+        "totalScanned": 798,
         "ratio": 0.039
       },
       {
@@ -726,7 +726,7 @@
         "structural": 0,
         "specific": 3,
         "total": 3,
-        "totalScanned": 691,
+        "totalScanned": 692,
         "ratio": 0
       },
       {
@@ -734,7 +734,7 @@
         "structural": 85,
         "specific": 0,
         "total": 85,
-        "totalScanned": 797,
+        "totalScanned": 798,
         "ratio": 0.107
       }
     ],
@@ -768,26 +768,11 @@
     "configPatternCount": 78
   },
   "exceptionDiff": {
-    "totalDelta": 416,
-    "structuralDelta": 402,
-    "specificDelta": 14,
-    "configsChanged": [
-      "type-similarity",
-      "composables-logic",
-      "loop-mutation",
-      "hardcoding",
-      "pattern-detection",
-      "unused-code",
-      "error-handling",
-      "deprecation",
-      "file-cohesion",
-      "constants-consolidation",
-      "naming-convention",
-      "dep-freshness",
-      "lint",
-      "typecheck"
-    ],
-    "verdict": "suppression-creep"
+    "totalDelta": 39,
+    "structuralDelta": 39,
+    "specificDelta": 0,
+    "configsChanged": [],
+    "verdict": "codebase-growth"
   },
   "trend": [
     {
@@ -811,14 +796,14 @@
     {
       "auditId": "loop-mutation",
       "current": 680,
-      "previous": 633,
-      "delta": 47
+      "previous": 684,
+      "delta": -4
     },
     {
       "auditId": "hardcoding",
-      "current": 840,
-      "previous": 963,
-      "delta": -123
+      "current": 842,
+      "previous": 798,
+      "delta": 44
     },
     {
       "auditId": "function-complexity",
@@ -840,21 +825,21 @@
     },
     {
       "auditId": "unused-code",
-      "current": 144,
-      "previous": 144,
-      "delta": 0
+      "current": 145,
+      "previous": 143,
+      "delta": 2
     },
     {
       "auditId": "error-handling",
       "current": 18,
-      "previous": 26,
-      "delta": -8
+      "previous": 18,
+      "delta": 0
     },
     {
       "auditId": "deprecation",
-      "current": 143,
-      "previous": 158,
-      "delta": -15
+      "current": 140,
+      "previous": 143,
+      "delta": -3
     },
     {
       "auditId": "security",
@@ -876,9 +861,9 @@
     },
     {
       "auditId": "file-cohesion",
-      "current": 90,
-      "previous": 82,
-      "delta": 8
+      "current": 91,
+      "previous": 86,
+      "delta": 5
     },
     {
       "auditId": "api-contract",
@@ -889,8 +874,8 @@
     {
       "auditId": "constants-consolidation",
       "current": 17,
-      "previous": 3,
-      "delta": 14
+      "previous": 17,
+      "delta": 0
     },
     {
       "auditId": "bundle-size-budget",
@@ -907,8 +892,8 @@
     {
       "auditId": "naming-convention",
       "current": 4,
-      "previous": 81,
-      "delta": -77
+      "previous": 1,
+      "delta": 3
     },
     {
       "auditId": "api-versioning",
@@ -924,15 +909,15 @@
     },
     {
       "auditId": "dep-freshness",
-      "current": 12,
-      "previous": 40,
-      "delta": -28
+      "current": 13,
+      "previous": 10,
+      "delta": 3
     },
     {
       "auditId": "type-escape",
       "current": 3,
-      "previous": 70,
-      "delta": -67
+      "previous": 3,
+      "delta": 0
     },
     {
       "auditId": "type-import",
@@ -943,8 +928,8 @@
     {
       "auditId": "lint",
       "current": 1,
-      "previous": 6,
-      "delta": -5
+      "previous": 0,
+      "delta": 1
     },
     {
       "auditId": "lint-warnings",

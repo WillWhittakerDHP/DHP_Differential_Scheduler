@@ -25,7 +25,10 @@ Generated from `.audit-reports/duplication-audit.json`.
 | `dup-ef36d1842f4c` | P0 | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 | `dup-faf7bc22dbba` | P0 | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@210`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
 | `dup-af67935eba71` | P0 | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@82`, `server/src/utils/adminPrimitiveMetadataComposer.ts@98`, `server/src/utils/adminRelationshipMetadataComposer.ts@93`, … |
+| `dup-01452b96803f` | P0 | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@48`, `client/src/components/booking/BookingWizard.vue@176`, `client/src/composables/booking/useWizardStepDataRefs.ts@50` |
+| `dup-639d6f3d1bfe` | P0 | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@47`, `client/src/components/booking/BookingWizard.vue@175`, `client/src/composables/booking/useWizardStepDataRefs.ts@49` |
 | `dup-72bfca850e56` | P0 | 2 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@16`, `server/src/utils/adminMetadataComposer.ts@125`, `server/src/utils/adminRelationshipMetadataComposer.ts@15` |
+| `dup-c83d80935f34` | P0 | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@45`, `client/src/components/booking/BookingWizard.vue@173`, `client/src/composables/booking/useWizardStepDataRefs.ts@47` |
 | `dup-012f8e607c7e` | P0 | 2 | 2 | 10 | `client/src/utils/logger.ts@32`, `server/src/utils/logger.ts@32` |
 | `dup-02e09562fbee` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@51`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@36` |
 | `dup-0399e7cb7a09` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@47`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@32` |

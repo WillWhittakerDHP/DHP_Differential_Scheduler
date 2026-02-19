@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T13:39:40.667Z",
-  "totalScanned": 569,
+  "generatedAt": "2026-02-19T19:00:12.720Z",
+  "totalScanned": 570,
   "findings": [
     {
       "file": "client/src/composables/admin/useInstanceFiltering.ts",

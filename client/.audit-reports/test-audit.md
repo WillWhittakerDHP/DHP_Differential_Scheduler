@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-19T13:40:51.189Z
+Generated at: 2026-02-19T19:01:46.270Z
 
 ## Summary
 
-- **Total source files**: 796
+- **Total source files**: 797
 - **Total test files**: 0
-- **Untested source files**: 796
+- **Untested source files**: 797
 - **Orphaned test files**: 0
 - **Coverage**: 0%
 
@@ -17,11 +17,11 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 
 | File | Priority | Reliability | ROI | Independence | Cognitive Load | Exports |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | **9.0** | 10 | 10 | 9 | 2 | 2 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | **9.2** | 10 | 10 | 9 | 4 | 6 |
 | `client/src/utils/transformers/fieldClassification.ts` | **8.7** | 10 | 10 | 8 | 1 | 2 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | **8.4** | 8 | 10 | 10 | 2 | 9 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | **8.2** | 10 | 7 | 9 | 3 | 2 |
 | `client/src/utils/transformers/annotationTransformers.ts` | **8.2** | 8 | 10 | 10 | 0 | 5 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | **8.1** | 10 | 7 | 9 | 2 | 2 |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | **8.0** | 10 | 8 | 8 | 0 | 4 |
 | `client/src/utils/transformers/composePropertyValue.ts` | **8.0** | 9 | 8 | 9 | 2 | 1 |

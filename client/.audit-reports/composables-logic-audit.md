@@ -27,7 +27,7 @@ Scope:
 | `src/composables/booking/dev/usePanelPosition.ts` | 17 | 0 | 1 | 2 | 2 | 6 | 1 |
 | `src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 5 | 0 | 0 |
 | `src/composables/booking/useAvailabilityOrchestrator.ts` | 15 | 0 | 5 | 9 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
 | `src/composables/booking/useWizardFilteredOptions.ts` | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
@@ -544,7 +544,7 @@ Legend:
 
 - exports: `useWizardStepDataRefs`
 - score: **0**
-- return keys (first return): `availabilityStepData`, `availabilityStepValid`, `availabilityStepValidate`, `contactsStepData`, `contactsStepValid`, `contactsStepValidate`, `propertyDetailsFieldErrors`, `propertyDetailsStepData`, `propertyDetailsStepValid`, `propertyDetailsStepValidate`
+- return keys (first return): `availabilityStepData`, `availabilityStepValid`, `availabilityStepValidate`, `confirmationStepData`, `confirmationStepValid`, `confirmationStepValidate`, `contactsStepData`, `contactsStepValid`, `contactsStepValidate`, `propertyDetailsFieldErrors`, `propertyDetailsStepData`, `propertyDetailsStepValid`, `propertyDetailsStepValidate`
 
 - **P1** (move_candidate): Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.
 
@@ -1107,24 +1107,24 @@ computed@401: const optionLabelKey = computed(() => {
 
 ### `src/composables/booking/useAppointmentDataCollection.ts`
 
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=6, dom=0, console=0
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=3, dom=0, console=0
 
 ```
-async@90: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
-await@133: const createdProperty = await createProperty.mutateAsync(propertyData)
-await@152: const createdClient = await createUser.mutateAsync(clientUserData)
-await@167: const createdAgent = await createUser.mutateAsync(agentUserData)
-await@183: const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
-await@200: const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
-await@217: const createdSeller = await createUser.mutateAsync(sellerData)
-map@227: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
-map@240: ? availability.candidateTimeSlots.map(slot => ({
-reduce@277: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
-reduce@285: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
-reduce@293: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
-map@304: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
-map@307: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
-map@311: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
+async@74: async function createAttendeeFromSpec(
+await@79: const created = await createUser.mutateAsync({
+async@120: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
+await@163: const createdProperty = await createProperty.mutateAsync(propertyData)
+await@178: const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))
+map@178: const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))
+filter@179: const attendeesCollection = results.filter((r): r is AttendeeCollectionItem => r !== null)
+map@181: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
+map@194: ? availability.candidateTimeSlots.map(slot => ({
+reduce@231: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
+reduce@239: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
+reduce@247: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
+map@258: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
+map@261: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
+map@265: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
 ```
 
 ### `src/composables/booking/useAvailabilityOrchestrator.ts`
@@ -2098,13 +2098,13 @@ watch@166: watch(
 - counts: vueQuery=0, watch=0, computed=3, ref=1, async=1, await=1, dom=0, console=0
 
 ```
-computed@95: const requiresUnitNumber = computed(() => {
-computed@103: const isMultiFamily = computed(() => {
-computed@137: const propertyTypeBlocksWithComponents = computed(() => {
-map@138: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
-ref@195: const isEnrichmentLoading = ref(false)
-async@249: const syncMLSData = async (): Promise<void> => {
-await@264: const enrichment = await fetchPropertyEnrichment(
+computed@99: const requiresUnitNumber = computed(() => {
+computed@107: const isMultiFamily = computed(() => {
+computed@141: const propertyTypeBlocksWithComponents = computed(() => {
+map@142: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
+ref@199: const isEnrichmentLoading = ref(false)
+async@253: const syncMLSData = async (): Promise<void> => {
+await@268: const enrichment = await fetchPropertyEnrichment(
 ```
 
 ### `src/composables/booking/usePropertyFormState.ts`

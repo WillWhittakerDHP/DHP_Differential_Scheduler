@@ -1,7 +1,10 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { StepValidator } from '@/composables/booking/useWizardValidation'
-import { buildBookingWizardStepValidators } from '@/utils/booking/bookingWizardStepValidators'
+import {
+  buildBookingWizardStepValidators,
+  type BuildBookingWizardStepValidatorsOptions,
+} from '@/utils/booking/bookingWizardStepValidators'
 
 export interface BookingWizardStepValidators {
   /**
@@ -23,6 +26,9 @@ export interface UseBookingWizardStepValidatorsOptions {
 
   contactsStepValid: Ref<boolean> | null
   contactsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
+
+  confirmationStepValid?: Ref<boolean> | null
+  confirmationStepValidate?: Ref<(() => boolean) | null> | (() => boolean) | null
 }
 
 export function useBookingWizardStepValidators(
@@ -37,6 +43,8 @@ export function useBookingWizardStepValidators(
     availabilityStepValidate,
     contactsStepValid,
     contactsStepValidate,
+    confirmationStepValid,
+    confirmationStepValidate,
   } = options
 
   const stepValidators = computed<Record<number, StepValidator | null>>(() => {
@@ -56,8 +64,13 @@ export function useBookingWizardStepValidators(
           ? contactsStepValidate.value 
           : contactsStepValidate)
       : null
-    
-    return buildBookingWizardStepValidators({
+    const confirmationStepValidateFn = confirmationStepValidate
+      ? ('value' in confirmationStepValidate 
+          ? confirmationStepValidate.value 
+          : confirmationStepValidate)
+      : null
+
+    const validatorOptions: BuildBookingWizardStepValidatorsOptions = {
       hasServiceSelection: !!(selectedUserTypeBlock.value && selectedServiceTypeBlocks.value.length > 0),
       propertyDetailsStepValidate: propertyDetailsStepValidateFn,
       propertyDetailsStepValid: propertyDetailsStepValid ? propertyDetailsStepValid.value : null,
@@ -65,7 +78,10 @@ export function useBookingWizardStepValidators(
       availabilityStepValid: availabilityStepValid ? availabilityStepValid.value : null,
       contactsStepValidate: contactsStepValidateFn,
       contactsStepValid: contactsStepValid ? contactsStepValid.value : null,
-    })
+      confirmationStepValidate: confirmationStepValidateFn ?? null,
+      confirmationStepValid: confirmationStepValid ? confirmationStepValid.value : null,
+    }
+    return buildBookingWizardStepValidators(validatorOptions)
   })
 
   return { stepValidators }

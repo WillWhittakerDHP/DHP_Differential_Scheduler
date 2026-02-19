@@ -2,7 +2,7 @@
 
 Generated from `.audit-reports/file-cohesion-audit.json`.
 
-- Files with violations: **90**
+- Files with violations: **91**
 
 ## Top 30 files
 
@@ -10,7 +10,7 @@ Generated from `.audit-reports/file-cohesion-audit.json`.
 | --- | --- | --- | ---: | ---: | ---: | --- |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | components | P1 | 9 | 724 | 0 | oversized |
 | `server/src/scripts/importCalendarData.ts` | general | P1 | 7 | 475 | 0 | oversized, no-exports |
-| `client/src/components/booking/BookingWizard.vue` | components | P1 | 6 | 636 | 0 | oversized |
+| `client/src/components/booking/BookingWizard.vue` | components | P1 | 6 | 644 | 0 | oversized |
 | `client/src/configs/availabilitySettings.ts` | general | P1 | 6 | 506 | 13 | high-exports |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 497 | 5 | oversized |
 | `client/src/utils/transformers/fetchToGlobalTransformer.ts` | utils | P1 | 6 | 404 | 4 | oversized |
@@ -26,7 +26,8 @@ Generated from `.audit-reports/file-cohesion-audit.json`.
 | `client/src/utils/booking/mockGoogleCalendar.ts` | utils | P2 | 3 | 335 | 3 | oversized |
 | `client/src/utils/booking/partFinalizer.ts` | utils | P2 | 3 | 318 | 4 | oversized |
 | `client/src/utils/tablerIcons.ts` | utils | P2 | 3 | 366 | 1 | oversized |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | utils | P2 | 3 | 350 | 2 | oversized |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | utils | P2 | 3 | 334 | 7 | oversized |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | utils | P2 | 3 | 320 | 2 | oversized |
 | `client/src/views/admin/tabs/components/AppointmentsTable.vue` | components | P2 | 3 | 525 | 0 | oversized |
 | `server/src/routes/helpers/crudRouteHandlers.ts` | utils | P2 | 3 | 311 | 5 | oversized |
 | `server/src/scripts/helpers/calendarParsingHelpers.ts` | utils | P2 | 3 | 308 | 7 | oversized |
@@ -37,6 +38,5 @@ Generated from `.audit-reports/file-cohesion-audit.json`.
 | `client/src/utils/entities/entityTypeMapping.ts` | utils | P2 | 2 | 108 | 11 | high-exports |
 | `server/src/routes/internal/properties/propertyHelpers.ts` | routes | P2 | 2 | 233 | 11 | high-exports |
 | `client/src/composables/admin/useEntityCardReadiness.ts` | composables | P2 | 1 | 9 | 0 | no-exports |
-| `client/src/composables/booking/useSelectionCard.ts` | composables | P2 | 1 | 3 | 0 | no-exports |
 
-*...and 60 more files.*
+*...and 61 more files.*

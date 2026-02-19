@@ -18,7 +18,7 @@ Exception handling:
 
 - Total files scanned: **207**
 - **Requiring review: 680**
-- Allowed (with justification): 1138 (inline: 2, pattern: 1136, specific: 0)
+- Allowed (with justification): 1126 (inline: 2, pattern: 1124, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -36,6 +36,7 @@ Exception handling:
 | `server/src/services/calendarErrorHandler.ts` | 16 | 0 | 0 | 0 | 8 | 0 | 0 |
 | `client/src/utils/booking/cascadeFilterPipeline.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `client/src/utils/entityDefaults.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `client/src/utils/transformers/fieldClassification.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `server/src/services/google/maps/mapsHelpers.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `client/src/utils/forms/formElementPatching.ts` | 13 | 1 | 4 | 0 | 4 | 0 | 0 |
@@ -47,13 +48,12 @@ Exception handling:
 | `client/src/utils/booking/constraintColors.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/utils/eventAttendeeUtils.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/utils/transformers/annotationTransformers.ts` | 12 | 0 | 0 | 1 | 5 | 0 | 0 |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `server/src/services/instanceVersioning.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/main.ts` | 11 | 1 | 2 | 0 | 4 | 0 | 0 |
 | `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | 10 | 0 | 6 | 1 | 8 | 0 | 7 |
+| `client/src/components/booking/IndependentSelectCard.vue` | 10 | 0 | 0 | 5 | 2 | 0 | 2 |
 
 ## Action signals (heuristic)
 
@@ -301,6 +301,20 @@ assignProp@172: if (result.orderIndex === null || result.orderIndex === undefine
 assignProp@173: result.orderIndex = 0
 ```
 
+### `client/src/utils/transformers/appointmentToWizardHelpers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
+
+```
+assignProp@76: if (!ids || !bookingData || ids.length === 0) return []
+assignProp@107: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
+assignProp@155: if (ids.length === 0 || found.length === ids.length) return
+assignProp@208: const currentInstance = found.find(li => li.id === version.id) ?? null
+assignProp@219: ? allFound.filter(instance => instance.blockShapeRef === blockShapeId)
+assignProp@234: const currentInstance = found.find(instance => instance.id === version.id) ?? null
+assignProp@298: typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
+```
+
 ### `client/src/utils/transformers/fieldClassification.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
@@ -448,32 +462,6 @@ assignProp@122: return annotationWithBlockId.userTypeBlockBlockInstanceId === us
 assignProp@124: return a.userTypeBlock === userTypeBlock
 sort@140: return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)
 assignProp@174: typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null
-```
-
-### `client/src/utils/transformers/appointmentToWizardHelpers.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@76: if (!ids || !bookingData || ids.length === 0) return []
-assignProp@107: const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-assignProp@155: if (ids.length === 0 || found.length === ids.length) return
-assignProp@208: const currentInstance = found.find(li => li.id === version.id) ?? null
-assignProp@219: ? allFound.filter(instance => instance.blockShapeRef === blockShapeId)
-assignProp@234: const currentInstance = found.find(instance => instance.id === version.id) ?? null
-```
-
-### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@116: typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
-assignProp@151: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||
-assignProp@152: a.user?.userRole === USER_ROLE_CLIENT
-assignProp@156: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||
-assignProp@157: a.user?.userRole === USER_ROLE_AGENT
-assignProp@169: typeof attendee.userTypeBlockInstance?.name === 'string'
 ```
 
 ### `client/src/utils/transformers/composePropertyValue.ts`
@@ -638,6 +626,18 @@ forOf@91: for (const childId of activeRelationships) {
 push@94: invalidRelationships.push({
 push@104: invalidRelationships.push({
 delete@128: logger.debug('Failed to delete invalid active relationship (may already be deleted)', {
+```
+
+### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
+
+```
+assignProp@121: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||
+assignProp@122: a.user?.userRole === USER_ROLE_CLIENT
+assignProp@126: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||
+assignProp@127: a.user?.userRole === USER_ROLE_AGENT
+assignProp@139: typeof attendee.userTypeBlockInstance?.name === 'string'
 ```
 
 ### `client/src/utils/transformers/transformerCollections.ts`
@@ -944,18 +944,13 @@ assignIndex@200: acc[key] = v
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=5, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
 
 ```
-assignProp@92: if (wizard.selectedServiceTypeBlocks.value.length === 0) {
-push@153: attendeesCollection.push({
-push@168: attendeesCollection.push({
-push@184: attendeesCollection.push({
-push@201: attendeesCollection.push({
-push@218: attendeesCollection.push({
-assignIndex@280: acc[service.id] = number
-assignIndex@288: acc[property.id] = number
-assignIndex@296: acc[option.id] = number
+assignProp@122: if (wizard.selectedServiceTypeBlocks.value.length === 0) {
+assignIndex@234: acc[service.id] = number
+assignIndex@242: acc[property.id] = number
+assignIndex@250: acc[option.id] = number
 ```
 
 ### `client/src/composables/booking/useWizardNumberUpdate.ts`
@@ -1879,34 +1874,34 @@ forOf@128: for (const instance of instances) {
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=26
 
 ```
-assignProp@96: return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
-assignProp@105: selected => selected.isMultiFamily === true
-assignProp@130: return blockShapeWithComposable.composable === true
-assignProp@207: formData.address.value = `${streetNumber} ${streetName}`.trim()
-assignProp@208: formData.city.value = addressField(addressComponents.city, 'city')
-assignProp@209: formData.state.value = addressField(addressComponents.state, 'state')
-assignProp@210: formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
-assignProp@213: formData.candidatePlaceId.value = placeId
-assignProp@214: formData.candidateCoordinates.value = coordinates
-assignProp@217: isAddressExpanded.value = true
-assignProp@232: isAddressExpanded.value = true
-assignProp@241: isAddressExpanded.value = false
-assignProp@260: isEnrichmentLoading.value = true
-assignProp@261: if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []
-assignProp@275: formData.mlsNumber.value = enrichment.mlsNumber ?? ''
-assignProp@276: formData.squareFootage.value = enrichment.squareFootage
-assignProp@277: formData.bedrooms.value = enrichment.bedrooms
-assignProp@278: formData.bathrooms.value = enrichment.bathrooms
-assignProp@279: formData.foundationAccess.value = enrichment.foundationAccess
-assignProp@280: formData.additionalUnits.value = enrichment.additionalUnits
-assignProp@281: if (formData.source) formData.source.value = 'api'
-assignProp@283: formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []
-assignProp@287: formData.propertySize.value = enrichment.squareFootage
-forLoop@295: for (const id of suggestedIds) {
-forOf@295: for (const id of suggestedIds) {
-assignProp@296: const propBlock = propBlocks.find((b) => b.id === id)
-assignProp@301: const lineBlock = lineBlocks.find((b) => b.id === id)
-assignProp@309: isEnrichmentLoading.value = false
+assignProp@100: return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
+assignProp@109: selected => selected.isMultiFamily === true
+assignProp@134: return blockShapeWithComposable.composable === true
+assignProp@211: formData.address.value = `${streetNumber} ${streetName}`.trim()
+assignProp@212: formData.city.value = addressField(addressComponents.city, 'city')
+assignProp@213: formData.state.value = addressField(addressComponents.state, 'state')
+assignProp@214: formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
+assignProp@217: formData.candidatePlaceId.value = placeId
+assignProp@218: formData.candidateCoordinates.value = coordinates
+assignProp@221: isAddressExpanded.value = true
+assignProp@236: isAddressExpanded.value = true
+assignProp@245: isAddressExpanded.value = false
+assignProp@264: isEnrichmentLoading.value = true
+assignProp@265: if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []
+assignProp@279: formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')
+assignProp@280: formData.squareFootage.value = enrichment.squareFootage
+assignProp@281: formData.bedrooms.value = enrichment.bedrooms
+assignProp@282: formData.bathrooms.value = enrichment.bathrooms
+assignProp@283: formData.foundationAccess.value = enrichment.foundationAccess
+assignProp@284: formData.additionalUnits.value = enrichment.additionalUnits
+assignProp@285: if (formData.source) formData.source.value = 'api'
+assignProp@288: formData.suggestedBlockInstanceIds.value = suggestedIds
+assignProp@292: formData.propertySize.value = enrichment.squareFootage
+forLoop@298: for (const id of suggestedIds) {
+forOf@298: for (const id of suggestedIds) {
+assignProp@299: const propBlock = propBlocks.find((b) => b.id === id)
+assignProp@304: const lineBlock = lineBlocks.find((b) => b.id === id)
+assignProp@312: isEnrichmentLoading.value = false
 ```
 
 ### `client/src/composables/booking/useWizardNavigation.ts`
@@ -2450,16 +2445,13 @@ assignProp@627: <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility =
 
 ### `client/src/components/booking/steps/ContactsStep.vue`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
 assignProp@38: selected => selected.requiresAgent === true
-assignProp@92: parentContactsStepData.value = newData
-assignProp@99: parentContactsStepValid.value = newValid
-assignProp@103: parentContactsStepValidate.value = validateForm
-delete@208: <!-- PATTERN: Conditional rendering with delete button -->
-delete@263: <!-- PATTERN: Conditional rendering with delete button -->
-delete@318: <!-- PATTERN: Conditional rendering with delete button -->
+delete@194: <!-- PATTERN: Conditional rendering with delete button -->
+delete@249: <!-- PATTERN: Conditional rendering with delete button -->
+delete@304: <!-- PATTERN: Conditional rendering with delete button -->
 ```
 
 ### `client/src/composables/admin/tables/useCrudDataTableModel.ts`

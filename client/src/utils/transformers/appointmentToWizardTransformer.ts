@@ -21,6 +21,9 @@ import { createLogger } from '@/utils/logger'
 import {
   findBlockInstanceById,
   resolveBlockCategory,
+  extractAddressFields,
+  extractLocationData,
+  extractPropertyDetailsFields,
   type AppointmentVersionsResponse,
 } from './appointmentToWizardHelpers'
 
@@ -83,58 +86,25 @@ export interface WizardStateData {
   isQuoteMode: boolean
 }
 
+function normalizePropertyDetails(propertyDetails: unknown): unknown {
+  if (Array.isArray(propertyDetails) && propertyDetails.length > 0) {
+    return propertyDetails[0]
+  }
+  return propertyDetails ?? null
+}
+
 /**
  * Extract property details from appointment property version
- * LEARNING: Helper to extract property address and details
- * WHY: Separates property extraction logic from main transformer
- * PATTERN: Extract from propertyVersion object, handle nulls with ?? defaults
+ * LEARNING: Orchestrator that delegates to focused helpers
+ * WHY: Reduces branch count and keeps each helper under complexity limit
  */
 function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVersion']) {
   const address = propertyVersion?.address
-  const propertyDetailsArray = propertyVersion?.propertyDetails
-  const propertyDetailsRecord = Array.isArray(propertyDetailsArray)
-    ? propertyDetailsArray[0]
-    : propertyDetailsArray ?? null
-
-  function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
-    if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
-      return value
-    }
-    return null
-  }
-
-  interface AddressWithGeo {
-    placeId?: string
-    latitude?: number
-    longitude?: number
-  }
-  function isAddressWithGeo(v: unknown): v is AddressWithGeo {
-    return v != null && typeof v === 'object'
-  }
-  const addressWithGeo = address != null && isAddressWithGeo(address) ? address : undefined
-  const extractedPlaceId =
-    typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
-  const extractedCoordinates =
-    addressWithGeo?.latitude != null && addressWithGeo?.longitude != null
-      ? { lat: Number(addressWithGeo.latitude), lng: Number(addressWithGeo.longitude) }
-      : undefined
-
+  const details = normalizePropertyDetails(propertyVersion?.propertyDetails)
   return {
-    address: extractOptionalString(address?.address, 'propertyDetails.address'),
-    unit: extractOptionalString(address?.unit, 'propertyDetails.unit'),
-    city: extractOptionalString(address?.city, 'propertyDetails.city'),
-    state: extractOptionalString(address?.state, 'propertyDetails.state'),
-    zipCode: extractOptionalString(address?.zipCode, 'propertyDetails.zipCode'),
-    candidatePlaceId: extractedPlaceId,
-    candidateCoordinates: extractedCoordinates,
-    propertySize: propertyDetailsRecord?.squareFootage ?? null,
-    numberOfUnits: propertyDetailsRecord?.additionalUnits ?? null,
-    mlsNumber: extractOptionalString(propertyDetailsRecord?.mlsNumber, 'propertyDetails.mlsNumber'),
-    squareFootage: propertyDetailsRecord?.squareFootage ?? null,
-    bedrooms: propertyDetailsRecord?.bedrooms ?? null,
-    bathrooms: propertyDetailsRecord?.bathrooms ?? null,
-    foundationAccess: extractFoundationAccess(propertyDetailsRecord?.foundationAccess),
-    additionalUnits: propertyDetailsRecord?.additionalUnits ?? null,
+    ...extractAddressFields(address),
+    ...extractLocationData(address),
+    ...extractPropertyDetailsFields(details),
   }
 }
 

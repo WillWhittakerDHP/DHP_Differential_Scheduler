@@ -16,11 +16,11 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **57**
-- Requiring review: **143**
+- Files with findings: **56**
+- Requiring review: **140**
 - Allowed (with justification): 47
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **143**
+- Runtime legacy accommodation: **140**
 
 ## Rules
 
@@ -85,7 +85,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useDefaultLocation.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useSelectConfig.ts` | P1 | 6 | 0 | 3 |
-| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/componentEntity/useComponentEntityDomain.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/useBusiness.ts` | P1 | 6 | 0 | 3 |
@@ -106,8 +105,9 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | P1 | 4 | 0 | 2 |
 
-*...and 27 more files. See JSON report for details.*
+*...and 26 more files. See JSON report for details.*
 
 ## Per-file findings
 
@@ -192,14 +192,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@158: value: option.value === null ? null : String(option.value ?? ''),
 [LEGACY] unhelpful-default-nullish@159: label: String(option.label ?? '')
 [LEGACY] legacy-keyword@243: `Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-```
-
-### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P1] (score: 6)
-
-```
-[LEGACY] unhelpful-default-nullish@275: formData.mlsNumber.value = enrichment.mlsNumber ?? ''
-[LEGACY] unhelpful-default-nullish@283: formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []
-[LEGACY] unhelpful-default-nullish@290: const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []
 ```
 
 ### `client/src/composables/componentEntity/useComponentEntityDomain.ts` [P1] (score: 6)
@@ -476,7 +468,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/booking/useAppointmentDataCollection.ts` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@270: selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
+[LEGACY] unhelpful-default-nullish@224: selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
 ```
 
 ### `client/src/utils/booking/pricingCascadeResolver.ts` [P2] (score: 2)
@@ -495,6 +487,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@195: id: toGlobalEntityId(idResolved ?? ''),
+```
+
+### `server/src/routes/helpers/requestHelpers.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@17: return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')
 ```
 
 ## Notes

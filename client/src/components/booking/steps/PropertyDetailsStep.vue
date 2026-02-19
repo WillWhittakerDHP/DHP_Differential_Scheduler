@@ -10,7 +10,8 @@
  * Phase 1.2: Removed hardcoded data - all form values initialize empty, ready for API integration
  */
 
-import { ref, inject, computed, watch, onMounted, type Ref } from 'vue'
+import { ref, inject, computed, onMounted, type Ref } from 'vue'
+import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
@@ -24,8 +25,8 @@ import { createWizardStatePlugin } from '@/components/booking/plugins/wizardStat
 import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
 import AddressAutocomplete from '@/components/common/AddressAutocomplete.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
-import type { PropertyDetailsStepData } from '@/types/wizard'
+import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+import { US_STATE_OPTIONS } from '@/configs/usStates'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('PropertyDetailsStep')
@@ -115,13 +116,8 @@ const {
   changeAddress
 } = propertyDetailsLogic
 
-// LEARNING: State options for dropdown
-// PATTERN: Array of state objects
-const states = [
-  { value: 'FL', title: 'Florida' },
-  { value: 'VA', title: 'Virginia' },
-  { value: 'DC', title: 'District of Columbia' },
-]
+// LEARNING: State options from shared config (reusable across wizard and admin address forms)
+const states = US_STATE_OPTIONS
 
 // WHY: Allows SelectionCard to use wizard state directly
 const propertyTypeBlocksStatePlugin = createWizardStatePlugin('propertyTypeBlocks')
@@ -183,38 +179,19 @@ const {
   hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBlocks.value.length > 0)
 })
 
+useWizardStepSync({
+  stepData,
+  isFormValid,
+  validateForm,
+  stepDataKey: 'propertyDetailsStepData',
+  stepValidKey: 'propertyDetailsStepValid',
+  stepValidateKey: 'propertyDetailsStepValidate',
+  fieldErrors,
+  fieldErrorsKey: 'propertyDetailsFieldErrors',
+})
+
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 void formRef.value // ref used by template
-
-const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
-const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
-const parentPropertyDetailsStepValidate = inject<Ref<(() => boolean) | null>>('propertyDetailsStepValidate')
-const parentPropertyDetailsFieldErrors = inject<Ref<Record<string, string>>>('propertyDetailsFieldErrors')
-
-if (!parentPropertyDetailsStepData || !parentPropertyDetailsStepValid || !parentPropertyDetailsStepValidate || !parentPropertyDetailsFieldErrors) {
-  throw new Error('Parent-provided refs not found. Make sure BookingWizard provides propertyDetailsStepData, propertyDetailsStepValid, propertyDetailsStepValidate, and propertyDetailsFieldErrors.')
-}
-
-watch(stepData, (newData) => {
-  if (parentPropertyDetailsStepData) {
-    parentPropertyDetailsStepData.value = newData
-  }
-}, { immediate: true, deep: true })
-
-// PATTERN: Watch local validation state and update parent refs
-watch(isFormValid, (newValid) => {
-  if (parentPropertyDetailsStepValid) {
-    parentPropertyDetailsStepValid.value = newValid
-  }
-}, { immediate: true })
-
-parentPropertyDetailsStepValidate.value = validateForm
-
-watch(fieldErrors, (newErrors) => {
-  if (parentPropertyDetailsFieldErrors) {
-    parentPropertyDetailsFieldErrors.value = newErrors
-  }
-}, { immediate: true, deep: true })
 
 // LEARNING: Modal state for property confirmation
 const showPropertyConfirmationModal = ref(false)
@@ -258,7 +235,7 @@ function handlePropertyEdit(): void {
         <SelectionCardGroup
           v-if="wizard.availablePropertyTypeBlocks.value.length > 0"
           v-model="selectedPropertyTypeBlockId"
-          :items="propertyTypeBlocksWithComponents as SelectionCardItem[]"
+          :items="propertyTypeBlocksWithComponents"
           :config="rowSelectionConfig as SelectionCardConfig"
         />
         <div v-if="fieldErrors.propertyTypeBlock" class="text-error text-caption mt-2">

@@ -12,13 +12,13 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-19T13:39:35.272Z**
+- Generated at: **2026-02-19T19:00:05.707Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 61**
+- **Errors requiring review: 60**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **35**
+- Pools: **34**
 
 ## Top pools (by score)
 
@@ -191,14 +191,6 @@ TS2345@236:41 Argument of type 'string | number' is not assignable to parameter 
 
 ```
 TS2724@29:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
-```
-
-### `src/components/booking/steps/PropertyDetailsStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2352@261:19 Conversion of type 'SelectionCardItemWithComponents[]' to type 'SelectionCardItem[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
 ```
 
 ### `src/components/common/AddressAutocomplete.vue`

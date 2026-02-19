@@ -60,6 +60,36 @@ export interface UseAppointmentDataCollectionParams {
   showError: (message: string) => void
 }
 
+/** Spec for one attendee to create; used to build collection without mutating array */
+interface AttendeeSpec {
+  info: { firstName: string; lastName: string; email: string };
+  role: AttendeeCollectionItem['role'];
+  shouldCreate: boolean;
+}
+
+/**
+ * Create one attendee from spec; returns null if shouldCreate is false or info.firstName is empty
+ * LEARNING: Functional helper to avoid repeated push() in collectAppointmentData
+ */
+async function createAttendeeFromSpec(
+  spec: AttendeeSpec,
+  createUser: UseAppointmentDataCollectionParams['createUser']
+): Promise<AttendeeCollectionItem | null> {
+  if (!spec.shouldCreate || !spec.info.firstName) return null
+  const created = await createUser.mutateAsync({
+    firstName: spec.info.firstName,
+    lastName: spec.info.lastName,
+    email: spec.info.email,
+    phone: null,
+    userRole: spec.role,
+  })
+  return {
+    userId: created.id,
+    role: spec.role,
+    shouldReceiveInvitation: true,
+  }
+}
+
 export interface UseAppointmentDataCollectionReturn {
   collectAppointmentData: () => Promise<AppointmentRequest | null>
 }
@@ -135,95 +165,19 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const propertyVersionId = rawVersionId !== undefined && rawVersionId !== null ? rawVersionId : createdProperty.id
 
       const contacts = contactsStepData.value
-      
-      // LEARNING: Build attendees array for calendar invitations
-      // WHY: New flexible attendee system replaces legacy clientId/agentId
+
+      // LEARNING: Build attendees via specs and helper (no push mutations)
       // SESSION: 2.1.3b - Appointment Attendees Architecture
-      const attendeesCollection: AttendeeCollectionItem[] = []
-      
-      // Create primary client user
-      const clientUserData: UserRequest = {
-        firstName: contacts.clientInfo.firstName,
-        lastName: contacts.clientInfo.lastName,
-        email: contacts.clientInfo.email,
-        phone: null,
-        userRole: USER_ROLE_CLIENT
-      }
-      const createdClient = await createUser.mutateAsync(clientUserData)
-      attendeesCollection.push({
-        userId: createdClient.id,
-        role: USER_ROLE_CLIENT,
-        shouldReceiveInvitation: true
-      })
+      const specs: AttendeeSpec[] = [
+        { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+        { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
+        { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
+        { info: contacts.transactionManagerInfo, role: 'transaction_manager', shouldCreate: contacts.showTransactionManager },
+        { info: contacts.sellerInfo, role: 'seller', shouldCreate: contacts.showSeller },
+      ]
+      const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))
+      const attendeesCollection = results.filter((r): r is AttendeeCollectionItem => r !== null)
 
-      // Create agent user
-      const agentUserData: UserRequest = {
-        firstName: contacts.agentInfo.firstName,
-        lastName: contacts.agentInfo.lastName,
-        email: contacts.agentInfo.email,
-        phone: null,
-        userRole: USER_ROLE_AGENT
-      }
-      const createdAgent = await createUser.mutateAsync(agentUserData)
-      attendeesCollection.push({
-        userId: createdAgent.id,
-        role: USER_ROLE_AGENT,
-        shouldReceiveInvitation: true
-      })
-
-      // Create another client if provided
-      if (contacts.showAnotherClient && contacts.anotherClientInfo.firstName) {
-        const anotherClientData: UserRequest = {
-          firstName: contacts.anotherClientInfo.firstName,
-          lastName: contacts.anotherClientInfo.lastName,
-          email: contacts.anotherClientInfo.email,
-          phone: null,
-          userRole: USER_ROLE_CLIENT
-        }
-        const createdAnotherClient = await createUser.mutateAsync(anotherClientData)
-        attendeesCollection.push({
-          userId: createdAnotherClient.id,
-          role: USER_ROLE_CLIENT,
-          shouldReceiveInvitation: true
-        })
-      }
-
-      // Create transaction manager if provided
-      if (contacts.showTransactionManager && contacts.transactionManagerInfo.firstName) {
-        const transactionManagerData: UserRequest = {
-          firstName: contacts.transactionManagerInfo.firstName,
-          lastName: contacts.transactionManagerInfo.lastName,
-          email: contacts.transactionManagerInfo.email,
-          phone: null,
-          userRole: 'transaction_manager'
-        }
-        const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)
-        attendeesCollection.push({
-          userId: createdTransactionManager.id,
-          role: 'transaction_manager',
-          shouldReceiveInvitation: true
-        })
-      }
-
-      // Create seller if provided
-      if (contacts.showSeller && contacts.sellerInfo.firstName) {
-        const sellerData: UserRequest = {
-          firstName: contacts.sellerInfo.firstName,
-          lastName: contacts.sellerInfo.lastName,
-          email: contacts.sellerInfo.email,
-          phone: null,
-          userRole: 'seller'
-        }
-        const createdSeller = await createUser.mutateAsync(sellerData)
-        attendeesCollection.push({
-          userId: createdSeller.id,
-          role: 'seller',
-          shouldReceiveInvitation: true
-        })
-      }
-      
-      // Transform to AttendeeRequest format
-      // SESSION: 2.1.3b - Appointment Attendees Architecture
       const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
         userId: item.userId,
         role: item.role,

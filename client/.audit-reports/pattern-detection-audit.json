@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T13:40:42.037Z",
+  "generatedAt": "2026-02-19T19:01:15.180Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 796,
+  "fileCount": 797,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -467,7 +467,7 @@
           },
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 33
+            "line": 35
           }
         ]
       },
@@ -2267,7 +2267,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 63
+            "line": 93
           }
         ]
       },
@@ -3006,12 +3006,12 @@
         ]
       },
       "SelectionCardItemWithComponents": {
-        "definition": "export interface SelectionCardItemWithComponents extends BookingBlockInstance {",
+        "definition": "export interface SelectionCardItemWithComponents extends SelectionCardItem {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 41
+            "line": 44
           }
         ]
       },
@@ -3021,7 +3021,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 46
+            "line": 50
           }
         ]
       },
@@ -3031,7 +3031,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 61
+            "line": 65
           }
         ]
       },
@@ -4004,6 +4004,16 @@
           {
             "file": "client/src/types/entity/formFields.ts",
             "line": 89
+          }
+        ]
+      },
+      "USStateOption": {
+        "definition": "export interface USStateOption {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/configs/usStates.ts",
+            "line": 7
           }
         ]
       },
@@ -5033,13 +5043,23 @@
           }
         ]
       },
+      "ConfirmationStepData": {
+        "definition": "export interface ConfirmationStepData {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/types/wizard.ts",
+            "line": 145
+          }
+        ]
+      },
       "WizardStepDataAndValidationRefs": {
         "definition": "export interface WizardStepDataAndValidationRefs {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/types/wizard.ts",
-            "line": 147
+            "line": 156
           }
         ]
       },
@@ -5519,7 +5539,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-            "line": 34
+            "line": 37
           }
         ]
       },
@@ -6383,6 +6403,11 @@
       {
         "type": "config-file",
         "file": "client/src/configs/propertyValidationStrings.ts",
+        "description": "Configuration file location"
+      },
+      {
+        "type": "config-file",
+        "file": "client/src/configs/usStates.ts",
         "description": "Configuration file location"
       },
       {
@@ -7627,7 +7652,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 74,
+            "line": 104,
             "name": "AppointmentDataCollection"
           }
         ]
@@ -7817,7 +7842,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-            "line": 28,
+            "line": 31,
             "name": "BookingWizardStepValidators"
           }
         ]
@@ -8047,7 +8072,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-            "line": 81,
+            "line": 85,
             "name": "PropertyDetailsLogic"
           }
         ]
@@ -10434,14 +10459,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 318,
+        "line": 272,
         "pattern": "AppointmentStatus workflow",
         "code": "// LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 321,
+        "line": 275,
         "pattern": "AppointmentStatus workflow",
         "code": "status: isQuoteMode ? 'quoted' : 'submitted' as AppointmentStatus,"
       },

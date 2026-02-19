@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T13:39:42.545Z",
+  "generatedAt": "2026-02-19T19:00:14.707Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 608,
+  "fileCount": 609,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -50,7 +50,7 @@
           "server/src/services/instanceVersioning.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 37
+        "patternCount": 38
       },
       {
         "prefix": "get",
@@ -1089,6 +1089,72 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-01452b96803f",
+      "hash": "01452b96803f",
+      "uniqueFiles": 2,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 48,
+          "endLine": 57,
+          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 176,
+          "endLine": 185,
+          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
+          "startLine": 50,
+          "endLine": 59,
+          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
+          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
+        }
+      ],
+      "score": 23,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-639d6f3d1bfe",
+      "hash": "639d6f3d1bfe",
+      "uniqueFiles": 2,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 47,
+          "endLine": 56,
+          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 175,
+          "endLine": 184,
+          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
+          "startLine": 49,
+          "endLine": 58,
+          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
+          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
+        }
+      ],
+      "score": 23,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-72bfca850e56",
       "hash": "72bfca850e56",
       "uniqueFiles": 2,
@@ -1116,6 +1182,39 @@
           "endLine": 25,
           "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+        }
+      ],
+      "score": 23,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c83d80935f34",
+      "hash": "c83d80935f34",
+      "uniqueFiles": 2,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
+      "locations": [
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 45,
+          "endLine": 55,
+          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/components/booking/BookingWizard.vue",
+          "startLine": 173,
+          "endLine": 183,
+          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
+          "target": "client/src/components/booking/BookingWizard.vue::<script>"
+        },
+        {
+          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
+          "startLine": 47,
+          "endLine": 57,
+          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
+          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
         }
       ],
       "score": 23,

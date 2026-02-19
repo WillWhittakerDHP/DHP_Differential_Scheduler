@@ -19,7 +19,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/booking/dev/usePanelPosition.ts` | P2 | 11 | 1 | 0 | 1 | 0 | 2 | 1 | 1 | 6 | 0 |
 | `src/composables/booking/useContactsValidation.ts` | P2 | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectConfig.ts` | P2 | 14 | 1 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 0 |
-| `src/composables/booking/useAppointmentDataCollection.ts` | P2 | 15 | 1 | 0 | 0 | 0 | 0 | 1 | 6 | 0 | 0 |
+| `src/composables/booking/useAppointmentDataCollection.ts` | P2 | 14 | 1 | 0 | 0 | 0 | 0 | 2 | 3 | 0 | 0 |
 | `src/composables/booking/useAvailabilityOrchestrator.ts` | P2 | 15 | 1 | 0 | 5 | 9 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/admin/useSelectFiltering.ts` | P2 | 7 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useWizardFilteredOptions.ts` | P2 | 14 | 1 | 0 | 0 | 14 | 0 | 0 | 0 | 0 | 0 |

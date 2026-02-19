@@ -10,10 +10,10 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **764**
-- Files with issues: **144**
-- Issues found: **247**
-- Unused exports: 201
+- Files scanned: **765**
+- Files with issues: **145**
+- Issues found: **248**
+- Unused exports: 202
 - Commented exports: 1
 - Unused functions: 42
 - TODO markers: 3
@@ -1106,6 +1106,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `client/src/configs/usStates.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 7): Unused export: USStateOption (type)
+  ```
+  export interface USStateOption {
+  ```
+  💡 Remove if unused or document why kept
+
 ### `client/src/configs/wizardSteps.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 19): Unused export: WizardStepConfig (type)
@@ -1327,6 +1335,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 28): Unused export: aggregate (function)
   ```
   export function aggregate(values: TernaryBoolean[]): TernaryBoolean {
+  ```
+  💡 Remove if unused or document why kept
+
+### `client/src/utils/transformers/appointmentToWizardHelpers.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 250): Unused export: extractFoundationAccess (function)
+  ```
+  export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
   ```
   💡 Remove if unused or document why kept
 
@@ -1575,14 +1591,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 40): Unused export: formatDayKey (function)
   ```
   export function formatDayKey(date: Date): string {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/utils/propertyTransformers.ts` [P2] (score: 3)
-
-- **WARNING** [unused-export] (line 15): Unused export: PROPERTY_FIELD_MAPPINGS (const)
-  ```
-  export const PROPERTY_FIELD_MAPPINGS = {
   ```
   💡 Remove if unused or document why kept
 

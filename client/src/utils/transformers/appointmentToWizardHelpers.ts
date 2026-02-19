@@ -14,7 +14,7 @@ import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
-import { safeString, safeNumber, convertToTernaryBoolean } from './transformerPrimitives'
+import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
 
 /**
  * Version data structure from API
@@ -237,4 +237,97 @@ export function resolveBlockCategory(params: {
   }
 
   return found
+}
+
+// --- Property details extraction (used by appointmentToWizardTransformer) ---
+
+const PROPERTY_DETAILS_CONTEXT = 'propertyDetails'
+
+/**
+ * Extract foundation access value with type guard
+ * LEARNING: Centralized type guard for foundation access enum
+ */
+export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
+  if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
+    return value
+  }
+  return null
+}
+
+/**
+ * Extract address fields from address object
+ * LEARNING: Single responsibility - address line fields only
+ */
+export function extractAddressFields(address: unknown): {
+  address: string
+  unit: string
+  city: string
+  state: string
+  zipCode: string
+} {
+  const addr = address != null && typeof address === 'object' ? address as Record<string, unknown> : undefined
+  return {
+    address: extractOptionalString(addr?.address, `${PROPERTY_DETAILS_CONTEXT}.address`),
+    unit: extractOptionalString(addr?.unit, `${PROPERTY_DETAILS_CONTEXT}.unit`),
+    city: extractOptionalString(addr?.city, `${PROPERTY_DETAILS_CONTEXT}.city`),
+    state: extractOptionalString(addr?.state, `${PROPERTY_DETAILS_CONTEXT}.state`),
+    zipCode: extractOptionalString(addr?.zipCode, `${PROPERTY_DETAILS_CONTEXT}.zipCode`),
+  }
+}
+
+interface AddressWithGeo {
+  placeId?: string
+  latitude?: number
+  longitude?: number
+}
+
+function isAddressWithGeo(v: unknown): v is AddressWithGeo {
+  return v != null && typeof v === 'object'
+}
+
+/**
+ * Extract location data (placeId, coordinates) from address object
+ * LEARNING: Single responsibility - geo fields only
+ */
+export function extractLocationData(address: unknown): {
+  candidatePlaceId: string | undefined
+  candidateCoordinates: { lat: number; lng: number } | undefined
+} {
+  const addressWithGeo = address != null && isAddressWithGeo(address) ? address : undefined
+  const candidatePlaceId =
+    typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined
+  const candidateCoordinates =
+    addressWithGeo?.latitude != null && addressWithGeo?.longitude != null
+      ? { lat: Number(addressWithGeo.latitude), lng: Number(addressWithGeo.longitude) }
+      : undefined
+  return { candidatePlaceId, candidateCoordinates }
+}
+
+/**
+ * Extract property details fields from property details record
+ * LEARNING: Single responsibility - mlsNumber, squareFootage, bedrooms, etc.
+ */
+export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
+  propertySize: number | null
+  numberOfUnits: number | null
+  mlsNumber: string
+  squareFootage: number | null
+  bedrooms: number | null
+  bathrooms: number | null
+  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
+  additionalUnits: number | null
+} {
+  const rec = propertyDetailsRecord != null && typeof propertyDetailsRecord === 'object'
+    ? propertyDetailsRecord as Record<string, unknown>
+    : undefined
+  return {
+    propertySize: rec?.squareFootage != null ? Number(rec.squareFootage) : null,
+    numberOfUnits: rec?.additionalUnits != null ? Number(rec.additionalUnits) : null,
+    mlsNumber: extractOptionalString(rec?.mlsNumber, `${PROPERTY_DETAILS_CONTEXT}.mlsNumber`),
+    squareFootage: rec?.squareFootage != null ? Number(rec.squareFootage) : null,
+    bedrooms: rec?.bedrooms != null ? Number(rec.bedrooms) : null,
+    bathrooms: rec?.bathrooms != null ? Number(rec.bathrooms) : null,
+    foundationAccess: extractFoundationAccess(rec?.foundationAccess),
+    additionalUnits: rec?.additionalUnits != null ? Number(rec.additionalUnits) : null,
+  }
 }

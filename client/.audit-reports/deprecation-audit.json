@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-19T13:40:42.711Z",
+  "generatedAt": "2026-02-19T19:01:15.877Z",
   "check": "Deprecation",
-  "totalScanned": 797,
+  "totalScanned": 798,
   "exceptionSummary": {
     "totalAllowed": 47,
-    "totalRequiresReview": 143,
+    "totalRequiresReview": 140,
     "bySource": {
       "inline": 4,
       "pattern": 31,
@@ -315,33 +315,6 @@
           "ruleId": "legacy-keyword",
           "lineNumber": 243,
           "line": "`Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__booking__usePropertyDetailsLogic.ts",
-      "repoPath": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 275,
-          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 283,
-          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 290,
-          "line": "const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []",
           "section": "legacy-accommodation"
         }
       ],
@@ -1243,7 +1216,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 270,
+          "lineNumber": 224,
           "line": "selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],",
           "section": "legacy-accommodation"
         }

@@ -7,23 +7,35 @@
  * PATTERN: Uses composable to aggregate wizard state and step data
  */
 
-import { inject, type Ref } from 'vue'
+import { inject, ref, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
+import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
+import type { AvailabilityStepData } from '@/types/wizardStepData'
+import type { PropertyDetailsStepData, ConfirmationStepData } from '@/types/wizard'
 
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-import type { AvailabilityStepData } from '@/types/wizardStepData'
-import type { PropertyDetailsStepData } from '@/types/wizard'
-
-// FIX: Use shared types from wizardStepData.ts and wizard.ts
-
 const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
 const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
 
+// Stub state for useWizardStepSync; summary step participates in same sync pattern as other steps
+const stepData = ref<ConfirmationStepData>({})
+const isFormValid = ref(true)
+function validateForm(): boolean {
+  return true
+}
+useWizardStepSync({
+  stepData,
+  isFormValid,
+  validateForm,
+  stepDataKey: 'confirmationStepData',
+  stepValidKey: 'confirmationStepValid',
+  stepValidateKey: 'confirmationStepValidate',
+})
 
 // LEARNING: Use confirmation step data composable
 // PATTERN: Composable aggregates wizard state and step data, calculates fees

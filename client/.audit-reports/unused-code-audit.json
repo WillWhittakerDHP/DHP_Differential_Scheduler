@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T13:40:40.871Z",
+  "generatedAt": "2026-02-19T19:01:14.008Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -509,6 +509,16 @@
       "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
       "line": 17,
       "code": "export const eventShapeFields = {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: USStateOption (type)",
+      "file": "client/src/configs/usStates.ts",
+      "line": 7,
+      "code": "export interface USStateOption {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -1413,6 +1423,16 @@
       "file": "client/src/utils/transformers/annotationTransformers.ts",
       "line": 164,
       "code": "export function getThroughAttributes(annotation: Record<string, unknown>): {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: extractFoundationAccess (function)",
+      "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "line": 250,
+      "code": "export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2370,16 +2390,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: PROPERTY_FIELD_MAPPINGS (const)",
-      "file": "server/src/utils/propertyTransformers.ts",
-      "line": 15,
-      "code": "export const PROPERTY_FIELD_MAPPINGS = {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: getModelAttributesExcluding (function)",
       "file": "server/src/utils/sequelizeHelpers.ts",
       "line": 22,
@@ -3148,6 +3158,23 @@
           "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
           "line": 17,
           "code": "export const eventShapeFields = {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/configs/usStates.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: USStateOption (type)",
+          "file": "client/src/configs/usStates.ts",
+          "line": 7,
+          "code": "export interface USStateOption {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -4422,6 +4449,23 @@
       ],
       "score": 15,
       "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: extractFoundationAccess (function)",
+          "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+          "line": 250,
+          "code": "export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
     },
     {
       "repoPath": "client/src/utils/transformers/componentAggregator.ts",
@@ -5781,23 +5825,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/utils/propertyTransformers.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: PROPERTY_FIELD_MAPPINGS (const)",
-          "file": "server/src/utils/propertyTransformers.ts",
-          "line": 15,
-          "code": "export const PROPERTY_FIELD_MAPPINGS = {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "server/src/utils/sequelizeHelpers.ts",
       "issues": [
         {
@@ -5863,18 +5890,18 @@
     }
   ],
   "recommendations": [
-    "Found 201 unused export(s) - review for removal",
+    "Found 202 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
     "Found 42 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 764 file(s) (535 client, 229 server). Found 247 issue(s): 201 unused exports, 1 commented exports, 42 unused functions, 3 TODO markers, 0 dead scripts",
+  "summary": "Scanned 765 file(s) (536 client, 229 server). Found 248 issue(s): 202 unused exports, 1 commented exports, 42 unused functions, 3 TODO markers, 0 dead scripts",
   "summaryData": {
-    "totalFiles": 764,
+    "totalFiles": 765,
     "skippedFilesCount": 0,
-    "filesWithIssues": 144,
-    "totalIssues": 247,
-    "unusedExports": 201,
+    "filesWithIssues": 145,
+    "totalIssues": 248,
+    "unusedExports": 202,
     "commentedExports": 1,
     "unusedFunctions": 42,
     "todoMarkers": 3,

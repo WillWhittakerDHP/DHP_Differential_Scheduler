@@ -10,11 +10,11 @@
  * Phase 1.2.3: Added support for loading contact data from appointments
  */
 
-import { inject, watch, computed, type Ref } from 'vue'
+import { inject, computed, type Ref } from 'vue'
+import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ContactsStepData } from '@/types/wizard'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
@@ -79,28 +79,14 @@ const {
   requiresAgent
 })
 
-const parentContactsStepData = inject<Ref<ContactsStepData | null>>('contactsStepData')
-const parentContactsStepValid = inject<Ref<boolean>>('contactsStepValid')
-const parentContactsStepValidate = inject<Ref<(() => boolean) | null>>('contactsStepValidate')
-
-if (!parentContactsStepData || !parentContactsStepValid || !parentContactsStepValidate) {
-  throw new Error('Parent-provided refs not found. Make sure BookingWizard provides contactsStepData, contactsStepValid, and contactsStepValidate.')
-}
-
-watch(stepData, (newData) => {
-  if (parentContactsStepData) {
-    parentContactsStepData.value = newData
-  }
-}, { immediate: true, deep: true })
-
-// PATTERN: Watch local validation state and update parent refs
-watch(isFormValid, (newValid) => {
-  if (parentContactsStepValid) {
-    parentContactsStepValid.value = newValid
-  }
-}, { immediate: true })
-
-parentContactsStepValidate.value = validateForm
+useWizardStepSync({
+  stepData,
+  isFormValid,
+  validateForm,
+  stepDataKey: 'contactsStepData',
+  stepValidKey: 'contactsStepValid',
+  stepValidateKey: 'contactsStepValidate',
+})
 </script>
 
 <template>

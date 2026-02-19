@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T13:39:41.979Z",
-  "totalScanned": 797,
+  "generatedAt": "2026-02-19T19:00:14.136Z",
+  "totalScanned": 798,
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,
@@ -1512,69 +1512,6 @@
               "rule": "nesting",
               "value": 6,
               "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 13,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "functions": [
-        {
-          "name": "extractPropertyDetails",
-          "startLine": 92,
-          "endLine": 139,
-          "length": 48,
-          "maxNesting": 3,
-          "branches": 21,
-          "params": 1,
-          "returns": 4,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 21,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "extractContacts",
-          "startLine": 147,
-          "endLine": 192,
-          "length": 46,
-          "maxNesting": 0,
-          "branches": 9,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 9,
-              "threshold": 8
-            }
-          ]
-        },
-        {
-          "name": "that",
-          "startLine": 296,
-          "endLine": 349,
-          "length": 54,
-          "maxNesting": 5,
-          "branches": 6,
-          "params": 0,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            },
-            {
-              "rule": "length",
-              "value": 54,
-              "threshold": 50
             }
           ]
         }
@@ -3243,27 +3180,27 @@
       "functions": [
         {
           "name": "from",
-          "startLine": 71,
-          "endLine": 341,
-          "length": 271,
-          "maxNesting": 22,
-          "branches": 33,
+          "startLine": 101,
+          "endLine": 295,
+          "length": 195,
+          "maxNesting": 15,
+          "branches": 26,
           "params": 0,
           "returns": 10,
           "violations": [
             {
               "rule": "nesting",
-              "value": 22,
+              "value": 15,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 33,
+              "value": 26,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 271,
+              "value": 195,
               "threshold": 50
             },
             {
@@ -3633,9 +3570,9 @@
       "functions": [
         {
           "name": "usePropertyDetailsLogic",
-          "startLine": 81,
-          "endLine": 324,
-          "length": 244,
+          "startLine": 85,
+          "endLine": 327,
+          "length": 243,
           "maxNesting": 31,
           "branches": 30,
           "params": 1,
@@ -3653,7 +3590,7 @@
             },
             {
               "rule": "length",
-              "value": 244,
+              "value": 243,
               "threshold": 50
             },
             {
@@ -5454,6 +5391,52 @@
             {
               "rule": "length",
               "value": 107,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "functions": [
+        {
+          "name": "extractContacts",
+          "startLine": 117,
+          "endLine": 162,
+          "length": 46,
+          "maxNesting": 0,
+          "branches": 9,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8
+            }
+          ]
+        },
+        {
+          "name": "that",
+          "startLine": 266,
+          "endLine": 319,
+          "length": 54,
+          "maxNesting": 5,
+          "branches": 6,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "length",
+              "value": 54,
               "threshold": 50
             }
           ]
@@ -7943,22 +7926,22 @@
       "functions": [
         {
           "name": "buildBookingWizardStepValidators",
-          "startLine": 19,
-          "endLine": 41,
-          "length": 23,
-          "maxNesting": 9,
-          "branches": 6,
+          "startLine": 21,
+          "endLine": 47,
+          "length": 27,
+          "maxNesting": 11,
+          "branches": 8,
           "params": 0,
-          "returns": 10,
+          "returns": 13,
           "violations": [
             {
               "rule": "nesting",
-              "value": 9,
+              "value": 11,
               "threshold": 4
             },
             {
               "rule": "returns",
-              "value": 10,
+              "value": 13,
               "threshold": 4
             }
           ]
@@ -9503,8 +9486,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 285,
-          "length": 285,
+          "endLine": 293,
+          "length": 293,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9512,7 +9495,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 285,
+              "value": 293,
               "threshold": 100
             }
           ]
@@ -9618,37 +9601,13 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/components/booking/steps/ContactsStep.vue",
-      "functions": [
-        {
-          "name": "<script setup>",
-          "startLine": 1,
-          "endLine": 104,
-          "length": 104,
-          "maxNesting": 0,
-          "branches": 0,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "script-setup-length",
-              "value": 104,
-              "threshold": 100
-            }
-          ]
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/components/booking/steps/PropertyDetailsStep.vue",
       "functions": [
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 227,
-          "length": 227,
+          "endLine": 204,
+          "length": 204,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9656,7 +9615,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 227,
+              "value": 204,
               "threshold": 100
             }
           ]
@@ -9955,16 +9914,16 @@
         {
           "name": "that",
           "startLine": 39,
-          "endLine": 73,
-          "length": 35,
+          "endLine": 76,
+          "length": 38,
           "maxNesting": 0,
-          "branches": 19,
+          "branches": 22,
           "params": 0,
           "returns": 1,
           "violations": [
             {
               "rule": "branches",
-              "value": 19,
+              "value": 22,
               "threshold": 8
             }
           ]
@@ -10085,6 +10044,30 @@
             {
               "rule": "length",
               "value": 84,
+              "threshold": 50
+            }
+          ]
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBookingWizardStepValidators.ts",
+      "functions": [
+        {
+          "name": "useBookingWizardStepValidators",
+          "startLine": 31,
+          "endLine": 84,
+          "length": 54,
+          "maxNesting": 3,
+          "branches": 6,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 54,
               "threshold": 50
             }
           ]

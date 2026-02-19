@@ -138,6 +138,15 @@ export interface ContactsStepData {
 }
 
 /**
+ * Confirmation Step Data Interface
+ * LEARNING: Stub type for summary step; future "user acknowledged" / "terms accepted" can be added here
+ * WHY: Enables useWizardStepSync pattern for ConfirmationStep without changing ref type later
+ */
+export interface ConfirmationStepData {
+  acknowledged?: boolean
+}
+
+/**
  * Wizard Step Data and Validation Refs
  * 
  * LEARNING: Shared interface for wizard step data refs and validation state refs
@@ -148,6 +157,7 @@ export interface WizardStepDataAndValidationRefs {
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
   contactsStepData: Ref<ContactsStepData | null>
   availabilityStepData: Ref<AvailabilityStepData | null>
+  confirmationStepData: Ref<ConfirmationStepData | null>
   propertyDetailsStepValid: Ref<boolean>
   propertyDetailsStepValidate: Ref<(() => boolean) | null>
   propertyDetailsFieldErrors: Ref<Record<string, string>>
@@ -155,4 +165,6 @@ export interface WizardStepDataAndValidationRefs {
   contactsStepValidate: Ref<(() => boolean) | null>
   availabilityStepValid: Ref<boolean>
   availabilityStepValidate: Ref<(() => boolean) | null>
+  confirmationStepValid: Ref<boolean>
+  confirmationStepValidate: Ref<(() => boolean) | null>
 }

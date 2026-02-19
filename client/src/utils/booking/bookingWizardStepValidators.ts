@@ -8,6 +8,8 @@ export type BuildBookingWizardStepValidatorsOptions = {
   availabilityStepValid: boolean | null
   contactsStepValidate: (() => boolean) | null
   contactsStepValid: boolean | null
+  confirmationStepValidate?: (() => boolean) | null
+  confirmationStepValid?: boolean | null
 }
 
 /**
@@ -36,7 +38,11 @@ export function buildBookingWizardStepValidators(
       if (options.contactsStepValid !== null) return options.contactsStepValid
       return false
     },
-    4: () => true,
+    4: () => {
+      if (options.confirmationStepValidate) return options.confirmationStepValidate()
+      if (options.confirmationStepValid !== undefined && options.confirmationStepValid !== null) return options.confirmationStepValid
+      return true
+    },
   }
 }
 

@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-19T13:39:17.131Z
+Generated at: 2026-02-19T18:59:45.595Z
 
 ## Summary
 
-- Total outdated: **13**
-- Major behind: **10** | Minor: **2** | Patch: **0**
+- Total outdated: **14**
+- Major behind: **11** | Minor: **2** | Patch: **0**
 
 ## Major behind (top 20)
 
@@ -16,6 +16,7 @@ Generated at: 2026-02-19T13:39:17.131Z
 | @tiptap/extension-underline | client | 2.27.2 | 3.20.0 |
 | @tiptap/starter-kit | client | 2.27.2 | 3.20.0 |
 | @tiptap/vue-3 | client | 2.27.2 | 3.20.0 |
+| eslint-plugin-security | client | 3.0.1 | 4.0.0 |
 | vitest | client | 2.1.9 | 3.2.4 |
 | vue-router | client | 4.6.4 | 5.0.2 |
 | @types/dotenv | server | 8.2.3 | 6.1.1 |

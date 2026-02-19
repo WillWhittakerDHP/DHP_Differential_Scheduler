@@ -2,12 +2,12 @@
 
 Generated from `.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **57**
-- Requiring review: **143**
+- Files with findings: **56**
+- Requiring review: **140**
 - Allowed exceptions: 47
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **143**
+- Runtime legacy accommodation: **140**
 
 ## Top 30 files (ranked by score)
 
@@ -22,7 +22,6 @@ Generated from `.audit-reports/deprecation-audit.json`.
 | `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useDefaultLocation.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useSelectConfig.ts` | P1 | 6 | 0 | 3 |
-| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/componentEntity/useComponentEntityDomain.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/useBusiness.ts` | P1 | 6 | 0 | 3 |
@@ -43,8 +42,9 @@ Generated from `.audit-reports/deprecation-audit.json`.
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/booking/useAppointmentSlots.ts` | P1 | 4 | 0 | 2 |
 
-*...and 27 more files. See full report for details.*
+*...and 26 more files. See full report for details.*
 
 ## Notes
 

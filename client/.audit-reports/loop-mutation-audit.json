@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T13:39:41.695Z",
+  "generatedAt": "2026-02-19T19:00:13.828Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,13 +13,13 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 685,
+  "totalScanned": 686,
   "exceptionSummary": {
-    "totalAllowed": 1138,
+    "totalAllowed": 1126,
     "totalRequiresReview": 680,
     "bySource": {
       "inline": 2,
-      "pattern": 1136,
+      "pattern": 1124,
       "specific": 0
     }
   },
@@ -1914,6 +1914,107 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 7,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 76,
+          "line": "if (!ids || !bookingData || ids.length === 0) return []"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 107,
+          "line": "const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 155,
+          "line": "if (ids.length === 0 || found.length === ids.length) return"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 208,
+          "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 234,
+          "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 298,
+          "line": "typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 76,
+          "line": "if (!ids || !bookingData || ids.length === 0) return []"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 107,
+          "line": "const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 155,
+          "line": "if (ids.length === 0 || found.length === ids.length) return"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 208,
+          "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 234,
+          "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 298,
+          "line": "typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 14,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__utils__transformers__fieldClassification.ts",
       "repoPath": "client/src/utils/transformers/fieldClassification.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/fieldClassification.ts",
@@ -2968,188 +3069,6 @@
           "ruleId": "assignProp",
           "lineNumber": 174,
           "line": "typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
-      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 6,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "if (!ids || !bookingData || ids.length === 0) return []"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 155,
-          "line": "if (ids.length === 0 || found.length === ids.length) return"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 208,
-          "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 219,
-          "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 234,
-          "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 76,
-          "line": "if (!ids || !bookingData || ids.length === 0) return []"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 155,
-          "line": "if (ids.length === 0 || found.length === ids.length) return"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 208,
-          "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 219,
-          "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 234,
-          "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__utils__transformers__appointmentToWizardTransformer.ts",
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 6,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 151,
-          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 152,
-          "line": "a.user?.userRole === USER_ROLE_CLIENT"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 156,
-          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 157,
-          "line": "a.user?.userRole === USER_ROLE_AGENT"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 169,
-          "line": "typeof attendee.userTypeBlockInstance?.name === 'string'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "typeof addressWithGeo?.placeId === 'string' ? addressWithGeo.placeId : undefined"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 151,
-          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 152,
-          "line": "a.user?.userRole === USER_ROLE_CLIENT"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 156,
-          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 157,
-          "line": "a.user?.userRole === USER_ROLE_AGENT"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 169,
-          "line": "typeof attendee.userTypeBlockInstance?.name === 'string'"
         }
       ],
       "forEachMutationHits": [],
@@ -4342,6 +4261,87 @@
           "ruleId": "delete",
           "lineNumber": 128,
           "line": "logger.debug('Failed to delete invalid active relationship (may already be deleted)', {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__utils__transformers__appointmentToWizardTransformer.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardTransformer.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 5,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 121,
+          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 122,
+          "line": "a.user?.userRole === USER_ROLE_CLIENT"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 126,
+          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 127,
+          "line": "a.user?.userRole === USER_ROLE_AGENT"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 139,
+          "line": "typeof attendee.userTypeBlockInstance?.name === 'string'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 121,
+          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 122,
+          "line": "a.user?.userRole === USER_ROLE_CLIENT"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 126,
+          "line": "a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 127,
+          "line": "a.user?.userRole === USER_ROLE_AGENT"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 139,
+          "line": "typeof attendee.userTypeBlockInstance?.name === 'string'"
         }
       ],
       "forEachMutationHits": [],
@@ -6675,7 +6675,7 @@
         "forIn": 0,
         "while": 0,
         "doWhile": 0,
-        "push": 5,
+        "push": 0,
         "pop": 0,
         "shift": 0,
         "unshift": 0,
@@ -6689,90 +6689,30 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 92,
+          "lineNumber": 122,
           "line": "if (wizard.selectedServiceTypeBlocks.value.length === 0) {"
         },
         {
-          "ruleId": "push",
-          "lineNumber": 153,
-          "line": "attendeesCollection.push({"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 168,
-          "line": "attendeesCollection.push({"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 184,
-          "line": "attendeesCollection.push({"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 201,
-          "line": "attendeesCollection.push({"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 218,
-          "line": "attendeesCollection.push({"
-        },
-        {
           "ruleId": "assignIndex",
-          "lineNumber": 280,
+          "lineNumber": 234,
           "line": "acc[service.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 288,
+          "lineNumber": 242,
           "line": "acc[property.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 296,
+          "lineNumber": 250,
           "line": "acc[option.id] = number"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 92,
+          "lineNumber": 122,
           "line": "if (wizard.selectedServiceTypeBlocks.value.length === 0) {",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 153,
-          "line": "attendeesCollection.push({",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 168,
-          "line": "attendeesCollection.push({",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 184,
-          "line": "attendeesCollection.push({",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 201,
-          "line": "attendeesCollection.push({",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 218,
-          "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         }
@@ -6780,17 +6720,17 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 280,
+          "lineNumber": 234,
           "line": "acc[service.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 288,
+          "lineNumber": 242,
           "line": "acc[property.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 296,
+          "lineNumber": 250,
           "line": "acc[option.id] = number"
         }
       ],
@@ -13790,324 +13730,324 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 96,
+          "lineNumber": 100,
           "line": "return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 105,
+          "lineNumber": 109,
           "line": "selected => selected.isMultiFamily === true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 130,
+          "lineNumber": 134,
           "line": "return blockShapeWithComposable.composable === true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 211,
           "line": "formData.address.value = `${streetNumber} ${streetName}`.trim()"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 212,
           "line": "formData.city.value = addressField(addressComponents.city, 'city')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 213,
           "line": "formData.state.value = addressField(addressComponents.state, 'state')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 210,
+          "lineNumber": 214,
           "line": "formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 213,
+          "lineNumber": 217,
           "line": "formData.candidatePlaceId.value = placeId"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 214,
+          "lineNumber": 218,
           "line": "formData.candidateCoordinates.value = coordinates"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "isAddressExpanded.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 232,
+          "lineNumber": 236,
           "line": "isAddressExpanded.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 241,
+          "lineNumber": 245,
           "line": "isAddressExpanded.value = false"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 260,
+          "lineNumber": 264,
           "line": "isEnrichmentLoading.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 261,
+          "lineNumber": 265,
           "line": "if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 275,
-          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 276,
-          "line": "formData.squareFootage.value = enrichment.squareFootage"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 277,
-          "line": "formData.bedrooms.value = enrichment.bedrooms"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 278,
-          "line": "formData.bathrooms.value = enrichment.bathrooms"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 279,
-          "line": "formData.foundationAccess.value = enrichment.foundationAccess"
+          "line": "formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 280,
-          "line": "formData.additionalUnits.value = enrichment.additionalUnits"
+          "line": "formData.squareFootage.value = enrichment.squareFootage"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 281,
-          "line": "if (formData.source) formData.source.value = 'api'"
+          "line": "formData.bedrooms.value = enrichment.bedrooms"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 282,
+          "line": "formData.bathrooms.value = enrichment.bathrooms"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 283,
-          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []"
+          "line": "formData.foundationAccess.value = enrichment.foundationAccess"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 287,
+          "lineNumber": 284,
+          "line": "formData.additionalUnits.value = enrichment.additionalUnits"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 285,
+          "line": "if (formData.source) formData.source.value = 'api'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 288,
+          "line": "formData.suggestedBlockInstanceIds.value = suggestedIds"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 292,
           "line": "formData.propertySize.value = enrichment.squareFootage"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 295,
+          "lineNumber": 298,
           "line": "for (const id of suggestedIds) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 295,
+          "lineNumber": 298,
           "line": "for (const id of suggestedIds) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 296,
+          "lineNumber": 299,
           "line": "const propBlock = propBlocks.find((b) => b.id === id)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 301,
+          "lineNumber": 304,
           "line": "const lineBlock = lineBlocks.find((b) => b.id === id)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 309,
+          "lineNumber": 312,
           "line": "isEnrichmentLoading.value = false"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 96,
+          "lineNumber": 100,
           "line": "return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 105,
+          "lineNumber": 109,
           "line": "selected => selected.isMultiFamily === true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 130,
+          "lineNumber": 134,
           "line": "return blockShapeWithComposable.composable === true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 211,
           "line": "formData.address.value = `${streetNumber} ${streetName}`.trim()",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 212,
           "line": "formData.city.value = addressField(addressComponents.city, 'city')",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 213,
           "line": "formData.state.value = addressField(addressComponents.state, 'state')",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 210,
+          "lineNumber": 214,
           "line": "formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 213,
+          "lineNumber": 217,
           "line": "formData.candidatePlaceId.value = placeId",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 214,
+          "lineNumber": 218,
           "line": "formData.candidateCoordinates.value = coordinates",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 217,
+          "lineNumber": 221,
           "line": "isAddressExpanded.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 232,
+          "lineNumber": 236,
           "line": "isAddressExpanded.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 241,
+          "lineNumber": 245,
           "line": "isAddressExpanded.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 260,
+          "lineNumber": 264,
           "line": "isEnrichmentLoading.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 261,
+          "lineNumber": 265,
           "line": "if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 275,
-          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 276,
-          "line": "formData.squareFootage.value = enrichment.squareFootage",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 277,
-          "line": "formData.bedrooms.value = enrichment.bedrooms",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 278,
-          "line": "formData.bathrooms.value = enrichment.bathrooms",
-          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 279,
-          "line": "formData.foundationAccess.value = enrichment.foundationAccess",
+          "line": "formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 280,
-          "line": "formData.additionalUnits.value = enrichment.additionalUnits",
+          "line": "formData.squareFootage.value = enrichment.squareFootage",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 281,
-          "line": "if (formData.source) formData.source.value = 'api'",
+          "line": "formData.bedrooms.value = enrichment.bedrooms",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 282,
+          "line": "formData.bathrooms.value = enrichment.bathrooms",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 283,
-          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []",
+          "line": "formData.foundationAccess.value = enrichment.foundationAccess",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 287,
+          "lineNumber": 284,
+          "line": "formData.additionalUnits.value = enrichment.additionalUnits",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 285,
+          "line": "if (formData.source) formData.source.value = 'api'",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 288,
+          "line": "formData.suggestedBlockInstanceIds.value = suggestedIds",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 292,
           "line": "formData.propertySize.value = enrichment.squareFootage",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 296,
+          "lineNumber": 299,
           "line": "const propBlock = propBlocks.find((b) => b.id === id)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 301,
+          "lineNumber": 304,
           "line": "const lineBlock = lineBlocks.find((b) => b.id === id)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 309,
+          "lineNumber": 312,
           "line": "isEnrichmentLoading.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -14116,12 +14056,12 @@
       "requiresReview": [
         {
           "ruleId": "forLoop",
-          "lineNumber": 295,
+          "lineNumber": 298,
           "line": "for (const id of suggestedIds) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 295,
+          "lineNumber": 298,
           "line": "for (const id of suggestedIds) {"
         }
       ],
@@ -17485,7 +17425,7 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 4,
+        "assignProp": 1,
         "delete": 3
       },
       "matches": [
@@ -17495,33 +17435,18 @@
           "line": "selected => selected.requiresAgent === true"
         },
         {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "parentContactsStepData.value = newData"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 99,
-          "line": "parentContactsStepValid.value = newValid"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 103,
-          "line": "parentContactsStepValidate.value = validateForm"
-        },
-        {
           "ruleId": "delete",
-          "lineNumber": 208,
+          "lineNumber": 194,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 263,
+          "lineNumber": 249,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 318,
+          "lineNumber": 304,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         }
       ],
@@ -17532,43 +17457,22 @@
           "line": "selected => selected.requiresAgent === true",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "parentContactsStepData.value = newData",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 99,
-          "line": "parentContactsStepValid.value = newValid",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 103,
-          "line": "parentContactsStepValidate.value = validateForm",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "delete",
-          "lineNumber": 208,
+          "lineNumber": 194,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 263,
+          "lineNumber": 249,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 318,
+          "lineNumber": 304,
           "line": "<!-- PATTERN: Conditional rendering with delete button -->"
         }
       ],

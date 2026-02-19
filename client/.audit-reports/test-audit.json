@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-19T13:40:51.189Z",
+  "generatedAt": "2026-02-19T19:01:46.270Z",
   "summary": {
-    "totalSourceFiles": 796,
+    "totalSourceFiles": 797,
     "totalTestFiles": 0,
-    "untestedSourceFiles": 796,
+    "untestedSourceFiles": 797,
     "orphanedTestFiles": 0,
     "coveragePercentage": 0
   },
@@ -950,11 +950,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 10,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2,
-        "bucket": "P1"
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -965,10 +965,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -982,8 +982,8 @@
         "reliability": 2,
         "independence": 3,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -3109,8 +3109,8 @@
         "reliability": 10,
         "independence": 9,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 8.2,
+        "cognitiveLoad": 2,
+        "overall": 8.1,
         "bucket": "P0"
       }
     },
@@ -6046,6 +6046,21 @@
       }
     },
     {
+      "repoPath": "client/src/configs/usStates.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/configs/wizardSteps.ts",
       "functions": [],
       "classes": [],
@@ -8859,18 +8874,22 @@
     {
       "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
       "functions": [
+        "extractAddressFields",
+        "extractFoundationAccess",
+        "extractLocationData",
+        "extractPropertyDetailsFields",
         "findBlockInstanceById",
         "resolveBlockCategory"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 2,
+      "exportCount": 6,
       "priority": {
         "reliability": 10,
         "independence": 9,
         "roi": 10,
-        "cognitiveLoad": 2,
-        "overall": 9,
+        "cognitiveLoad": 4,
+        "overall": 9.2,
         "bucket": "P0"
       }
     },
@@ -13801,9 +13820,9 @@
     },
     {
       "directory": "client/src/configs",
-      "sourceCount": 7,
+      "sourceCount": 8,
       "testCount": 0,
-      "untestedCount": 7
+      "untestedCount": 8
     },
     {
       "directory": "client/src/configs/field/display/appliedDisplay",
@@ -15493,11 +15512,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 10,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2,
-        "bucket": "P1"
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -15512,10 +15531,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.3,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -15533,8 +15552,8 @@
         "reliability": 2,
         "independence": 3,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -18132,8 +18151,8 @@
         "reliability": 10,
         "independence": 9,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 8.2,
+        "cognitiveLoad": 2,
+        "overall": 8.1,
         "bucket": "P0"
       }
     },
@@ -21741,6 +21760,25 @@
       }
     },
     {
+      "repoPath": "client/src/configs/usStates.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/usStates.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/configs/wizardSteps.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/wizardSteps.ts",
       "functions": [],
@@ -25257,6 +25295,10 @@
       "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardHelpers.ts",
       "functions": [
+        "extractAddressFields",
+        "extractFoundationAccess",
+        "extractLocationData",
+        "extractPropertyDetailsFields",
         "findBlockInstanceById",
         "resolveBlockCategory"
       ],
@@ -25265,13 +25307,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 2,
+      "exportCount": 6,
       "priority": {
         "reliability": 10,
         "independence": 9,
         "roi": 10,
-        "cognitiveLoad": 2,
-        "overall": 9,
+        "cognitiveLoad": 4,
+        "overall": 9.2,
         "bucket": "P0"
       }
     },

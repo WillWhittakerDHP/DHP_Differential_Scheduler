@@ -32,11 +32,11 @@ Generated from `.audit-reports/function-complexity-audit.json`.
 | `client/src/utils/booking/timeSlotMatching.ts` | P0 | 14 | 2 | 9 | 29 |
 | `client/src/services/mapsApiService.ts` | P0 | 13 | 2 | 10 | 49 |
 | `client/src/utils/booking/partFinalizer.ts` | P0 | 13 | 2 | 11 | 42 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 13 | 3 | 5 | 54 |
 | `client/src/composables/booking/useContactsStepData.ts` | P0 | 12 | 2 | 12 | 57 |
 | `client/src/main.ts` | P0 | 12 | 2 | 7 | 52 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P0 | 12 | 2 | 15 | 81 |
 | `server/src/services/computedAvailabilityService.ts` | P0 | 12 | 3 | 9 | 90 |
 | `client/src/components/booking/plugins/wizardStatePlugin.ts` | P1 | 11 | 1 | 18 | 92 |
+| `client/src/composables/_archived/useFieldMetadata.ts` | P1 | 11 | 1 | 20 | 171 |
 
 *...and 297 more files.*

@@ -19,23 +19,23 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-19T13:39:11.199Z**
-- Files scanned: **811**
-- Type definitions found: **661**
-- Similarity groups: **45**
+- Generated at: **2026-02-19T18:59:43.422Z**
+- Files scanned: **812**
+- Type definitions found: **664**
+- Similarity groups: **46**
 - UNIFY candidates: **0**
 - BRAND candidates: **5**
-- EXTEND candidates: **34**
+- EXTEND candidates: **35**
 - REVIEW candidates: **6**
 
-- P0 (high): **20**, P1 (medium): **23**, P2 (low): **2**
+- P0 (high): **20**, P1 (medium): **24**, P2 (low): **2**
 
 ## Groups (ranked by score)
 
 | Priority | Action | Relationship | Types | Files | Score | Signature |
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsStepData`, `PropertyDetailsData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty`, `PartialPropertyDetails`, `PropertyEnrichmentResponse` | 13 | 71 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 57 | `{ active: boolean, activeBlockIds: string[], allowMultipl...` |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData` | 9 | 53 | `{ active: boolean, activeBlockIds: string[], allowMultipl...` |
 | P0 | EXTEND | SUBSET | `CalendarEvent`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DayHours`, `DateRangeConfig`, `CalendarEvent`, `BusyTimeRange`, `CreatedEventResponse`, `BusyTimeRange`, `ComputedAvailabilityRequest` | 5 | 47 | `{ attendees?: Array<{, email: string, end: string, htmlLi...` |
 | P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `ServerTimeSlot`, `ComputedSlot` | 6 | 31 | `{ dayLabel: string, duration: number, endTime: string, st...` |
 | P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById` | 5 | 28 | `{ id: string }` |
@@ -57,6 +57,7 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `UseAvailabilityStepDataParams`, `UseAvailabilityValidationParams` | 2 | 10 | `{ end: string | null }>, moveableScheduling?: Ref<Moveabl...` |
 | P1 | EXTEND | SUBSET | `MinimalSlotParams`, `SlotGenerationParams` | 2 | 10 | `{ duration: number, endBoundary: string, includeFlags: { ...` |
 | P1 | EXTEND | SUBSET | `BusinessRule`, `BusinessRuleFormData` | 1 | 10 | `{ active: boolean, blockInstanceId: GlobalEntityId, creat...` |
+| P1 | EXTEND | SUBSET | `SelectOption`, `USStateOption` | 2 | 10 | `{ children?: SelectOption[], title: string, value: string }` |
 | P1 | EXTEND | SUBSET | `RelationshipCollectionModel`, `UseRelationshipCollectionDataReturn` | 2 | 10 | `{ applyBulkEdit?: () => Promise<void>, bulkEditData?: Ref...` |
 | P1 | EXTEND | SUBSET | `InstanceComponent`, `CreateRelationshipPayload` | 2 | 10 | `{ childId: GlobalEntityId, createdAt: Date, disabled: boo...` |
 | P1 | EXTEND | SUBSET | `UseFormElementPatchingOptions`, `FormElementPatchingOptions` | 2 | 10 | `{ formRef?: Ref<VFormInstance | null>, formSelector: stri...` |
@@ -73,8 +74,7 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 | `{ contingencyPeriod: {, endDate: string | null, endTime: ...` |
 | P1 | EXTEND | SUBSET | `Props`, `TimeBasisHandlerProps` | 2 | 8 | `{ graphBars: {, isDifferentialService: boolean, major: Ti...` |
 | P1 | EXTEND | SUBSET | `FieldMetadata`, `DisplayProps` | 1 | 8 | `{ disabled?: boolean, fieldType: 'text' | 'number' | 'boo...` |
-| P1 | EXTEND | SUBSET | `Props`, `FieldInputProps` | 2 | 8 | `{ fieldContext?: FieldContextType<GlobalEntityKey, Global...` |
-| ... | ... | ... | ... | ... | ... | (5 more groups) |
+| ... | ... | ... | ... | ... | ... | (6 more groups) |
 
 ## BRAND Candidates (5)
 
@@ -138,7 +138,7 @@ These types are structurally identical but may represent different concepts. Add
 | `PropertiesTableModel` | interface | `client/src/composables/admin/tables/usePropertiesTableModel.ts` | 6 | yes |
 | `UsersTableModel` | interface | `client/src/composables/admin/tables/useUsersTableModel.ts` | 7 | yes |
 
-## EXTEND Candidates (34)
+## EXTEND Candidates (35)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -153,7 +153,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `UserResponse` | interface | `client/src/types/appointmentApi.ts` | 28 | yes |
 | `UserRequest` | interface | `client/src/types/user.ts` | 10 | yes |
 | `UserResponse` | interface | `client/src/types/user.ts` | 18 | yes |
-| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 34 | yes |
+| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 37 | yes |
 | `ParsedClient` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 67 | yes |
 | `AppointmentWithDetails` | interface | `server/src/services/appointmentCalendarService.ts` | 51 | no |
 | `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
@@ -167,15 +167,15 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `PartialPropertyDetails` | interface | `server/src/services/propertyFieldMapper.ts` | 12 | yes |
 | `PropertyEnrichmentResponse` | interface | `shared/types/propertyEnrichmentTypes.ts` | 15 | yes |
 
-### sim-subset-a327c0b2d783
+### sim-subset-0780f77cc3a9
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **57**
+- Relationship: **SUBSET**, Priority: **P0**, Score: **53**
 - Structure: `{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 8 | yes |
-| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 32 | yes |
+| `ComponentItem` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 34 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 67 | yes |
 | `BookingBlockInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 52 | yes |
 | `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 14 | yes |
@@ -186,7 +186,6 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 43 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 23 | yes |
-| `SelectionCardItemWithComponents` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 40 | yes |
 
 ### sim-subset-b55365215dd1
 
@@ -275,7 +274,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 45 | yes |
+| `UsePropertyDetailsLogicParams` | interface | `client/src/composables/booking/usePropertyDetailsLogic.ts` | 49 | yes |
 | `UsePropertyFormStateReturn` | interface | `client/src/composables/booking/usePropertyFormState.ts` | 16 | yes |
 | `UsePropertyFormWatchersParams` | interface | `client/src/composables/booking/usePropertyFormWatchers.ts` | 14 | yes |
 
@@ -332,6 +331,20 @@ Overlap: **63%** shared properties
 - Shared: `active`, `blockInstanceId`, `ruleConfig`, `ruleType`, `validationMessageAnnotationId`
 - Only in `BusinessRule`: `createdAt`, `id`, `updatedAt`
 
+### sim-subset-5a10cd3ef8e7
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ children?: SelectOption[], title: string, value: string }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `SelectOption` | interface | `client/src/composables/useSelectOptions.ts` | 22 | yes |
+| `USStateOption` | interface | `client/src/configs/usStates.ts` | 6 | yes |
+
+Overlap: **67%** shared properties
+- Shared: `title`, `value`
+- Only in `SelectOption`: `children`
+
 ### sim-subset-5a6994ec75f1
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
@@ -346,21 +359,7 @@ Overlap: **21%** shared properties
 - Shared: `existingChildren`, `getChildForShape`, `getShapeName`, `validShapes`
 - Only in `RelationshipCollectionModel`: `applyBulkEdit`, `bulkEditData`, `bulkEditMode`, `expandedChildren`, `expandedPlaceholders`, `getNewChildEntity`, `handleBulkEditConfirm`, `handleBulkEditModalUpdate`, `handleNewChildCancelled`, `handleNewChildSaved`, `isPanelExpanded`, `optionsFieldKey`, `parentEntity`, `shouldShow`, `toggleBulkEditMode`
 
-### sim-subset-5dfee78f42c8
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ childId: GlobalEntityId, createdAt: Date, disabled: boolean, id: GlobalEntityId, orderIndex: number, parentId: GlobalEntityId, updatedAt: Date }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `InstanceComponent` | interface | `client/src/types/component.ts` | 32 | yes |
-| `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts` | 50 | yes |
-
-Overlap: **29%** shared properties
-- Shared: `childId`, `parentId`
-- Only in `InstanceComponent`: `createdAt`, `disabled`, `id`, `orderIndex`, `updatedAt`
-
-_(19 more EXTEND groups omitted — see JSON for full data)_
+_(20 more EXTEND groups omitted — see JSON for full data)_
 
 ## REVIEW Candidates (6)
 
