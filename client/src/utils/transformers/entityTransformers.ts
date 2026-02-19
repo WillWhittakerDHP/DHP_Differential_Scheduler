@@ -29,7 +29,7 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     entityKey,
     ...Object.fromEntries(entries),
   }
-  return transformed as unknown as GlobalEntity<GE>
+  return transformed as GlobalEntity<GE>
 }
 
 

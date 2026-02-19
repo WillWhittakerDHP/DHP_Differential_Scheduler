@@ -158,7 +158,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       
       if (entityKey === 'blockShape' && newValue === true) {
         if (fieldKey === 'isStateControl') {
-          const currentCanHaveParts = (currentEntity as unknown as Record<string, unknown>).canHaveParts === true
+          const currentCanHaveParts = 'canHaveParts' in currentEntity && currentEntity.canHaveParts === true
           if (currentCanHaveParts) {
             updatePayload.push({
               admin: { key: 'canHaveParts', value: false },
@@ -166,7 +166,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
             })
           }
         } else if (fieldKey === 'canHaveParts') {
-          const currentIsStateControl = (currentEntity as unknown as Record<string, unknown>).isStateControl === true
+          const currentIsStateControl = 'isStateControl' in currentEntity && currentEntity.isStateControl === true
           if (currentIsStateControl) {
             updatePayload.push({
               admin: { key: 'isStateControl', value: false },

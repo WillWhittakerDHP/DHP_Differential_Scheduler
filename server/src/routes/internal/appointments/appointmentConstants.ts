@@ -51,3 +51,4 @@ export const DEFAULT_CALENDAR_EMAIL = 'scheduling@districthomepro.com'
  * PATTERN: Const array with status values
  */
 export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const
+export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]

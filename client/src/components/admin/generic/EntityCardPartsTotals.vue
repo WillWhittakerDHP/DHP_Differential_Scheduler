@@ -32,12 +32,9 @@
 <script setup lang="ts">
 import { usePartsTotals } from '@/composables/admin/usePartsTotals'
 import { formatDuration } from '@/utils/time/timeFormatting'
-import type { GlobalEntityKey } from '@/constants/entities'
+import type { EntityCardSharedProps } from './entityCardConstants'
 
-interface Props {
-  entityKey: GlobalEntityKey
-  entityId: string
-}
+type Props = EntityCardSharedProps
 
 const props = defineProps<Props>()
 

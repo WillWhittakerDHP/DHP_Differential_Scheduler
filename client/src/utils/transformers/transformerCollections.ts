@@ -6,11 +6,12 @@
  * PATTERN: Pure functions; reuses existing @/utils/collections where applicable.
  */
 
+import type { IdentifiableById } from '@/utils/collections/appendIfMissingById'
 import { findById as findByIdBase } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-/** Entity shape used by findById/findByIds (matches IdentifiableById). */
-type WithId = { id: string }
+/** Entity shape used by findById/findByIds. */
+type WithId = IdentifiableById
 
 /**
  * Find a single entity by ID. Returns null for null/undefined id or when not found.

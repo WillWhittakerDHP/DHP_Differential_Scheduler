@@ -6,10 +6,12 @@ export interface UseLoadingIndicatorReturn {
   progressValue: Ref<number>
   isFallbackState: Ref<boolean>
   showProgress: Ref<boolean>
-  
   fallbackHandle: () => void
   resolveHandle: () => void
 }
+
+/** Subset of return type used by layout/blank for ref template; single source of truth. */
+export type LoadingIndicatorInstance = Pick<UseLoadingIndicatorReturn, 'fallbackHandle' | 'resolveHandle'>
 
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)

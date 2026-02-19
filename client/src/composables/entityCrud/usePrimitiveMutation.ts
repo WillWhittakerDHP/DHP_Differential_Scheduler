@@ -131,7 +131,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           const afterKeys = Object.keys(updatedEntities[entityIndex])
           const missingKeys = beforeKeys.filter(key => !afterKeys.includes(key))
           if (missingKeys.length > 0) {
-            console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {
+            logger.warn('Field count mismatch - fields lost', {
               entityKey,
               entityId: variables.dynamicId,
               beforeCount: beforeKeys.length,

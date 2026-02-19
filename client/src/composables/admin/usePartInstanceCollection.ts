@@ -7,7 +7,10 @@ import { useNotification } from '@/composables/useNotification'
 import { usePartInstanceData } from '@/composables/usePartInstanceData'
 import { usePartInstanceBulkEdit, type PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import type { GlobalEntity } from '@/types/entities'
+import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePartInstanceCollection')
 
 export interface PartInstanceCollectionModel {
   validPartShapes: Ref<GlobalEntity<'partShape'>[]>
@@ -106,6 +109,7 @@ export function usePartInstanceCollection(
     try {
       defaults = getDefaultEntityValues('partInstance')
     } catch (_error) {
+      logger.error('Failed to get default entity values for partInstance', { error: _error })
       defaults = { orderIndex: 0 }
     }
     
@@ -120,7 +124,7 @@ export function usePartInstanceCollection(
       return baseEntity
     }
 
-    const blockInstanceEntity = blockInstance.value as import('@/types/entities').BlockInstanceEntity
+    const blockInstanceEntity = blockInstance.value as BlockInstanceEntity
     const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
     const partShape = getGlobalEntityById('partShape', partShapeId)
     const rawName = partShape?.name
@@ -152,7 +156,7 @@ export function usePartInstanceCollection(
     if (!blockInstance.value) return
 
     try {
-      const blockInstanceEntity = blockInstance.value as import('@/types/entities').BlockInstanceEntity
+      const blockInstanceEntity = blockInstance.value as BlockInstanceEntity
       
       // This avoids timing issues where getPartInstanceForShape might not find it yet
       await createPartAssignmentsRelationship({
@@ -172,6 +176,7 @@ export function usePartInstanceCollection(
         expandedPlaceholders.value.splice(index, 1)
       }
     } catch (_error) {
+      logger.error('Failed to link PartInstance to BlockInstance', { error: _error })
       notifyError('Failed to link PartInstance to BlockInstance')
     }
   }

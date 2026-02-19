@@ -67,3 +67,19 @@ export interface RouteLocation {
   coordinates?: Coordinates
   address?: string
 }
+
+/** Status values for route matrix results (matches GOOGLE_API_STATUS) */
+export type RouteMatrixStatus = 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'
+
+/**
+ * Route matrix result for a single origin-destination pair
+ * LEARNING: Shared between client and server for route/drive time APIs
+ */
+export interface RouteMatrixResult {
+  originIndex: number
+  destinationIndex: number
+  durationSeconds: number
+  distanceMeters: number
+  status: RouteMatrixStatus
+  condition?: string
+}

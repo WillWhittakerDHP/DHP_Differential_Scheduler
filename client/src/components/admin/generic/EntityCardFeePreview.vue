@@ -74,7 +74,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { usePartsTotals } from '@/composables/admin/usePartsTotals'
-import type { GlobalEntityKey } from '@/constants/entities'
 
 const SQFT_RANGE = [0, 1000, 2000, 3000, 4000, 5000] as const
 const CHART_WIDTH = 280
@@ -84,10 +83,9 @@ const PLOT_WIDTH = CHART_WIDTH - PAD.left - PAD.right
 const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
 const LINE_COLOR = 'rgb(var(--v-theme-primary))'
 
-interface Props {
-  entityKey: GlobalEntityKey
-  entityId: string
-}
+import type { EntityCardSharedProps } from './entityCardConstants'
+
+type Props = EntityCardSharedProps
 
 const props = defineProps<Props>()
 

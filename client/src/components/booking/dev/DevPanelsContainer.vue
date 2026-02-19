@@ -8,26 +8,28 @@
  * NOTE: Renamed from DevPanelsContainer to distinguish from ApiDevPanel
  */
 
-import { ref, inject, computed, onMounted, onUnmounted, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
+import { ref, inject, computed, type Ref, type ComputedRef } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { createLogger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
 import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/appointment'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { AppointmentSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@/types/datetime'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
 import { useBookingWizard } from '@/composables/useBookingWizard'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId } from '@/types/entities'
-import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
+import { useDevPanelsComputed, type DevPanelsComputedData, type ServiceSummary } from '@/composables/booking/useDevPanelsComputed'
 
-interface Props {
-  visible: boolean
-}
+import type { DevPanelVisibleProps } from '@/components/admin/dev/devPanelTypes'
+
+type Props = DevPanelVisibleProps
 
 interface Emits {
   (e: 'close'): void
@@ -37,6 +39,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
+const logger = createLogger('DevPanelsContainer')
 const activeTab = ref<'slotShape' | 'instances' | 'constraints'>('slotShape')
 const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
@@ -46,15 +49,7 @@ const panelRef = ref<HTMLElement | null>(null)
 const devPanelData = useDevPanelData()
 
 // WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
-interface AppointmentData {
-  selectedBlockInstances: BookingBlockInstance[]
-  appointmentSlots: AppointmentSlot[]
-  appointmentShape: AppointmentShape | null
-  selectedDate: string | undefined
-  selectedTime: string | undefined
-}
-
-const appointmentData = computed<AppointmentData>(() => {
+const appointmentData = computed<DevPanelsComputedData>(() => {
   // LEARNING: Access shared ref first to establish dependency
   const data = devPanelData.value
   
@@ -111,14 +106,6 @@ const { formatDateTimeForDisplay } = useLocalTime()
 const { settings: availabilitySettings } = useAvailabilitySettings()
 
 const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
-
-interface ServiceSummary {
-  name: string
-  differential: TernaryBoolean // LEARNING: Changed from boolean to TernaryBoolean to match BookingBlockInstance.differential
-  bookingMode: string
-  baseSqFt: number
-  partCount: number
-}
 
 const servicesSummary = computed<ServiceSummary[]>(() => {
   const instances = appointmentData.value.selectedBlockInstances
@@ -188,7 +175,7 @@ const timeSlotResults = computed(() => {
 // WHY: Converts ISO strings to readable format
 const formatTime = (isoString: string | null): string => {
   if (!isoString) return 'N/A'
-  return formatDateTimeForDisplay(isoString as import('@/types/datetime').RFC3339DateTime, {
+  return formatDateTimeForDisplay(isoString as RFC3339DateTime, {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
@@ -211,30 +198,10 @@ const formatDuration = (minutes: number): string => {
   }
 }
 
-const handleClickOutside = (event: MouseEvent): void => {
-  if (!props.visible || !panelRef.value) return
-  
-  // PATTERN: Check if click target is within toggle button element
-  const target = event.target as HTMLElement | null
-  if (target?.closest('.dev-panel-toggle')) {
-    return
-  }
-  
-  // PATTERN: Use $el to get actual HTMLElement for contains() check
-  const panelEl = (panelRef.value as unknown as ComponentPublicInstance).$el as HTMLElement | null
-  
-  if (panelEl && !panelEl.contains(target as Node)) {
-    emit('close')
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+// PATTERN: VueUse onClickOutside keeps DOM (document, contains) in composable; ref must be element
+onClickOutside(panelRef, () => {
+  if (props.visible) emit('close')
+}, { ignore: ['.dev-panel-toggle'] })
 
 
 const devPanelButtonsRef = inject<Ref<{
@@ -332,7 +299,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   if (eventShape.isTernary) {
     const ternaryValue = eventShape.ternaryDefault
     if (ternaryValue === null) {
-      console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
+      logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
       return false // Graceful failure
     }
     return toBoolean(ternaryValue, 'strict')
@@ -345,9 +312,8 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
 
 <template>
   <Teleport to="body">
+    <div v-if="isDevMode && visible" ref="panelRef" class="dev-panels-wrapper">
     <VCard
-      v-if="isDevMode && visible"
-      ref="panelRef"
       class="dev-panels-container"
       variant="outlined"
       color="info"
@@ -676,6 +642,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
         </VWindow>
       </VCardText>
     </VCard>
+    </div>
   </Teleport>
 </template>
 

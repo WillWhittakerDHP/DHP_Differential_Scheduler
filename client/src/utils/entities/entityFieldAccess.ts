@@ -21,7 +21,7 @@ export function getEntityFieldValue(
   fieldKey: string
 ): unknown {
   if (!Object.prototype.hasOwnProperty.call(entity, fieldKey)) return undefined
-  return entity[fieldKey as keyof typeof entity]
+  return (entity as Record<string, unknown>)[fieldKey]
 }
 
 

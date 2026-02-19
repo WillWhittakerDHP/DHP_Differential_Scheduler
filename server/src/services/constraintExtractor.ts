@@ -48,7 +48,7 @@ function convertBusinessHoursConstraint(dbConstraint: DbRangeConstraint): RangeC
   const config = dbConstraint.config as BusinessHoursConfig
   const convertedHours = Object.fromEntries(
     Array.from({ length: 7 }, (_, day) => {
-      const dayHours = config.hours[day as keyof typeof config.hours]
+      const dayHours = config.hours[day as 0 | 1 | 2 | 3 | 4 | 5 | 6]
       return dayHours
         ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
         : null

@@ -18,8 +18,7 @@ function getSourceValue(
   response: BrightMlsPropertyResponse,
   sourceField: string
 ): string[] | number | null {
-  const key = sourceField as keyof BrightMlsPropertyResponse;
-  const val = response[key];
+  const val = (response as Record<string, unknown>)[sourceField];
 
   if (val == null) return null;
   if (Array.isArray(val)) {

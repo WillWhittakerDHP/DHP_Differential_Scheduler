@@ -19,6 +19,7 @@ import {
 } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity, GlobalEntityId } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { EventFinal, AppointmentSlot } from '@/types/appointment'
 
 const logger = createLogger('differentialScheduling')
 
@@ -40,7 +41,7 @@ function resolveAttendeeIds(
   }
 }
 
-function durationMinutes(eventFinal: import('@/types/appointment').EventFinal | undefined, context: string): number {
+function durationMinutes(eventFinal: EventFinal | undefined, context: string): number {
   if (eventFinal === undefined) {
     logger.debug(`${context}: no event final, duration 0`)
     return 0
@@ -49,13 +50,46 @@ function durationMinutes(eventFinal: import('@/types/appointment').EventFinal | 
   return d !== undefined && d !== null ? d : 0
 }
 
-function eventShapeName(eventFinal: import('@/types/appointment').EventFinal | undefined, defaultName: string, context: string): string {
+function eventShapeName(eventFinal: EventFinal | undefined, defaultName: string, context: string): string {
   if (eventFinal === undefined) {
     logger.debug(`${context}: no event final, name "${defaultName}"`)
     return defaultName
   }
   const name = eventFinal.eventShape?.name
   return name !== undefined && name !== null && name !== '' ? name : defaultName
+}
+
+type SlotShapeWithFinals = AppointmentSlot['shape']['slotShape']
+
+/** Resolve major and minor EventFinal from slotShape (attendee-based or name-based). */
+function resolveMajorMinorEventFinals(
+  slotShape: SlotShapeWithFinals,
+  globalData: GlobalData | undefined,
+  availabilitySettings: AvailabilitySettings | null | undefined,
+  context: string
+): {
+  majorEventFinal: EventFinal | undefined
+  minorEventFinal: EventFinal | undefined
+} {
+  let majorEventFinal: EventFinal | undefined
+  let minorEventFinal: EventFinal | undefined
+  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
+    const { major: majorAttendeeIds, minor: minorAttendeeIds } = resolveAttendeeIds(
+      availabilitySettings.differentialPerspectives,
+      context
+    )
+    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    const majorEventShape = majorAttendeeIds.length > 0 ? getMajorEventShape(eventShapeEntities, majorAttendeeIds) : null
+    const eventShapesExcludingMajor = majorEventShape
+      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
+      : eventShapeEntities
+    const minorEventShape = minorAttendeeIds.length > 0 ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds) : null
+    majorEventFinal = majorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id) : undefined
+    minorEventFinal = minorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id) : undefined
+  }
+  if (!majorEventFinal) majorEventFinal = findEventFinalByName(slotShape, 'Major')
+  if (!minorEventFinal) minorEventFinal = findEventFinalByName(slotShape, 'Minor')
+  return { majorEventFinal, minorEventFinal }
 }
 
 /**
@@ -138,48 +172,18 @@ export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTo
  * @returns AppointmentSlot with TimeSlot objects calculated from major start time
  */
 export function transformToMajorPerspective(
-  appointmentSlot: import('@/types/appointment').AppointmentSlot,
+  appointmentSlot: AppointmentSlot,
   majorStartTime: string,
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
-): import('@/types/appointment').AppointmentSlot {
-  // PATTERN: Use attendee-based logic when available, fall back to name-based logic
+): AppointmentSlot {
   const slotShape = appointmentSlot.shape.slotShape
-  
-  let majorEventFinal: import('@/types/appointment').EventFinal | undefined
-  let minorEventFinal: import('@/types/appointment').EventFinal | undefined
-  
-  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
-    const { major: majorAttendeeIds, minor: minorAttendeeIds } = resolveAttendeeIds(
-      availabilitySettings.differentialPerspectives,
-      'transformToMajorPerspective'
-    )
-    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-
-    const majorEventShape = majorAttendeeIds.length > 0
-      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-      : null
-    const eventShapesExcludingMajor = majorEventShape
-      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-      : null
-
-    if (majorEventShape) {
-      majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
-    }
-    if (minorEventShape) {
-      minorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
-    }
-  }
-
-  if (!majorEventFinal) {
-    majorEventFinal = findEventFinalByName(slotShape, 'Major')
-  }
-  if (!minorEventFinal) {
-    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
-  }
+  const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
+    slotShape,
+    globalData,
+    availabilitySettings,
+    'transformToMajorPerspective'
+  )
 
   const majorDuration = durationMinutes(majorEventFinal, 'transformToMajorPerspective.major')
   const minorDuration = durationMinutes(minorEventFinal, 'transformToMajorPerspective.minor')
@@ -233,48 +237,18 @@ export function transformToMajorPerspective(
  * @returns AppointmentSlot with TimeSlot objects calculated from minor start time
  */
 export function transformToMinorPerspective(
-  appointmentSlot: import('@/types/appointment').AppointmentSlot,
+  appointmentSlot: AppointmentSlot,
   minorStartTime: string,
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
-): import('@/types/appointment').AppointmentSlot {
-  // PATTERN: Use attendee-based logic when available, fall back to name-based logic
+): AppointmentSlot {
   const slotShape = appointmentSlot.shape.slotShape
-  
-  let majorEventFinal: import('@/types/appointment').EventFinal | undefined
-  let minorEventFinal: import('@/types/appointment').EventFinal | undefined
-  
-  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
-    const { major: majorAttendeeIds, minor: minorAttendeeIds } = resolveAttendeeIds(
-      availabilitySettings.differentialPerspectives,
-      'transformToMinorPerspective'
-    )
-    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-
-    const majorEventShape = majorAttendeeIds.length > 0
-      ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-      : null
-    const eventShapesExcludingMajor = majorEventShape
-      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape = minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-      : null
-
-    if (majorEventShape) {
-      majorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
-    }
-    if (minorEventShape) {
-      minorEventFinal = slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
-    }
-  }
-
-  if (!majorEventFinal) {
-    majorEventFinal = findEventFinalByName(slotShape, 'Major')
-  }
-  if (!minorEventFinal) {
-    minorEventFinal = findEventFinalByName(slotShape, 'Minor')
-  }
+  const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
+    slotShape,
+    globalData,
+    availabilitySettings,
+    'transformToMinorPerspective'
+  )
 
   const majorTotal = durationMinutes(majorEventFinal, 'transformToMinorPerspective.major')
 

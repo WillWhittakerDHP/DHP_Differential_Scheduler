@@ -10,6 +10,7 @@
  */
 
 import { computed, type Ref } from 'vue'
+import type { SelectGroup } from '@/composables/admin/useSelectDomTargets'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
@@ -25,9 +26,8 @@ export interface SelectOption {
   children?: SelectOption[]
 }
 
-export interface GroupedEntities {
-  groupKey: string
-  groupLabel: string
+/** SelectGroup plus entities list; extends shared group key/label shape. */
+export interface GroupedEntities extends SelectGroup {
   entities: GlobalEntity<GlobalEntityKey>[]
 }
 

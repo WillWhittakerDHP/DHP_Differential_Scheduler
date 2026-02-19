@@ -54,15 +54,10 @@ export function isCompiledJsFile(absPath) {
 
 /**
  * Detect if a file is a seed script (test data seeding, DB seed utilities, etc.).
- * Seed scripts contain intentionally hardcoded data, mutations, and simplified patterns
- * that are not representative of production code quality — auditing them creates noise.
  *
- * Matches:
- *   - Files with 'seed' in their filename (e.g., seedTestData.ts, seed_admin_data.mjs)
- *   - Files in test/setup directories (test infrastructure)
- *
- * Note: Migration files containing 'seed' (e.g., 20260114_seed_admin_...) are already
- * excluded by migration-path checks in each audit's exclusion logic.
+ * @deprecated Use isGloballyExcluded(repoPath) instead. Seed and migration exclusions
+ * are centralized in audit-global-config.json (globalExclusions patterns).
+ * Keeping this only for backward compatibility; no audit script should import it.
  *
  * @param {string} repoPath - Repo-relative file path
  * @returns {boolean}
@@ -139,6 +134,41 @@ export function isGloballyExcluded(repoPath) {
     if (simpleGlobMatch(normalized, entry.pattern)) return true
   }
   return false
+}
+
+let _pruneDirectoriesCache = undefined
+
+/**
+ * Derive directory names from global exclusion patterns for use in listFilesRecursive().
+ * Exclusion patterns that match a single directory segment (e.g. node_modules, dist)
+ * are used to skip recursing into those trees (performance). Cached for process lifetime.
+ *
+ * @returns {Set<string>}
+ */
+function getPruneDirectories() {
+  if (_pruneDirectoriesCache !== undefined) return _pruneDirectoriesCache
+  const exclusions = loadGlobalExclusions()
+  const set = new Set()
+  for (const entry of exclusions) {
+    const p = entry.pattern.replaceAll('\\', '/')
+    // **/dirname/** or **/.dirname/** -> add dirname or .dirname
+    const match = p.match(/^\*\*\/([^/*]+)\/\*\*$/)
+    if (match) set.add(match[1])
+  }
+  _pruneDirectoriesCache = set
+  return _pruneDirectoriesCache
+}
+
+/**
+ * Check whether a directory name should be pruned (not recursed into) when listing files.
+ * Use in listFilesRecursive() to avoid crawling node_modules, dist, .git, etc.
+ * Reads from audit-global-config.json globalExclusions (single source of truth).
+ *
+ * @param {string} dirName - Directory name only (e.g. "node_modules", "dist")
+ * @returns {boolean} true if the directory should be skipped
+ */
+export function shouldPruneDirectory(dirName) {
+  return getPruneDirectories().has(dirName)
 }
 
 /**

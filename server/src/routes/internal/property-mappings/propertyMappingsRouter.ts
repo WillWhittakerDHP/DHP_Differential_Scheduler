@@ -13,6 +13,7 @@ import {
   BlockInstance,
 } from '../../../config/app.js';
 import { createCrudRouter } from '../../helpers/createCrudRouter.js';
+import { SORT_ORDERS } from '../entities/entityConstants.js';
 
 const router = Router();
 
@@ -42,7 +43,7 @@ const featureMappingsRouter = createCrudRouter({
     DELETE: 'Failed to delete feature mapping',
   },
   defaultOrder: [
-    ['priority', 'DESC'],
+    ['priority', SORT_ORDERS.DESC],
     ['sourceField', 'ASC'],
   ],
   defaultIncludes: [

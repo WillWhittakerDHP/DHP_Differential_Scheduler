@@ -20,6 +20,9 @@ import apiClient, {
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('fetchToBusinessTransformer')
 
 /**
  * BusinessData type - unified cache for business entities
@@ -63,6 +66,7 @@ export class BusinessTransformer {
         users: usersResponse.data,
       }
     } catch (_error) {
+      logger.error('Fetch business data failed', { error: _error })
       return {
         appointments: [],
         properties: [],

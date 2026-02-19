@@ -6,12 +6,12 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ## Summary
 
-- Files scanned: **751**
-- Files with issues: **144**
-- Issues found: **249**
-- Unused exports: 204
+- Files scanned: **754**
+- Files with issues: **143**
+- Issues found: **244**
+- Unused exports: 198
 - Commented exports: 1
-- Unused functions: 41
+- Unused functions: 42
 - TODO markers: 3
 - Dead scripts: 0
 - Using pattern-detection data: **Yes** (prioritizing exports found by pattern-detection)
@@ -126,38 +126,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `server/src/config/entityRegistry.ts` [P0] (score: 15)
-
-- **WARNING** [unused-export] (line 14): Unused export: isBlockInstanceComposable (function)
-  ```
-  export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 39): Unused export: getComponentConfig (function)
-  ```
-  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 121): Unused export: ENTITY_REGISTRY (const)
-  ```
-  export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 39): Unused export: ComponentConfig (type)
-  ```
-  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 98): Unused export: EntityConfig (type)
-  ```
-  export interface EntityConfig {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/utils/differentialScheduling.ts` [P0] (score: 12)
 
 - **WARNING** [unused-export] (line 71): Unused export: calculateMajorStartTime (function)
@@ -181,6 +149,32 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 118): Unused export: calculateMinorStartTimeFromMajor (function)
   ```
   export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/config/entityRegistry.ts` [P0] (score: 12)
+
+- **WARNING** [unused-export] (line 15): Unused export: isBlockInstanceComposable (function)
+  ```
+  export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 40): Unused export: getComponentConfig (function)
+  ```
+  export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 102): Unused export: ENTITY_REGISTRY (const)
+  ```
+  export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
+  ```
+  💡 Remove if unused or document why kept
+
+- **WARNING** [unused-export] (line 79): Unused export: EntityConfig (type)
+  ```
+  export interface EntityConfig {
   ```
   💡 Remove if unused or document why kept
 
@@ -550,13 +544,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/configs/availabilitySettings.ts` [P1] (score: 6)
 
-- **WARNING** [unused-export] (line 641): Unused export: getWriteToCalendar (function)
+- **WARNING** [unused-export] (line 459): Unused export: getWriteToCalendar (function)
   ```
   export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {
   ```
   💡 Remove if unused or document why kept
 
-- **WARNING** [unused-export] (line 661): Unused export: getCalendarEmailsArray (function)
+- **WARNING** [unused-export] (line 479): Unused export: getCalendarEmailsArray (function)
   ```
   export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
   ```
@@ -730,20 +724,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `client/src/utils/logger.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 18): Unused export: LogLevel (type)
-  ```
-  export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 20): Unused export: AppLogger (type)
-  ```
-  export type AppLogger = {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `client/src/views/admin/tabs/PropertyMappingsTab.vue` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 19): Unused export: PropertyFieldMappingRow (type)
@@ -884,20 +864,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
-### `server/src/services/driveTimeCache.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 93): Unused export: generateCacheKey (function)
-  ```
-  export function generateCacheKey(
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 22): Unused export: DriveTimeCacheEntry (type)
-  ```
-  export interface DriveTimeCacheEntry {
-  ```
-  💡 Remove if unused or document why kept
-
 ### `server/src/services/rateLimiter.ts` [P1] (score: 6)
 
 - **WARNING** [unused-export] (line 71): Unused export: RateLimitStatus (type)
@@ -937,20 +903,6 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 - **WARNING** [unused-export] (line 19): Unused export: isTest (function)
   ```
   export function isTest(): boolean {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/utils/logger.ts` [P1] (score: 6)
-
-- **WARNING** [unused-export] (line 21): Unused export: LogLevel (type)
-  ```
-  export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'
-  ```
-  💡 Remove if unused or document why kept
-
-- **WARNING** [unused-export] (line 23): Unused export: AppLogger (type)
-  ```
-  export type AppLogger = {
   ```
   💡 Remove if unused or document why kept
 
@@ -1466,19 +1418,19 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   ```
   💡 Remove if unused or document why kept
 
+### `server/src/routes/internal/appointments/appointmentConstants.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 54): Unused export: AppointmentStatusRequiringCalendarEvent (type)
+  ```
+  export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]
+  ```
+  💡 Remove if unused or document why kept
+
 ### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P2] (score: 3)
 
 - **WARNING** [unused-export] (line 26): Unused export: getWriteToCalendarFromSettings (function)
   ```
   export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
-  ```
-  💡 Remove if unused or document why kept
-
-### `server/src/routes/internal/businessSettings/businessSettingsValidators.ts` [P2] (score: 3)
-
-- **WARNING** [unused-export] (line 22): Unused export: validateAvailabilitySettings (function)
-  ```
-  export function validateAvailabilitySettings(data: any): data is AvailabilitySettingsData {
   ```
   💡 Remove if unused or document why kept
 
@@ -1508,7 +1460,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/relationships/relationshipCrudRouter.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 96): Unused export: handleInstanceComponentCreate (function)
+- **WARNING** [unused-export] (line 97): Unused export: handleInstanceComponentCreate (function)
   ```
   export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
   ```
@@ -1516,9 +1468,17 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/services/calendarEventsCache.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 217): Unused export: clearEventsCache (function)
+- **WARNING** [unused-export] (line 210): Unused export: clearEventsCache (function)
   ```
   export function clearEventsCache(): void {
+  ```
+  💡 Remove if unused or document why kept
+
+### `server/src/services/driveTimeCache.ts` [P2] (score: 3)
+
+- **WARNING** [unused-export] (line 22): Unused export: DriveTimeCacheEntry (type)
+  ```
+  export interface DriveTimeCacheEntry {
   ```
   💡 Remove if unused or document why kept
 
@@ -1532,7 +1492,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/services/google/maps/mapsTypes.ts` [P2] (score: 3)
 
-- **WARNING** [unused-export] (line 34): Unused export: AutocompleteResponse (type)
+- **WARNING** [unused-export] (line 36): Unused export: AutocompleteResponse (type)
   ```
   export interface AutocompleteResponse {
   ```
@@ -1612,13 +1572,13 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/components/admin/generic/EntityFormContent.vue` [P2] (score: 2)
 
-- **INFO** [unused-function] (line 141): Unused function: getNameFieldContext
+- **INFO** [unused-function] (line 142): Unused function: getNameFieldContext
   ```
   const getNameFieldContext = () => {
   ```
   💡 Remove if unused or document why kept
 
-- **INFO** [unused-function] (line 145): Unused function: getActiveFieldContext
+- **INFO** [unused-function] (line 146): Unused function: getActiveFieldContext
   ```
   const getActiveFieldContext = () => {
   ```
@@ -1687,6 +1647,14 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
   // export const login = async (req: Request, res: Response) => {
   ```
   💡 Review and either uncomment or remove
+
+### `client/src/components/admin/generic/EntityCard.vue` [P2] (score: 1)
+
+- **INFO** [unused-function] (line 243): Unused function: getStoreEntityForSync
+  ```
+  function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {
+  ```
+  💡 Remove if unused or document why kept
 
 ### `client/src/components/admin/generic/collections/RelationshipCollection.vue` [P2] (score: 1)
 
@@ -1770,7 +1738,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 55): Unused function: orderCompare
+- **INFO** [unused-function] (line 54): Unused function: orderCompare
   ```
   const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>
   ```
@@ -1778,7 +1746,7 @@ Scope: `client/src/**/*.{ts,js,vue}` and `server/src/**/*.{ts,mjs}`
 
 ### `server/src/routes/internal/appointments/appointmentCrudRouter.ts` [P2] (score: 1)
 
-- **INFO** [unused-function] (line 87): Unused function: attendeesData
+- **INFO** [unused-function] (line 89): Unused function: attendeesData
   ```
   const attendeesData = (() => {
   ```

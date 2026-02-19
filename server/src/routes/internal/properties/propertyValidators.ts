@@ -37,7 +37,7 @@ export function validateAddressFields(addressData: {
   const missingFields: string[] = []
   
   for (const field of REQUIRED_FIELDS.ADDRESS) {
-    if (!addressData[field as keyof typeof addressData]) {
+    if (!(addressData as Record<string, unknown>)[field]) {
       missingFields.push(field)
     }
   }

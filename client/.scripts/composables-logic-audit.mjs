@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
@@ -100,16 +100,8 @@ function listFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip migrations and test files
-    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || 
-        /migration.*\.(js|mjs|ts)$/i.test(repoPath) ||
-        repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-      continue
-    }
-    
     if (e.isDirectory()) {
+      if (shouldPruneDirectory(e.name)) continue
       out.push(...listFilesRecursive(abs))
       continue
     }

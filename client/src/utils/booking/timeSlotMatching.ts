@@ -11,7 +11,7 @@
  */
 
 import type { Ref } from 'vue'
-import type { TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
+import type { AppointmentSlot, TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
 import type { RFC3339DateTime } from '@/types/datetime'
 import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
 
@@ -163,7 +163,7 @@ export function matchLoadedTimeSlotsImmutable(
 function findAppointmentSlotByOrderIndex(
   appointmentSlots: AppointmentSlots,
   orderIndex: number
-): import('@/types/appointment').AppointmentSlot | undefined {
+): AppointmentSlot | undefined {
   return appointmentSlots.find(slot => slot.orderIndex === orderIndex)
 }
 

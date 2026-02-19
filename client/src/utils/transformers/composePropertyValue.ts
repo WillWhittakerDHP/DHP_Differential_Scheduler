@@ -101,7 +101,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
 
   const composed = Array.from(propertyKeys).reduce((acc, propertyKey) => {
     let values: unknown[] = components
-      .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
+      .map((component) => (component as Record<string, unknown>)[String(propertyKey)])
       .filter((val) => val !== undefined)
     
     const composableValues = values.filter(isComposablePropertyValue)
@@ -148,7 +148,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       })
       
       values = filteredComponents
-        .map((component) => (component as Partial<GlobalEntity<GE>>)[propertyKey as keyof GlobalEntity<GE>])
+        .map((component) => (component as Record<string, unknown>)[String(propertyKey)])
         .filter((val) => val !== undefined)
       
       const filteredComposableValues = values.filter(isComposablePropertyValue)

@@ -1,14 +1,23 @@
 {
-  "generatedAt": "2026-02-18T19:26:18.247Z",
+  "generatedAt": "2026-02-18T23:31:43.949Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
     {
       "severity": "info",
       "type": "unused-function",
+      "message": "Unused function: getStoreEntityForSync",
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "line": 243,
+      "code": "function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {",
+      "suggestion": "Remove if unused or document why kept"
+    },
+    {
+      "severity": "info",
+      "type": "unused-function",
       "message": "Unused function: getNameFieldContext",
       "file": "client/src/components/admin/generic/EntityFormContent.vue",
-      "line": 141,
+      "line": 142,
       "code": "const getNameFieldContext = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -17,7 +26,7 @@
       "type": "unused-function",
       "message": "Unused function: getActiveFieldContext",
       "file": "client/src/components/admin/generic/EntityFormContent.vue",
-      "line": 145,
+      "line": 146,
       "code": "const getActiveFieldContext = () => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -298,7 +307,7 @@
       "type": "unused-export",
       "message": "Unused export: getWriteToCalendar (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 641,
+      "line": 459,
       "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -308,7 +317,7 @@
       "type": "unused-export",
       "message": "Unused export: getCalendarEmailsArray (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 661,
+      "line": 479,
       "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1290,26 +1299,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: LogLevel (type)",
-      "file": "client/src/utils/logger.ts",
-      "line": 18,
-      "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: AppLogger (type)",
-      "file": "client/src/utils/logger.ts",
-      "line": 20,
-      "code": "export type AppLogger = {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: optimisticUpsertById (function)",
       "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
       "line": 13,
@@ -1482,7 +1471,7 @@
       "type": "unused-function",
       "message": "Unused function: orderCompare",
       "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "line": 55,
+      "line": 54,
       "code": "const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1561,7 +1550,7 @@
       "type": "unused-export",
       "message": "Unused export: isBlockInstanceComposable (function)",
       "file": "server/src/config/entityRegistry.ts",
-      "line": 14,
+      "line": 15,
       "code": "export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1571,7 +1560,7 @@
       "type": "unused-export",
       "message": "Unused export: getComponentConfig (function)",
       "file": "server/src/config/entityRegistry.ts",
-      "line": 39,
+      "line": 40,
       "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1581,18 +1570,8 @@
       "type": "unused-export",
       "message": "Unused export: ENTITY_REGISTRY (const)",
       "file": "server/src/config/entityRegistry.ts",
-      "line": 121,
+      "line": 102,
       "code": "export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: ComponentConfig (type)",
-      "file": "server/src/config/entityRegistry.ts",
-      "line": 39,
-      "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -1601,7 +1580,7 @@
       "type": "unused-export",
       "message": "Unused export: EntityConfig (type)",
       "file": "server/src/config/entityRegistry.ts",
-      "line": 98,
+      "line": 79,
       "code": "export interface EntityConfig {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1867,11 +1846,21 @@
       "fromPatternDetection": false
     },
     {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: AppointmentStatusRequiringCalendarEvent (type)",
+      "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "line": 54,
+      "code": "export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
       "severity": "info",
       "type": "unused-function",
       "message": "Unused function: attendeesData",
       "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "line": 87,
+      "line": 89,
       "code": "const attendeesData = (() => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1882,16 +1871,6 @@
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "line": 26,
       "code": "export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: validateAvailabilitySettings (function)",
-      "file": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
-      "line": 22,
-      "code": "export function validateAvailabilitySettings(data: any): data is AvailabilitySettingsData {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -1959,7 +1938,7 @@
       "type": "unused-export",
       "message": "Unused export: handleInstanceComponentCreate (function)",
       "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-      "line": 96,
+      "line": 97,
       "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2148,7 +2127,7 @@
       "type": "unused-export",
       "message": "Unused export: clearEventsCache (function)",
       "file": "server/src/services/calendarEventsCache.ts",
-      "line": 217,
+      "line": 210,
       "code": "export function clearEventsCache(): void {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2192,16 +2171,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: generateCacheKey (function)",
-      "file": "server/src/services/driveTimeCache.ts",
-      "line": 93,
-      "code": "export function generateCacheKey(",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: DriveTimeCacheEntry (type)",
       "file": "server/src/services/driveTimeCache.ts",
       "line": 22,
@@ -2233,7 +2202,7 @@
       "type": "unused-export",
       "message": "Unused export: AutocompleteResponse (type)",
       "file": "server/src/services/google/maps/mapsTypes.ts",
-      "line": 34,
+      "line": 36,
       "code": "export interface AutocompleteResponse {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2371,26 +2340,6 @@
     {
       "severity": "warning",
       "type": "unused-export",
-      "message": "Unused export: LogLevel (type)",
-      "file": "server/src/utils/logger.ts",
-      "line": 21,
-      "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
-      "message": "Unused export: AppLogger (type)",
-      "file": "server/src/utils/logger.ts",
-      "line": 23,
-      "code": "export type AppLogger = {",
-      "suggestion": "Remove if unused or document why kept",
-      "fromPatternDetection": false
-    },
-    {
-      "severity": "warning",
-      "type": "unused-export",
       "message": "Unused export: PROPERTY_FIELD_MAPPINGS (const)",
       "file": "server/src/utils/propertyTransformers.ts",
       "line": 15,
@@ -2451,6 +2400,22 @@
   ],
   "files": [
     {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "issues": [
+        {
+          "severity": "info",
+          "type": "unused-function",
+          "message": "Unused function: getStoreEntityForSync",
+          "file": "client/src/components/admin/generic/EntityCard.vue",
+          "line": 243,
+          "code": "function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {",
+          "suggestion": "Remove if unused or document why kept"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
       "issues": [
         {
@@ -2458,7 +2423,7 @@
           "type": "unused-function",
           "message": "Unused function: getNameFieldContext",
           "file": "client/src/components/admin/generic/EntityFormContent.vue",
-          "line": 141,
+          "line": 142,
           "code": "const getNameFieldContext = () => {",
           "suggestion": "Remove if unused or document why kept"
         },
@@ -2467,7 +2432,7 @@
           "type": "unused-function",
           "message": "Unused function: getActiveFieldContext",
           "file": "client/src/components/admin/generic/EntityFormContent.vue",
-          "line": 145,
+          "line": 146,
           "code": "const getActiveFieldContext = () => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -2867,7 +2832,7 @@
           "type": "unused-export",
           "message": "Unused export: getWriteToCalendar (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 641,
+          "line": 459,
           "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -2877,7 +2842,7 @@
           "type": "unused-export",
           "message": "Unused export: getCalendarEmailsArray (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 661,
+          "line": 479,
           "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4281,33 +4246,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/logger.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: LogLevel (type)",
-          "file": "client/src/utils/logger.ts",
-          "line": 18,
-          "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: AppLogger (type)",
-          "file": "client/src/utils/logger.ts",
-          "line": 20,
-          "code": "export type AppLogger = {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/utils/optimistic/listByIdOptimistic.ts",
       "issues": [
         {
@@ -4534,7 +4472,7 @@
           "type": "unused-function",
           "message": "Unused function: orderCompare",
           "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-          "line": 55,
+          "line": 54,
           "code": "const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -4655,7 +4593,7 @@
           "type": "unused-export",
           "message": "Unused export: isBlockInstanceComposable (function)",
           "file": "server/src/config/entityRegistry.ts",
-          "line": 14,
+          "line": 15,
           "code": "export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4665,7 +4603,7 @@
           "type": "unused-export",
           "message": "Unused export: getComponentConfig (function)",
           "file": "server/src/config/entityRegistry.ts",
-          "line": 39,
+          "line": 40,
           "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4675,18 +4613,8 @@
           "type": "unused-export",
           "message": "Unused export: ENTITY_REGISTRY (const)",
           "file": "server/src/config/entityRegistry.ts",
-          "line": 121,
+          "line": 102,
           "code": "export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: ComponentConfig (type)",
-          "file": "server/src/config/entityRegistry.ts",
-          "line": 39,
-          "code": "export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         },
@@ -4695,13 +4623,13 @@
           "type": "unused-export",
           "message": "Unused export: EntityConfig (type)",
           "file": "server/src/config/entityRegistry.ts",
-          "line": 98,
+          "line": 79,
           "code": "export interface EntityConfig {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 15,
+      "score": 12,
       "priority": "P0"
     },
     {
@@ -5070,6 +4998,23 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: AppointmentStatusRequiringCalendarEvent (type)",
+          "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
+          "line": 54,
+          "code": "export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
       "issues": [
         {
@@ -5077,7 +5022,7 @@
           "type": "unused-function",
           "message": "Unused function: attendeesData",
           "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 87,
+          "line": 89,
           "code": "const attendeesData = (() => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -5095,23 +5040,6 @@
           "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "line": 26,
           "code": "export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: validateAvailabilitySettings (function)",
-          "file": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
-          "line": 22,
-          "code": "export function validateAvailabilitySettings(data: any): data is AvailabilitySettingsData {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -5221,7 +5149,7 @@
           "type": "unused-export",
           "message": "Unused export: handleInstanceComponentCreate (function)",
           "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
-          "line": 96,
+          "line": 97,
           "code": "export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5466,7 +5394,7 @@
           "type": "unused-export",
           "message": "Unused export: clearEventsCache (function)",
           "file": "server/src/services/calendarEventsCache.ts",
-          "line": 217,
+          "line": 210,
           "code": "export function clearEventsCache(): void {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5524,16 +5452,6 @@
         {
           "severity": "warning",
           "type": "unused-export",
-          "message": "Unused export: generateCacheKey (function)",
-          "file": "server/src/services/driveTimeCache.ts",
-          "line": 93,
-          "code": "export function generateCacheKey(",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
           "message": "Unused export: DriveTimeCacheEntry (type)",
           "file": "server/src/services/driveTimeCache.ts",
           "line": 22,
@@ -5542,8 +5460,8 @@
           "fromPatternDetection": false
         }
       ],
-      "score": 6,
-      "priority": "P1"
+      "score": 3,
+      "priority": "P2"
     },
     {
       "repoPath": "server/src/services/google/calendar/eventsService.ts",
@@ -5586,7 +5504,7 @@
           "type": "unused-export",
           "message": "Unused export: AutocompleteResponse (type)",
           "file": "server/src/services/google/maps/mapsTypes.ts",
-          "line": 34,
+          "line": 36,
           "code": "export interface AutocompleteResponse {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5796,33 +5714,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/utils/logger.ts",
-      "issues": [
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: LogLevel (type)",
-          "file": "server/src/utils/logger.ts",
-          "line": 21,
-          "code": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent'",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        },
-        {
-          "severity": "warning",
-          "type": "unused-export",
-          "message": "Unused export: AppLogger (type)",
-          "file": "server/src/utils/logger.ts",
-          "line": 23,
-          "code": "export type AppLogger = {",
-          "suggestion": "Remove if unused or document why kept",
-          "fromPatternDetection": false
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "server/src/utils/propertyTransformers.ts",
       "issues": [
         {
@@ -5905,20 +5796,20 @@
     }
   ],
   "recommendations": [
-    "Found 204 unused export(s) - review for removal",
+    "Found 198 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
-    "Found 41 unused function(s) - review for removal",
+    "Found 42 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 751 file(s) (529 client, 222 server). Found 249 issue(s): 204 unused exports, 1 commented exports, 41 unused functions, 3 TODO markers, 0 dead scripts",
+  "summary": "Scanned 754 file(s) (531 client, 223 server). Found 244 issue(s): 198 unused exports, 1 commented exports, 42 unused functions, 3 TODO markers, 0 dead scripts",
   "summaryData": {
-    "totalFiles": 751,
+    "totalFiles": 754,
     "skippedFilesCount": 0,
-    "filesWithIssues": 144,
-    "totalIssues": 249,
-    "unusedExports": 204,
+    "filesWithIssues": 143,
+    "totalIssues": 244,
+    "unusedExports": 198,
     "commentedExports": 1,
-    "unusedFunctions": 41,
+    "unusedFunctions": 42,
     "todoMarkers": 3,
     "deadScripts": 0,
     "usingPatternDetection": true,

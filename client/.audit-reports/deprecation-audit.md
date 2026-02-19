@@ -12,25 +12,26 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **69**
-- Requiring review: **158**
-- Allowed (with justification): 4
-- Annotated deprecations: **31**
-- Runtime legacy accommodation: **127**
+- Files with findings: **56**
+- Requiring review: **140**
+- Allowed (with justification): 47
+- Annotated deprecations: **0**
+- Runtime legacy accommodation: **140**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/types/admin/AdminEntity.ts` | P0 | 10 | 0 | 5 |
-| `server/src/scripts/helpers/calendarParsingHelpers.ts` | P1 | 9 | 0 | 6 |
-| `client/src/composables/admin/useBusinessRuleForm.ts` | P1 | 8 | 0 | 4 |
-| `client/src/composables/admin/useDifferentialPerspectives.ts` | P1 | 8 | 0 | 4 |
+| `client/src/utils/booking/confirmationStepData.ts` | P0 | 12 | 0 | 6 |
+| `client/src/types/admin/adminEntity.ts` | P0 | 10 | 0 | 5 |
+| `client/src/composables/booking/useDependentInstances.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/formFields/useFormFieldsStandardLayout.ts` | P1 | 8 | 0 | 4 |
 | `client/src/utils/eventAttendeeUtils.ts` | P1 | 8 | 0 | 4 |
+| `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useDefaultLocation.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/admin/useSelectConfig.ts` | P1 | 6 | 0 | 3 |
+| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/componentEntity/useComponentEntityDomain.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | P1 | 6 | 0 | 3 |
 | `client/src/composables/useBusiness.ts` | P1 | 6 | 0 | 3 |
@@ -40,60 +41,50 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | `client/src/components/booking/DifferentialGraph.vue` | P1 | 5 | 0 | 5 |
 | `client/src/composables/admin/useBufferSettings.ts` | P1 | 5 | 0 | 3 |
 | `client/src/composables/admin/useMetadataFieldOrdering.ts` | P1 | 5 | 0 | 4 |
-| `client/src/composables/booking/useTimeSlotCalculations.ts` | P1 | 5 | 1 | 2 |
 | `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P1 | 5 | 0 | 3 |
 | `client/src/composables/useFormValidation.ts` | P1 | 5 | 0 | 5 |
-| `client/src/composables/useRelationship.ts` | P1 | 5 | 1 | 2 |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | P1 | 5 | 0 | 4 |
-| `client/src/components/admin/InstanceBulkEditModal.vue` | P1 | 4 | 0 | 2 |
 | `client/src/components/AppNotification.vue` | P1 | 4 | 0 | 3 |
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useBusinessRules.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useEntityCardLayout.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 
-*...and 39 more files. See JSON report for details.*
+*...and 26 more files. See JSON report for details.*
 
 ## Per-file findings
 
-### `client/src/types/admin/AdminEntity.ts` [P0] (score: 10)
+### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 12)
 
 ```
-[LEGACY] unhelpful-default-or@75: const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
-[LEGACY] unhelpful-default-or@76: const relationshipNames = Object.keys(this.displayConfig?.relationships || {})
-[LEGACY] unhelpful-default-or@174: const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
-[LEGACY] unhelpful-default-or@177: const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
-[LEGACY] unhelpful-default-or@196: return Object.keys(this.displayConfig?.relationships || {})
+[LEGACY] unhelpful-default-nullish@68: const rawParts = blockInstance.partInstances ?? []
+[LEGACY] unhelpful-default-nullish@172: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@173: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@174: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@175: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@218: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
 ```
 
-### `server/src/scripts/helpers/calendarParsingHelpers.ts` [P1] (score: 9)
+### `client/src/types/admin/adminEntity.ts` [P0] (score: 10)
 
 ```
-[LEGACY] unhelpful-default-or@97: * PATTERN: Explicit empty strings instead of `|| ''` fallbacks
-[LEGACY] fallback-keyword@210: property.city = withDefault(parts[1], '', 'parseAddress.fallback.city')
-[LEGACY] fallback-keyword@211: property.state = withDefault(parts[2]?.substring(0, 2).toUpperCase(), '', 'parseAddress.fallback.state')
-[LEGACY] fallback-keyword@212: property.zipCode = withDefault(parts[parts.length - 1]?.match(/\d{5}/)?.[0], '', 'parseAddress.fallback.zipCode')
-[LEGACY] unhelpful-default-or@286: * PATTERN: Uses explicit empty string fallback instead of `|| ''` chain
-[LEGACY] unhelpful-default-or@292: // LEARNING: Explicit fallback chain instead of `|| ''` pattern
+[LEGACY] unhelpful-default-nullish@75: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@76: const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})
+[LEGACY] unhelpful-default-nullish@174: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@177: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@196: return Object.keys(this.displayConfig?.relationships ?? {})
 ```
 
-### `client/src/composables/admin/useBusinessRuleForm.ts` [P1] (score: 8)
+### `client/src/composables/booking/useDependentInstances.ts` [P1] (score: 8)
 
 ```
-[LEGACY] unhelpful-default-nullish@27: return config.fields?.join(', ') ?? ''
-[LEGACY] unhelpful-default-nullish@44: return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition ?? ''
-[LEGACY] unhelpful-default-nullish@95: blockInstanceId: selectedBlockId.value ?? '',
-[LEGACY] unhelpful-default-nullish@120: blockInstanceId: selectedBlockId.value ?? '',
-```
-
-### `client/src/composables/admin/useDifferentialPerspectives.ts` [P1] (score: 8)
-
-```
-[LEGACY] unhelpful-default-nullish@59: get: () => formData.value?.differentialPerspectives?.majorAttendees ?? [],
-[LEGACY] unhelpful-default-nullish@69: get: () => formData.value?.differentialPerspectives?.minorAttendees ?? [],
-[LEGACY] unhelpful-default-nullish@111: get: () => formData.value?.differentialPerspectives?.majorStateLabel ?? '',
-[LEGACY] unhelpful-default-nullish@121: get: () => formData.value?.differentialPerspectives?.minorStateLabel ?? '',
+[LEGACY] unhelpful-default-nullish@110: const blockShapeRef = entity.blockShapeRef ?? ''
+[LEGACY] unhelpful-default-nullish@112: const blockShape = blockShapeEntity?.name?.trim() ?? ''
+[LEGACY] unhelpful-default-nullish@114: const icon = entity.icon?.trim() ?? ''
+[LEGACY] unhelpful-default-nullish@127: blockShape: blockShape || blockShapeEntity?.name ?? '',
 ```
 
 ### `client/src/composables/dataCollections/useDataCollectionActions.ts` [P1] (score: 8)
@@ -123,6 +114,14 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@94: const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]
 ```
 
+### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-or@40: const editData = props.bulkEditData || {}
+[LEGACY] unhelpful-default-nullish@45: blockShapeRef: props.blockShapeId ?? '',
+[LEGACY] unhelpful-default-or@67: blockShapeRef: props.blockShapeId || '',
+```
+
 ### `client/src/composables/admin/useDefaultLocation.ts` [P1] (score: 6)
 
 ```
@@ -137,6 +136,14 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@158: value: option.value === null ? null : String(option.value ?? ''),
 [LEGACY] unhelpful-default-nullish@159: label: String(option.label ?? '')
 [LEGACY] legacy-keyword@243: `Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+```
+
+### `client/src/composables/booking/usePropertyDetailsLogic.ts` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-nullish@275: formData.mlsNumber.value = enrichment.mlsNumber ?? ''
+[LEGACY] unhelpful-default-nullish@283: formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []
+[LEGACY] unhelpful-default-nullish@290: const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []
 ```
 
 ### `client/src/composables/componentEntity/useComponentEntityDomain.ts` [P1] (score: 6)
@@ -200,9 +207,9 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useBufferSettings.ts` [P1] (score: 5)
 
 ```
-[LEGACY] unhelpful-default-nullish@96: const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
-[LEGACY] unhelpful-default-nullish@196: current ?? {}
-[LEGACY] chaining-fallback@241: return formData.value?.overlapSources?.outOfOffice?.enforcement ?? 'hard'
+[LEGACY] unhelpful-default-nullish@97: const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
+[LEGACY] unhelpful-default-nullish@197: current ?? {}
+[LEGACY] chaining-fallback@242: return formData.value?.overlapSources?.outOfOffice?.enforcement ?? 'hard'
 ```
 
 ### `client/src/composables/admin/useMetadataFieldOrdering.ts` [P1] (score: 5)
@@ -212,14 +219,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] chaining-fallback@49: const orderA = metaA?.displayOrder ?? 999
 [LEGACY] chaining-fallback@50: const orderB = metaB?.displayOrder ?? 999
 [LEGACY] chaining-fallback@72: const currentOrder = currentMeta?.displayOrder ?? 999
-```
-
-### `client/src/composables/booking/useTimeSlotCalculations.ts` [P1] (score: 5)
-
-```
-[DEPR] compat-marker@32: * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
-[LEGACY] legacy-keyword@35: major: TimeBlock  // Major perspective (legacy name)
-[LEGACY] legacy-keyword@36: minor: TimeBlock | null  // Minor perspective (legacy name)
 ```
 
 ### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P1] (score: 5)
@@ -240,28 +239,13 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] default-param@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
 ```
 
-### `client/src/composables/useRelationship.ts` [P1] (score: 5)
-
-```
-[DEPR] compat-marker@79: // Transform GlobalRelationship[] to FetchedRelationship[] for backward compatibility
-[LEGACY] unhelpful-default-or@108: const currentRelationships = old.relationships[relationshipKey] || []
-[LEGACY] unhelpful-default-or@200: const currentRelationships = old.relationships[relationshipKey] || []
-```
-
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P1] (score: 5)
 
 ```
-[LEGACY] chaining-fallback@149: get: () => formData.value?.durationRounding?.increment ?? 15,
-[LEGACY] chaining-fallback@155: get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
-[LEGACY] unhelpful-default-nullish@162: get: () => formData.value?.timezone ?? '',
-[LEGACY] chaining-fallback@169: get: () => formData.value?.minuteIncrement ?? 15,
-```
-
-### `client/src/components/admin/InstanceBulkEditModal.vue` [P1] (score: 4)
-
-```
-[LEGACY] unhelpful-default-or@36: const editData = props.bulkEditData || {}
-[LEGACY] unhelpful-default-or@77: blockShapeRef: props.blockShapeId || '',
+[LEGACY] chaining-fallback@152: get: () => formData.value?.durationRounding?.increment ?? 15,
+[LEGACY] chaining-fallback@158: get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
+[LEGACY] unhelpful-default-nullish@165: get: () => formData.value?.timezone ?? '',
+[LEGACY] chaining-fallback@172: get: () => formData.value?.minuteIncrement ?? 15,
 ```
 
 ### `client/src/components/AppNotification.vue` [P1] (score: 4)
@@ -282,15 +266,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useBlockInstanceForm.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@184: name: entity.name || '',
-[LEGACY] unhelpful-default-or@185: blockShapeRef: entity.blockShapeRef || '',
+[LEGACY] unhelpful-default-or@182: name: entity.name || '',
+[LEGACY] unhelpful-default-or@183: blockShapeRef: entity.blockShapeRef || '',
 ```
 
 ### `client/src/composables/admin/useBusinessRules.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-nullish@168: rules.value = response.data ?? []
-[LEGACY] unhelpful-default-nullish@190: return response.data ?? []
+[LEGACY] unhelpful-default-nullish@127: rules.value = response.data ?? []
+[LEGACY] unhelpful-default-nullish@149: return response.data ?? []
 ```
 
 ### `client/src/composables/admin/useEntityCardLayout.ts` [P1] (score: 4)
@@ -303,15 +287,15 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useInstanceBulkEdit.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@116: const instances = blockInstancesByShape.value.get(blockShapeId) || []
-[LEGACY] unhelpful-default-or@159: const current = bulkEditData.value.get(blockShapeId) || {}
+[LEGACY] unhelpful-default-or@117: const instances = blockInstancesByShape.value.get(blockShapeId) || []
+[LEGACY] unhelpful-default-or@160: const current = bulkEditData.value.get(blockShapeId) || {}
 ```
 
 ### `client/src/composables/admin/usePartInstanceForm.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@184: name: entity.name || '',
-[LEGACY] unhelpful-default-or@185: partShapeRef: entity.partShapeRef || '',
+[LEGACY] unhelpful-default-or@182: name: entity.name || '',
+[LEGACY] unhelpful-default-or@183: partShapeRef: entity.partShapeRef || '',
 ```
 
 ### `client/src/composables/booking/useAppointmentDropdown.ts` [P1] (score: 4)
@@ -336,11 +320,18 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-or@125: const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []
 ```
 
+### `client/src/composables/booking/useTimeSlotCalculations.ts` [P1] (score: 4)
+
+```
+[LEGACY] legacy-keyword@35: major: TimeBlock  // Major perspective (legacy name)
+[LEGACY] legacy-keyword@36: minor: TimeBlock | null  // Minor perspective (legacy name)
+```
+
 ### `client/src/composables/formFields/useFormFields.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@48: inlineFieldsConfig.value || [],
-[LEGACY] unhelpful-default-or@49: stackedFieldsConfig.value || []
+[LEGACY] unhelpful-default-or@49: inlineFieldsConfig.value || [],
+[LEGACY] unhelpful-default-or@50: stackedFieldsConfig.value || []
 ```
 
 ### `client/src/composables/useAdmin.ts` [P1] (score: 4)
@@ -355,6 +346,13 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ```
 [LEGACY] unhelpful-default-or@26: const stack = new Error().stack || ''
 [LEGACY] unhelpful-default-or@80: return (data.entities[entityKey] || []) as GlobalEntity<GE>[]
+```
+
+### `client/src/composables/useRelationship.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-or@108: const currentRelationships = old.relationships[relationshipKey] || []
+[LEGACY] unhelpful-default-or@200: const currentRelationships = old.relationships[relationshipKey] || []
 ```
 
 ### `client/src/configs/field/display/fullFieldDisplayConfig.ts` [P1] (score: 4)
@@ -374,8 +372,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/utils/optimistic/listByIdOptimistic.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-nullish@17: const current = items ?? []
-[LEGACY] unhelpful-default-nullish@29: const current = items ?? []
+[LEGACY] unhelpful-default-nullish@20: const current = items ?? []
+[LEGACY] unhelpful-default-nullish@32: const current = items ?? []
 ```
 
 ### `client/src/utils/transformers/transformerPrimitives.ts` [P1] (score: 4)
@@ -393,57 +391,54 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@24: const datasets = (data.datasets ?? []) as Array<{ label: string; data: number[]; borderColor: string }>
 ```
 
-### `client/src/composables/booking/selectionCard/useSelectionCardState.ts` [P2] (score: 2)
+### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` [P1] (score: 4)
 
 ```
-[DEPR] compat-marker@58: // Create local plugin for backward compatibility
-[DEPR] compat-marker@84: // Fallback to modelValue for backward compatibility
+[LEGACY] unhelpful-default-nullish@47: const tags = json.tags?.map((t) => t.tag) ?? [];
+[LEGACY] unhelpful-default-nullish@97: const tags = json.tags?.map((t: { tag: string }) => t.tag) ?? [];
 ```
 
-### `client/src/composables/booking/useAppointmentTimes.ts` [P2] (score: 2)
+### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P2] (score: 2)
 
 ```
-[DEPR] compat-marker@113: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-[DEPR] compat-marker@167: // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
+[LEGACY] unhelpful-default-or@80: partShapeRef: partShapeRef.value || '',
 ```
 
-### `client/src/configs/availabilitySettings.ts` [P2] (score: 2)
+### `client/src/components/beta/BetaFeedbackDashboard.vue` [P2] (score: 2)
 
 ```
-[DEPR] comment-deprecated@307: // driveTime?: BufferConfig     // DEPRECATED: Use driveToCandidate/driveFromCandidate instead
+[LEGACY] chaining-fallback@55: return stats.value?.byCategory?.feature_request ?? 0;
+[LEGACY] chaining-fallback@59: return stats.value?.bySeverity?.critical ?? 0;
 ```
 
-### `server/src/db/models/admin/business_settings.ts` [P2] (score: 2)
+### `client/src/components/beta/BetaFeedbackDetailModal.vue` [P2] (score: 2)
 
 ```
-[DEPR] comment-deprecated@232: // driveTime?: BufferConfig;      // DEPRECATED: Use driveToCandidate/driveFromCandidate instead
+[LEGACY] unhelpful-default-nullish@33: localResolutionNotes.value = f.resolutionNotes ?? '';
 ```
 
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts` [P2] (score: 2)
+### `client/src/utils/booking/pricingCascadeResolver.ts` [P2] (score: 2)
 
 ```
-[DEPR] compat-marker@4: * LEARNING: Admin Primitive Metadata Router (legacy - for backward compatibility)
-[DEPR] compat-marker@9: * NOTE: This is a legacy router maintained for backward compatibility
+[LEGACY] unhelpful-default-nullish@30: const activeIds = part.activePartIds ?? []
 ```
 
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts` [P2] (score: 2)
+### `client/src/utils/transformers/appointmentToWizardHelpers.ts` [P2] (score: 2)
 
 ```
-[DEPR] compat-marker@4: * LEARNING: Admin Relationship Metadata Router (legacy - for backward compatibility)
-[DEPR] compat-marker@8: * NOTE: This is a legacy router maintained for backward compatibility
+[LEGACY] unhelpful-default-nullish@120: activePartIds: currentPart?.activePartIds ?? [],
 ```
 
-### `server/src/routes/internal/entities/entityCrudRouter.ts` [P2] (score: 2)
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts` [P2] (score: 2)
 
 ```
-[DEPR] compat-marker@182: // Note: Keeping custom response format for backward compatibility
-[DEPR] compat-marker@314: // Note: Keeping custom response format for backward compatibility (different from standard 204)
+[LEGACY] unhelpful-default-nullish@195: id: toGlobalEntityId(idResolved ?? ''),
 ```
 
-### `client/src/components/admin/generic/EntityFormContent.vue` [P2] (score: 1)
+### `server/src/routes/helpers/requestHelpers.ts` [P2] (score: 2)
 
 ```
-[DEPR] compat-marker@29: * PATTERN: Keep rendering defaulted to true for backward compatibility
+[LEGACY] unhelpful-default-nullish@17: return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')
 ```
 
 ## Notes

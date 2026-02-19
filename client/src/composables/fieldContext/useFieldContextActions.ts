@@ -12,6 +12,9 @@ import {
   saveRelationshipField,
   saveRegularField
 } from './useFieldContextSaveHelpers'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldContextActions')
 
 export type UseFieldContextActionsReturn = {
   setFocus: (focused: boolean) => void
@@ -63,6 +66,7 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
       const verifyEndpoint = getEntityByIdEndpoint(state.entityKey, String(state.entityId))
       await apiClient.get(verifyEndpoint)
     } catch (verifyError: unknown) {
+      logger.error('Entity verify failed', { error: verifyError })
       const axiosError = verifyError as AxiosError<{ error?: string; id?: string }>
 
       if (axiosError.response?.status === 404) {
@@ -118,6 +122,7 @@ export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey exte
         })
       }
     } catch (error) {
+      logger.error('Field context save failed', { error })
       const errorMessage = error instanceof Error ? error.message : String(error)
       const is404Error = errorMessage.includes('404') || errorMessage.includes('not found')
 

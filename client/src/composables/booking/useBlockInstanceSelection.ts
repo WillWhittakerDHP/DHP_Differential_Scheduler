@@ -65,7 +65,7 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
       }
     })
 
-    return { selectedBlockId } as unknown as UseBlockInstanceSelectionReturn<Mode>
+    return { selectedBlockId } as UseBlockInstanceSelectionReturn<Mode>
   } else {
     const selectedBlockIds = computed({
       get: () => selectedBlocks.value.map(b => b.id),
@@ -83,7 +83,7 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
       }
     })
 
-    return { selectedBlockIds } as unknown as UseBlockInstanceSelectionReturn<Mode>
+    return { selectedBlockIds } as UseBlockInstanceSelectionReturn<Mode>
   }
 }
 

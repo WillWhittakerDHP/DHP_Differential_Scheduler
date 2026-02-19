@@ -8,11 +8,11 @@
  */
 
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
+import type { EntityMetadataType, GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import { GLOBAL_CONFIG_IDS, NULL_UUID } from '@shared/constants/globalConfigIds'
 
-export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
+export type { EntityMetadataType }
 
 export const BLOCK_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.BLOCK_SHAPE
 export const PART_SHAPE_GLOBAL_CONFIG_ID = GLOBAL_CONFIG_IDS.PART_SHAPE

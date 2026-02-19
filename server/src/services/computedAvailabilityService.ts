@@ -17,9 +17,11 @@
 import type {
   ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
+  ComputedSlot,
   CalendarEvent,
   BusinessHoursConfig,
   Constraint,
+  RangeConstraint,
 } from '../../../shared/types/availabilityTypes.js'
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange } from './slotComputationService.js'
@@ -296,7 +298,7 @@ function enrichCapacityConstraintsWithHours(
 }
 
 function buildComputedAvailabilityResponse(
-  slotsByDay: Record<string, import('../../../shared/types/availabilityTypes.js').ComputedSlot[]>,
+  slotsByDay: Record<string, ComputedSlot[]>,
   enrichedConstraints: Constraint[],
   settings: AvailabilitySettingsData,
   regularEvents: CalendarEvent[],
@@ -375,7 +377,7 @@ export async function computeAvailabilityData(
     (c) =>
       c.category === 'range' &&
       c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
-  ) as import('../../../shared/types/availabilityTypes.js').RangeConstraint | undefined
+  ) as RangeConstraint | undefined
   const businessHoursConfig = businessHoursConstraint?.config as
     | BusinessHoursConfig
     | undefined

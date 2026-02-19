@@ -6,7 +6,11 @@
  * PATTERN: Constants file with exported string literals matching type definitions
  */
 
+import type { EntityMetadataType } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+
+/** Re-export for consumers that import from fieldMetadata. */
+export type { EntityMetadataType }
 
 /**
  * Single source of truth for sub-panel types (expansion panels in entity cards).
@@ -25,12 +29,6 @@ export type SubPanelRecord<T> = Record<SubPanelKey, T>
 export function createEmptySubPanelRecord<T>(factory: () => T): SubPanelRecord<T> {
   return Object.fromEntries(SUB_PANEL_KEYS.map(key => [key, factory()])) as SubPanelRecord<T>
 }
-
-/**
- * Entity metadata type discriminator (shapes and instances).
- * WHY: Single union for all entity kinds; used in admin metadata CRUD and config.
- */
-export type EntityMetadataType = 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance'
 
 /**
  * Unified field metadata entry

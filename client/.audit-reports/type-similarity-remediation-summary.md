@@ -24,19 +24,21 @@ Summary of work done against the type-similarity remediation plan. The audit run
 ## Phase 2 — BRAND
 
 - **Done:** `CachedCalendarEvent`: now `CalendarEvent & { readonly __brand: 'Cached' }` in `server/src/services/calendarEventsCache.ts`; imports `CalendarEvent` from shared. Cache layer casts to `CachedCalendarEvent[]` when storing; typecheck distinguishes cache vs API events.
-- **Deferred:** Id-shaped types (IdentifiableById, EntityWithStringId, WithId, etc.): plan suggested a single branded type or distinct branding (e.g. UserId vs EntityId). Left for a follow-up pass to avoid scope creep.
+- **Done (UNIFY):** Id-shaped types: `IdentifiableById` in `client/src/utils/collections/appendIfMissingById.ts` is canonical; `EntityWithStringId` (listByIdOptimistic) and `WithId` (transformerCollections) import/re-use it.
+- **Deferred:** Per-domain branding (UserId, EntityId) left for a follow-up pass.
 
 ## Phase 3 — EXTEND
 
 - **Done:** `Coordinates`: single canonical definition in `shared/types/mapsTypes.ts`; `shared/types/availabilityTypes.ts` imports and re-exports for convenience. Removes duplicate Coordinates across shared.
-- **Note:** Other EXTEND groups (e.g. ContactInfo/UserResponse, property-related subsets) can be tackled in a later pass with explicit `interface B extends A` or intersection types.
+- **Done (type-similarity repair plan):** `RouteMatrixResult` and `RouteMatrixStatus` in `shared/types/mapsTypes.ts`; client and server import from shared. `SelectGroup` / `GroupedEntities`: base in useSelectDomTargets; GroupedEntities extends SelectGroup in useSelectOptions. `TimeBasisHandlerProps`: TimeBasisButtonGrid and TimeBasisSelector use composable type. `LoadingIndicatorInstance`: defined as `Pick<UseLoadingIndicatorReturn, 'fallbackHandle' | 'resolveHandle'>` in useLoadingIndicator; useLayoutLoading and blank.vue use it.
+- **Note:** Other EXTEND groups (e.g. ContactInfo/UserResponse, property-related subsets, property details logic base) can be tackled in a later pass with explicit `interface B extends A` or intersection types.
 
 ## Phase 4 — REVIEW (document / allowlist)
 
 - **Deferred (human judgment):** DayHours / DateRangeConfig / GoogleCalendarBusyPeriod (EXACT, string start/end): decide UNIFY vs BRAND in a later pass.
 - **Deferred:** ISO8601Date / RFC3339DateTime / GlobalEntityId (string aliases): align naming and branding as needed.
 - **Deferred:** FieldMetadataEntry / RelationshipMetadataEntry (HIGH_OVERLAP): decide if they extend a base or stay separate; allowlist in `type-similarity-audit-config.json` if left as-is.
-- **Config:** Use `client/.audit-reports/type-similarity-audit-config.json` `allowlist.specific` or `allowlist.patterns` with a short reason when consciously keeping duplicates (e.g. REVIEW groups deferred). Currently no entries added; add when suppressing specific groups.
+- **Config:** Use `client/.audit-reports/type-similarity-audit-config.json` `allowlist.specific` or `allowlist.patterns` with a short reason when consciously keeping duplicates. Added pattern: `**/express.d.ts` (reason: Declaration file; leave as-is).
 
 ## Verification
 

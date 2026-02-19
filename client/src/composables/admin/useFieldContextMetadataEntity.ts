@@ -57,7 +57,7 @@ export function useFieldContextMetadataEntity<
       }
 
       // PATTERN: Assert as GlobalEntity type - useEntityMetadata accepts partial entities
-      return entity as unknown as GlobalEntity<GlobalEntityTypeKey>
+      return entity as GlobalEntity<GlobalEntityTypeKey>
     }
 
     // PATTERN: Try store lookup, return null if not found

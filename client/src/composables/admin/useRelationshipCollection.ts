@@ -13,6 +13,7 @@
 
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
@@ -153,7 +154,7 @@ export function useRelationshipCollection(
     return validShapes.value.length > 0
   })
   
-  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
+  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   const expandedPlaceholders = ref<string[]>([])
   

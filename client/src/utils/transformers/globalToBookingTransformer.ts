@@ -11,6 +11,7 @@ import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
+import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import { safeArray, safeString, convertToTernaryBoolean } from './transformerPrimitives'
@@ -56,7 +57,7 @@ export type BookingBlockInstance = {
   active: boolean
   baseSqFt: number
   icon: string
-  bookingMode: import('@/constants/bookingMode').BookingMode // Controls where instance appears in booking flows
+  bookingMode: BookingMode // Controls where instance appears in booking flows
   differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
   orderIndex: number
   blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
@@ -77,8 +78,7 @@ export type BookingData = {
 }
 
 function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
-  const withMode = blockInstance as unknown as { bookingMode?: string }
-  return withMode.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
+  return blockInstance.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
 }
 
 /**
@@ -189,7 +189,7 @@ function resolvePartInstanceIds(
 type BlockInstanceOptionalProps = {
   baseSqFt?: number
   icon?: string
-  bookingMode?: import('@/constants/bookingMode').BookingMode
+  bookingMode?: BookingMode
   differential?: TernaryBoolean | boolean
   number?: number | null
   allowMultiple?: boolean
@@ -231,7 +231,7 @@ function buildBookingBlockInstance(
     active: isEntityActive(blockInstance),
     baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/bookingMode').BookingMode,
+    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as BookingMode,
     differential,
     orderIndex: blockInstance.orderIndex,
     blockShape,

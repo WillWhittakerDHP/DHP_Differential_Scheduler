@@ -184,6 +184,7 @@ const {
 })
 
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
+void formRef // ref used by template
 
 const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
 const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')
@@ -257,8 +258,8 @@ function handlePropertyEdit(): void {
         <SelectionCardGroup
           v-if="wizard.availablePropertyTypeBlocks.value.length > 0"
           v-model="selectedPropertyTypeBlockId"
-          :items="propertyTypeBlocksWithComponents as unknown as SelectionCardItem[]"
-          :config="rowSelectionConfig as unknown as SelectionCardConfig"
+          :items="propertyTypeBlocksWithComponents as SelectionCardItem[]"
+          :config="rowSelectionConfig as SelectionCardConfig"
         />
         <div v-if="fieldErrors.propertyTypeBlock" class="text-error text-caption mt-2">
           {{ fieldErrors.propertyTypeBlock }}

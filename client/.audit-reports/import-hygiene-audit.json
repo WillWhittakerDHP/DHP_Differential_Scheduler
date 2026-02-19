@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-02-18T21:18:57.393Z",
-  "totalScanned": 758,
-  "barrelCount": 24,
+  "generatedAt": "2026-02-19T00:14:03.155Z",
+  "totalScanned": 765,
+  "barrelCount": 22,
   "barrelBypass": [],
   "inconsistentPaths": [],
   "duplicateReexports": [],
   "typeValueReexport": [],
   "relativeWhenAlias": [],
+  "inlineTypeImport": [],
   "files": []
 }

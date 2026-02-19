@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T21:18:57.791Z",
+  "generatedAt": "2026-02-18T23:00:35.120Z",
   "clientEndpoints": 0,
   "serverEndpoints": 66,
   "sharedTypes": [
@@ -48,6 +48,22 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "BufferType",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BufferPlacement",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BufferConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "DriveTimeConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "OverlapConstraint",
       "file": "shared/types/availabilityTypes.ts"
     },
@@ -73,10 +89,6 @@
     },
     {
       "name": "RollingWeekCapacityFilter",
-      "file": "shared/types/availabilityTypes.ts"
-    },
-    {
-      "name": "Coordinates",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
@@ -112,6 +124,58 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "RequiredFieldsRuleConfig",
+      "file": "shared/types/businessRulesTypes.ts"
+    },
+    {
+      "name": "RequiresAgentRuleConfig",
+      "file": "shared/types/businessRulesTypes.ts"
+    },
+    {
+      "name": "ConditionalValidationRuleConfig",
+      "file": "shared/types/businessRulesTypes.ts"
+    },
+    {
+      "name": "ValidationMessageRuleConfig",
+      "file": "shared/types/businessRulesTypes.ts"
+    },
+    {
+      "name": "RuleConfig",
+      "file": "shared/types/businessRulesTypes.ts"
+    },
+    {
+      "name": "CalendarProvider",
+      "file": "shared/types/calendarTypes.ts"
+    },
+    {
+      "name": "CalendarEntry",
+      "file": "shared/types/calendarTypes.ts"
+    },
+    {
+      "name": "CalendarConfig",
+      "file": "shared/types/calendarTypes.ts"
+    },
+    {
+      "name": "ComponentStrategy",
+      "file": "shared/types/componentTypes.ts"
+    },
+    {
+      "name": "ComponentConfig",
+      "file": "shared/types/componentTypes.ts"
+    },
+    {
+      "name": "LogLevel",
+      "file": "shared/types/loggerTypes.ts"
+    },
+    {
+      "name": "AppLogger",
+      "file": "shared/types/loggerTypes.ts"
+    },
+    {
+      "name": "Logger",
+      "file": "shared/types/loggerTypes.ts"
+    },
+    {
       "name": "MapsApiErrorType",
       "file": "shared/types/mapsTypes.ts"
     },
@@ -130,6 +194,14 @@
     {
       "name": "PlaceDetails",
       "file": "shared/types/mapsTypes.ts"
+    },
+    {
+      "name": "RouteLocation",
+      "file": "shared/types/mapsTypes.ts"
+    },
+    {
+      "name": "PropertyEnrichmentResponse",
+      "file": "shared/types/propertyEnrichmentTypes.ts"
     }
   ],
   "score": 0,

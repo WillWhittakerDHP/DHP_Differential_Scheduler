@@ -13,7 +13,14 @@ import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-import type { PropertyDetailsData } from '@/types/propertyForm'
+import type { PropertyDetailsStepData } from '@/types/wizard'
+import type { ContactsStepData } from '@/types/wizard'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAppointmentDataCollection')
+
+/** Re-export for consumers that import from this composable. */
+export type { ContactsStepData, PropertyDetailsStepData }
 
 /**
  * Helper type for building attendees
@@ -23,23 +30,6 @@ interface AttendeeCollectionItem {
   userId: string;
   role: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller';
   shouldReceiveInvitation: boolean;
-}
-
-/**
- * Property details step data structure
- * FIX: Use shared PropertyDetailsData type from propertyForm.ts
- */
-export type PropertyDetailsStepData = PropertyDetailsData
-
-export interface ContactsStepData {
-  clientInfo: { firstName: string; lastName: string; email: string }
-  agentInfo: { firstName: string; lastName: string; email: string }
-  anotherClientInfo: { firstName: string; lastName: string; email: string }
-  transactionManagerInfo: { firstName: string; lastName: string; email: string }
-  sellerInfo: { firstName: string; lastName: string; email: string }
-  showAnotherClient: boolean
-  showTransactionManager: boolean
-  showSeller: boolean
 }
 
 // LEARNING: Import AvailabilityStepData from canonical source
@@ -324,6 +314,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
 
       return appointmentData
     } catch (error) {
+      logger.error('Failed to collect appointment data', { error })
       const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
       showError(errorMessage)
       return null

@@ -10,21 +10,9 @@
 import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
+import type { FieldMetadataEntry } from './adminMetadataComposer.js';
 
-export interface FieldMetadataEntry {
-  fieldKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-  label: string;
-  isRequired: boolean;
-  visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-  layout: 'inline' | 'stacked';
-  displayOrder: number;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-  statusButtonColor?: string | null;
-  panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
-  bulkEdit: boolean;
-  inputConfig?: Record<string, unknown> | null;
-}
+export type { FieldMetadataEntry };
 
 export async function getAdminPrimitiveMetadata(
   entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',

@@ -33,7 +33,7 @@ const DEFAULT_ORGANIZER_EMAIL = 'will@districthomepro.com';
 /**
  * Interface for Address with eager-loaded propertyVersions
  * LEARNING: Proper typing for Sequelize associations
- * WHY: Replaces unsafe `as any` cast with type-safe interface
+ * WHY: Replaces unsafe type cast with type-safe interface
  */
 interface AddressWithVersions extends InstanceType<typeof Address> {
   propertyVersions?: InstanceType<typeof PropertyVersion>[];

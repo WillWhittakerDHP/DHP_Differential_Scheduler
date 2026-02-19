@@ -17,8 +17,7 @@ export function getStatusButtonBooleanValue<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>
 ): boolean {
   const keyStr = String(fieldKey)
-  const entityRecord = entity as unknown as Record<string, unknown>
-  const fieldValue = entityRecord[keyStr]
+  const fieldValue = (entity as Record<string, unknown>)[keyStr]
 
   if (fieldValue === undefined) {
     logger.error('Status button field configured in metadata but missing on entity', {

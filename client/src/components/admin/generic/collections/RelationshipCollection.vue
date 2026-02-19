@@ -121,6 +121,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -225,7 +226,7 @@ const isBulkEditModalOpen = computed(() => {
 
 const queryClient = useQueryClient()
 const { error: notifyError } = useNotification()
-const relationshipCrud = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
+const relationshipCrud = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
 const { relationships, remove: removeRelationship } = relationshipCrud
 
 const handleDeleteChildById = async (id: string) => {

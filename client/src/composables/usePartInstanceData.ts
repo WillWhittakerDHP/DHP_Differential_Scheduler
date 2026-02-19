@@ -10,7 +10,7 @@
  */
 
 import { computed, type Ref } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import { useGlobal } from './useGlobal'
 import { useAdmin } from './useAdmin'
 import { useRelationshipCrud } from './useRelationship'
@@ -70,7 +70,7 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
    */
   const blockShape = computed(() => {
     if (!blockInstance.value) return null
-    const blockInstanceEntity = blockInstance.value as import('../types/entities').BlockInstanceEntity
+    const blockInstanceEntity = blockInstance.value as BlockInstanceEntity
     return getGlobalEntityById('blockShape', blockInstanceEntity.blockShapeRef) || null
   })
   

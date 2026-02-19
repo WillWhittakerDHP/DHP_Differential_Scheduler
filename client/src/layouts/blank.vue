@@ -1,13 +1,11 @@
 <script lang="ts" setup>
+import type { LoadingIndicatorInstance } from '@/composables/useLayoutLoading'
+
 const { injectSkinClasses } = useSkins()
 
 injectSkinClasses()
 
 const isFallbackStateActive = ref(false)
-interface LoadingIndicatorInstance {
-  fallbackHandle: () => void
-  resolveHandle: () => void
-}
 const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)
 
 watch([isFallbackStateActive, refLoadingIndicator], () => {

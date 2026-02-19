@@ -7,6 +7,7 @@ import {
   summarizeExceptions,
   renderAllowedExceptionsSection,
   isGloballyExcluded,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -60,10 +61,10 @@ function listFilesRecursive(dirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const e of entries) {
       const full = path.join(dirPath, e.name)
-      const rp = toRepoPath(full)
-      if (rp.includes('node_modules') || rp.includes('/dist/')) continue
-      if (e.isDirectory()) files.push(...listFilesRecursive(full))
-      else if (e.isFile() && full.endsWith('.ts')) files.push(full)
+      if (e.isDirectory()) {
+        if (shouldPruneDirectory(e.name)) continue
+        files.push(...listFilesRecursive(full))
+      } else if (e.isFile() && full.endsWith('.ts')) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files

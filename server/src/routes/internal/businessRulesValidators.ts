@@ -27,7 +27,7 @@ export function validateRequiredFields(data: {
   const missingFields: string[] = []
   
   for (const field of REQUIRED_FIELDS.CREATE) {
-    if (!data[field as keyof typeof data]) {
+    if (!(data as Record<string, unknown>)[field]) {
       missingFields.push(field)
     }
   }

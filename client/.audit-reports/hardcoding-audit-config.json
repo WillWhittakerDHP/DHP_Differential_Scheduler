@@ -72,9 +72,24 @@
           "entityKeyString"
         ],
         "reason": "API transformers necessarily reference entity keys for type-safe mapping"
+      },
+      {
+        "glob": "server/**/*Constants.ts",
+        "ruleIds": [
+          "magicLabel"
+        ],
+        "reason": "Canonical server constants files; string values are the source of truth"
       }
     ],
-    "specific": []
+    "specific": [
+      {
+        "file": "server/src/services/brightMls/brightMlsApiClient.ts",
+        "ruleIds": [
+          "magicLabel"
+        ],
+        "reason": "Bright MLS API field names and client-specific strings (external API contract)"
+      }
+    ]
   },
   "priorities": {
     "p0MinSeverityScore": 20,

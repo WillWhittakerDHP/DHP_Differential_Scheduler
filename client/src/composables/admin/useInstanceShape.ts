@@ -7,7 +7,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/useAdmin'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type BlockShapeEntity, type GlobalEntity, type PartShapeEntity } from '@/types/entities'
 
 export interface UseInstanceShapeOptions {
   entityKey: 'blockInstance' | 'partInstance'
@@ -15,11 +15,9 @@ export interface UseInstanceShapeOptions {
 }
 
 export interface UseInstanceShapeReturn {
-  blockShape: ComputedRef<import('@/types/entities').BlockShapeEntity | null>
-  
-  partShape: ComputedRef<import('@/types/entities').PartShapeEntity | null>
-  
-  shape: ComputedRef<import('@/types/entities').BlockShapeEntity | import('@/types/entities').PartShapeEntity | null>
+  blockShape: ComputedRef<BlockShapeEntity | null>
+  partShape: ComputedRef<PartShapeEntity | null>
+  shape: ComputedRef<BlockShapeEntity | PartShapeEntity | null>
 }
 
 export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceShapeReturn {
@@ -47,24 +45,24 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
   })
   
   // PATTERN: Use same lookup logic, only entity type differs
-  const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {
+  const blockShape = computed((): BlockShapeEntity | null => {
     if (entityKey !== 'blockInstance' || !shapeRef.value) return null
     
     const shape = globalData.value?.entities?.blockShape?.find(
       bs => bs.id === shapeRef.value
     ) || null
         
-    return shape as import('@/types/entities').BlockShapeEntity | null
+    return shape as BlockShapeEntity | null
   })
-  
-  const partShape = computed((): import('@/types/entities').PartShapeEntity | null => {
+
+  const partShape = computed((): PartShapeEntity | null => {
     if (entityKey !== 'partInstance' || !shapeRef.value) return null
     
     const shape = globalData.value?.entities?.partShape?.find(
       ps => ps.id === shapeRef.value
     ) || null
             
-    return shape as import('@/types/entities').PartShapeEntity | null
+    return shape as PartShapeEntity | null
   })
   
   const shape = computed(() => {

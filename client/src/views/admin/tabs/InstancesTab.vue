@@ -238,6 +238,7 @@ const isCreatingEventInstanceLoading = ref(false)
 const eventInstancesList = ref<EventInstance[]>([])
 const eventInstanceIds = ref<string[]>([])
 const eventInstancesContainer = ref<HTMLElement | null>(null)
+void eventInstancesContainer // ref used by template
 const eventInstancesPanelsContainer = ref<ComponentPublicInstance | HTMLElement | null>(null)
 
 const filteredEventInstances = computed(() => {
@@ -772,7 +773,7 @@ function handleDeleteEventInstance(_id: string) {
         :entity="{ 
           id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
           blockShapeRef: blockShape.id 
-        } as unknown as GlobalEntity<'blockInstance'>"
+        } as GlobalEntity<'blockInstance'>"
         :block-shape-ref="blockShape.id"
         :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
         @update:model-value="(value) => shapeEditModalOpen.set(blockShape.id, value)"

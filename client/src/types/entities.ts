@@ -17,17 +17,20 @@ export function toGlobalEntityIdOrNull(
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
+import type { BookingMode } from "@/constants/bookingMode";
 import type { TernaryBoolean } from "./ternary";
 
+/** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface BaseGlobalEntity<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
   entityKey: GE;
   name: string;
   orderIndex: number;
   active: boolean;
-  bookingMode?: import('@/constants/bookingMode').BookingMode;
+  bookingMode?: BookingMode;
   instanceComponents?: GlobalEntityId[]; // IDs of entities that are instance components of this composer
   isComposer?: boolean; // True if this entity is a composer (has components)
+  [key: string]: unknown;
 }
 
 export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {

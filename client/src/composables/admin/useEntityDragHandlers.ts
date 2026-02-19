@@ -11,6 +11,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
 import type { OrderIndexUpdate } from '@/composables/entityCrud'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useEntityDragHandlers')
 
 export type PatchOrderIndex = (updates: OrderIndexUpdate) => Promise<void>
 
@@ -95,6 +98,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       
       await patchOrderIndex(updates)
     } catch (_error) {
+      logger.error('Failed to patch order index after drag', { error: _error })
       syncArrays()
     }
   }

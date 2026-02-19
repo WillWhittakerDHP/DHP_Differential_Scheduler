@@ -24,6 +24,7 @@ import {
 } from './adminMetadataHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess, sendCreated, sendNoContent, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
@@ -67,7 +68,8 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
  */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { entityType, entityId } = req.params
+    const entityType = paramString(req, 'entityType')
+    const entityId = paramString(req, 'entityId')
     const blockShapeRef = req.query.blockShapeRef as string | undefined
 
     logger.debug(`GET /admin-metadata/${entityType}/${entityId}`, {
@@ -108,7 +110,8 @@ router.post(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { entityType, entityId } = req.params
+    const entityType = paramString(req, 'entityType')
+    const entityId = paramString(req, 'entityId')
     const {
       fieldKey,
       dataType,
@@ -252,7 +255,9 @@ router.delete(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const { entityType, entityId, fieldKey } = req.params
+      const entityType = paramString(req, 'entityType')
+      const entityId = paramString(req, 'entityId')
+      const fieldKey = paramString(req, 'fieldKey')
       const blockShapeRef = req.query.blockShapeRef as string | undefined
 
       // Validate entity type

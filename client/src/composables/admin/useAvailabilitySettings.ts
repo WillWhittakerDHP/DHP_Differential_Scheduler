@@ -6,6 +6,7 @@
 
 import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
+import { createLogger } from '@/utils/logger'
 import type { 
   AvailabilitySettings,
   WorkCapacityFilter,
@@ -18,6 +19,11 @@ import type {
 import { invalidateAvailabilitySettingsCache, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
+
+const logger = createLogger('useAvailabilitySettings')
+
+/** Valid business hours day indices (0=Sunday .. 6=Saturday). */
+type BusinessHoursDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 /**
  * Calculate maximum business hours across all days
@@ -144,6 +150,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         overlapSources: rawSettings.overlapSources
       } as AvailabilitySettings
     } catch (err: unknown) {
+      logger.error('Failed to load settings from API', { err })
       error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
       throw err
     } finally {
@@ -163,7 +170,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       return false
     }
     for (let day = 0; day <= 6; day++) {
-      const dayHours = formData.value.businessHours[day as keyof typeof formData.value.businessHours]
+      const dayHours = formData.value.businessHours[day as BusinessHoursDay]
       // LEARNING: Extract time-of-day from RFC3339 business hours
       // WHY: Business hours stored as RFC3339, need to extract HH:mm for validation
       // PATTERN: Convert RFC3339 to HH:mm, then parse
@@ -320,6 +327,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         success.value = null
       }, 3000)
     } catch (err: unknown) {
+      logger.error('Failed to save availability settings', { err })
       const axiosErr = err as { response?: { data?: { error?: string } } }
       const errMsg = axiosErr.response?.data?.error
       error.value = errMsg !== undefined && errMsg !== null && errMsg !== '' ? errMsg : 'Failed to save settings. Please try again.'

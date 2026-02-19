@@ -6,221 +6,32 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **60**
-- Requiring review: **111**
-- Allowed (with justification): 0
+- Files with findings: **12**
+- Requiring review: **14**
+- Allowed (with justification): 45
 
 - P0 (silent catches): **0**
-- P1 (console-in-catch, alert-in-catch, type suppressions): **11**
-- P2 (general console, catch-without-logger): **100**
+- P1 (console-in-catch, alert-in-catch, type suppressions): **0**
+- P2 (general console, catch-without-logger): **14**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `server/src/scripts/run-migrations.mjs` | P0 | 20 | 0 | 2 | 10 |
-| `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` | P0 | 11 | 0 | 1 | 6 |
-| `client/src/composables/admin/usePartInstanceBulkEdit.ts` | P1 | 7 | 0 | 1 | 2 |
-| `client/src/composables/booking/useAppointmentLoader.ts` | P1 | 7 | 0 | 1 | 2 |
-| `client/src/plugins/1.router/guards.ts` | P1 | 7 | 0 | 1 | 2 |
-| `client/src/components/admin/PartInstanceBulkEditModal.vue` | P1 | 6 | 0 | 1 | 1 |
-| `server/src/routes/internal/properties/propertyCrudRouter.ts` | P1 | 6 | 0 | 0 | 6 |
-| `server/src/routes/helpers/crudRouteHandlers.ts` | P1 | 5 | 0 | 0 | 5 |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | P1 | 5 | 0 | 1 | 0 |
-| `server/src/routes/internal/properties/propertyTypesRouter.ts` | P1 | 5 | 0 | 0 | 5 |
-| `server/src/scripts/importCalendarData.ts` | P1 | 5 | 0 | 1 | 0 |
-| `server/src/services/appointmentSnapshotLoader.ts` | P1 | 5 | 0 | 1 | 0 |
-| `server/src/services/instanceVersioning.ts` | P1 | 5 | 0 | 1 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` | P2 | 4 | 0 | 0 | 4 |
-| `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` | P2 | 3 | 0 | 0 | 3 |
-| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` | P2 | 3 | 0 | 0 | 3 |
-| `server/src/routes/internal/businessRulesCrudRouter.ts` | P2 | 3 | 0 | 0 | 3 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 0 | 0 | 2 |
-| `client/src/composables/booking/useWizardAppointmentManagement.ts` | P2 | 2 | 0 | 0 | 2 |
-| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P2 | 2 | 0 | 0 | 2 |
 | `server/src/services/google/maps/placesApiService.ts` | P2 | 2 | 0 | 0 | 2 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P2 | 2 | 0 | 0 | 2 |
-| `client/src/components/beta/BetaFeedbackDetailModal.vue` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/components/beta/BetaFeedbackModal.vue` | P2 | 1 | 0 | 0 | 1 |
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useAvailabilitySettings.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useBlockInstanceForm.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useEntityDragHandlers.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useEntityList.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/usePartInstanceCollection.ts` | P2 | 1 | 0 | 0 | 1 |
-
-*...and 30 more files. See JSON report for details.*
+| `client/src/composables/booking/useComputedAvailability.ts` | P2 | 1 | 0 | 0 | 1 |
+| `client/src/types/datetime.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/appointmentCalendarService.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/brightMls/brightMlsApiClient.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/calendarErrorHandler.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/google/calendar/eventCreationService.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/google/maps/mapsHelpers.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/services/google/maps/routesApiService.ts` | P2 | 1 | 0 | 0 | 1 |
+| `server/src/test/setup/testDb.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
-
-### `server/src/scripts/run-migrations.mjs` [P0] (score: 20)
-
-```
-console-general@34: console.log('✅ Database connection established')
-console-general@44: console.log(`\n📋 Found ${targetMigrations.length} migration files:`)
-console-general@45: targetMigrations.forEach(f => console.log(`   - ${f}`))
-console-general@62: console.log('\n✅ All migrations have already been executed')
-console-general@66: console.log(`\n🔄 Running ${pendingMigrations.length} pending migrations...`)
-console-general@69: console.log(`\n📝 Running: ${migrationFile}`)
-console-general@96: console.log(`   ✅ ${migrationFile} completed successfully`)
-console-in-catch@98: console.error(`   ❌ Error running ${migrationFile}:`, error)
-console-general@103: console.log('\n✅ All migrations completed successfully!')
-catch-without-logger@104: } catch (error) {
-console-in-catch@105: console.error('❌ Migration error:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` [P0] (score: 11)
-
-```
-catch-without-logger@49: } catch (error) {
-catch-without-logger@77: } catch (error) {
-catch-without-logger@133: } catch (error) {
-catch-without-logger@187: } catch (error) {
-as-any@236: setting.settingValue = mergedValue as any
-catch-without-logger@240: } catch (error) {
-catch-without-logger@276: } catch (error) {
-```
-
-### `client/src/composables/admin/usePartInstanceBulkEdit.ts` [P1] (score: 7)
-
-```
-catch-without-logger@163: } catch (err) {
-console-in-catch@164: console.error('[usePartInstanceBulkEdit] Error in applyPartInstanceBulkEdit:', err)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/composables/booking/useAppointmentLoader.ts` [P1] (score: 7)
-
-```
-catch-without-logger@46: } catch (error) {
-console-in-catch@47: console.error('[useAppointmentLoader] Error loading appointment:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/plugins/1.router/guards.ts` [P1] (score: 7)
-
-```
-catch-without-logger@24: } catch (error) {
-console-in-catch@25: console.warn('[Router Guard] Failed to prefetch admin metadata:', error)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P1] (score: 6)
-
-```
-catch-without-logger@104: } catch (error) {
-console-in-catch@105: console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
-```
-
-### `server/src/routes/internal/properties/propertyCrudRouter.ts` [P1] (score: 6)
-
-```
-catch-without-logger@40: } catch (error) {
-catch-without-logger@64: } catch (error) {
-catch-without-logger@141: } catch (error) {
-catch-without-logger@201: } catch (error) {
-catch-without-logger@243: } catch (error) {
-catch-without-logger@273: } catch (error) {
-```
-
-### `server/src/routes/helpers/crudRouteHandlers.ts` [P1] (score: 5)
-
-```
-catch-without-logger@66: } catch (error) {
-catch-without-logger@96: } catch (error) {
-catch-without-logger@151: } catch (error) {
-catch-without-logger@227: } catch (error) {
-catch-without-logger@266: } catch (error) {
-```
-
-### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P1] (score: 5)
-
-```
-as-any@214: return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)
-```
-
-### `server/src/routes/internal/properties/propertyTypesRouter.ts` [P1] (score: 5)
-
-```
-catch-without-logger@44: } catch (error) {
-catch-without-logger@104: } catch (error) {
-catch-without-logger@153: } catch (error) {
-catch-without-logger@185: } catch (error) {
-catch-without-logger@241: } catch (error) {
-```
-
-### `server/src/scripts/importCalendarData.ts` [P1] (score: 5)
-
-```
-as-any@36: * WHY: Replaces unsafe `as any` cast with type-safe interface
-```
-
-### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 5)
-
-```
-as-any@81: const validVersions = versions.filter(v => v !== null) as any[];
-```
-
-### `server/src/services/instanceVersioning.ts` [P1] (score: 5)
-
-```
-as-any@73: const partInstances = (blockInstanceWithParts as any)?.part_assignment_instances as InstanceType<typeof PartInstance>[] ...
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts` [P2] (score: 4)
-
-```
-catch-without-logger@55: } catch (error) {
-catch-without-logger@93: } catch (error) {
-catch-without-logger@236: } catch (error) {
-catch-without-logger@296: } catch (error) {
-```
-
-### `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts` [P2] (score: 3)
-
-```
-catch-without-logger@50: } catch (error) {
-catch-without-logger@166: } catch (error) {
-catch-without-logger@210: } catch (error) {
-```
-
-### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts` [P2] (score: 3)
-
-```
-catch-without-logger@50: } catch (error) {
-catch-without-logger@156: } catch (error) {
-catch-without-logger@200: } catch (error) {
-```
-
-### `server/src/routes/internal/businessRulesCrudRouter.ts` [P2] (score: 3)
-
-```
-catch-without-logger@47: } catch (error) {
-catch-without-logger@108: } catch (error) {
-catch-without-logger@134: } catch (error) {
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue` [P2] (score: 2)
-
-```
-console-general@335: console.error(`[Event Error] Cannot determine ternary value for event shape "${eventShape.name}" (${eventShape.id})`)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```
-
-### `client/src/composables/booking/useWizardAppointmentManagement.ts` [P2] (score: 2)
-
-```
-catch-without-logger@141: } catch (error) {
-catch-without-logger@172: } catch (error) {
-```
-
-### `server/src/routes/internal/appointments/appointmentCrudRouter.ts` [P2] (score: 2)
-
-```
-catch-without-logger@54: } catch (error) {
-catch-without-logger@205: } catch (error) {
-```
 
 ### `server/src/services/google/maps/placesApiService.ts` [P2] (score: 2)
 
@@ -236,64 +47,10 @@ catch-without-logger@107: } catch (error) {
 catch-without-logger@153: } catch (error) {
 ```
 
-### `client/src/components/beta/BetaFeedbackDetailModal.vue` [P2] (score: 1)
-
-```
-catch-without-logger@49: } catch (err) {
-```
-
-### `client/src/components/beta/BetaFeedbackModal.vue` [P2] (score: 1)
-
-```
-catch-without-logger@107: } catch (err) {
-```
-
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts` [P2] (score: 1)
 
 ```
 catch-without-logger@67: } catch (err) {
-```
-
-### `client/src/composables/admin/useAvailabilitySettings.ts` [P2] (score: 1)
-
-```
-catch-without-logger@146: } catch (err: unknown) {
-```
-
-### `client/src/composables/admin/useBlockInstanceForm.ts` [P2] (score: 1)
-
-```
-catch-without-logger@208: } catch (err) {
-```
-
-### `client/src/composables/admin/useEntityDragHandlers.ts` [P2] (score: 1)
-
-```
-catch-without-logger@97: } catch (_error) {
-```
-
-### `client/src/composables/admin/useEntityList.ts` [P2] (score: 1)
-
-```
-catch-without-logger@178: } catch (err) {
-```
-
-### `client/src/composables/admin/usePartInstanceCollection.ts` [P2] (score: 1)
-
-```
-catch-without-logger@174: } catch (_error) {
-```
-
-### `client/src/composables/admin/usePartInstanceForm.ts` [P2] (score: 1)
-
-```
-catch-without-logger@208: } catch (err) {
-```
-
-### `client/src/composables/booking/useAppointmentDataCollection.ts` [P2] (score: 1)
-
-```
-catch-without-logger@326: } catch (error) {
 ```
 
 ### `client/src/composables/booking/useComputedAvailability.ts` [P2] (score: 1)
@@ -302,104 +59,50 @@ catch-without-logger@326: } catch (error) {
 catch-without-logger@123: } catch (err) {
 ```
 
-### `client/src/composables/booking/useWizardSubmission.ts` [P2] (score: 1)
-
-```
-catch-without-logger@69: } catch (error) {
-```
-
-### `client/src/composables/entityCrud/usePrimitiveMutation.ts` [P2] (score: 1)
-
-```
-console-general@134: console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {
-```
-
-### `client/src/composables/fieldContext/useFieldContextActions.ts` [P2] (score: 1)
-
-```
-catch-without-logger@120: } catch (error) {
-```
-
-### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` [P2] (score: 1)
-
-```
-catch-without-logger@61: }).catch((error: unknown) => {
-```
-
-### `client/src/composables/useAdminConfig.ts` [P2] (score: 1)
-
-```
-catch-without-logger@69: } catch (_error) {
-```
-
-### `client/src/composables/useAppointment.ts` [P2] (score: 1)
-
-```
-catch-without-logger@110: } catch (_error) {
-```
-
-### `client/src/composables/useBooking.ts` [P2] (score: 1)
-
-```
-catch-without-logger@63: } catch (_error) {
-```
-
 ### `client/src/types/datetime.ts` [P2] (score: 1)
 
 ```
 catch-without-logger@114: * } catch (error) {
 ```
 
-### `client/src/utils/transformers/fetchToBusinessTransformer.ts` [P2] (score: 1)
+### `server/src/services/appointmentCalendarService.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@65: } catch (_error) {
+catch-without-logger@155: } catch (createError) {
 ```
 
-### `client/src/views/admin/entities/BlockShapeForm.vue` [P2] (score: 1)
+### `server/src/services/brightMls/brightMlsApiClient.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@58: } catch (err) {
+catch-without-logger@204: } catch (error) {
 ```
 
-### `client/src/views/admin/entities/PartShapeForm.vue` [P2] (score: 1)
+### `server/src/services/calendarErrorHandler.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@48: } catch (err) {
+catch-without-logger@191: } catch (e) {
 ```
 
-### `client/src/views/admin/tabs/ShapesTab.vue` [P2] (score: 1)
+### `server/src/services/google/calendar/eventCreationService.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@212: } catch (_error) {
+catch-without-logger@156: } catch (error: any) {
 ```
 
-### `server/src/routes/external/propertyEnrichmentRoutes.ts` [P2] (score: 1)
+### `server/src/services/google/maps/mapsHelpers.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@134: } catch (error) {
+catch-without-logger@223: } catch (error) {
 ```
 
-### `server/src/routes/internal/availabilityRouter.ts` [P2] (score: 1)
+### `server/src/services/google/maps/routesApiService.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@41: } catch (error) {
+catch-without-logger@148: } catch (error) {
 ```
 
-### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` [P2] (score: 1)
+### `server/src/test/setup/testDb.ts` [P2] (score: 1)
 
 ```
-catch-without-logger@51: } catch (error) {
-```
-
-### `server/src/routes/internal/beta-feedback/betaFeedbackRouter.ts` [P2] (score: 1)
-
-```
-catch-without-logger@64: } catch (error) {
-```
-
-### `server/src/routes/internal/dev/devStatusRouter.ts` [P2] (score: 1)
-
-```
-catch-without-logger@61: } catch (credError: any) {
+catch-without-logger@69: } catch (error) {
 ```

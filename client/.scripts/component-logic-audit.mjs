@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded } from './audit-exceptions.mjs'
+import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -90,16 +90,8 @@ function listVueFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip migrations and test files
-    if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || 
-        /migration.*\.(js|mjs|ts|vue)$/i.test(repoPath) ||
-        repoPath.includes('__tests__') || repoPath.includes('.test.') || repoPath.includes('.spec.')) {
-      continue
-    }
-    
     if (e.isDirectory()) {
+      if (shouldPruneDirectory(e.name)) continue
       out.push(...listVueFilesRecursive(abs))
       continue
     }

@@ -3,7 +3,7 @@
   WHY: Extracted from BusinessRulesTab for file-cohesion (plan Phase 2).
 -->
 <script setup lang="ts">
-import type { BusinessRule, BusinessRuleFormData } from '@/composables/admin/useBusinessRules'
+import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
 
 const props = defineProps<{
@@ -57,7 +57,7 @@ function updateField<Field extends keyof BusinessRuleFormData>(
             :label="BUSINESS_RULES_UI.RULE_TYPE_LABEL"
             required
             class="mb-4"
-            @update:model-value="(v: string) => updateField('ruleType', v)"
+            @update:model-value="(v: string) => updateField('ruleType', v as RuleType)"
           />
 
           <div v-if="props.formData.ruleType === 'required_fields'" class="mb-4">

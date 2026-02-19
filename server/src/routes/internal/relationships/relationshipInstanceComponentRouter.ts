@@ -14,6 +14,7 @@ import { restoreComponentActiveState } from './relationshipHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 import { csrfProtection } from '../../../middlewares/security.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 
 const logger = createLogger('RelationshipRouter')
 
@@ -28,7 +29,7 @@ const router = Router()
  * PATTERN: Find component, update fields, save, return JSON
  */
 router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params
+  const id = paramString(req, 'id')
   const orderIndex = req.body.orderIndex ?? req.body.order_index
   const { disabled } = req.body
 
@@ -69,7 +70,7 @@ router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promis
  * PATTERN: Find component, set disabled, restore active if no other components, return success message
  */
 router.delete('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params
+  const id = paramString(req, 'id')
   
   try {
     const component = await InstanceComponent.findByPk(id)

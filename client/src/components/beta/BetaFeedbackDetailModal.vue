@@ -99,6 +99,9 @@ import { ref, watch } from 'vue';
 import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
 import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
 import { useNotification } from '@/composables/useNotification';
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('BetaFeedbackDetailModal');
 
 const props = defineProps<{ modelValue: boolean; feedback: BetaFeedback | null }>();
 const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void; (e: 'saved'): void }>();
@@ -143,6 +146,7 @@ async function handleSave() {
     emit('saved');
     emit('update:modelValue', false);
   } catch (err) {
+    logger.error('Failed to update feedback', { err });
     const message =
       err && typeof err === 'object' && 'response' in err
         ? (err as { response?: { data?: { error?: string } } }).response?.data?.error

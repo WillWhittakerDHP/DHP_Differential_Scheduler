@@ -12,6 +12,9 @@ import { useGlobal } from './useGlobal'
 import { bookingTransformer } from '@/utils/transformers/globalToBookingTransformer'
 import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useBooking')
 
 let instanceCount = 0
 let callCount = 0
@@ -61,6 +64,7 @@ function createBookingInstance() {
     try {
       return bookingTransformer.transformGlobalToBooking(data)
     } catch (_error) {
+      logger.error('Transform global to booking failed', { error: _error })
       return null
     }
   })

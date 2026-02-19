@@ -1,50 +1,95 @@
 {
-  "generatedAt": "2026-02-12T01:57:18.366Z",
+  "generatedAt": "2026-02-19T00:27:52.242Z",
   "check": "Deprecation",
-  "totalScanned": 972,
+  "totalScanned": 792,
   "exceptionSummary": {
-    "totalAllowed": 4,
-    "totalRequiresReview": 158,
+    "totalAllowed": 47,
+    "totalRequiresReview": 140,
     "bySource": {
       "inline": 4,
-      "pattern": 0,
-      "specific": 0
+      "pattern": 31,
+      "specific": 12
     }
   },
   "files": [
     {
-      "id": "client__src__types__admin__AdminEntity.ts",
-      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "id": "client__src__utils__booking__confirmationStepData.ts",
+      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 75,
-          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives || {})",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 68,
+          "line": "const rawParts = blockInstance.partInstances ?? []",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 76,
-          "line": "const relationshipNames = Object.keys(this.displayConfig?.relationships || {})",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 172,
+          "line": "...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 173,
+          "line": "...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
           "lineNumber": 174,
-          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives || {})",
+          "line": "...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 175,
+          "line": "...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 218,
+          "line": "const lineItemBlocks = wizard.selectedLineItemBlocks ?? []",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 12,
+      "priority": "P0"
+    },
+    {
+      "id": "client__src__types__admin__adminEntity.ts",
+      "repoPath": "client/src/types/admin/adminEntity.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 75,
+          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 76,
+          "line": "const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 174,
+          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
           "lineNumber": 177,
-          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives || {})",
+          "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-or",
+          "ruleId": "unhelpful-default-nullish",
           "lineNumber": 196,
-          "line": "return Object.keys(this.displayConfig?.relationships || {})",
+          "line": "return Object.keys(this.displayConfig?.relationships ?? {})",
           "section": "legacy-accommodation"
         }
       ],
@@ -52,110 +97,32 @@
       "priority": "P0"
     },
     {
-      "id": "server__src__scripts__helpers__calendarParsingHelpers.ts",
-      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 97,
-          "line": "* PATTERN: Explicit empty strings instead of `|| ''` fallbacks",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 210,
-          "line": "property.city = withDefault(parts[1], '', 'parseAddress.fallback.city')",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 211,
-          "line": "property.state = withDefault(parts[2]?.substring(0, 2).toUpperCase(), '', 'parseAddress.fallback.state')",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "fallback-keyword",
-          "lineNumber": 212,
-          "line": "property.zipCode = withDefault(parts[parts.length - 1]?.match(/\\d{5}/)?.[0], '', 'parseAddress.fallback.zipCode')",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 286,
-          "line": "* PATTERN: Uses explicit empty string fallback instead of `|| ''` chain",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 292,
-          "line": "// LEARNING: Explicit fallback chain instead of `|| ''` pattern",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 9,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__admin__useBusinessRuleForm.ts",
-      "repoPath": "client/src/composables/admin/useBusinessRuleForm.ts",
+      "id": "client__src__composables__booking__useDependentInstances.ts",
+      "repoPath": "client/src/composables/booking/useDependentInstances.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 27,
-          "line": "return config.fields?.join(', ') ?? ''",
+          "lineNumber": 110,
+          "line": "const blockShapeRef = entity.blockShapeRef ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 44,
-          "line": "return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition ?? ''",
+          "lineNumber": 112,
+          "line": "const blockShape = blockShapeEntity?.name?.trim() ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 95,
-          "line": "blockInstanceId: selectedBlockId.value ?? '',",
+          "lineNumber": 114,
+          "line": "const icon = entity.icon?.trim() ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 120,
-          "line": "blockInstanceId: selectedBlockId.value ?? '',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 8,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__admin__useDifferentialPerspectives.ts",
-      "repoPath": "client/src/composables/admin/useDifferentialPerspectives.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 59,
-          "line": "get: () => formData.value?.differentialPerspectives?.majorAttendees ?? [],",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 69,
-          "line": "get: () => formData.value?.differentialPerspectives?.minorAttendees ?? [],",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 111,
-          "line": "get: () => formData.value?.differentialPerspectives?.majorStateLabel ?? '',",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 121,
-          "line": "get: () => formData.value?.differentialPerspectives?.minorStateLabel ?? '',",
+          "lineNumber": 127,
+          "line": "blockShape: blockShape || blockShapeEntity?.name ?? '',",
           "section": "legacy-accommodation"
         }
       ],
@@ -262,6 +229,33 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__components__admin__InstanceBulkEditModal.vue",
+      "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 40,
+          "line": "const editData = props.bulkEditData || {}",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 45,
+          "line": "blockShapeRef: props.blockShapeId ?? '',",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 67,
+          "line": "blockShapeRef: props.blockShapeId || '',",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__composables__admin__useDefaultLocation.ts",
       "repoPath": "client/src/composables/admin/useDefaultLocation.ts",
       "allowed": [],
@@ -309,6 +303,33 @@
           "ruleId": "legacy-keyword",
           "lineNumber": 243,
           "line": "`Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__booking__usePropertyDetailsLogic.ts",
+      "repoPath": "client/src/composables/booking/usePropertyDetailsLogic.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 275,
+          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 283,
+          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 290,
+          "line": "const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []",
           "section": "legacy-accommodation"
         }
       ],
@@ -523,19 +544,19 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 96,
+          "lineNumber": 97,
           "line": "const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 196,
+          "lineNumber": 197,
           "line": "current ?? {}",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 241,
+          "lineNumber": 242,
           "line": "return formData.value?.overlapSources?.outOfOffice?.enforcement ?? 'hard'",
           "section": "legacy-accommodation"
         }
@@ -570,33 +591,6 @@
           "ruleId": "chaining-fallback",
           "lineNumber": 72,
           "line": "const currentOrder = currentMeta?.displayOrder ?? 999",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__booking__useTimeSlotCalculations.ts",
-      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 32,
-          "line": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 35,
-          "line": "major: TimeBlock  // Major perspective (legacy name)",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "legacy-keyword",
-          "lineNumber": 36,
-          "line": "minor: TimeBlock | null  // Minor perspective (legacy name)",
           "section": "legacy-accommodation"
         }
       ],
@@ -670,84 +664,36 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__composables__useRelationship.ts",
-      "repoPath": "client/src/composables/useRelationship.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 79,
-          "line": "// Transform GlobalRelationship[] to FetchedRelationship[] for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 108,
-          "line": "const currentRelationships = old.relationships[relationshipKey] || []",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 200,
-          "line": "const currentRelationships = old.relationships[relationshipKey] || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
       "id": "client__src__views__admin__tabs__BusinessControlsTab.vue",
       "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 149,
+          "lineNumber": 152,
           "line": "get: () => formData.value?.durationRounding?.increment ?? 15,",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 155,
+          "lineNumber": 158,
           "line": "get: () => formData.value?.durationRounding?.method ?? 'roundNearest',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 162,
+          "lineNumber": 165,
           "line": "get: () => formData.value?.timezone ?? '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 169,
+          "lineNumber": 172,
           "line": "get: () => formData.value?.minuteIncrement ?? 15,",
           "section": "legacy-accommodation"
         }
       ],
       "score": 5,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__components__admin__InstanceBulkEditModal.vue",
-      "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 36,
-          "line": "const editData = props.bulkEditData || {}",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 77,
-          "line": "blockShapeRef: props.blockShapeId || '',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 4,
       "priority": "P1"
     },
     {
@@ -805,13 +751,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 184,
+          "lineNumber": 182,
           "line": "name: entity.name || '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 185,
+          "lineNumber": 183,
           "line": "blockShapeRef: entity.blockShapeRef || '',",
           "section": "legacy-accommodation"
         }
@@ -826,13 +772,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 168,
+          "lineNumber": 127,
           "line": "rules.value = response.data ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 190,
+          "lineNumber": 149,
           "line": "return response.data ?? []",
           "section": "legacy-accommodation"
         }
@@ -868,13 +814,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 116,
+          "lineNumber": 117,
           "line": "const instances = blockInstancesByShape.value.get(blockShapeId) || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "const current = bulkEditData.value.get(blockShapeId) || {}",
           "section": "legacy-accommodation"
         }
@@ -889,13 +835,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 184,
+          "lineNumber": 182,
           "line": "name: entity.name || '',",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 185,
+          "lineNumber": 183,
           "line": "partShapeRef: entity.partShapeRef || '',",
           "section": "legacy-accommodation"
         }
@@ -973,19 +919,49 @@
       "priority": "P1"
     },
     {
+      "id": "client__src__composables__booking__useTimeSlotCalculations.ts",
+      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
+      "allowed": [
+        {
+          "ruleId": "compat-marker",
+          "lineNumber": 32,
+          "line": "* NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives",
+          "section": "annotation",
+          "reason": "Deprecation tracked; removal in future sprint",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 35,
+          "line": "major: TimeBlock  // Major perspective (legacy name)",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 36,
+          "line": "minor: TimeBlock | null  // Minor perspective (legacy name)",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__composables__formFields__useFormFields.ts",
       "repoPath": "client/src/composables/formFields/useFormFields.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 48,
+          "lineNumber": 49,
           "line": "inlineFieldsConfig.value || [],",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 49,
+          "lineNumber": 50,
           "line": "stackedFieldsConfig.value || []",
           "section": "legacy-accommodation"
         }
@@ -1029,6 +1005,36 @@
           "ruleId": "unhelpful-default-or",
           "lineNumber": 80,
           "line": "return (data.entities[entityKey] || []) as GlobalEntity<GE>[]",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__useRelationship.ts",
+      "repoPath": "client/src/composables/useRelationship.ts",
+      "allowed": [
+        {
+          "ruleId": "compat-marker",
+          "lineNumber": 79,
+          "line": "// Transform GlobalRelationship[] to FetchedRelationship[] for backward compatibility",
+          "section": "annotation",
+          "reason": "Deprecation tracked; removal in future sprint",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 108,
+          "line": "const currentRelationships = old.relationships[relationshipKey] || []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 200,
+          "line": "const currentRelationships = old.relationships[relationshipKey] || []",
           "section": "legacy-accommodation"
         }
       ],
@@ -1084,13 +1090,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 17,
+          "lineNumber": 20,
           "line": "const current = items ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 29,
+          "lineNumber": 32,
           "line": "const current = items ?? []",
           "section": "legacy-accommodation"
         }
@@ -1147,387 +1153,199 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__composables__booking__selectionCard__useSelectionCardState.ts",
-      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
+      "id": "server__src__routes__internal__beta-feedback__betaFeedbackCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 58,
-          "line": "// Create local plugin for backward compatibility",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 47,
+          "line": "const tags = json.tags?.map((t) => t.tag) ?? [];",
+          "section": "legacy-accommodation"
         },
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 84,
-          "line": "// Fallback to modelValue for backward compatibility",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 97,
+          "line": "const tags = json.tags?.map((t: { tag: string }) => t.tag) ?? [];",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__components__admin__PartInstanceBulkEditModal.vue",
+      "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 80,
+          "line": "partShapeRef: partShapeRef.value || '',",
+          "section": "legacy-accommodation"
         }
       ],
       "score": 2,
       "priority": "P2"
     },
     {
-      "id": "client__src__composables__booking__useAppointmentTimes.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentTimes.ts",
+      "id": "client__src__components__beta__BetaFeedbackDashboard.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackDashboard.vue",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 113,
-          "line": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 167,
-          "line": "// NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__configs__availabilitySettings.ts",
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "comment-deprecated",
-          "lineNumber": 307,
-          "line": "// driveTime?: BufferConfig     // DEPRECATED: Use driveToCandidate/driveFromCandidate instead",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__db__models__admin__business_settings.ts",
-      "repoPath": "server/src/db/models/admin/business_settings.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "comment-deprecated",
-          "lineNumber": 232,
-          "line": "// driveTime?: BufferConfig;      // DEPRECATED: Use driveToCandidate/driveFromCandidate instead",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__admin-primitive-metadata__adminPrimitiveMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 4,
-          "line": "* LEARNING: Admin Primitive Metadata Router (legacy - for backward compatibility)",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 9,
-          "line": "* NOTE: This is a legacy router maintained for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataRouter.ts",
-      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 4,
-          "line": "* LEARNING: Admin Relationship Metadata Router (legacy - for backward compatibility)",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 8,
-          "line": "* NOTE: This is a legacy router maintained for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__entities__entityCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/entities/entityCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 182,
-          "line": "// Note: Keeping custom response format for backward compatibility",
-          "section": "annotation"
-        },
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 314,
-          "line": "// Note: Keeping custom response format for backward compatibility (different from standard 204)",
-          "section": "annotation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__admin__generic__EntityFormContent.vue",
-      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 29,
-          "line": "* PATTERN: Keep rendering defaulted to true for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__booking__types__selectionCardTypes.ts",
-      "repoPath": "client/src/components/booking/types/selectionCardTypes.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 66,
-          "line": "* PATTERN: Comprehensive config object with defaults for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useShapeEditModal.ts",
-      "repoPath": "client/src/composables/admin/useShapeEditModal.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
+          "ruleId": "chaining-fallback",
           "lineNumber": 55,
-          "line": "// Also collapse the card if it was expanded (for backward compatibility)",
-          "section": "annotation"
+          "line": "return stats.value?.byCategory?.feature_request ?? 0;",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 59,
+          "line": "return stats.value?.bySeverity?.critical ?? 0;",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "client__src__composables__admin__useStatusButtonToggle.ts",
-      "repoPath": "client/src/composables/admin/useStatusButtonToggle.ts",
+      "id": "client__src__components__beta__BetaFeedbackDetailModal.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackDetailModal.vue",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 61,
-          "line": "// If entity is provided, use it (for backward compatibility)",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__booking__selectionCard__useSelectionCardConfig.ts",
-      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardConfig.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
+          "ruleId": "unhelpful-default-nullish",
           "lineNumber": 33,
-          "line": "* LEARNING: Config with defaults for backward compatibility",
-          "section": "annotation"
+          "line": "localResolutionNotes.value = f.resolutionNotes ?? '';",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "client__src__composables__booking__selectionCard__useSelectionCardHandlers.ts",
-      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts",
+      "id": "client__src__utils__booking__pricingCascadeResolver.ts",
+      "repoPath": "client/src/utils/booking/pricingCascadeResolver.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 67,
-          "line": "// Fallback to emit for backward compatibility",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 30,
+          "line": "const activeIds = part.activePartIds ?? []",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "client__src__composables__useBookingWizard.ts",
-      "repoPath": "client/src/composables/useBookingWizard.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 88,
-          "line": "* PATTERN: Replace array with single selection (keeps array structure for backward compatibility)",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__types__appointment.ts",
-      "repoPath": "client/src/types/appointment.ts",
+      "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
       "allowed": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 103,
-          "line": "finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility",
-          "section": "annotation",
-          "reason": "Intentional compat note for finalizedParts vs finalizedBlocks",
+          "ruleId": "legacy-keyword",
+          "lineNumber": 30,
+          "line": "differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
+          "source": "inline"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 39,
+          "line": "onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
+          "source": "inline"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 41,
+          "line": "clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean",
+          "section": "legacy-accommodation",
+          "reason": "Intentional backward compatibility for boolean | TernaryBoolean",
           "source": "inline"
         }
       ],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 93,
-          "line": "* PATTERN: finalizedBlocks is source of truth, finalizedParts is derived for backward compatibility",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 120,
+          "line": "activePartIds: currentPart?.activePartIds ?? [],",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__types__property.ts",
-      "repoPath": "client/src/types/property.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 29,
-          "line": "id: string; // PropertyVersion ID (for backward compatibility)",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__timeSlotTypes.ts",
-      "repoPath": "client/src/utils/booking/timeSlotTypes.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 12,
-          "line": "// Re-export types for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__iconMapper.ts",
-      "repoPath": "client/src/utils/iconMapper.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 12,
-          "line": "for backward compatibility and admin-entered values",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__transformers__annotationTransformers.ts",
-      "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 69,
-          "line": "// Note: userTypeBlock on AnnotationInstance entity is deprecated, but we keep it for backward compatibility",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
       "id": "client__src__utils__transformers__fetchToGlobalTransformer.ts",
       "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 212,
+          "lineNumber": 211,
           "line": "* Attach instanceComponents arrays to entities for backward compatibility.",
-          "section": "annotation"
+          "section": "annotation",
+          "reason": "Deprecation tracked; removal in future sprint",
+          "source": "pattern"
         }
       ],
-      "score": 1,
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 195,
+          "line": "id: toGlobalEntityId(idResolved ?? ''),",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
-      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "id": "server__src__routes__helpers__requestHelpers.ts",
+      "repoPath": "server/src/routes/helpers/requestHelpers.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 60,
-          "line": "blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 17,
+          "line": "return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "server__src__config__googleOAuth.ts",
-      "repoPath": "server/src/config/googleOAuth.ts",
+      "id": "server__src__scripts__run-migrations.mjs",
+      "repoPath": "server/src/scripts/run-migrations.mjs",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 120,
-          "line": "/** Re-export for backward compatibility; persistence has no dependency on this module. */",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 57,
+          "line": ": executedMigrationsResult[0] || []",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
-      "id": "server__src__db__models__booking__annotation_instance.ts",
-      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "id": "server__src__services__propertyFieldMapper.ts",
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "compat-marker",
-          "lineNumber": 30,
-          "line": "* NOTE: The userType field on this model is kept for backward compatibility but is being",
-          "section": "annotation"
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 79,
+          "line": "const key = String(raw ?? '').toLowerCase().trim();",
+          "section": "legacy-accommodation"
         }
       ],
-      "score": 1,
+      "score": 2,
       "priority": "P2"
     },
     {
@@ -1546,28 +1364,13 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__routes__internal__index.ts",
-      "repoPath": "server/src/routes/internal/index.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "compat-marker",
-          "lineNumber": 31,
-          "line": "// NOTE: Keeping /admin-input-metadata and /admin-primitive-metadata paths for backward compatibility during transition",
-          "section": "annotation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "id": "server__src__routes__internal__properties__propertyValidators.ts",
       "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 79,
+          "lineNumber": 87,
           "line": "actualBlockShape: blockShape?.name || 'NULL'",
           "section": "legacy-accommodation"
         }
@@ -1584,6 +1387,21 @@
           "ruleId": "fallback-keyword",
           "lineNumber": 217,
           "line": "logger.warn('API failed, using fallback', {",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__propertyFeatureMatcher.ts",
+      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "default-param",
+          "lineNumber": 25,
+          "line": "return val.map((v) => (typeof v === 'string' ? v : String(v)));",
           "section": "legacy-accommodation"
         }
       ],

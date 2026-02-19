@@ -8,11 +8,13 @@
 
 import { Router, Request, Response } from 'express'
 import { BusinessSettings } from '../../../config/app.js'
+import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import { ERROR_MESSAGES } from './businessSettingsConstants.js'
 import { handleRouteError } from './businessSettingsErrorHandler.js'
-import { validateSettingKey, validateSettingValue, validateAvailabilitySettingsWithDetails } from './businessSettingsValidators.js'
+import { validateSettingKey, validateSettingValue, validateAvailabilitySettings, validateAvailabilitySettingsWithDetails } from './businessSettingsValidators.js'
 import { transformSettingToResponse, getSettingWithDefault, mergeSettingValues } from './businessSettingsHelpers.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
@@ -61,7 +63,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
  */
 router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { key } = req.params
+    const key = paramString(req, 'key')
 
     const setting = await BusinessSettings.findOne({
       where: { settingKey: key },
@@ -150,7 +152,7 @@ router.put(
   checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { key } = req.params
+    const key = paramString(req, 'key')
     const { setting_value } = req.body
 
     // Validate setting value
@@ -204,7 +206,7 @@ router.patch(
   checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { key } = req.params
+    const key = paramString(req, 'key')
     const { setting_value } = req.body
 
     // Validate setting value
@@ -232,8 +234,12 @@ router.patch(
       return
     }
 
-    // PATTERN: After validation, we know mergedValue is valid AvailabilitySettingsData
-    setting.settingValue = mergedValue as any
+    // PATTERN: After validation, for availability key mergedValue is valid AvailabilitySettingsData; for other keys assign as-is
+    if (validateAvailabilitySettings(mergedValue)) {
+      setting.settingValue = mergedValue
+    } else {
+      setting.settingValue = mergedValue as AvailabilitySettingsData
+    }
     await setting.save()
 
     sendSuccess(res, transformSettingToResponse(setting))
@@ -257,7 +263,7 @@ router.delete(
   checkOwnership('businessSetting', 'key'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { key } = req.params
+    const key = paramString(req, 'key')
 
     const setting = await BusinessSettings.findOne({
       where: { settingKey: key },

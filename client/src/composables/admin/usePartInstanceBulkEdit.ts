@@ -17,6 +17,9 @@ import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityMetadata } from './useEntityMetadata'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePartInstanceBulkEdit')
 
 /**
  * Part Instance Bulk Edit Data Interface
@@ -161,7 +164,7 @@ export function usePartInstanceBulkEdit(
       // Clear bulk edit data (reset to empty object since fields are now config-driven)
       bulkEditData.value = {}
     } catch (err) {
-      console.error('[usePartInstanceBulkEdit] Error in applyPartInstanceBulkEdit:', err)
+      logger.error('Error in applyPartInstanceBulkEdit', { err })
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
       showError(errorMessage)
     }

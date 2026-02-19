@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T01:55:37.101Z",
+  "generatedAt": "2026-02-18T23:30:33.945Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,13 +13,13 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 647,
+  "totalScanned": 679,
   "exceptionSummary": {
-    "totalAllowed": 1063,
-    "totalRequiresReview": 633,
+    "totalAllowed": 1138,
+    "totalRequiresReview": 684,
     "bySource": {
       "inline": 2,
-      "pattern": 1061,
+      "pattern": 1136,
       "specific": 0
     }
   },
@@ -457,9 +457,200 @@
       "priority": "P0"
     },
     {
-      "id": "client__src__types__admin__AdminEntity.ts",
-      "repoPath": "client/src/types/admin/AdminEntity.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts",
+      "id": "server__src__services__propertyFieldMapper.ts",
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/propertyFieldMapper.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 1,
+        "forOf": 1,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 14,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 32,
+          "line": "result.mlsNumber ="
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 35,
+          "line": "result.mlsNumber = String(result.mlsNumber);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 42,
+          "line": "result.squareFootage = Math.round(living);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 45,
+          "line": "result.squareFootage = sum > 0 ? Math.round(sum) : null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 47,
+          "line": "result.squareFootage = null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 50,
+          "line": "result.bedrooms ="
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 58,
+          "line": "result.bathrooms = baths > 0 ? Math.round(baths * 100) / 100 : null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 60,
+          "line": "result.foundationAccess = mapFoundationType(response.FoundationDetails);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 69,
+          "line": "result.additionalUnits = hasAdu ? 1 : unitTypes.length > 0 ? unitTypes.length : null;"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 72,
+          "line": "for (const m of mappings) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 72,
+          "line": "for (const m of mappings) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "if (m.valueMapping && typeof m.valueMapping === 'object') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 86,
+          "line": "if (m.targetField === 'foundationAccess') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 87,
+          "line": "result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "} else if (m.targetField === 'additionalUnits') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "result.additionalUnits ="
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 32,
+          "line": "result.mlsNumber ="
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 35,
+          "line": "result.mlsNumber = String(result.mlsNumber);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 42,
+          "line": "result.squareFootage = Math.round(living);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 45,
+          "line": "result.squareFootage = sum > 0 ? Math.round(sum) : null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 47,
+          "line": "result.squareFootage = null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 50,
+          "line": "result.bedrooms ="
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 58,
+          "line": "result.bathrooms = baths > 0 ? Math.round(baths * 100) / 100 : null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 60,
+          "line": "result.foundationAccess = mapFoundationType(response.FoundationDetails);"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 69,
+          "line": "result.additionalUnits = hasAdu ? 1 : unitTypes.length > 0 ? unitTypes.length : null;"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 72,
+          "line": "for (const m of mappings) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 72,
+          "line": "for (const m of mappings) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 78,
+          "line": "if (m.valueMapping && typeof m.valueMapping === 'object') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 86,
+          "line": "if (m.targetField === 'foundationAccess') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 87,
+          "line": "result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "} else if (m.targetField === 'additionalUnits') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "result.additionalUnits ="
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 30,
+      "priority": "P0"
+    },
+    {
+      "id": "client__src__types__admin__adminEntity.ts",
+      "repoPath": "client/src/types/admin/adminEntity.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts",
       "counts": {
         "forEach": 0,
         "forLoop": 0,
@@ -749,6 +940,415 @@
       "priority": "P0"
     },
     {
+      "id": "server__src__services__brightMls__brightMlsApiClient.ts",
+      "repoPath": "server/src/services/brightMls/brightMlsApiClient.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/brightMls/brightMlsApiClient.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 5,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 5,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "push",
+          "lineNumber": 69,
+          "line": "parts.push(`(StreetNumber eq '${escapeODataString(streetNumber.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 72,
+          "line": "parts.push(`(StreetName eq '${escapeODataString(streetName.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 75,
+          "line": "parts.push(`(City eq '${escapeODataString(city.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 78,
+          "line": "parts.push("
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 83,
+          "line": "parts.push("
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "if (parts.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 178,
+          "line": "if (response.status === 404) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 181,
+          "line": "if (response.status === 401) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 185,
+          "line": "if (response.status === 429) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 199,
+          "line": "if (!Array.isArray(value) || value.length === 0) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "push",
+          "lineNumber": 69,
+          "line": "parts.push(`(StreetNumber eq '${escapeODataString(streetNumber.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 72,
+          "line": "parts.push(`(StreetName eq '${escapeODataString(streetName.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 75,
+          "line": "parts.push(`(City eq '${escapeODataString(city.trim())}')`);"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 78,
+          "line": "parts.push("
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 83,
+          "line": "parts.push("
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 88,
+          "line": "if (parts.length === 0) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 178,
+          "line": "if (response.status === 404) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 181,
+          "line": "if (response.status === 401) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 185,
+          "line": "if (response.status === 429) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 199,
+          "line": "if (!Array.isArray(value) || value.length === 0) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 20,
+      "priority": "P0"
+    },
+    {
+      "id": "client__src__components__admin__generic__EntityCardSubPanels.vue",
+      "repoPath": "client/src/components/admin/generic/EntityCardSubPanels.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardSubPanels.vue",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 9,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 13,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 55,
+          "line": "const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 73,
+          "line": "if (items.length === 0) return ''"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 92,
+          "line": "const entity = entities.find(e => e.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 107,
+          "line": "if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 127,
+          "line": "return componentType.type === 'relationshipCollection'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 148,
+          "line": "if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 158,
+          "line": "expandedPanels.value.push('parts')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 161,
+          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 167,
+          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 175,
+          "line": "expandedPanels.value.push('parts')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 188,
+          "line": "if (props.entityKey === 'blockInstance') {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 194,
+          "line": "relationshipTypes.push('Booking Cascades')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 197,
+          "line": "relationshipTypes.push(`${blockShapeName.value} Components`)"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 200,
+          "line": "relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 202,
+          "line": "} else if (props.entityKey === 'blockShape') {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 207,
+          "line": "relationshipTypes.push('Valid Cascades')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 210,
+          "line": "relationshipTypes.push('Valid Parts')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 212,
+          "line": "} else if (props.entityKey === 'partInstance') {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 215,
+          "line": "relationshipTypes.push('Pricing Cascades')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 217,
+          "line": "} else if (props.entityKey === 'partShape') {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 220,
+          "line": "relationshipTypes.push('Valid Pricing Cascades')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 253,
+          "line": "v-if=\"props.entityKey === 'blockInstance'\""
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 55,
+          "line": "const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 73,
+          "line": "if (items.length === 0) return ''",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 92,
+          "line": "const entity = entities.find(e => e.id === id)",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 107,
+          "line": "if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 127,
+          "line": "return componentType.type === 'relationshipCollection'",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 148,
+          "line": "if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 161,
+          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 167,
+          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 188,
+          "line": "if (props.entityKey === 'blockInstance') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 202,
+          "line": "} else if (props.entityKey === 'blockShape') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 212,
+          "line": "} else if (props.entityKey === 'partInstance') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 217,
+          "line": "} else if (props.entityKey === 'partShape') {",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 253,
+          "line": "v-if=\"props.entityKey === 'blockInstance'\"",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "push",
+          "lineNumber": 158,
+          "line": "expandedPanels.value.push('parts')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 175,
+          "line": "expandedPanels.value.push('parts')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 194,
+          "line": "relationshipTypes.push('Booking Cascades')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 197,
+          "line": "relationshipTypes.push(`${blockShapeName.value} Components`)"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 200,
+          "line": "relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 207,
+          "line": "relationshipTypes.push('Valid Cascades')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 210,
+          "line": "relationshipTypes.push('Valid Parts')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 215,
+          "line": "relationshipTypes.push('Pricing Cascades')"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 220,
+          "line": "relationshipTypes.push('Valid Pricing Cascades')"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 18,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__utils__booking__partFinalizer.ts",
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partFinalizer.ts",
@@ -1006,42 +1606,42 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 115,
+          "lineNumber": 118,
           "line": "const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 116,
+          "lineNumber": 119,
           "line": "const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 136,
+          "lineNumber": 139,
           "line": "if (componentIds.length === 0) return []"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 172,
+          "lineNumber": 175,
           "line": "blockInstanceTyped.composite === true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
+          "lineNumber": 242,
           "line": "typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 273,
+          "lineNumber": 279,
           "line": "const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 274,
+          "lineNumber": 280,
           "line": "const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 363,
+          "lineNumber": 375,
           "line": ".filter((rel) => rel.relationshipKind === 'instanceComponents')"
         }
       ],
@@ -1054,42 +1654,42 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 115,
+          "lineNumber": 118,
           "line": "const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 116,
+          "lineNumber": 119,
           "line": "const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 136,
+          "lineNumber": 139,
           "line": "if (componentIds.length === 0) return []"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 172,
+          "lineNumber": 175,
           "line": "blockInstanceTyped.composite === true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 239,
+          "lineNumber": 242,
           "line": "typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 273,
+          "lineNumber": 279,
           "line": "const aOrder = typeof a.orderIndex === 'number' ? a.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 274,
+          "lineNumber": 280,
           "line": "const bOrder = typeof b.orderIndex === 'number' ? b.orderIndex : 0"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 363,
+          "lineNumber": 375,
           "line": ".filter((rel) => rel.relationshipKind === 'instanceComponents')"
         }
       ],
@@ -1206,228 +1806,6 @@
       ],
       "forEachMutationHits": [],
       "score": 16,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__components__admin__generic__EntityCardSubPanels.vue",
-      "repoPath": "client/src/components/admin/generic/EntityCardSubPanels.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCardSubPanels.vue",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 7,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 0,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 10,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 73,
-          "line": "if (items.length === 0) return ''"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "const entity = entities.find(e => e.id === id)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 127,
-          "line": "return componentType.type === 'relationshipCollection'"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 158,
-          "line": "expandedPanels.value.push('parts')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 161,
-          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 167,
-          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 175,
-          "line": "expandedPanels.value.push('parts')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 188,
-          "line": "if (props.entityKey === 'blockInstance') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 194,
-          "line": "relationshipTypes.push('Booking Cascades')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 197,
-          "line": "relationshipTypes.push(`${blockShapeName.value} Components`)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 200,
-          "line": "relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 202,
-          "line": "} else if (props.entityKey === 'blockShape') {"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 207,
-          "line": "relationshipTypes.push('Valid Cascades')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 210,
-          "line": "relationshipTypes.push('Valid Parts')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 243,
-          "line": "v-if=\"props.entityKey === 'blockInstance'\""
-        }
-      ],
-      "allowed": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 73,
-          "line": "if (items.length === 0) return ''",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 92,
-          "line": "const entity = entities.find(e => e.id === id)",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 107,
-          "line": "if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 127,
-          "line": "return componentType.type === 'relationshipCollection'",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 148,
-          "line": "if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 161,
-          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 167,
-          "line": "if (instance && typeof instance.toggleBulkEditMode === 'function') {",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 188,
-          "line": "if (props.entityKey === 'blockInstance') {",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 202,
-          "line": "} else if (props.entityKey === 'blockShape') {",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 243,
-          "line": "v-if=\"props.entityKey === 'blockInstance'\"",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "push",
-          "lineNumber": 158,
-          "line": "expandedPanels.value.push('parts')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 175,
-          "line": "expandedPanels.value.push('parts')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 194,
-          "line": "relationshipTypes.push('Booking Cascades')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 197,
-          "line": "relationshipTypes.push(`${blockShapeName.value} Components`)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 200,
-          "line": "relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 207,
-          "line": "relationshipTypes.push('Valid Cascades')"
-        },
-        {
-          "ruleId": "push",
-          "lineNumber": 210,
-          "line": "relationshipTypes.push('Valid Parts')"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 14,
       "priority": "P0"
     },
     {
@@ -3036,6 +3414,97 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__utils__transformers__annotationTransformers.ts",
+      "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/annotationTransformers.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 1,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 5,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 87,
+          "line": "id: typeof rawAnnotation.id === 'string' ? toGlobalEntityId(rawAnnotation.id) : toGlobalEntityId(''),"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 116,
+          "line": "return annotations.filter(a => a.userTypeBlock === null)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 122,
+          "line": "return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 124,
+          "line": "return a.userTypeBlock === userTypeBlock"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 140,
+          "line": "return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 174,
+          "line": "typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 87,
+          "line": "id: typeof rawAnnotation.id === 'string' ? toGlobalEntityId(rawAnnotation.id) : toGlobalEntityId(''),"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 116,
+          "line": "return annotations.filter(a => a.userTypeBlock === null)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 122,
+          "line": "return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 124,
+          "line": "return a.userTypeBlock === userTypeBlock"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 140,
+          "line": "return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 174,
+          "line": "typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "id": "client__src__utils__transformers__appointmentToWizardHelpers.ts",
       "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/appointmentToWizardHelpers.ts",
@@ -3070,22 +3539,22 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 156,
+          "lineNumber": 155,
           "line": "if (ids.length === 0 || found.length === ids.length) return"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 208,
           "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 220,
+          "lineNumber": 219,
           "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 235,
+          "lineNumber": 234,
           "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
         }
       ],
@@ -3103,22 +3572,22 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 156,
+          "lineNumber": 155,
           "line": "if (ids.length === 0 || found.length === ids.length) return"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 209,
+          "lineNumber": 208,
           "line": "const currentInstance = found.find(li => li.id === version.id) ?? null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 220,
+          "lineNumber": 219,
           "line": "? allFound.filter(instance => instance.blockShapeRef === blockShapeId)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 235,
+          "lineNumber": 234,
           "line": "const currentInstance = found.find(instance => instance.id === version.id) ?? null"
         }
       ],
@@ -3429,32 +3898,32 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 25,
+          "lineNumber": 27,
           "line": "return versionData.name === instanceData.name &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 26,
+          "lineNumber": 28,
           "line": "versionData.icon === instanceData.icon &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 27,
+          "lineNumber": 29,
           "line": "versionData.baseSqFt === instanceData.baseSqFt &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 28,
+          "lineNumber": 30,
           "line": "versionData.allowMultiple === instanceData.allowMultiple &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 29,
+          "lineNumber": 31,
           "line": "versionData.differential === instanceData.differential;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 110,
           "line": "if (appointments.length === 0) {"
         }
       ],
@@ -3467,32 +3936,32 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 25,
+          "lineNumber": 27,
           "line": "return versionData.name === instanceData.name &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 26,
+          "lineNumber": 28,
           "line": "versionData.icon === instanceData.icon &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 27,
+          "lineNumber": 29,
           "line": "versionData.baseSqFt === instanceData.baseSqFt &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 28,
+          "lineNumber": 30,
           "line": "versionData.allowMultiple === instanceData.allowMultiple &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 29,
+          "lineNumber": 31,
           "line": "versionData.differential === instanceData.differential;"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 110,
           "line": "if (appointments.length === 0) {"
         }
       ],
@@ -4333,37 +4802,37 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
+          "lineNumber": 67,
           "line": "if (affectedEntities.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 83,
+          "lineNumber": 81,
           "line": "if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "for (const childId of activeRelationships) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "for (const childId of activeRelationships) {"
         },
         {
           "ruleId": "push",
-          "lineNumber": 96,
+          "lineNumber": 94,
           "line": "invalidRelationships.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 107,
+          "lineNumber": 104,
           "line": "invalidRelationships.push({"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 131,
+          "lineNumber": 128,
           "line": "logger.debug('Failed to delete invalid active relationship (may already be deleted)', {"
         }
       ],
@@ -4371,119 +4840,38 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 68,
+          "lineNumber": 67,
           "line": "if (affectedEntities.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 83,
+          "lineNumber": 81,
           "line": "if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "for (const childId of activeRelationships) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 93,
+          "lineNumber": 91,
           "line": "for (const childId of activeRelationships) {"
         },
         {
           "ruleId": "push",
-          "lineNumber": 96,
+          "lineNumber": 94,
           "line": "invalidRelationships.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 107,
+          "lineNumber": 104,
           "line": "invalidRelationships.push({"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 131,
+          "lineNumber": 128,
           "line": "logger.debug('Failed to delete invalid active relationship (may already be deleted)', {"
-        }
-      ],
-      "forEachMutationHits": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__utils__transformers__annotationTransformers.ts",
-      "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/annotationTransformers.ts",
-      "counts": {
-        "forEach": 0,
-        "forLoop": 0,
-        "forOf": 0,
-        "forIn": 0,
-        "while": 0,
-        "doWhile": 0,
-        "push": 0,
-        "pop": 0,
-        "shift": 0,
-        "unshift": 0,
-        "splice": 0,
-        "sort": 1,
-        "reverse": 0,
-        "assignIndex": 0,
-        "assignProp": 4,
-        "delete": 0
-      },
-      "matches": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 87,
-          "line": "id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "return annotations.filter(a => a.userTypeBlock === null)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 122,
-          "line": "return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "return a.userTypeBlock === userTypeBlock"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 140,
-          "line": "return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 87,
-          "line": "id: typeof rawAnnotation.id === 'string' ? rawAnnotation.id : '',"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 116,
-          "line": "return annotations.filter(a => a.userTypeBlock === null)"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 122,
-          "line": "return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 124,
-          "line": "return a.userTypeBlock === userTypeBlock"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 140,
-          "line": "return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)"
         }
       ],
       "forEachMutationHits": [],
@@ -4889,339 +5277,339 @@
       "matches": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 37,
+          "lineNumber": 40,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 38,
+          "lineNumber": 41,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 94,
+          "lineNumber": 97,
           "line": "loading.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 95,
+          "lineNumber": 98,
           "line": "error.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 131,
+          "lineNumber": 134,
           "line": "formData.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 147,
+          "lineNumber": 150,
           "line": "error.value = err instanceof Error ? err.message : 'Failed to load settings from API'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 150,
+          "lineNumber": 153,
           "line": "loading.value = false"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 162,
+          "lineNumber": 165,
           "line": "error.value = 'Settings must be loaded before validation'"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 165,
+          "lineNumber": 168,
           "line": "for (let day = 0; day <= 6; day++) {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 173,
+          "lineNumber": 176,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 174,
+          "lineNumber": 177,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 180,
+          "lineNumber": 183,
           "line": "error.value = `${DAY_NAMES[day]}: End time must be after start time`"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 194,
+          "lineNumber": 197,
           "line": "error.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 195,
+          "lineNumber": 198,
           "line": "success.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 198,
+          "lineNumber": 201,
           "line": "error.value = 'Settings must be loaded before saving'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 210,
           "line": "saving.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 241,
+          "lineNumber": 244,
           "line": "settingsToSave.rangeConstraints = formData.value.rangeConstraints"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 245,
+          "lineNumber": 248,
           "line": "businessHoursConstraint.config.hours = formData.value.businessHours"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 248,
+          "lineNumber": 251,
           "line": "settingsToSave.rangeConstraints = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 261,
+          "lineNumber": 265,
           "line": "settingsToSave.buffers = formData.value.buffers"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 267,
+          "lineNumber": 271,
           "line": ";(settingsToSave as Record<string, unknown>).overlapSources = formData.value.overlapSources"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 271,
+          "lineNumber": 275,
           "line": "settingsToSave.maxWorkHours = formData.value.maxWorkHours"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 274,
+          "lineNumber": 278,
           "line": "settingsToSave.timezone = formData.value.timezone"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 278,
+          "lineNumber": 282,
           "line": "settingsToSave.durationRounding = formData.value.durationRounding"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 288,
+          "lineNumber": 292,
           "line": ";(settingsToSave as Record<string, unknown>).differentialPerspectives = perspectives"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 297,
+          "lineNumber": 301,
           "line": ";(settingsToSave as Record<string, unknown>).calendarConfig = calendarConfig"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 306,
+          "lineNumber": 310,
           "line": ";(settingsToSave as Record<string, unknown>).defaultLocation = defaultLocation"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 316,
+          "lineNumber": 320,
           "line": "success.value = 'Settings saved successfully!'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 319,
+          "lineNumber": 323,
           "line": "success.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 324,
+          "lineNumber": 328,
           "line": "error.value = errMsg !== undefined && errMsg !== null && errMsg !== '' ? errMsg : 'Failed to save settings. Please try again.'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 326,
+          "lineNumber": 330,
           "line": "saving.value = false"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 94,
+          "lineNumber": 97,
           "line": "loading.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 95,
+          "lineNumber": 98,
           "line": "error.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 131,
+          "lineNumber": 134,
           "line": "formData.value = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 147,
+          "lineNumber": 150,
           "line": "error.value = err instanceof Error ? err.message : 'Failed to load settings from API'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 150,
+          "lineNumber": 153,
           "line": "loading.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 162,
+          "lineNumber": 165,
           "line": "error.value = 'Settings must be loaded before validation'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 180,
+          "lineNumber": 183,
           "line": "error.value = `${DAY_NAMES[day]}: End time must be after start time`",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 194,
+          "lineNumber": 197,
           "line": "error.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 195,
+          "lineNumber": 198,
           "line": "success.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 198,
+          "lineNumber": 201,
           "line": "error.value = 'Settings must be loaded before saving'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 207,
+          "lineNumber": 210,
           "line": "saving.value = true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 241,
+          "lineNumber": 244,
           "line": "settingsToSave.rangeConstraints = formData.value.rangeConstraints",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 245,
+          "lineNumber": 248,
           "line": "businessHoursConstraint.config.hours = formData.value.businessHours",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 248,
+          "lineNumber": 251,
           "line": "settingsToSave.rangeConstraints = {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 261,
+          "lineNumber": 265,
           "line": "settingsToSave.buffers = formData.value.buffers",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 267,
+          "lineNumber": 271,
           "line": ";(settingsToSave as Record<string, unknown>).overlapSources = formData.value.overlapSources",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 271,
+          "lineNumber": 275,
           "line": "settingsToSave.maxWorkHours = formData.value.maxWorkHours",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 274,
+          "lineNumber": 278,
           "line": "settingsToSave.timezone = formData.value.timezone",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 278,
+          "lineNumber": 282,
           "line": "settingsToSave.durationRounding = formData.value.durationRounding",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 288,
+          "lineNumber": 292,
           "line": ";(settingsToSave as Record<string, unknown>).differentialPerspectives = perspectives",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 297,
+          "lineNumber": 301,
           "line": ";(settingsToSave as Record<string, unknown>).calendarConfig = calendarConfig",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 306,
+          "lineNumber": 310,
           "line": ";(settingsToSave as Record<string, unknown>).defaultLocation = defaultLocation",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 316,
+          "lineNumber": 320,
           "line": "success.value = 'Settings saved successfully!'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 319,
+          "lineNumber": 323,
           "line": "success.value = null",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 324,
+          "lineNumber": 328,
           "line": "error.value = errMsg !== undefined && errMsg !== null && errMsg !== '' ? errMsg : 'Failed to save settings. Please try again.'",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 326,
+          "lineNumber": 330,
           "line": "saving.value = false",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -5230,27 +5618,27 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 37,
+          "lineNumber": 40,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 38,
+          "lineNumber": 41,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 165,
+          "lineNumber": 168,
           "line": "for (let day = 0; day <= 6; day++) {"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 173,
+          "lineNumber": 176,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 174,
+          "lineNumber": 177,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         }
       ],
@@ -5803,22 +6191,22 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 42,
+          "lineNumber": 43,
           "line": "this.name = 'MapsApiError'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 193,
+          "lineNumber": 194,
           "line": "if (axiosError.response?.status === 429) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 196,
+          "lineNumber": 197,
           "line": "if (axiosError.response?.status === 401) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 199,
+          "lineNumber": 200,
           "line": "if (axiosError.response?.status === 404) {"
         }
       ],
@@ -5826,22 +6214,22 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 42,
+          "lineNumber": 43,
           "line": "this.name = 'MapsApiError'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 193,
+          "lineNumber": 194,
           "line": "if (axiosError.response?.status === 429) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 196,
+          "lineNumber": 197,
           "line": "if (axiosError.response?.status === 401) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 199,
+          "lineNumber": 200,
           "line": "if (axiosError.response?.status === 404) {"
         }
       ],
@@ -6755,42 +7143,42 @@
         },
         {
           "ruleId": "push",
-          "lineNumber": 160,
+          "lineNumber": 161,
           "line": "attendeesCollection.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 175,
+          "lineNumber": 176,
           "line": "attendeesCollection.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 191,
+          "lineNumber": 192,
           "line": "attendeesCollection.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 208,
+          "lineNumber": 209,
           "line": "attendeesCollection.push({"
         },
         {
           "ruleId": "push",
-          "lineNumber": 225,
+          "lineNumber": 226,
           "line": "attendeesCollection.push({"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 276,
+          "lineNumber": 277,
           "line": "acc[service.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 284,
+          "lineNumber": 285,
           "line": "acc[property.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 292,
+          "lineNumber": 293,
           "line": "acc[option.id] = number"
         }
       ],
@@ -6804,35 +7192,35 @@
         },
         {
           "ruleId": "push",
-          "lineNumber": 160,
+          "lineNumber": 161,
           "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "push",
-          "lineNumber": 175,
+          "lineNumber": 176,
           "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "push",
-          "lineNumber": 191,
+          "lineNumber": 192,
           "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "push",
-          "lineNumber": 208,
+          "lineNumber": 209,
           "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "push",
-          "lineNumber": 225,
+          "lineNumber": 226,
           "line": "attendeesCollection.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -6841,17 +7229,17 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 276,
+          "lineNumber": 277,
           "line": "acc[service.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 284,
+          "lineNumber": 285,
           "line": "acc[property.id] = number"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 292,
+          "lineNumber": 293,
           "line": "acc[option.id] = number"
         }
       ],
@@ -7502,17 +7890,17 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 107,
+          "lineNumber": 119,
           "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 111,
+          "lineNumber": 123,
           "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 216,
+          "lineNumber": 237,
           "line": "isFree: feeResult.totalFee === 0"
         }
       ],
@@ -7520,17 +7908,17 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 107,
+          "lineNumber": 119,
           "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 111,
+          "lineNumber": 123,
           "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 216,
+          "lineNumber": 237,
           "line": "isFree: feeResult.totalFee === 0"
         }
       ],
@@ -7674,6 +8062,77 @@
           "ruleId": "push",
           "lineNumber": 327,
           "line": "attendees.push({"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__services__propertyFeatureMatcher.ts",
+      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/propertyFeatureMatcher.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 1,
+        "forOf": 1,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 1,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 1,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "sort",
+          "lineNumber": 77,
+          "line": "const sorted = [...mappingRows].sort((a, b) => b.priority - a.priority);"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 79,
+          "line": "for (const m of sorted) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 79,
+          "line": "for (const m of sorted) {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 89,
+          "line": "results.push({"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "sort",
+          "lineNumber": 77,
+          "line": "const sorted = [...mappingRows].sort((a, b) => b.priority - a.priority);"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 79,
+          "line": "for (const m of sorted) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 79,
+          "line": "for (const m of sorted) {"
+        },
+        {
+          "ruleId": "push",
+          "lineNumber": 89,
+          "line": "results.push({"
         }
       ],
       "forEachMutationHits": [],
@@ -7899,7 +8358,7 @@
         "sort": 2,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 4,
+        "assignProp": 6,
         "delete": 0
       },
       "matches": [
@@ -7921,17 +8380,27 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 111,
-          "line": "map.set(String(blockShape.id), blockShape.composable === true)"
+          "line": "map.set(blockShape.id, blockShape.composable === true)"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 127,
-          "line": "map.set(String(blockShape.id), blockShape.isStateControl === true)"
+          "line": "map.set(blockShape.id, blockShape.isStateControl === true)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 152,
+          "line": "rel => rel.parent.id === blockShape.id"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 172,
+          "line": "if (!activeTab.value || !shapes.some(s => s.id === activeTab.value)) {"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 173,
-          "line": "activeTab.value = String(shapes[0].id)"
+          "line": "activeTab.value = shapes[0].id"
         }
       ],
       "allowed": [
@@ -7945,21 +8414,35 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 111,
-          "line": "map.set(String(blockShape.id), blockShape.composable === true)",
+          "line": "map.set(blockShape.id, blockShape.composable === true)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 127,
-          "line": "map.set(String(blockShape.id), blockShape.isStateControl === true)",
+          "line": "map.set(blockShape.id, blockShape.isStateControl === true)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 152,
+          "line": "rel => rel.parent.id === blockShape.id",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 172,
+          "line": "if (!activeTab.value || !shapes.some(s => s.id === activeTab.value)) {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 173,
-          "line": "activeTab.value = String(shapes[0].id)",
+          "line": "activeTab.value = shapes[0].id",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         }
@@ -8340,7 +8823,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 161,
-          "line": "const currentCanHaveParts = (currentEntity as unknown as Record<string, unknown>).canHaveParts === true"
+          "line": "const currentCanHaveParts = 'canHaveParts' in currentEntity && currentEntity.canHaveParts === true"
         },
         {
           "ruleId": "push",
@@ -8350,7 +8833,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 169,
-          "line": "const currentIsStateControl = (currentEntity as unknown as Record<string, unknown>).isStateControl === true"
+          "line": "const currentIsStateControl = 'isStateControl' in currentEntity && currentEntity.isStateControl === true"
         },
         {
           "ruleId": "push",
@@ -8372,7 +8855,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 161,
-          "line": "const currentCanHaveParts = (currentEntity as unknown as Record<string, unknown>).canHaveParts === true",
+          "line": "const currentCanHaveParts = 'canHaveParts' in currentEntity && currentEntity.canHaveParts === true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
@@ -8386,7 +8869,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 169,
-          "line": "const currentIsStateControl = (currentEntity as unknown as Record<string, unknown>).isStateControl === true",
+          "line": "const currentIsStateControl = 'isStateControl' in currentEntity && currentEntity.isStateControl === true",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
@@ -8641,7 +9124,7 @@
         "sort": 1,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 4,
+        "assignProp": 5,
         "delete": 0
       },
       "matches": [
@@ -8667,22 +9150,27 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "allowMultiple: (entity as unknown as { allowMultiple?: boolean }).allowMultiple === true,"
+          "lineNumber": 125,
+          "line": "differential: entity.differential === 'true' ? 'true' as const : 'false' as const,"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "(entity as unknown as { requiresUnitNumber?: boolean | null }).requiresUnitNumber === true"
+          "lineNumber": 131,
+          "line": "allowMultiple: entity.allowMultiple === true,"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 132,
+          "line": "requiresUnitNumber: entity.requiresUnitNumber === true ? true : null,"
         },
         {
           "ruleId": "push",
-          "lineNumber": 166,
+          "lineNumber": 136,
           "line": "instances.push(instance)"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 172,
+          "lineNumber": 142,
           "line": "return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         }
       ],
@@ -8703,21 +9191,28 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 158,
-          "line": "allowMultiple: (entity as unknown as { allowMultiple?: boolean }).allowMultiple === true,",
+          "lineNumber": 125,
+          "line": "differential: entity.differential === 'true' ? 'true' as const : 'false' as const,",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "(entity as unknown as { requiresUnitNumber?: boolean | null }).requiresUnitNumber === true",
+          "lineNumber": 131,
+          "line": "allowMultiple: entity.allowMultiple === true,",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 132,
+          "line": "requiresUnitNumber: entity.requiresUnitNumber === true ? true : null,",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
         {
           "ruleId": "push",
-          "lineNumber": 166,
+          "lineNumber": 136,
           "line": "instances.push(instance)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -8736,7 +9231,7 @@
         },
         {
           "ruleId": "sort",
-          "lineNumber": 172,
+          "lineNumber": 142,
           "line": "return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         }
       ],
@@ -9643,7 +10138,7 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 2,
-        "assignProp": 1,
+        "assignProp": 3,
         "delete": 1
       },
       "matches": [
@@ -9658,9 +10153,19 @@
           "line": "const entityExists = currentEntities.some((e) => e.id === data.id)"
         },
         {
+          "ruleId": "assignProp",
+          "lineNumber": 203,
+          "line": "const entityIndex = currentEntities.findIndex((e) => e.id === variables.id)"
+        },
+        {
           "ruleId": "assignIndex",
           "lineNumber": 214,
           "line": "updatedEntities[entityIndex] = {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 239,
+          "line": "const entityIndex = currentEntities.findIndex((e) => e.id === data.id)"
         },
         {
           "ruleId": "assignIndex",
@@ -9673,6 +10178,20 @@
           "ruleId": "assignProp",
           "lineNumber": 104,
           "line": "const entityExists = currentEntities.some((e) => e.id === data.id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 203,
+          "line": "const entityIndex = currentEntities.findIndex((e) => e.id === variables.id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 239,
+          "line": "const entityIndex = currentEntities.findIndex((e) => e.id === data.id)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         }
@@ -10201,6 +10720,77 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__utils__booking__pricingCascadeResolver.ts",
+      "repoPath": "client/src/utils/booking/pricingCascadeResolver.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/pricingCascadeResolver.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 2,
+        "forOf": 2,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 29,
+          "line": "for (const part of serviceParts) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 29,
+          "line": "for (const part of serviceParts) {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 31,
+          "line": "for (const id of activeIds) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 31,
+          "line": "for (const id of activeIds) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 29,
+          "line": "for (const part of serviceParts) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 29,
+          "line": "for (const part of serviceParts) {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 31,
+          "line": "for (const id of activeIds) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 31,
+          "line": "for (const id of activeIds) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 4,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__utils__booking__selectionCardChildren.ts",
       "repoPath": "client/src/utils/booking/selectionCardChildren.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/selectionCardChildren.ts",
@@ -10373,7 +10963,7 @@
         "reverse": 0,
         "assignIndex": 0,
         "assignProp": 1,
-        "delete": 2
+        "delete": 3
       },
       "matches": [
         {
@@ -10383,23 +10973,28 @@
         },
         {
           "ruleId": "push",
-          "lineNumber": 85,
+          "lineNumber": 89,
           "line": "router.push({ name: 'block-type-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 89,
+          "lineNumber": 93,
           "line": "router.push({ name: 'block-type-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 93,
+          "lineNumber": 97,
           "line": "if (confirm('Are you sure you want to delete this block type?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 97,
-          "line": "alert('Failed to delete block type')"
+          "lineNumber": 101,
+          "line": "logger.error('Failed to delete block type', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 102,
+          "line": "notifyError('Failed to delete block type')"
         }
       ],
       "allowed": [
@@ -10414,23 +11009,28 @@
       "requiresReview": [
         {
           "ruleId": "push",
-          "lineNumber": 85,
+          "lineNumber": 89,
           "line": "router.push({ name: 'block-type-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 89,
+          "lineNumber": 93,
           "line": "router.push({ name: 'block-type-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 93,
+          "lineNumber": 97,
           "line": "if (confirm('Are you sure you want to delete this block type?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 97,
-          "line": "alert('Failed to delete block type')"
+          "lineNumber": 101,
+          "line": "logger.error('Failed to delete block type', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 102,
+          "line": "notifyError('Failed to delete block type')"
         }
       ],
       "forEachMutationHits": [],
@@ -10457,7 +11057,7 @@
         "reverse": 0,
         "assignIndex": 0,
         "assignProp": 1,
-        "delete": 2
+        "delete": 3
       },
       "matches": [
         {
@@ -10467,23 +11067,28 @@
         },
         {
           "ruleId": "push",
-          "lineNumber": 77,
+          "lineNumber": 81,
           "line": "router.push({ name: 'part-instance-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 81,
+          "lineNumber": 85,
           "line": "router.push({ name: 'part-instance-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 85,
+          "lineNumber": 89,
           "line": "if (confirm('Are you sure you want to delete this part instance?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 89,
-          "line": "alert('Failed to delete part instance')"
+          "lineNumber": 93,
+          "line": "logger.error('Failed to delete part instance', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 94,
+          "line": "notifyError('Failed to delete part instance')"
         }
       ],
       "allowed": [
@@ -10498,23 +11103,28 @@
       "requiresReview": [
         {
           "ruleId": "push",
-          "lineNumber": 77,
+          "lineNumber": 81,
           "line": "router.push({ name: 'part-instance-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 81,
+          "lineNumber": 85,
           "line": "router.push({ name: 'part-instance-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 85,
+          "lineNumber": 89,
           "line": "if (confirm('Are you sure you want to delete this part instance?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 89,
-          "line": "alert('Failed to delete part instance')"
+          "lineNumber": 93,
+          "line": "logger.error('Failed to delete part instance', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 94,
+          "line": "notifyError('Failed to delete part instance')"
         }
       ],
       "forEachMutationHits": [],
@@ -10541,7 +11151,7 @@
         "reverse": 0,
         "assignIndex": 0,
         "assignProp": 1,
-        "delete": 2
+        "delete": 3
       },
       "matches": [
         {
@@ -10551,23 +11161,28 @@
         },
         {
           "ruleId": "push",
-          "lineNumber": 76,
+          "lineNumber": 80,
           "line": "router.push({ name: 'part-type-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 80,
+          "lineNumber": 84,
           "line": "router.push({ name: 'part-type-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 84,
+          "lineNumber": 88,
           "line": "if (confirm('Are you sure you want to delete this part type?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 88,
-          "line": "alert('Failed to delete part type')"
+          "lineNumber": 92,
+          "line": "logger.error('Failed to delete part type', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 93,
+          "line": "notifyError('Failed to delete part type')"
         }
       ],
       "allowed": [
@@ -10582,23 +11197,28 @@
       "requiresReview": [
         {
           "ruleId": "push",
-          "lineNumber": 76,
+          "lineNumber": 80,
           "line": "router.push({ name: 'part-type-create' })"
         },
         {
           "ruleId": "push",
-          "lineNumber": 80,
+          "lineNumber": 84,
           "line": "router.push({ name: 'part-type-edit', params: { id: String(id) } })"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 84,
+          "lineNumber": 88,
           "line": "if (confirm('Are you sure you want to delete this part type?')) {"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 88,
-          "line": "alert('Failed to delete part type')"
+          "lineNumber": 92,
+          "line": "logger.error('Failed to delete part type', { error })"
+        },
+        {
+          "ruleId": "delete",
+          "lineNumber": 93,
+          "line": "notifyError('Failed to delete part type')"
         }
       ],
       "forEachMutationHits": [],
@@ -10635,77 +11255,77 @@
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 71,
-          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
+          "lineNumber": 74,
+          "line": "formData.value.businessHours[day as BusinessHoursDay][field] = rfc3339Value"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 74,
-          "line": "businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value"
+          "lineNumber": 77,
+          "line": "businessHoursConstraint.config.hours[day as BusinessHoursDay][field] = rfc3339Value"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 97,
+          "lineNumber": 100,
           "line": "formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 99,
+          "lineNumber": 102,
           "line": "formData.value.calendarConfig.enabled = value"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 112,
           "line": "formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 111,
+          "lineNumber": 114,
           "line": "formData.value.calendarConfig.provider = value"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 141,
+          "lineNumber": 144,
           "line": "error.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 150,
+          "lineNumber": 153,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.enabled = v"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 156,
+          "lineNumber": 159,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.increment = v"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 162,
+          "lineNumber": 165,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.method = v as 'roundUp' | 'roundDown' | 'roundNearest'"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 169,
+          "lineNumber": 172,
           "line": "if (formData.value) formData.value.timezone = v"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 176,
+          "lineNumber": 179,
           "line": "if (formData.value) formData.value.minuteIncrement = v"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 181,
+          "lineNumber": 184,
           "line": "calendarProvider.value = v as CalendarProvider"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 184,
+          "lineNumber": 187,
           "line": "timezone.value = v"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 187,
+          "lineNumber": 190,
           "line": "minuteIncrement.value = v"
         }
       ],
@@ -10719,91 +11339,91 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 97,
+          "lineNumber": 100,
           "line": "formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 99,
+          "lineNumber": 102,
           "line": "formData.value.calendarConfig.enabled = value",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 109,
+          "lineNumber": 112,
           "line": "formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 111,
+          "lineNumber": 114,
           "line": "formData.value.calendarConfig.provider = value",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 141,
+          "lineNumber": 144,
           "line": "error.value = null",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 150,
+          "lineNumber": 153,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.enabled = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 156,
+          "lineNumber": 159,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.increment = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 162,
+          "lineNumber": 165,
           "line": "if (formData.value?.durationRounding) formData.value.durationRounding.method = v as 'roundUp' | 'roundDown' | 'roundNearest'",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 169,
+          "lineNumber": 172,
           "line": "if (formData.value) formData.value.timezone = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 176,
+          "lineNumber": 179,
           "line": "if (formData.value) formData.value.minuteIncrement = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 181,
+          "lineNumber": 184,
           "line": "calendarProvider.value = v as CalendarProvider",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 184,
+          "lineNumber": 187,
           "line": "timezone.value = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 187,
+          "lineNumber": 190,
           "line": "minuteIncrement.value = v",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -10812,13 +11432,84 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 71,
-          "line": "formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value"
+          "lineNumber": 74,
+          "line": "formData.value.businessHours[day as BusinessHoursDay][field] = rfc3339Value"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 74,
-          "line": "businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value"
+          "lineNumber": 77,
+          "line": "businessHoursConstraint.config.hours[day as BusinessHoursDay][field] = rfc3339Value"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__config__brightMlsFoundationMapping.ts",
+      "repoPath": "server/src/config/brightMlsFoundationMapping.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/config/brightMlsFoundationMapping.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 2,
+        "forOf": 2,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 45,
+          "line": "for (const part of lower) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 45,
+          "line": "for (const part of lower) {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 46,
+          "line": "for (const [keyword, mapped] of Object.entries(FOUNDATION_MAPPING)) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 46,
+          "line": "for (const [keyword, mapped] of Object.entries(FOUNDATION_MAPPING)) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 45,
+          "line": "for (const part of lower) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 45,
+          "line": "for (const part of lower) {"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 46,
+          "line": "for (const [keyword, mapped] of Object.entries(FOUNDATION_MAPPING)) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 46,
+          "line": "for (const [keyword, mapped] of Object.entries(FOUNDATION_MAPPING)) {"
         }
       ],
       "forEachMutationHits": [],
@@ -10901,22 +11592,22 @@
       "matches": [
         {
           "ruleId": "forLoop",
-          "lineNumber": 107,
+          "lineNumber": 100,
           "line": "for (const [key, entry] of cache.entries()) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 107,
+          "lineNumber": 100,
           "line": "for (const [key, entry] of cache.entries()) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 198,
+          "lineNumber": 191,
           "line": "for (const key of cache.keys()) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 198,
+          "lineNumber": 191,
           "line": "for (const key of cache.keys()) {"
         }
       ],
@@ -10924,22 +11615,22 @@
       "requiresReview": [
         {
           "ruleId": "forLoop",
-          "lineNumber": 107,
+          "lineNumber": 100,
           "line": "for (const [key, entry] of cache.entries()) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 107,
+          "lineNumber": 100,
           "line": "for (const [key, entry] of cache.entries()) {"
         },
         {
           "ruleId": "forLoop",
-          "lineNumber": 198,
+          "lineNumber": 191,
           "line": "for (const key of cache.keys()) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 198,
+          "lineNumber": 191,
           "line": "for (const key of cache.keys()) {"
         }
       ],
@@ -11850,24 +12541,24 @@
       "matches": [
         {
           "ruleId": "forLoop",
-          "lineNumber": 304,
+          "lineNumber": 298,
           "line": "for (const opt of optionsArray) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 304,
+          "lineNumber": 298,
           "line": "for (const opt of optionsArray) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 313,
+          "lineNumber": 307,
           "line": "if (item.title === String(item.value) && matchingOption) {"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 313,
+          "lineNumber": 307,
           "line": "if (item.title === String(item.value) && matchingOption) {",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -11876,12 +12567,12 @@
       "requiresReview": [
         {
           "ruleId": "forLoop",
-          "lineNumber": 304,
+          "lineNumber": 298,
           "line": "for (const opt of optionsArray) {"
         },
         {
           "ruleId": "forOf",
-          "lineNumber": 304,
+          "lineNumber": 298,
           "line": "for (const opt of optionsArray) {"
         }
       ],
@@ -11914,31 +12605,31 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 171,
+          "lineNumber": 162,
           "line": "if (!metadata || Object.keys(metadata).length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 178,
+          "lineNumber": 169,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 203,
+          "lineNumber": 194,
           "line": "acc[field] = numericValue"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 171,
+          "lineNumber": 162,
           "line": "if (!metadata || Object.keys(metadata).length === 0) {",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 178,
+          "lineNumber": 169,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -11947,7 +12638,7 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 203,
+          "lineNumber": 194,
           "line": "acc[field] = numericValue"
         }
       ],
@@ -11974,10 +12665,15 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 1,
-        "assignProp": 3,
+        "assignProp": 4,
         "delete": 0
       },
       "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 119,
+          "line": ".filter(rel => rel.parent.id === props.blockInstanceId)"
+        },
         {
           "ruleId": "assignProp",
           "lineNumber": 125,
@@ -11985,21 +12681,28 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 201,
+          "lineNumber": 192,
           "line": "if (!metadata || Object.keys(metadata).length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 199,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 233,
+          "lineNumber": 224,
           "line": "(acc as Record<string, number>)[field] = numericValue"
         }
       ],
       "allowed": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 119,
+          "line": ".filter(rel => rel.parent.id === props.blockInstanceId)",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
         {
           "ruleId": "assignProp",
           "lineNumber": 125,
@@ -12009,14 +12712,14 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 201,
+          "lineNumber": 192,
           "line": "if (!metadata || Object.keys(metadata).length === 0) {",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 208,
+          "lineNumber": 199,
           "line": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -12025,8 +12728,182 @@
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 233,
+          "lineNumber": 224,
           "line": "(acc as Record<string, number>)[field] = numericValue"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__beta__BetaFeedbackDashboard.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackDashboard.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/beta/BetaFeedbackDashboard.vue",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 1,
+        "assignProp": 11,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 92,
+          "line": "<template #item.status=\"{ item }\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 97,
+          "line": "<template #item.category=\"{ item }\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 100,
+          "line": "<template #item.severity=\"{ item }\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "<template #item.createdAt=\"{ item }\">"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 168,
+          "line": "(i) => i.category === 'bug' && i.status !== 'resolved' && i.status !== 'wont_fix'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 218,
+          "line": "selectedFeedback.value = item;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "detailOpen.value = true;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 223,
+          "line": "loading.value = true;"
+        },
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 225,
+          "line": "const [list, statsData] = await Promise.all(["
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 229,
+          "line": "items.value = list;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 230,
+          "line": "stats.value = statsData;"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "loading.value = false;"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 92,
+          "line": "<template #item.status=\"{ item }\">",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 97,
+          "line": "<template #item.category=\"{ item }\">",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 100,
+          "line": "<template #item.severity=\"{ item }\">",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "<template #item.createdAt=\"{ item }\">",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 168,
+          "line": "(i) => i.category === 'bug' && i.status !== 'resolved' && i.status !== 'wont_fix'",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 218,
+          "line": "selectedFeedback.value = item;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 219,
+          "line": "detailOpen.value = true;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 223,
+          "line": "loading.value = true;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 229,
+          "line": "items.value = list;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 230,
+          "line": "stats.value = statsData;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "loading.value = false;",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "assignIndex",
+          "lineNumber": 225,
+          "line": "const [list, statsData] = await Promise.all(["
         }
       ],
       "forEachMutationHits": [],
@@ -12951,6 +13828,370 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__composables__booking__usePropertyDetailsLogic.ts",
+      "repoPath": "client/src/composables/booking/usePropertyDetailsLogic.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/usePropertyDetailsLogic.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 1,
+        "forOf": 1,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 26,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 96,
+          "line": "return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "selected => selected.isMultiFamily === true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 130,
+          "line": "return blockShapeWithComposable.composable === true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 207,
+          "line": "formData.address.value = `${streetNumber} ${streetName}`.trim()"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 208,
+          "line": "formData.city.value = addressField(addressComponents.city, 'city')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 209,
+          "line": "formData.state.value = addressField(addressComponents.state, 'state')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 210,
+          "line": "formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 213,
+          "line": "formData.candidatePlaceId.value = placeId"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "formData.candidateCoordinates.value = coordinates"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 217,
+          "line": "isAddressExpanded.value = true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "isAddressExpanded.value = true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 241,
+          "line": "isAddressExpanded.value = false"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 260,
+          "line": "isEnrichmentLoading.value = true"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 261,
+          "line": "if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 275,
+          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 276,
+          "line": "formData.squareFootage.value = enrichment.squareFootage"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 277,
+          "line": "formData.bedrooms.value = enrichment.bedrooms"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 278,
+          "line": "formData.bathrooms.value = enrichment.bathrooms"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 279,
+          "line": "formData.foundationAccess.value = enrichment.foundationAccess"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 280,
+          "line": "formData.additionalUnits.value = enrichment.additionalUnits"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 281,
+          "line": "if (formData.source) formData.source.value = 'api'"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 283,
+          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 287,
+          "line": "formData.propertySize.value = enrichment.squareFootage"
+        },
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 295,
+          "line": "for (const id of suggestedIds) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 295,
+          "line": "for (const id of suggestedIds) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 296,
+          "line": "const propBlock = propBlocks.find((b) => b.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 301,
+          "line": "const lineBlock = lineBlocks.find((b) => b.id === id)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 309,
+          "line": "isEnrichmentLoading.value = false"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 96,
+          "line": "return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 105,
+          "line": "selected => selected.isMultiFamily === true",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 130,
+          "line": "return blockShapeWithComposable.composable === true",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 207,
+          "line": "formData.address.value = `${streetNumber} ${streetName}`.trim()",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 208,
+          "line": "formData.city.value = addressField(addressComponents.city, 'city')",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 209,
+          "line": "formData.state.value = addressField(addressComponents.state, 'state')",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 210,
+          "line": "formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 213,
+          "line": "formData.candidatePlaceId.value = placeId",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 214,
+          "line": "formData.candidateCoordinates.value = coordinates",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 217,
+          "line": "isAddressExpanded.value = true",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 232,
+          "line": "isAddressExpanded.value = true",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 241,
+          "line": "isAddressExpanded.value = false",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 260,
+          "line": "isEnrichmentLoading.value = true",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 261,
+          "line": "if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 275,
+          "line": "formData.mlsNumber.value = enrichment.mlsNumber ?? ''",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 276,
+          "line": "formData.squareFootage.value = enrichment.squareFootage",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 277,
+          "line": "formData.bedrooms.value = enrichment.bedrooms",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 278,
+          "line": "formData.bathrooms.value = enrichment.bathrooms",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 279,
+          "line": "formData.foundationAccess.value = enrichment.foundationAccess",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 280,
+          "line": "formData.additionalUnits.value = enrichment.additionalUnits",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 281,
+          "line": "if (formData.source) formData.source.value = 'api'",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 283,
+          "line": "formData.suggestedBlockInstanceIds.value = enrichment.suggestedBlockInstanceIds ?? []",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 287,
+          "line": "formData.propertySize.value = enrichment.squareFootage",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 296,
+          "line": "const propBlock = propBlocks.find((b) => b.id === id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 301,
+          "line": "const lineBlock = lineBlocks.find((b) => b.id === id)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 309,
+          "line": "isEnrichmentLoading.value = false",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 295,
+          "line": "for (const id of suggestedIds) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 295,
+          "line": "for (const id of suggestedIds) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__composables__booking__useWizardNavigation.ts",
       "repoPath": "client/src/composables/booking/useWizardNavigation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardNavigation.ts",
@@ -13063,24 +14304,24 @@
       "matches": [
         {
           "ruleId": "forEach",
-          "lineNumber": 14,
+          "lineNumber": 15,
           "line": "relationships.forEach((rel) => {"
         },
         {
           "ruleId": "forEach",
-          "lineNumber": 17,
+          "lineNumber": 18,
           "line": "rel.children.forEach((child, index) => {"
         },
         {
           "ruleId": "push",
-          "lineNumber": 18,
+          "lineNumber": 19,
           "line": "instanceComponents.push({"
         }
       ],
       "allowed": [
         {
           "ruleId": "push",
-          "lineNumber": 18,
+          "lineNumber": 19,
           "line": "instanceComponents.push({",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -13089,12 +14330,12 @@
       "requiresReview": [
         {
           "ruleId": "forEach",
-          "lineNumber": 14,
+          "lineNumber": 15,
           "line": "relationships.forEach((rel) => {"
         },
         {
           "ruleId": "forEach",
-          "lineNumber": 17,
+          "lineNumber": 18,
           "line": "rel.children.forEach((child, index) => {"
         }
       ],
@@ -13121,7 +14362,7 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 1,
-        "assignProp": 2,
+        "assignProp": 4,
         "delete": 0
       },
       "matches": [
@@ -13129,6 +14370,16 @@
           "ruleId": "assignProp",
           "lineNumber": 47,
           "line": "if (axiosError.response?.status === 404) {"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "rel => !rel.children.some(child => child.id === errorId)"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 108,
+          "line": "entity.id === variables.dynamicId"
         },
         {
           "ruleId": "assignIndex",
@@ -13146,6 +14397,20 @@
           "ruleId": "assignProp",
           "lineNumber": 47,
           "line": "if (axiosError.response?.status === 404) {",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "rel => !rel.children.some(child => child.id === errorId)",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 108,
+          "line": "entity.id === variables.dynamicId",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
@@ -13250,6 +14515,47 @@
           "ruleId": "forEach",
           "lineNumber": 234,
           "line": "entities.forEach((entity) => {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__configs__availabilitySettings.ts",
+      "repoPath": "client/src/configs/availabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/configs/availabilitySettings.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 1,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 192,
+          "line": "('category' in c && c.category === 'range' ? c : { ...c, category: 'range' as const }) as RangeConstraint"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 192,
+          "line": "('category' in c && c.category === 'range' ? c : { ...c, category: 'range' as const }) as RangeConstraint"
         }
       ],
       "forEachMutationHits": [],
@@ -13567,7 +14873,7 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 49,
+          "lineNumber": 54,
           "line": "if (to.path.startsWith('/admin') || to.name === 'admin-panel') {"
         }
       ],
@@ -13575,7 +14881,7 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 49,
+          "lineNumber": 54,
           "line": "if (to.path.startsWith('/admin') || to.name === 'admin-panel') {"
         }
       ],
@@ -13608,7 +14914,7 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 46,
+          "lineNumber": 48,
           "line": "AttendeeSelect = \"attendeeSelect\", // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true"
         }
       ],
@@ -13616,7 +14922,7 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 46,
+          "lineNumber": 48,
           "line": "AttendeeSelect = \"attendeeSelect\", // LEARNING: Attendee assignments filter BlockInstances by BlockShape.isStateControl === true"
         }
       ],
@@ -14110,16 +15416,16 @@
       "matches": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 44,
-          "line": "windowWithDebug[key] = debugObject"
+          "lineNumber": 43,
+          "line": ";(window as WindowWithDebug)[key] = debugObject"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 44,
-          "line": "windowWithDebug[key] = debugObject"
+          "lineNumber": 43,
+          "line": ";(window as WindowWithDebug)[key] = debugObject"
         }
       ],
       "forEachMutationHits": [],
@@ -14407,31 +15713,31 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 226,
+          "lineNumber": 225,
           "line": "rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 276,
+          "lineNumber": 275,
           "line": "const [entitiesResponse, relationshipsResponse] = await Promise.all(["
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 398,
+          "lineNumber": 397,
           "line": ".filter((entry): entry is [string, unknown] => entry !== null)"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignIndex",
-          "lineNumber": 276,
+          "lineNumber": 275,
           "line": "const [entitiesResponse, relationshipsResponse] = await Promise.all([",
           "reason": "destructuring Promise.all result, not loop mutation",
           "source": "inline"
         },
         {
           "ruleId": "assignIndex",
-          "lineNumber": 398,
+          "lineNumber": 397,
           "line": ".filter((entry): entry is [string, unknown] => entry !== null)",
           "reason": "type guard filter, no mutation",
           "source": "inline"
@@ -14440,7 +15746,7 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 226,
+          "lineNumber": 225,
           "line": "rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled"
         }
       ],
@@ -14678,7 +15984,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 194,
-          "line": "createModalBlockShapeId.value = blockShapeId"
+          "line": "createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)"
         },
         {
           "ruleId": "assignProp",
@@ -14693,7 +15999,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 202,
-          "line": "createModalBlockShapeId.value = blockInstanceEntity.blockShapeRef"
+          "line": "createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)"
         },
         {
           "ruleId": "assignProp",
@@ -14712,87 +16018,87 @@
         },
         {
           "ruleId": "sort",
-          "lineNumber": 244,
+          "lineNumber": 245,
           "line": "return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 302,
+          "lineNumber": 303,
           "line": "if (eventShapes.value.length === 0) {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 306,
+          "lineNumber": 307,
           "line": "newEventInstanceData.value = {"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 313,
+          "lineNumber": 314,
           "line": "isCreatingEventInstance.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 314,
+          "lineNumber": 315,
           "line": "expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 320,
+          "lineNumber": 321,
           "line": "isCreatingEventInstanceLoading.value = true"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 333,
-          "line": "isCreatingEventInstance.value = false"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 334,
-          "line": "newEventInstanceData.value = null"
+          "line": "isCreatingEventInstance.value = false"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 335,
-          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 339,
-          "line": "isCreatingEventInstanceLoading.value = false"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 344,
-          "line": "isCreatingEventInstance.value = false"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 345,
           "line": "newEventInstanceData.value = null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 346,
+          "lineNumber": 336,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 496,
+          "lineNumber": 340,
+          "line": "isCreatingEventInstanceLoading.value = false"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 345,
+          "line": "isCreatingEventInstance.value = false"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 346,
+          "line": "newEventInstanceData.value = null"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 347,
+          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 497,
           "line": "panelsRef.value = el as ComponentPublicInstance | HTMLElement | null"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 556,
-          "line": "(blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 557,
-          "line": "(groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0"
+          "line": "(blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 738,
+          "lineNumber": 558,
+          "line": "(groupedInstancesByShape.get(blockShape.id) || []).length === 0"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 739,
           "line": "v-if=\"sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'\""
         }
       ],
@@ -14800,7 +16106,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 194,
-          "line": "createModalBlockShapeId.value = blockShapeId",
+          "line": "createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
@@ -14821,7 +16127,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 202,
-          "line": "createModalBlockShapeId.value = blockInstanceEntity.blockShapeRef",
+          "line": "createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
@@ -14848,112 +16154,112 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 302,
+          "lineNumber": 303,
           "line": "if (eventShapes.value.length === 0) {",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 306,
+          "lineNumber": 307,
           "line": "newEventInstanceData.value = {",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 313,
+          "lineNumber": 314,
           "line": "isCreatingEventInstance.value = true",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 314,
+          "lineNumber": 315,
           "line": "expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 320,
+          "lineNumber": 321,
           "line": "isCreatingEventInstanceLoading.value = true",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 333,
-          "line": "isCreatingEventInstance.value = false",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 334,
-          "line": "newEventInstanceData.value = null",
+          "line": "isCreatingEventInstance.value = false",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
           "lineNumber": 335,
-          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 339,
-          "line": "isCreatingEventInstanceLoading.value = false",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 344,
-          "line": "isCreatingEventInstance.value = false",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
-          "lineNumber": 345,
           "line": "newEventInstanceData.value = null",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 346,
+          "lineNumber": 336,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 496,
+          "lineNumber": 340,
+          "line": "isCreatingEventInstanceLoading.value = false",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 345,
+          "line": "isCreatingEventInstance.value = false",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 346,
+          "line": "newEventInstanceData.value = null",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 347,
+          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 497,
           "line": "panelsRef.value = el as ComponentPublicInstance | HTMLElement | null",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 556,
-          "line": "(blockInstancesLists.get(String(blockShape.id))?.value || mainInstancesByShape.get(String(blockShape.id)) || []).length === 0 &&",
-          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "assignProp",
           "lineNumber": 557,
-          "line": "(groupedInstancesByShape.get(String(blockShape.id)) || []).length === 0",
+          "line": "(blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 738,
+          "lineNumber": 558,
+          "line": "(groupedInstancesByShape.get(blockShape.id) || []).length === 0",
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 739,
           "line": "v-if=\"sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'\"",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -14962,7 +16268,7 @@
       "requiresReview": [
         {
           "ruleId": "sort",
-          "lineNumber": 244,
+          "lineNumber": 245,
           "line": "return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         }
       ],
@@ -14995,7 +16301,7 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 32,
+          "lineNumber": 33,
           "line": "return blockShape.composable === true;"
         }
       ],
@@ -15003,7 +16309,7 @@
       "requiresReview": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 32,
+          "lineNumber": 33,
           "line": "return blockShape.composable === true;"
         }
       ],
@@ -15217,6 +16523,98 @@
       "priority": "P2"
     },
     {
+      "id": "server__src__services__propertyEnrichmentCache.ts",
+      "repoPath": "server/src/services/propertyEnrichmentCache.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/propertyEnrichmentCache.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 1,
+        "forOf": 1,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 0,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 40,
+          "line": "for (const [key, entry] of cache.entries()) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 40,
+          "line": "for (const [key, entry] of cache.entries()) {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "forLoop",
+          "lineNumber": 40,
+          "line": "for (const [key, entry] of cache.entries()) {"
+        },
+        {
+          "ruleId": "forOf",
+          "lineNumber": 40,
+          "line": "for (const [key, entry] of cache.entries()) {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__test__setup__jestSetup.ts",
+      "repoPath": "server/src/test/setup/jestSetup.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/test/setup/jestSetup.ts",
+      "counts": {
+        "forEach": 0,
+        "forLoop": 0,
+        "forOf": 0,
+        "forIn": 0,
+        "while": 0,
+        "doWhile": 0,
+        "push": 0,
+        "pop": 0,
+        "shift": 0,
+        "unshift": 0,
+        "splice": 0,
+        "sort": 0,
+        "reverse": 0,
+        "assignIndex": 0,
+        "assignProp": 1,
+        "delete": 0
+      },
+      "matches": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 16,
+          "line": "global.console = {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 16,
+          "line": "global.console = {"
+        }
+      ],
+      "forEachMutationHits": [],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "id": "server__src__utils__adminPrimitiveMetadataComposer.ts",
       "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/adminPrimitiveMetadataComposer.ts",
@@ -15399,7 +16797,7 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 1,
+        "assignProp": 2,
         "delete": 0
       },
       "matches": [
@@ -15407,6 +16805,11 @@
           "ruleId": "assignProp",
           "lineNumber": 61,
           "line": "return shape?.type === BLOCK_SHAPE_TYPES.SERVICE"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "rel => rel.parentId === block.id && !rel.disabled"
         },
         {
           "ruleId": "forLoop",
@@ -15429,6 +16832,13 @@
           "ruleId": "assignProp",
           "lineNumber": 61,
           "line": "return shape?.type === BLOCK_SHAPE_TYPES.SERVICE",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 66,
+          "line": "rel => rel.parentId === block.id && !rel.disabled",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
@@ -15483,7 +16893,7 @@
       "matches": [
         {
           "ruleId": "forEach",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "changedFields.forEach(fieldKey => {"
         }
       ],
@@ -15491,7 +16901,7 @@
       "requiresReview": [
         {
           "ruleId": "forEach",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "changedFields.forEach(fieldKey => {"
         }
       ],
@@ -15540,7 +16950,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 109,
-          "line": "entityIds.value = filteredEntities.value.map(entity => String(entity.id))"
+          "line": "entityIds.value = filteredEntities.value.map(entity => entity.id)"
         }
       ],
       "allowed": [
@@ -15561,7 +16971,7 @@
         {
           "ruleId": "assignProp",
           "lineNumber": 109,
-          "line": "entityIds.value = filteredEntities.value.map(entity => String(entity.id))",
+          "line": "entityIds.value = filteredEntities.value.map(entity => entity.id)",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         }
@@ -15602,19 +17012,19 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 120,
+          "lineNumber": 123,
           "line": "if (Object.keys(editData).length === 0) {"
         },
         {
           "ruleId": "forEach",
-          "lineNumber": 149,
+          "lineNumber": 152,
           "line": "map.forEach((_instances, blockShapeId) => {"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 120,
+          "lineNumber": 123,
           "line": "if (Object.keys(editData).length === 0) {",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
@@ -15623,7 +17033,7 @@
       "requiresReview": [
         {
           "ruleId": "forEach",
-          "lineNumber": 149,
+          "lineNumber": 152,
           "line": "map.forEach((_instances, blockShapeId) => {"
         }
       ],
@@ -15840,7 +17250,7 @@
         "sort": 0,
         "reverse": 0,
         "assignIndex": 0,
-        "assignProp": 1,
+        "assignProp": 2,
         "delete": 0
       },
       "matches": [
@@ -15848,6 +17258,11 @@
           "ruleId": "push",
           "lineNumber": 40,
           "line": "instanceCallSites.push({ count: instanceCount, stack: callSite.stack })"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined"
         },
         {
           "ruleId": "forEach",
@@ -15865,6 +17280,13 @@
           "ruleId": "push",
           "lineNumber": 40,
           "line": "instanceCallSites.push({ count: instanceCount, stack: callSite.stack })",
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
+          "source": "pattern"
+        },
+        {
+          "ruleId": "assignProp",
+          "lineNumber": 89,
+          "line": "return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined",
           "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern",
           "source": "pattern"
         },
@@ -16043,48 +17465,48 @@
       "matches": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "const char = event.key === 'Enter' ? '\\n' : ' '"
+          "lineNumber": 167,
+          "line": "const char = event.key === KEY_ENTER ? '\\n' : ' '"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 164,
-          "line": "el.value = next"
+          "lineNumber": 170,
+          "line": "editable.value = before + char + after"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 173,
+          "lineNumber": 178,
           "line": "* PATTERN: Composable handles entity name, success message, and delete title"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 350,
+          "lineNumber": 352,
           "line": "* LEARNING: Use entity card actions composable for save/reset/delete handlers"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 628,
+          "lineNumber": 621,
           "line": "<div v-if=\"composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'\" class=\"title-row-field\">"
         }
       ],
       "allowed": [
         {
           "ruleId": "assignProp",
-          "lineNumber": 160,
-          "line": "const char = event.key === 'Enter' ? '\\n' : ' '",
+          "lineNumber": 167,
+          "line": "const char = event.key === KEY_ENTER ? '\\n' : ' '",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 164,
-          "line": "el.value = next",
+          "lineNumber": 170,
+          "line": "editable.value = before + char + after",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 628,
+          "lineNumber": 621,
           "line": "<div v-if=\"composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'\" class=\"title-row-field\">",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"
@@ -16093,12 +17515,12 @@
       "requiresReview": [
         {
           "ruleId": "delete",
-          "lineNumber": 173,
+          "lineNumber": 178,
           "line": "* PATTERN: Composable handles entity name, success message, and delete title"
         },
         {
           "ruleId": "delete",
-          "lineNumber": 350,
+          "lineNumber": 352,
           "line": "* LEARNING: Use entity card actions composable for save/reset/delete handlers"
         }
       ],
@@ -17683,7 +19105,7 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 445,
+          "lineNumber": 447,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))"
         }
       ],
@@ -17949,7 +19371,7 @@
         },
         {
           "ruleId": "assignProp",
-          "lineNumber": 445,
+          "lineNumber": 447,
           "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))",
           "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns",
           "source": "pattern"

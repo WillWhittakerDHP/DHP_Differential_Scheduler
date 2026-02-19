@@ -10,7 +10,7 @@
 
 import axios, { AxiosError } from 'axios'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
-import { MAPS_ERROR_MESSAGES, type RouteMatrixStatus } from '@/constants/mapsConstants'
+import { MAPS_ERROR_MESSAGES } from '@/constants/mapsConstants'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
 import type {
@@ -19,10 +19,12 @@ import type {
   Coordinates,
   MapsApiErrorType,
   PlaceDetails,
-  RouteLocation
+  RouteLocation,
+  RouteMatrixResult,
+  RouteMatrixStatus
 } from '@shared/types/mapsTypes'
 
-export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails, RouteLocation }
+export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails, RouteLocation, RouteMatrixResult, RouteMatrixStatus }
 
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
@@ -248,18 +250,6 @@ export interface DriveTimeResult {
   _meta?: {
     source: 'calculated' | 'estimated' | 'cache'
   }
-}
-
-/**
- * Route matrix result for a single origin-destination pair
- * LEARNING: Used for batch calculations
- */
-export interface RouteMatrixResult {
-  originIndex: number
-  destinationIndex: number
-  durationSeconds: number
-  distanceMeters: number
-  status: RouteMatrixStatus
 }
 
 // Phase 9: Removed fetchDriveTime and fetchRouteMatrix

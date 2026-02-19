@@ -40,6 +40,5 @@ export function attachDebugToWindow(
   }
 
   // PATTERN: Use interface extension and type assertion via unknown
-  const windowWithDebug = window as unknown as WindowWithDebug
-  windowWithDebug[key] = debugObject
+  ;(window as WindowWithDebug)[key] = debugObject
 }

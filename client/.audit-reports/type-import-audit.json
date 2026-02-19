@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
-  "generatedAt": "2026-02-18T21:18:58.434Z",
-  "totalScanned": 784,
+  "generatedAt": "2026-02-18T23:00:36.159Z",
+  "totalScanned": 786,
   "valueImportFromTypeOnlyFile": [],
   "typeUsedAsValue": [
     {

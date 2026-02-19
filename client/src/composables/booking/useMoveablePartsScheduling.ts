@@ -8,7 +8,7 @@
  */
 
 import { computed, ref, watchEffect, type ComputedRef } from 'vue'
-import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
+import type { AppointmentShape, AppointmentSlot, TimeRange } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
 import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
@@ -119,7 +119,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const duration = moveableDuration.value
     
     // PATTERN: Find major event shape using attendee-based logic, then use its name to look up time range
-    let majorTimeRange: import('@/types/appointment').TimeRange | null = null
+    let majorTimeRange: TimeRange | null = null
     const globalData = getGlobalData()
     if (globalData && settings.value?.differentialPerspectives && slot.shape.slotShape.eventFinals.length > 0) {
       const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []

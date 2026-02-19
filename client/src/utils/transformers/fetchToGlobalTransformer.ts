@@ -36,9 +36,8 @@ function applyAnnotationInstanceNameFallback(
   entities: GlobalEntity<'annotationInstance'>[]
 ): GlobalEntity<'annotationInstance'>[] {
   return entities.map((entity) => {
-    const record = entity as unknown as Record<string, unknown>
-    if (record.name != null) return entity
-    if (record.text != null) return { ...entity, name: record.text } as GlobalEntity<'annotationInstance'>
+    if (entity.name != null) return entity
+    if (entity.text != null) return { ...entity, name: String(entity.text) } as GlobalEntity<'annotationInstance'>
     return entity
   })
 }

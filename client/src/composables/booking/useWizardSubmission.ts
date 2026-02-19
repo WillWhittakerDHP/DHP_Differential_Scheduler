@@ -9,6 +9,9 @@
 import { type Ref } from 'vue'
 import type { AppointmentRequest } from '@/types/appointment'
 import { ERROR_CREATE_APPOINTMENT } from '@/constants/errorMessages'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useWizardSubmission')
 
 export interface UseWizardSubmissionParams {
   collectAppointmentData: () => Promise<AppointmentRequest | null>
@@ -67,6 +70,7 @@ export function useWizardSubmission(
       }
       activeStep.value = 4 // Confirmation step is at index 4
     } catch (error) {
+      logger.error('Create appointment failed', { error })
       const errorMessage = error instanceof Error ? error.message : ERROR_CREATE_APPOINTMENT
       showError(errorMessage)
     }

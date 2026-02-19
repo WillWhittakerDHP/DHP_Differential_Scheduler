@@ -121,6 +121,9 @@ import { VForm } from 'vuetify/components';
 import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
 import { useNotification } from '@/composables/useNotification';
 import type { FeedbackCategory, FeedbackSeverity } from '@/types/betaFeedback';
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('BetaFeedbackModal');
 
 const props = defineProps<{ modelValue: boolean }>();
 const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>();
@@ -222,6 +225,7 @@ async function handleSubmit() {
     form.expectedBehavior = '';
     form.actualBehavior = '';
   } catch (err) {
+    logger.error('Failed to submit feedback', { err });
     const message = err && typeof err === 'object' && 'response' in err
       ? (err as { response?: { data?: { error?: string } } }).response?.data?.error
       : null;

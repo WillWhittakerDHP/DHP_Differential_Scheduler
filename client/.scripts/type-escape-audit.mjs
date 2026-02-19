@@ -7,6 +7,7 @@ import {
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -15,7 +16,8 @@ import {
  * Surfaces code that can hide or obscure type errors (type assertions, TS directives)
  * so it can be cleaned or justified before relying on typecheck.
  *
- * Rules: as-any, as-unknown, as-unknown-as, ts-ignore, ts-expect-error
+ * Rules: as-any, as-unknown, as-unknown-as, ts-ignore, ts-expect-error,
+ *         as-keyof-typeof, as-typeof-index, as-keyof-named
  *
  * Scope: client/src and server/src (.ts, .tsx, .vue, .mjs). For .vue, scan <script> only.
  * Excluded: global exclusions (audit-global-config.json) + central allowlist (audit-global-config.json allowlists.type-escape).
@@ -45,6 +47,9 @@ const RULE_WEIGHTS = {
   'as-unknown-as': 4,
   'ts-ignore': 2,
   'ts-expect-error': 1,
+  'as-keyof-typeof': 2,
+  'as-typeof-index': 2,
+  'as-keyof-named': 1,
 }
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
@@ -67,10 +72,10 @@ function listFilesRecursive(dirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const e of entries) {
       const full = path.join(dirPath, e.name)
-      const rp = toRepoPath(full)
-      if (rp.includes('node_modules') || rp.includes('/dist/') || rp.includes('.git/')) continue
-      if (e.isDirectory()) files.push(...listFilesRecursive(full))
-      else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
+      if (e.isDirectory()) {
+        if (shouldPruneDirectory(e.name)) continue
+        files.push(...listFilesRecursive(full))
+      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files
@@ -82,6 +87,9 @@ const RULES = [
   { ruleId: 'as-unknown', pattern: /\bas\s+unknown\b(?!\s+as\s+)/g, message: 'Single as unknown' },
   { ruleId: 'ts-ignore', pattern: /@ts-ignore/g, message: 'Suppresses next line' },
   { ruleId: 'ts-expect-error', pattern: /@ts-expect-error/g, message: 'Suppresses next line (expected error)' },
+  { ruleId: 'as-keyof-typeof', pattern: /\bas\s+keyof\s+typeof\b/g, message: 'Key type assertion — variable type does not match object key type' },
+  { ruleId: 'as-typeof-index', pattern: /\bas\s+\(typeof\s+\w+\)\s*\[/g, message: 'Const array element assertion — value cast to array element type' },
+  { ruleId: 'as-keyof-named', pattern: /\bas\s+keyof\s+[A-Z]\w+/g, message: 'Named type key assertion — value asserted as key of specific type' },
 ]
 
 function extractScriptContent(content, absPath) {
@@ -93,6 +101,29 @@ function extractScriptContent(content, absPath) {
 function snippetFromLine(line, maxLen = 80) {
   const trimmed = line.trim()
   return trimmed.length > maxLen ? trimmed.slice(0, maxLen - 3) + '...' : trimmed
+}
+
+/**
+ * Classifies key-assertion findings by their likely fix strategy.
+ * Returns a short actionable hint string, or undefined for non-key-assertion rules.
+ */
+function inferFixHint(ruleId, line) {
+  if (ruleId === 'as-keyof-typeof') {
+    if (/\bfor\s*\(/.test(line) || /\bof\s+/.test(line) || /\bfor\b/.test(line))
+      return 'Tighten array to `as const` or define a key union type'
+    if (/\bday\b/i.test(line) || /\[\s*\d/.test(line))
+      return 'Define a numeric union type for valid indices'
+    if (/<\w+>/.test(line))
+      return 'Add a type constraint connecting the generic parameter to the object type'
+    return 'Type the indexing variable more narrowly to match the object key type'
+  }
+  if (ruleId === 'as-typeof-index') {
+    return 'Use a type guard function instead of asserting into .includes()'
+  }
+  if (ruleId === 'as-keyof-named') {
+    return 'Type the input parameter more narrowly to match the target key type'
+  }
+  return undefined
 }
 
 function scanFile(content, repoPath, absPath, configAllowlist) {
@@ -109,13 +140,16 @@ function scanFile(content, repoPath, absPath, configAllowlist) {
       for (const _ of matches) {
         const result = checkConfigAllowlist(repoPath, rule.ruleId, lineNum, configAllowlist)
         if (!result.allowed) {
-          findings.push({
+          const finding = {
             file: repoPath,
             lineNumber: lineNum,
             ruleId: rule.ruleId,
             snippet: snippetFromLine(line),
             message: rule.message,
-          })
+          }
+          const hint = inferFixHint(rule.ruleId, line)
+          if (hint) finding.fixHint = hint
+          findings.push(finding)
         }
       }
     }
@@ -160,16 +194,30 @@ function renderMarkdownReport(result) {
   for (const rule of RULES) {
     const ruleFindings = result.findings.filter(f => f.ruleId === rule.ruleId)
     if (ruleFindings.length === 0) continue
+    const hasHints = ruleFindings.some(f => f.fixHint)
     lines.push(`## ${rule.ruleId}`)
     lines.push('')
-    lines.push('| File | Line | Snippet |')
-    lines.push('| --- | ---: | --- |')
-    for (const f of ruleFindings.slice(0, 40)) {
-      const snip = f.snippet.replace(/\|/g, '\\|')
-      lines.push(`| \`${f.file}\` | ${f.lineNumber} | \`${snip}\` |`)
-    }
-    if (ruleFindings.length > 40) {
-      lines.push(`| *...and ${ruleFindings.length - 40} more* | | |`)
+    if (hasHints) {
+      lines.push('| File | Line | Snippet | Fix Hint |')
+      lines.push('| --- | ---: | --- | --- |')
+      for (const f of ruleFindings.slice(0, 40)) {
+        const snip = f.snippet.replace(/\|/g, '\\|')
+        const hint = (f.fixHint ?? '').replace(/\|/g, '\\|')
+        lines.push(`| \`${f.file}\` | ${f.lineNumber} | \`${snip}\` | ${hint} |`)
+      }
+      if (ruleFindings.length > 40) {
+        lines.push(`| *...and ${ruleFindings.length - 40} more* | | | |`)
+      }
+    } else {
+      lines.push('| File | Line | Snippet |')
+      lines.push('| --- | ---: | --- |')
+      for (const f of ruleFindings.slice(0, 40)) {
+        const snip = f.snippet.replace(/\|/g, '\\|')
+        lines.push(`| \`${f.file}\` | ${f.lineNumber} | \`${snip}\` |`)
+      }
+      if (ruleFindings.length > 40) {
+        lines.push(`| *...and ${ruleFindings.length - 40} more* | | |`)
+      }
     }
     lines.push('')
   }

@@ -15,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const editorRef = ref()
+void editorRef // ref used by template
 
 const editor = useEditor({
   content: props.modelValue,

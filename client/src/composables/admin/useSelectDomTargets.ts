@@ -10,15 +10,13 @@ import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/useFieldContext'
+import type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
+
+export type { SelectDomTarget }
 
 export interface SelectGroup {
   groupKey: string
   groupLabel: string
-}
-
-export interface SelectDomTarget {
-  appSelectId: string
-  expectedName: string
 }
 
 export interface UseSelectDomTargetsOptions {

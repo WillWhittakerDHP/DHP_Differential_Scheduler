@@ -15,14 +15,12 @@
 import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
-import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import type { UseInstanceBlockInstancesByShapeOptions } from './instanceComposableOptions'
 
 const logger = createLogger('useInstanceBulkEdit')
 
-export interface UseInstanceBulkEditOptions {
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-}
+export type UseInstanceBulkEditOptions = UseInstanceBlockInstancesByShapeOptions
 
 export interface UseInstanceBulkEditReturn {
   bulkEditMode: Ref<Map<string, boolean>>

@@ -28,7 +28,28 @@
         "reason": "Action composables necessarily use async/await - this is the correct pattern"
       }
     ],
-    "specific": []
+    "specific": [
+      {
+        "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+        "ruleIds": ["vueQuery", "async", "await", "computed"],
+        "reason": "CRUD mutations - many async and Vue Query calls intentional"
+      },
+      {
+        "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
+        "ruleIds": ["computed", "ref"],
+        "reason": "Data-heavy admin collection - many computeds intentional"
+      },
+      {
+        "file": "client/src/composables/booking/dev/usePanelPosition.ts",
+        "ruleIds": ["DOM"],
+        "reason": "Dev panel positioning - DOM measurement intentional"
+      },
+      {
+        "file": "client/src/composables/dataCollections/useDataCollectionActions.ts",
+        "ruleIds": ["vueQuery", "async", "await"],
+        "reason": "Data collection actions - async and Vue Query intentional"
+      }
+    ]
   },
   "priorities": {
     "p0MinSeverityScore": 35,

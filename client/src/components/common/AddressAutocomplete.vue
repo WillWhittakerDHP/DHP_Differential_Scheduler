@@ -276,87 +276,71 @@ const handleSearchUpdate = async (value: string | null) => {
   }
 }
 
+/** Handle null selection: keep initial-from-props or clear and emit. Returns true if caller should return. */
+function handleNullSelection(
+  selection: AutocompletePrediction | null,
+  emit: (e: string, ...args: unknown[]) => void,
+  hasInitialAddressFromProps: { value: boolean },
+  modelValue: string | null,
+  selectedAddress: { value: AutocompletePrediction | null }
+): boolean {
+  if (selection !== null) return false
+  if (hasInitialAddressFromProps.value && modelValue) {
+    logger.debug('[handleSelectionChange] Ignoring null selection - have initial address from props')
+    return true
+  }
+  selectedAddress.value = null
+  hasInitialAddressFromProps.value = false
+  emit('update:modelValue', '')
+  emit('update:coordinates', undefined)
+  emit('update:placeId', undefined)
+  return true
+}
+
+/** Handle synthetic item (existing address from props). Returns true if caller should return. */
+function handleSyntheticSelection(
+  selection: AutocompletePrediction,
+  hasInitialAddressFromProps: { value: boolean }
+): boolean {
+  if (!selection.placeId?.startsWith('synthetic-')) return false
+  logger.debug('[handleSelectionChange] Synthetic item selected, skipping API fetch')
+  hasInitialAddressFromProps.value = true
+  return true
+}
+
 /**
  * Handle selection from dropdown
  * LEARNING: When user selects a suggestion, fetch full details
  * Session 2.2.2: Also emits placeId for Routes API integration
  */
 const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
-  if (!selection) {
-    // LEARNING: Don't clear the address if we're just loading from props
-    // WHY: VAutocomplete with return-object emits null when there's no object
-    // but we have an existing address from props that we want to keep
-    if (hasInitialAddressFromProps.value && props.modelValue) {
-      logger.debug('[handleSelectionChange] Ignoring null selection - have initial address from props')
-      return
-    }
-    
-    // User explicitly cleared the selection
-    selectedAddress.value = null
-    hasInitialAddressFromProps.value = false
-    emit('update:modelValue', '')
-    emit('update:coordinates', undefined)
-    emit('update:placeId', undefined)
-    return
-  }
-  
-  logger.debug('[handleSelectionChange] Selected:', selection.description)
-  
-  // Check if this is a synthetic item (existing address from props)
-  // Don't fetch details for synthetic items - we already have the data
-  const isSyntheticItem = selection.placeId?.startsWith('synthetic-')
-  if (isSyntheticItem) {
-    logger.debug('[handleSelectionChange] Synthetic item selected, skipping API fetch')
-    hasInitialAddressFromProps.value = true
-    return
-  }
-  
-  // User made a new selection, clear the initial-from-props flag
+  if (handleNullSelection(selection, emit, hasInitialAddressFromProps, props.modelValue, selectedAddress)) return
+  const sel = selection as AutocompletePrediction
+  logger.debug('[handleSelectionChange] Selected:', sel.description)
+  if (handleSyntheticSelection(sel, hasInitialAddressFromProps)) return
+
   hasInitialAddressFromProps.value = false
-  
-  // Update display immediately
-  emit('update:modelValue', selection.description)
-  
-  // Emit placeId immediately (before fetching details)
-  // LEARNING: placeId is available from autocomplete, no need to wait for details
-  // WHY: Routes API prefers placeId for accurate routing
-  emit('update:placeId', selection.placeId)
-  
-  // Fetch place details for coordinates
+  emit('update:modelValue', sel.description)
+  emit('update:placeId', sel.placeId)
   isLoading.value = true
   errorMessage.value = ''
-  
+
   try {
-    const details = await fetchPlaceDetails(selection.placeId, sessionToken.value)
-    
+    const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)
     logger.debug('[handleSelectionChange] Got coordinates:', details.coordinates)
-    
-    // Emit the coordinates
     emit('update:coordinates', details.coordinates)
-    
-    // Emit full details for consumers who need address components
     emit('place-selected', details)
-    
-    // Generate new session token for next autocomplete session
-    // LEARNING: Session token is consumed after place-details call
-    // Session 2.2.5: Use shared token composable
-    resetToken() // Clear consumed token
-    await getToken() // Pre-fetch new token for next session
-    
+    resetToken()
+    await getToken()
   } catch (error) {
     logger.error('[handleSelectionChange] Error fetching details:', error)
-    
     if (error instanceof MapsApiError) {
       errorMessage.value = error.message
       emit('error', error)
     } else {
       errorMessage.value = 'Failed to fetch address details'
     }
-    
-    // Still emit the address text even if coordinates failed
-    // Note: placeId was already emitted above
     emit('update:coordinates', undefined)
-    
   } finally {
     isLoading.value = false
   }

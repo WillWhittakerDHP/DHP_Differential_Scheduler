@@ -16,6 +16,9 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useAppointment } from '@/composables/useAppointment'
 import { BUSINESS_DATA_QUERY_KEY } from '@/composables/useBusiness'
 import type { AppointmentResponse } from '@/types/appointment'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAppointmentLoader')
 
 export function useAppointmentLoader() {
   const { fetchById } = useAppointment()
@@ -44,7 +47,7 @@ export function useAppointmentLoader() {
       
       return refreshedResult.data.value || null
     } catch (error) {
-      console.error('[useAppointmentLoader] Error loading appointment:', error)
+      logger.error('Error loading appointment', { error })
       return null
     } finally {
       isLoading.value = false

@@ -24,6 +24,7 @@ import {
   type AttendeeRequest,
 } from './appointmentHelpers.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 
@@ -57,12 +58,13 @@ const router = createCrudRouter({
   },
   customGetByIdHandler: async (req: Request, res: Response): Promise<void> => {
     try {
-      const appointment = await Appointment.findByPk(req.params.id, {
+      const id = paramString(req, 'id')
+      const appointment = await Appointment.findByPk(id, {
         include: appointmentIncludes,
       })
       
       if (!appointment) {
-        sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, req.params.id)
+        sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, id)
         return
       }
       
@@ -181,12 +183,13 @@ const router = createCrudRouter({
  */
 router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Request, res: Response): Promise<void> => {
   try {
-    const appointment = await Appointment.findByPk(req.params.id)
+    const id = paramString(req, 'id')
+    const appointment = await Appointment.findByPk(id)
     
     if (!appointment) {
       res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
         error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id: req.params.id
+        id
       })
       return
     }

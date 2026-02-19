@@ -14,6 +14,8 @@ import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityCons
 
 type BlockInstanceType = InstanceType<typeof BlockInstance>;
 type BlockInstanceVersionType = InstanceType<typeof BlockInstanceVersion>;
+/** Sequelize include adds part_assignment_instances; base type does not declare it. */
+type BlockInstanceWithPartAssignments = BlockInstanceType & { part_assignment_instances?: InstanceType<typeof PartInstance>[] };
 
 function versionsMatch(
   version: BlockInstanceVersionType | InstanceType<typeof BlockInstanceVersion>,
@@ -67,10 +69,9 @@ async function createVersionFromInstance(
         },
       }
     ]
-  });
+  }) as BlockInstanceWithPartAssignments | null;
 
-  // Type assertion needed because Sequelize includes don't preserve exact types
-  const partInstances = (blockInstanceWithParts as any)?.part_assignment_instances as InstanceType<typeof PartInstance>[] | undefined;
+  const partInstances = blockInstanceWithParts?.part_assignment_instances;
   
   if (partInstances && partInstances.length > 0) {
     await PartInstanceVersion.bulkCreate(

@@ -162,7 +162,7 @@ export function categorizeFieldsBySection(
         ...acc,
         subPanelEntries: {
           ...acc.subPanelEntries,
-          [panel]: [...acc.subPanelEntries[panel as keyof typeof acc.subPanelEntries], fieldEntry]
+          [panel]: [...(acc.subPanelEntries as Record<string, string[]>)[panel], fieldEntry]
         }
       }
     }

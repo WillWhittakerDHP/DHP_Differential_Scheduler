@@ -6,7 +6,7 @@
 import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
-import { RULE_TYPE_OPTIONS } from '@/constants/businessRulesConstants.js'
+import { RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {
   const showRuleDialog = ref(false)
@@ -14,7 +14,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
 
   const formData: Ref<BusinessRuleFormData> = ref({
     blockInstanceId: toGlobalEntityId(''),
-    ruleType: 'required_fields',
+    ruleType: RULE_TYPE_VALUES.REQUIRED_FIELDS,
     ruleConfig: { fields: [] },
     validationMessageAnnotationId: null,
     active: true,
@@ -22,14 +22,14 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
 
   const requiredFieldsArray = computed({
     get: (): string => {
-      if (formData.value.ruleType === 'required_fields') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         const config = formData.value.ruleConfig as { fields: string[]; condition?: string }
         return config.fields?.join(', ') ?? ''
       }
       return ''
     },
     set: (value: string) => {
-      if (formData.value.ruleType === 'required_fields') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         formData.value.ruleConfig = {
           fields: value.split(',').map((f) => f.trim()).filter((f) => f.length > 0),
           condition: (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition,
@@ -40,13 +40,13 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
 
   const requiredFieldsCondition = computed({
     get: (): string => {
-      if (formData.value.ruleType === 'required_fields') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return (formData.value.ruleConfig as { fields: string[]; condition?: string }).condition ?? ''
       }
       return ''
     },
     set: (value: string) => {
-      if (formData.value.ruleType === 'required_fields') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         formData.value.ruleConfig = {
           ...(formData.value.ruleConfig as { fields: string[]; condition?: string }),
           condition: value || undefined,
@@ -57,13 +57,13 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
 
   const requiresAgent = computed({
     get: (): boolean => {
-      if (formData.value.ruleType === 'requires_agent') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRES_AGENT) {
         return (formData.value.ruleConfig as { requiresAgent: boolean }).requiresAgent ?? false
       }
       return false
     },
     set: (value: boolean) => {
-      if (formData.value.ruleType === 'requires_agent') {
+      if (formData.value.ruleType === RULE_TYPE_VALUES.REQUIRES_AGENT) {
         formData.value.ruleConfig = { requiresAgent: value }
       }
     },
@@ -73,16 +73,16 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
     () => formData.value.ruleType,
     (newType) => {
       switch (newType) {
-        case 'required_fields':
+        case RULE_TYPE_VALUES.REQUIRED_FIELDS:
           formData.value.ruleConfig = { fields: [] }
           break
-        case 'requires_agent':
+        case RULE_TYPE_VALUES.REQUIRES_AGENT:
           formData.value.ruleConfig = { requiresAgent: false }
           break
-        case 'conditional_validation':
+        case RULE_TYPE_VALUES.CONDITIONAL_VALIDATION:
           formData.value.ruleConfig = { field: '', dependsOn: '', condition: 'equals', value: '' }
           break
-        case 'validation_message':
+        case RULE_TYPE_VALUES.VALIDATION_MESSAGE:
           formData.value.ruleConfig = { field: '', messageType: 'required' }
           break
       }
@@ -93,7 +93,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
     editingRule.value = null
     formData.value = {
       blockInstanceId: selectedBlockId.value ?? toGlobalEntityId(''),
-      ruleType: 'required_fields',
+      ruleType: RULE_TYPE_VALUES.REQUIRED_FIELDS,
       ruleConfig: { fields: [] },
       validationMessageAnnotationId: null,
       active: true,
@@ -118,7 +118,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
     editingRule.value = null
     formData.value = {
       blockInstanceId: selectedBlockId.value ?? toGlobalEntityId(''),
-      ruleType: 'required_fields',
+      ruleType: RULE_TYPE_VALUES.REQUIRED_FIELDS,
       ruleConfig: { fields: [] },
       validationMessageAnnotationId: null,
       active: true,
@@ -131,19 +131,19 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
 
   const formatRuleConfig = (rule: BusinessRule): string => {
     switch (rule.ruleType) {
-      case 'required_fields': {
+      case RULE_TYPE_VALUES.REQUIRED_FIELDS: {
         const reqFields = rule.ruleConfig as { fields: string[]; condition?: string }
         return `Fields: ${reqFields.fields.join(', ')}${reqFields.condition ? ` (Condition: ${reqFields.condition})` : ''}`
       }
-      case 'requires_agent': {
+      case RULE_TYPE_VALUES.REQUIRES_AGENT: {
         const reqAgent = rule.ruleConfig as { requiresAgent: boolean }
         return `Requires Agent: ${reqAgent.requiresAgent ? 'Yes' : 'No'}`
       }
-      case 'conditional_validation': {
+      case RULE_TYPE_VALUES.CONDITIONAL_VALIDATION: {
         const condVal = rule.ruleConfig as { field: string; dependsOn: string; condition: string; value: unknown }
         return `${condVal.field} ${condVal.condition} ${condVal.value} (depends on ${condVal.dependsOn})`
       }
-      case 'validation_message': {
+      case RULE_TYPE_VALUES.VALIDATION_MESSAGE: {
         const valMsg = rule.ruleConfig as { field: string; messageType: string }
         return `Field: ${valMsg.field}, Type: ${valMsg.messageType}`
       }

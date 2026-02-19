@@ -6,6 +6,7 @@ import {
   loadConfigAllowlist,
   checkConfigAllowlist,
   AUDIT_REPORT_AI_INSTRUCTIONS,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -56,9 +57,10 @@ function listFilesRecursive(dirPath, extensions) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const e of entries) {
       const full = path.join(dirPath, e.name)
-      if (full.includes('node_modules') || full.includes('/dist/')) continue
-      if (e.isDirectory()) files.push(...listFilesRecursive(full, extensions))
-      else if (e.isFile() && extensions.some(ext => full.endsWith(ext)) && !isCompiledJsFile(full)) files.push(full)
+      if (e.isDirectory()) {
+        if (shouldPruneDirectory(e.name)) continue
+        files.push(...listFilesRecursive(full, extensions))
+      } else if (e.isFile() && extensions.some(ext => full.endsWith(ext)) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files

@@ -7,6 +7,7 @@ import {
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -59,10 +60,10 @@ function listFilesRecursive(dirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const e of entries) {
       const full = path.join(dirPath, e.name)
-      const rp = toRepoPath(full)
-      if (rp.includes('node_modules') || rp.includes('/dist/') || rp.includes('.git/')) continue
-      if (e.isDirectory()) files.push(...listFilesRecursive(full))
-      else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
+      if (e.isDirectory()) {
+        if (shouldPruneDirectory(e.name)) continue
+        files.push(...listFilesRecursive(full))
+      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files

@@ -22,9 +22,9 @@ function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChil
 }
 
 
-export interface UseInstanceFilteringOptions {
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-}
+import type { UseInstanceBlockInstancesByShapeOptions } from './instanceComposableOptions'
+
+export type UseInstanceFilteringOptions = UseInstanceBlockInstancesByShapeOptions
 
 export interface UseInstanceFilteringReturn {
   mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -75,7 +75,7 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const mainInstances = instances
         .filter((instance) => {
-          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? DEFAULT_BOOKING_MODE
+          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE
           return !isComponentChild(instance, componentChildIds.value) && mode !== 'addOn'
         })
       result.set(blockShapeId, mainInstances)
@@ -90,7 +90,7 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const groupedInstances = instances
         .filter((instance) => {
-          const mode = (instance as unknown as { bookingMode?: BookingMode }).bookingMode ?? DEFAULT_BOOKING_MODE
+          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE
           return isComponentChild(instance, componentChildIds.value) || mode === 'addOn'
         })
       result.set(blockShapeId, groupedInstances)

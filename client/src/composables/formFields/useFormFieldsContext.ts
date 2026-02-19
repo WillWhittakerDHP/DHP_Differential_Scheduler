@@ -54,7 +54,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     return fallbackForm
   })
 
-  const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map()) as unknown as Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
+  const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map())
 
   // PATTERN: Set to track warned fields
   const warnedFields = ref<Set<string>>(new Set())
@@ -224,7 +224,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     }
   }
 
-  const createFieldContext = (fieldKey: string, entityIdValue: GlobalEntityId): void => {
+  const createFieldContext = (fieldKey: GlobalFieldKey<GlobalEntityKey>, entityIdValue: GlobalEntityId): void => {
     const cacheKey = String(fieldKey)
     if (fieldContextCache.value.has(cacheKey)) {
       return
@@ -264,7 +264,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
             form: currentFormInstance,
             displayConfig: getFieldDisplayConfig(fieldKey),
           }
-        ) as unknown as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+        ) as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
 
         fieldContextCache.value.set(cacheKey, fieldContext)
         // PATTERN: triggerRef forces recompute for dependent computed values
@@ -328,7 +328,7 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
       return undefined
     }
 
-    return context as unknown as FieldContextType<GE, FieldKey>
+    return context as FieldContextType<GE, FieldKey>
   }
 
   // PATTERN: Return the form instance (provided when ready, or fallback if none provided)

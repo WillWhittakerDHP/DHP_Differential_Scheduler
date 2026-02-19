@@ -1,31 +1,13 @@
 {
-  "generatedAt": "2026-02-18T21:18:57.019Z",
-  "totalScanned": 41,
+  "generatedAt": "2026-02-18T23:00:34.286Z",
+  "totalScanned": 11,
   "byBehind": {
-    "major-behind": 23,
-    "minor-behind": 8,
-    "patch-behind": 9,
+    "major-behind": 10,
+    "minor-behind": 0,
+    "patch-behind": 0,
     "current": 1
   },
   "packages": [
-    {
-      "package": "@formkit/drag-and-drop",
-      "dependent": "client",
-      "current": "0.1.6",
-      "wanted": "0.1.6",
-      "latest": "0.5.3",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "@iconify/vue",
-      "dependent": "client",
-      "current": "4.3.0",
-      "wanted": "4.3.0",
-      "latest": "5.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
     {
       "package": "@tiptap/extension-placeholder",
       "dependent": "client",
@@ -72,47 +54,11 @@
       "score": 5
     },
     {
-      "package": "@types/node",
-      "dependent": "client",
-      "current": "24.10.13",
-      "wanted": "24.10.13",
-      "latest": "25.2.3",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "cookie-es",
-      "dependent": "client",
-      "current": "1.2.2",
-      "wanted": "1.2.2",
-      "latest": "2.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "unplugin-auto-import",
-      "dependent": "client",
-      "current": "20.3.0",
-      "wanted": "20.3.0",
-      "latest": "21.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
       "package": "vitest",
       "dependent": "client",
       "current": "2.1.9",
       "wanted": "2.1.9",
       "latest": "3.2.4",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "vue-flatpickr-component",
-      "dependent": "client",
-      "current": "11.0.5",
-      "wanted": "11.0.5",
-      "latest": "12.0.0",
       "behind": "major-behind",
       "score": 5
     },
@@ -135,15 +81,6 @@
       "score": 0
     },
     {
-      "package": "@types/cors",
-      "dependent": "server",
-      "current": "2.8.17",
-      "wanted": "2.8.19",
-      "latest": "2.8.19",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
       "package": "@types/dotenv",
       "dependent": "server",
       "current": "8.2.3",
@@ -151,15 +88,6 @@
       "latest": "6.1.1",
       "behind": "major-behind",
       "score": 5
-    },
-    {
-      "package": "@types/express",
-      "dependent": "server",
-      "current": "5.0.0",
-      "wanted": "5.0.6",
-      "latest": "5.0.6",
-      "behind": "patch-behind",
-      "score": 0.5
     },
     {
       "package": "@types/helmet",
@@ -171,105 +99,6 @@
       "score": 5
     },
     {
-      "package": "@types/jest",
-      "dependent": "server",
-      "current": "29.5.14",
-      "wanted": "29.5.14",
-      "latest": "30.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/morgan",
-      "dependent": "server",
-      "current": "1.9.9",
-      "wanted": "1.9.10",
-      "latest": "1.9.10",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "@types/node",
-      "dependent": "server",
-      "current": "22.10.7",
-      "wanted": "22.19.11",
-      "latest": "25.2.3",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/supertest",
-      "dependent": "server",
-      "current": "6.0.2",
-      "wanted": "6.0.3",
-      "latest": "6.0.3",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "@typescript-eslint/eslint-plugin",
-      "dependent": "server",
-      "current": "8.54.0",
-      "wanted": "8.56.0",
-      "latest": "8.56.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "@typescript-eslint/parser",
-      "dependent": "server",
-      "current": "8.54.0",
-      "wanted": "8.56.0",
-      "latest": "8.56.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "cors",
-      "dependent": "server",
-      "current": "2.8.5",
-      "wanted": "2.8.6",
-      "latest": "2.8.6",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "cross-env",
-      "dependent": "server",
-      "current": "7.0.3",
-      "wanted": "7.0.3",
-      "latest": "10.1.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "date-fns",
-      "dependent": "server",
-      "current": "3.6.0",
-      "wanted": "3.6.0",
-      "latest": "4.1.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "dotenv",
-      "dependent": "server",
-      "current": "16.4.7",
-      "wanted": "16.6.1",
-      "latest": "17.3.1",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "dotenv-cli",
-      "dependent": "server",
-      "current": "8.0.0",
-      "wanted": "8.0.0",
-      "latest": "11.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
       "package": "express",
       "dependent": "server",
       "current": "4.21.2",
@@ -277,119 +106,9 @@
       "latest": "5.2.1",
       "behind": "major-behind",
       "score": 5
-    },
-    {
-      "package": "googleapis",
-      "dependent": "server",
-      "current": "144.0.0",
-      "wanted": "144.0.0",
-      "latest": "171.4.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "helmet",
-      "dependent": "server",
-      "current": "8.0.0",
-      "wanted": "8.1.0",
-      "latest": "8.1.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "joi",
-      "dependent": "server",
-      "current": "17.13.3",
-      "wanted": "17.13.3",
-      "latest": "18.0.2",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "morgan",
-      "dependent": "server",
-      "current": "1.10.0",
-      "wanted": "1.10.1",
-      "latest": "1.10.1",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "nodemon",
-      "dependent": "server",
-      "current": "3.1.9",
-      "wanted": "3.1.11",
-      "latest": "3.1.11",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "pg",
-      "dependent": "server",
-      "current": "8.13.1",
-      "wanted": "8.18.0",
-      "latest": "8.18.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "sequelize",
-      "dependent": "server",
-      "current": "6.37.5",
-      "wanted": "6.37.7",
-      "latest": "6.37.7",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "sequelize-cli",
-      "dependent": "server",
-      "current": "6.6.2",
-      "wanted": "6.6.5",
-      "latest": "6.6.5",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "supertest",
-      "dependent": "server",
-      "current": "7.0.0",
-      "wanted": "7.2.2",
-      "latest": "7.2.2",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "ts-jest",
-      "dependent": "server",
-      "current": "29.2.5",
-      "wanted": "29.4.6",
-      "latest": "29.4.6",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "typescript",
-      "dependent": "server",
-      "current": "5.7.3",
-      "wanted": "5.9.3",
-      "latest": "5.9.3",
-      "behind": "minor-behind",
-      "score": 2
     }
   ],
   "files": [
-    {
-      "repoPath": "client:@iconify/vue",
-      "score": 5,
-      "priority": "P0",
-      "package": "@iconify/vue",
-      "dependent": "client",
-      "current": "4.3.0",
-      "wanted": "4.3.0",
-      "latest": "5.0.0",
-      "behind": "major-behind"
-    },
     {
       "repoPath": "client:@tiptap/extension-placeholder",
       "score": 5,
@@ -468,94 +187,6 @@
       "behind": "major-behind"
     },
     {
-      "repoPath": "server:@types/jest",
-      "score": 5,
-      "priority": "P0",
-      "package": "@types/jest",
-      "dependent": "server",
-      "current": "29.5.14",
-      "wanted": "29.5.14",
-      "latest": "30.0.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@types/node",
-      "score": 5,
-      "priority": "P0",
-      "package": "@types/node",
-      "dependent": "client",
-      "current": "24.10.13",
-      "wanted": "24.10.13",
-      "latest": "25.2.3",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:@types/node",
-      "score": 5,
-      "priority": "P0",
-      "package": "@types/node",
-      "dependent": "server",
-      "current": "22.10.7",
-      "wanted": "22.19.11",
-      "latest": "25.2.3",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:cookie-es",
-      "score": 5,
-      "priority": "P0",
-      "package": "cookie-es",
-      "dependent": "client",
-      "current": "1.2.2",
-      "wanted": "1.2.2",
-      "latest": "2.0.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:cross-env",
-      "score": 5,
-      "priority": "P0",
-      "package": "cross-env",
-      "dependent": "server",
-      "current": "7.0.3",
-      "wanted": "7.0.3",
-      "latest": "10.1.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:date-fns",
-      "score": 5,
-      "priority": "P0",
-      "package": "date-fns",
-      "dependent": "server",
-      "current": "3.6.0",
-      "wanted": "3.6.0",
-      "latest": "4.1.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:dotenv",
-      "score": 5,
-      "priority": "P0",
-      "package": "dotenv",
-      "dependent": "server",
-      "current": "16.4.7",
-      "wanted": "16.6.1",
-      "latest": "17.3.1",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:dotenv-cli",
-      "score": 5,
-      "priority": "P0",
-      "package": "dotenv-cli",
-      "dependent": "server",
-      "current": "8.0.0",
-      "wanted": "8.0.0",
-      "latest": "11.0.0",
-      "behind": "major-behind"
-    },
-    {
       "repoPath": "server:express",
       "score": 5,
       "priority": "P0",
@@ -564,39 +195,6 @@
       "current": "4.21.2",
       "wanted": "4.22.1",
       "latest": "5.2.1",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:googleapis",
-      "score": 5,
-      "priority": "P0",
-      "package": "googleapis",
-      "dependent": "server",
-      "current": "144.0.0",
-      "wanted": "144.0.0",
-      "latest": "171.4.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:joi",
-      "score": 5,
-      "priority": "P0",
-      "package": "joi",
-      "dependent": "server",
-      "current": "17.13.3",
-      "wanted": "17.13.3",
-      "latest": "18.0.2",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:unplugin-auto-import",
-      "score": 5,
-      "priority": "P0",
-      "package": "unplugin-auto-import",
-      "dependent": "client",
-      "current": "20.3.0",
-      "wanted": "20.3.0",
-      "latest": "21.0.0",
       "behind": "major-behind"
     },
     {
@@ -611,17 +209,6 @@
       "behind": "major-behind"
     },
     {
-      "repoPath": "client:vue-flatpickr-component",
-      "score": 5,
-      "priority": "P0",
-      "package": "vue-flatpickr-component",
-      "dependent": "client",
-      "current": "11.0.5",
-      "wanted": "11.0.5",
-      "latest": "12.0.0",
-      "behind": "major-behind"
-    },
-    {
       "repoPath": "client:vue-router",
       "score": 5,
       "priority": "P0",
@@ -631,198 +218,11 @@
       "wanted": "4.6.4",
       "latest": "5.0.2",
       "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@formkit/drag-and-drop",
-      "score": 2,
-      "priority": "P1",
-      "package": "@formkit/drag-and-drop",
-      "dependent": "client",
-      "current": "0.1.6",
-      "wanted": "0.1.6",
-      "latest": "0.5.3",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:@typescript-eslint/eslint-plugin",
-      "score": 2,
-      "priority": "P1",
-      "package": "@typescript-eslint/eslint-plugin",
-      "dependent": "server",
-      "current": "8.54.0",
-      "wanted": "8.56.0",
-      "latest": "8.56.0",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:@typescript-eslint/parser",
-      "score": 2,
-      "priority": "P1",
-      "package": "@typescript-eslint/parser",
-      "dependent": "server",
-      "current": "8.54.0",
-      "wanted": "8.56.0",
-      "latest": "8.56.0",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:helmet",
-      "score": 2,
-      "priority": "P1",
-      "package": "helmet",
-      "dependent": "server",
-      "current": "8.0.0",
-      "wanted": "8.1.0",
-      "latest": "8.1.0",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:pg",
-      "score": 2,
-      "priority": "P1",
-      "package": "pg",
-      "dependent": "server",
-      "current": "8.13.1",
-      "wanted": "8.18.0",
-      "latest": "8.18.0",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:supertest",
-      "score": 2,
-      "priority": "P1",
-      "package": "supertest",
-      "dependent": "server",
-      "current": "7.0.0",
-      "wanted": "7.2.2",
-      "latest": "7.2.2",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:ts-jest",
-      "score": 2,
-      "priority": "P1",
-      "package": "ts-jest",
-      "dependent": "server",
-      "current": "29.2.5",
-      "wanted": "29.4.6",
-      "latest": "29.4.6",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:typescript",
-      "score": 2,
-      "priority": "P1",
-      "package": "typescript",
-      "dependent": "server",
-      "current": "5.7.3",
-      "wanted": "5.9.3",
-      "latest": "5.9.3",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:@types/cors",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@types/cors",
-      "dependent": "server",
-      "current": "2.8.17",
-      "wanted": "2.8.19",
-      "latest": "2.8.19",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:@types/express",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@types/express",
-      "dependent": "server",
-      "current": "5.0.0",
-      "wanted": "5.0.6",
-      "latest": "5.0.6",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:@types/morgan",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@types/morgan",
-      "dependent": "server",
-      "current": "1.9.9",
-      "wanted": "1.9.10",
-      "latest": "1.9.10",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:@types/supertest",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@types/supertest",
-      "dependent": "server",
-      "current": "6.0.2",
-      "wanted": "6.0.3",
-      "latest": "6.0.3",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:cors",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "cors",
-      "dependent": "server",
-      "current": "2.8.5",
-      "wanted": "2.8.6",
-      "latest": "2.8.6",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:morgan",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "morgan",
-      "dependent": "server",
-      "current": "1.10.0",
-      "wanted": "1.10.1",
-      "latest": "1.10.1",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:nodemon",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "nodemon",
-      "dependent": "server",
-      "current": "3.1.9",
-      "wanted": "3.1.11",
-      "latest": "3.1.11",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:sequelize",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "sequelize",
-      "dependent": "server",
-      "current": "6.37.5",
-      "wanted": "6.37.7",
-      "latest": "6.37.7",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:sequelize-cli",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "sequelize-cli",
-      "dependent": "server",
-      "current": "6.6.2",
-      "wanted": "6.6.5",
-      "latest": "6.6.5",
-      "behind": "patch-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 40,
+    "totalRequiresReview": 10,
     "bySource": {
       "inline": 0,
       "pattern": 0,

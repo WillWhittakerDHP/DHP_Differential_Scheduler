@@ -9,72 +9,10 @@ import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INST
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
+import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
 
-type ChildFieldKey = GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE> | GlobalFieldKey<typeof ENTITY_KEY_PART_INSTANCE> | GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE> | GlobalFieldKey<typeof ENTITY_KEY_PART_SHAPE>;
-
-export type RelationshipFieldType<
-  GE extends GlobalEntityKey = GlobalEntityKey,
-  R extends GlobalRelationshipKey = GlobalRelationshipKey
-> = {
-  targetMode: "relationship";
-  targetKey: R; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
-  globalField: GlobalFieldKey<GE>;
-
-  selectedParentKey: GE;
-  selectedChildKey: GlobalEntityKey; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
-  selectedChildPath: GlobalFieldKey<GE>[];
-
-  candidateParentKey: GlobalEntityKey;
-  candidateParentPath: GlobalFieldKey<GE>[];
-  candidateChildKey: GlobalEntityKey; // LEARNING: GlobalAnnotationKey removed - annotations are now core entities
-  candidateChildPath?: GlobalFieldKey<GE>[];
-
-  selectType: RelationshipSelectTypeEnum;
-  selectMode: RelationshipSelectModeEnum;
-  groupByKey?: ChildFieldKey;
-  placeholder?: string;
-  modeToggle?: {
-    enabled: boolean;
-    controlField: string;
-  };
-  dependencyImpact?: {
-    affectedEntityKey: GlobalEntityKey;
-    affectedField: string;
-    linkingField: string;
-    displayNames: {
-      removedItems: string;
-      affectedEntities: string;
-      affectedField: string;
-    };
-  };
-};
-
-export type VirtualFieldType<
-  GE extends GlobalEntityKey = GlobalEntityKey,
-> = {
-  targetMode: "property";
-  targetKey: "blockShape" | "partShape";
-  globalField: GlobalFieldKey<GE>;
-
-  selectedParentKey: GE;
-  selectedChildKey: GlobalEntityKey;
-  selectedChildPath: GlobalFieldKey<GE>[];
-
-  candidateParentKey: GlobalEntityKey;
-  candidateParentPath: GlobalFieldKey<GE>[];
-  candidateChildKey: GlobalEntityKey;
-  candidateChildPath: GlobalFieldKey<GE>[];
-
-  selectType: TypeSelectEnum;
-  selectMode: RelationshipSelectModeEnum;
-  groupByKey?: GlobalFieldKey<GlobalEntityKey>;
-  placeholder?: string;
-  modeToggle?: {
-    enabled: boolean;
-    controlField: string;
-  };
-};
+export type { RelationshipFieldType, VirtualFieldType }
 
 export type SelectableFieldType<
   GE extends GlobalEntityKey = GlobalEntityKey
@@ -117,7 +55,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildPath: ["bookingCascades"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: ["bookingCascades"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: ["blockShapeRef"],             
@@ -137,7 +75,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_PART_INSTANCE,
-        selectedChildPath: ["partAssignments"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: ["partAssignments"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                 
         candidateParentPath: ["blockShapeRef"],             
@@ -156,7 +94,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
         selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildPath: ["dependentInstances"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
+        selectedChildPath: ["dependentInstances"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_INSTANCE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateParentPath: ["blockShapeRef"], // LEARNING: Filter candidates by current blockInstance's blockShapeRef
@@ -215,7 +153,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_BLOCK_SHAPE,
-        selectedChildPath: ["validCascades"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
+        selectedChildPath: ["validCascades"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                
         candidateParentPath: [],                        
@@ -245,7 +183,7 @@ export function buildSelectableFieldType(): SelectableFieldTypeSuite {
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_PART_SHAPE,
-        selectedChildPath: ["validParts"] as unknown as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
+        selectedChildPath: ["validParts"] as GlobalFieldKey<typeof ENTITY_KEY_BLOCK_SHAPE>[],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],                         

@@ -7,7 +7,7 @@
  */
 
 import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
-import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
+import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import type { GlobalEntity } from '@/types/entities'
@@ -103,11 +103,11 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
             // PATTERN: Extract common logic to shared utility
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
-            performTransfer: (state, data) => {
-              performTransfer(state, data)
+            performTransfer: (arg) => {
+              formkitPerformTransfer(arg)
             },
             handleEnd: (state) => {
-              handleEnd(state)
+              formkitHandleEnd(state)
               dragEndHandler()
             },
           })

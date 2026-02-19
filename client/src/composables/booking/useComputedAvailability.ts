@@ -189,10 +189,7 @@ export function useComputedAvailability(
   const computedData = computed<ComputedSlotAvailabilityData | null>(() => {
     if (!computedDataMeta.value) return null
     const map = slotsByDay.value
-    const slotsByDayRecord: Record<string, ComputedSlot[]> = {}
-    map.forEach((slots, day) => {
-      slotsByDayRecord[day] = slots
-    })
+    const slotsByDayRecord: Record<string, ComputedSlot[]> = Object.fromEntries(map)
     return {
       slotsByDay: slotsByDayRecord,
       constraints: constraints.value,

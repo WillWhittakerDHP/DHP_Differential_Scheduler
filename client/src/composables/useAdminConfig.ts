@@ -18,6 +18,9 @@ import type { DisplayFieldConfigMap } from '@/configs/field/display/fullFieldDis
 import type { InstanceConfig } from '@/configs/adminConfig'
 
 import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAdminConfig')
 
 const formFieldConfigCache = new Map<
   string,
@@ -67,6 +70,7 @@ export function useAdminConfig() {
       try {
         cachedConfig = getAdminConfig()
       } catch (_error) {
+        logger.error('Failed to get admin config', { error: _error })
         cachedConfig = {
           displayFieldConfig: {} as DisplayFieldConfigMap,
           formFieldConfig: {} as FormFieldConfigMap,
@@ -189,6 +193,7 @@ export function useAdminConfig() {
         const config = getConfig()
         return (config?.instanceConfig?.[entityKey] || { titleField: 'name' }) as InstanceConfig[GE]
       } catch (_error) {
+        logger.error('Failed to get instance config', { error: _error })
         return { titleField: 'name' } as InstanceConfig[GE]
       }
     })

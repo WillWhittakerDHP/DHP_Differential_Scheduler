@@ -211,7 +211,7 @@ export async function createAttendeeRecords(
  * @returns true if calendar event should be created
  */
 export function shouldCreateCalendarEvent(status: string): boolean {
-  return STATUSES_REQUIRING_CALENDAR_EVENT.includes(status as any)
+  return (STATUSES_REQUIRING_CALENDAR_EVENT as readonly string[]).includes(status)
 }
 
 /**

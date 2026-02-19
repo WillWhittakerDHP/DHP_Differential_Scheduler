@@ -8,7 +8,7 @@
 
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { TimeSlot, AppointmentShape } from '@/types/appointment'
+import type { EventFinal, TimeSlot, AppointmentShape } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useLocalTime } from '@/composables/useLocalTime'
@@ -105,7 +105,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const settings = availabilitySettings.value
     
     // PATTERN: Use attendee-based logic when available
-    let majorEventFinal: import('@/types/appointment').EventFinal | undefined
+    let majorEventFinal: EventFinal | undefined
     if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
       let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
       if (majorAttendeeIds === undefined || majorAttendeeIds === null) {
@@ -148,7 +148,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const settings = availabilitySettings.value
     
     // PATTERN: Use attendee-based logic when available
-    let minorEventFinal: import('@/types/appointment').EventFinal | undefined
+    let minorEventFinal: EventFinal | undefined
     if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
       let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
       if (majorAttendeeIds === undefined || majorAttendeeIds === null) {

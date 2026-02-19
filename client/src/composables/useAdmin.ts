@@ -9,7 +9,7 @@
 
 import { computed } from 'vue'
 import { useGlobal } from './useGlobal'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities'
 import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
@@ -161,7 +161,7 @@ function createAdminInstance() {
    */
   function getMetadata<GE extends GlobalEntityKey>(
     entityKey: GE,
-    entity: AdminObject<GE> | import('@/types/entities').GlobalEntity<GE>
+    entity: AdminObject<GE> | GlobalEntity<GE>
   ): Record<string, FieldMetadataEntry> {
     const entityType = getEntityTypeForMetadata(entityKey)
     if (!entityType) {
@@ -171,7 +171,7 @@ function createAdminInstance() {
     // PATTERN: useMetadataCache.getMetadata handles the fallback logic
     let blockShapeRef: string | null = null
     if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
-      const blockInstanceEntity = entity as import('@/types/entities').GlobalEntity<'blockInstance'>
+      const blockInstanceEntity = entity as GlobalEntity<'blockInstance'>
       blockShapeRef = blockInstanceEntity.blockShapeRef || null
     }
     

@@ -15,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const editorRef = ref()
+void editorRef // ref used by template
 
 const editor = useEditor({
   content: props.modelValue,
@@ -166,7 +167,7 @@ watch(() => props.modelValue, () => {
     <VDivider class="my-4" />
 
     <EditorContent
-      ref="editorRef"
+      ref="_editorRef"
       :editor="editor"
     />
   </div>

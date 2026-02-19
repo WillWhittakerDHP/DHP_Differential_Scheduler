@@ -12,11 +12,18 @@
 import type { Ref } from 'vue'
 
 /**
+ * LEARNING: Canonical property source values for form and type
+ * WHY: Single source of truth for property source; avoids inline literals
+ * PATTERN: Const object then derived type
+ */
+export const PROPERTY_SOURCE = { API: 'api', MANUAL: 'manual', CLIENT: 'client' } as const
+export type PropertySource = (typeof PROPERTY_SOURCE)[keyof typeof PROPERTY_SOURCE]
+
+/**
  * LEARNING: Property details data structure
  * WHY: Used for property form data in booking wizard
  * PATTERN: Plain data structure (no Ref wrappers)
  */
-export type PropertySource = 'api' | 'manual' | 'client'
 
 export interface PropertyDetailsData {
   address: string

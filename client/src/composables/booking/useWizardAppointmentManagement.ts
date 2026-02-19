@@ -139,6 +139,7 @@ export function useWizardAppointmentManagement(
           }
           selectedAppointmentId.value = appointment.id
         } catch (error) {
+          logger.error('Error loading appointment by ID', { error })
           const message = error instanceof Error ? error.message : APPOINTMENT_NOT_FOUND
           showError(message)
           return
@@ -170,6 +171,7 @@ export function useWizardAppointmentManagement(
       success('Appointment loaded successfully')
       selectedAppointmentId.value = null
     } catch (error) {
+      logger.error('Failed to load appointment', { error })
       const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
       showError(errorMessage)
     } finally {

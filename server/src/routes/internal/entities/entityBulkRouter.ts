@@ -13,6 +13,7 @@ import { handleRouteError } from './entityErrorHandler.js'
 import { validateBulkUpdateArray } from './entityValidators.js'
 import { ensureBlockInstanceVersionsBeforeBulkUpdate } from './entityHelpers.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
@@ -79,7 +80,7 @@ router.patch('/:entityType/bulk', csrfProtection, async (req: Request, res: Resp
       return
     }
 
-    const entityType = req.params.entityType
+    const entityType = paramString(req, 'entityType')
     const isBlockInstance = entityType === ENTITY_KEYS.BLOCK_INSTANCE
     if (isBlockInstance) {
       await ensureBlockInstanceVersionsBeforeBulkUpdate(updates)

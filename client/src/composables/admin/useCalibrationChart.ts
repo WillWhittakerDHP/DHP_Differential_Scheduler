@@ -132,7 +132,7 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
   })
 
   const chartOptions = computed((): ChartOptions<'line'> => {
-    const themeColors = theme.current.value.colors as unknown as Parameters<typeof getLineChartConfig>[0]
+    const themeColors = theme.current.value.colors as Parameters<typeof getLineChartConfig>[0]
     const baseConfig = getLineChartConfig(themeColors)
     const rawDatasets = chartData.value.datasets
     const datasets = rawDatasets !== undefined && rawDatasets !== null && Array.isArray(rawDatasets) ? rawDatasets : []

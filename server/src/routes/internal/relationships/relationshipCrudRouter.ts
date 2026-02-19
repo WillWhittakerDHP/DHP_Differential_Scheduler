@@ -24,6 +24,7 @@ import {
 } from './relationshipHelpers.js'
 import { buildRelationshipWhereClause, buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -55,20 +56,20 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   }
   
   if (!relationshipConfig.model) {
-    logger.error('Model is undefined for:', req.params.relationshipType)
-    sendError(res, ERROR_MESSAGES.MODEL_NOT_AVAILABLE.replace('{displayName}', relationshipConfig.displayName), HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, undefined, req.params.relationshipType)
+    logger.error('Model is undefined for:', paramString(req, 'relationshipType'))
+    sendError(res, ERROR_MESSAGES.MODEL_NOT_AVAILABLE.replace('{displayName}', relationshipConfig.displayName), HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, undefined, paramString(req, 'relationshipType'))
     return
   }
   
   try {
     const whereClause = buildRelationshipWhereClause({
-      relationshipType: req.params.relationshipType,
+      relationshipType: paramString(req, 'relationshipType'),
       relationshipConfig,
       query: req.query as Record<string, unknown>,
       logWarn: (msg) => logger.warn(msg),
     })
     const options = buildRelationshipQueryOptions({
-      relationshipType: req.params.relationshipType,
+      relationshipType: paramString(req, 'relationshipType'),
       relationshipConfig,
       whereClause,
     })
@@ -76,7 +77,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
     sendSuccess(res, data)
   } catch (error) {
     logger.error('Error fetching relationships:', error)
-    logger.error('Relationship kind:', req.params.relationshipType)
+    logger.error('Relationship kind:', paramString(req, 'relationshipType'))
     logger.error('Model:', relationshipConfig.model?.name)
     handleRouteError(
       error,
@@ -84,7 +85,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
       ERROR_MESSAGES.FETCH_RELATIONSHIPS,
       'fetching relationships',
       relationshipConfig.displayName,
-      req.params.relationshipType
+      paramString(req, 'relationshipType')
     )
   }
 })
@@ -196,14 +197,14 @@ router.post(
       return
     }
 
-    if (req.params.relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
+    if (paramString(req, 'relationshipType') === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS) {
       await handleInstanceComponentCreate(req, res)
       return
     }
 
     let createData: Record<string, unknown> | undefined
     try {
-      const normalizedKind = normalizeRelationshipKind(req.params.relationshipType)
+      const normalizedKind = normalizeRelationshipKind(paramString(req, 'relationshipType'))
       if (normalizedKind === RELATIONSHIP_TYPES.PRICING_CASCADES) {
         const shapeValidation = await validatePricingCascadeAgainstShapeRules(parentId, childId)
         if (!shapeValidation.valid) {
@@ -221,7 +222,7 @@ router.post(
                 res,
                 error.message.includes('EventShape') ? ERROR_MESSAGES.INVALID_PARENT_ENTITY : ERROR_MESSAGES.INVALID_CHILD_ENTITY,
                 error.message,
-                req.params.relationshipType
+                paramString(req, 'relationshipType')
               )
               return
             }
@@ -230,7 +231,7 @@ router.post(
                 res,
                 error.message.includes('non-existent') ? ERROR_MESSAGES.INVALID_BLOCK_SHAPE_REFERENCE : ERROR_MESSAGES.INVALID_ATTENDEE_TYPE,
                 error.message,
-                req.params.relationshipType
+                paramString(req, 'relationshipType')
               )
               return
             }
@@ -245,7 +246,7 @@ router.post(
       sendCreated(res, created)
     } catch (error: unknown) {
       logger.error('Error creating relationship:', error)
-      logger.error('Relationship type:', req.params.relationshipType)
+      logger.error('Relationship type:', paramString(req, 'relationshipType'))
       logger.error('Create data:', createData ? JSON.stringify(createData, null, 2) : 'undefined')
       logger.error('Error details:', error instanceof Error ? error.stack : String(error))
       handleRouteError(
@@ -254,7 +255,7 @@ router.post(
         ERROR_MESSAGES.CREATE_RELATIONSHIP,
         'creating relationship',
         relationshipConfig.displayName,
-        req.params.relationshipType,
+        paramString(req, 'relationshipType'),
         parentId,
         childId
       )
@@ -280,8 +281,9 @@ router.delete(
     return
   }
   
-  const { parentId, childId } = req.params
-  const normalizedKind = normalizeRelationshipKind(req.params.relationshipType)
+  const parentId = paramString(req, 'parentId')
+  const childId = paramString(req, 'childId')
+  const normalizedKind = normalizeRelationshipKind(paramString(req, 'relationshipType'))
   
   const whereClause = await mapRelationshipFields(normalizedKind, parentId, childId)
   
@@ -307,7 +309,7 @@ router.delete(
       ERROR_MESSAGES.DELETE_RELATIONSHIP,
       'deleting relationship',
       relationshipConfig.displayName,
-      req.params.relationshipType
+      paramString(req, 'relationshipType')
     )
   }
   }

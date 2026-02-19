@@ -231,13 +231,13 @@ function getEffectiveFieldMetadata(fieldKey: string) {
   }
   
   if (!existing) {
-    return pending as import('@/types/entityMetadata').FieldMetadataEntry | undefined
+    return pending as FieldMetadataEntry | undefined
   }
   
   return {
     ...existing,
     ...pending,
-  } as import('@/types/entityMetadata').FieldMetadataEntry | undefined
+  } as FieldMetadataEntry | undefined
 }
 
 const { computeRenderAs, updateFieldRendering } = useMetadataFieldUpdates({

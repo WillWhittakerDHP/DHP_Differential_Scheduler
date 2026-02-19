@@ -3,6 +3,9 @@ import { canNavigate } from '@layouts/plugins/casl'
 import { getQueryClient } from '@/plugins/3.vue-query'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { MetadataCache } from '@/composables/admin/useMetadataCache'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('RouterGuards')
 
 export const setupGuards = (router: Router) => {
   router.beforeEach(async (to: RouteLocationNormalized) => {
@@ -22,7 +25,7 @@ export const setupGuards = (router: Router) => {
           const response = await apiClient.get<MetadataCache>(endpoint)
           queryClient.setQueryData<MetadataCache>(['adminMetadata'], response.data)
         } catch (error) {
-          console.warn('[Router Guard] Failed to prefetch admin metadata:', error)
+          logger.warn('Failed to prefetch admin metadata', { error })
         }
       }
     }

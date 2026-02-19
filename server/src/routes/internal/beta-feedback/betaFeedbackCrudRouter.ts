@@ -14,6 +14,7 @@ import { handleRouteError } from './betaFeedbackErrorHandler.js';
 import { validateCreateBody, validateUpdateBody } from './betaFeedbackValidators.js';
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js';
 import type { ValidationResult } from '../../helpers/routerValidators.js';
+import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js';
 
 const router = createCrudRouter({
   model: BetaFeedback,
@@ -26,7 +27,7 @@ const router = createCrudRouter({
     UPDATE: ERROR_MESSAGES.UPDATE,
     DELETE: ERROR_MESSAGES.DELETE,
   },
-  defaultOrder: [['createdAt', 'DESC']],
+  defaultOrder: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   defaultIncludes: [{ model: BetaFeedbackTag, as: 'tags', attributes: ['id', 'tag'] }],
   customGetAllHandler: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -38,7 +39,7 @@ const router = createCrudRouter({
 
       const list = await BetaFeedback.findAll({
         where,
-        order: [['createdAt', 'DESC']],
+        order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
         include: [{ model: BetaFeedbackTag, as: 'tags', attributes: ['id', 'tag'] }],
       });
       const transformed = list.map((row) => {

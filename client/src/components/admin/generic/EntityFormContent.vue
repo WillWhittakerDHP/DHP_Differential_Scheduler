@@ -9,7 +9,7 @@
 import { ref, computed, watch, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
 import DynamicForm from './DynamicForm.vue'
 import { FieldRenderer } from './fields'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -49,6 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
  * PATTERN: Template ref to access child component methods
  */
 const dynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null)
+void dynamicFormRef // ref used by template
 
 /**
  * LEARNING: Current entity ID for composable
@@ -69,7 +70,7 @@ const adminComp = useAdmin()
 const entity = computed(() => {
   if (!props.entityId) return null
   try {
-    return adminComp.getEntity(props.entityKey, props.entityId) as import('@/types/entities').GlobalEntity<typeof props.entityKey> | null
+    return adminComp.getEntity(props.entityKey, props.entityId) as GlobalEntity<typeof props.entityKey> | null
   } catch {
     return null
   }
@@ -180,7 +181,7 @@ defineExpose({
     -->
     <div class="dynamic-form-fields-wrapper" style="display: none;">
       <DynamicForm
-        ref="dynamicFormRef"
+        ref="_dynamicFormRef"
         :entity-key="entityKey"
         :entity-id="entityId"
         :form="form"

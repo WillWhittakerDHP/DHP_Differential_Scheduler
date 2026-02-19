@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -144,47 +144,38 @@ const partShapeRef = computed(() => {
 const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   try {
     const editData = props.bulkEditData !== undefined && props.bulkEditData !== null ? props.bulkEditData : {}
-    if (!partShapeRef.value) {
-      return {
-        id: '00000000-0000-0000-0000-000000000000',
-        entityKey: 'partInstance',
-        name: '',
-        partShapeRef: '',
-        orderIndex: 0,
-        baseTime: editData.baseTime,
-        rateOverBaseTime: editData.rateOverBaseTime,
-        baseFee: editData.baseFee,
-        rateOverBaseFee: editData.rateOverBaseFee
-      } as unknown as GlobalEntity<'partInstance'>
-    }
-    
-    // FIX: Type conversion needed because object literal doesn't match all required properties
-    const entity = {
-      id: '00000000-0000-0000-0000-000000000000', // Placeholder UUID that doesn't exist
-      entityKey: 'partInstance',
+    const base = {
+      id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
+      entityKey: 'partInstance' as const,
       name: '',
-      partShapeRef: partShapeRef.value,
+      partShapeRef: partShapeRef.value || '',
       orderIndex: 0,
-      baseTime: editData.baseTime,
-      rateOverBaseTime: editData.rateOverBaseTime,
-      baseFee: editData.baseFee,
-      rateOverBaseFee: editData.rateOverBaseFee
-    } as unknown as GlobalEntity<'partInstance'>
-    
-    return entity
+      baseTime: editData.baseTime ?? 0,
+      rateOverBaseTime: editData.rateOverBaseTime ?? 0,
+      baseFee: editData.baseFee ?? 0,
+      rateOverBaseFee: editData.rateOverBaseFee ?? 0,
+      active: true,
+      zeroOutPart: false
+    }
+    if (!partShapeRef.value) {
+      return base satisfies GlobalEntity<'partInstance'>
+    }
+    return { ...base, partShapeRef: partShapeRef.value } satisfies GlobalEntity<'partInstance'>
   } catch (error) {
-    console.error('[PartInstanceBulkEditModal] Error creating templateEntity:', error)
+    logger.error('Error creating templateEntity', { error })
     return {
-      id: '00000000-0000-0000-0000-000000000000',
+      id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'partInstance',
       name: '',
       partShapeRef: partShapeRef.value !== undefined && partShapeRef.value !== null && partShapeRef.value !== '' ? partShapeRef.value : '',
       orderIndex: 0,
-      baseTime: undefined,
-      rateOverBaseTime: undefined,
-      baseFee: undefined,
-      rateOverBaseFee: undefined
-    } as unknown as GlobalEntity<'partInstance'>
+      baseTime: 0,
+      rateOverBaseTime: 0,
+      baseFee: 0,
+      rateOverBaseFee: 0,
+      active: true,
+      zeroOutPart: false
+    } satisfies GlobalEntity<'partInstance'>
   }
 })
 

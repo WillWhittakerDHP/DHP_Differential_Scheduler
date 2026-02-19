@@ -74,7 +74,8 @@ import { computed, ref, watch, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
+import { VForm } from 'vuetify/components'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
 import { useFormFields } from '@/composables/useFormFields'
@@ -103,7 +104,7 @@ interface Props {
 const props = defineProps<Props>()
 
 
-const formRef = ref<InstanceType<typeof import('vuetify/components').VForm> | null>(null)
+const formRef = ref<InstanceType<typeof VForm> | null>(null)
 
 /**
  * WHY: Admin config composable (initialized immediately for computed properties)
@@ -140,7 +141,7 @@ watch(() => props.entityId, (newId) => {
 const entityForMetadata = computed(() => {
   if (!currentEntityId.value) return null
   try {
-    return adminComp.getEntity(props.entityKey, currentEntityId.value) as import('@/types/entities').GlobalEntity<typeof props.entityKey> | null
+    return adminComp.getEntity(props.entityKey, currentEntityId.value) as GlobalEntity<typeof props.entityKey> | null
   } catch {
     return null
   }

@@ -109,12 +109,13 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
         //      This is more efficient than resetting the entire form and uses Vee-Validate's built-in API
         // PATTERN: Compare old vs new to find changed fields, then use setFieldValue for each
         const formFieldKeys = form.values ? Object.keys(form.values) : []
-        const changedFields = Object.keys(newStoreEntity).filter(key => {
+        const entityKeys = Object.keys(newStoreEntity) as (keyof GlobalEntity<GE>)[]
+        const changedFields = entityKeys.filter((key): key is keyof GlobalEntity<GE> => {
           if (!formFieldKeys.includes(key)) {
             return false
           }
-          const oldValue = (oldStoreEntity as unknown as Record<string, unknown>)[key]
-          const newValue = (newStoreEntity as unknown as Record<string, unknown>)[key]
+          const oldValue = oldStoreEntity[key]
+          const newValue = newStoreEntity[key]
           return JSON.stringify(oldValue) !== JSON.stringify(newValue)
         })
         
@@ -123,7 +124,7 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
           // PATTERN: Use form-level API instead of field-level watches, filter to form fields only
           const formInstance = form as ReturnType<typeof useForm>
           changedFields.forEach(fieldKey => {
-            formInstance.setFieldValue(fieldKey, (newStoreEntity as unknown as Record<string, unknown>)[fieldKey])
+            formInstance.setFieldValue(String(fieldKey), newStoreEntity[fieldKey])
           })
         }
       }

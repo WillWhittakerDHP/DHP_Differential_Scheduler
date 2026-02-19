@@ -1,6 +1,6 @@
 import type { PluginOptionsByType } from 'chart.js'
 import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js'
-import type { PropType } from 'vue'
+import type { ComponentProps, PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { Line } from 'vue-chartjs'
 
@@ -54,6 +54,6 @@ export default defineComponent({
         plugins: props.plugins,
         options: props.chartOptions,
         data: props.chartData,
-      } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+      } as ComponentProps<typeof Line>)
   },
 })

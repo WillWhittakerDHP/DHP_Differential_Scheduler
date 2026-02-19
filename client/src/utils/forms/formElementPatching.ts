@@ -3,8 +3,9 @@ import type { Ref } from 'vue'
 import { nextTick } from 'vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import { patchFormElements } from '@/utils/patchFormElements'
+import { VForm } from 'vuetify/components'
 
-export type VFormInstance = InstanceType<typeof import('vuetify/components').VForm>
+export type VFormInstance = InstanceType<typeof VForm>
 
 export type FormElementPatchingOptions = {
   formRef?: Ref<VFormInstance | null>
@@ -35,7 +36,7 @@ export async function patchFormFromVFormRef(
 
   let formElement: HTMLFormElement | null = null
 
-  const maybeEl = (formRef.value as unknown as { $el?: unknown }).$el
+  const maybeEl = '$el' in formRef.value ? formRef.value.$el : undefined
   if (maybeEl && typeof maybeEl === 'object') {
     const el = maybeEl as HTMLElement
     if (el.tagName === 'FORM') {

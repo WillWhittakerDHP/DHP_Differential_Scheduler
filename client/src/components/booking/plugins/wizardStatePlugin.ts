@@ -63,7 +63,7 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
      * Session 1.3.9.3: Updated to handle arrays for multi-select fields
      */
     setValue: (item: SelectionCardItem, value: boolean | string | null): void => {
-      const blockInstance = item as unknown as BookingBlockInstance
+      const blockInstance = item as BookingBlockInstance
       
       if (!fieldConfig.isArray) {
         if (value === true || value === item.id) {

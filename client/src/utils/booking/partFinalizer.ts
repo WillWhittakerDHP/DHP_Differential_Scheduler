@@ -17,7 +17,8 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import { toGlobalEntityId, type EventShapeEntity } from '@/types/entities'
+import { toGlobalEntityId, type EventShapeEntity, type GlobalEntityId } from '@/types/entities'
+import type { EventFinal, SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
@@ -121,7 +122,7 @@ export function calculateSlotShape(
   eventShapes: EventShape[] = [],
   globalData?: GlobalData,
   availabilitySettings?: AvailabilitySettings | null
-): import('@/types/appointment').SlotShape {
+): SlotShape {
   // DUAL-TRACK ARCHITECTURE: Track both raw and rounded durations
   let rawDuration = 0
   
@@ -131,8 +132,8 @@ export function calculateSlotShape(
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
   
   // PATTERN: Use availabilitySettings to get major/minor attendee IDs, fall back to name-based logic if not available
-  let majorAttendeeIds: import('@/types/entities').GlobalEntityId[] = []
-  let minorAttendeeIds: import('@/types/entities').GlobalEntityId[] = []
+  let majorAttendeeIds: GlobalEntityId[] = []
+  let minorAttendeeIds: GlobalEntityId[] = []
   let useAttendeeBasedLogic = false
 
   if (globalData && availabilitySettings?.differentialPerspectives) {
@@ -227,23 +228,21 @@ export function calculateSlotShape(
   )
   
   rawDuration = totalRawDuration
-  // Update the Map with accumulated values
-  eventRawDurations.forEach((value, key) => eventRawDurationsByShapeId.set(key, value))
   
   // LEARNING: Round ONCE per event after accumulation (prevents double rounding inflation)
   // WHY: Rounding at part level causes inflation - round(sum of parts) != sum(round(part))
-  // PATTERN: Accumulate raw values, then round each event total once
-  const eventRoundedDurationsByShapeId = new Map<string, number>()
-  eventRawDurationsByShapeId.forEach((rawDuration, eventShapeId) => {
-    const roundedDuration = roundDuration(rawDuration, availabilitySettings || null)
-    eventRoundedDurationsByShapeId.set(eventShapeId, roundedDuration)
-  })
+  // PATTERN: Build new Map from reduce result (no mutation); use eventRawDurations from reduce
+  const eventRoundedDurationsByShapeId = new Map(
+    Array.from(eventRawDurations.entries()).map(([eventShapeId, rawDuration]) => [
+      eventShapeId,
+      roundDuration(rawDuration, availabilitySettings || null),
+    ])
+  )
   
   // LEARNING: Convert Map to EventFinal[] array with dual-track durations
   // WHY: Provides array of event shapes with both raw and rounded durations, matching PartFinal[] pattern
   // PATTERN: Map over eventRawDurations entries, create EventFinal for each with both raw and rounded durations
-  // PATTERN: Iterate over eventRawDurations to only include event shapes that have durations accumulated
-  const eventFinals: import('@/types/appointment').EventFinal[] = Array.from(eventRawDurationsByShapeId.entries())
+  const eventFinals: EventFinal[] = Array.from(eventRawDurations.entries())
     .map(([eventShapeId, rawDuration]) => {
       const eventShape = eventShapeById.get(toGlobalEntityId(eventShapeId))
       if (!eventShape) {
@@ -256,7 +255,7 @@ export function calculateSlotShape(
         roundedDuration
       }
     })
-    .filter((ef): ef is import('@/types/appointment').EventFinal => ef !== null)
+    .filter((ef): ef is EventFinal => ef !== null)
     .filter(ef => ef.rawDuration > 0) // Only include events with raw duration > 0
   
   // LEARNING: SlotShape.roundedDuration = max event roundedDuration (slot span from start to latest event end)
@@ -280,10 +279,10 @@ export function calculateSlotShape(
     const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
     
     if (majorEventShape) {
-      const majorRawDuration = eventRawDurationsByShapeId.get(majorEventShape.id) || 0
+      const majorRawDuration = eventRawDurations.get(majorEventShape.id) || 0
       const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0
       if (minorEventShape) {
-        const minorRawDuration = eventRawDurationsByShapeId.get(minorEventShape.id) || 0
+        const minorRawDuration = eventRawDurations.get(minorEventShape.id) || 0
         const minorRoundedDuration = eventRoundedDurationsByShapeId.get(minorEventShape.id) || 0
         rawDifferentialOffset = majorRawDuration - minorRawDuration
         roundedDifferentialOffset = majorRoundedDuration - minorRoundedDuration

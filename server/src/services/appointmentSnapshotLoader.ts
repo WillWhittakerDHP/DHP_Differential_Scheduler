@@ -78,7 +78,7 @@ export async function loadAppointmentVersions(
     snapshotIds.map(id => loadBlockInstanceFromVersion(id))
   );
   
-  const validVersions = versions.filter(v => v !== null) as any[];
+  const validVersions = versions.filter((v): v is NonNullable<typeof v> => v !== null);
   
   if (validVersions.length !== snapshotIds.length) {
     logger.warn(

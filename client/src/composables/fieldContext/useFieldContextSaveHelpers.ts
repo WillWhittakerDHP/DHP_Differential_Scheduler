@@ -59,6 +59,7 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
         componentId: toGlobalEntityId(componentId),
         orderIndex: currentComponents.length + index,
       }).catch((error: unknown) => {
+        logger.error('Add to component failed', { error })
         const axiosErr = error as AxiosError
         if (axiosErr?.response?.status === 409) {
           return Promise.resolve()

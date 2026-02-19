@@ -36,10 +36,12 @@ export interface CalendarEventResult {
  * 
  * SESSION: 2.1.3b - Removed legacy format support
  */
-interface TimeSlot {
+/** Server-side time slot shape; branded to distinguish from client SelectedTimeSlot. */
+export interface ServerTimeSlot {
   startTime: string;   // RFC3339 format, e.g., "2026-02-01T21:00:00.000Z"
   endTime: string;     // RFC3339 format
   duration?: number;   // Optional - in minutes (can be calculated from start/end)
+  readonly __brand?: 'ServerTimeSlot'
 }
 
 /**
@@ -49,7 +51,7 @@ interface TimeSlot {
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
-  selectedTimeSlots: TimeSlot[] | null;  // JSONB array
+  selectedTimeSlots: ServerTimeSlot[] | null;  // JSONB array
   status: string;
   propertyVersion?: {
     address?: {
@@ -103,7 +105,7 @@ export async function createCalendarEventForAppointment(
           include: [{ model: User, as: 'user' }],
         },
       ],
-    }) as unknown as AppointmentWithDetails | null;
+    }) as AppointmentWithDetails | null;
     
     if (!appointment) {
       return {

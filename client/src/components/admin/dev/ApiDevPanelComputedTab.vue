@@ -105,7 +105,7 @@ const slotsByDaySummary = computed(() => {
               >
                 <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
                 <div class="text-caption text-medium-emphasis">
-                  {{ formatDateTimeForDisplay(event.start as any) }} - {{ formatTimeForDisplay(event.end as any) }}
+                  {{ formatDateTimeForDisplay(event.start as string) }} - {{ formatTimeForDisplay(event.end as string) }}
                 </div>
                 <div v-if="event.placeId" class="text-caption text-medium-emphasis">
                   📍 Place ID: {{ event.placeId.substring(0, 20) }}...
@@ -138,7 +138,7 @@ const slotsByDaySummary = computed(() => {
             >
               <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
               <div class="text-caption text-medium-emphasis">
-                {{ formatDateTimeForDisplay(event.start as any) }} - {{ formatTimeForDisplay(event.end as any) }}
+                {{ formatDateTimeForDisplay(event.start as string) }} - {{ formatTimeForDisplay(event.end as string) }}
               </div>
             </div>
           </VCard>

@@ -8,16 +8,12 @@
  */
 
 import { type Ref, type ComputedRef } from 'vue'
-import type { StepValidator } from '@/utils/booking/wizardValidation'
+import type { StepValidator, UseWizardValidationReturn } from '@/utils/booking/wizardValidation'
 
-export type { StepValidator } from '@/utils/booking/wizardValidation'
+export type { StepValidator, UseWizardValidationReturn } from '@/utils/booking/wizardValidation'
 
 export interface UseWizardValidationParams {
   stepValidators: ComputedRef<Record<number, StepValidator | null>> | Ref<Record<number, StepValidator | null>> | Record<number, StepValidator | null>
-}
-
-export interface UseWizardValidationReturn {
-  validateStep: (stepIndex: number) => boolean
 }
 
 /**

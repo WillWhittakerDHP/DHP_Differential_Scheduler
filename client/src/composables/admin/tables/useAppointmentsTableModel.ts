@@ -46,8 +46,8 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
   })
 
   // FIX: Use config-driven field formatters instead of repeated field checks
-  const getDisplayValue = (appointment: AppointmentResponse, field: string): string => {
-    const value = (appointment as unknown as Record<string, unknown>)[field]
+  const getDisplayValue = (appointment: AppointmentResponse & Record<string, unknown>, field: string): string => {
+    const value = appointment[field]
     const formatter = getAppointmentFieldFormatter(field)
     return formatter(appointment, value, properties.value, users.value)
   }

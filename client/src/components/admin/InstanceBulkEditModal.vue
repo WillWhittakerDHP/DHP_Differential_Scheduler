@@ -70,7 +70,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import type { TernaryBoolean } from '@/types/ternary'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { createLogger } from '@/utils/logger'
 
@@ -107,56 +108,44 @@ const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   try {
     const editData = props.bulkEditData || {}
-    if (!props.blockShapeId) {
-      return {
-        id: '00000000-0000-0000-0000-000000000000',
-        entityKey: 'blockInstance',
-        name: '',
-        blockShapeRef: '',
-        baseSqFt: editData.baseSqFt,
-        active: true,
-        composite: false,
-        orderIndex: 0,
-        icon: null,
-        allowMultiple: false,
-        requiresUnitNumber: false,
-        differential: false
-      } as unknown as GlobalEntity<'blockInstance'>
-    }
-    
-    // FIX: Type conversion needed because object literal doesn't match all required properties
-    const entity = {
-      id: '00000000-0000-0000-0000-000000000000', // Placeholder UUID that doesn't exist
-      entityKey: 'blockInstance',
+    const base = {
+      id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
+      entityKey: 'blockInstance' as const,
       name: '',
-      blockShapeRef: props.blockShapeId,
-      baseSqFt: editData.baseSqFt,
+      blockShapeRef: props.blockShapeId ?? '',
+      baseSqFt: editData.baseSqFt ?? 0,
       active: true,
       composite: false,
       orderIndex: 0,
-      icon: null,
+      icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
-      differential: false
-    } as unknown as GlobalEntity<'blockInstance'>
-    
-    return entity
+      differential: undefined as TernaryBoolean | undefined,
+      isMultiFamily: false,
+      requiresAgent: false
+    }
+    if (!props.blockShapeId) {
+      return base satisfies GlobalEntity<'blockInstance'>
+    }
+    return { ...base, blockShapeRef: props.blockShapeId } satisfies GlobalEntity<'blockInstance'>
   } catch (error) {
     logger.error('Error creating templateEntity', { error })
     return {
-      id: '00000000-0000-0000-0000-000000000000',
+      id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'blockInstance',
       name: '',
       blockShapeRef: props.blockShapeId || '',
-      baseSqFt: undefined,
+      baseSqFt: 0,
       active: true,
       composite: false,
       orderIndex: 0,
-      icon: null,
+      icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
-      differential: false
-    } as unknown as GlobalEntity<'blockInstance'>
+      differential: undefined,
+      isMultiFamily: false,
+      requiresAgent: false
+    } satisfies GlobalEntity<'blockInstance'>
   }
 })
 

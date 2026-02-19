@@ -15,6 +15,7 @@ import { handleRouteError } from './propertyErrorHandler.js'
 import { validateRequiredField, validateBlockShape, validateBlockInstancesForPropertyTypes } from './propertyValidators.js'
 import { getBlockInstanceWithShape, buildPropertyTypeResponse, createPropertyTypesBulk, getPropertyTypesWithAssociations } from './propertyHelpers.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent, sendError } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
@@ -30,7 +31,7 @@ const router = Router()
  */
 router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
   try {
-    const propertyVersionId = req.params.id
+    const propertyVersionId = paramString(req, 'id')
     
     const propertyTypes = await PropertyVersionType.findAll({
       where: { propertyVersionId },
@@ -63,7 +64,7 @@ router.post(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const propertyVersionId = req.params.id
+    const propertyVersionId = paramString(req, 'id')
     const { blockInstanceId, orderIndex = DEFAULT_VALUES.ORDER_INDEX } = req.body
     
     // Validate required fields
@@ -133,7 +134,7 @@ router.patch(
   checkOwnership('propertyType', 'typeId'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { typeId } = req.params
+    const typeId = paramString(req, 'typeId')
     const { orderIndex } = req.body
     
     const propertyType = await PropertyVersionType.findByPk(typeId)
@@ -170,7 +171,7 @@ router.delete(
   checkOwnership('propertyType', 'typeId'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { typeId } = req.params
+    const typeId = paramString(req, 'typeId')
     
     const propertyType = await PropertyVersionType.findByPk(typeId)
     
@@ -206,7 +207,7 @@ router.put(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const propertyVersionId = req.params.id
+    const propertyVersionId = paramString(req, 'id')
     const { blockInstanceIds = [] } = req.body
     
     const propertyVersion = await PropertyVersion.findByPk(propertyVersionId)

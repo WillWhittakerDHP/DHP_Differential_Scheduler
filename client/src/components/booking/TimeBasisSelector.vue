@@ -18,18 +18,8 @@ import { computed } from 'vue'
 import { useTimeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/composables/booking/useTimeBasisHandler'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
-interface Props {
-  isDifferentialService: boolean
-  startTimeType: 'major' | 'minor' | 'nonDifferential'
-}
-
-const props = defineProps<Props>()
-
-interface Emits {
-  (e: 'time-basis-change', type: 'major' | 'minor'): void
-}
-
-const emit = defineEmits<Emits>()
+const props = defineProps<TimeBasisHandlerProps>()
+const emit = defineEmits<TimeBasisHandlerEmits>()
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const majorLabel = computed(() => {
@@ -42,7 +32,7 @@ const minorLabel = computed(() => {
 })
 
 // FIX: Use shared time basis handler from composable
-const { handleTimeBasisClick } = useTimeBasisHandler(props as TimeBasisHandlerProps, emit as unknown as TimeBasisHandlerEmits)
+const { handleTimeBasisClick } = useTimeBasisHandler(props, emit)
 </script>
 
 <template>

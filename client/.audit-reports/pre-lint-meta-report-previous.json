@@ -1,44 +1,18 @@
 {
-  "generatedAt": "2026-02-18T21:26:18.492Z",
+  "generatedAt": "2026-02-18T21:30:32.250Z",
   "auditSummaries": [
     {
       "auditId": "lint",
-      "totalFindings": 5,
-      "filesWithFindings": 3,
-      "detail": "Errors + warnings: 5 in 3 files"
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Errors + warnings: 0 in 0 files"
     },
     {
       "auditId": "lint-warnings",
-      "totalFindings": 1,
-      "filesWithFindings": 1,
-      "detail": "Warnings only: 1 in 1 files"
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Warnings only: 0 in 0 files"
     }
   ],
-  "hotspots": [
-    {
-      "repoPath": "client/src/views/admin/tabs/RuleFormDialog.vue",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "lint"
-      ]
-    },
-    {
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "totalScore": 3,
-      "auditCount": 2,
-      "auditIds": [
-        "lint",
-        "lint-warnings"
-      ]
-    },
-    {
-      "repoPath": "client/vitest.config.ts",
-      "totalScore": 3,
-      "auditCount": 1,
-      "auditIds": [
-        "lint"
-      ]
-    }
-  ]
+  "hotspots": []
 }

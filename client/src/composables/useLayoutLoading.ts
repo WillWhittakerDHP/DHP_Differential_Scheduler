@@ -5,15 +5,13 @@
  * WHY: Moves loading indicator watcher logic out of layout component into reusable composable
  * PATTERN: Composable that manages loading indicator state and watchers
  * 
- * Component-Composable Alignment: Extracted from layouts/default.vue
+ * Component-Composable Alignment: Extracted from layouts/Default.vue
  */
 
 import { ref, watch, type Ref } from 'vue'
+import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
-export interface LoadingIndicatorInstance {
-  fallbackHandle: () => void
-  resolveHandle: () => void
-}
+export type { LoadingIndicatorInstance }
 
 export interface UseLayoutLoadingOptions {
   refLoadingIndicator: Ref<LoadingIndicatorInstance | null>

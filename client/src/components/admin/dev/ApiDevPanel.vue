@@ -21,9 +21,9 @@ import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
 import ApiDevPanelDriveTimeTab from './ApiDevPanelDriveTimeTab.vue'
 import ApiDevPanelComputedTab from './ApiDevPanelComputedTab.vue'
 
-interface Props {
-  visible: boolean
-}
+import type { DevPanelVisibleProps } from './devPanelTypes'
+
+type Props = DevPanelVisibleProps
 
 interface Emits {
   (e: 'close'): void
@@ -34,6 +34,7 @@ const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
+void panelRef // ref used by template
 
 // Phase 7: Inject computed availability data for display
 const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)

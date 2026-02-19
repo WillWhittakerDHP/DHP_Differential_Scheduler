@@ -1,418 +1,16 @@
 {
-  "generatedAt": "2026-02-12T01:55:37.361Z",
-  "totalScanned": 972,
+  "generatedAt": "2026-02-18T23:28:25.755Z",
+  "totalScanned": 787,
   "exceptionSummary": {
-    "totalAllowed": 0,
-    "totalRequiresReview": 81,
+    "totalAllowed": 83,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
+      "pattern": 83,
       "specific": 0
     }
   },
   "files": [
-    {
-      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-      "score": 10,
-      "priority": "P0",
-      "count": 5
-    },
-    {
-      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
-      "score": 10,
-      "priority": "P0",
-      "count": 5
-    },
-    {
-      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
-      "score": 6,
-      "priority": "P1",
-      "count": 3
-    },
-    {
-      "repoPath": "client/src/composables/useLocalTime.ts",
-      "score": 6,
-      "priority": "P1",
-      "count": 3
-    },
-    {
-      "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
-      "score": 4,
-      "priority": "P1",
-      "count": 2
-    },
-    {
-      "repoPath": "client/src/composables/_archived/useFieldMetadata.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/admin/useMetadataCache.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/booking/selectionCard/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/booking/useStepValidation.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/businessDataCollections/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/businessDataCollections/types.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/componentEntity/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/entityCrud/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/fieldContext/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/fieldContext/types.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/formFields/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/formFields/types.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/globalDataCollections/index.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/globalDataCollections/types.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/useAdminConfig.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/useApiErrorMessage.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/layouts/blank.vue",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/layouts/default.vue",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/types/admin/AdminEntity.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/adminMetadata.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/adminRelationshipMetadata.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/block_shape.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/business_rule.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/business_settings.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/part_shape.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_annotation.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_component.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_composition.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_event.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_part.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/active_annotation.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/active_event.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/active_part.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/address.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/annotation_assignment.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/appointment_attendee.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/appointment.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/block_instance_version.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/block_instance.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/event_assignment.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/event_instance.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/event_shape_attendee.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/event_shape.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/instance_component.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/part_assignment.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/part_instance_version.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/part_instance.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/property_details.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/property_version_type.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/property_version.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/booking/relationships.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/db/models/participantModels/Users.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
     {
       "repoPath": "server/src/types/express.d.ts",
       "score": 2,
@@ -423,805 +21,1004 @@
   "scanned": [
     {
       "repoPath": "client/src/composables/_archived/useFieldMetadata.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 37,
-          "line": "export function clearMetadataCache("
+          "line": "export function clearMetadataCache(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 21,
-          "line": "export function attendeesFromClientAndAgent("
+          "line": "export function attendeesFromClientAndAgent(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 34,
-          "line": "export function getClientIdFromAttendees("
+          "line": "export function getClientIdFromAttendees(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 39,
-          "line": "export function getAgentIdFromAttendees("
+          "line": "export function getAgentIdFromAttendees(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 44,
-          "line": "export function getClientAttendee("
+          "line": "export function getClientAttendee(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 48,
-          "line": "export function getAgentAttendee("
+          "line": "export function getAgentAttendee(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 13,
-          "line": "export function getStatusColor("
+          "line": "export function getStatusColor(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 33,
-          "line": "export function getRoleColor("
+          "line": "export function getRoleColor(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 12,
-          "line": "export function formatNullValue("
+          "line": "export function formatNullValue(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 31,
-          "line": "export function calculateMaxBusinessHours("
+          "line": "export function calculateMaxBusinessHours(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 8,
-          "line": "export function getPanelsElement("
+          "line": "export function getPanelsElement(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 46,
-          "line": "export function countDraggableNodes("
+          "line": "export function countDraggableNodes(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 56,
-          "line": "export function createSingleClassDraggableChecker("
+          "line": "export function createSingleClassDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 63,
-          "line": "export function createMultiClassDraggableChecker("
+          "line": "export function createMultiClassDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 79,
-          "line": "export function createExpansionPanelDraggableChecker("
+          "line": "export function createExpansionPanelDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/useMetadataCache.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 170,
-          "line": "export function resetMetadataCache("
+          "line": "export function resetMetadataCache(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/admin/utils/nestedComputedFactory.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: nestedComputedFactory.ts"
+          "line": "Composable file should be use[Name].ts: nestedComputedFactory.ts",
+          "reason": "Composable utility; factory name is intentional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/booking/selectionCard/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/booking/useStepValidation.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 31,
-          "line": "export function collectErrors("
+          "line": "export function collectErrors(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/businessDataCollections/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/businessDataCollections/types.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: types.ts"
+          "line": "Composable file should be use[Name].ts: types.ts",
+          "reason": "Barrel/composable package; types file is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/componentEntity/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/entityCrud/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 17,
-          "line": "export function createRefetchGlobalDataHandler("
+          "line": "export function createRefetchGlobalDataHandler(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 28,
-          "line": "export function createRefetchQueriesHandler("
+          "line": "export function createRefetchQueriesHandler(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 58,
-          "line": "export function createRestorePreviousDataHandler("
+          "line": "export function createRestorePreviousDataHandler(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/fieldContext/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/fieldContext/types.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: types.ts"
+          "line": "Composable file should be use[Name].ts: types.ts",
+          "reason": "Barrel/composable package; types file is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/formFields/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/formFields/types.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: types.ts"
+          "line": "Composable file should be use[Name].ts: types.ts",
+          "reason": "Barrel/composable package; types file is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/globalDataCollections/index.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts"
+          "line": "Composable file should be use[Name].ts: index.ts",
+          "reason": "Barrel/composable package; index is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/globalDataCollections/types.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableFileName",
           "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: types.ts"
+          "line": "Composable file should be use[Name].ts: types.ts",
+          "reason": "Barrel/composable package; types file is conventional",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/useAdminConfig.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 40,
-          "line": "export function _clearCache("
+          "line": "export function _clearCache(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/useApiErrorMessage.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 13,
-          "line": "export function getApiErrorMessage("
+          "line": "export function getApiErrorMessage(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "client/src/composables/useLocalTime.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "composableExport",
           "lineNumber": 50,
-          "line": "export function rfc3339ToLocalHHmm("
+          "line": "export function rfc3339ToLocalHHmm(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 232,
-          "line": "export function extractBusinessHoursMinutes("
+          "line": "export function extractBusinessHoursMinutes(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 261,
-          "line": "export function rfc3339ToLocalMinutesFromMidnight("
+          "line": "export function rfc3339ToLocalMinutesFromMidnight(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
         }
-      ]
-    },
-    {
-      "repoPath": "client/src/layouts/blank.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "componentFileName",
-          "lineNumber": 1,
-          "line": "Component file should be PascalCase: blank.vue"
-        }
-      ]
-    },
-    {
-      "repoPath": "client/src/layouts/default.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "componentFileName",
-          "lineNumber": 1,
-          "line": "Component file should be PascalCase: default.vue"
-        }
-      ]
-    },
-    {
-      "repoPath": "client/src/types/admin/AdminEntity.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "typesFileName",
-          "lineNumber": 1,
-          "line": "Types file should be camelCase: AdminEntity.ts"
-        }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/adminMetadata.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 43,
-          "line": "export function AdminMetadataFactory("
+          "line": "export function AdminMetadataFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 44,
-          "line": "export function AdminPrimitiveMetadataFactory("
+          "line": "export function AdminPrimitiveMetadataFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/adminRelationshipMetadata.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 42,
-          "line": "export function AdminRelationshipMetadataFactory("
+          "line": "export function AdminRelationshipMetadataFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/block_shape.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 32,
-          "line": "export function BlockShapeFactory("
+          "line": "export function BlockShapeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/business_rule.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 117,
-          "line": "export function BusinessRuleFactory("
+          "lineNumber": 67,
+          "line": "export function BusinessRuleFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/business_settings.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 279,
-          "line": "export function BusinessSettingsFactory("
+          "lineNumber": 108,
+          "line": "export function BusinessSettingsFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/part_shape.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 21,
-          "line": "export function PartShapeFactory("
+          "line": "export function PartShapeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_annotation.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function ValidAnnotationFactory("
+          "line": "export function ValidAnnotationFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function ValidCascadeFactory("
+          "line": "export function ValidCascadeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_component.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function ValidComponentFactory("
+          "line": "export function ValidComponentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_composition.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 47,
-          "line": "export function ValidCompositionFactory("
+          "line": "export function ValidCompositionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_event.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function ValidEventFactory("
+          "line": "export function ValidEventFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/admin/valid_part.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function ValidPartFactory("
+          "line": "export function ValidPartFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/admin/valid_pricing_cascade.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 34,
+          "line": "export function ValidPricingCascadeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/beta/beta_feedback.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 54,
+          "line": "export function BetaFeedbackFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/beta/beta_feedback_tag.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 27,
+          "line": "export function BetaFeedbackTagFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/active_annotation.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 49,
-          "line": "export function AnnotationAssignmentFactory("
+          "line": "export function AnnotationAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/active_event.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 53,
-          "line": "export function EventAssignmentFactory("
+          "line": "export function EventAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/active_part.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function PartAssignmentFactory("
+          "line": "export function PartAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 39,
-          "line": "export function AdditionalServiceOptionFactory("
+          "line": "export function AdditionalServiceOptionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/address.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 33,
-          "line": "export function AddressFactory("
+          "line": "export function AddressFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/annotation_assignment.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 49,
-          "line": "export function AnnotationAssignmentFactory("
+          "line": "export function AnnotationAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/annotation_instance.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 46,
-          "line": "export function AnnotationInstanceFactory("
+          "line": "export function AnnotationInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/annotation_shape.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 39,
-          "line": "export function AnnotationShapeFactory("
+          "line": "export function AnnotationShapeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/appointment.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 57,
-          "line": "export function AppointmentFactory("
+          "line": "export function AppointmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/appointment_attendee.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 53,
-          "line": "export function AppointmentAttendeeFactory("
+          "line": "export function AppointmentAttendeeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/block_instance.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 39,
-          "line": "export function BlockInstanceFactory("
+          "line": "export function BlockInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/block_instance_version.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function BlockInstanceVersionFactory("
+          "line": "export function BlockInstanceVersionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 37,
-          "line": "export function BookingCascadeFactory("
+          "line": "export function BookingCascadeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 41,
-          "line": "export function DependentInstanceFactory("
+          "line": "export function DependentInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/event_assignment.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 47,
-          "line": "export function EventAssignmentFactory("
+          "line": "export function EventAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/event_instance.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 46,
-          "line": "export function EventInstanceFactory("
+          "line": "export function EventInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/event_shape.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 41,
-          "line": "export function EventShapeFactory("
+          "line": "export function EventShapeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/event_shape_attendee.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 47,
-          "line": "export function EventShapeAttendeeFactory("
+          "line": "export function EventShapeAttendeeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/instance_component.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 38,
-          "line": "export function InstanceComponentFactory("
+          "line": "export function InstanceComponentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/part_assignment.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function PartAssignmentFactory("
+          "line": "export function PartAssignmentFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/part_instance.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 29,
-          "line": "export function PartInstanceFactory("
+          "lineNumber": 32,
+          "line": "export function PartInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/part_instance_version.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 37,
-          "line": "export function PartInstanceVersionFactory("
+          "line": "export function PartInstanceVersionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
-      "repoPath": "server/src/db/models/booking/property_details.ts",
-      "allowed": [],
-      "requiresReview": [
+      "repoPath": "server/src/db/models/booking/pricing_cascade.ts",
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 35,
-          "line": "export function PropertyDetailsFactory("
+          "line": "export function PricingCascadeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/booking/property_details.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 35,
+          "line": "export function PropertyDetailsFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/property_version.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 27,
-          "line": "export function PropertyVersionFactory("
+          "line": "export function PropertyVersionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/property_version_type.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 36,
-          "line": "export function PropertyVersionTypeFactory("
+          "line": "export function PropertyVersionTypeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/booking/relationships.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 25,
-          "line": "export function RelationshipFactory("
+          "line": "export function RelationshipFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/mappings/property_feature_mapping.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 37,
+          "line": "export function PropertyFeatureMappingFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/mappings/property_field_mapping.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 33,
+          "line": "export function PropertyFieldMappingFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/db/models/participantModels/Users.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "functionExport",
           "lineNumber": 27,
-          "line": "export function UserFactory("
+          "line": "export function UserFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
         }
-      ]
+      ],
+      "requiresReview": []
     },
     {
       "repoPath": "server/src/types/express.d.ts",

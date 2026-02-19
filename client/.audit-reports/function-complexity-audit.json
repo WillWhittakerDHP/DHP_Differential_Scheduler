@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-18T19:22:19.348Z",
-  "totalScanned": 1012,
+  "generatedAt": "2026-02-18T23:30:34.441Z",
+  "totalScanned": 787,
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,
@@ -15,8 +15,8 @@
       "functions": [
         {
           "name": "createGetByIdHandler",
-          "startLine": 81,
-          "endLine": 108,
+          "startLine": 82,
+          "endLine": 109,
           "length": 28,
           "maxNesting": 5,
           "branches": 3,
@@ -32,8 +32,8 @@
         },
         {
           "name": "createPostHandler",
-          "startLine": 113,
-          "endLine": 163,
+          "startLine": 114,
+          "endLine": 164,
           "length": 51,
           "maxNesting": 11,
           "branches": 9,
@@ -59,8 +59,8 @@
         },
         {
           "name": "createMutationHandler",
-          "startLine": 170,
-          "endLine": 239,
+          "startLine": 171,
+          "endLine": 240,
           "length": 70,
           "maxNesting": 13,
           "branches": 14,
@@ -91,8 +91,8 @@
         },
         {
           "name": "createDeleteHandler",
-          "startLine": 244,
-          "endLine": 278,
+          "startLine": 245,
+          "endLine": 279,
           "length": 35,
           "maxNesting": 8,
           "branches": 5,
@@ -198,98 +198,6 @@
         }
       ],
       "score": 26,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "functions": [
-        {
-          "name": "handleTitleKeydown",
-          "startLine": 125,
-          "endLine": 161,
-          "length": 37,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 233,
-          "endLine": 247,
-          "length": 15,
-          "maxNesting": 5,
-          "branches": 2,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "handleSave",
-          "startLine": 400,
-          "endLine": 432,
-          "length": 33,
-          "maxNesting": 5,
-          "branches": 4,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "directly",
-          "startLine": 467,
-          "endLine": 491,
-          "length": 25,
-          "maxNesting": 5,
-          "branches": 4,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        },
-        {
-          "name": "<script setup>",
-          "startLine": 1,
-          "endLine": 492,
-          "length": 492,
-          "maxNesting": 0,
-          "branches": 0,
-          "params": 0,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "script-setup-length",
-              "value": 492,
-              "threshold": 100
-            }
-          ]
-        }
-      ],
-      "score": 23,
       "priority": "P0"
     },
     {
@@ -439,8 +347,8 @@
         {
           "name": "getSourceValue",
           "startLine": 17,
-          "endLine": 31,
-          "length": 15,
+          "endLine": 30,
+          "length": 14,
           "maxNesting": 5,
           "branches": 5,
           "params": 0,
@@ -460,8 +368,8 @@
         },
         {
           "name": "matches",
-          "startLine": 33,
-          "endLine": 66,
+          "startLine": 32,
+          "endLine": 65,
           "length": 34,
           "maxNesting": 9,
           "branches": 10,
@@ -487,8 +395,8 @@
         },
         {
           "name": "matchFeaturesToBlocks",
-          "startLine": 71,
-          "endLine": 97,
+          "startLine": 70,
+          "endLine": 96,
           "length": 27,
           "maxNesting": 6,
           "branches": 4,
@@ -511,8 +419,8 @@
       "functions": [
         {
           "name": "formatDuration",
-          "startLine": 200,
-          "endLine": 211,
+          "startLine": 201,
+          "endLine": 212,
           "length": 12,
           "maxNesting": 5,
           "branches": 5,
@@ -528,8 +436,8 @@
         },
         {
           "name": "handleClickOutside",
-          "startLine": 213,
-          "endLine": 228,
+          "startLine": 214,
+          "endLine": 229,
           "length": 16,
           "maxNesting": 6,
           "branches": 5,
@@ -545,8 +453,8 @@
         },
         {
           "name": "hasEventForPart",
-          "startLine": 313,
-          "endLine": 341,
+          "startLine": 314,
+          "endLine": 342,
           "length": 29,
           "maxNesting": 9,
           "branches": 7,
@@ -568,8 +476,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 343,
-          "length": 343,
+          "endLine": 344,
+          "length": 344,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -577,7 +485,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 343,
+              "value": 344,
               "threshold": 100
             }
           ]
@@ -1160,8 +1068,8 @@
       "functions": [
         {
           "name": "handleInstanceComponentCreate",
-          "startLine": 96,
-          "endLine": 171,
+          "startLine": 97,
+          "endLine": 172,
           "length": 76,
           "maxNesting": 13,
           "branches": 13,
@@ -1192,8 +1100,8 @@
         },
         {
           "name": "if",
-          "startLine": 214,
-          "endLine": 240,
+          "startLine": 215,
+          "endLine": 241,
           "length": 27,
           "maxNesting": 8,
           "branches": 7,
@@ -1319,12 +1227,75 @@
       "priority": "P0"
     },
     {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "functions": [
+        {
+          "name": "handleTitleKeydown",
+          "startLine": 125,
+          "endLine": 166,
+          "length": 42,
+          "maxNesting": 6,
+          "branches": 6,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "directly",
+          "startLine": 460,
+          "endLine": 484,
+          "length": 25,
+          "maxNesting": 5,
+          "branches": 4,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "<script setup>",
+          "startLine": 1,
+          "endLine": 485,
+          "length": 485,
+          "maxNesting": 0,
+          "branches": 0,
+          "params": 0,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "script-setup-length",
+              "value": 485,
+              "threshold": 100
+            }
+          ]
+        }
+      ],
+      "score": 14,
+      "priority": "P0"
+    },
+    {
       "repoPath": "client/src/components/admin/generic/fields/BooleanInput.vue",
       "functions": [
         {
           "name": "handleClick",
-          "startLine": 118,
-          "endLine": 180,
+          "startLine": 112,
+          "endLine": 174,
           "length": 63,
           "maxNesting": 19,
           "branches": 18,
@@ -1356,8 +1327,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 181,
-          "length": 181,
+          "endLine": 175,
+          "length": 175,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -1365,7 +1336,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 181,
+              "value": 175,
               "threshold": 100
             }
           ]
@@ -1498,8 +1469,8 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 78,
-          "endLine": 126,
+          "startLine": 79,
+          "endLine": 127,
           "length": 49,
           "maxNesting": 10,
           "branches": 9,
@@ -1520,8 +1491,8 @@
         },
         {
           "name": "fetchPlaceDetails",
-          "startLine": 140,
-          "endLine": 177,
+          "startLine": 141,
+          "endLine": 178,
           "length": 38,
           "maxNesting": 6,
           "branches": 5,
@@ -2066,9 +2037,9 @@
       "functions": [
         {
           "name": "useAvailabilitySettings",
-          "startLine": 71,
-          "endLine": 366,
-          "length": 296,
+          "startLine": 74,
+          "endLine": 370,
+          "length": 297,
           "maxNesting": 50,
           "branches": 68,
           "params": 1,
@@ -2086,7 +2057,7 @@
             },
             {
               "rule": "length",
-              "value": 296,
+              "value": 297,
               "threshold": 50
             },
             {
@@ -2144,8 +2115,8 @@
       "functions": [
         {
           "name": "useBusinessRules",
-          "startLine": 142,
-          "endLine": 323,
+          "startLine": 101,
+          "endLine": 282,
           "length": 182,
           "maxNesting": 14,
           "branches": 24,
@@ -2308,8 +2279,8 @@
         {
           "name": "useEntityCardStoreSync",
           "startLine": 45,
-          "endLine": 136,
-          "length": 92,
+          "endLine": 137,
+          "length": 93,
           "maxNesting": 20,
           "branches": 18,
           "params": 0,
@@ -2327,7 +2298,7 @@
             },
             {
               "rule": "length",
-              "value": 92,
+              "value": 93,
               "threshold": 50
             },
             {
@@ -2463,8 +2434,8 @@
       "functions": [
         {
           "name": "useFieldKeyboardGuard",
-          "startLine": 45,
-          "endLine": 117,
+          "startLine": 46,
+          "endLine": 118,
           "length": 73,
           "maxNesting": 18,
           "branches": 15,
@@ -2545,7 +2516,7 @@
           "endLine": 138,
           "length": 107,
           "maxNesting": 18,
-          "branches": 16,
+          "branches": 17,
           "params": 0,
           "returns": 6,
           "violations": [
@@ -2556,7 +2527,7 @@
             },
             {
               "rule": "branches",
-              "value": 16,
+              "value": 17,
               "threshold": 8
             },
             {
@@ -3673,26 +3644,26 @@
         {
           "name": "useDependentInstances",
           "startLine": 55,
-          "endLine": 184,
-          "length": 130,
-          "maxNesting": 21,
-          "branches": 30,
+          "endLine": 154,
+          "length": 100,
+          "maxNesting": 15,
+          "branches": 22,
           "params": 0,
           "returns": 9,
           "violations": [
             {
               "rule": "nesting",
-              "value": 21,
+              "value": 15,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 30,
+              "value": 22,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 130,
+              "value": 100,
               "threshold": 50
             },
             {
@@ -4953,8 +4924,8 @@
       "functions": [
         {
           "name": "createBuffersComputed",
-          "startLine": 23,
-          "endLine": 50,
+          "startLine": 24,
+          "endLine": 51,
           "length": 28,
           "maxNesting": 5,
           "branches": 3,
@@ -4970,8 +4941,8 @@
         },
         {
           "name": "createDriveTimeComputed",
-          "startLine": 52,
-          "endLine": 79,
+          "startLine": 53,
+          "endLine": 80,
           "length": 28,
           "maxNesting": 5,
           "branches": 3,
@@ -5505,8 +5476,8 @@
         {
           "name": "cleanupInvalidActiveRelationships",
           "startLine": 35,
-          "endLine": 144,
-          "length": 110,
+          "endLine": 141,
+          "length": 107,
           "maxNesting": 16,
           "branches": 14,
           "params": 0,
@@ -5524,7 +5495,7 @@
             },
             {
               "rule": "length",
-              "value": 110,
+              "value": 107,
               "threshold": 50
             }
           ]
@@ -5538,8 +5509,8 @@
       "functions": [
         {
           "name": "to",
-          "startLine": 8,
-          "endLine": 37,
+          "startLine": 9,
+          "endLine": 38,
           "length": 30,
           "maxNesting": 7,
           "branches": 6,
@@ -5555,8 +5526,8 @@
         },
         {
           "name": "getEntityConfig",
-          "startLine": 179,
-          "endLine": 191,
+          "startLine": 160,
+          "endLine": 172,
           "length": 13,
           "maxNesting": 5,
           "branches": 3,
@@ -5906,8 +5877,8 @@
       "functions": [
         {
           "name": "fetchPropertyEnrichment",
-          "startLine": 35,
-          "endLine": 74,
+          "startLine": 28,
+          "endLine": 67,
           "length": 40,
           "maxNesting": 12,
           "branches": 12,
@@ -6049,8 +6020,8 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 174,
-          "endLine": 181,
+          "startLine": 168,
+          "endLine": 175,
           "length": 8,
           "maxNesting": 5,
           "branches": 5,
@@ -6067,8 +6038,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 241,
-          "length": 241,
+          "endLine": 235,
+          "length": 235,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -6076,7 +6047,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 241,
+              "value": 235,
               "threshold": 100
             }
           ]
@@ -6090,8 +6061,8 @@
       "functions": [
         {
           "name": "handleApply",
-          "startLine": 122,
-          "endLine": 144,
+          "startLine": 110,
+          "endLine": 132,
           "length": 23,
           "maxNesting": 7,
           "branches": 4,
@@ -6108,8 +6079,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 145,
-          "length": 145,
+          "endLine": 133,
+          "length": 133,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -6117,7 +6088,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 145,
+              "value": 133,
               "threshold": 100
             }
           ]
@@ -6131,8 +6102,8 @@
       "functions": [
         {
           "name": "handleApply",
-          "startLine": 148,
-          "endLine": 170,
+          "startLine": 139,
+          "endLine": 161,
           "length": 23,
           "maxNesting": 6,
           "branches": 3,
@@ -6149,8 +6120,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 171,
-          "length": 171,
+          "endLine": 162,
+          "length": 162,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -6158,7 +6129,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 171,
+              "value": 162,
               "threshold": 100
             }
           ]
@@ -6575,8 +6546,8 @@
       "functions": [
         {
           "name": "useFormFields",
-          "startLine": 10,
-          "endLine": 113,
+          "startLine": 11,
+          "endLine": 114,
           "length": 104,
           "maxNesting": 7,
           "branches": 5,
@@ -7366,8 +7337,8 @@
       "functions": [
         {
           "name": "levelToNumber",
-          "startLine": 46,
-          "endLine": 59,
+          "startLine": 39,
+          "endLine": 52,
           "length": 14,
           "maxNesting": 2,
           "branches": 6,
@@ -7383,8 +7354,8 @@
         },
         {
           "name": "createLogger",
-          "startLine": 115,
-          "endLine": 150,
+          "startLine": 108,
+          "endLine": 143,
           "length": 36,
           "maxNesting": 9,
           "branches": 6,
@@ -7441,8 +7412,8 @@
       "functions": [
         {
           "name": "transformBlockInstance",
-          "startLine": 253,
-          "endLine": 309,
+          "startLine": 252,
+          "endLine": 308,
           "length": 57,
           "maxNesting": 0,
           "branches": 2,
@@ -7458,8 +7429,8 @@
         },
         {
           "name": "transformPartInstance",
-          "startLine": 311,
-          "endLine": 346,
+          "startLine": 310,
+          "endLine": 345,
           "length": 36,
           "maxNesting": 0,
           "branches": 11,
@@ -7475,8 +7446,8 @@
         },
         {
           "name": "transformGlobalToBooking",
-          "startLine": 352,
-          "endLine": 423,
+          "startLine": 351,
+          "endLine": 422,
           "length": 72,
           "maxNesting": 0,
           "branches": 0,
@@ -7615,8 +7586,8 @@
       "functions": [
         {
           "name": "BusinessRuleFactory",
-          "startLine": 118,
-          "endLine": 204,
+          "startLine": 68,
+          "endLine": 154,
           "length": 87,
           "maxNesting": 5,
           "branches": 2,
@@ -7789,8 +7760,8 @@
       "functions": [
         {
           "name": "levelToNumber",
-          "startLine": 49,
-          "endLine": 62,
+          "startLine": 39,
+          "endLine": 52,
           "length": 14,
           "maxNesting": 2,
           "branches": 6,
@@ -7806,8 +7777,8 @@
         },
         {
           "name": "createLogger",
-          "startLine": 118,
-          "endLine": 153,
+          "startLine": 108,
+          "endLine": 143,
           "length": 36,
           "maxNesting": 9,
           "branches": 6,
@@ -8591,8 +8562,8 @@
       "functions": [
         {
           "name": "transformGlobalRelationshipsToInstanceComponents",
-          "startLine": 11,
-          "endLine": 31,
+          "startLine": 12,
+          "endLine": 32,
           "length": 21,
           "maxNesting": 6,
           "branches": 2,
@@ -9120,8 +9091,8 @@
         {
           "name": "for",
           "startLine": 167,
-          "endLine": 196,
-          "length": 30,
+          "endLine": 197,
+          "length": 31,
           "maxNesting": 6,
           "branches": 5,
           "params": 1,
@@ -9408,8 +9379,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 155,
-          "length": 155,
+          "endLine": 156,
+          "length": 156,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9417,7 +9388,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 155,
+              "value": 156,
               "threshold": 100
             }
           ]
@@ -9456,8 +9427,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 127,
-          "length": 127,
+          "endLine": 121,
+          "length": 121,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9465,7 +9436,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 127,
+              "value": 121,
               "threshold": 100
             }
           ]
@@ -9672,8 +9643,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 226,
-          "length": 226,
+          "endLine": 227,
+          "length": 227,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9681,7 +9652,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 226,
+              "value": 227,
               "threshold": 100
             }
           ]
@@ -9752,7 +9723,7 @@
           "endLine": 111,
           "length": 72,
           "maxNesting": 4,
-          "branches": 4,
+          "branches": 2,
           "params": 0,
           "returns": 9,
           "violations": [
@@ -9884,8 +9855,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 184,
-          "length": 184,
+          "endLine": 187,
+          "length": 187,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9893,7 +9864,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 184,
+              "value": 187,
               "threshold": 100
             }
           ]
@@ -9932,8 +9903,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 345,
-          "length": 345,
+          "endLine": 346,
+          "length": 346,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9941,7 +9912,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 345,
+              "value": 346,
               "threshold": 100
             }
           ]
@@ -9956,8 +9927,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 440,
-          "length": 440,
+          "endLine": 442,
+          "length": 442,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9965,7 +9936,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 440,
+              "value": 442,
               "threshold": 100
             }
           ]

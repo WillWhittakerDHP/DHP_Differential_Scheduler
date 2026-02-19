@@ -169,6 +169,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { RFC3339DateTime } from '@/types/datetime'
 import { useLocalTime } from '@/composables/useLocalTime'
 
 const { formatDateTimeForDisplay } = useLocalTime()
@@ -240,7 +241,7 @@ function handleCancel() {
 }
 
 function formatEarliestCompletion(isoDate: string): string {
-  return formatDateTimeForDisplay(isoDate as import('@/types/datetime').RFC3339DateTime, {
+  return formatDateTimeForDisplay(isoDate as RFC3339DateTime, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',

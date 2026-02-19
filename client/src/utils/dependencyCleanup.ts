@@ -59,8 +59,7 @@ export async function cleanupInvalidActiveRelationships(
   
   const affectedEntities = adminComp.getEntitiesByKey(affectedEntityKey).filter(
     (entity) => {
-      const entityRecord = entity as unknown as Record<string, unknown>
-      const linkingValue = entityRecord[linkingField]
+      const linkingValue = entity[linkingField]
       return linkingValue && String(linkingValue) === String(entityId)
     }
   )
@@ -77,8 +76,7 @@ export async function cleanupInvalidActiveRelationships(
   const validChildIdsSet = new Set(newValidChildIds.map(id => String(id)))
   
     const cleanupPromises = affectedEntities.map(async (affectedEntity) => {
-      const entityRecord = affectedEntity as unknown as Record<string, unknown>
-      const activeRelationships = entityRecord[affectedField]
+      const activeRelationships = affectedEntity[affectedField]
     
     if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {
       return // No relationships to check
@@ -100,8 +98,7 @@ export async function cleanupInvalidActiveRelationships(
         continue
       }
       
-      const childRecord = childEntity as unknown as Record<string, unknown>
-      const childTypeRef = childRecord[typeRefKey]
+      const childTypeRef = childEntity[typeRefKey]
       
       if (!childTypeRef || !validChildIdsSet.has(String(childTypeRef))) {
         invalidRelationships.push({

@@ -26,18 +26,12 @@
 import { computed, ref, type Ref } from 'vue'
 import RelationshipCollection from './RelationshipCollection.vue'
 import PartInstanceBulkEditModal from '../../PartInstanceBulkEditModal.vue'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntity, GlobalEntityKey, PartInstanceEntity } from '@/types/entities'
 import { usePartInstanceBulkEdit } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
+import type { UseSelectConfigOptions } from '@/composables/admin/useSelectConfig'
 
-interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-}
-
-const props = defineProps<Props>()
+const props = defineProps<UseSelectConfigOptions>()
 
 const generatePartInstanceName = (
   blockInstanceName: string,
@@ -48,7 +42,7 @@ const generatePartInstanceName = (
 ): string => {
   // PATTERN: Only check partShapeRef since blockInstance is already known from the relationship parent
   const matchingPartInstances = existingChildren.filter((child) => {
-    const partInstance = child as import('@/types/entities').PartInstanceEntity
+    const partInstance = child as PartInstanceEntity
     return partInstance.partShapeRef === _partShapeId
   })
   
@@ -59,7 +53,7 @@ const generatePartInstanceName = (
   }
   
   const baseNameExists = matchingPartInstances.some(
-    (pi) => (pi as import('@/types/entities').PartInstanceEntity).name === baseName
+    (pi) => (pi as PartInstanceEntity).name === baseName
   )
   if (!baseNameExists) {
     return baseName
@@ -67,7 +61,7 @@ const generatePartInstanceName = (
   
   let number = 1
   while (matchingPartInstances.some(
-    (pi) => (pi as import('@/types/entities').PartInstanceEntity).name === `${baseName}-${number}`
+    (pi) => (pi as PartInstanceEntity).name === `${baseName}-${number}`
   )) {
     number++
   }

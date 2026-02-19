@@ -72,8 +72,8 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     if (formFieldConfig) {
       fieldNames = Object.keys(formFieldConfig)
     } else {
-      const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
-      const relationshipNames = Object.keys(this.displayConfig?.relationships || {})
+      const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+      const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})
       fieldNames = [...primitiveNames, ...relationshipNames]
     }
     
@@ -171,10 +171,10 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   getFieldNames(formFieldConfig?: Record<string, ValidAdminValue>): GlobalFieldKey<GE>[] {
     if (formFieldConfig) {
       const allKeys = Object.keys(formFieldConfig)
-      const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
+      const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
       return allKeys.filter(key => primitiveNames.includes(key) || !this.displayConfig?.relationships?.[key]) as GlobalFieldKey<GE>[]
     }
-    const primitiveNames = Object.keys(this.displayConfig?.primitives || {})
+    const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
     return primitiveNames as GlobalFieldKey<GE>[]
   }
   
@@ -193,7 +193,7 @@ export class AdminEntity<GE extends GlobalEntityKey> {
         return !!(fieldConfig?.relationshipSelect || fieldConfig?.typeSelect)
       })
     }
-    return Object.keys(this.displayConfig?.relationships || {})
+    return Object.keys(this.displayConfig?.relationships ?? {})
   }
 }
 
@@ -202,4 +202,3 @@ export class AdminEntity<GE extends GlobalEntityKey> {
 export type AdminEntityMap = {
   [GE in GlobalEntityKey]: AdminEntity<GE>[]
 }
-

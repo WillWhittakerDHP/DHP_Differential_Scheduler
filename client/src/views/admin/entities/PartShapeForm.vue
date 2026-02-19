@@ -60,6 +60,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('PartShapeForm')
 
 const router = useRouter()
 const route = useRoute()
@@ -102,6 +105,7 @@ async function handleSubmit() {
     }
     goBack()
   } catch (err) {
+    logger.error('Failed to save part type', { err })
     error.value = err instanceof Error ? err.message : 'Failed to save part type'
   } finally {
     isSubmitting.value = false

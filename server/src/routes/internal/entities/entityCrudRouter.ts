@@ -24,6 +24,7 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
@@ -81,18 +82,19 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
   }
   
   try {
-    const record = await fetchById(entityConfig.model, req.params.id)
+    const id = paramString(req, 'id')
+    const record = await fetchById(entityConfig.model, id)
     
     if (!record) {
       const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      sendNotFound(res, errorMessage, req.params.id)
+      sendNotFound(res, errorMessage, id)
       return
     }
     
     sendSuccess(res, record)
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.FETCH_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entity', req.params.id)
+    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entity', paramString(req, 'id'))
   }
 })
 
@@ -117,7 +119,7 @@ router.post(
     try {
       // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForCreate(req.body, req.params.entityType)
+      const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
       const created = await createRecord(entityConfig.model, sanitizedData)
       sendCreated(res, created)
@@ -147,15 +149,15 @@ router.put(
       return
     }
     
-    const entityId = req.params.id
+    const entityId = paramString(req, 'id')
     
     try {
       // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForUpdate(req.body, req.params.entityType)
+      const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
       
       // CRITICAL: For block instances, capture old state BEFORE update for versioning
-      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+      if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
         const oldInstance = await handleBlockInstanceVersioning(entityId, true)
         
         if (!oldInstance) {
@@ -175,7 +177,7 @@ router.put(
       }
       
       // PATTERN: After successful update, find and disable old relationships
-      if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
+      if (paramString(req, 'entityType') === ENTITY_KEYS.PART_INSTANCE || paramString(req, 'entityType') === 'partInstance') {
         await handlePartInstanceCleanup(entityId)
       }
       
@@ -211,7 +213,7 @@ router.patch(
       return
     }
     
-    const entityId = req.params.id
+    const entityId = paramString(req, 'id')
     const fieldKey = req.body.key
     const newValue = req.body.value
     
@@ -233,7 +235,7 @@ router.patch(
       }
       
       // Sanitize update data
-      const sanitizedData = sanitizeEntityDataForUpdate(updateData, req.params.entityType)
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, paramString(req, 'entityType'))
       
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
       // PATTERN: Log before update to track what's being changed
@@ -243,7 +245,7 @@ router.patch(
       })
       
       // CRITICAL: For block instances, capture old state BEFORE update for versioning
-      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+      if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
         await handleBlockInstanceVersioning(entityId, true)
       }
       
@@ -258,7 +260,7 @@ router.patch(
       }
       
       // PATTERN: After successful update, find and disable old relationships
-      if (req.params.entityType === ENTITY_KEYS.PART_INSTANCE || req.params.entityType === 'partInstance') {
+      if (paramString(req, 'entityType') === ENTITY_KEYS.PART_INSTANCE || paramString(req, 'entityType') === 'partInstance') {
         await handlePartInstanceCleanup(entityId)
       }
       
@@ -289,11 +291,11 @@ router.delete(
       return
     }
     
-    const entityId = req.params.id
+    const entityId = paramString(req, 'id')
     
     try {
       // CRITICAL: For block instances, capture old state BEFORE delete for versioning
-      if (req.params.entityType === ENTITY_KEYS.BLOCK_INSTANCE || req.params.entityType === 'blockInstance') {
+      if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
         const oldInstance = await handleBlockInstanceVersioning(entityId, false)
         
         if (!oldInstance) {

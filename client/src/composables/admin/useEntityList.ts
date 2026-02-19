@@ -16,6 +16,9 @@ import { useEntityCrud } from '../useEntity'
 import { useNotification } from '../useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useEntityList')
 
 export interface UseEntityListOptions {
   /**
@@ -176,6 +179,7 @@ export function useEntityList(
     try {
       await remove(id)
     } catch (err) {
+      logger.error('Delete entity failed', { err })
       const errorMsg = getDeleteErrorMessage(err)
       notifyError(errorMsg)
       throw err // Re-throw so caller can handle if needed

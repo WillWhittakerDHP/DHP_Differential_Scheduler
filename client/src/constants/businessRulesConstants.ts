@@ -20,12 +20,20 @@ export const BUSINESS_RULES_MESSAGES = {
   DISABLED: 'Business rule disabled',
 } as const
 
+/** Rule type value constants (single source of truth for switch/case and form defaults) */
+export const RULE_TYPE_VALUES = {
+  REQUIRED_FIELDS: 'required_fields',
+  REQUIRES_AGENT: 'requires_agent',
+  CONDITIONAL_VALIDATION: 'conditional_validation',
+  VALIDATION_MESSAGE: 'validation_message',
+} as const
+
 /** Rule type options for selects (title, value, description) */
 export const RULE_TYPE_OPTIONS = [
-  { title: 'Required Fields', value: 'required_fields', description: 'Additional required fields based on block selection' },
-  { title: 'Requires Agent', value: 'requires_agent', description: 'Service requires agent/client contact information' },
-  { title: 'Conditional Validation', value: 'conditional_validation', description: 'Field validation depends on other field values' },
-  { title: 'Validation Message', value: 'validation_message', description: 'Custom validation messages for fields/blocks' },
+  { title: 'Required Fields', value: RULE_TYPE_VALUES.REQUIRED_FIELDS, description: 'Additional required fields based on block selection' },
+  { title: 'Requires Agent', value: RULE_TYPE_VALUES.REQUIRES_AGENT, description: 'Service requires agent/client contact information' },
+  { title: 'Conditional Validation', value: RULE_TYPE_VALUES.CONDITIONAL_VALIDATION, description: 'Field validation depends on other field values' },
+  { title: 'Validation Message', value: RULE_TYPE_VALUES.VALIDATION_MESSAGE, description: 'Custom validation messages for fields/blocks' },
 ] as const
 
 export const BUSINESS_RULES_UI = {

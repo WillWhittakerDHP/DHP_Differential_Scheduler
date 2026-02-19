@@ -17,6 +17,7 @@ import {
   normalizeAddressForCache,
 } from '../../services/propertyEnrichmentCache.js';
 import { PropertyFieldMapping, PropertyFeatureMapping } from '../../config/models.js';
+import { SORT_ORDERS } from '../internal/entities/entityConstants.js';
 
 const logger = createLogger('PropertyEnrichmentRoutes');
 
@@ -119,7 +120,7 @@ router.get(
             dataSource: 'bright_mls',
             active: true,
           },
-          order: [['priority', 'DESC']],
+          order: [['priority', SORT_ORDERS.DESC]],
         }),
       ]);
 

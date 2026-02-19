@@ -8,7 +8,33 @@
     "typeExport": "PascalCase"
   },
   "allowlist": {
-    "patterns": [],
+    "patterns": [
+      {
+        "glob": "server/src/db/models/**/*.ts",
+        "ruleIds": ["functionExport"],
+        "reason": "Sequelize model factory convention: ModelNameFactory"
+      },
+      {
+        "glob": "client/src/composables/**/*.ts",
+        "ruleIds": ["composableExport"],
+        "reason": "Composables may export camelCase helpers used by other composables or components"
+      },
+      {
+        "glob": "client/src/composables/**/index.ts",
+        "ruleIds": ["composableFileName"],
+        "reason": "Barrel/composable package; index is conventional"
+      },
+      {
+        "glob": "client/src/composables/**/types.ts",
+        "ruleIds": ["composableFileName"],
+        "reason": "Barrel/composable package; types file is conventional"
+      },
+      {
+        "glob": "client/src/composables/**/nestedComputedFactory.ts",
+        "ruleIds": ["composableFileName"],
+        "reason": "Composable utility; factory name is intentional"
+      }
+    ],
     "specific": []
   }
 }

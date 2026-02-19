@@ -13,9 +13,10 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/views/admin/tabs/BusinessControlsTab.vue` | P1 | 11 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | P1 | 11 | 6 | 0 | 0 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | P1 | 10 | 6 | 13 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | P1 | 12 | 6 | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | P1 | 9 | 8 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | P1 | 12 | 6 | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | P1 | 8 | 7 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/beta/BetaFeedbackModal.vue` | P1 | 8 | 0 | 2 | 1 | 1 | 2 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | P1 | 8 | 0 | 4 | 1 | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/EntityCardSubPanels.vue` | P2 | 7 | 5 | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/BooleanInput.vue` | P2 | 7 | 4 | 0 | 0 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -29,15 +30,14 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/views/admin/entities/PartShapeForm.vue` | P2 | 6 | 2 | 2 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/SelectionCard.vue` | P2 | 14 | 13 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/TextInput.vue` | P2 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/beta/BetaFeedbackDashboard.vue` | P2 | 5 | 3 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/PartInstanceBulkEditModal.vue` | P2 | 5 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 1 | 0 |
 | `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P2 | 5 | 1 | 0 | 0 | 1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/views/admin/tabs/PropertyMappingsTab.vue` | P2 | 5 | 1 | 2 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/CardButton.vue` | P2 | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/wrappers/ServiceSelectCards.vue` | P2 | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/MetadataEditModal.vue` | P2 | 4 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
-| `src/components/booking/steps/PropertyDetailsStep.vue` | P2 | 4 | 1 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/views/admin/tabs/components/FeeCalibrationPanel.vue` | P2 | 4 | 1 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 38 more files. See full report for details.*
+*...and 43 more files. See full report for details.*
 
 ## Notes
 

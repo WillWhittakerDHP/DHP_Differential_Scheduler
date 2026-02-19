@@ -11,7 +11,7 @@ export function createEntityFieldPatch<
   GlobalEntityType extends Record<string, unknown>,
   GlobalPropertyKey extends keyof GlobalEntityType
 >(fieldKey: GlobalPropertyKey, value: GlobalEntityType[GlobalPropertyKey]): Partial<GlobalEntityType> {
-  return { [fieldKey]: value } as unknown as Partial<GlobalEntityType>
+  return { [fieldKey]: value } as Partial<GlobalEntityType>
 }
 
 

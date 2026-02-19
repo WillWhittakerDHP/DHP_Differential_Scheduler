@@ -10,6 +10,23 @@ import type { Logger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { BulkUpdate, OrderIndexUpdate } from './useEntityCrudTypes'
 
+/** Extract user-facing message and details from an error (Axios or generic). */
+function extractAxiosErrorMessage(error: unknown): { message: string; details?: string } {
+  let message = error instanceof Error ? error.message : String(error)
+  let details: string | undefined
+  if (error && typeof error === 'object') {
+    const ax = error as AxiosError<{ error?: string; details?: string; message?: string }>
+    if (ax.response?.data) {
+      const d = ax.response.data
+      if (d.details != null) details = String(d.details)
+      else if (d.error != null) details = String(d.error)
+      else if (d.message != null) details = String(d.message)
+      if (details != null) message = details
+    }
+  }
+  return { message, details }
+}
+
 type UseEntityCrudMutationsReturn<GlobalEntityTypeKey extends GlobalEntityKey> = {
   create: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => Promise<GlobalEntity<GlobalEntityTypeKey>>
   update: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>, id: GlobalEntityId) => Promise<unknown>
@@ -84,7 +101,7 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
         throw new Error(errorMessage)
       }
 
-      const transformedResponse = transformApiEntity(response.data as unknown as Record<string, unknown>, entityKey)
+      const transformedResponse = transformApiEntity(response.data as Record<string, unknown>, entityKey)
       return transformedResponse
     },
     onMutate: async () => {
@@ -95,67 +112,33 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
       return { previousData }
     },
     onSuccess: (data) => {
-      // PATTERN: Update cache with response data, no refetch needed
-      if (data && data.id) {
-        queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
-          if (!old) return old
-
-          const currentEntities = getEntitiesForKey(old) as GlobalEntity<GlobalEntityTypeKey>[]
-          const entityExists = currentEntities.some((e) => e.id === data.id)
-          
-          if (!entityExists) {
-            const updatedEntities = [...currentEntities, data as GlobalEntity<GlobalEntityTypeKey>]
-            return {
-              ...old,
-              entities: {
-                ...old.entities,
-                [entityKey]: updatedEntities,
-              },
-            }
-          }
-          
-          return old
-        })
-        // PATTERN: Invalidate after cache update to trigger refetch in dependent components
-        queryClient.invalidateQueries({ queryKey: ['globalData'] })
-      } else {
+      if (!data?.id) {
         logger.error('No data or ID in onSuccess callback:', {
           entityKey,
           hasData: !!data,
           dataId: (data as { id?: unknown } | null | undefined)?.id,
         })
+        return
       }
+      queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
+        if (!old) return old
+        const currentEntities = getEntitiesForKey(old) as GlobalEntity<GlobalEntityTypeKey>[]
+        if (currentEntities.some((e) => e.id === data.id)) return old
+        const updatedEntities = [...currentEntities, data as GlobalEntity<GlobalEntityTypeKey>]
+        return {
+          ...old,
+          entities: { ...old.entities, [entityKey]: updatedEntities },
+        }
+      })
+      queryClient.invalidateQueries({ queryKey: ['globalData'] })
     },
     onError: (error: unknown, _variables: Partial<GlobalEntity<GlobalEntityTypeKey>>, context: { previousData?: GlobalData } | undefined) => {
-      // WHY: Log errors explicitly instead of silent failures, then restore previous cache state
-      // PATTERN: Log error, then use context from onMutate to restore previous data
-      // PATTERN: Check for AxiosError and extract response.data.details or response.data.error
-      let errorMessage = error instanceof Error ? error.message : String(error)
-      let errorDetails: string | undefined
-      
-      // PATTERN: Use type guard to check for AxiosError, then extract response.data
-      if (error && typeof error === 'object') {
-        const possibleAxiosError = error as AxiosError<{ error?: string; details?: string; message?: string }>
-        if (possibleAxiosError.response?.data) {
-          const d = possibleAxiosError.response.data
-          if (d.details !== undefined && d.details !== null) {
-            errorDetails = String(d.details)
-          } else if (d.error !== undefined && d.error !== null) {
-            errorDetails = String(d.error)
-          } else if (d.message !== undefined && d.message !== null) {
-            errorDetails = String(d.message)
-          }
-          if (errorDetails !== undefined) {
-            errorMessage = errorDetails
-          }
-        }
-      }
-      
+      const { message: errorMessage, details: errorDetails } = extractAxiosErrorMessage(error)
       logger.error(`Failed to create ${entityKey}:`, {
         error: errorMessage,
         details: errorDetails,
         entity: _variables,
-        fullError: error // Include full error object for debugging
+        fullError: error,
       })
       if (context?.previousData) {
         queryClient.setQueryData(['globalData'], context.previousData)

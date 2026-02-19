@@ -7,6 +7,7 @@
 import { computed, type Ref, type WritableComputedRef } from 'vue'
 import type {
   AvailabilitySettings,
+  BufferConfig,
   ConstraintEnforcement,
   DriveTimeConfig,
   DriveTimeApplyTo
@@ -23,7 +24,7 @@ export interface UseBufferSettingsParams {
 function createBuffersComputed<TValue>(
   formData: Ref<AvailabilitySettings | null>,
   bufferType: keyof Buffers,
-  property: string,
+  property: keyof BufferConfig,
   getDefault: () => TValue,
   ensureFunction: (current: Buffers | undefined) => Buffers
 ): WritableComputedRef<TValue> {
@@ -31,7 +32,7 @@ function createBuffersComputed<TValue>(
     getValue: () => {
       const bufferValue = formData.value?.buffers?.[bufferType]
       if (!bufferValue) return undefined
-      return (bufferValue as unknown as Record<string, TValue>)[property]
+      return (bufferValue as BufferConfig)[property]
     },
     getDefault,
     getCurrentParent: () => formData.value?.buffers ?? undefined,
@@ -60,7 +61,7 @@ function createDriveTimeComputed<TValue>(
     getValue: () => {
       const bufferValue = formData.value?.buffers?.[bufferType]
       if (!bufferValue) return undefined
-      return (bufferValue as unknown as Record<string, TValue>)[property]
+      return (bufferValue as DriveTimeConfig)[property]
     },
     getDefault,
     getCurrentParent: () => formData.value?.buffers ?? undefined,

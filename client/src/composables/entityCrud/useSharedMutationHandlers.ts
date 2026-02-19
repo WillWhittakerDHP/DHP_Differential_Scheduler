@@ -31,7 +31,7 @@ export function createRefetchQueriesHandler(
 ) {
   return async (): Promise<void> => {
     await Promise.all(
-      queryKeys.map(queryKey => queryClient.refetchQueries({ queryKey: queryKey as unknown[] }))
+      queryKeys.map(queryKey => queryClient.refetchQueries({ queryKey: [...queryKey] }))
     )
   }
 }
@@ -46,7 +46,7 @@ export async function cancelQueriesBeforeMutate(
   queryKeys: readonly (readonly unknown[])[]
 ): Promise<void> {
   await Promise.all(
-    queryKeys.map(queryKey => queryClient.cancelQueries({ queryKey: queryKey as unknown[] }))
+    queryKeys.map(queryKey => queryClient.cancelQueries({ queryKey: [...queryKey] }))
   )
 }
 
@@ -69,7 +69,7 @@ export function createRestorePreviousDataHandler(
       const previousDataKey = previousDataKeys[index]
       const previousData = context[previousDataKey]
       if (previousData !== undefined) {
-        queryClient.setQueryData(queryKey as unknown[], previousData)
+        queryClient.setQueryData([...queryKey], previousData)
       }
     })
   }

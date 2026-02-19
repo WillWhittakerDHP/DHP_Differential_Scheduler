@@ -26,6 +26,7 @@ const { ctrl_k: ctrlK, meta_k: metaK } = useMagicKeys({
 
 const refSearchList = ref<VList>()
 const refSearchInput = ref<HTMLInputElement>()
+void refSearchInput // ref used by template
 const searchQueryLocal = ref('')
 
  

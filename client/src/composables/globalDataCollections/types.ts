@@ -1,18 +1,14 @@
-import type { ComputedRef } from 'vue'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
+import type {
+  CollectionQueryResult,
+  CollectionByIdQueryResult,
+  CollectionEndpoints,
+  UpdateByIdPayload
+} from '@/composables/collectionTypes'
 
-export type GlobalDataCollectionQueryResult<CollectionItem> = {
-  data: ComputedRef<CollectionItem[]>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-}
-
-export type GlobalDataCollectionByIdQueryResult<CollectionItem> = {
-  data: ComputedRef<CollectionItem | undefined>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-}
+export type GlobalDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
+export type GlobalDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
 
 export type GlobalDataCollectionSelector<CollectionItem> = (
   globalData: GlobalData
@@ -23,10 +19,7 @@ export type GlobalDataCollectionUpdater<CollectionItem> = (
   updatedCollection: readonly CollectionItem[]
 ) => GlobalData
 
-export type GlobalDataCollectionEndpoints = {
-  listEndpoint: () => string
-  byIdEndpoint: (id: string) => string
-}
+export type GlobalDataCollectionEndpoints = CollectionEndpoints
 
 export type GlobalDataCollectionCrudConfig<CollectionItem extends { id: string }> = {
   collectionName: string
@@ -35,10 +28,7 @@ export type GlobalDataCollectionCrudConfig<CollectionItem extends { id: string }
   endpoints: GlobalDataCollectionEndpoints
 }
 
-export type UpdateByIdPayload<UpdatePayload> = {
-  id: string
-  data: UpdatePayload
-}
+export type { UpdateByIdPayload }
 
 export type GlobalDataCollectionCrudComposableReturn<
   CollectionItem extends { id: string },

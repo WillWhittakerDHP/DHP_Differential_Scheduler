@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { isTestFileFromCentralConfig } from './audit-exceptions.mjs'
+import { isTestFileFromCentralConfig, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
 
 /**
  * Test Audit Script
@@ -55,14 +55,7 @@ function isTestFile(repoPath) {
 
 function isSourceFile(repoPath) {
   if (isTestFile(repoPath)) return false
-  // Exclude migration files (one-time scripts, not part of application code)
-  if (repoPath.includes('/migrations/') || repoPath.includes('/migration') || /migration.*\.(js|mjs|ts)$/i.test(repoPath)) {
-    return false
-  }
-  if (repoPath.includes('/node_modules/')) return false
-  if (repoPath.includes('/dist/')) return false
-  if (repoPath.includes('/.audit/')) return false
-  if (repoPath.includes('/.typecheck/')) return false
+  if (isGloballyExcluded(repoPath)) return false
   return /\.(ts|tsx|js|jsx|vue|mjs)$/.test(repoPath)
 }
 
@@ -74,10 +67,7 @@ function listFilesRecursive(dir) {
   for (const e of entries) {
     const abs = path.join(dir, e.name)
     if (e.isDirectory()) {
-      // Skip certain directories
-      if (e.name === 'node_modules' || e.name === 'dist' || e.name === '.audit-reports' || e.name === '.audit-reports/typecheck') {
-        continue
-      }
+      if (shouldPruneDirectory(e.name)) continue
       out.push(...listFilesRecursive(abs))
       continue
     }

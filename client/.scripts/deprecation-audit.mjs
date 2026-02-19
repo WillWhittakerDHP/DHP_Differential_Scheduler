@@ -8,6 +8,7 @@ import {
   parseChangedOnlyFlag,
   isCompiledJsFile,
   isGloballyExcluded,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -146,9 +147,8 @@ function listFilesRecursive(dirPath, extensions) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const entry of entries) {
       const fullPath = path.join(dirPath, entry.name)
-      const repoPath = toRepoPath(fullPath)
-      if (repoPath.includes('node_modules') || repoPath.includes('/dist/') || repoPath.includes('.git/')) continue
       if (entry.isDirectory()) {
+        if (shouldPruneDirectory(entry.name)) continue
         files.push(...listFilesRecursive(fullPath, extensions))
       } else if (entry.isFile()) {
         const ext = path.extname(entry.name)

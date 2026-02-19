@@ -21,6 +21,9 @@ import { pickRandomItem } from '@/utils/collections/pickRandomItem'
 import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollections'
 import { useBusiness, BUSINESS_DATA_QUERY_KEY } from './useBusiness'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAppointment')
 
 type UpdateByIdPayload = {
   id: string
@@ -108,6 +111,7 @@ export function useAppointment(): UseAppointmentReturn {
       const appointments = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
       return pickRandomItem(appointments)
     } catch (_error) {
+      logger.error('Fetch random appointment failed', { error: _error })
       return null
     }
   }

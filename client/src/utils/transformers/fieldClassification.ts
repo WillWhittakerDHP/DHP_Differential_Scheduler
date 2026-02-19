@@ -38,15 +38,12 @@ export function buildFieldClassificationSets(
   entityType: string,
   metadata: Record<string, FieldMetadataEntry>
 ): DehydrateFieldSets {
-  const schemaRequiredBooleans = safeArray(
-    ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS]
-  )
-  const schemaNullableBooleans = safeArray(
-    ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS]
-  )
-  const schemaRequiredNumbers = safeArray(
-    ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS[entityType as keyof typeof ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS]
-  )
+  const rawRequired = (ENTITY_SCHEMA_DEFAULTS.REQUIRED_BOOLEANS as Record<string, unknown>)[entityType]
+  const rawNullable = (ENTITY_SCHEMA_DEFAULTS.NULLABLE_BOOLEANS as Record<string, unknown>)[entityType]
+  const rawNumbers = (ENTITY_SCHEMA_DEFAULTS.REQUIRED_NUMBERS as Record<string, unknown>)[entityType]
+  const schemaRequiredBooleans = safeArray<string>(Array.isArray(rawRequired) ? (rawRequired as string[]) : [])
+  const schemaNullableBooleans = safeArray<string>(Array.isArray(rawNullable) ? (rawNullable as string[]) : [])
+  const schemaRequiredNumbers = safeArray<string>(Array.isArray(rawNumbers) ? (rawNumbers as string[]) : [])
 
   const schemaNonNullableBooleansSet = new Set(schemaRequiredBooleans)
   const schemaNullableBooleansSet = new Set(schemaNullableBooleans)

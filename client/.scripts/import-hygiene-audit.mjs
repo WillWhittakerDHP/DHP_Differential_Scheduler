@@ -7,6 +7,7 @@ import {
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS,
+  shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
 /**
@@ -29,6 +30,10 @@ import {
  *   RULE: relative-when-alias
  *     A relative import traverses 3+ parent directories when a path alias
  *     (like @/) would be clearer.
+ *
+ *   RULE: inline-type-import
+ *     A file uses inline type-only imports (e.g. import('@/types/...').TypeName)
+ *     in type positions. Prefer top-level "import type { X } from '...'".
  *
  * Scope:
  *   - Included: client/src (ts, vue) and server/src (ts, mjs)
@@ -75,10 +80,10 @@ function listFilesRecursive(dirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
     for (const e of entries) {
       const full = path.join(dirPath, e.name)
-      const rp = toRepoPath(full)
-      if (rp.includes('node_modules') || rp.includes('/dist/') || rp.includes('.git/')) continue
-      if (e.isDirectory()) files.push(...listFilesRecursive(full))
-      else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
+      if (e.isDirectory()) {
+        if (shouldPruneDirectory(e.name)) continue
+        files.push(...listFilesRecursive(full))
+      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
     }
   } catch { /* inaccessible */ }
   return files
@@ -245,6 +250,32 @@ function checkBarrelBypass(imports, importerAbs, barrelDirs) {
           message: `Imports from '${imp.specifier}' bypassing barrel at ${targetDir}/index`,
         })
       }
+    }
+  }
+  return findings
+}
+
+/**
+ * RULE: inline-type-import
+ * Flag inline type-only imports (e.g. import('@/types/appointment').EventFinal) in type positions.
+ * Prefer top-level "import type { X } from '...'" for clarity and so the import cleanup audit can track them.
+ */
+function checkInlineTypeImport(content) {
+  const findings = []
+  const lines = content.split('\n')
+  // Match import('...') or import("...") followed by . (type access) — type-only inline import pattern
+  const inlineTypeRe = /import\s*\(\s*['"]([^'"]+)['"]\s*\)\s*\./g
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    let match
+    inlineTypeRe.lastIndex = 0
+    while ((match = inlineTypeRe.exec(line)) !== null) {
+      findings.push({
+        ruleId: 'inline-type-import',
+        lineNumber: i + 1,
+        specifier: match[1],
+        snippet: line.trim().slice(0, 80) + (line.trim().length > 80 ? '…' : ''),
+      })
     }
   }
   return findings
@@ -428,6 +459,7 @@ const RULE_WEIGHTS = {
   'duplicate-reexport': 4,
   'relative-when-alias': 1,
   'type-value-reexport': 2,
+  'inline-type-import': 1,
 }
 
 function assignPriority(score, config) {
@@ -457,7 +489,25 @@ function renderMarkdownReport(result) {
   lines.push(`- Duplicate re-exports: **${result.duplicateReexports.length}**`)
   lines.push(`- Deep relative imports: **${result.relativeWhenAlias.length}**`)
   lines.push(`- Type/value re-exports: **${(result.typeValueReexport || []).length}**`)
+  lines.push(`- Inline type imports: **${(result.inlineTypeImport || []).length}**`)
   lines.push('')
+
+  if ((result.inlineTypeImport || []).length > 0) {
+    lines.push('## Inline type imports')
+    lines.push('')
+    lines.push('These files use inline type-only imports (e.g. `import(\'@/types/...\').TypeName`) in type positions.')
+    lines.push('Prefer a top-level `import type { TypeName } from \'...\'` for clarity and consistency.')
+    lines.push('')
+    lines.push('| File | Line | Specifier | Snippet |')
+    lines.push('| --- | ---: | --- | --- |')
+    for (const f of (result.inlineTypeImport || []).slice(0, 40)) {
+      lines.push(`| \`${f.file}\` | ${f.lineNumber} | \`${f.specifier}\` | \`${f.snippet || ''}\` |`)
+    }
+    if ((result.inlineTypeImport || []).length > 40) {
+      lines.push(`| *...and ${result.inlineTypeImport.length - 40} more* | | | |`)
+    }
+    lines.push('')
+  }
 
   if ((result.typeValueReexport || []).length > 0) {
     lines.push('## Type/value re-export')
@@ -541,10 +591,10 @@ function renderMarkdownReport(result) {
   if (result.files.length > 0) {
     lines.push('## Files by Severity')
     lines.push('')
-    lines.push('| File | Priority | Score | Barrel Bypass | Deep Relative | Type/Value Re-export |')
-    lines.push('| --- | --- | ---: | ---: | ---: | ---: |')
+    lines.push('| File | Priority | Score | Barrel Bypass | Deep Relative | Type/Value Re-export | Inline type import |')
+    lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: |')
     for (const f of result.files.slice(0, 30)) {
-      lines.push(`| \`${f.file}\` | ${f.priority} | ${f.score} | ${f.barrelBypass || 0} | ${f.relativeWhenAlias || 0} | ${f.typeValueReexport || 0} |`)
+      lines.push(`| \`${f.file}\` | ${f.priority} | ${f.score} | ${f.barrelBypass || 0} | ${f.relativeWhenAlias || 0} | ${f.typeValueReexport || 0} | ${f.inlineTypeImport || 0} |`)
     }
     lines.push('')
   }
@@ -571,6 +621,7 @@ function main() {
 
   const allBarrelBypass = []
   const allRelativeWhenAlias = []
+  const allInlineTypeImport = []
   const allImportsMap = new Map()
   const fileFindings = new Map()
   let scannedCount = 0
@@ -595,6 +646,10 @@ function main() {
 
     const barrelFindings = checkBarrelBypass(imports, abs, barrelDirs)
     const relativeFindings = checkRelativeWhenAlias(imports, abs)
+    const inlineTypeFindings = checkInlineTypeImport(scriptContent).filter((f) => {
+      const result = checkConfigAllowlist(repoPath, 'inline-type-import', f.lineNumber, configAllowlist)
+      return !result.allowed
+    })
 
     for (const f of barrelFindings) {
       allBarrelBypass.push({ file: repoPath, ...f })
@@ -602,13 +657,17 @@ function main() {
     for (const f of relativeFindings) {
       allRelativeWhenAlias.push({ file: repoPath, ...f })
     }
+    for (const f of inlineTypeFindings) {
+      allInlineTypeImport.push({ file: repoPath, ...f })
+    }
 
-    if (barrelFindings.length > 0 || relativeFindings.length > 0) {
-      const existing = fileFindings.get(repoPath) || { barrelBypass: 0, relativeWhenAlias: 0 }
+    if (barrelFindings.length > 0 || relativeFindings.length > 0 || inlineTypeFindings.length > 0) {
+      const existing = fileFindings.get(repoPath) || { barrelBypass: 0, relativeWhenAlias: 0, typeValueReexport: 0 }
       fileFindings.set(repoPath, {
         barrelBypass: barrelFindings.length,
         relativeWhenAlias: relativeFindings.length,
         typeValueReexport: existing.typeValueReexport || 0,
+        inlineTypeImport: inlineTypeFindings.length,
       })
     }
   }
@@ -643,7 +702,8 @@ function main() {
       const score =
         (counts.barrelBypass || 0) * RULE_WEIGHTS['barrel-bypass'] +
         (counts.relativeWhenAlias || 0) * RULE_WEIGHTS['relative-when-alias'] +
-        (counts.typeValueReexport || 0) * RULE_WEIGHTS['type-value-reexport']
+        (counts.typeValueReexport || 0) * RULE_WEIGHTS['type-value-reexport'] +
+        (counts.inlineTypeImport || 0) * RULE_WEIGHTS['inline-type-import']
       return {
         file,
         priority: assignPriority(score, config),
@@ -663,6 +723,7 @@ function main() {
     duplicateReexports,
     typeValueReexport: allTypeValueReexport,
     relativeWhenAlias: allRelativeWhenAlias,
+    inlineTypeImport: allInlineTypeImport,
     files,
   }
 
@@ -675,7 +736,8 @@ function main() {
     `Inconsistent paths: ${inconsistentPaths.length}, ` +
     `Duplicate re-exports: ${duplicateReexports.length}, ` +
     `Type/value re-exports: ${allTypeValueReexport.length}, ` +
-    `Deep relative: ${allRelativeWhenAlias.length}`
+    `Deep relative: ${allRelativeWhenAlias.length}, ` +
+    `Inline type imports: ${allInlineTypeImport.length}`
   )
   process.exitCode = 0
 }

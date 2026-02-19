@@ -10,7 +10,7 @@
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
-import { AdminEntity } from '@/types/admin/AdminEntity'
+import { AdminEntity } from '@/types/admin/adminEntity'
 import { groupByParentId } from './transformerCollections'
 import { safeArray } from './transformerPrimitives'
 

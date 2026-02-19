@@ -1,4 +1,7 @@
-export type EntityWithStringId = { id: string }
+import type { IdentifiableById } from '@/utils/collections/appendIfMissingById'
+
+/** Re-export for consumers; same contract as IdentifiableById. */
+export type EntityWithStringId = IdentifiableById
 
 /**
  * Minimal optimistic helpers for list caches keyed by entity `id`.

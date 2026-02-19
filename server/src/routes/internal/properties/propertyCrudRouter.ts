@@ -14,6 +14,7 @@ import { handleRouteError } from './propertyErrorHandler.js'
 import { validateAddressFields } from './propertyValidators.js'
 import { findOrCreateAddress, getPropertyWithAssociations, getPropertyDetailsFromVersion } from './propertyHelpers.js'
 import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 
 const router = Router()
@@ -52,10 +53,10 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
  */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
-    const propertyVersion = await getPropertyWithAssociations(req.params.id)
+    const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
     
     if (!propertyVersion) {
-      sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+      sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, paramString(req, 'id'))
       return
     }
     
@@ -158,10 +159,10 @@ router.put(
   checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const propertyVersion = await getPropertyWithAssociations(req.params.id)
+      const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
 
       if (!propertyVersion) {
-        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, paramString(req, 'id'))
         return
       }
 
@@ -218,10 +219,10 @@ router.patch(
   checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const propertyVersion = await getPropertyWithAssociations(req.params.id)
+      const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
 
       if (!propertyVersion) {
-        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, paramString(req, 'id'))
         return
       }
 
@@ -260,10 +261,10 @@ router.delete(
   checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const propertyVersion = await PropertyVersion.findByPk(req.params.id)
+      const propertyVersion = await PropertyVersion.findByPk(paramString(req, 'id'))
       
       if (!propertyVersion) {
-        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, req.params.id)
+        sendNotFound(res, ERROR_MESSAGES.PROPERTY_NOT_FOUND, paramString(req, 'id'))
         return
       }
 

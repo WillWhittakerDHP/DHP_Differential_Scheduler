@@ -64,7 +64,7 @@ export function useInputConfigEditor(
       candidateChildKey: (inputConfig.candidateChildKey as string) || null,
       groupByKey: (inputConfig.groupByKey as string) || null,
       placeholder: (inputConfig.placeholder as string) || null,
-      options: (inputConfig.options as unknown[]) || null, // Options array (for options-based selects)
+      options: (inputConfig.options as Array<unknown>) ?? null, // Options array (for options-based selects)
     }
   }
 

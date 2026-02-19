@@ -5,7 +5,7 @@
  */
 
 import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
-import { animations, handleEnd, performTransfer } from '@formkit/drag-and-drop'
+import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { useEntityTabState } from './useEntityTabState'
@@ -169,11 +169,11 @@ export function useInstanceDragAndDrop(
             // PATTERN: Extract common logic to shared utility
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
-            performTransfer: (state, data) => {
-              performTransfer(state, data)
+            performTransfer: (arg) => {
+              formkitPerformTransfer(arg)
             },
             handleEnd: (state) => {
-              handleEnd(state)
+              formkitHandleEnd(state)
               dragHandlers.handleDragEnd()
             },
           }))

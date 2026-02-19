@@ -17,6 +17,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../useEntity'
 import { useGlobal } from '../useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('usePartInstanceForm')
 
 export interface PartInstanceFormData {
   name: string
@@ -25,14 +28,9 @@ export interface PartInstanceFormData {
   active: boolean
 }
 
-export interface UsePartInstanceFormOptions {
-  /**
-   * LEARNING: Route name for navigation after submit
-   * WHY: Allows customization of redirect route
-   * PATTERN: Optional route name, defaults to 'part-instances-list'
-   */
-  redirectRouteName?: string
-}
+import type { UseEntityFormRedirectOptions } from './entityFormRedirectOptions'
+
+export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions
 
 export interface UsePartInstanceFormReturn {
   /**
@@ -206,6 +204,7 @@ export function usePartInstanceForm(
       }
       goBack()
     } catch (err) {
+      logger.error('Failed to save part instance', { err })
       error.value = err instanceof Error ? err.message : 'Failed to save part instance'
     } finally {
       isSubmitting.value = false

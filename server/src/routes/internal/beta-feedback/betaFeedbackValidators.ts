@@ -41,7 +41,7 @@ function validateRequiredFields(body: CreateBody, method: 'create' | 'update'): 
     return { valid: true };
   }
   const missing = REQUIRED_FIELDS_CREATE.filter((key) => {
-    const value = body[key as keyof CreateBody];
+    const value = (body as Record<string, unknown>)[key];
     return value === undefined || value === null || (typeof value === 'string' && value.trim() === '');
   });
   if (missing.length > 0) {
@@ -55,21 +55,21 @@ function validateRequiredFields(body: CreateBody, method: 'create' | 'update'): 
 }
 
 function validateCategory(category: unknown): ValidationResult {
-  if (typeof category !== 'string' || !VALID_CATEGORIES.includes(category as (typeof VALID_CATEGORIES)[number])) {
+  if (typeof category !== 'string' || !(VALID_CATEGORIES as readonly string[]).includes(category)) {
     return { valid: false, error: ERROR_MESSAGES.INVALID_CATEGORY };
   }
   return { valid: true };
 }
 
 function validateSeverity(severity: unknown): ValidationResult {
-  if (typeof severity !== 'string' || !VALID_SEVERITIES.includes(severity as (typeof VALID_SEVERITIES)[number])) {
+  if (typeof severity !== 'string' || !(VALID_SEVERITIES as readonly string[]).includes(severity)) {
     return { valid: false, error: ERROR_MESSAGES.INVALID_SEVERITY };
   }
   return { valid: true };
 }
 
 function validateStatus(status: unknown): ValidationResult {
-  if (typeof status !== 'string' || !VALID_STATUSES.includes(status as (typeof VALID_STATUSES)[number])) {
+  if (typeof status !== 'string' || !(VALID_STATUSES as readonly string[]).includes(status)) {
     return { valid: false, error: ERROR_MESSAGES.INVALID_STATUS };
   }
   return { valid: true };

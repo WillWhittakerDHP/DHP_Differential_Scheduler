@@ -1,12 +1,1 @@
-{
-  "$comment": "Configuration for type-similarity-audit.mjs exception handling and scoring",
-  "$schema": "Allowlist for intentional type duplication / similar structures",
-  "allowlist": {
-    "patterns": [],
-    "specific": []
-  },
-  "priorities": {
-    "p0MinScore": 12,
-    "p1MinScore": 7
-  }
-}
+{"$comment":"Configuration for type-similarity-audit.mjs exception handling and scoring","$schema":"Allowlist for intentional type duplication / similar structures","allowlist":{"patterns":[{"glob":"**/express.d.ts","ruleIds":["*"],"reason":"Declaration file; leave as-is"}],"specific":[]},"priorities":{"p0MinScore":12,"p1MinScore":7}}

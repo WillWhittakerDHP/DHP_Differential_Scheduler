@@ -7,7 +7,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | File | Priority | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 38 | 0 | 7 | 0 | 0 | 0 | 15 | 10 | 0 | 0 |
-| `src/composables/fieldContext/useFieldContextSaveHelpers.ts` | P1 | 17 | 0 | 0 | 0 | 0 | 0 | 3 | 6 | 0 | 0 |
+| `src/composables/fieldContext/useFieldContextSaveHelpers.ts` | P1 | 18 | 0 | 0 | 0 | 0 | 0 | 3 | 6 | 0 | 0 |
 | `src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 24 | 0 | 6 | 0 | 0 | 0 | 8 | 8 | 0 | 0 |
 | `src/composables/admin/useBusinessRules.ts` | P1 | 21 | 1 | 0 | 0 | 0 | 5 | 6 | 10 | 0 | 0 |
 | `src/composables/admin/useRelationshipCollectionData.ts` | P1 | 18 | 1 | 0 | 0 | 17 | 0 | 0 | 0 | 0 | 0 |
@@ -37,7 +37,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/booking/useAppointmentLoader.ts` | P2 | 10 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 1 |
 | `src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 144 more files. See full report for details.*
+*...and 146 more files. See full report for details.*
 
 ## Notes
 

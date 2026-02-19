@@ -22,3 +22,9 @@ export const ENTITY_KEYS = [
 ] as const;
 
 export type GlobalEntityKey = (typeof ENTITY_KEYS)[number]
+
+/**
+ * Entity metadata type discriminator (shapes and instances).
+ * WHY: Same value set as GlobalEntityKey; single canonical type for admin metadata CRUD and config.
+ */
+export type EntityMetadataType = GlobalEntityKey

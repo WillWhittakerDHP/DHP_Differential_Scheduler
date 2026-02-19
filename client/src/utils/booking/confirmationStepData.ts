@@ -245,6 +245,7 @@ export function buildConfirmationPriceData(
 
   // PATTERN: Apply discounts and delivery charges to calculate final total
   const bagTotal = totalFee
+  // Tracked placeholders until coupon and business settings integration (see TODO-aging audit)
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
   const orderTotal = bagTotal - couponDiscount
   const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented

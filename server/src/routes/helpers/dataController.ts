@@ -9,7 +9,7 @@ const logger = createLogger('DataController');
 /**
  * Type helper for creating where clauses by ID
  * LEARNING: All Sequelize models in this codebase have id: CreationOptional<string>
- * WHY: Provides type-safe way to create where clauses without using 'as unknown as'
+ * WHY: Provides type-safe way to create where clauses via attribute extraction
  * PATTERN: Extract id type from model attributes - all models use string IDs
  * 
  * API Best Practice: Use proper type extraction instead of type assertions
@@ -135,7 +135,7 @@ const updateRecord = async <T extends Model>(
   id: string, 
   data: Partial<T["_creationAttributes"]> 
 ): Promise<number> => {
-  // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
+  // WHY: Uses proper type extraction from model attributes for type safety
   // PATTERN: NonNullable ensures we use the defined string type, not string | undefined
   const whereClause: WhereById<T> = { id };
   
@@ -153,7 +153,7 @@ const patchRecord = async <T extends Model>(
   id: string,
   data: Partial<T["_creationAttributes"]>
 ): Promise<number> => {
-  // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
+  // WHY: Uses proper type extraction from model attributes for type safety
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
   // PATTERN: Server validates and rejects invalid types with clear errors
@@ -173,7 +173,7 @@ const bulkPatch = async <T extends Model>(
 
   for (const { id, ...data } of updates) {
 /**
- * WHY: // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
+ * WHY: Uses proper type extraction from model attributes for type safety
  */
     const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
     const [count] = await Entity.update(data as Partial<Attributes<T>>, {
@@ -188,7 +188,7 @@ const deleteRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string
 ): Promise<number> => {
-  // WHY: Avoids 'as unknown as' by using proper type extraction from model attributes
+  // WHY: Uses proper type extraction from model attributes for type safety
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
   const deletedRows = await Entity.destroy({

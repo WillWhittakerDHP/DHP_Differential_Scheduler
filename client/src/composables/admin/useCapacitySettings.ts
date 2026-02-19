@@ -4,7 +4,7 @@
  * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
  * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
-import type { Ref, WritableComputedRef } from 'vue'
+import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import {
   createNestedComputed,
@@ -30,7 +30,7 @@ function createMaxWorkHoursComputed<TValue>(
     getValue: () => {
       const filterValue = formData.value?.maxWorkHours?.[filter]
       if (!filterValue) return undefined
-      return (filterValue as unknown as Record<string, TValue>)[property]
+      return (filterValue as Record<string, TValue>)[property]
     },
     getDefault,
     getCurrentParent: () => formData.value?.maxWorkHours ?? undefined,

@@ -165,7 +165,7 @@ export function buildBatchMetadataResult(allMetadata: any[]): {
   }
 
   for (const entry of allMetadata) {
-    const entityType = entry.entityType as keyof typeof result.global
+    const entityType = String(entry.entityType)
     const fieldKey = entry.fieldKey
     const blockShapeRef = entry.blockShapeRef
 
@@ -189,8 +189,9 @@ export function buildBatchMetadataResult(allMetadata: any[]): {
       }
       result.blockShapeSpecific[blockShapeRef][fieldKey] = metadataEntry
     } else {
-      if (result.global[entityType]) {
-        result.global[entityType][fieldKey] = metadataEntry
+      const globalByType = (result.global as Record<string, Record<string, unknown>>)[entityType]
+      if (globalByType) {
+        globalByType[fieldKey] = metadataEntry
       }
     }
   }

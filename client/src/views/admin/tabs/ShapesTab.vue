@@ -217,6 +217,7 @@ const handleAnnotationShapeCreate = async () => {
     newAnnotationShapeName.value = ''
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
   } catch (_error) {
+    logger.error('Failed to create annotation shape', { error: _error })
     // Error already surfaced via notification
   } finally {
     isCreatingAnnotationShapeLoading.value = false
@@ -280,6 +281,7 @@ const handleEventShapeCancelled = () => {
 const partShapesContainer = ref<HTMLElement | null>(null)
 const blockShapesContainer = ref<HTMLElement | null>(null)
 const annotationShapesContainer = ref<HTMLElement | null>(null)
+void annotationShapesContainer // ref used by template
 
 /**
  * LEARNING: Refs for actual VExpansionPanels DOM elements
@@ -289,6 +291,7 @@ const annotationShapesContainer = ref<HTMLElement | null>(null)
 const partShapesPanelsContainer = ref<HTMLElement | null>(null)
 const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
+void annotationShapesPanelsContainer // ref used by template
 
 // WHY: Extracted to composable for better organization
 

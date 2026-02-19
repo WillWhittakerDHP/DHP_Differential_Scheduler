@@ -18,6 +18,7 @@ import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import type { GlobalEntity } from '@/types/entities'
+import type { FieldMetadataEntry } from '@/types/entityMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { FieldRenderer } from './fields'
 import EntityCardContent from './EntityCardContent.vue'
@@ -90,7 +91,7 @@ interface Props<GE extends GlobalEntityKey> {
    * WHY: Allows parent components to pass filtered metadata (e.g., bulk edit modals showing only bulkEdit fields)
    * PATTERN: If provided, use this instead of fetching metadata
    */
-  fieldMetadata?: Record<string, import('@/types/entityMetadata').FieldMetadataEntry>
+  fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
 const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
@@ -157,16 +158,24 @@ function handleTitleKeydown(event: KeyboardEvent): void {
     return
   }
   // Use shape-compatible type to avoid DOM global reference (lint no-undef in non-DOM env)
-  type InputLike = { value: string; selectionStart: number | null; selectionEnd: number | null; setSelectionRange(start: number, end: number): void }
-  const el = editable as InputLike
-  const start = el.selectionStart ?? el.value.length
-  const end = el.selectionEnd ?? start
+  interface InputLikeElement extends Element {
+    value: string
+    selectionStart: number | null
+    selectionEnd: number | null
+    setSelectionRange(start: number, end: number): void
+  }
+  function isInputLike(el: Element): el is InputLikeElement {
+    return 'value' in el && 'setSelectionRange' in el
+  }
+  if (!isInputLike(editable)) return
+  const start = editable.selectionStart ?? editable.value.length
+  const end = editable.selectionEnd ?? start
   const char = event.key === KEY_ENTER ? '\n' : ' '
-  const before = el.value.slice(0, start)
-  const after = el.value.slice(end)
-  el.value = before + char + after
-  el.setSelectionRange(start + char.length, start + char.length)
-  el.dispatchEvent(new Event('input', { bubbles: true }))
+  const before = editable.value.slice(0, start)
+  const after = editable.value.slice(end)
+  editable.value = before + char + after
+  editable.setSelectionRange(start + char.length, start + char.length)
+  editable.dispatchEvent(new Event('input', { bubbles: true }))
 }
 
 /**
@@ -294,7 +303,6 @@ const {
 const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
-  // @audit-allow:type-escape:as-unknown-as - vee-validate useForm return type boundary; form is FormContext at runtime
   form: ref<FormContext | undefined>(form as unknown as FormContext | undefined) as Ref<FormContext | undefined>,
   fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
@@ -392,8 +400,7 @@ const unifiedSaveState = useEntityCardSaveState({
   getEntityValues: () => {
     // PATTERN: Get entity from store (has latest saved values) or fall back to props.entity
     const savedEntity = props.isNew ? props.entity : (admin.getEntity(props.entityKey, props.entity.id) || props.entity)
-    // @audit-allow:type-escape:as-unknown-as - Entity from store is object; generic getEntityValues expects Record<string, unknown>
-    return savedEntity as unknown as Record<string, unknown>
+    return savedEntity as Record<string, unknown>
   }
 })
 

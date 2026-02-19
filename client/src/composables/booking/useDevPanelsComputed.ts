@@ -36,7 +36,7 @@ export interface UseDevPanelsComputedReturn {
   serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
 }
 
-interface ServiceSummary {
+export interface ServiceSummary {
   name: string
   differential: TernaryBoolean
   bookingMode: string

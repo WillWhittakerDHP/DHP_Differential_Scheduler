@@ -107,61 +107,31 @@ export function useDependentInstances(
     for (const id of ids) {
       const entity = getGlobalEntityById('blockInstance', id)
       if (entity) {
-        const entityRecord = entity as unknown as Record<string, unknown>
-        const rawBlockShapeRef = entityRecord.blockShapeRef as string | undefined | null
-        let blockShapeRef: string
-        if (rawBlockShapeRef !== undefined && rawBlockShapeRef !== null && rawBlockShapeRef !== '') {
-          blockShapeRef = rawBlockShapeRef
-        } else {
-          logger.debug('blockShapeRef missing for blockInstance', { id })
-          blockShapeRef = ''
-        }
+        const blockShapeRef = entity.blockShapeRef ?? ''
         const blockShapeEntity = blockShapeRef ? getGlobalEntityById('blockShape', blockShapeRef) : null
-        const rawName = (blockShapeEntity as { name?: string } | null)?.name
-        let blockShape: string
-        if (rawName !== undefined && rawName !== null && rawName !== '') {
-          blockShape = rawName
-        } else {
-          logger.debug('block shape name missing', { blockShapeRef })
-          blockShape = ''
-        }
-        const rawIcon = entityRecord.icon as string | undefined | null
-        let icon: string
-        if (rawIcon !== undefined && rawIcon !== null && rawIcon !== '') {
-          icon = rawIcon
-        } else {
-          logger.debug('icon missing for blockInstance', { id })
-          icon = ''
-        }
-        const rawActiveBlockIds = entityRecord.activeBlockIds as string[] | undefined | null
-        let activeBlockIds: string[]
-        if (rawActiveBlockIds !== undefined && rawActiveBlockIds !== null && Array.isArray(rawActiveBlockIds)) {
-          activeBlockIds = rawActiveBlockIds
-        } else {
-          logger.debug('activeBlockIds missing for blockInstance', { id })
-          activeBlockIds = []
-        }
+        const blockShape = blockShapeEntity?.name?.trim() ?? ''
+        if (!blockShape && blockShapeRef) logger.debug('block shape name missing', { blockShapeRef })
+        const icon = entity.icon?.trim() ?? ''
+        if (!icon) logger.debug('icon missing for blockInstance', { id })
+        const activeBlockIds = Array.isArray(entity.instanceComponents) ? entity.instanceComponents.map(String) : []
         const instance: BookingBlockInstance = {
           id: entity.id,
           entityKey: 'blockInstance',
           name: entity.name,
-          baseSqFt: (entityRecord.baseSqFt as number) || 0,
-          icon,
-          active: (entityRecord.active as boolean) ?? true,
-          bookingMode: ((entity as unknown as { bookingMode?: import('@/constants/bookingMode').BookingMode }).bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as import('@/constants/bookingMode').BookingMode,
-          differential: ((entityRecord.differential as boolean) ?? false) ? 'true' as const : 'false' as const,
+          baseSqFt: entity.baseSqFt ?? 0,
+          icon: icon || entity.icon,
+          active: entity.active ?? true,
+          bookingMode: entity.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE,
+          differential: entity.differential === 'true' ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
-          blockShape,
+          blockShape: blockShape || blockShapeEntity?.name ?? '',
           blockShapeRef,
           activeBlockIds,
           partInstances: [],
-          allowMultiple: (entity as unknown as { allowMultiple?: boolean }).allowMultiple === true,
-          requiresUnitNumber:
-            (entity as unknown as { requiresUnitNumber?: boolean | null }).requiresUnitNumber === true
-              ? true
-              : null,
-          isMultiFamily: (entity as unknown as { isMultiFamily?: boolean }).isMultiFamily ?? false,
-          requiresAgent: (entity as unknown as { requiresAgent?: boolean }).requiresAgent ?? false,
+          allowMultiple: entity.allowMultiple === true,
+          requiresUnitNumber: entity.requiresUnitNumber === true ? true : null,
+          isMultiFamily: entity.isMultiFamily ?? false,
+          requiresAgent: entity.requiresAgent ?? false,
         }
         instances.push(instance)
       }

@@ -24,8 +24,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **605**
-- Groups (window=10 lines, minOccurrences=2): **218**
+- Files scanned: **608**
+- Groups (window=10 lines, minOccurrences=2): **212**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
@@ -39,24 +39,24 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@74`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@24`, `server/src/utils/adminPrimitiveMetadataComposer.ts@46`, … |
 | `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@75`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@25`, `server/src/utils/adminPrimitiveMetadataComposer.ts@47`, … |
 | `dup-72bfca850e56` | 3 | 4 | 10 | `server/src/utils/adminMetadataComposer.ts@16`, `server/src/utils/adminMetadataComposer.ts@125`, `server/src/utils/adminPrimitiveMetadataComposer.ts@16`, … |
-| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@241`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@71` |
+| `dup-00c9105755d8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
+| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@242`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@71` |
 | `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@143`, `server/src/utils/adminPrimitiveMetadataComposer.ts@125`, `server/src/utils/adminRelationshipMetadataComposer.ts@124` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
 | `dup-255152a3acf3` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
+| `dup-433b7c717ff1` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
 | `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@142`, `server/src/utils/adminPrimitiveMetadataComposer.ts@124`, `server/src/utils/adminRelationshipMetadataComposer.ts@123` |
-| `dup-50a8f2834a9b` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
 | `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@72`, `server/src/db/models/booking/part_assignment.ts@72`, `server/src/db/models/booking/pricing_cascade.ts@72` |
-| `dup-742168327377` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
+| `dup-69c0d3151348` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@50`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@50`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@50` |
 | `dup-7c1fb46c98e0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
 | `dup-838f910a5e1e` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
-| `dup-8e6ee8bba1e8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
 | `dup-9c70b13d8940` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
 | `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
-| `dup-d8836f9bbfdd` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@50`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@50`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@50` |
+| `dup-b91a6eb83ee2` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
 | `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
-| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@242`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
+| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@243`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
 | `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@94`, `server/src/utils/adminPrimitiveMetadataComposer.ts@110`, `server/src/utils/adminRelationshipMetadataComposer.ts@93`, … |
-| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@39`, `server/src/utils/logger.ts@42` |
+| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@32`, `server/src/utils/logger.ts@32` |
 
 ## Per-group details (top)
 
@@ -239,12 +239,34 @@ bulkEdit: boolean;
 inputConfig?: Record<string, unknown> | null;
 ```
 
+### Group `dup-00c9105755d8`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 53-73
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 53-73
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 53-73
+
+```
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
+missing: missingFields,
+return { valid: true }
+```
+
 ### Group `dup-0d3194f54d5e`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 241-250
+- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 242-251
 - `client/src/components/dev/DevPanelButtons.vue` @ lines 16-25
 - `client/src/composables/booking/useWizardDevMode.ts` @ lines 71-80
 
@@ -327,6 +349,28 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 type: DataTypes.DATE,
 ```
 
+### Group `dup-433b7c717ff1`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 52-68
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 52-68
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 52-68
+
+```
+displayOrder?: unknown
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {
+missingFields.push(field)
+if (missingFields.length > 0) {
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
+missing: missingFields,
+```
+
 ### Group `dup-4e4d3c29d4fd`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -347,28 +391,6 @@ renderAs: meta.renderAs,
 statusButtonColor: meta.statusButtonColor || null,
 panel: meta.panel,
 bulkEdit: meta.bulkEdit,
-```
-
-### Group `dup-50a8f2834a9b`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 53-73
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 53-73
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 53-73
-
-```
-}): ValidationResult {
-const missingFields: string[] = []
-for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
-if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
-missingFields.push(field)
-if (missingFields.length > 0) {
-error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
-required: REQUIRED_FIELDS.CREATE_UPDATE,
-missing: missingFields,
-return { valid: true }
 ```
 
 ### Group `dup-62f6fece13d9`
@@ -393,26 +415,26 @@ timestamps: false,
 underscored: true,
 ```
 
-### Group `dup-742168327377`
+### Group `dup-69c0d3151348`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 52-68
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 52-68
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 52-68
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 50-67
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 50-67
+- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 50-67
 
 ```
+visibility?: unknown
 displayOrder?: unknown
 }): ValidationResult {
 const missingFields: string[] = []
 for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
-if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
+if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {
 missingFields.push(field)
 if (missingFields.length > 0) {
 error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
 required: REQUIRED_FIELDS.CREATE_UPDATE,
-missing: missingFields,
 ```
 
 ### Group `dup-7c1fb46c98e0`
@@ -457,28 +479,6 @@ type: DataTypes.UUID,
 model: 'block_instances',
 type: DataTypes.BOOLEAN,
 defaultValue: false,
-```
-
-### Group `dup-8e6ee8bba1e8`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 48-65
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 48-65
-- `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` @ lines 48-65
-
-```
-dataType?: unknown
-visibility?: unknown
-displayOrder?: unknown
-}): ValidationResult {
-const missingFields: string[] = []
-for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
-if (data[field as keyof typeof data] === undefined || data[field as keyof typeof data] === null) {
-missingFields.push(field)
-if (missingFields.length > 0) {
-error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
 ```
 
 ### Group `dup-9c70b13d8940`

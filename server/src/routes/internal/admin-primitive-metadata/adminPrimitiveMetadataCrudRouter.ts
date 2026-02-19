@@ -16,6 +16,7 @@ import { handleRouteError } from './adminPrimitiveMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminPrimitiveMetadataValidators.js'
 import { computeRenderAs, transformMetadataToRecord } from './adminPrimitiveMetadataHelpers.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
+import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 
 const router = Router()
@@ -30,7 +31,8 @@ const router = Router()
  */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { entityType, entityId } = req.params
+    const entityType = paramString(req, 'entityType')
+    const entityId = paramString(req, 'entityId')
 
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
@@ -65,7 +67,8 @@ router.post(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { entityType, entityId } = req.params
+    const entityType = paramString(req, 'entityType')
+    const entityId = paramString(req, 'entityId')
     const {
       fieldKey,
       dataType,
@@ -182,7 +185,9 @@ router.delete(
   csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
-    const { entityType, entityId, fieldKey } = req.params
+    const entityType = paramString(req, 'entityType')
+    const entityId = paramString(req, 'entityId')
+    const fieldKey = paramString(req, 'fieldKey')
 
     // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)

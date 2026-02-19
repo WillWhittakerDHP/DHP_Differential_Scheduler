@@ -74,6 +74,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '@/composables/useEntity'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('BlockShapeForm')
 
 const router = useRouter()
 const route = useRoute()
@@ -118,6 +121,7 @@ async function handleSubmit() {
     }
     goBack()
   } catch (err) {
+    logger.error('Failed to save block type', { err })
     error.value = err instanceof Error ? err.message : 'Failed to save block type'
   } finally {
     isSubmitting.value = false

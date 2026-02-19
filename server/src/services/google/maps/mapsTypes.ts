@@ -11,9 +11,10 @@ import type {
   Coordinates,
   MapsApiErrorType,
   PlaceDetails,
-  RouteLocation
+  RouteLocation,
+  RouteMatrixStatus,
+  RouteMatrixResult
 } from '@shared/types/mapsTypes.js'
-import { GOOGLE_API_STATUS } from './mapsConstants.js'
 
 export type {
   AddressComponents,
@@ -21,14 +22,10 @@ export type {
   Coordinates,
   MapsApiErrorType,
   PlaceDetails,
-  RouteLocation
+  RouteLocation,
+  RouteMatrixStatus,
+  RouteMatrixResult
 }
-
-/** Status values for route matrix results (from GOOGLE_API_STATUS) */
-export type RouteMatrixStatus =
-  | typeof GOOGLE_API_STATUS.OK
-  | typeof GOOGLE_API_STATUS.NOT_FOUND
-  | typeof GOOGLE_API_STATUS.ZERO_RESULTS
 
 /**
  * Autocomplete response structure (server-only)
@@ -36,19 +33,6 @@ export type RouteMatrixStatus =
 export interface AutocompleteResponse {
   predictions: AutocompletePrediction[]
   status: string
-}
-
-/**
- * Route matrix result for a single origin-destination pair
- * LEARNING: Contains duration and distance for a route
- */
-export interface RouteMatrixResult {
-  originIndex: number
-  destinationIndex: number
-  durationSeconds: number
-  distanceMeters: number
-  status: RouteMatrixStatus
-  condition?: string
 }
 
 /**

@@ -44,12 +44,15 @@ const {
 const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = useLocalTime()
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
+/** Valid business hours day indices (0=Sunday .. 6=Saturday). */
+type BusinessHoursDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
 const businessHoursForUI = computed(() => {
   if (!formData.value) return {} as Record<number, { start: string; end: string }>
   const currentFormData = formData.value
   return Object.fromEntries(
     Array.from({ length: 7 }, (_, day) => {
-      const dayHours = currentFormData.businessHours[day as keyof typeof currentFormData.businessHours]
+      const dayHours = currentFormData.businessHours[day as BusinessHoursDay]
       return [
         day,
         {
@@ -68,10 +71,10 @@ const isBusinessHoursConfig = (
 const updateBusinessHours = (day: number, field: 'start' | 'end', value: string): void => {
   if (!formData.value) return
   const rfc3339Value = businessHoursHHmmToRfc3339(value)
-  formData.value.businessHours[day as keyof typeof formData.value.businessHours][field] = rfc3339Value
+  formData.value.businessHours[day as BusinessHoursDay][field] = rfc3339Value
   const businessHoursConstraint = formData.value.rangeConstraints?.businessHours
   if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
-    businessHoursConstraint.config.hours[day as keyof typeof businessHoursConstraint.config.hours][field] = rfc3339Value
+    businessHoursConstraint.config.hours[day as BusinessHoursDay][field] = rfc3339Value
   }
 }
 

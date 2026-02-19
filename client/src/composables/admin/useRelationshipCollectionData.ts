@@ -14,6 +14,7 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/useAdmin'
@@ -106,7 +107,7 @@ export function useRelationshipCollectionData(
   
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()
-  const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as import('@/constants/relationships').GlobalRelationshipKey)
+  const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   
   /**

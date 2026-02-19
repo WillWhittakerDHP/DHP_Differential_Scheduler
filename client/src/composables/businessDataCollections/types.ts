@@ -8,21 +8,17 @@
  * Session 1.4.7: Created as part of data flow consolidation
  */
 
-import type { ComputedRef } from 'vue'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
+import type {
+  CollectionQueryResult,
+  CollectionByIdQueryResult,
+  CollectionEndpoints,
+  UpdateByIdPayload
+} from '@/composables/collectionTypes'
 
-export type BusinessDataCollectionQueryResult<CollectionItem> = {
-  data: ComputedRef<CollectionItem[]>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-}
-
-export type BusinessDataCollectionByIdQueryResult<CollectionItem> = {
-  data: ComputedRef<CollectionItem | undefined>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-}
+export type BusinessDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
+export type BusinessDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
 
 export type BusinessDataCollectionSelector<CollectionItem> = (
   businessData: BusinessData
@@ -33,10 +29,7 @@ export type BusinessDataCollectionUpdater<CollectionItem> = (
   updatedCollection: readonly CollectionItem[]
 ) => BusinessData
 
-export type BusinessDataCollectionEndpoints = {
-  listEndpoint: () => string
-  byIdEndpoint: (id: string) => string
-}
+export type BusinessDataCollectionEndpoints = CollectionEndpoints
 
 export type BusinessDataCollectionCrudConfig<CollectionItem extends { id: string }> = {
   collectionName: keyof BusinessData
@@ -46,10 +39,7 @@ export type BusinessDataCollectionCrudConfig<CollectionItem extends { id: string
   patchOptimistically?: (current: CollectionItem, patch: Partial<unknown>) => CollectionItem
 }
 
-export type UpdateByIdPayload<UpdatePayload> = {
-  id: string
-  data: UpdatePayload
-}
+export type { UpdateByIdPayload }
 
 export type BusinessDataCollectionCrudComposableReturn<
   CollectionItem extends { id: string },

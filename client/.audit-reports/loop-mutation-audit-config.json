@@ -68,7 +68,18 @@
         "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
       }
     ],
-    "specific": []
+    "specific": [
+      {
+        "file": "client/src/types/admin/adminEntity.ts",
+        "ruleIds": ["assignProp"],
+        "reason": "Class constructor and toPlainObject intentionally assign to this; stateful entity pattern"
+      },
+      {
+        "file": "client/src/utils/forms/formElementPatching.ts",
+        "ruleIds": ["assignProp", "push"],
+        "reason": "DOM form patching requires imperative mutation of form elements"
+      }
+    ]
   },
   "priorities": {
     "p0MinSeverityScore": 12,

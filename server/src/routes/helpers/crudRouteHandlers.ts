@@ -27,6 +27,7 @@ import {
 } from './routerResponseHelpers.js'
 import type { CrudHandlerContext } from './crudRouterTypes.js'
 import type { Includeable, Order } from 'sequelize'
+import { paramString } from './requestHelpers.js'
 
 type FetchAllOptions = {
   includes?: Includeable[]
@@ -85,7 +86,7 @@ export function createGetByIdHandler<T extends Model>(
     context
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      const id = req.params[paramKey]
+      const id = paramString(req, paramKey)
       const record = await fetchById(model, id)
       if (!record) {
         sendNotFound(res, errorMessages.NOT_FOUND, id)
@@ -100,7 +101,7 @@ export function createGetByIdHandler<T extends Model>(
         errorMessages.FETCH_ONE,
         `fetching ${resourceName}`,
         resourceName,
-        req.params[paramKey],
+        paramString(req, paramKey),
         constraintHandler
       )
     }
@@ -164,6 +165,50 @@ export function createPostHandler<T extends Model>(
 
 type MutationMethod = 'update' | 'patch'
 
+/** Run mutation validation; returns false if invalid (and sends response). */
+function runMutationValidation(
+  req: Request,
+  res: Response,
+  validateRequest: CrudHandlerContext<Model>['validateRequest'],
+  validationMethod: 'update' | 'patch',
+  id: string
+): boolean {
+  if (!validateRequest) return true
+  const validation = validateRequest(req, validationMethod)
+  if (validation.valid) return true
+  const details =
+    validation.details && 'message' in validation.details
+      ? String(validation.details.message)
+      : undefined
+  sendBadRequest(res, validation.error, details, id)
+  return false
+}
+
+/** Perform update or patch and fetch record; returns null if not found (and sends response). */
+async function performUpdateAndFetch<T extends Model>(
+  model: CrudHandlerContext<T>['model'],
+  id: string,
+  data: Partial<T['_creationAttributes']>,
+  method: MutationMethod,
+  errorMessages: CrudHandlerContext<T>['errorMessages'],
+  res: Response
+): Promise<T | null> {
+  const updatedCount =
+    method === 'update'
+      ? await updateRecord(model, id, data)
+      : await patchRecord(model, id, data)
+  if (updatedCount === 0) {
+    sendNotFound(res, errorMessages.NOT_FOUND, id)
+    return null
+  }
+  const record = await fetchById(model, id)
+  if (!record) {
+    sendNotFound(res, errorMessages.NOT_FOUND, id)
+    return null
+  }
+  return record
+}
+
 /**
  * PUT /:id and PATCH /:id - Full or partial update (unified handler)
  */
@@ -189,35 +234,22 @@ export function createMutationHandler<T extends Model>(
 
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      const id = req.params[paramKey]
-      if (validateRequest) {
-        const validation = validateRequest(req, validationMethod)
-        if (!validation.valid) {
-          const details = validation.details && 'message' in validation.details
-            ? String(validation.details.message)
-            : undefined
-          sendBadRequest(res, validation.error, details, id)
-          return
-        }
-      }
+      const id = paramString(req, paramKey)
+      if (!runMutationValidation(req, res, validateRequest, validationMethod, id)) return
       if (beforeUpdate) {
         await beforeUpdate(req, res)
         if (res.headersSent) return
       }
       const data = sanitizeInput ? sanitizeInput(req.body, validationMethod) : req.body
-      const updatedCount =
-        method === 'update'
-          ? await updateRecord(model, id, data as Partial<T['_creationAttributes']>)
-          : await patchRecord(model, id, data as Partial<T['_creationAttributes']>)
-      if (updatedCount === 0) {
-        sendNotFound(res, errorMessages.NOT_FOUND, id)
-        return
-      }
-      const record = await fetchById(model, id)
-      if (!record) {
-        sendNotFound(res, errorMessages.NOT_FOUND, id)
-        return
-      }
+      const record = await performUpdateAndFetch(
+        model,
+        id,
+        data as Partial<T['_creationAttributes']>,
+        method,
+        errorMessages,
+        res
+      )
+      if (!record) return
       if (afterUpdate) {
         await afterUpdate(record, req, res)
         if (res.headersSent) return
@@ -231,7 +263,7 @@ export function createMutationHandler<T extends Model>(
         errorMessage,
         `${contextVerb} ${resourceName}`,
         resourceName,
-        req.params[paramKey],
+        paramString(req, paramKey),
         constraintHandler
       )
     }
@@ -247,7 +279,7 @@ export function createDeleteHandler<T extends Model>(
   const { model, resourceName, errorMessages, paramKey, beforeDelete, constraintHandler } = context
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      const id = req.params[paramKey]
+      const id = paramString(req, paramKey)
       const record = await fetchById(model, id)
       if (!record) {
         sendNotFound(res, errorMessages.NOT_FOUND, id)
@@ -270,7 +302,7 @@ export function createDeleteHandler<T extends Model>(
         errorMessages.DELETE,
         `deleting ${resourceName}`,
         resourceName,
-        req.params[paramKey],
+        paramString(req, paramKey),
         constraintHandler
       )
     }

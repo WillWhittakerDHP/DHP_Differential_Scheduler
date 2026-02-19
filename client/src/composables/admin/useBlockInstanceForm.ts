@@ -17,6 +17,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../useEntity'
 import { useGlobal } from '../useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useBlockInstanceForm')
 
 export interface BlockInstanceFormData {
   name: string
@@ -25,14 +28,9 @@ export interface BlockInstanceFormData {
   active: boolean
 }
 
-export interface UseBlockInstanceFormOptions {
-  /**
-   * LEARNING: Route name for navigation after submit
-   * WHY: Allows customization of redirect route
-   * PATTERN: Optional route name, defaults to 'block-instances-list'
-   */
-  redirectRouteName?: string
-}
+import type { UseEntityFormRedirectOptions } from './entityFormRedirectOptions'
+
+export type UseBlockInstanceFormOptions = UseEntityFormRedirectOptions
 
 export interface UseBlockInstanceFormReturn {
   /**
@@ -206,6 +204,7 @@ export function useBlockInstanceForm(
       }
       goBack()
     } catch (err) {
+      logger.error('Failed to save block instance', { err })
       error.value = err instanceof Error ? err.message : 'Failed to save block instance'
     } finally {
       isSubmitting.value = false
