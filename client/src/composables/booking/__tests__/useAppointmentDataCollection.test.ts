@@ -43,6 +43,7 @@ describe('useAppointmentDataCollection', () => {
     selectedServiceTypeBlocks: ReturnType<typeof ref>
     selectedPropertyTypeBlocks: ReturnType<typeof ref>
     selectedOptionTypeBlocks: ReturnType<typeof ref>
+    selectedLineItemBlocks: ReturnType<typeof ref>
     selectedUserTypeBlock: ReturnType<typeof ref>
     isQuoteMode: ReturnType<typeof ref>
   }
@@ -58,6 +59,7 @@ describe('useAppointmentDataCollection', () => {
       selectedServiceTypeBlocks: ref([]),
       selectedPropertyTypeBlocks: ref([]),
       selectedOptionTypeBlocks: ref([]),
+      selectedLineItemBlocks: ref([]),
       selectedUserTypeBlock: ref(null),
       isQuoteMode: ref(false),
     }

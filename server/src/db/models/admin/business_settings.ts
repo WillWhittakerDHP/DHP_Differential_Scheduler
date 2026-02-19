@@ -13,6 +13,8 @@ import type {
   RollingWeekDirection,
   WorkCapacityFilter,
   RollingWeekCapacityFilter,
+  IncomeCapacityFilter,
+  RollingWeekIncomeCapacityFilter,
   RangeConstraintType,
   BusinessHoursConfig,
   LeadTimeConfig,
@@ -34,7 +36,7 @@ import type { CalendarConfig, CalendarEntry, CalendarProvider } from '../../../.
  * Type similarity UNIFY: availability and calendar types imported from shared (Phase 1.1/1.2).
  */
 
-export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation }
+export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation }
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
 export interface AvailabilitySettingsData {
@@ -64,6 +66,11 @@ export interface AvailabilitySettingsData {
     day?: WorkCapacityFilter; // Work hours per day capacity filter
     calendarWeek?: WorkCapacityFilter; // Calendar week capacity filter
     rollingWeek?: RollingWeekCapacityFilter; // Rolling week capacity filter
+  };
+  maxIncome?: {
+    day?: IncomeCapacityFilter;
+    calendarWeek?: IncomeCapacityFilter;
+    rollingWeek?: RollingWeekIncomeCapacityFilter;
   };
   /**
    * Overlap source enforcement (optional)

@@ -1,25 +1,6 @@
 {
-  "$comment": "Configuration for component-logic-audit.mjs exception handling",
+  "$comment": "Configuration for component-logic-audit.mjs exception handling Allowlist: audit-global-config.json allowlists.<auditId>.",
   "$schema": "Allowlist for intentional/necessary component logic patterns",
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "**/*.vue",
-        "ruleIds": [
-          "provideInject"
-        ],
-        "reason": "Importing provide/inject doesn't indicate complexity - only usage does"
-      },
-      {
-        "glob": "**/components/**/fields/*.vue",
-        "ruleIds": [
-          "computed"
-        ],
-        "reason": "Field components often use computed wrappers for props - legitimate Vue pattern"
-      }
-    ],
-    "specific": []
-  },
   "priorities": {
     "p0MinSeverityScore": 15,
     "p1MinSeverityScore": 8

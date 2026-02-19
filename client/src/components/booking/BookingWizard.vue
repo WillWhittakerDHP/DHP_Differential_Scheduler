@@ -131,6 +131,7 @@ const { collectAppointmentData } = useAppointmentDataCollection({
     selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
     selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
+    selectedLineItemBlocks: wizard.selectedLineItemBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,
     isQuoteMode: wizard.isQuoteMode
   },

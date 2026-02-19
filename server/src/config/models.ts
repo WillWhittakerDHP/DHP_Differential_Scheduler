@@ -32,6 +32,8 @@ export const {
   User,
   Appointment,
   AppointmentAttendee,
+  AppointmentFeeSummary,
+  AppointmentFeeEntry,
   BusinessSettings,
   BusinessRule,
   AdminMetadata,

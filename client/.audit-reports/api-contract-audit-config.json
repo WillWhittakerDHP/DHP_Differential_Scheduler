@@ -1,15 +1,5 @@
 {
-  "$comment": "Configuration for api-contract-audit.mjs",
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "server/src/**",
-        "ruleIds": ["orphan-server-route"],
-        "reason": "Server-only routes with no client caller; documented acceptable mismatch"
-      }
-    ],
-    "specific": []
-  },
+  "$comment": "Configuration for api-contract-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
   "priorities": {
     "p0MinSeverityScore": 15,
     "p1MinSeverityScore": 6

@@ -100,9 +100,10 @@ function getSourceValue(
 ): string | number | null {
   const val = (response as Record<string, unknown>)[sourceField];
   if (Array.isArray(val)) {
-    return val.length > 0 ? val[0] : null;
+    const first = val.length > 0 ? val[0] : null;
+    return typeof first === 'string' || typeof first === 'number' ? first : null;
   }
-  return val ?? null;
+  return typeof val === 'string' || typeof val === 'number' ? val : null;
 }
 
 function toArray(value: string[] | string | null | undefined): string[] {

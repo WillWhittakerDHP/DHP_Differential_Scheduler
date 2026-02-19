@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
-  "generatedAt": "2026-02-18T20:47:28.272Z",
+  "generatedAt": "2026-02-18T20:50:46.751Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -157,27 +157,11 @@
       ]
     },
     {
-      "repoPath": "assets/AdminPanel-DKxki4Bp.js",
-      "totalScore": 230.21999999999997,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
-      ]
-    },
-    {
       "repoPath": "client/src/constants/primitives.ts",
       "totalScore": 228,
       "auditCount": 1,
       "auditIds": [
         "coverage-risk-crossref"
-      ]
-    },
-    {
-      "repoPath": "assets/vuetify-DQFqr_wv.js",
-      "totalScore": 149.13,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
       ]
     },
     {
@@ -213,14 +197,6 @@
         "hardcoding",
         "deprecation",
         "coverage-risk-crossref"
-      ]
-    },
-    {
-      "repoPath": "assets/vuetify-DDKLoE_6.css",
-      "totalScore": 93.9,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
       ]
     },
     {
@@ -275,14 +251,6 @@
         "hardcoding",
         "function-complexity",
         "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "assets/BookingWizardView-CyXoU8j4.js",
-      "totalScore": 62.925000000000004,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
       ]
     },
     {
@@ -472,14 +440,6 @@
       ]
     },
     {
-      "repoPath": "assets/vue-C7URHd93.js",
-      "totalScore": 45.375,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
-      ]
-    },
-    {
       "repoPath": "client/src/components/admin/generic/EntityCardSubPanels.vue",
       "totalScore": 45,
       "auditCount": 3,
@@ -549,14 +509,6 @@
         "hardcoding",
         "function-complexity",
         "type-import"
-      ]
-    },
-    {
-      "repoPath": "assets/index-Da3I_5ya.js",
-      "totalScore": 41.955,
-      "auditCount": 1,
-      "auditIds": [
-        "bundle-size-budget"
       ]
     },
     {
@@ -641,6 +593,71 @@
         "deprecation",
         "todo-aging",
         "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/services/mapsApiService.ts",
+      "totalScore": 37.5,
+      "auditCount": 3,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "totalScore": 37,
+      "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "totalScore": 37,
+      "auditCount": 4,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "totalScore": 37,
+      "auditCount": 3,
+      "auditIds": [
+        "loop-mutation",
+        "deprecation",
+        "naming-convention"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/dependencyCleanup.ts",
+      "totalScore": 37,
+      "auditCount": 3,
+      "auditIds": [
+        "loop-mutation",
+        "function-complexity",
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "totalScore": 36.5,
+      "auditCount": 5,
+      "auditIds": [
+        "loop-mutation",
+        "hardcoding",
+        "function-complexity",
+        "unused-code",
+        "deprecation"
       ]
     }
   ],
@@ -874,14 +891,14 @@
     {
       "auditId": "lint",
       "current": 6,
-      "previous": 25,
-      "delta": -19
+      "previous": 6,
+      "delta": 0
     },
     {
       "auditId": "lint-warnings",
       "current": 0,
-      "previous": 19,
-      "delta": -19
+      "previous": 0,
+      "delta": 0
     }
   ]
 }

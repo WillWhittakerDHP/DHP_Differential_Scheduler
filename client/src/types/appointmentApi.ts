@@ -3,6 +3,7 @@
  * WHY: Separates API contracts from domain types to improve file cohesion; re-exported from appointment.ts for existing imports.
  */
 
+import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
 import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { ISO8601Date } from './datetime'
@@ -103,6 +104,8 @@ export interface AppointmentRequest {
   moveableScheduling?: MoveableSchedulingOptions | null
   /** Attendees for calendar invitations */
   attendees?: AttendeeRequest[] | null
+  /** Fee breakdown for persistence (summary + per-block entries); server persists in afterCreate */
+  feeBreakdown?: AppointmentFeeBreakdownPayload | null
 }
 
 /**

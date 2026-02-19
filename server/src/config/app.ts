@@ -32,6 +32,8 @@ export {
   User,
   Appointment,
   AppointmentAttendee,
+  AppointmentFeeSummary,
+  AppointmentFeeEntry,
   BusinessSettings,
   BusinessRule,
   AdminMetadata,

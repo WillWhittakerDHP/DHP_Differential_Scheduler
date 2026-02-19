@@ -7,7 +7,19 @@
  */
 
 import { Op } from 'sequelize'
-import { BusinessSettings, BlockInstanceVersion, AppointmentAttendee, PropertyVersion, Address, PropertyDetails, User, BlockInstance } from '../../../config/app.js'
+import type { AppointmentFeeBreakdownPayload, AppointmentFeeEntryCreate } from '../../../../../shared/types/appointmentFeeTypes.js'
+import {
+  BusinessSettings,
+  BlockInstanceVersion,
+  AppointmentAttendee,
+  AppointmentFeeSummary,
+  AppointmentFeeEntry,
+  PropertyVersion,
+  Address,
+  PropertyDetails,
+  User,
+  BlockInstance,
+} from '../../../config/app.js'
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -78,26 +90,30 @@ export async function getWriteToCalendarFromSettings(): Promise<string | undefin
 /**
  * Standard includes for appointment queries
  * LEARNING: Centralized include definition for consistency
- * WHY: Includes attendees relationship for calendar invitations
+ * WHY: Includes attendees and fee summary for calendar invitations and fee display
  * SESSION: 2.1.3b - Appointment Attendees Architecture
  */
 export const appointmentIncludes = [
-  { 
-    model: PropertyVersion, 
+  {
+    model: PropertyVersion,
     as: 'propertyVersion',
     include: [
       { model: Address, as: 'address' },
       { model: PropertyDetails, as: 'propertyDetails' },
     ],
   },
-  // Attendees relationship (replaces legacy clientId/agentId)
-  { 
-    model: AppointmentAttendee, 
+  {
+    model: AppointmentAttendee,
     as: 'attendees',
     include: [
       { model: User, as: 'user' },
       { model: BlockInstance, as: 'userTypeBlockInstance' },
     ],
+  },
+  {
+    model: AppointmentFeeSummary,
+    as: 'feeSummary',
+    include: [{ model: AppointmentFeeEntry, as: 'feeEntries' }],
   },
 ]
 
@@ -199,6 +215,56 @@ export async function createAttendeeRecords(
   }))
   
   logger.debug(`Created attendee records for appointment ${appointmentId}`)
+}
+
+/**
+ * Create fee summary and fee entry records for an appointment
+ * LEARNING: Persists fee breakdown at booking time for income constraints and analytics
+ * WHY: Normalized tables (appointment_fee_summaries, appointment_fee_entries) enable SUM queries and per-block reporting
+ * PATTERN: Same as createAttendeeRecords — create parent (summary) then children (entries) using payload from client
+ *
+ * @param appointmentId - Appointment ID
+ * @param feeData - Fee breakdown payload (summary + entries) from client buildAppointmentFeeBreakdown
+ * @returns Promise that resolves when summary and entries are created (no-op if feeData missing)
+ */
+export async function createFeeRecordsForAppointment(
+  appointmentId: string,
+  feeData: AppointmentFeeBreakdownPayload | null | undefined
+): Promise<void> {
+  if (!feeData?.summary || !Array.isArray(feeData.entries)) {
+    logger.debug(`No fee breakdown provided for appointment ${appointmentId}, skipping fee records`)
+    return
+  }
+
+  const { summary, entries } = feeData
+
+  const summaryRecord = await AppointmentFeeSummary.create({
+    appointmentId,
+    baseFeeTotal: summary.baseFeeTotal,
+    overageFeeTotal: summary.overageFeeTotal,
+    totalFee: summary.totalFee,
+    squareFootage: summary.squareFootage,
+    aduCount: summary.aduCount,
+    currency: summary.currency,
+    calculatedAt: new Date(summary.calculatedAt),
+  })
+
+  await Promise.all(
+    entries.map((entry: AppointmentFeeEntryCreate) =>
+      AppointmentFeeEntry.create({
+        feeSummaryId: summaryRecord.id,
+        blockInstanceId: entry.blockInstanceId,
+        blockName: entry.blockName,
+        blockShapeRef: entry.blockShapeRef,
+        baseFee: entry.baseFee,
+        overageFee: entry.overageFee,
+        totalFee: entry.totalFee,
+        quantity: entry.quantity,
+      })
+    )
+  )
+
+  logger.debug(`Created fee summary and ${entries.length} fee entries for appointment ${appointmentId}`)
 }
 
 /**

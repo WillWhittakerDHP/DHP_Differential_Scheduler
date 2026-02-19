@@ -20,6 +20,8 @@ import type {
   RangeConstraintType,
   WorkCapacityFilter,
   RollingWeekCapacityFilter,
+  IncomeCapacityFilter,
+  RollingWeekIncomeCapacityFilter,
   RollingWeekDirection,
   LeadTimeConfig,
   BusinessHoursConfig,
@@ -33,7 +35,7 @@ import type { CalendarConfig, CalendarEntry, CalendarProvider } from '@shared/ty
 const logger = createLogger('availabilitySettings')
 
 // Re-export shared types so existing imports from this file keep working
-export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
+export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
 export type { DayHours }
 
 /**
@@ -124,6 +126,18 @@ export interface AvailabilitySettings {
     day?: WorkCapacityFilter
     calendarWeek?: WorkCapacityFilter
     rollingWeek?: RollingWeekCapacityFilter
+  }
+
+  /**
+   * Maximum income capacity filters (optional)
+   * LEARNING: Income caps per day, calendar week, or rolling week (same time basis as maxWorkHours)
+   * WHY: Enables income-based scheduling limits alongside or instead of hours
+   * PATTERN: Optional nested object with day, calendarWeek, and rollingWeek filters
+   */
+  maxIncome?: {
+    day?: IncomeCapacityFilter
+    calendarWeek?: IncomeCapacityFilter
+    rollingWeek?: RollingWeekIncomeCapacityFilter
   }
   
   /**
@@ -219,6 +233,11 @@ export interface RawAvailabilitySettings {
     day?: WorkCapacityFilter
     calendarWeek?: WorkCapacityFilter
     rollingWeek?: RollingWeekCapacityFilter
+  }
+  maxIncome?: {
+    day?: IncomeCapacityFilter
+    calendarWeek?: IncomeCapacityFilter
+    rollingWeek?: RollingWeekIncomeCapacityFilter
   }
   timezone?: string
   durationRounding?: {
@@ -332,6 +351,7 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         rangeConstraints,
         buffers: rawSettings.buffers,
         maxWorkHours: rawSettings.maxWorkHours,
+        maxIncome: rawSettings.maxIncome,
         timezone: rawSettings.timezone,
         durationRounding: rawSettings.durationRounding,
         differentialPerspectives: rawSettings.differentialPerspectives

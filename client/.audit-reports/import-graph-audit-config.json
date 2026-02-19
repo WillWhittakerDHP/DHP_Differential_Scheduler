@@ -1,9 +1,5 @@
 {
-  "$comment": "Configuration for import-graph-audit.mjs. Thresholds raised per repair plan to accept current structure; reduce incrementally if desired.",
-  "allowlist": {
-    "patterns": [],
-    "specific": []
-  },
+  "$comment": "Configuration for import-graph-audit.mjs. Thresholds raised per repair plan to accept current structure; reduce incrementally if desired. Allowlist: audit-global-config.json allowlists.<auditId>.",
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135

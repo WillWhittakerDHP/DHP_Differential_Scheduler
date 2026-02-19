@@ -1,56 +1,6 @@
 {
-  "$comment": "Configuration for composables-logic-audit.mjs exception handling",
+  "$comment": "Configuration for composables-logic-audit.mjs exception handling Allowlist: audit-global-config.json allowlists.<auditId>.",
   "$schema": "Allowlist for intentional/necessary composable logic patterns",
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "**/composables/**/*Mutations.ts",
-        "ruleIds": [
-          "vueQuery",
-          "async",
-          "await"
-        ],
-        "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern"
-      },
-      {
-        "glob": "**/composables/**/*Query.ts",
-        "ruleIds": [
-          "vueQuery"
-        ],
-        "reason": "Query composables necessarily use Vue Query - this is the correct pattern"
-      },
-      {
-        "glob": "**/composables/**/*Actions.ts",
-        "ruleIds": [
-          "async",
-          "await"
-        ],
-        "reason": "Action composables necessarily use async/await - this is the correct pattern"
-      }
-    ],
-    "specific": [
-      {
-        "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
-        "ruleIds": ["vueQuery", "async", "await", "computed"],
-        "reason": "CRUD mutations - many async and Vue Query calls intentional"
-      },
-      {
-        "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-        "ruleIds": ["computed", "ref"],
-        "reason": "Data-heavy admin collection - many computeds intentional"
-      },
-      {
-        "file": "client/src/composables/booking/dev/usePanelPosition.ts",
-        "ruleIds": ["DOM"],
-        "reason": "Dev panel positioning - DOM measurement intentional"
-      },
-      {
-        "file": "client/src/composables/dataCollections/useDataCollectionActions.ts",
-        "ruleIds": ["vueQuery", "async", "await"],
-        "reason": "Data collection actions - async and Vue Query intentional"
-      }
-    ]
-  },
   "priorities": {
     "p0MinSeverityScore": 35,
     "p1MinSeverityScore": 20

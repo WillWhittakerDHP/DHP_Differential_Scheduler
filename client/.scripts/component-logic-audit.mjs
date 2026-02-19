@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -220,6 +220,7 @@ function compareCounts(a, b) {
 }
 
 function renderMarkdownReport(files) {
+  const auditHeader = getAuditReportHeaderLines()
   const header = [
     '# Component Logic Audit (Generated)',
     '',
@@ -280,14 +281,14 @@ function renderMarkdownReport(files) {
     perFile.push('')
   }
 
-  return [...header, ...top, ...perFile].join('\n')
+  return [...auditHeader, ...header, ...top, ...perFile].join('\n')
 }
 
 function main() {
   ensureDir(OUT_DIR)
   
   // Load exception config
-  const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const configAllowlist = loadCentralAllowlist('component-logic')
   const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
   
   // Load priority config

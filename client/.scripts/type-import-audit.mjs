@@ -6,7 +6,8 @@ import {
   loadCentralAllowlist,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  AUDIT_REPORT_AI_INSTRUCTIONS,
+  AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
+  getAuditReportHeaderLines,
   shouldPruneDirectory,
 } from './audit-exceptions.mjs'
 
@@ -239,7 +240,7 @@ function main() {
     .sort((a, b) => b.score - a.score)
 
   const result = {
-    instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS,
+    instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
     generatedAt: new Date().toISOString(),
     totalScanned: scannedCount,
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
@@ -262,7 +263,7 @@ function renderMarkdownReport(data) {
   const lines = []
   lines.push('# Type-Import Audit (Generated)')
   lines.push('')
-  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
+  lines.push(...getAuditReportHeaderLines())
   lines.push('')
   lines.push('## Summary')
   lines.push('')

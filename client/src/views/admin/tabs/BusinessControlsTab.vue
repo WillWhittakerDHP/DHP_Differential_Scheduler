@@ -247,6 +247,13 @@ function setMinuteIncrement(v: number): void {
                 :max-work-hours-rolling-week-max-hours="capacity.maxWorkHoursRollingWeekMaxHours.value"
                 :max-work-hours-rolling-week-enforcement="capacity.maxWorkHoursRollingWeekEnforcement.value"
                 :max-work-hours-rolling-week-direction="capacity.maxWorkHoursRollingWeekDirection.value"
+                :max-income-day-max-income="capacity.maxIncomeDayMaxIncome.value"
+                :max-income-day-enforcement="capacity.maxIncomeDayEnforcement.value"
+                :max-income-calendar-week-max-income="capacity.maxIncomeCalendarWeekMaxIncome.value"
+                :max-income-calendar-week-enforcement="capacity.maxIncomeCalendarWeekEnforcement.value"
+                :max-income-rolling-week-max-income="capacity.maxIncomeRollingWeekMaxIncome.value"
+                :max-income-rolling-week-enforcement="capacity.maxIncomeRollingWeekEnforcement.value"
+                :max-income-rolling-week-direction="capacity.maxIncomeRollingWeekDirection.value"
                 :save-button-props="saveButtonProps"
                 @update:max-work-hours-day-max-hours="(v: number) => { capacity.maxWorkHoursDayMaxHours.value = v }"
                 @update:max-work-hours-day-enforcement="(v) => { capacity.maxWorkHoursDayEnforcement.value = v }"
@@ -255,6 +262,13 @@ function setMinuteIncrement(v: number): void {
                 @update:max-work-hours-rolling-week-max-hours="(v: number) => { capacity.maxWorkHoursRollingWeekMaxHours.value = v }"
                 @update:max-work-hours-rolling-week-enforcement="(v) => { capacity.maxWorkHoursRollingWeekEnforcement.value = v }"
                 @update:max-work-hours-rolling-week-direction="(v) => { capacity.maxWorkHoursRollingWeekDirection.value = v }"
+                @update:max-income-day-max-income="(v: number) => { capacity.maxIncomeDayMaxIncome.value = v }"
+                @update:max-income-day-enforcement="(v) => { capacity.maxIncomeDayEnforcement.value = v }"
+                @update:max-income-calendar-week-max-income="(v: number) => { capacity.maxIncomeCalendarWeekMaxIncome.value = v }"
+                @update:max-income-calendar-week-enforcement="(v) => { capacity.maxIncomeCalendarWeekEnforcement.value = v }"
+                @update:max-income-rolling-week-max-income="(v: number) => { capacity.maxIncomeRollingWeekMaxIncome.value = v }"
+                @update:max-income-rolling-week-enforcement="(v) => { capacity.maxIncomeRollingWeekEnforcement.value = v }"
+                @update:max-income-rolling-week-direction="(v) => { capacity.maxIncomeRollingWeekDirection.value = v }"
               />
             </VWindowItem>
 

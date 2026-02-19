@@ -346,6 +346,7 @@ declare global {
   const useCreateEventInstance: typeof import('./src/composables/useEventInstances').useCreateEventInstance
   const useCreateEventShape: typeof import('./src/composables/useEventShapes').useCreateEventShape
   const useCssModule: typeof import('vue').useCssModule
+  const useCssSupports: typeof import('@vueuse/core').useCssSupports
   const useCssVar: typeof import('@vueuse/core').useCssVar
   const useCssVars: typeof import('vue').useCssVars
   const useCurrentElement: typeof import('@vueuse/core').useCurrentElement
@@ -544,6 +545,9 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
+  export type { UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/collectionTypes'
+  import('./src/composables/collectionTypes')
+  // @ts-ignore
   export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'
   import('./src/composables/useComponentDistribution')
   // @ts-ignore
@@ -559,10 +563,10 @@ declare global {
   export type { ValidationRule, ValidationResult } from './src/composables/useFormValidation'
   import('./src/composables/useFormValidation')
   // @ts-ignore
-  export type { LoadingIndicatorInstance, UseLayoutLoadingOptions, UseLayoutLoadingReturn } from './src/composables/useLayoutLoading'
+  export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from './src/composables/useLayoutLoading'
   import('./src/composables/useLayoutLoading')
   // @ts-ignore
-  export type { UseLoadingIndicatorReturn } from './src/composables/useLoadingIndicator'
+  export type { UseLoadingIndicatorReturn, LoadingIndicatorInstance } from './src/composables/useLoadingIndicator'
   import('./src/composables/useLoadingIndicator')
   // @ts-ignore
   export type { UseLocalTimeReturn } from './src/composables/useLocalTime'
@@ -696,7 +700,6 @@ declare module 'vue' {
     readonly kFormatter: UnwrapRef<typeof import('./src/@core/utils/formatters')['kFormatter']>
     readonly lengthValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['lengthValidator']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
-    readonly manualResetRef: UnwrapRef<typeof import('@vueuse/core')['manualResetRef']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
     readonly mapIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['mapIcon']>
@@ -830,6 +833,7 @@ declare module 'vue' {
     readonly useCountdown: UnwrapRef<typeof import('@vueuse/core')['useCountdown']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
+    readonly useCssSupports: UnwrapRef<typeof import('@vueuse/core')['useCssSupports']>
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useCurrentElement: UnwrapRef<typeof import('@vueuse/core')['useCurrentElement']>

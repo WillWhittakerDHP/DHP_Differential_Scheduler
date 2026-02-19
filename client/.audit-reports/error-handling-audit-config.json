@@ -1,20 +1,5 @@
 {
-  "$comment": "Configuration for error-handling-audit.mjs (merged from fallback-audit + error-logging-audit)",
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "server/src/scripts/run-migrations.mjs",
-        "ruleIds": ["*"],
-        "reason": "CLI script; console output intentional for migration progress"
-      },
-      {
-        "glob": "server/src/routes/**/*.ts",
-        "ruleIds": ["catch-without-logger"],
-        "reason": "Router catch blocks delegate to handleRouteError which logs via routerErrorHandler"
-      }
-    ],
-    "specific": []
-  },
+  "$comment": "Configuration for error-handling-audit.mjs (merged from fallback-audit + error-logging-audit) Allowlist: audit-global-config.json allowlists.<auditId>.",
   "priorities": {
     "p0MinSeverityScore": 10,
     "p1MinSeverityScore": 5

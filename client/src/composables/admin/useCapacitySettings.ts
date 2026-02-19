@@ -12,6 +12,7 @@ import {
 } from '@/composables/admin/utils/nestedComputedFactory'
 
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
+type MaxIncome = NonNullable<AvailabilitySettings['maxIncome']>
 type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
 
 export interface UseCapacitySettingsParams {
@@ -56,6 +57,13 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
   maxWorkHoursRollingWeekMaxHours: WritableComputedRef<number>
   maxWorkHoursRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
   maxWorkHoursRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
+  maxIncomeDayMaxIncome: WritableComputedRef<number>
+  maxIncomeDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+  maxIncomeCalendarWeekMaxIncome: WritableComputedRef<number>
+  maxIncomeCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+  maxIncomeRollingWeekMaxIncome: WritableComputedRef<number>
+  maxIncomeRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+  maxIncomeRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
 } {
   const { formData, maxBusinessHours } = params
 
@@ -154,6 +162,86 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     ensureRollingWeekLimit
   )
 
+  const ensureMaxIncome = (current: MaxIncome | undefined): MaxIncome =>
+    current !== undefined && current !== null ? current : {}
+
+  const ensureIncomeDay = createEnsureNested(ensureMaxIncome, 'day', () => ({
+    maxIncome: 0,
+    enforcement: 'off' as const
+  }))
+  const ensureIncomeCalendarWeek = createEnsureNested(ensureMaxIncome, 'calendarWeek', () => ({
+    maxIncome: 0,
+    enforcement: 'off' as const
+  }))
+  const ensureIncomeRollingWeek = createEnsureNested(
+    ensureMaxIncome,
+    'rollingWeek',
+    () => ({
+      maxIncome: 0,
+      enforcement: 'off' as const,
+      direction: 'past' as const
+    }),
+    (parent) => {
+      if (parent.rollingWeek && !parent.rollingWeek.direction) {
+        return {
+          ...parent,
+          rollingWeek: { ...parent.rollingWeek, direction: 'past' as const }
+        }
+      }
+      return parent
+    }
+  )
+
+  const maxIncomeDayMaxIncome = createMaxIncomeComputed(
+    formData,
+    'day',
+    'maxIncome',
+    () => 0,
+    ensureIncomeDay
+  )
+  const maxIncomeDayEnforcement = createMaxIncomeComputed(
+    formData,
+    'day',
+    'enforcement',
+    () => 'off' as const,
+    ensureIncomeDay
+  )
+  const maxIncomeCalendarWeekMaxIncome = createMaxIncomeComputed(
+    formData,
+    'calendarWeek',
+    'maxIncome',
+    () => 0,
+    ensureIncomeCalendarWeek
+  )
+  const maxIncomeCalendarWeekEnforcement = createMaxIncomeComputed(
+    formData,
+    'calendarWeek',
+    'enforcement',
+    () => 'off' as const,
+    ensureIncomeCalendarWeek
+  )
+  const maxIncomeRollingWeekMaxIncome = createMaxIncomeComputed(
+    formData,
+    'rollingWeek',
+    'maxIncome',
+    () => 0,
+    ensureIncomeRollingWeek
+  )
+  const maxIncomeRollingWeekEnforcement = createMaxIncomeComputed(
+    formData,
+    'rollingWeek',
+    'enforcement',
+    () => 'off' as const,
+    ensureIncomeRollingWeek
+  )
+  const maxIncomeRollingWeekDirection = createMaxIncomeComputed(
+    formData,
+    'rollingWeek',
+    'direction',
+    () => 'past' as const,
+    ensureIncomeRollingWeek
+  )
+
   return {
     maxWorkHoursDayMaxHours,
     maxWorkHoursDayEnforcement,
@@ -161,6 +249,13 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     maxWorkHoursCalendarWeekEnforcement,
     maxWorkHoursRollingWeekMaxHours,
     maxWorkHoursRollingWeekEnforcement,
-    maxWorkHoursRollingWeekDirection
+    maxWorkHoursRollingWeekDirection,
+    maxIncomeDayMaxIncome,
+    maxIncomeDayEnforcement,
+    maxIncomeCalendarWeekMaxIncome,
+    maxIncomeCalendarWeekEnforcement,
+    maxIncomeRollingWeekMaxIncome,
+    maxIncomeRollingWeekEnforcement,
+    maxIncomeRollingWeekDirection
   }
 }

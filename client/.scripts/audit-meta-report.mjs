@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { AUDIT_REPORT_AI_INSTRUCTIONS, isGloballyExcluded } from './audit-exceptions.mjs'
+import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED, getAuditReportHeaderLines, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Audit Meta Report Script
@@ -185,12 +185,9 @@ function hashConfigAllowlist(configFilePath) {
   }
 }
 
-/** Audits whose allowlist lives in audit-global-config.json (allowlists.<id>) */
-const CENTRAL_ALLOWLIST_AUDITS = ['type-escape', 'type-import']
-
 /**
  * Build a config fingerprint map for all audit config files.
- * type-escape and type-import use central allowlist (audit-global-config.json allowlists.*).
+ * If an audit has an entry in audit-global-config.json allowlists.<id>, use that for the hash; else hash the per-audit config allowlist.
  */
 function computeConfigFingerprints(auditDir) {
   const globalPath = path.join(auditDir, 'audit-global-config.json')
@@ -214,7 +211,7 @@ function computeConfigFingerprints(auditDir) {
 
   return configFiles.reduce((fingerprints, { auditId, fileName }) => {
     let hash = null
-    if (CENTRAL_ALLOWLIST_AUDITS.includes(auditId) && centralAllowlists) {
+    if (centralAllowlists && centralAllowlists[auditId] !== undefined) {
       const entry = centralAllowlists[auditId] ?? {}
       const allowlistContent = JSON.stringify(entry)
       hash = crypto.createHash('sha256').update(allowlistContent).digest('hex').slice(0, 16)
@@ -230,7 +227,7 @@ function computeConfigFingerprints(auditDir) {
 
 /**
  * Count the total glob patterns defined across all config files.
- * type-escape and type-import count from audit-global-config.json allowlists.*.
+ * If an audit has an entry in audit-global-config.json allowlists.<id>, count from that; else count from per-audit config allowlist.
  */
 function countConfigPatterns(auditDir) {
   const globalPath = path.join(auditDir, 'audit-global-config.json')
@@ -250,7 +247,7 @@ function countConfigPatterns(auditDir) {
   ]
 
   return configFiles.reduce((total, { auditId, fileName }) => {
-    if (CENTRAL_ALLOWLIST_AUDITS.includes(auditId) && centralAllowlists?.[auditId]) {
+    if (centralAllowlists?.[auditId] !== undefined) {
       const entry = centralAllowlists[auditId]
       return total + (entry.patterns?.length ?? 0) + (entry.specific?.length ?? 0)
     }
@@ -411,7 +408,7 @@ function renderMarkdownReport(result) {
   const lines = []
   lines.push('# Audit Meta Report (Generated)')
   lines.push('')
-  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
+  lines.push(...getAuditReportHeaderLines())
   lines.push('')
   lines.push(`Generated at: ${result.generatedAt}`)
   lines.push('')
@@ -587,7 +584,7 @@ function main() {
   const exceptionDiff = computeExceptionDiff(exceptionAnalysis, previousExceptionAnalysis)
 
   const result = {
-    instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS,
+    instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
     generatedAt: new Date().toISOString(),
     auditSummaries,
     hotspots: hotspots.slice(0, 50),

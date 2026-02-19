@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  loadConfigAllowlist,
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
   checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
@@ -100,6 +101,7 @@ function scanFile(absPath, repoPath, content) {
 
 function renderMarkdownReport(scanned, exceptionSummary) {
   const lines = []
+  lines.push(...getAuditReportHeaderLines())
   lines.push('# Data Flow Validation Audit (Generated)')
   lines.push('')
   lines.push(`Generated at: ${new Date().toISOString()}`)
@@ -131,7 +133,7 @@ function renderMarkdownReport(scanned, exceptionSummary) {
 
 function main() {
   ensureDir(OUT_DIR)
-  const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const configAllowlist = loadCentralAllowlist('data-flow')
 
   const routeFiles = listFilesRecursive(ROUTES_DIR)
   const scanned = []

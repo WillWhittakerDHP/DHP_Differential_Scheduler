@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
  * PATTERN: Template ref to access child component methods
  */
 const dynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null)
-void dynamicFormRef // ref used by template
+void dynamicFormRef.value // ref used by template
 
 /**
  * LEARNING: Current entity ID for composable

@@ -1,9 +1,5 @@
 {
-  "$comment": "Configuration for todo-aging-audit.mjs",
-  "allowlist": {
-    "patterns": [],
-    "specific": []
-  },
+  "$comment": "Configuration for todo-aging-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
   "priorities": {
     "p0MinSeverityScore": 15,
     "p1MinSeverityScore": 7

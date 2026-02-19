@@ -1,0 +1,45 @@
+# Audit Report Conventions
+
+Audit scripts that emit Markdown (`.md`) and/or JSON reports should follow these conventions so AI and tooling can interpret findings consistently and fix them without introducing new violations.
+
+## 1. Standard header (all reports)
+
+- At the **start** of every `renderMarkdownReport()` (or equivalent), push the standard header:
+  ```js
+  lines.push(...getAuditReportHeaderLines())
+  ```
+- This adds both:
+  - **Canonicity**: Treat findings as canonical; do not change audit scripts without explicit user approval.
+  - **Fix + generalize**: When fixing a finding, search for the same rule/pattern elsewhere and fix all similar occurrences consistently.
+
+- **Import** from `./audit-exceptions.mjs`:
+  ```js
+  import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+  ```
+
+- For audits that write a top-level `instructionsForAi` (or similar) in JSON, set it to **both** instructions:
+  ```js
+  import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED } from './audit-exceptions.mjs'
+  // ...
+  instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED
+  ```
+
+## 2. Ruleset (audits with rule definitions)
+
+If the audit has an in-memory list of rules (e.g. `RULES`, `ALL_RULES`) with at least `id`, `label`, and `severity`:
+
+- Add optional **description** and **recommendedFix** per rule (e.g. in a `RULE_META` map keyed by rule id).
+- In the JSON output, add a top-level **`ruleset`** array. Each element must have:
+  - `ruleId` (string)
+  - `label` (string)
+  - `severity` (string, e.g. P0, P1, P2, warning, info)
+  - `description` (string, optional): what pattern to look for / when the rule fires
+  - `recommendedFix` (string, optional): how to fix (e.g. "Add createLogger and logger.error(err) at start of catch block")
+- Do **not** emit `test` or any function in the ruleset; it is for humans and for the AI to search/fix.
+- Optionally add a **"## Rules"** section in the Markdown report (e.g. after Summary) that lists each rule with the same fields, so the report is self-describing.
+
+Pilot audits that implement this: **error-handling-audit.mjs**, **deprecation-audit.mjs**. Other audits (e.g. naming-convention, loop-mutation, hardcoding) can adopt the same pattern when they have a notion of ruleId.
+
+## 3. Backward compatibility
+
+Adding `ruleset` to JSON is additive; existing consumers that ignore it remain valid.

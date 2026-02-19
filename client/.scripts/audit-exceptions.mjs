@@ -16,19 +16,27 @@ import { execSync } from 'node:child_process'
  *    Format: // @audit-allow:<auditType>:<ruleId> - <reason>
  *    Example: // @audit-allow:hardcoding:entityKeyString - Required for entity routing
  * 
- * 3. CENTRAL ALLOWLIST - For type-escape and type-import (and others that opt in)
+ * 3. CENTRAL ALLOWLIST - Single source of truth for all audit allowlists
  *    Location: .audit-reports/audit-global-config.json under "allowlists.<auditType>"
- *    Usage: loadCentralAllowlist(auditType)
+ *    Usage: loadCentralAllowlist(auditType) — all audits that support allowlists use this
  *
- * 4. PER-AUDIT CONFIG FILE - For audit-specific patterns/broad exceptions
+ * 4. PER-AUDIT CONFIG FILE - For priorities, thresholds, and other non-allowlist options only
  *    Location: .audit-reports/<auditType>-audit-config.json
- *    Schema: See loadConfigAllowlist() for structure
+ *    Allowlist content lives in audit-global-config.json; loadConfigAllowlist() is legacy for migration
  * 
  * Philosophy:
  * - Exceptions should be VISIBLE (tracked in reports)
  * - Exceptions should be JUSTIFIED (require a reason)
  * - Exceptions should be AUDITABLE (can review exception creep)
  * - Easy to ADD when legitimate, easy to REMOVE when stale
+ *
+ * Report conventions (see AUDIT_REPORT_CONVENTIONS.md):
+ * - Every audit that emits a .md report must push the standard header at the start of renderMarkdownReport()
+ *   using getAuditReportHeaderLines() (canonicity + fix-and-generalize instructions).
+ * - For JSON, audits that expose instructionsForAi should set it to AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED.
+ * - Audits with rule definitions (e.g. error-handling, deprecation) must emit a top-level "ruleset" in JSON
+ *   with schema: ruleId, label, severity, description (optional), recommendedFix (optional). Optionally add
+ *   a "## Rules" section in the .md report listing each rule with the same fields.
  */
 
 /**
@@ -38,6 +46,34 @@ import { execSync } from 'node:child_process'
  */
 export const AUDIT_REPORT_AI_INSTRUCTIONS =
   '**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.'
+
+/**
+ * Instruction for AI when fixing findings: search for the same rule/pattern elsewhere and fix consistently.
+ * Emit this (together with AUDIT_REPORT_AI_INSTRUCTIONS) at the top of every audit .md report and in JSON instructionsForAi.
+ */
+export const AUDIT_REPORT_AI_FIX_INSTRUCTIONS =
+  '**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.'
+
+/**
+ * Returns the standard header lines for audit markdown reports: both AI instructions plus a blank line.
+ * Use at the start of renderMarkdownReport(): lines.push(...getAuditReportHeaderLines())
+ * For JSON, set instructionsForAi to getAuditReportHeaderLines().join('\n') or AUDIT_REPORT_AI_INSTRUCTIONS + '\n\n' + AUDIT_REPORT_AI_FIX_INSTRUCTIONS.
+ * Convention: audits with rule definitions should also emit a top-level "ruleset" in JSON (ruleId, label, severity, description, recommendedFix).
+ */
+export function getAuditReportHeaderLines() {
+  return [
+    AUDIT_REPORT_AI_INSTRUCTIONS,
+    '',
+    AUDIT_REPORT_AI_FIX_INSTRUCTIONS,
+    '',
+  ]
+}
+
+/**
+ * Single string combining both AI instructions for JSON instructionsForAi field.
+ */
+export const AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED =
+  AUDIT_REPORT_AI_INSTRUCTIONS + '\n\n' + AUDIT_REPORT_AI_FIX_INSTRUCTIONS
 
 /**
  * Detect if a .js file is compiled output from a TypeScript source (sibling .ts exists).

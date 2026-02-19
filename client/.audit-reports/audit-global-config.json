@@ -1,5 +1,5 @@
 {
-  "$comment": "Central audit configuration — global exclusions and per-audit allowlists shared by audit scripts. loadGlobalExclusions() and loadCentralAllowlist(auditType) in audit-exceptions.mjs.",
+  "$comment": "Central audit configuration — global exclusions and all audit allowlists. Single source of truth for allowlists (allowlists.<auditType>). Per-audit configs hold only non-allowlist options (e.g. priorities). loadGlobalExclusions() and loadCentralAllowlist(auditType) in audit-exceptions.mjs.",
   "$docs": "To re-enable test files: set testsDisabled to false and remove or relax test-file exclusions. See BETA_LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
   "testsDisabled": true,
   "globalExclusions": [
@@ -30,6 +30,247 @@
           "ruleId": "value-import-from-type-only-file",
           "reason": "Vue SFC default export (component) from PropertyMappingsTab.vue; script-setup has no literal export default"
         }
+      ]
+    },
+    "error-handling": {
+      "patterns": [
+        {
+          "glob": "server/src/scripts/run-migrations.mjs",
+          "ruleIds": ["*"],
+          "reason": "CLI script; console output intentional for migration progress"
+        },
+        {
+          "glob": "server/src/routes/**/*.ts",
+          "ruleIds": ["catch-without-logger"],
+          "reason": "Router catch blocks delegate to handleRouteError which logs via routerErrorHandler"
+        }
+      ],
+      "specific": []
+    },
+    "deprecation": {
+      "patterns": [
+        {
+          "glob": "**",
+          "ruleIds": ["jsdoc-deprecated", "comment-deprecated", "paren-deprecated", "block-deprecated", "legacy-marker", "compat-marker"],
+          "reason": "Deprecation tracked; removal in future sprint"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/composables/admin/useBusinessRuleForm.ts",
+          "ruleId": "unhelpful-default-nullish",
+          "reason": "Optional form field; empty string default intentional"
+        },
+        {
+          "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
+          "ruleId": "unhelpful-default-nullish",
+          "reason": "Optional form field; empty array/string default intentional"
+        },
+        {
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "ruleId": "fallback-keyword",
+          "reason": "Explicit parseAddress fallbacks; documented pattern"
+        },
+        {
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "ruleId": "unhelpful-default-or",
+          "reason": "Comment/docs only; no runtime || '' in code"
+        }
+      ]
+    },
+    "import-hygiene": {
+      "patterns": [
+        {
+          "glob": "client/src/plugins/5.vuetify/**",
+          "ruleIds": ["*"],
+          "reason": "Vuetify plugin barrel is default-export only; config modules (defaults, icons, theme) are intentionally imported directly"
+        },
+        {
+          "glob": "server/src/**/security.js",
+          "ruleIds": ["*"],
+          "reason": "Server middlewares barrel does not re-export security; direct import is intentional"
+        },
+        {
+          "glob": "server/src/**/oauthCallbackRouter.js",
+          "ruleIds": ["*"],
+          "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter is intentional"
+        },
+        {
+          "glob": "server/src/**/calendarRouteConstants.js",
+          "ruleIds": ["*"],
+          "reason": "Server routes/external barrel composes router; direct import of calendarRouteConstants is intentional"
+        }
+      ],
+      "specific": [
+        { "file": "client/src/main.ts", "ruleId": "*", "reason": "Vuetify plugin barrel is default-export only; main.ts intentionally imports defaults, icons, theme directly" },
+        { "file": "client/src/composables/useThemeMode.ts", "ruleId": "*", "reason": "Vuetify plugin barrel is default-export only; theme config imported directly" },
+        { "file": "server/src/api/api.routes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/app.ts", "ruleId": "*", "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter intentional" },
+        { "file": "server/src/config/googleOAuthTokenPersistence.ts", "ruleId": "*", "reason": "Server routes/external; direct import of calendarRouteConstants intentional" },
+        { "file": "server/src/routes/external/calendarRoutes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/external/mapsDebugRoutes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/helpers/createCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/availabilityRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/dev/devStatusRouter.ts", "ruleId": "*", "reason": "Server routes/external; direct import of calendarRouteConstants intentional" },
+        { "file": "server/src/routes/internal/entities/entityBulkRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/entities/entityCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/properties/propertyCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/properties/propertyTypesRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
+        { "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" }
+      ]
+    },
+    "api-contract": {
+      "patterns": [
+        { "glob": "server/src/**", "ruleIds": ["orphan-server-route"], "reason": "Server-only routes with no client caller; documented acceptable mismatch" }
+      ],
+      "specific": []
+    },
+    "naming-convention": {
+      "patterns": [
+        { "glob": "server/src/db/models/**/*.ts", "ruleIds": ["functionExport"], "reason": "Sequelize model factory convention: ModelNameFactory" },
+        { "glob": "client/src/composables/**/*.ts", "ruleIds": ["composableExport"], "reason": "Composables may export camelCase helpers used by other composables or components" },
+        { "glob": "client/src/composables/**/index.ts", "ruleIds": ["composableFileName"], "reason": "Barrel/composable package; index is conventional" },
+        { "glob": "client/src/composables/**/types.ts", "ruleIds": ["composableFileName"], "reason": "Barrel/composable package; types file is conventional" },
+        { "glob": "client/src/composables/**/nestedComputedFactory.ts", "ruleIds": ["composableFileName"], "reason": "Composable utility; factory name is intentional" }
+      ],
+      "specific": []
+    },
+    "function-complexity": {
+      "patterns": [
+        { "glob": "**/configs/**/*.ts", "ruleIds": ["*"], "reason": "Config files are data-heavy by design" },
+        { "glob": "**/configs/**/*.vue", "ruleIds": ["*"], "reason": "Config components excluded" },
+        { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are data definitions" }
+      ],
+      "specific": []
+    },
+    "todo-aging": { "patterns": [], "specific": [] },
+    "data-flow": {
+      "patterns": [
+        { "glob": "**/dev/**", "ruleIds": ["*"], "reason": "Dev-only routes" }
+      ],
+      "specific": []
+    },
+    "import-graph": { "patterns": [], "specific": [] },
+    "file-cohesion": {
+      "patterns": [],
+      "specific": [
+        { "file": "client/src/components/admin/generic/EntityCard.vue", "ruleId": "oversized", "reason": "Orchestrator component; further extraction in progress (Plan C)" },
+        { "file": "client/src/views/admin/tabs/ShapesTab.vue", "ruleId": "oversized", "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up" },
+        { "file": "client/src/views/admin/tabs/InstancesTab.vue", "ruleId": "oversized", "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up" },
+        { "file": "client/src/configs/availabilitySettings.ts", "ruleId": "oversized", "reason": "Canonical config; split by domain deferred to follow-up" },
+        { "file": "client/src/vite-env.d.ts", "ruleId": "high-exports", "reason": "Vite/TypeScript ambient declarations; intentional multi-export" }
+      ]
+    },
+    "component-logic": {
+      "patterns": [
+        { "glob": "**/*.vue", "ruleIds": ["provideInject"], "reason": "Importing provide/inject doesn't indicate complexity - only usage does" },
+        { "glob": "**/components/**/fields/*.vue", "ruleIds": ["computed"], "reason": "Field components often use computed wrappers for props - legitimate Vue pattern" }
+      ],
+      "specific": []
+    },
+    "composables-logic": {
+      "patterns": [
+        { "glob": "**/composables/**/*Mutations.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern" },
+        { "glob": "**/composables/**/*Query.ts", "ruleIds": ["vueQuery"], "reason": "Query composables necessarily use Vue Query - this is the correct pattern" },
+        { "glob": "**/composables/**/*Actions.ts", "ruleIds": ["async", "await"], "reason": "Action composables necessarily use async/await - this is the correct pattern" }
+      ],
+      "specific": [
+        { "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts", "ruleIds": ["vueQuery", "async", "await", "computed"], "reason": "CRUD mutations - many async and Vue Query calls intentional" },
+        { "file": "client/src/composables/admin/useRelationshipCollectionData.ts", "ruleIds": ["computed", "ref"], "reason": "Data-heavy admin collection - many computeds intentional" },
+        { "file": "client/src/composables/booking/dev/usePanelPosition.ts", "ruleIds": ["DOM"], "reason": "Dev panel positioning - DOM measurement intentional" },
+        { "file": "client/src/composables/dataCollections/useDataCollectionActions.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Data collection actions - async and Vue Query intentional" }
+      ]
+    },
+    "unused-code": {
+      "patterns": [
+        { "glob": "src/constants/**/*.ts", "ruleIds": ["unused-export"], "reason": "Constants files may export unused values for future use" },
+        { "glob": "**/index.ts", "ruleIds": ["unused-export"], "reason": "Barrel files re-export for API surface" },
+        { "glob": "**/composables/**/*.ts", "ruleIds": ["unused-export"], "reason": "Composable return types / public API for consumers" }
+      ],
+      "specific": [
+        { "file": "client/src/utils/booking/cascadeFilterPipeline.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or future use" },
+        { "file": "server/src/constants/metadataDefaults.mjs", "ruleIds": ["unused-export"], "reason": "Reserved for metadata config" },
+        { "file": "client/src/utils/transformers/annotationTransformers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or tests" },
+        { "file": "client/src/utils/differentialScheduling.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
+        { "file": "server/src/config/entityRegistry.ts", "ruleIds": ["unused-export"], "reason": "Reserved for config" },
+        { "file": "server/src/routes/internal/relationships/relationshipHelpers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
+        { "file": "server/src/services/addressGeocodingCache.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
+        { "file": "server/src/utils/userTypeMapping.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" }
+      ]
+    },
+    "type-similarity": {
+      "patterns": [
+        { "glob": "**/express.d.ts", "ruleIds": ["*"], "reason": "Declaration file; leave as-is" }
+      ],
+      "specific": []
+    },
+    "constants-consolidation": {
+      "patterns": [],
+      "specific": [
+        { "file": "server/src/db/config/database.mjs", "ruleId": "hoist", "lineRange": [1, 35], "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention" }
+      ]
+    },
+    "lint": { "patterns": [], "specific": [] },
+    "loop-mutation": {
+      "patterns": [
+        { "glob": "**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns" },
+        { "glob": "**/composables/**/*.ts", "ruleIds": ["assignProp", "push"], "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern" },
+        { "glob": "**/views/**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue views use ref.value assignments for reactive state - legitimate Vue pattern" },
+        { "glob": "**/components/**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern" },
+        { "glob": "server/src/routes/**/*.ts", "ruleIds": ["*"], "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations" },
+        { "glob": "server/src/routes/**/*.js", "ruleIds": ["*"], "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations" },
+        { "glob": "server/src/scripts/**/*.ts", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" },
+        { "glob": "server/src/scripts/**/*.js", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" },
+        { "glob": "server/src/scripts/**/*.mjs", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" }
+      ],
+      "specific": [
+        { "file": "client/src/types/admin/adminEntity.ts", "ruleIds": ["assignProp"], "reason": "Class constructor and toPlainObject intentionally assign to this; stateful entity pattern" },
+        { "file": "client/src/utils/forms/formElementPatching.ts", "ruleIds": ["assignProp", "push"], "reason": "DOM form patching requires imperative mutation of form elements" }
+      ]
+    },
+    "duplication": {
+      "patterns": [
+        { "glob": "**/configs/field/form/selectableFieldConfig.ts", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
+        { "glob": "**/configs/field/display/selectableDisplayConfig.ts", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
+        { "glob": "**/configs/field/form/appliedForm/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
+        { "glob": "**/configs/field/display/appliedDisplay/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
+        { "glob": "**/types/entity/formFields.ts", "ruleIds": ["*"], "reason": "Type definition files - duplication between types and configs is intentional" }
+      ],
+      "specific": []
+    },
+    "pattern-detection": { "patterns": [], "specific": [] },
+    "hardcoding": {
+      "patterns": [
+        { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are the canonical source for hardcoded values - this is by design" },
+        { "glob": "**/configs/**/*.ts", "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"], "reason": "Config files are intentional sources of hardcoded values - canonical source of truth" },
+        { "glob": "**/configs/**/*.js", "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"], "reason": "Config files are intentional sources of hardcoded values - canonical source of truth" },
+        { "glob": "**/*Display*.ts", "ruleIds": ["magicLabel", "caseString"], "reason": "Display config files define labels and case literals by design" },
+        { "glob": "**/*Display*.vue", "ruleIds": ["magicLabel", "caseString"], "reason": "Display components use label strings and case literals by design" },
+        { "glob": "**/*.vue", "ruleIds": ["entityKeyString"], "reason": "Vue slot names and template attributes legitimately use entity keys as strings" },
+        { "glob": "**/utils/logger.ts", "ruleIds": ["caseString"], "reason": "Log level strings are standard and intentional - part of logger API" },
+        { "glob": "**/types/**/*.ts", "ruleIds": ["entityKeyString", "caseString"], "reason": "Type definitions legitimately use string literals for type unions" },
+        { "glob": "**/transformers/**/*.ts", "ruleIds": ["entityKeyString"], "reason": "API transformers necessarily reference entity keys for type-safe mapping" },
+        { "glob": "server/**/*Constants.ts", "ruleIds": ["magicLabel"], "reason": "Canonical server constants files; string values are the source of truth" }
+      ],
+      "specific": [
+        { "file": "server/src/services/brightMls/brightMlsApiClient.ts", "ruleIds": ["magicLabel"], "reason": "Bright MLS API field names and client-specific strings (external API contract)" }
+      ]
+    },
+    "typecheck": {
+      "patterns": [
+        { "glob": "**/types/**/*.ts", "ruleIds": ["TS6133"], "reason": "Type definition files may have unused types kept for reference" },
+        { "glob": "**/constants/**/*.ts", "ruleIds": ["TS6133"], "reason": "Constants files may have unused exports kept for future use" },
+        { "glob": "**/configs/**/*.ts", "ruleIds": ["TS6133"], "reason": "Config files may have unused values kept for reference" }
+      ],
+      "specific": [
+        { "file": "src/utils/entityDefaults.ts", "ruleId": "TS6133", "lineRange": [1, 50], "reason": "ENTITY_REQUIRED_DEFAULTS kept for reference despite being deprecated" }
       ]
     }
   }

@@ -2,7 +2,8 @@
 import { useConfigStore } from '@core/stores/config'
 import { AppContentLayoutNav } from '@layouts/enums'
 import { switchToVerticalNavOnLtOverlayNavBreakpoint } from '@layouts/utils'
-import { useLayoutLoading, type LoadingIndicatorInstance } from '@/composables/useLayoutLoading'
+import { useLayoutLoading } from '@/composables/useLayoutLoading'
+import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
 const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithHorizontalNav.vue'))
 const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))

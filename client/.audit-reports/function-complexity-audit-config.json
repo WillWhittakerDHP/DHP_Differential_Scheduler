@@ -1,31 +1,5 @@
 {
-  "$comment": "Configuration for function-complexity-audit.mjs",
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "**/configs/**/*.ts",
-        "ruleIds": [
-          "*"
-        ],
-        "reason": "Config files are data-heavy by design"
-      },
-      {
-        "glob": "**/configs/**/*.vue",
-        "ruleIds": [
-          "*"
-        ],
-        "reason": "Config components excluded"
-      },
-      {
-        "glob": "**/constants/**/*.ts",
-        "ruleIds": [
-          "*"
-        ],
-        "reason": "Constants files are data definitions"
-      }
-    ],
-    "specific": []
-  },
+  "$comment": "Configuration for function-complexity-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,

@@ -19,6 +19,13 @@ const props = defineProps<{
   maxWorkHoursRollingWeekMaxHours: number
   maxWorkHoursRollingWeekEnforcement: 'off' | 'flexible' | 'hard'
   maxWorkHoursRollingWeekDirection: 'past' | 'centered' | 'future'
+  maxIncomeDayMaxIncome: number
+  maxIncomeDayEnforcement: 'off' | 'flexible' | 'hard'
+  maxIncomeCalendarWeekMaxIncome: number
+  maxIncomeCalendarWeekEnforcement: 'off' | 'flexible' | 'hard'
+  maxIncomeRollingWeekMaxIncome: number
+  maxIncomeRollingWeekEnforcement: 'off' | 'flexible' | 'hard'
+  maxIncomeRollingWeekDirection: 'past' | 'centered' | 'future'
   saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
 }>()
 
@@ -30,6 +37,13 @@ const emit = defineEmits<{
   'update:maxWorkHoursRollingWeekMaxHours': [value: number]
   'update:maxWorkHoursRollingWeekEnforcement': [value: 'off' | 'flexible' | 'hard']
   'update:maxWorkHoursRollingWeekDirection': [value: 'past' | 'centered' | 'future']
+  'update:maxIncomeDayMaxIncome': [value: number]
+  'update:maxIncomeDayEnforcement': [value: 'off' | 'flexible' | 'hard']
+  'update:maxIncomeCalendarWeekMaxIncome': [value: number]
+  'update:maxIncomeCalendarWeekEnforcement': [value: 'off' | 'flexible' | 'hard']
+  'update:maxIncomeRollingWeekMaxIncome': [value: number]
+  'update:maxIncomeRollingWeekEnforcement': [value: 'off' | 'flexible' | 'hard']
+  'update:maxIncomeRollingWeekDirection': [value: 'past' | 'centered' | 'future']
 }>()
 
 const enforcementOptions = ENFORCEMENT_OPTIONS
@@ -68,6 +82,29 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
               />
             </VCol>
           </VRow>
+          <VRow class="mt-2">
+            <VCol cols="12" sm="6" md="4">
+              <VTextField
+                :model-value="props.maxIncomeDayMaxIncome"
+                @update:model-value="(v: number | string) => emit('update:maxIncomeDayMaxIncome', Number(v))"
+                :label="UI_STRINGS.labels.maximumIncomePerDay"
+                type="number"
+                min="0"
+                step="1"
+                :rules="[(v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater]"
+              />
+            </VCol>
+            <VCol cols="12" sm="6" md="4">
+              <VSelect
+                :model-value="props.maxIncomeDayEnforcement"
+                @update:model-value="(v: 'off' | 'flexible' | 'hard') => emit('update:maxIncomeDayEnforcement', v)"
+                :items="enforcementOptions"
+                :label="UI_STRINGS.labels.enforcement"
+                :hint="UI_STRINGS.hints.enforcement"
+                persistent-hint
+              />
+            </VCol>
+          </VRow>
         </VExpansionPanelText>
       </VExpansionPanel>
 
@@ -91,6 +128,29 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
               <VSelect
                 :model-value="props.maxWorkHoursCalendarWeekEnforcement"
                 @update:model-value="(v: 'off' | 'flexible' | 'hard') => emit('update:maxWorkHoursCalendarWeekEnforcement', v)"
+                :items="enforcementOptions"
+                :label="UI_STRINGS.labels.enforcement"
+                :hint="UI_STRINGS.hints.enforcement"
+                persistent-hint
+              />
+            </VCol>
+          </VRow>
+          <VRow class="mt-2">
+            <VCol cols="12" sm="6" md="4">
+              <VTextField
+                :model-value="props.maxIncomeCalendarWeekMaxIncome"
+                @update:model-value="(v: number | string) => emit('update:maxIncomeCalendarWeekMaxIncome', Number(v))"
+                :label="UI_STRINGS.labels.maximumIncomePerWeek"
+                type="number"
+                min="0"
+                step="1"
+                :rules="[(v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater]"
+              />
+            </VCol>
+            <VCol cols="12" sm="6" md="4">
+              <VSelect
+                :model-value="props.maxIncomeCalendarWeekEnforcement"
+                @update:model-value="(v: 'off' | 'flexible' | 'hard') => emit('update:maxIncomeCalendarWeekEnforcement', v)"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -131,6 +191,39 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
               <VSelect
                 :model-value="props.maxWorkHoursRollingWeekDirection"
                 @update:model-value="(v: 'past' | 'centered' | 'future') => emit('update:maxWorkHoursRollingWeekDirection', v)"
+                :items="rollingWeekDirectionOptions"
+                :label="UI_STRINGS.labels.direction"
+                :hint="UI_STRINGS.hints.direction"
+                persistent-hint
+              />
+            </VCol>
+          </VRow>
+          <VRow class="mt-2">
+            <VCol cols="12" sm="6" md="3">
+              <VTextField
+                :model-value="props.maxIncomeRollingWeekMaxIncome"
+                @update:model-value="(v: number | string) => emit('update:maxIncomeRollingWeekMaxIncome', Number(v))"
+                :label="UI_STRINGS.labels.maximumIncome7Days"
+                type="number"
+                min="0"
+                step="1"
+                :rules="[(v: number) => v >= 0 || UI_STRINGS.validation.mustBeZeroOrGreater]"
+              />
+            </VCol>
+            <VCol cols="12" sm="6" md="3">
+              <VSelect
+                :model-value="props.maxIncomeRollingWeekEnforcement"
+                @update:model-value="(v: 'off' | 'flexible' | 'hard') => emit('update:maxIncomeRollingWeekEnforcement', v)"
+                :items="enforcementOptions"
+                :label="UI_STRINGS.labels.enforcement"
+                :hint="UI_STRINGS.hints.enforcement"
+                persistent-hint
+              />
+            </VCol>
+            <VCol cols="12" sm="6" md="3">
+              <VSelect
+                :model-value="props.maxIncomeRollingWeekDirection"
+                @update:model-value="(v: 'past' | 'centered' | 'future') => emit('update:maxIncomeRollingWeekDirection', v)"
                 :items="rollingWeekDirectionOptions"
                 :label="UI_STRINGS.labels.direction"
                 :hint="UI_STRINGS.hints.direction"

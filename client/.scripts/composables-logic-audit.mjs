@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
@@ -453,7 +453,7 @@ function main() {
   ensureDir(OUT_DIR)
   
   // Load exception config
-  const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const configAllowlist = loadCentralAllowlist('composables-logic')
   
   // Load priority config
   let priorityConfig = {}

@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadConfigAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { loadCentralAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
 
 /**
  * Type Similarity Audit Script (Structural Type Governance)
@@ -998,7 +998,7 @@ function main() {
   ensureDir(OUT_DIR)
 
   // Load config
-  const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const configAllowlist = loadCentralAllowlist('type-similarity')
   let config = {}
   try {
     if (fs.existsSync(CONFIG_PATH)) {

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
+import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
 
 /**
  * Bundle Size Budget Audit Script
@@ -119,6 +120,7 @@ function assignPriority(budgetResults, _chunks) {
 
 function renderMarkdownReport(data) {
   const lines = []
+  lines.push(...getAuditReportHeaderLines())
   lines.push('# Bundle Size Budget Audit (Generated)')
   lines.push('')
   lines.push(`Generated at: ${data.generatedAt}`)

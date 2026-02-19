@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { LoadingIndicatorInstance } from '@/composables/useLayoutLoading'
+import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
 const { injectSkinClasses } = useSkins()
 

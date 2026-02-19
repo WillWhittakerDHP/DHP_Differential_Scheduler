@@ -11,7 +11,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { AUDIT_REPORT_AI_INSTRUCTIONS } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
 
 const CWD = path.resolve(process.cwd())
 const CLIENT_AUDIT = path.join(CWD, '.audit-reports')
@@ -103,7 +103,7 @@ function renderMarkdownReport(result) {
   const lines = []
   lines.push('# Pre-Lint Meta Report (Generated)')
   lines.push('')
-  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
+  lines.push(...getAuditReportHeaderLines())
   lines.push('')
   lines.push('Use this report to build a **repair plan** before running `audit:all`.')
   lines.push('')

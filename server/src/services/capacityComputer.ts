@@ -22,38 +22,41 @@ import {
   sumWorkHoursForDay,
   sumWorkHoursForCalendarWeek,
   sumWorkHoursForRollingWeek,
+  sumIncomeForDay,
+  sumIncomeForCalendarWeek,
+  sumIncomeForRollingWeek,
 } from '../utils/availabilities/availabiltiesDbUtils.js'
 import { getUniqueDatesInRange } from '../utils/availabilities/availabilityPrimitives.js'
 
+export interface ScheduledCapacityResult {
+  scheduledHoursByKey: Record<string, number>
+  scheduledIncomeByKey: Record<string, number>
+}
+
 /**
- * Pre-compute scheduled hours for all capacity constraints in a date range
- * LEARNING: Batch computation of capacity hours eliminates N client API calls
- * WHY: Server can efficiently compute all capacity hours in one pass
- * PATTERN: Generate all unique capacity keys, fetch hours once per key, return map
- * 
- * @param dateRange - Date range to compute capacity hours for
+ * Pre-compute scheduled hours and income for all capacity constraints in a date range
+ * LEARNING: Batch computation of capacity hours and income; income uses same key shape as hours
+ * WHY: Server can efficiently compute all capacity data in one pass; income for threshold gate
+ * PATTERN: Generate all unique capacity keys, fetch hours and income per key, return both maps
+ *
+ * @param dateRange - Date range to compute capacity for
  * @param capacityConstraints - Array of capacity constraints to compute
- * @returns Record mapping capacity key strings to scheduled hours
+ * @returns scheduledHoursByKey and scheduledIncomeByKey
  */
 export async function computeScheduledHoursForRange(
   dateRange: { start: string; end: string },
   capacityConstraints: CapacityConstraint[]
-): Promise<Record<string, number>> {
-  // Filter to only active constraints
+): Promise<ScheduledCapacityResult> {
   const activeConstraints = capacityConstraints.filter(c => c.enforcement !== 'off')
-  
+
   if (activeConstraints.length === 0) {
-    return {}
+    return { scheduledHoursByKey: {}, scheduledIncomeByKey: {} }
   }
-  
-  // Get all unique dates in the range
+
   const uniqueDates = getUniqueDatesInRange(dateRange.start, dateRange.end)
-  
-  // Build set of unique capacity keys
   const capacityKeyPartsSet = new Set<string>()
   const keyPartsMap = new Map<string, CapacityKeyParts>()
-  
-  // For each date and each constraint, build the capacity key
+
   for (const date of uniqueDates) {
     for (const constraint of activeConstraints) {
       const keyParts = buildCapacityKey(constraint, date)
@@ -62,35 +65,38 @@ export async function computeScheduledHoursForRange(
       keyPartsMap.set(keyString, keyParts)
     }
   }
-  
-  // Fetch hours for each unique key
+
   const scheduledHoursByKey: Record<string, number> = {}
-  
+  const scheduledIncomeByKey: Record<string, number> = {}
+
   await Promise.all(
     Array.from(capacityKeyPartsSet).map(async (keyString) => {
       const keyParts = keyPartsMap.get(keyString)!
-      const dateObj = new Date(keyString.split(':')[1] + 'T00:00:00Z')
-      
+      const datePart = keyString.split(':')[1]
+      const dateObj = new Date(datePart + 'T00:00:00Z')
+
       let hours = 0
-      
+      let income = 0
+
       switch (keyParts.type) {
         case TIME_BASIS_TYPES.DAILY:
           hours = await sumWorkHoursForDay(dateObj)
+          income = await sumIncomeForDay(dateObj)
           break
         case TIME_BASIS_TYPES.CALENDAR_WEEK:
           hours = await sumWorkHoursForCalendarWeek(dateObj)
+          income = await sumIncomeForCalendarWeek(dateObj)
           break
         case TIME_BASIS_TYPES.ROLLING_WEEK:
-          hours = await sumWorkHoursForRollingWeek(
-            dateObj,
-            keyParts.direction || 'past'
-          )
+          hours = await sumWorkHoursForRollingWeek(dateObj, keyParts.direction || 'past')
+          income = await sumIncomeForRollingWeek(dateObj, keyParts.direction || 'past')
           break
       }
-      
+
       scheduledHoursByKey[keyString] = hours
+      scheduledIncomeByKey[keyString] = income
     })
   )
-  
-  return scheduledHoursByKey
+
+  return { scheduledHoursByKey, scheduledIncomeByKey }
 }

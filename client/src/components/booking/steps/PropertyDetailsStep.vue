@@ -184,7 +184,7 @@ const {
 })
 
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
-void formRef // ref used by template
+void formRef.value // ref used by template
 
 const parentPropertyDetailsStepData = inject<Ref<PropertyDetailsStepData | null>>('propertyDetailsStepData')
 const parentPropertyDetailsStepValid = inject<Ref<boolean>>('propertyDetailsStepValid')

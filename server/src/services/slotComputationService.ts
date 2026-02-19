@@ -207,6 +207,7 @@ function checkOverlapConstraints(
 
 /**
  * Check one capacity constraint; returns pass/fail and optional violation.
+ * LEARNING: Income is a threshold gate (no candidate fee added); blocks when scheduledIncome >= maxIncome
  */
 function checkOneCapacityConstraint(
   slotDate: string,
@@ -231,6 +232,15 @@ function checkOneCapacityConstraint(
     }
     if (currentHours + durationHours > constraint.maxHours) {
       return { passes: true, violation: `capacity.${constraint.type}` }
+    }
+  }
+  if (constraint.maxIncome != null) {
+    const currentIncome = constraint.scheduledIncome?.[keyString] ?? 0
+    if (currentIncome >= constraint.maxIncome) {
+      if (constraint.enforcement === 'hard') {
+        return { passes: false, violation: null }
+      }
+      return { passes: true, violation: `capacity.income.${constraint.type}` }
     }
   }
   return { passes: true, violation: null }

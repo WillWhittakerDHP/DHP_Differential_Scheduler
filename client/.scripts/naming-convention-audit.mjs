@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  loadConfigAllowlist,
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
   checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
@@ -159,6 +160,7 @@ function checkExports(content, repoPath, lineOffset) {
 
 function renderMarkdownReport(scanned, exceptionSummary) {
   const lines = []
+  lines.push(...getAuditReportHeaderLines())
   lines.push('# Naming Convention Audit (Generated)')
   lines.push('')
   lines.push(`Generated at: ${new Date().toISOString()}`)
@@ -194,7 +196,7 @@ function renderMarkdownReport(scanned, exceptionSummary) {
 
 function main() {
   ensureDir(OUT_DIR)
-  const configAllowlist = loadConfigAllowlist(CONFIG_PATH)
+  const configAllowlist = loadCentralAllowlist('naming-convention')
   const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
 
   const clientFiles = listFilesRecursive(CLIENT_SRC)

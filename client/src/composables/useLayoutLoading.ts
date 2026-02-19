@@ -11,8 +11,6 @@
 import { ref, watch, type Ref } from 'vue'
 import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
-export type { LoadingIndicatorInstance }
-
 export interface UseLayoutLoadingOptions {
   refLoadingIndicator: Ref<LoadingIndicatorInstance | null>
 }

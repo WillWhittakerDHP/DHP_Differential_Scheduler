@@ -281,7 +281,7 @@ const handleEventShapeCancelled = () => {
 const partShapesContainer = ref<HTMLElement | null>(null)
 const blockShapesContainer = ref<HTMLElement | null>(null)
 const annotationShapesContainer = ref<HTMLElement | null>(null)
-void annotationShapesContainer // ref used by template
+void annotationShapesContainer.value // ref used by template
 
 /**
  * LEARNING: Refs for actual VExpansionPanels DOM elements
@@ -291,7 +291,7 @@ void annotationShapesContainer // ref used by template
 const partShapesPanelsContainer = ref<HTMLElement | null>(null)
 const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
-void annotationShapesPanelsContainer // ref used by template
+void annotationShapesPanelsContainer.value // ref used by template
 
 // WHY: Extracted to composable for better organization
 

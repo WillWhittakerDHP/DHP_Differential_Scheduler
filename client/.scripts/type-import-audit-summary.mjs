@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { AUDIT_REPORT_AI_INSTRUCTIONS } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
 
 const CWD = path.resolve(process.cwd())
 const CLIENT_AUDIT = path.join(CWD, '.audit-reports')
@@ -25,7 +25,7 @@ function render(data) {
   const lines = []
   lines.push('# Type-Import Audit Summary (Generated)')
   lines.push('')
-  lines.push(AUDIT_REPORT_AI_INSTRUCTIONS)
+  lines.push(...getAuditReportHeaderLines())
   lines.push('')
   lines.push(`Generated from \`${toRepoPath(AUDIT_JSON)}\`.`)
   lines.push('')

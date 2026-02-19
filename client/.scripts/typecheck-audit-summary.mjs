@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())
@@ -26,6 +27,7 @@ function render(data) {
   const files = Array.isArray(data.files) ? data.files : []
 
   const lines = []
+  lines.push(...getAuditReportHeaderLines())
   lines.push('# Typecheck Audit Summary (Generated)')
   lines.push('')
   lines.push(`Generated from \`${toRepoPath(IN_JSON)}\`.`)

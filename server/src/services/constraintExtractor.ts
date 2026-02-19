@@ -185,15 +185,13 @@ function extractOverlapConstraints(
 
 /**
  * Extract capacity constraints from availability settings
- * LEARNING: Extracts daily, calendarWeek, and rollingWeek capacity filters
- * WHY: Consolidates capacity checking into single pathway
- * PATTERN: Pure function that transforms settings into constraint array
+ * LEARNING: Extracts daily, calendarWeek, and rollingWeek capacity filters; merges hours and income per time basis
+ * WHY: One constraint per time basis carries both maxHours (from maxWorkHours) and maxIncome (from maxIncome) when configured
+ * PATTERN: Pure function; if only income is set, maxHours uses Infinity so hours check never blocks
  */
 function extractCapacityConstraints(
   settings: AvailabilitySettingsData
 ): CapacityConstraint[] {
-  // WHY: Single pattern for all capacity types reduces duplication and makes adding new types easier
-  // PATTERN: Use map + filter + map to extract constraints immutably
   const capacityTypeMap: Array<{
     type: CapacityConstraint['type']
     settingsKey: 'day' | 'calendarWeek' | 'rollingWeek'
@@ -202,32 +200,35 @@ function extractCapacityConstraints(
     { type: TIME_BASIS_TYPES.CALENDAR_WEEK, settingsKey: 'calendarWeek' },
     { type: TIME_BASIS_TYPES.ROLLING_WEEK, settingsKey: 'rollingWeek' }
   ]
-  
+
   return capacityTypeMap
     .map(({ type, settingsKey }) => {
-      const filter = settings.maxWorkHours?.[settingsKey]
-      if (!filter) {
+      const hoursFilter = settings.maxWorkHours?.[settingsKey]
+      const incomeFilter = settings.maxIncome?.[settingsKey]
+      const enforcement = hoursFilter?.enforcement ?? incomeFilter?.enforcement
+      if (enforcement === undefined) {
         return null
       }
-      
-      // PATTERN: Check undefined BEFORE checking value to catch missing enforcement
-      requireEnforcement(filter.enforcement, `${type} constraint`)
-      
-      if (filter.enforcement === 'off') {
+      requireEnforcement(enforcement, `${type} constraint`)
+      if (enforcement === 'off') {
         return null
       }
-      
-      return {
+      const hasHours = hoursFilter != null && hoursFilter.enforcement !== 'off'
+      const hasIncome = incomeFilter != null && incomeFilter.enforcement !== 'off'
+      if (!hasHours && !hasIncome) {
+        return null
+      }
+      const base: CapacityConstraint = {
         category: 'capacity',
         type,
-        enforcement: filter.enforcement,
-        maxHours: filter.maxHours,
-        ...(type === TIME_BASIS_TYPES.ROLLING_WEEK && settingsKey === 'rollingWeek' && 'direction' in filter
-          ? { 
-              direction: (filter as { direction?: RollingWeekDirection }).direction 
-            }
-          : {})
-      } as CapacityConstraint
+        enforcement,
+        maxHours: hasHours ? (hoursFilter as { maxHours: number }).maxHours : Number.POSITIVE_INFINITY,
+        ...(hasIncome ? { maxIncome: (incomeFilter as { maxIncome: number }).maxIncome } : {}),
+        ...(type === TIME_BASIS_TYPES.ROLLING_WEEK && settingsKey === 'rollingWeek' && (hoursFilter ?? incomeFilter) && 'direction' in (hoursFilter ?? incomeFilter!)
+          ? { direction: ((hoursFilter ?? incomeFilter) as { direction?: RollingWeekDirection }).direction }
+          : {}),
+      }
+      return base
     })
     .filter((constraint): constraint is CapacityConstraint => constraint !== null)
 }

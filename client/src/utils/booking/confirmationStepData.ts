@@ -1,5 +1,10 @@
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
+import type {
+  AppointmentFeeSummaryCreate,
+  AppointmentFeeEntryCreate,
+  AppointmentFeeBreakdownPayload,
+} from '@shared/types/appointmentFeeTypes'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 import { calculatePartsTotals } from './partsTotals'
 import {
@@ -149,11 +154,83 @@ export function buildConfirmationSummaryData(
 }
 
 /**
+ * Build fee breakdown payload for appointment submission (summary + per-block entries).
+ * LEARNING: Pure function that reuses calculateBlockInstanceFee per block; server persists in afterCreate hook
+ * WHY: Single source for both confirmation UI (via buildConfirmationPriceData) and API payload
+ * PATTERN: Returns AppointmentFeeBreakdownPayload (summary without id/appointmentId, entries without id/feeSummaryId)
+ *
+ * @param wizard - Wizard selection state with selected block instances
+ * @param squareFootage - Property square footage for overage fee calculation
+ * @param aduCount - Optional ADU count multiplier for allowMultiple blocks
+ * @returns Payload with summary and entries for server to persist
+ */
+export function buildAppointmentFeeBreakdown(
+  wizard: WizardSelectionState,
+  squareFootage: number | null,
+  aduCount?: number | null
+): AppointmentFeeBreakdownPayload {
+  const sqft = squareFootage ?? 0
+  const adu = aduCount ?? 1
+
+  const allPartInstances: BookingPartInstance[] = [
+    ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
+    ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
+    ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
+    ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+  ]
+
+  const blocksWithFees: Array<{ block: BookingBlockInstance; fee: BlockInstanceFeeResult }> = [
+    ...wizard.selectedServices.map((block) => ({
+      block,
+      fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
+    })),
+    ...wizard.selectedPropertyTypeBlocks.map((block) => ({
+      block,
+      fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
+    })),
+    ...wizard.selectedOptionTypeBlocks.map((block) => ({
+      block,
+      fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
+    })),
+    ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
+      block,
+      fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
+    })),
+  ]
+
+  const entries: AppointmentFeeEntryCreate[] = blocksWithFees.map(({ block, fee }) => ({
+    blockInstanceId: block.id,
+    blockName: block.name,
+    blockShapeRef: block.blockShapeRef,
+    baseFee: fee.baseFee,
+    overageFee: fee.overageFee,
+    totalFee: fee.totalFee,
+    quantity: block.allowMultiple ? adu : 1,
+  }))
+
+  const baseFeeTotal = blocksWithFees.reduce((sum, { fee }) => sum + fee.baseFee, 0)
+  const overageFeeTotal = blocksWithFees.reduce((sum, { fee }) => sum + fee.overageFee, 0)
+  const totalFee = baseFeeTotal + overageFeeTotal
+
+  const summary: AppointmentFeeSummaryCreate = {
+    baseFeeTotal,
+    overageFeeTotal,
+    totalFee,
+    squareFootage: sqft,
+    aduCount: adu,
+    currency: 'USD',
+    calculatedAt: new Date().toISOString(),
+  }
+
+  return { summary, entries }
+}
+
+/**
  * Build confirmation price data from wizard selections
- * LEARNING: Calculates fees from all selected block instances (services, property types, options)
+ * LEARNING: Derives PriceData from buildAppointmentFeeBreakdown; adds UI-layer fields (coupons, delivery)
  * WHY: Aggregates pricing information for display in confirmation step
- * PATTERN: Sum base fees and overage fees separately across all block types
- * 
+ * PATTERN: Single call to buildAppointmentFeeBreakdown, then map to PriceData shape
+ *
  * @param wizard - Wizard selection state with selected block instances
  * @param squareFootage - Property square footage for overage fee calculation
  * @param aduCount - Optional ADU count multiplier for allowMultiple blocks
@@ -165,87 +242,28 @@ export function buildConfirmationPriceData(
   aduCount?: number | null
 ): PriceData {
   // PATTERN: Use squareFootage parameter (extracted from propertyDetailsStepData by caller)
-  const sqft = squareFootage ?? 0
+  const { summary, entries } = buildAppointmentFeeBreakdown(wizard, squareFootage, aduCount)
 
-  // All part instances from selected blocks for pricing cascade resolution (service parts can pull in property parts)
-  const allPartInstances: BookingPartInstance[] = [
-    ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
-    ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
-    ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
-    ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
-  ]
-
-  // PATTERN: Reduce to sum fees from all selected services (with pricing cascade: service parts can include property part pricing)
-  const serviceFees = wizard.selectedServices.reduce(
-    (acc, service) => {
-      const feeResult = calculateBlockInstanceFee(service, sqft, aduCount, allPartInstances)
-      return {
-        baseFee: acc.baseFee + feeResult.baseFee,
-        overageFee: acc.overageFee + feeResult.overageFee,
-        totalFee: acc.totalFee + feeResult.totalFee
-      }
-    },
-    { baseFee: 0, overageFee: 0, totalFee: 0 }
-  )
-
-  // PATTERN: Reduce to sum fees from all selected property type blocks (cascade available for consistency)
-  const propertyTypeBlockFees = wizard.selectedPropertyTypeBlocks.reduce(
-    (acc, adjustment) => {
-      const feeResult = calculateBlockInstanceFee(adjustment, sqft, aduCount, allPartInstances)
-      return {
-        baseFee: acc.baseFee + feeResult.baseFee,
-        overageFee: acc.overageFee + feeResult.overageFee,
-        totalFee: acc.totalFee + feeResult.totalFee
-      }
-    },
-    { baseFee: 0, overageFee: 0, totalFee: 0 }
-  )
-
-  // PATTERN: Reduce to sum fees from all selected option type blocks
-  const optionTypeBlockFees = wizard.selectedOptionTypeBlocks.reduce(
-    (acc, option) => {
-      const feeResult = calculateBlockInstanceFee(option, sqft, aduCount, allPartInstances)
-      return {
-        baseFee: acc.baseFee + feeResult.baseFee,
-        overageFee: acc.overageFee + feeResult.overageFee,
-        totalFee: acc.totalFee + feeResult.totalFee
-      }
-    },
-    { baseFee: 0, overageFee: 0, totalFee: 0 }
-  )
-
-  // PATTERN: Reduce to sum fees from all selected line item blocks
   const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
-  const lineItemBlockFees = lineItemBlocks.reduce(
-    (acc, lineItem) => {
-      const feeResult = calculateBlockInstanceFee(lineItem, sqft, aduCount, allPartInstances)
-      return {
-        baseFee: acc.baseFee + feeResult.baseFee,
-        overageFee: acc.overageFee + feeResult.overageFee,
-        totalFee: acc.totalFee + feeResult.totalFee
-      }
-    },
+  const lineItemEntries = entries.filter((e) =>
+    lineItemBlocks.some((b) => b.id === e.blockInstanceId)
+  )
+  const lineItemBlockFees = lineItemEntries.reduce(
+    (acc, e) => ({
+      baseFee: acc.baseFee + e.baseFee,
+      overageFee: acc.overageFee + e.overageFee,
+      totalFee: acc.totalFee + e.totalFee,
+    }),
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  // PATTERN: Map each selected line item block to display object with label, amount, and isFree flag
-  const lineItems = lineItemBlocks.map(lineItem => {
-    const feeResult = calculateBlockInstanceFee(lineItem, sqft, aduCount, allPartInstances)
-    return {
-      label: lineItem.name,
-      amount: feeResult.totalFee,
-      isFree: feeResult.totalFee === 0
-    }
+  const lineItems = lineItemBlocks.map((block) => {
+    const entry = entries.find((e) => e.blockInstanceId === block.id)
+    const amount = entry?.totalFee ?? 0
+    return { label: block.name, amount, isFree: amount === 0 }
   })
 
-  // PATTERN: Sum base fees and overage fees across all block types (including line items)
-  const baseFeeTotal = serviceFees.baseFee + propertyTypeBlockFees.baseFee + optionTypeBlockFees.baseFee + lineItemBlockFees.baseFee
-  const overageFeeTotal = serviceFees.overageFee + propertyTypeBlockFees.overageFee + optionTypeBlockFees.overageFee + lineItemBlockFees.overageFee
-  const totalFee = baseFeeTotal + overageFeeTotal
-
-  // PATTERN: Apply discounts and delivery charges to calculate final total
-  const bagTotal = totalFee
-  // Tracked placeholders until coupon and business settings integration (see TODO-aging audit)
+  const bagTotal = summary.totalFee
   const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
   const orderTotal = bagTotal - couponDiscount
   const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented
@@ -253,16 +271,16 @@ export function buildConfirmationPriceData(
   const finalTotal = orderTotal + (deliveryFree ? 0 : deliveryCharges)
 
   return {
-    totalFee,
-    currency: 'USD',
+    totalFee: summary.totalFee,
+    currency: summary.currency,
     bagTotal,
     couponDiscount,
     orderTotal,
     deliveryCharges,
     deliveryFree,
     finalTotal,
-    baseFeeTotal,
-    overageFeeTotal,
+    baseFeeTotal: summary.baseFeeTotal,
+    overageFeeTotal: summary.overageFeeTotal,
     lineItemFees: {
       baseFee: lineItemBlockFees.baseFee,
       overageFee: lineItemBlockFees.overageFee,

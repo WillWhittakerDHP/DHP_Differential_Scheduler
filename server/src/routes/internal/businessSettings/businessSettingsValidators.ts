@@ -208,6 +208,35 @@ export function validateAvailabilitySettings(data: any): data is AvailabilitySet
     }
   }
 
+  // Validate maxIncome structure if present (same shape as maxWorkHours but maxIncome field)
+  if (data.maxIncome !== undefined) {
+    if (typeof data.maxIncome !== 'object') {
+      return false
+    }
+    if (data.maxIncome.day !== undefined) {
+      if (typeof data.maxIncome.day !== 'object' ||
+          typeof data.maxIncome.day.maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes(data.maxIncome.day.enforcement)) {
+        return false
+      }
+    }
+    if (data.maxIncome.calendarWeek !== undefined) {
+      if (typeof data.maxIncome.calendarWeek !== 'object' ||
+          typeof data.maxIncome.calendarWeek.maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes(data.maxIncome.calendarWeek.enforcement)) {
+        return false
+      }
+    }
+    if (data.maxIncome.rollingWeek !== undefined) {
+      if (typeof data.maxIncome.rollingWeek !== 'object' ||
+          typeof data.maxIncome.rollingWeek.maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes(data.maxIncome.rollingWeek.enforcement) ||
+          !['past', 'centered', 'future'].includes(data.maxIncome.rollingWeek.direction)) {
+        return false
+      }
+    }
+  }
+
   // Validate durationRounding structure if present
   if (data.durationRounding !== undefined) {
     if (typeof data.durationRounding !== 'object') {

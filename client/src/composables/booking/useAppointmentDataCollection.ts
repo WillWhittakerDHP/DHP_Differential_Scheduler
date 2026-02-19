@@ -12,6 +12,7 @@ import type { AppointmentRequest, AppointmentStatus, AttendeeRequest } from '@/t
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { buildAppointmentFeeBreakdown } from '@/utils/booking/confirmationStepData'
 
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { ContactsStepData } from '@/types/wizard'
@@ -43,6 +44,7 @@ export interface UseAppointmentDataCollectionParams {
     selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>
     isQuoteMode: Ref<boolean>
   }
@@ -260,6 +262,17 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
 
       const isQuoteMode = wizard.isQuoteMode.value
 
+      // LEARNING: Build fee breakdown from same wizard state as confirmation step; server persists in afterCreate
+      const wizardForFee = {
+        selectedServices: wizard.selectedServiceTypeBlocks.value,
+        selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
+        selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
+        selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
+      }
+      const squareFootage = propertyDetailsStepData.value.squareFootage ?? propertyDetailsStepData.value.propertySize ?? null
+      const aduCount = propertyDetailsStepData.value.additionalUnits ?? null
+      const feeBreakdown = buildAppointmentFeeBreakdown(wizardForFee, squareFootage, aduCount)
+
       // PATTERN: Map array to object { id -> number } for items with number property
       const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
         const number = (service as BookingBlockInstance & { number?: number | null }).number
@@ -309,7 +322,8 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         // Attendees for calendar invitations
         // SESSION: 2.1.3b - Appointment Attendees Architecture
         attendees: attendees.length > 0 ? attendees : null,
-        propertyDetails
+        propertyDetails,
+        feeBreakdown,
       }
 
       return appointmentData

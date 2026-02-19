@@ -1,39 +1,8 @@
 {
-  "$comment": "Configuration for deprecation-audit.mjs",
+  "$comment": "Configuration for deprecation-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
   "$schema": "Priority thresholds for deprecation audit",
   "priorities": {
     "p0MinSeverityScore": 10,
     "p1MinSeverityScore": 4
-  },
-  "allowlist": {
-    "patterns": [
-      {
-        "glob": "**",
-        "ruleIds": ["jsdoc-deprecated", "comment-deprecated", "paren-deprecated", "block-deprecated", "legacy-marker", "compat-marker"],
-        "reason": "Deprecation tracked; removal in future sprint"
-      }
-    ],
-    "specific": [
-      {
-        "file": "client/src/composables/admin/useBusinessRuleForm.ts",
-        "ruleId": "unhelpful-default-nullish",
-        "reason": "Optional form field; empty string default intentional"
-      },
-      {
-        "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
-        "ruleId": "unhelpful-default-nullish",
-        "reason": "Optional form field; empty array/string default intentional"
-      },
-      {
-        "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-        "ruleId": "fallback-keyword",
-        "reason": "Explicit parseAddress fallbacks; documented pattern"
-      },
-      {
-        "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-        "ruleId": "unhelpful-default-or",
-        "reason": "Comment/docs only; no runtime || '' in code"
-      }
-    ]
   }
 }

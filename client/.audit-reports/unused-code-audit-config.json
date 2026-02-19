@@ -1,21 +1,7 @@
 {
-  "$comment": "Configuration for unused-code-audit.mjs. Policy: verify before remove, allowlist when in doubt.",
-  "priorities": { "p0MinSeverityScore": 10, "p1MinSeverityScore": 5 },
-  "allowlist": {
-    "patterns": [
-      { "glob": "src/constants/**/*.ts", "ruleIds": ["unused-export"], "reason": "Constants files may export unused values for future use" },
-      { "glob": "**/index.ts", "ruleIds": ["unused-export"], "reason": "Barrel files re-export for API surface" },
-      { "glob": "**/composables/**/*.ts", "ruleIds": ["unused-export"], "reason": "Composable return types / public API for consumers" }
-    ],
-    "specific": [
-      { "file": "client/src/utils/booking/cascadeFilterPipeline.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or future use" },
-      { "file": "server/src/constants/metadataDefaults.mjs", "ruleIds": ["unused-export"], "reason": "Reserved for metadata config" },
-      { "file": "client/src/utils/transformers/annotationTransformers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or tests" },
-      { "file": "client/src/utils/differentialScheduling.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-      { "file": "server/src/config/entityRegistry.ts", "ruleIds": ["unused-export"], "reason": "Reserved for config" },
-      { "file": "server/src/routes/internal/relationships/relationshipHelpers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-      { "file": "server/src/services/addressGeocodingCache.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-      { "file": "server/src/utils/userTypeMapping.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" }
-    ]
+  "$comment": "Configuration for unused-code-audit.mjs. Policy: verify before remove, allowlist when in doubt. Allowlist: audit-global-config.json allowlists.<auditId>.",
+  "priorities": {
+    "p0MinSeverityScore": 10,
+    "p1MinSeverityScore": 5
   }
 }

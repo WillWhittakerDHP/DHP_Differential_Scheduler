@@ -238,7 +238,7 @@ const isCreatingEventInstanceLoading = ref(false)
 const eventInstancesList = ref<EventInstance[]>([])
 const eventInstanceIds = ref<string[]>([])
 const eventInstancesContainer = ref<HTMLElement | null>(null)
-void eventInstancesContainer // ref used by template
+void eventInstancesContainer.value // ref used by template
 const eventInstancesPanelsContainer = ref<ComponentPublicInstance | HTMLElement | null>(null)
 
 const filteredEventInstances = computed(() => {

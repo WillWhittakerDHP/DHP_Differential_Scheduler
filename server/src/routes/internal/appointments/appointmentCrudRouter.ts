@@ -14,11 +14,13 @@ import { loadAllAppointmentVersions } from '../../../services/appointmentSnapsho
 import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js'
 import { ERROR_MESSAGES } from './appointmentConstants.js'
 import { handleRouteError } from './appointmentErrorHandler.js'
+import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
   appointmentIncludes,
   createSnapshotsForAppointment,
   validateSnapshotIds,
   createAttendeeRecords,
+  createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
   type AttendeeRequest,
@@ -74,10 +76,14 @@ const router = createCrudRouter({
     }
   },
   sanitizeInput: (data: unknown): unknown => {
-    // Remove attendees from appointmentData before creating appointment
-    // (attendees are stored in separate table)
-    const appointmentData = data as { attendees?: AttendeeRequest[]; [key: string]: unknown }
-    const { attendees: _, ...appointmentFields } = appointmentData
+    // Remove attendees and feeBreakdown from appointmentData before creating appointment
+    // (attendees in separate table; fee summary + entries created in afterCreate)
+    const appointmentData = data as {
+      attendees?: AttendeeRequest[]
+      feeBreakdown?: unknown
+      [key: string]: unknown
+    }
+    const { attendees: _, feeBreakdown: __, ...appointmentFields } = appointmentData
     return appointmentFields
   },
   afterCreate: async (record, req, res) => {
@@ -85,7 +91,13 @@ const router = createCrudRouter({
     // WHY: Keeps factory pattern clean while allowing domain-specific behavior
     // PATTERN: Hook runs after record creation, handles side effects
 
-    const appointmentData = req.body as { attendees?: AttendeeRequest[]; selectedServiceIds?: string[]; selectedPropertyIds?: string[]; selectedOptionIds?: string[] }
+    const appointmentData = req.body as {
+      attendees?: AttendeeRequest[]
+      feeBreakdown?: AppointmentFeeBreakdownPayload | null
+      selectedServiceIds?: string[]
+      selectedPropertyIds?: string[]
+      selectedOptionIds?: string[]
+    }
     const attendeesData = (() => {
       const raw = appointmentData.attendees
       if (raw === undefined || raw === null) {
@@ -122,7 +134,10 @@ const router = createCrudRouter({
     
     // Create attendee records
     await createAttendeeRecords(record.id, attendeesData)
-    
+
+    // Create fee summary + entries (from client buildAppointmentFeeBreakdown)
+    await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
+
     // Create calendar event if status requires it
     if (shouldCreateCalendarEvent(record.status)) {
       try {

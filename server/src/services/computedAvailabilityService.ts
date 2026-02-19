@@ -285,7 +285,8 @@ async function fetchAndDedupeCalendarEvents(
 
 function enrichCapacityConstraintsWithHours(
   constraints: Constraint[],
-  scheduledHoursByKey: Record<string, number>
+  scheduledHoursByKey: Record<string, number>,
+  scheduledIncomeByKey?: Record<string, number>
 ): Constraint[] {
   return constraints.map((constraint) => {
     if (constraint.category !== 'capacity') return constraint
@@ -293,7 +294,17 @@ function enrichCapacityConstraintsWithHours(
     const relevantHours = Object.fromEntries(
       Object.entries(scheduledHoursByKey).filter(([key]) => key.startsWith(prefix))
     )
-    return { ...constraint, scheduledHours: relevantHours }
+    const relevantIncome =
+      scheduledIncomeByKey != null
+        ? Object.fromEntries(
+            Object.entries(scheduledIncomeByKey).filter(([key]) => key.startsWith(prefix))
+          )
+        : undefined
+    return {
+      ...constraint,
+      scheduledHours: relevantHours,
+      ...(relevantIncome != null && Object.keys(relevantIncome).length > 0 ? { scheduledIncome: relevantIncome } : {}),
+    }
   })
 }
 
@@ -364,13 +375,14 @@ export async function computeAvailabilityData(
     request.candidatePlaceId
   )
 
-  const scheduledHoursByKey = await computeScheduledHoursForRange(
+  const { scheduledHoursByKey, scheduledIncomeByKey } = await computeScheduledHoursForRange(
     request.dateRange,
     capacity
   )
   const enrichedConstraints = enrichCapacityConstraintsWithHours(
     constraints,
-    scheduledHoursByKey
+    scheduledHoursByKey,
+    scheduledIncomeByKey
   )
 
   const businessHoursConstraint = enrichedConstraints.find(

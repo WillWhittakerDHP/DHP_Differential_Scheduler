@@ -72,6 +72,7 @@ export interface CrudRouterConfig<T extends Model> {
   defaultIncludes?: Includeable[]
   defaultOrder?: Order
   /** Feature flags */
+  enablePost?: boolean
   enablePut?: boolean
   enablePatch?: boolean
   enableDelete?: boolean

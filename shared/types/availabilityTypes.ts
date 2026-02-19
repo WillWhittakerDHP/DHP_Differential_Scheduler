@@ -185,16 +185,39 @@ export interface OverlapConstraint {
 /**
  * Capacity constraint interface
  * LEARNING: Unified structure for all capacity filters (daily, calendar week, rolling week)
- * WHY: Consolidates capacity checking into single pathway
- * PATTERN: Interface with type, enforcement, maxHours, and optional direction
+ * WHY: Consolidates capacity checking into single pathway; income is capacity with different unit
+ * PATTERN: Interface with type, enforcement, maxHours, optional maxIncome/scheduledIncome, and optional direction
  */
 export interface CapacityConstraint {
   category: 'capacity'
   type: 'daily' | 'calendarWeek' | 'rollingWeek'
   enforcement: ConstraintEnforcement
   maxHours: number
-  direction?: RollingWeekDirection  // Only for rollingWeek
-  scheduledHours?: Record<string, number>  // enriched by server: hours already scheduled, keyed by capacity key
+  maxIncome?: number                            // Optional income cap (same time basis as maxHours)
+  direction?: RollingWeekDirection             // Only for rollingWeek
+  scheduledHours?: Record<string, number>      // enriched by server: hours already scheduled, keyed by capacity key
+  scheduledIncome?: Record<string, number>     // enriched by server: income already scheduled, keyed by capacity key
+}
+
+/**
+ * Income capacity filter configuration
+ * LEARNING: Same time basis as work capacity (day, calendarWeek, rollingWeek) but unit is income
+ * WHY: Enables income-based caps alongside or instead of hours
+ * PATTERN: Interface with maxIncome and enforcement
+ */
+export interface IncomeCapacityFilter {
+  maxIncome: number
+  enforcement: ConstraintEnforcement
+}
+
+/**
+ * Rolling week income capacity filter configuration
+ * LEARNING: Extends IncomeCapacityFilter with direction for rolling window
+ * WHY: Rolling week income cap needs direction like rolling week hours
+ * PATTERN: Extends base interface with direction
+ */
+export interface RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter {
+  direction: RollingWeekDirection
 }
 
 /**

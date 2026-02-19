@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T00:27:51.946Z",
+  "generatedAt": "2026-02-19T02:12:11.333Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 792,
+  "totalScanned": 797,
   "exceptionSummary": {
     "totalAllowed": 45,
-    "totalRequiresReview": 14,
+    "totalRequiresReview": 18,
     "bySource": {
       "inline": 0,
       "pattern": 45,
@@ -24,6 +24,45 @@
     }
   },
   "files": [
+    {
+      "id": "server__src__utils__availabilities__availabiltiesDbUtils.ts",
+      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 108,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 154,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 314,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 342,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 356,
+          "line": "} catch (error) {"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 370,
+          "line": "} catch (error) {"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
     {
       "id": "server__src__services__google__maps__placesApiService.ts",
       "repoPath": "server/src/services/google/maps/placesApiService.ts",
@@ -37,25 +76,6 @@
         {
           "ruleId": "catch-without-logger",
           "lineNumber": 107,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__utils__availabilities__availabiltiesDbUtils.ts",
-      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 107,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 153,
           "line": "} catch (error) {"
         }
       ],
@@ -201,6 +221,92 @@
       ],
       "score": 1,
       "priority": "P2"
+    }
+  ],
+  "ruleset": [
+    {
+      "ruleId": "empty-catch",
+      "label": "Empty catch block",
+      "severity": "P0",
+      "description": "Empty catch block (no handling or logging).",
+      "recommendedFix": "Add createLogger and logger.error(err) at start of catch block, or rethrow."
+    },
+    {
+      "ruleId": "silent-catch-promise",
+      "label": "Silent .catch()",
+      "severity": "P0",
+      "description": "Promise .catch() with no-op or void callback.",
+      "recommendedFix": "Add error logging or pass error to a handler; avoid .catch(() => {})."
+    },
+    {
+      "ruleId": "catch-comment-only",
+      "label": "Catch block with only comment",
+      "severity": "P0",
+      "description": "Catch block whose only content is comments.",
+      "recommendedFix": "Add at least logger.error(err) or rethrow for visibility."
+    },
+    {
+      "ruleId": "console-in-catch",
+      "label": "console.* in catch block",
+      "severity": "P1",
+      "description": "console.log/warn/error/debug/info used inside a catch block.",
+      "recommendedFix": "Use createLogger and logger.error(err) instead of console in catch."
+    },
+    {
+      "ruleId": "alert-in-catch",
+      "label": "alert() in catch block",
+      "severity": "P1",
+      "description": "alert() used inside a catch block.",
+      "recommendedFix": "Use logger + notifyError (or app toast) instead of alert()."
+    },
+    {
+      "ruleId": "ts-ignore",
+      "label": "@ts-ignore",
+      "severity": "P1",
+      "description": "TypeScript @ts-ignore comment suppressing type errors.",
+      "recommendedFix": "Fix the type or use @ts-expect-error with a short comment; prefer type-safe code."
+    },
+    {
+      "ruleId": "ts-expect-error",
+      "label": "@ts-expect-error",
+      "severity": "P1",
+      "description": "TypeScript @ts-expect-error comment.",
+      "recommendedFix": "Add brief comment explaining why; remove when upstream types are fixed."
+    },
+    {
+      "ruleId": "as-any",
+      "label": "as any",
+      "severity": "P1",
+      "description": "Type assertion \"as any\" bypassing type checking.",
+      "recommendedFix": "Use a proper type or type guard; avoid as any where possible."
+    },
+    {
+      "ruleId": "eslint-disable",
+      "label": "eslint-disable",
+      "severity": "P1",
+      "description": "ESLint disable comment suppressing lint rules.",
+      "recommendedFix": "Fix the underlying issue or scope the disable to the minimal line/block."
+    },
+    {
+      "ruleId": "console-general",
+      "label": "console.* usage",
+      "severity": "P2",
+      "description": "console.* usage outside catch (general logging).",
+      "recommendedFix": "Use createLogger and logger.debug/info/warn/error for app logging."
+    },
+    {
+      "ruleId": "catch-without-logger",
+      "label": "Catch block does not log error",
+      "severity": "P2",
+      "description": "Catch block that does not call logger.error/warn/info/debug.",
+      "recommendedFix": "Add logger.error(err) (or equivalent) at start of catch for ops visibility."
+    },
+    {
+      "ruleId": "console-no-logger",
+      "label": "console.* used without logger utility",
+      "severity": "P2",
+      "description": "File uses console.* but does not import createLogger.",
+      "recommendedFix": "Import createLogger and replace console calls with logger methods."
     }
   ]
 }

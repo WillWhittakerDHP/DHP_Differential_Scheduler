@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-19T00:27:52.242Z",
+  "generatedAt": "2026-02-19T01:12:24.892Z",
   "check": "Deprecation",
-  "totalScanned": 792,
+  "totalScanned": 797,
   "exceptionSummary": {
     "totalAllowed": 47,
-    "totalRequiresReview": 140,
+    "totalRequiresReview": 143,
     "bySource": {
       "inline": 4,
       "pattern": 31,
@@ -19,42 +19,54 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 68,
+          "lineNumber": 73,
           "line": "const rawParts = blockInstance.partInstances ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 172,
+          "lineNumber": 176,
           "line": "...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 173,
+          "lineNumber": 177,
           "line": "...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 174,
+          "lineNumber": 178,
           "line": "...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 175,
+          "lineNumber": 179,
           "line": "...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 218,
+          "lineNumber": 195,
+          "line": "...(wizard.selectedLineItemBlocks ?? []).map((block) => ({",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 247,
           "line": "const lineItemBlocks = wizard.selectedLineItemBlocks ?? []",
+          "section": "legacy-accommodation"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 262,
+          "line": "const amount = entry?.totalFee ?? 0",
           "section": "legacy-accommodation"
         }
       ],
-      "score": 12,
+      "score": 15,
       "priority": "P0"
     },
     {
@@ -1218,6 +1230,21 @@
           "ruleId": "unhelpful-default-nullish",
           "lineNumber": 33,
           "line": "localResolutionNotes.value = f.resolutionNotes ?? '';",
+          "section": "legacy-accommodation"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 270,
+          "line": "selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],",
           "section": "legacy-accommodation"
         }
       ],

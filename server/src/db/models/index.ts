@@ -30,6 +30,8 @@ import { PropertyDetailsFactory } from "./booking/property_details.js";
 import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
+import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
+import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
@@ -76,6 +78,8 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
   const User = UserFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
+  const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
+  const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
 
   const BusinessSettings = BusinessSettingsFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
@@ -283,12 +287,30 @@ export function initializeModels(sequelize: Sequelize) {
     foreignKey: 'user_type_block_instance_id', 
     as: 'appointmentAttendees' 
   });
-  AppointmentAttendee.belongsTo(BlockInstance, { 
-    foreignKey: 'user_type_block_instance_id', 
-    as: 'userTypeBlockInstance' 
+  AppointmentAttendee.belongsTo(BlockInstance, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'userTypeBlockInstance'
   });
 
-  BlockInstanceVersion.hasMany(PartInstanceVersion, { 
+  // AppointmentFeeSummary / AppointmentFeeEntry (1:1 summary per appointment, many entries per summary)
+  Appointment.hasOne(AppointmentFeeSummary, {
+    foreignKey: 'appointment_id',
+    as: 'feeSummary',
+  });
+  AppointmentFeeSummary.belongsTo(Appointment, {
+    foreignKey: 'appointment_id',
+    as: 'appointment',
+  });
+  AppointmentFeeSummary.hasMany(AppointmentFeeEntry, {
+    foreignKey: 'fee_summary_id',
+    as: 'feeEntries',
+  });
+  AppointmentFeeEntry.belongsTo(AppointmentFeeSummary, {
+    foreignKey: 'fee_summary_id',
+    as: 'feeSummary',
+  });
+
+  BlockInstanceVersion.hasMany(PartInstanceVersion, {
     foreignKey: 'block_instance_version_id', 
     as: 'partInstanceVersions' 
   });
@@ -307,6 +329,8 @@ export function initializeModels(sequelize: Sequelize) {
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
     AppointmentAttendee,
+    AppointmentFeeSummary,
+    AppointmentFeeEntry,
     BusinessSettings, BusinessRule,
     AdminMetadata,
     BetaFeedback,

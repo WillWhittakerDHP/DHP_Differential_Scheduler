@@ -1,35 +1,5 @@
 {
-  "$comment": "Configuration for file-cohesion-audit.mjs",
-  "allowlist": {
-    "patterns": [],
-    "specific": [
-      {
-        "file": "client/src/components/admin/generic/EntityCard.vue",
-        "ruleId": "oversized",
-        "reason": "Orchestrator component; further extraction in progress (Plan C)"
-      },
-      {
-        "file": "client/src/views/admin/tabs/ShapesTab.vue",
-        "ruleId": "oversized",
-        "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up"
-      },
-      {
-        "file": "client/src/views/admin/tabs/InstancesTab.vue",
-        "ruleId": "oversized",
-        "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up"
-      },
-      {
-        "file": "client/src/configs/availabilitySettings.ts",
-        "ruleId": "oversized",
-        "reason": "Canonical config; split by domain deferred to follow-up"
-      },
-      {
-        "file": "client/src/vite-env.d.ts",
-        "ruleId": "high-exports",
-        "reason": "Vite/TypeScript ambient declarations; intentional multi-export"
-      }
-    ]
-  },
+  "$comment": "Configuration for file-cohesion-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
   "thresholds": {
     "components": 500,
     "composables": 400,

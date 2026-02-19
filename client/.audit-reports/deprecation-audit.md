@@ -12,17 +12,17 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **56**
-- Requiring review: **140**
+- Files with findings: **57**
+- Requiring review: **143**
 - Allowed (with justification): 47
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **140**
+- Runtime legacy accommodation: **143**
 
 ## Top hotspots (by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/booking/confirmationStepData.ts` | P0 | 12 | 0 | 6 |
+| `client/src/utils/booking/confirmationStepData.ts` | P0 | 15 | 0 | 8 |
 | `client/src/types/admin/adminEntity.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useDependentInstances.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
@@ -53,19 +53,21 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 
-*...and 26 more files. See JSON report for details.*
+*...and 27 more files. See JSON report for details.*
 
 ## Per-file findings
 
-### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 12)
+### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 15)
 
 ```
-[LEGACY] unhelpful-default-nullish@68: const rawParts = blockInstance.partInstances ?? []
-[LEGACY] unhelpful-default-nullish@172: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@173: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@174: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@175: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@218: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
+[LEGACY] unhelpful-default-nullish@73: const rawParts = blockInstance.partInstances ?? []
+[LEGACY] unhelpful-default-nullish@176: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@177: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@178: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@179: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@195: ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
+[LEGACY] unhelpful-default-nullish@247: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
+[LEGACY] chaining-fallback@262: const amount = entry?.totalFee ?? 0
 ```
 
 ### `client/src/types/admin/adminEntity.ts` [P0] (score: 10)
@@ -417,6 +419,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@33: localResolutionNotes.value = f.resolutionNotes ?? '';
 ```
 
+### `client/src/composables/booking/useAppointmentDataCollection.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@270: selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
+```
+
 ### `client/src/utils/booking/pricingCascadeResolver.ts` [P2] (score: 2)
 
 ```
@@ -433,12 +441,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@195: id: toGlobalEntityId(idResolved ?? ''),
-```
-
-### `server/src/routes/helpers/requestHelpers.ts` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@17: return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')
 ```
 
 ## Notes

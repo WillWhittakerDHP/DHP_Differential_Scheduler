@@ -34,7 +34,7 @@ const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
-void panelRef // ref used by template
+void panelRef.value // ref used by template
 
 // Phase 7: Inject computed availability data for display
 const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)

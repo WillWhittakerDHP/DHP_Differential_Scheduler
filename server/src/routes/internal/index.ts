@@ -4,6 +4,7 @@ import { RelationshipRouter } from "./relationships/relationshipRouter.js";
 import { PropertyRouter } from "./properties/propertyRouter.js";
 import { UserRouter } from "./users/userRouter.js";
 import { AppointmentRouter } from "./appointments/appointmentRouter.js";
+import { AppointmentFeeRouter } from "./appointment-fees/appointmentFeeRouter.js";
 import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
 import BusinessRulesRouter from "./businessRulesRouter.js";
@@ -21,6 +22,7 @@ router.use('/relationships', RelationshipRouter);
 router.use('/properties', PropertyRouter);
 router.use('/users', UserRouter);
 router.use('/appointments', AppointmentRouter);
+router.use('/appointment-fee-summaries', AppointmentFeeRouter);
 
 router.use('/availability', AvailabilityRouter);
 
