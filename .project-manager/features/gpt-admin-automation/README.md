@@ -1,10 +1,10 @@
-# Feature 14: Admin Assistance Wizard
+# Feature 19: Admin Assistance Wizard
 
-**Feature Number:** 14
+**Feature Number:** 19
 **Status:** 🔮 Future
 **Created:** 2025-02-01
 **Updated:** 2026-02-18
-**Depends On:** Feature 13 (Admin UI Overhaul)
+**Depends On:** Feature 18 (Admin UI Overhaul)
 
 ---
 

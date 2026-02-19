@@ -1,8 +1,28 @@
 {
-  "generatedAt": "2026-02-18T23:00:35.120Z",
+  "generatedAt": "2026-02-19T02:24:56.582Z",
   "clientEndpoints": 0,
   "serverEndpoints": 66,
   "sharedTypes": [
+    {
+      "name": "AppointmentFeeSummary",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AppointmentFeeEntry",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AppointmentFeeSummaryCreate",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AppointmentFeeEntryCreate",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AppointmentFeeBreakdownPayload",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
     {
       "name": "RFC3339DateTime",
       "file": "shared/types/availabilityTypes.ts"
@@ -69,6 +89,14 @@
     },
     {
       "name": "CapacityConstraint",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "IncomeCapacityFilter",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "RollingWeekIncomeCapacityFilter",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
@@ -197,6 +225,14 @@
     },
     {
       "name": "RouteLocation",
+      "file": "shared/types/mapsTypes.ts"
+    },
+    {
+      "name": "RouteMatrixStatus",
+      "file": "shared/types/mapsTypes.ts"
+    },
+    {
+      "name": "RouteMatrixResult",
       "file": "shared/types/mapsTypes.ts"
     },
     {

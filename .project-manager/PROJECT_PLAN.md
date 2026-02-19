@@ -33,11 +33,16 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 7 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature, no dedicated dir) | Completed 2026-02-11 |
 | 8 | Appointment Workflow | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
 | 9 | Test Suite Setup | 📋 Planning | `features/test-suite-setup/` | — |
-| 10 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
-| 11 | Beta Launch | 📋 Planning | `features/beta-launch/` | — |
-| 12 | UI Polish | 🔮 Future | `features/feature-7-ui-polish/` | — |
-| 13 | Admin UI Overhaul | 🔮 Future | `features/admin-ui-overhaul/` | — |
-| 14 | Admin Assistance Wizard | 🔮 Future | `features/gpt-admin-automation/` (to be renamed) | — |
+| 10 | Authentication | 📋 Planning | `features/authentication/` | — |
+| 11 | Security Hardening | 📋 Planning | `features/security-hardening/` | — |
+| 12 | Test Quality Validation | 📋 Planning | `features/test-quality-validation/` | — |
+| 13 | Guided Beta Testing | 📋 Planning | `features/guided-beta-testing/` | — |
+| 14 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
+| 15 | Beta Launch | 📋 Planning | `features/beta-launch/` | — |
+| 16 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
+| 17 | UI Polish | 🔮 Future | `features/feature-7-ui-polish/` | — |
+| 18 | Admin UI Overhaul | 🔮 Future | `features/admin-ui-overhaul/` | — |
+| 19 | Admin Assistance Wizard | 🔮 Future | `features/gpt-admin-automation/` (to be renamed) | — |
 
 ---
 
@@ -388,66 +393,113 @@ These gaps are admin/management features, not part of the core booking availabil
 
 ---
 
-## Feature 10: Beta Feedback Response
+## Feature 10: Authentication
 
 **Status:** 📋 Planning
-**Description:** Dedicated workflow for triaging, prioritizing, and responding to beta tester feedback collected by Feature 5. Turns raw feedback into actionable work items and communicates resolution back to reporters.
+**Description:** Pluggable authentication using a Strategy Pattern: Magic Link for beta/development (passwordless), Email + Password for production. Shared session infrastructure (PostgreSQL sessions table, httpOnly cookies, requireAuth middleware). See BETA_LAUNCH_CHECKLIST.md Phase 2A.
 **Branch:** TBD
 
-### Planned Phases
-1. **Triage Workflow** — Status tracking for feedback items (new → triaged → in-progress → resolved → closed), priority assignment, category refinement
-2. **Response System** — Email notifications to reporters when feedback is addressed, resolution notes visible in admin dashboard
-3. **Feedback → Work Item Pipeline** — Convert feedback into project tasks, link feedback to features/bugs, track which feedback drove which changes
-4. **Analytics & Reporting** — Feedback volume trends, response time metrics, category breakdowns, satisfaction tracking
+### Related Documents
+- **Feature Plan:** `features/authentication/feature-plan.md`
+- **README:** `features/authentication/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2A
+
+---
+
+## Feature 11: Security Hardening
+
+**Status:** 📋 Planning
+**Description:** CORS lockdown, rate limiting, request validation (Joi), secrets audit, security headers (Helmet), CSRF when using session-based auth. Protects API before external access.
+**Branch:** TBD
+
+### Related Documents
+- **Feature Plan:** `features/security-hardening/feature-plan.md`
+- **README:** `features/security-hardening/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2
+
+---
+
+## Feature 12: Test Quality Validation
+
+**Status:** 📋 Planning
+**Description:** Mutation testing (Stryker), property-based testing (fast-check), behavioral alignment audit. Ensures tests verify desired behavior, not just execution. Complements Feature 9 (Test Suite Setup).
+**Branch:** TBD
+
+### Related Documents
+- **Feature Plan:** `features/test-quality-validation/feature-plan.md`
+- **README:** `features/test-quality-validation/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 3A
+
+---
+
+## Feature 13: Guided Beta Testing
+
+**Status:** 📋 Planning
+**Description:** In-app guided testing: assign randomized tasks to testers, collect structured feedback per task, coverage analytics. Database-driven (beta_test_tasks, beta_test_assignments, beta_test_addresses). Depends on Feature 10 (Authentication).
+**Branch:** TBD
+
+### Related Documents
+- **Feature Plan:** `features/guided-beta-testing/feature-plan.md`
+- **README:** `features/guided-beta-testing/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 6A
+
+---
+
+## Feature 14: Production Readiness
+
+**Status:** 📋 Planning
+**Description:** Health check endpoint, Sentry error tracking, production logging, database backups, uptime monitoring, migration strategy, rollback procedures (application + DB + seed).
+**Branch:** TBD
+
+### Related Documents
+- **Feature Plan:** `features/production-readiness/feature-plan.md`
+- **README:** `features/production-readiness/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 5
+
+---
+
+## Feature 15: Beta Launch
+
+**Status:** 📋 Planning
+**Description:** Last MVP feature. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. Depends on Features 10–14. See BETA_LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
+**Branch:** TBD
+
+### Related Documents
+- **Feature Plan:** `features/beta-launch/feature-plan.md`
+- **README:** `features/beta-launch/README.md`
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md`
+
+---
+
+## Feature 16: Beta Feedback Response
+
+**Status:** 📋 Planning
+**Description:** Dedicated workflow for triaging, prioritizing, and responding to beta tester feedback (Feature 5). Status tracking, email notifications to reporters, feedback → work item pipeline, analytics. Post-launch.
+**Branch:** TBD
 
 ### Dependencies
-- Feature 5 (Beta Feedback System) — must be complete (✅ it is)
-- Authentication system (BETA_LAUNCH_CHECKLIST Phase 2A) — needed for user identity and email notifications
+- Feature 5 (Beta Feedback System) — complete (✅)
+- Feature 10 (Authentication) — for user identity and email notifications
 
 ### Related Documents
-- **Feature 10 docs:** `features/beta-feedback-response/`
-- **Feature 5 docs:** `features/beta-feedback/` (the collection system this feature builds upon)
-- **Beta Launch Checklist:** `../../BETA_LAUNCH_CHECKLIST.md`
+- **Feature 16 docs:** `features/beta-feedback-response/`
+- **Feature 5 docs:** `features/beta-feedback/`
 
 ---
 
-## Feature 11: Beta Launch
-
-**Status:** 📋 Planning
-**Description:** Final preparation and execution of beta launch. Covers hosting deployment, production database setup, environment configuration, and go-live verification. Detailed planning to follow — see BETA_LAUNCH_CHECKLIST.md for the infrastructure checklist this feature will draw from.
-**Branch:** TBD
-
-### Scope (to be detailed)
-- Hosting & deployment on Render (API + static site + database)
-- Authentication implementation (Magic Link strategy for beta)
-- Security hardening (CORS, rate limiting, input validation)
-- Production environment configuration
-- Database migrations on production
-- End-to-end verification in hosted environment
-- Alpha tester onboarding
-
-### Related Documents
-- **Detailed Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` ⭐ — The comprehensive checklist this feature will execute against
-- **Feature Plan:** TBD (will be created when work begins)
-
----
-
-## Feature 12: UI Polish
+## Feature 17: UI Polish
 
 **Status:** 🔮 Future
-**Description:** Polish admin panel and booking wizard UI. Fix flow/interactions, improve visual design, ensure consistent styling. Includes bulk updates as a small admin UI enhancement.
+**Description:** Polish admin panel and booking wizard UI. Fix flow/interactions, improve visual design, consistent styling. Includes bulk updates as small admin UI enhancement.
 **Branch:** `feature/ui-polish`
 
 ### Phases
-
 | Phase | Name | Status |
 |-------|------|--------|
-| 12.1 | Admin Panel UI Polish | Not Started |
-| 12.2 | Booking Wizard UI Polish | Not Started |
-| 12.3 | Responsive Design and Mobile Optimization | Not Started |
-| 12.4 | Bulk Updates Enhancement | Not Started |
-
-**Note:** Phase 12.4 (Bulk Updates) was originally planned as Phase 11 of the Vue Migration but moved here as a small admin UI enhancement.
+| 17.1 | Admin Panel UI Polish | Not Started |
+| 17.2 | Booking Wizard UI Polish | Not Started |
+| 17.3 | Responsive Design and Mobile Optimization | Not Started |
+| 17.4 | Bulk Updates Enhancement | Not Started |
 
 ### Related Documents
 - **Feature Plan:** `features/feature-7-ui-polish/feature-plan.md`
@@ -455,21 +507,16 @@ These gaps are admin/management features, not part of the core booking availabil
 
 ---
 
-## Feature 13: Admin UI Overhaul
+## Feature 18: Admin UI Overhaul
 
 **Status:** 🔮 Future
-**Description:** Complete redesign of the admin interface to reduce cognitive load for non-technical administrators. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure.
+**Description:** Complete redesign of the admin interface. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure.
 **Branch:** TBD
 
 ### Planned Phases
-1. **Smart UI Redesign** — Guided workflows, relationship builder, templates, contextual intelligence, progressive disclosure
+1. **Smart UI Redesign** — Guided workflows, relationship builder, templates
 2. **Live Preview Panel** — Real-time booking simulation as admins configure services
-3. **Integration with Admin Assistance Wizard** (Feature 14)
-
-### Design Philosophy
-- Reliability first: core workflows stay deterministic
-- Progressive disclosure: start simple, reveal complexity as needed
-- Target: non-technical administrators doing initial bulk service setup then periodic adjustments
+3. **Integration with Admin Assistance Wizard** (Feature 19)
 
 ### Related Documents
 - **Feature Plan:** `features/admin-ui-overhaul/feature-plan.md`
@@ -477,33 +524,22 @@ These gaps are admin/management features, not part of the core booking availabil
 
 ---
 
-## Feature 14: Admin Assistance Wizard
+## Feature 19: Admin Assistance Wizard
 
 **Status:** 🔮 Future
-**Description:** Step-by-step guided wizard that walks administrators through setting up services, parts, relationships, and compositions. Replaces manual form-filling with a structured walkthrough that explains each step, validates inputs, and provides contextual help. No external AI dependency — pure deterministic guided workflow.
+**Description:** Step-by-step guided wizard for setting up services, parts, relationships, and compositions. No external AI — deterministic guided workflow. Build after Feature 18 so wizard integrates into redesigned admin panel.
 **Branch:** TBD
-**Directory:** `features/gpt-admin-automation/` (to be renamed to `features/admin-assistance-wizard/`)
+**Directory:** `features/gpt-admin-automation/` (to be renamed when work begins)
 
 ### Planned Phases
-1. **Foundation & Wizard Framework** — Wizard shell component, step navigation, progress tracking
-2. **Service Setup Wizard** — Walk through creating shapes, instances, and their relationships step by step
-3. **Relationship & Composition Wizard** — Guided cascades, constituents, and compositions setup
-4. **Templates & Quick Setup** — Pre-configured service templates for common inspection types
-5. **Contextual Help & Validation** — Inline help, smart suggestions based on existing data, validation before each step
-
-### How It Differs From Feature 13 (Admin UI Overhaul)
-- Feature 13 redesigns the overall admin panel layout, navigation, and visual structure
-- Feature 14 adds an overlay wizard experience that guides users through specific multi-step setup tasks
-- Feature 14 should be built after Feature 13 so the wizard integrates into the redesigned admin panel
-
-### Key Objectives
-- Reduce time to create a service from 15+ minutes to under 5 minutes
-- Eliminate configuration errors through step-by-step validation
-- Provide contextual help that explains *why* each configuration choice matters
-- Support template-based quick setup for common service types
+1. Foundation & Wizard Framework
+2. Service Setup Wizard
+3. Relationship & Composition Wizard
+4. Templates & Quick Setup
+5. Contextual Help & Validation
 
 ### Related Documents
-- **Existing directory:** `features/gpt-admin-automation/` (contains initial planning docs — to be repurposed)
+- **Existing directory:** `features/gpt-admin-automation/`
 
 ---
 

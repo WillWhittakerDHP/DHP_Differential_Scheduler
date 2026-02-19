@@ -1,4 +1,4 @@
-# Feature 7: UI Polish
+# Feature 17: UI Polish
 
 **Feature:** UI Polish  
 **Status:** Planning  

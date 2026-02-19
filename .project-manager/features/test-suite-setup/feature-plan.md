@@ -141,8 +141,53 @@ GitHub Actions CI
 
 - Existing Vitest and Jest test infrastructure
 - GitHub Actions CI pipeline (`.github/workflows/ci.yml`)
-- Authentication system (for authenticated test fixtures — Phase 2A of BETA_LAUNCH_CHECKLIST)
+- Authentication system (for authenticated test fixtures — Feature 10)
 - Running development server for E2E tests
+
+---
+
+## Test Suite Architecture Reference
+
+### Existing Test Infrastructure
+
+| Layer | Tool | Location | Count | Coverage |
+|-------|------|----------|-------|----------|
+| Client Unit | Vitest | `client/src/**/*.test.ts` | 117 files | Thresholds: 80% branch, 90% func/line/stmt |
+| Server Unit | Jest | `server/src/**/*.test.ts` | 15 files | Thresholds: 80% branch, 90% func/line/stmt |
+| E2E | None | — | 0 | — |
+| Static Analysis | TypeScript + ESLint | CI pipeline | N/A | Strict mode enabled |
+
+### Test Quality Validation (Feature 12)
+
+| Layer | Tool | Location | Purpose |
+|-------|------|----------|---------|
+| Mutation Testing | Stryker Mutator | `client/stryker.config.mjs` | Verifies tests catch real bugs |
+| Property-Based Testing | fast-check | `client/src/**/*.property.test.ts` | Invariants for random inputs |
+| Behavioral Alignment | Custom audit | `client/.scripts/test-alignment-audit.mjs` | Scores behavioral vs structural |
+| Quality Dashboard | Custom script | `client/.scripts/test-quality-dashboard.mjs` | Unified summary |
+
+### File Naming Convention
+
+- Example-based unit tests: `*.test.ts` in `__tests__/` directories.
+- Property-based tests: `*.property.test.ts` alongside unit tests (see Feature 12).
+
+### E2E Structure (Proposed)
+
+```
+e2e/
+├── playwright.config.ts
+├── fixtures/ (base.ts, auth.ts)
+├── booking/ (happy-path, validation, responsive)
+├── admin/ (shapes-crud, instances-crud, relationships)
+└── smoke/ (health, pages-load)
+```
+
+### Relationship Between Quality Layers
+
+- **Coverage** — untested code paths.
+- **Mutation score** — weak assertions (Feature 12).
+- **Property-based** — edge cases in pure functions (Feature 12).
+- **Alignment audit** — structural vs behavior-focused tests (Feature 12).
 
 ---
 

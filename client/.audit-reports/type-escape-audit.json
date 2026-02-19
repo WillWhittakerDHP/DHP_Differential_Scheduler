@@ -1,18 +1,18 @@
 {
-  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
-  "generatedAt": "2026-02-18T23:37:35.475Z",
-  "totalScanned": 786,
+  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
+  "generatedAt": "2026-02-19T02:24:56.945Z",
+  "totalScanned": 796,
   "findings": [
     {
       "file": "client/src/components/admin/generic/DynamicForm.vue",
-      "lineNumber": 127,
+      "lineNumber": 128,
       "ruleId": "as-unknown-as",
       "snippet": "const formRefForComposable = ref<FormContext | undefined>(formInstance as unk...",
       "message": "Double assertion escape hatch"
     },
     {
       "file": "client/src/components/admin/generic/EntityCard.vue",
-      "lineNumber": 298,
+      "lineNumber": 299,
       "ruleId": "as-unknown-as",
       "snippet": "form: ref<FormContext | undefined>(form as unknown as FormContext | undefined...",
       "message": "Double assertion escape hatch"

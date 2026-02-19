@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T20:28:52.799Z",
+  "generatedAt": "2026-02-18T21:19:01.786Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -9,9 +9,9 @@
     },
     {
       "auditId": "dep-freshness",
-      "totalFindings": 62,
-      "filesWithFindings": 62,
-      "detail": "Outdated: 62 (major: 23, minor: 20, patch: 18)"
+      "totalFindings": 41,
+      "filesWithFindings": 41,
+      "detail": "Outdated: 41 (major: 23, minor: 8, patch: 9)"
     },
     {
       "auditId": "import-hygiene",
@@ -33,18 +33,162 @@
     },
     {
       "auditId": "type-escape",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Type escape hatches (as any, ts-ignore, etc.): 0"
+      "totalFindings": 70,
+      "filesWithFindings": 40,
+      "detail": "Type escape hatches (as any, ts-ignore, etc.): 70"
     },
     {
       "auditId": "type-import",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Value-from-type-only: 0, Type-used-as-value: 0"
+      "totalFindings": 29,
+      "filesWithFindings": 14,
+      "detail": "Value-from-type-only: 0, Type-used-as-value: 29"
     }
   ],
   "hotspots": [
+    {
+      "repoPath": "client/src/composables/booking/useDependentInstances.ts",
+      "totalScore": 24,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
+      "totalScore": 20,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/dependencyCleanup.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/wizard.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/helpers/dataController.ts",
+      "totalScore": 10,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useStatusButtonToggle.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/appointmentApi.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/user.ts",
+      "totalScore": 8,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useLocalTime.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
     {
       "repoPath": "client:@iconify/vue",
       "totalScore": 5,
@@ -140,164 +284,20 @@
       "auditIds": [
         "dep-freshness"
       ]
-    },
-    {
-      "repoPath": "server:cross-env",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:date-fns",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:dotenv",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:dotenv-cli",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:express",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:googleapis",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:joi",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:unplugin-auto-import",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:vitest",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:vue-flatpickr-component",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:vue-router",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@casl/ability",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@floating-ui/dom",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@formkit/drag-and-drop",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@tanstack/vue-query",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:@typescript-eslint/eslint-plugin",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:@typescript-eslint/parser",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@vueuse/core",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
     }
   ],
   "trend": [
     {
       "auditId": "type-similarity",
       "current": 99,
-      "previous": 0,
-      "delta": 99
+      "previous": 99,
+      "delta": 0
     },
     {
       "auditId": "dep-freshness",
-      "current": 62,
-      "previous": 0,
-      "delta": 62
+      "current": 41,
+      "previous": 62,
+      "delta": -21
     },
     {
       "auditId": "import-hygiene",
@@ -319,15 +319,15 @@
     },
     {
       "auditId": "type-escape",
-      "current": 0,
+      "current": 70,
       "previous": 70,
-      "delta": -70
+      "delta": 0
     },
     {
       "auditId": "type-import",
-      "current": 0,
+      "current": 29,
       "previous": 125,
-      "delta": -125
+      "delta": -96
     }
   ]
 }

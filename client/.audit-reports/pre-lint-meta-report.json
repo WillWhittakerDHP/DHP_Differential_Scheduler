@@ -1,18 +1,28 @@
 {
-  "generatedAt": "2026-02-18T22:56:41.998Z",
+  "generatedAt": "2026-02-19T02:25:03.653Z",
   "auditSummaries": [
     {
       "auditId": "lint",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Errors + warnings: 0 in 0 files"
+      "totalFindings": 1,
+      "filesWithFindings": 1,
+      "detail": "Errors + warnings: 1 in 1 files"
     },
     {
       "auditId": "lint-warnings",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Warnings only: 0 in 0 files"
+      "totalFindings": 1,
+      "filesWithFindings": 1,
+      "detail": "Warnings only: 1 in 1 files"
     }
   ],
-  "hotspots": []
+  "hotspots": [
+    {
+      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
+      "totalScore": 3,
+      "auditCount": 2,
+      "auditIds": [
+        "lint",
+        "lint-warnings"
+      ]
+    }
+  ]
 }

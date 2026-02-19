@@ -2,24 +2,33 @@
 
 **Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
 
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 Use this report to build a **repair plan** before running `audit:all`.
 
-Generated at: 2026-02-18T22:56:41.998Z
+Generated at: 2026-02-19T02:25:03.653Z
 
 ## Pre-Lint Audit Summary
 
 | Audit | Files with findings | Total findings | Detail |
 | --- | ---: | ---: | --- |
-| lint | 0 | 0 | Errors + warnings: 0 in 0 files |
-| lint-warnings | 0 | 0 | Warnings only: 0 in 0 files |
+| lint | 1 | 1 | Errors + warnings: 1 in 1 files |
+| lint-warnings | 1 | 1 | Warnings only: 1 in 1 files |
 
 Audits loaded: 2 / 2
 
 ## Repair plan readiness
 
-**Total pre-lint findings:** 0
+**Total pre-lint findings:** 2
 
-No findings in pre-lint audits. Safe to run `npm run audit:all`.
+Address the findings above (see each audit's JSON/MD in `.audit-reports/`) before running full audit.
+
+## Top hotspot files (pre-lint)
+
+| File | Score | Audits | Which audits |
+| --- | ---: | ---: | --- |
+| `client/src/composables/admin/useInstanceFiltering.ts` | 3.0 | 2 | lint, lint-warnings |
 
 ## Next steps
 

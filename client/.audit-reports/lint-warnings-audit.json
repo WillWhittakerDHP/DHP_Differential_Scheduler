@@ -1,6 +1,22 @@
 {
-  "generatedAt": "2026-02-18T22:57:57.921Z",
-  "totalScanned": 0,
-  "findings": [],
-  "files": []
+  "generatedAt": "2026-02-19T02:24:59.176Z",
+  "totalScanned": 1,
+  "findings": [
+    {
+      "file": "client/src/composables/admin/useInstanceFiltering.ts",
+      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
+      "lineNumber": 9,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'BookingMode' is defined but never used. Allowed unused vars must match /^_/u."
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/composables/admin/useInstanceFiltering.ts",
+      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
+      "score": 1,
+      "priority": "P2"
+    }
+  ]
 }

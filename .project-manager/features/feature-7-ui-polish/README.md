@@ -1,6 +1,7 @@
-# Feature 7: UI Polish
+# Feature 17: UI Polish
 
-**Status:** Planning  
+**Status:** Planning
+**Feature Number:** 17
 **Description:** Polish admin panel and booking wizard UI to be "niceish". Includes bulk updates as small enhancement.
 
 ## Overview

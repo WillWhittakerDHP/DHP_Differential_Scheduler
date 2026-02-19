@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-18T23:00:34.286Z",
-  "totalScanned": 11,
+  "generatedAt": "2026-02-19T02:24:55.393Z",
+  "totalScanned": 13,
   "byBehind": {
     "major-behind": 10,
-    "minor-behind": 0,
+    "minor-behind": 2,
     "patch-behind": 0,
     "current": 1
   },
@@ -54,6 +54,15 @@
       "score": 5
     },
     {
+      "package": "@types/node",
+      "dependent": "client",
+      "current": "25.2.3",
+      "wanted": "25.3.0",
+      "latest": "25.3.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
       "package": "vitest",
       "dependent": "client",
       "current": "2.1.9",
@@ -97,6 +106,15 @@
       "latest": "0.0.48",
       "behind": "major-behind",
       "score": 5
+    },
+    {
+      "package": "@types/node",
+      "dependent": "server",
+      "current": "25.2.3",
+      "wanted": "25.3.0",
+      "latest": "25.3.0",
+      "behind": "minor-behind",
+      "score": 2
     },
     {
       "package": "express",
@@ -218,11 +236,33 @@
       "wanted": "4.6.4",
       "latest": "5.0.2",
       "behind": "major-behind"
+    },
+    {
+      "repoPath": "client:@types/node",
+      "score": 2,
+      "priority": "P1",
+      "package": "@types/node",
+      "dependent": "client",
+      "current": "25.2.3",
+      "wanted": "25.3.0",
+      "latest": "25.3.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "server:@types/node",
+      "score": 2,
+      "priority": "P1",
+      "package": "@types/node",
+      "dependent": "server",
+      "current": "25.2.3",
+      "wanted": "25.3.0",
+      "latest": "25.3.0",
+      "behind": "minor-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 10,
+    "totalRequiresReview": 12,
     "bySource": {
       "inline": 0,
       "pattern": 0,

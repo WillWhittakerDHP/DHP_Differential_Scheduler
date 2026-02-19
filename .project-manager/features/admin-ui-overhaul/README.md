@@ -1,7 +1,8 @@
-# Admin UI Overhaul
+# Feature 18: Admin UI Overhaul
 
-**Feature Branch:** `feature/admin-ui-overhaul`  
-**Status:** Planning  
+**Feature Number:** 18
+**Feature Branch:** `feature/admin-ui-overhaul`
+**Status:** Planning
 **Created:** 2025-02-01
 
 ---

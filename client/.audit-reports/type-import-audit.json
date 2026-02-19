@@ -1,19 +1,9 @@
 {
-  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.",
-  "generatedAt": "2026-02-18T23:00:36.159Z",
-  "totalScanned": 786,
+  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
+  "generatedAt": "2026-02-19T02:24:57.366Z",
+  "totalScanned": 796,
   "valueImportFromTypeOnlyFile": [],
   "typeUsedAsValue": [
-    {
-      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "lineNumber": 90,
-      "symbol": "FieldMetadataEntry"
-    },
-    {
-      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "lineNumber": 96,
-      "symbol": "FieldMetadataEntry"
-    },
     {
       "file": "client/src/composables/admin/usePartsCollectionField.ts",
       "lineNumber": 97,
@@ -46,22 +36,22 @@
     },
     {
       "file": "client/src/types/appointmentApi.ts",
-      "lineNumber": 34,
+      "lineNumber": 35,
       "symbol": "USER_ROLE_CLIENT"
     },
     {
       "file": "client/src/types/appointmentApi.ts",
-      "lineNumber": 51,
+      "lineNumber": 52,
       "symbol": "USER_ROLE_CLIENT"
     },
     {
       "file": "client/src/types/appointmentApi.ts",
-      "lineNumber": 34,
+      "lineNumber": 35,
       "symbol": "USER_ROLE_AGENT"
     },
     {
       "file": "client/src/types/appointmentApi.ts",
-      "lineNumber": 51,
+      "lineNumber": 52,
       "symbol": "USER_ROLE_AGENT"
     },
     {
@@ -95,38 +85,8 @@
       "symbol": "USER_ROLE_AGENT"
     },
     {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 92,
-      "symbol": "Ref"
-    },
-    {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 93,
-      "symbol": "Ref"
-    },
-    {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 94,
-      "symbol": "Ref"
-    },
-    {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 95,
-      "symbol": "Ref"
-    },
-    {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 96,
-      "symbol": "Ref"
-    },
-    {
-      "file": "client/src/types/wizard.ts",
-      "lineNumber": 97,
-      "symbol": "Ref"
-    },
-    {
       "file": "client/src/utils/booking/partFinalizer.ts",
-      "lineNumber": 62,
+      "lineNumber": 63,
       "symbol": "PartFinal"
     },
     {
@@ -152,10 +112,6 @@
   ],
   "files": [
     {
-      "file": "client/src/types/wizard.ts",
-      "score": 12
-    },
-    {
       "file": "client/src/types/appointmentApi.ts",
       "score": 8
     },
@@ -166,10 +122,6 @@
     {
       "file": "client/src/composables/useLocalTime.ts",
       "score": 6
-    },
-    {
-      "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "score": 4
     },
     {
       "file": "client/src/types/property.ts",

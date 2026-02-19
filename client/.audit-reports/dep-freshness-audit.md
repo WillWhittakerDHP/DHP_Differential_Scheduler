@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-18T23:00:34.286Z
+Generated at: 2026-02-19T02:24:55.393Z
 
 ## Summary
 
-- Total outdated: **11**
-- Major behind: **10** | Minor: **0** | Patch: **0**
+- Total outdated: **13**
+- Major behind: **10** | Minor: **2** | Patch: **0**
 
 ## Major behind (top 20)
 
@@ -26,3 +26,5 @@ Generated at: 2026-02-18T23:00:34.286Z
 
 | Package | Dependent | Current | Latest |
 | --- | --- | --- | --- |
+| @types/node | client | 25.2.3 | 25.3.0 |
+| @types/node | server | 25.2.3 | 25.3.0 |

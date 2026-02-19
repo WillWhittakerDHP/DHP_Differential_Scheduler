@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-02-18T21:19:01.786Z",
+  "generatedAt": "2026-02-19T02:25:03.795Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
-      "totalFindings": 99,
-      "filesWithFindings": 99,
-      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 99"
+      "totalFindings": 45,
+      "filesWithFindings": 45,
+      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 45"
     },
     {
       "auditId": "dep-freshness",
-      "totalFindings": 41,
-      "filesWithFindings": 41,
-      "detail": "Outdated: 41 (major: 23, minor: 8, patch: 9)"
+      "totalFindings": 13,
+      "filesWithFindings": 13,
+      "detail": "Outdated: 13 (major: 10, minor: 2, patch: 0)"
     },
     {
       "auditId": "import-hygiene",
@@ -33,130 +33,18 @@
     },
     {
       "auditId": "type-escape",
-      "totalFindings": 70,
-      "filesWithFindings": 40,
-      "detail": "Type escape hatches (as any, ts-ignore, etc.): 70"
+      "totalFindings": 3,
+      "filesWithFindings": 3,
+      "detail": "Type escape hatches (as any, ts-ignore, etc.): 3"
     },
     {
       "auditId": "type-import",
-      "totalFindings": 29,
-      "filesWithFindings": 14,
-      "detail": "Value-from-type-only: 0, Type-used-as-value: 29"
+      "totalFindings": 21,
+      "filesWithFindings": 12,
+      "detail": "Value-from-type-only: 0, Type-used-as-value: 21"
     }
   ],
   "hotspots": [
-    {
-      "repoPath": "client/src/composables/booking/useDependentInstances.ts",
-      "totalScore": 24,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "totalScore": 20,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useEntityCardStoreSync.ts",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/dependencyCleanup.ts",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/types/wizard.ts",
-      "totalScore": 12,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/helpers/dataController.ts",
-      "totalScore": 10,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useInstanceFiltering.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useStatusButtonToggle.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
     {
       "repoPath": "client/src/types/appointmentApi.ts",
       "totalScore": 8,
@@ -174,27 +62,11 @@
       ]
     },
     {
-      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
-      "totalScore": 6,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
       "repoPath": "client/src/composables/useLocalTime.ts",
       "totalScore": 6,
       "auditCount": 1,
       "auditIds": [
         "type-import"
-      ]
-    },
-    {
-      "repoPath": "client:@iconify/vue",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
       ]
     },
     {
@@ -254,7 +126,7 @@
       ]
     },
     {
-      "repoPath": "server:@types/jest",
+      "repoPath": "server:express",
       "totalScore": 5,
       "auditCount": 1,
       "auditIds": [
@@ -262,8 +134,56 @@
       ]
     },
     {
-      "repoPath": "client:@types/node",
+      "repoPath": "client:vitest",
       "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vue-router",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+      "totalScore": 4,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
+      "totalScore": 4,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+      "totalScore": 4,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/property.ts",
+      "totalScore": 4,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client:@types/node",
+      "totalScore": 2,
       "auditCount": 1,
       "auditIds": [
         "dep-freshness"
@@ -271,33 +191,89 @@
     },
     {
       "repoPath": "server:@types/node",
-      "totalScore": 5,
+      "totalScore": 2,
       "auditCount": 1,
       "auditIds": [
         "dep-freshness"
       ]
     },
     {
-      "repoPath": "client:cookie-es",
-      "totalScore": 5,
+      "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
+      "totalScore": 2,
       "auditCount": 1,
       "auditIds": [
-        "dep-freshness"
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/usePerspectiveMapping.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextState.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/partFinalizer.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/slotShapeLookups.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/datetime.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/transformers/transformerPrimitives.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "type-import"
       ]
     }
   ],
   "trend": [
     {
       "auditId": "type-similarity",
-      "current": 99,
+      "current": 45,
       "previous": 99,
-      "delta": 0
+      "delta": -54
     },
     {
       "auditId": "dep-freshness",
-      "current": 41,
+      "current": 13,
       "previous": 62,
-      "delta": -21
+      "delta": -49
     },
     {
       "auditId": "import-hygiene",
@@ -308,26 +284,26 @@
     {
       "auditId": "import-graph",
       "current": 0,
-      "previous": 28,
-      "delta": -28
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "api-contract",
       "current": 0,
-      "previous": 66,
-      "delta": -66
-    },
-    {
-      "auditId": "type-escape",
-      "current": 70,
-      "previous": 70,
+      "previous": 0,
       "delta": 0
     },
     {
+      "auditId": "type-escape",
+      "current": 3,
+      "previous": 0,
+      "delta": 3
+    },
+    {
       "auditId": "type-import",
-      "current": 29,
-      "previous": 125,
-      "delta": -96
+      "current": 21,
+      "previous": 0,
+      "delta": 21
     }
   ]
 }
