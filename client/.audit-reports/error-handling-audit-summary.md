@@ -2,15 +2,15 @@
 
 Generated from `.audit-reports/error-handling-audit.json`.
 
-- Requiring review: **14**
+- Requiring review: **18**
 - Allowed exceptions: 45
 
 ## Top 12 files (ranked by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P1 | 6 | 0 | 0 | 6 |
 | `server/src/services/google/maps/placesApiService.ts` | P2 | 2 | 0 | 0 | 2 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P2 | 2 | 0 | 0 | 2 |
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | P2 | 1 | 0 | 0 | 1 |
 | `client/src/composables/booking/useComputedAvailability.ts` | P2 | 1 | 0 | 0 | 1 |
 | `client/src/types/datetime.ts` | P2 | 1 | 0 | 0 | 1 |

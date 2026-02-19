@@ -4,116 +4,64 @@ Generated from `.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- Files scanned: **754**
-- Type definitions: **719**
-- Similarity groups: **97**
+- Files scanned: **811**
+- Type definitions: **661**
+- Similarity groups: **45**
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
-| UNIFY | 38 | Same concept duplicated — consolidate |
-| BRAND | 13 | Different concept, same shape — add branding |
-| EXTEND | 38 | Superset/subset — use extends |
-| REVIEW | 8 | High overlap — needs judgment |
+| UNIFY | 0 | Same concept duplicated — consolidate |
+| BRAND | 5 | Different concept, same shape — add branding |
+| EXTEND | 34 | Superset/subset — use extends |
+| REVIEW | 6 | High overlap — needs judgment |
 
 ## Index (ranked)
 
 | Priority | Action | Relationship | Types | Files | Score |
 | --- | --- | --- | --- | ---: | ---: |
-| P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsData`, `PropertyDetailsStepData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty` | 11 | 63 |
-| P0 | EXTEND | SUBSET | `DayHours`, `CalendarEvent`, `BusyTimeRange`, `CachedCalendarEvent`, `CreatedEventResponse`, `BusyTimeRange`, `CalendarEvent`, `ComputedAvailabilityRequest`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 8 | 61 |
+| P0 | EXTEND | SUBSET | `ContactInfo`, `UserResponse`, `UserRequest`, `UserResponse`, `WizardStateData`, `ParsedClient`, `AppointmentWithDetails`, `PropertyFormData`, `PropertyDetails`, `PropertyDetailsStepData`, `PropertyDetailsData`, `PropertyResponse`, `PropertyRequest`, `PropertyResponse`, `ParsedProperty`, `PartialPropertyDetails`, `PropertyEnrichmentResponse` | 13 | 71 |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `ComponentItem`, `BlockInstanceResponse`, `BookingBlockInstance`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceFormData`, `SelectionCardItemWithComponents` | 9 | 57 |
-| P0 | REVIEW | EXACT | `DayHours`, `DateRangeConfig`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DateRangeConfig`, `DayHours`, `DateRangeConfig` | 5 | 35 |
-| P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById`, `EntityWithStringId`, `WithId` | 7 | 34 |
-| P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `TimeSlot`, `ComputedSlot` | 6 | 29 |
+| P0 | EXTEND | SUBSET | `CalendarEvent`, `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DayHours`, `DateRangeConfig`, `CalendarEvent`, `BusyTimeRange`, `CreatedEventResponse`, `BusyTimeRange`, `ComputedAvailabilityRequest` | 5 | 47 |
+| P0 | EXTEND | SUBSET | `TimeRange`, `MoveableSlot`, `SelectedTimeSlot`, `LoadedTimeSlot`, `ServerTimeSlot`, `ComputedSlot` | 6 | 31 |
+| P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `IdentifiableById` | 5 | 28 |
+| P0 | BRAND | EXACT | `GoogleCalendarBusyPeriod`, `DayBusinessHours`, `DayHours`, `DateRangeConfig` | 3 | 25 |
 | P0 | REVIEW | EXACT | `ISO8601Date`, `RFC3339DateTime`, `GlobalEntityId`, `RFC3339DateTime` | 3 | 25 |
-| P0 | UNIFY | EXACT | `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection`, `RollingWeekDirection` | 4 | 23 |
-| P0 | EXTEND | SUBSET | `Coordinates`, `DefaultLocation`, `Coordinates`, `Coordinates` | 4 | 23 |
-| P0 | EXTEND | SUBSET | `AvailabilitySettings`, `RawAvailabilitySettings`, `DurationRoundingConfig`, `AvailabilitySettingsData` | 3 | 23 |
-| P0 | EXTEND | SUBSET | `DefaultLocation`, `RouteLocation`, `RouteLocation`, `DefaultLocation` | 4 | 23 |
-| P0 | EXTEND | SUBSET | `WorkCapacityFilter`, `CapacityConstraint`, `WorkCapacityFilter`, `WorkCapacityFilter` | 3 | 23 |
-| P0 | REVIEW | HIGH_OVERLAP | `FieldMetadataEntry`, `FieldMetadataEntry`, `FieldMetadataEntry`, `RelationshipMetadataEntry` | 4 | 22 |
-| P0 | UNIFY | EXACT | `Coordinates`, `Coordinates`, `Coordinates` | 3 | 21 |
-| P0 | UNIFY | EXACT | `DriveTimeApplyTo`, `DriveTimeApplyTo`, `DriveTimeApplyTo` | 3 | 21 |
-| P0 | UNIFY | EXACT | `ConstraintEnforcement`, `ConstraintEnforcement`, `ConstraintEnforcement` | 3 | 21 |
-| P0 | UNIFY | EXACT | `RangeConstraintType`, `RangeConstraintType`, `RangeConstraintType` | 3 | 21 |
-| P0 | UNIFY | EXACT | `WorkCapacityFilter`, `WorkCapacityFilter`, `WorkCapacityFilter` | 3 | 21 |
-| P0 | UNIFY | EXACT | `RollingWeekCapacityFilter`, `RollingWeekCapacityFilter`, `RollingWeekCapacityFilter` | 3 | 21 |
-| P0 | UNIFY | EXACT | `Props`, `Props`, `Props`, `Props`, `Props`, `Props`, `Props`, `Props` | 8 | 20 |
-| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `Props`, `Props`, `Props`, `Props`, `Props`, `Props` | 9 | 20 |
-| P0 | UNIFY | EXACT | `LeadTimeConfig`, `LeadTimeConfig`, `LeadTimeConfig` | 3 | 19 |
-| P0 | EXTEND | SUBSET | `RangeConstraint`, `RangeConstraint`, `RangeConstraint` | 3 | 19 |
-| P0 | EXTEND | SUBSET | `DriveTimeConfig`, `OverlapConstraint`, `DriveTimeConfig` | 3 | 19 |
-| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `Props`, `UseEntityCardSaveStateOptions`, `UseEntityFormOptions` | 6 | 18 |
-| P0 | UNIFY | EXACT | `CalendarConfig`, `CalendarConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `CalendarEntry`, `CalendarEntry` | 2 | 17 |
-| P0 | UNIFY | EXACT | `ConditionalValidationRuleConfig`, `ConditionalValidationRuleConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `BufferConfig`, `BufferConfig` | 2 | 17 |
-| P0 | BRAND | EXACT | `CachedCalendarEvent`, `CalendarEvent` | 2 | 17 |
-| P0 | UNIFY | EXACT | `RequiredFieldsRuleConfig`, `RequiredFieldsRuleConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `RouteLocation`, `RouteLocation` | 2 | 17 |
-| P0 | UNIFY | EXACT | `RequiresAgentRuleConfig`, `RequiresAgentRuleConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `ComponentConfig`, `ComponentConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `ValidationMessageRuleConfig`, `ValidationMessageRuleConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `AppLogger`, `AppLogger` | 2 | 17 |
-| P0 | UNIFY | EXACT | `RangeConstraint`, `RangeConstraint` | 2 | 17 |
-| P0 | UNIFY | EXACT | `DefaultLocation`, `DefaultLocation` | 2 | 17 |
-| P0 | UNIFY | EXACT | `DriveTimeConfig`, `DriveTimeConfig` | 2 | 17 |
-| P0 | UNIFY | EXACT | `LogLevel`, `LogLevel` | 2 | 17 |
-| P0 | UNIFY | EXACT | `CalendarProvider`, `CalendarProvider` | 2 | 17 |
+| P0 | EXTEND | SUBSET | `AvailabilitySettings`, `DurationRoundingConfig`, `RawAvailabilitySettings`, `AvailabilitySettingsData` | 3 | 23 |
+| P0 | EXTEND | SUBSET | `PriceData`, `BlockInstanceFeeResult`, `AppointmentFeeEntry` | 3 | 19 |
+| P0 | REVIEW | HIGH_OVERLAP | `FieldMetadataEntry`, `FieldMetadataEntry`, `RelationshipMetadataEntry` | 3 | 18 |
+| P0 | EXTEND | SUBSET | `Props`, `EntityCardSharedProps`, `Props`, `UseEntityCardSaveStateOptions`, `UseEntityFormOptions` | 5 | 18 |
 | P0 | REVIEW | EXACT | `StepDefinition`, `StepDefinition`, `WizardStepConfig` | 3 | 16 |
 | P0 | BRAND | EXACT | `UseBufferSettingsParams`, `UseDefaultLocationParams`, `UseDifferentialPerspectivesParams` | 3 | 16 |
 | P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions`, `UseAppointmentDropdownOptions` | 3 | 16 |
-| P0 | UNIFY | EXACT | `BufferType`, `BufferType` | 2 | 15 |
-| P0 | BRAND | EXACT | `SelectedTimeSlot`, `TimeSlot` | 2 | 15 |
-| P0 | UNIFY | EXACT | `BufferPlacement`, `BufferPlacement` | 2 | 15 |
-| P0 | EXTEND | SUBSET | `RouteMatrixResult`, `RouteMatrixResult` | 2 | 15 |
 | P0 | REVIEW | HIGH_OVERLAP | `AttendeeRequest`, `AttendeeRequest` | 2 | 14 |
 | P0 | EXTEND | SUBSET | `UsePropertyDetailsLogicParams`, `UsePropertyFormStateReturn`, `UsePropertyFormWatchersParams` | 3 | 14 |
-| P0 | BRAND | EXACT | `UseBlockInstanceFormOptions`, `UsePartInstanceFormOptions` | 2 | 12 |
-| P0 | UNIFY | EXACT | `FieldMetadataEntry`, `FieldMetadataEntry` | 2 | 12 |
-| P0 | BRAND | EXACT | `BusinessDataCollectionEndpoints`, `GlobalDataCollectionEndpoints` | 2 | 12 |
-| P0 | UNIFY | EXACT | `EntityMetadataType`, `EntityMetadataType` | 2 | 12 |
+| P0 | EXTEND | SUBSET | `CapacityConstraint`, `IncomeCapacityFilter`, `WorkCapacityFilter` | 1 | 14 |
 | P0 | BRAND | EXACT | `UseSelectionCardConfigParams`, `UseSelectionCardGroupConfigParams` | 2 | 12 |
-| P0 | BRAND | EXACT | `BusinessDataCollectionQueryResult`, `GlobalDataCollectionQueryResult` | 2 | 12 |
 | P0 | BRAND | EXACT | `PropertiesTableModel`, `UsersTableModel` | 2 | 12 |
-| P0 | UNIFY | EXACT | `ContactsStepData`, `ContactsStepData` | 2 | 12 |
-| P0 | BRAND | EXACT | `BusinessDataCollectionByIdQueryResult`, `GlobalDataCollectionByIdQueryResult` | 2 | 12 |
-| P0 | UNIFY | EXACT | `VirtualFieldType`, `VirtualFieldType` | 2 | 12 |
-| P0 | UNIFY | EXACT | `UseWizardValidationReturn`, `UseWizardValidationReturn` | 2 | 12 |
-| P0 | UNIFY | EXACT | `UpdateByIdPayload`, `UpdateByIdPayload` | 2 | 12 |
-| P0 | BRAND | EXACT | `UseInstanceBulkEditOptions`, `UseInstanceFilteringOptions` | 2 | 12 |
-| P0 | REVIEW | EXACT | `Props`, `Props`, `TimeBasisHandlerProps` | 3 | 12 |
-| P0 | UNIFY | EXACT | `RelationshipFieldType`, `RelationshipFieldType` | 2 | 12 |
-| P0 | UNIFY | EXACT | `SelectDomTarget`, `SelectDomTarget` | 2 | 12 |
-| P0 | EXTEND | SUBSET | `RelationshipFieldType`, `DependencyImpact`, `RelationshipFieldType` | 3 | 12 |
-| P0 | EXTEND | SUBSET | `Props`, `Props`, `Props`, `TimeBasisHandlerProps` | 4 | 12 |
-| P0 | EXTEND | SUBSET | `LoadingIndicatorInstance`, `UseLoadingIndicatorReturn`, `LoadingIndicatorInstance` | 3 | 12 |
-| P1 | BRAND | EXACT | `AppointmentData`, `DevPanelsComputedData` | 2 | 10 |
-| P1 | BRAND | EXACT | `Props`, `UseSelectConfigOptions` | 2 | 10 |
-| P1 | UNIFY | EXACT | `LoadingIndicatorInstance`, `LoadingIndicatorInstance` | 2 | 10 |
-| P1 | EXTEND | SUBSET | `SelectGroup`, `GroupedEntities` | 2 | 10 |
+| P0 | REVIEW | EXACT | `RollingWeekIncomeCapacityFilter`, `RollingWeekCapacityFilter` | 1 | 12 |
 | P1 | EXTEND | SUBSET | `UseAvailabilityStepDataParams`, `UseAvailabilityValidationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `MinimalSlotParams`, `SlotGenerationParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `BusinessRule`, `BusinessRuleFormData` | 1 | 10 |
-| P1 | EXTEND | SUBSET | `PriceData`, `BlockInstanceFeeResult` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `RelationshipCollectionModel`, `UseRelationshipCollectionDataReturn` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `InstanceComponent`, `CreateRelationshipPayload` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseFormElementPatchingOptions`, `FormElementPatchingOptions` | 2 | 10 |
+| P1 | EXTEND | SUBSET | `DefaultLocation`, `RouteLocation` | 2 | 10 |
+| P1 | EXTEND | SUBSET | `BetaFeedback`, `BetaFeedbackFilters` | 1 | 10 |
 | P1 | EXTEND | SUBSET | `UseEntityCrudMutationsReturn`, `UseEntityCrudActionsReturn`, `UseEntityCrudStateReturn` | 3 | 10 |
+| P1 | EXTEND | SUBSET | `DriveTimeConfig`, `OverlapConstraint` | 1 | 10 |
 | P1 | EXTEND | SUBSET | `CascadeFilterParams`, `PipelineParams` | 1 | 10 |
 | P1 | EXTEND | SUBSET | `UseFormFieldsReturn`, `UseFormFieldsStandardLayoutReturn` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseSelectionCardComponentParams`, `UseSelectionCardStylesParams` | 2 | 10 |
 | P1 | EXTEND | SUBSET | `UseComponentDistributionReturn`, `DistributionPreview` | 2 | 10 |
 | P1 | REVIEW | HIGH_OVERLAP | `UseInstanceDescriptionsOptions`, `UseInstanceDisplayOptions` | 2 | 9 |
-| P1 | UNIFY | EXACT | `Props`, `Props` | 2 | 8 |
-| P1 | REVIEW | EXACT | `AnnotationConfig`, `EventConfig` | 1 | 8 |
-| P1 | UNIFY | EXACT | `Props`, `Props` | 2 | 8 |
-| P1 | UNIFY | EXACT | `ServiceSummary`, `ServiceSummary` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `UseFormFieldsOptions`, `UseFormFieldsContextOptions` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 |
+| P1 | EXTEND | SUBSET | `Props`, `TimeBasisHandlerProps` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `FieldMetadata`, `DisplayProps` | 1 | 8 |
+| P1 | EXTEND | SUBSET | `Props`, `FieldInputProps` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `UseAppointmentSlotsReturn`, `UseMoveablePartsSchedulingParams` | 2 | 8 |
 | P1 | EXTEND | SUBSET | `FieldsByLocation`, `FieldsByLocation` | 2 | 8 |
+| P1 | EXTEND | SUBSET | `RelationshipFieldType`, `DependencyImpact` | 2 | 8 |
 | P2 | EXTEND | SUBSET | `Suggestion`, `SearchResults` | 1 | 6 |
 | P2 | EXTEND | SUBSET | `Props`, `Props` | 2 | 6 |
 

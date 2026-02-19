@@ -34,7 +34,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/admin/useSelectInputsAsync.ts` | P2 | 11 | 1 | 0 | 0 | 1 | 0 | 5 | 3 | 0 | 0 |
 | `src/composables/booking/useAvailabilityLogic.ts` | P2 | 12 | 1 | 0 | 1 | 8 | 0 | 0 | 0 | 0 | 0 |
 | `src/composables/booking/useElementDimensions.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 6 | 0 |
-| `src/composables/booking/useAppointmentLoader.ts` | P2 | 10 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 1 |
+| `src/composables/booking/useAppointmentLoader.ts` | P2 | 9 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 0 |
 | `src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 
 *...and 146 more files. See full report for details.*

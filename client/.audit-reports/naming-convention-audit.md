@@ -1,16 +1,23 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-02-18T23:28:25.756Z
+Generated at: 2026-02-19T13:40:48.512Z
 
 ## Summary
 
-- Total allowed: **83**
-- Requiring review: **1**
+- Total allowed: **85**
+- Requiring review: **4**
 
 ## Files with naming violations
 
 | File | Rule | Line | Snippet |
 | --- | --- | ---: | --- |
+| `client/src/composables/admin/entityFormRedirectOptions.ts` | composableFileName | 1 | Composable file should be use[Name].ts: entityForm |
+| `client/src/composables/admin/instanceComposableOptions.ts` | composableFileName | 1 | Composable file should be use[Name].ts: instanceCo |
+| `client/src/composables/collectionTypes.ts` | composableFileName | 1 | Composable file should be use[Name].ts: collection |
 | `server/src/types/express.d.ts` | typesFileName | 1 | Types file should be camelCase: express.d.ts |
 
 ## Allowed Exceptions (for transparency)
@@ -29,7 +36,7 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/composables/admin/tables/useAppointmentHelpers.ts` | composableExport | 13 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/tables/useAppointmentHelpers.ts` | composableExport | 33 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/tables/useTableModelHelpers.ts` | composableExport | 12 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/admin/useAvailabilitySettings.ts` | composableExport | 31 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useAvailabilitySettings.ts` | composableExport | 37 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 8 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 46 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 56 | pattern | Composables may export camelCase helpers used by other co... |
@@ -52,7 +59,7 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/composables/formFields/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/globalDataCollections/index.ts` | composableFileName | 1 | pattern | Barrel/composable package; index is conventional |
 | `client/src/composables/globalDataCollections/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
-| `client/src/composables/useAdminConfig.ts` | composableExport | 40 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/useAdminConfig.ts` | composableExport | 43 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/useApiErrorMessage.ts` | composableExport | 13 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/useLocalTime.ts` | composableExport | 50 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/useLocalTime.ts` | composableExport | 232 | pattern | Composables may export camelCase helpers used by other co... |
@@ -62,7 +69,7 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/admin/adminRelationshipMetadata.ts` | functionExport | 42 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/block_shape.ts` | functionExport | 32 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/business_rule.ts` | functionExport | 67 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/admin/business_settings.ts` | functionExport | 108 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/admin/business_settings.ts` | functionExport | 115 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/part_shape.ts` | functionExport | 21 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/valid_annotation.ts` | functionExport | 35 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/valid_cascade.ts` | functionExport | 35 | pattern | Sequelize model factory convention: ModelNameFactory |
@@ -83,6 +90,8 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/booking/annotation_shape.ts` | functionExport | 39 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/appointment.ts` | functionExport | 57 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/appointment_attendee.ts` | functionExport | 53 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/appointment_fee_entry.ts` | functionExport | 37 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/appointment_fee_summary.ts` | functionExport | 36 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/block_instance.ts` | functionExport | 39 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/block_instance_version.ts` | functionExport | 35 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/booking_cascade.ts` | functionExport | 37 | pattern | Sequelize model factory convention: ModelNameFactory |

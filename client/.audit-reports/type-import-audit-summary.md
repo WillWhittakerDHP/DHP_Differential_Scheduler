@@ -1,42 +1,37 @@
 # Type-Import Audit Summary (Generated)
 
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 Generated from `.audit-reports/type-import-audit.json`.
 
 ## Overview
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 783 |
-| value-import-from-type-only-file | 89 |
-| type-used-as-value | 36 |
-| Files with findings | 64 |
+| Files scanned | 796 |
+| value-import-from-type-only-file | 0 |
+| type-used-as-value | 21 |
+| Files with findings | 12 |
 
-## Top 20 files (by score)
+## Top 12 files (by score)
 
 | File | Score |
 | --- | ---: |
-| `server/src/config/entityRegistry.ts` | 16 |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | 16 |
-| `client/src/types/wizard.ts` | 12 |
-| `server/src/routes/internal/properties/propertyHelpers.ts` | 12 |
-| `server/src/scripts/importCalendarData.ts` | 12 |
-| `server/src/services/appointmentCalendarService.ts` | 10 |
-| `server/src/services/instanceVersioning.ts` | 10 |
 | `client/src/types/appointmentApi.ts` | 8 |
 | `client/src/types/user.ts` | 8 |
-| `server/src/routes/internal/properties/propertyTypesRouter.ts` | 8 |
 | `client/src/composables/useLocalTime.ts` | 6 |
-| `server/src/routes/internal/entities/entityHelpers.ts` | 6 |
-| `server/src/routes/internal/properties/propertyCrudRouter.ts` | 6 |
-| `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 4 |
-| `client/src/composables/booking/useWizardDevMode.ts` | 4 |
 | `client/src/types/property.ts` | 4 |
-| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | 4 |
-| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | 4 |
-| `server/src/routes/internal/businessRulesCrudRouter.ts` | 4 |
-| `server/src/routes/internal/relationships/relationshipCrudRouter.ts` | 4 |
-
-*...and 44 more files. See full report for details.*
+| `client/src/composables/admin/usePartsCollectionField.ts` | 2 |
+| `client/src/composables/booking/usePerspectiveMapping.ts` | 2 |
+| `client/src/composables/fieldContext/useFieldContextState.ts` | 2 |
+| `client/src/utils/booking/partFinalizer.ts` | 2 |
+| `client/src/utils/booking/slotShapeLookups.ts` | 2 |
+| `client/src/utils/datetime.ts` | 2 |
+| `client/src/utils/transformers/annotationTransformers.ts` | 2 |
+| `client/src/utils/transformers/transformerPrimitives.ts` | 2 |
 
 ## Notes
 

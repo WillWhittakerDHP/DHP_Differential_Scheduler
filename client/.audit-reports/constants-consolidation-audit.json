@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T23:28:27.526Z",
+  "generatedAt": "2026-02-19T13:40:49.537Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,9 +11,9 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 681,
-  "totalConstantsFiles": 23,
-  "totalExportsScanned": 67,
+  "totalScanned": 691,
+  "totalConstantsFiles": 24,
+  "totalExportsScanned": 68,
   "exceptionSummary": {
     "totalAllowed": 3,
     "totalRequiresReview": 17,
@@ -36,6 +36,7 @@
     "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
     "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataConstants.ts",
     "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataConstants.ts",
+    "server/src/routes/internal/appointment-fees/appointmentFeeConstants.ts",
     "server/src/routes/internal/appointments/appointmentConstants.ts",
     "server/src/routes/internal/availabilityConstants.ts",
     "server/src/routes/internal/beta-feedback/betaFeedbackConstants.ts",

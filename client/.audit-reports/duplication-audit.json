@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T23:30:35.207Z",
+  "generatedAt": "2026-02-19T13:39:42.545Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -72,8 +72,10 @@
           "client/src/utils/api/adminMetadataApi.ts",
           "client/src/utils/api/appointmentApi.ts",
           "client/src/utils/api/availabilityApi.ts",
+          "client/src/utils/api/betaFeedbackApi.ts",
           "client/src/utils/api/entityApi.ts",
           "client/src/utils/api/propertyApi.ts",
+          "client/src/utils/api/propertyMappingsApi.ts",
           "client/src/utils/api/relationshipApi.ts",
           "client/src/utils/api/userApi.ts",
           "client/src/utils/appointmentFieldFormatters.ts",
@@ -81,6 +83,7 @@
           "client/src/utils/booking/cascadeFilterPipeline.ts",
           "client/src/utils/booking/constraintColors.ts",
           "client/src/utils/booking/instanceComponentsList.ts",
+          "client/src/utils/booking/pricingCascadeResolver.ts",
           "client/src/utils/booking/selectionCardChildren.ts",
           "client/src/utils/booking/selectionCardComponent.ts",
           "client/src/utils/booking/selectionCardGroupConfig.ts",
@@ -110,12 +113,15 @@
           "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/routes/internal/relationships/relationshipHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
+          "server/src/services/brightMls/brightMlsAuth.ts",
           "server/src/services/calendarEventsCache.ts",
           "server/src/services/driveTimeCache.ts",
           "server/src/services/google/calendar/eventsService.ts",
           "server/src/services/google/maps/placesApiService.ts",
           "server/src/services/google/shared/googleApiConfig.ts",
+          "server/src/services/propertyEnrichmentCache.ts",
           "server/src/services/rateLimiter.ts",
+          "server/src/test/setup/testDb.ts",
           "server/src/utils/adminMetadataComposer.ts",
           "server/src/utils/adminPrimitiveMetadataComposer.ts",
           "server/src/utils/adminRelationshipMetadataComposer.ts",
@@ -123,7 +129,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 127
+        "patternCount": 138
       },
       {
         "prefix": "use",
@@ -218,6 +224,7 @@
           "client/src/composables/admin/useStatusButtonHandlers.ts",
           "client/src/composables/admin/useStatusButtonToggle.ts",
           "client/src/composables/admin/useTabNavigation.ts",
+          "client/src/composables/beta/useBetaFeedback.ts",
           "client/src/composables/booking/dev/usePanelPosition.ts",
           "client/src/composables/booking/selectionCard/useSelectionCard.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardComponent.ts",
@@ -268,6 +275,7 @@
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
           "client/src/composables/booking/useOptionTypeBlockSelection.ts",
           "client/src/composables/booking/usePerspectiveMapping.ts",
+          "client/src/composables/booking/usePricingCascadeInstances.ts",
           "client/src/composables/booking/usePropertyDetailsLogic.ts",
           "client/src/composables/booking/usePropertyFormState.ts",
           "client/src/composables/booking/usePropertyFormWatchers.ts",
@@ -342,200 +350,12 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 217
+        "patternCount": 219
       }
     ],
     "repeatedStringFiles": []
   },
   "groups": [
-    {
-      "groupId": "dup-23647ee852f7",
-      "hash": "23647ee852f7",
-      "uniqueFiles": 5,
-      "occurrences": 5,
-      "lineCount": 10,
-      "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
-          "startLine": 12,
-          "endLine": 69,
-          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
-          "startLine": 12,
-          "endLine": 69,
-          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
-          "startLine": 12,
-          "endLine": 69,
-          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
-          "startLine": 12,
-          "endLine": 69,
-          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
-          "startLine": 12,
-          "endLine": 69,
-          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
-          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
-        }
-      ],
-      "score": 55,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-3cd31b02359f",
-      "hash": "3cd31b02359f",
-      "uniqueFiles": 5,
-      "occurrences": 5,
-      "lineCount": 10,
-      "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
-          "startLine": 11,
-          "endLine": 55,
-          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
-          "startLine": 11,
-          "endLine": 55,
-          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
-          "startLine": 11,
-          "endLine": 55,
-          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
-          "startLine": 11,
-          "endLine": 55,
-          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
-          "startLine": 11,
-          "endLine": 55,
-          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
-        }
-      ],
-      "score": 55,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-92552b3bde79",
-      "hash": "92552b3bde79",
-      "uniqueFiles": 5,
-      "occurrences": 5,
-      "lineCount": 10,
-      "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
-          "startLine": 14,
-          "endLine": 75,
-          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
-          "startLine": 14,
-          "endLine": 75,
-          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
-          "startLine": 14,
-          "endLine": 75,
-          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
-          "startLine": 14,
-          "endLine": 75,
-          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
-          "startLine": 14,
-          "endLine": 75,
-          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
-          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
-        }
-      ],
-      "score": 55,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-e6066dad7651",
-      "hash": "e6066dad7651",
-      "uniqueFiles": 5,
-      "occurrences": 5,
-      "lineCount": 10,
-      "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
-          "startLine": 13,
-          "endLine": 72,
-          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
-          "startLine": 13,
-          "endLine": 72,
-          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
-          "startLine": 13,
-          "endLine": 72,
-          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
-          "startLine": 13,
-          "endLine": 72,
-          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
-          "startLine": 13,
-          "endLine": 72,
-          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
-          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
-        }
-      ],
-      "score": 55,
-      "priority": "P0"
-    },
     {
       "groupId": "dup-132c63251d30",
       "hash": "132c63251d30",
@@ -560,29 +380,29 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 46,
-          "endLine": 55,
+          "startLine": 34,
+          "endLine": 43,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 63,
-          "endLine": 72,
+          "startLine": 51,
+          "endLine": 60,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 92,
-          "endLine": 101,
+          "startLine": 80,
+          "endLine": 89,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 108,
-          "endLine": 117,
+          "startLine": 96,
+          "endLine": 105,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -642,29 +462,29 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 47,
-          "endLine": 56,
+          "startLine": 35,
+          "endLine": 44,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 64,
-          "endLine": 73,
+          "startLine": 52,
+          "endLine": 61,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 93,
-          "endLine": 102,
+          "startLine": 81,
+          "endLine": 90,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 109,
-          "endLine": 118,
+          "startLine": 97,
+          "endLine": 106,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -698,46 +518,6 @@
         }
       ],
       "score": 50,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-72bfca850e56",
-      "hash": "72bfca850e56",
-      "uniqueFiles": 3,
-      "occurrences": 4,
-      "lineCount": 10,
-      "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 16,
-          "endLine": 26,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 125,
-          "endLine": 135,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 16,
-          "endLine": 26,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 15,
-          "endLine": 25,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 34,
       "priority": "P0"
     },
     {
@@ -783,8 +563,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 242,
-          "endLine": 251,
+          "startLine": 209,
+          "endLine": 218,
           "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -823,8 +603,8 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 125,
-          "endLine": 134,
+          "startLine": 113,
+          "endLine": 122,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -955,8 +735,8 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 124,
-          "endLine": 133,
+          "startLine": 112,
+          "endLine": 121,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -1245,8 +1025,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 243,
-          "endLine": 252,
+          "startLine": 210,
+          "endLine": 219,
           "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -1278,15 +1058,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 94,
-          "endLine": 106,
+          "startLine": 82,
+          "endLine": 94,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 110,
-          "endLine": 122,
+          "startLine": 98,
+          "endLine": 110,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -1306,6 +1086,39 @@
         }
       ],
       "score": 24,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-72bfca850e56",
+      "hash": "72bfca850e56",
+      "uniqueFiles": 2,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminMetadataComposer.ts",
+          "startLine": 16,
+          "endLine": 26,
+          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
+          "target": "server/src/utils/adminMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminMetadataComposer.ts",
+          "startLine": 125,
+          "endLine": 135,
+          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
+          "target": "server/src/utils/adminMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 15,
+          "endLine": 25,
+          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+        }
+      ],
+      "score": 23,
       "priority": "P0"
     },
     {
@@ -1838,8 +1651,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 132,
-          "endLine": 152,
+          "startLine": 119,
+          "endLine": 139,
           "windowText": "partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -1942,8 +1755,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 67,
-          "endLine": 79,
+          "startLine": 55,
+          "endLine": 67,
           "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -2083,6 +1896,32 @@
           "endLine": 139,
           "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-23647ee852f7",
+      "hash": "23647ee852f7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+          "startLine": 12,
+          "endLine": 69,
+          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
+          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+          "startLine": 12,
+          "endLine": 69,
+          "windowText": "handleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(",
+          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
         }
       ],
       "score": 22,
@@ -2271,32 +2110,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-2ce10077fdc9",
-      "hash": "2ce10077fdc9",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/TimeBasisButtonGrid.vue",
-          "startLine": 21,
-          "endLine": 38,
-          "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
-          "target": "client/src/components/booking/TimeBasisButtonGrid.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/booking/TimeBasisSelector.vue",
-          "startLine": 23,
-          "endLine": 40,
-          "windowText": "isDifferentialService: boolean\nstartTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {",
-          "target": "client/src/components/booking/TimeBasisSelector.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-2d4fde3634cc",
       "hash": "2d4fde3634cc",
       "uniqueFiles": 2,
@@ -2332,8 +2145,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 155,
-          "endLine": 169,
+          "startLine": 156,
+          "endLine": 170,
           "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -2473,6 +2286,32 @@
           "endLine": 103,
           "windowText": "model: 'block_instances',\ncomment: 'Optional user type override for this specific relationship (BlockInstance ID representing user type)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: true,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-3cd31b02359f",
+      "hash": "3cd31b02359f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+          "startLine": 11,
+          "endLine": 55,
+          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
+          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+          "startLine": 11,
+          "endLine": 55,
+          "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
+          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
         }
       ],
       "score": 22,
@@ -2774,8 +2613,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 162,
-          "endLine": 178,
+          "startLine": 149,
+          "endLine": 165,
           "windowText": "const selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -2863,32 +2702,6 @@
           "endLine": 40,
           "windowText": "declare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(\ntype: DataTypes.UUID,",
           "target": "server/src/db/models/booking/part_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-4d9c4ce531c8",
-      "hash": "4d9c4ce531c8",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/TimeBasisButtonGrid.vue",
-          "startLine": 22,
-          "endLine": 39,
-          "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
-          "target": "client/src/components/booking/TimeBasisButtonGrid.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/booking/TimeBasisSelector.vue",
-          "startLine": 24,
-          "endLine": 41,
-          "windowText": "startTimeType: 'major' | 'minor' | 'nonDifferential'\nconst props = defineProps<Props>()\n(e: 'time-basis-change', type: 'major' | 'minor'): void\nconst emit = defineEmits<Emits>()\nconst { settings: availabilitySettings } = useAvailabilitySettings()\nconst majorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.majorLabel\nreturn raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'\nconst minorLabel = computed(() => {\nconst raw = availabilitySettings.value?.differentialPerspectives?.minorLabel",
-          "target": "client/src/components/booking/TimeBasisSelector.vue::<script>"
         }
       ],
       "score": 22,
@@ -3034,8 +2847,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 49,
-          "endLine": 61,
+          "startLine": 37,
+          "endLine": 49,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -3086,8 +2899,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 137,
-          "endLine": 157,
+          "startLine": 124,
+          "endLine": 144,
           "windowText": "const shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0\nreturn shape.slotShape",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -3398,8 +3211,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 65,
-          "endLine": 77,
+          "startLine": 53,
+          "endLine": 65,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -3571,32 +3384,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-734db2649ff5",
-      "hash": "734db2649ff5",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-      "locations": [
-        {
-          "repoPath": "server/src/config/app.ts",
-          "startLine": 15,
-          "endLine": 41,
-          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-          "target": "server/src/config/app.ts"
-        },
-        {
-          "repoPath": "server/src/config/models.ts",
-          "startLine": 15,
-          "endLine": 41,
-          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-          "target": "server/src/config/models.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-738cf7ce032b",
       "hash": "738cf7ce032b",
       "uniqueFiles": 2,
@@ -3658,8 +3445,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 161,
-          "endLine": 172,
+          "startLine": 162,
+          "endLine": 173,
           "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -3695,6 +3482,32 @@
           "endLine": 106,
           "windowText": "type: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: true,\nmodelName: 'annotation_assignment',\ntableName: 'annotation_assignments',",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-768c9405e523",
+      "hash": "768c9405e523",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 15,
+          "endLine": 36,
+          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 15,
+          "endLine": 36,
+          "windowText": "ValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -4048,8 +3861,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 48,
-          "endLine": 60,
+          "startLine": 36,
+          "endLine": 48,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -4091,6 +3904,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-87f18ec86cc2",
+      "hash": "87f18ec86cc2",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "InstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 20,
+          "endLine": 43,
+          "windowText": "InstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 20,
+          "endLine": 43,
+          "windowText": "InstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/models.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-88e0e0d4b85e",
       "hash": "88e0e0d4b85e",
       "uniqueFiles": 2,
@@ -4126,8 +3965,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 66,
-          "endLine": 78,
+          "startLine": 54,
+          "endLine": 66,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -4345,6 +4184,32 @@
           "endLine": 43,
           "windowText": "} from 'sequelize';\nexport class AnnotationAssignment extends Model<\nInferAttributes<AnnotationAssignment>,\nInferCreationAttributes<AnnotationAssignment>\ndeclare id: CreationOptional<string>;\ndeclare blockInstanceId: ForeignKey<string>;\ndeclare annotationId: ForeignKey<string>;\ndeclare userTypeBlockInstanceId: ForeignKey<string> | null;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-92552b3bde79",
+      "hash": "92552b3bde79",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+          "startLine": 14,
+          "endLine": 75,
+          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
+          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+          "startLine": 14,
+          "endLine": 75,
+          "windowText": "} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,\nsharedHandleRouteError(error, res, errorMessage, context)",
+          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
         }
       ],
       "score": 22,
@@ -4594,8 +4459,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 156,
-          "endLine": 170,
+          "startLine": 157,
+          "endLine": 171,
           "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -4683,6 +4548,32 @@
           "endLine": 111,
           "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-9e2d676f7757",
+      "hash": "9e2d676f7757",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 10,
+          "endLine": 35,
+          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 10,
+          "endLine": 35,
+          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -4958,8 +4849,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 160,
-          "endLine": 171,
+          "startLine": 161,
+          "endLine": 172,
           "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -5062,8 +4953,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 164,
-          "endLine": 180,
+          "startLine": 151,
+          "endLine": 167,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -5073,32 +4964,6 @@
           "endLine": 119,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/composables/booking/useDevPanelsComputed.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-b8057a0bf562",
-      "hash": "b8057a0bf562",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
-      "locations": [
-        {
-          "repoPath": "server/src/config/app.ts",
-          "startLine": 10,
-          "endLine": 40,
-          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
-          "target": "server/src/config/app.ts"
-        },
-        {
-          "repoPath": "server/src/config/models.ts",
-          "startLine": 10,
-          "endLine": 40,
-          "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nPropertyFieldMapping,",
-          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -5244,8 +5109,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 136,
-          "endLine": 153,
+          "startLine": 123,
+          "endLine": 140,
           "windowText": "const finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -5374,8 +5239,8 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 68,
-          "endLine": 80,
+          "startLine": 56,
+          "endLine": 68,
           "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
@@ -5463,6 +5328,32 @@
           "endLine": 84,
           "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'partInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-d3c2dde7f3ef",
+      "hash": "d3c2dde7f3ef",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "DependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/app.ts",
+          "startLine": 16,
+          "endLine": 42,
+          "windowText": "DependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,",
+          "target": "server/src/config/app.ts"
+        },
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 16,
+          "endLine": 42,
+          "windowText": "DependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nPropertyFieldMapping,",
+          "target": "server/src/config/models.ts"
         }
       ],
       "score": 22,
@@ -5749,6 +5640,32 @@
           "endLine": 65,
           "windowText": "function levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e6066dad7651",
+      "hash": "e6066dad7651",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/appointments/appointmentErrorHandler.ts",
+          "startLine": 13,
+          "endLine": 72,
+          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
+          "target": "server/src/routes/internal/appointments/appointmentErrorHandler.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts",
+          "startLine": 13,
+          "endLine": 72,
+          "windowText": "handleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)\nexport function handleRouteError(\nerrorMessage: string,",
+          "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
         }
       ],
       "score": 22,
@@ -6050,8 +5967,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 161,
-          "endLine": 177,
+          "startLine": 148,
+          "endLine": 164,
           "windowText": "const slots = appointmentData.value.appointmentSlots\nconst selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },

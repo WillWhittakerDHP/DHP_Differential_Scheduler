@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-18T23:30:34.751Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-19T13:39:42.194Z",
+  "totalScanned": 797,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -12,96 +12,18 @@
   },
   "files": [
     {
-      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
-      "category": "components",
-      "lineCount": 1008,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 1008,
-          "threshold": 500,
-          "detail": "1008 lines (components max: 500)"
-        }
-      ],
-      "score": 18,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "category": "general",
-      "lineCount": 486,
-      "exportCount": 13,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 486,
-          "threshold": 350,
-          "detail": "486 lines (general max: 350)"
-        },
-        {
-          "rule": "high-exports",
-          "value": 13,
-          "threshold": 10,
-          "detail": "13 exports (max: 10)"
-        }
-      ],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/InstancesTab.vue",
-      "category": "components",
-      "lineCount": 876,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 876,
-          "threshold": 500,
-          "detail": "876 lines (components max: 500)"
-        }
-      ],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/vite-env.d.ts",
-      "category": "general",
-      "lineCount": 143,
-      "exportCount": 16,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 16,
-          "threshold": 10,
-          "detail": "16 exports (max: 10)"
-        }
-      ],
-      "score": 12,
-      "priority": "P0"
-    },
-    {
       "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "category": "components",
-      "lineCount": 757,
+      "lineCount": 724,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 757,
+          "value": 724,
           "threshold": 500,
-          "detail": "757 lines (components max: 500)"
+          "detail": "724 lines (components max: 500)"
         }
       ],
       "score": 9,
@@ -134,16 +56,34 @@
     {
       "repoPath": "client/src/components/booking/BookingWizard.vue",
       "category": "components",
-      "lineCount": 635,
+      "lineCount": 636,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 635,
+          "value": 636,
           "threshold": 500,
-          "detail": "635 lines (components max: 500)"
+          "detail": "636 lines (components max: 500)"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/configs/availabilitySettings.ts",
+      "category": "general",
+      "lineCount": 506,
+      "exportCount": 13,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 13,
+          "threshold": 10,
+          "detail": "13 exports (max: 10)"
         }
       ],
       "score": 6,
@@ -188,16 +128,16 @@
     {
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "category": "utils",
-      "lineCount": 429,
+      "lineCount": 430,
       "exportCount": 6,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 429,
+          "value": 430,
           "threshold": 300,
-          "detail": "429 lines (utils max: 300)"
+          "detail": "430 lines (utils max: 300)"
         }
       ],
       "score": 6,
@@ -206,16 +146,16 @@
     {
       "repoPath": "server/src/services/slotComputationService.ts",
       "category": "services",
-      "lineCount": 527,
+      "lineCount": 537,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 527,
+          "value": 537,
           "threshold": 400,
-          "detail": "527 lines (services max: 400)"
+          "detail": "537 lines (services max: 400)"
         }
       ],
       "score": 6,
@@ -242,7 +182,7 @@
     {
       "repoPath": "client/src/types/entities.ts",
       "category": "general",
-      "lineCount": 112,
+      "lineCount": 113,
       "exportCount": 12,
       "mixedConcerns": false,
       "hasExports": true,
@@ -332,16 +272,16 @@
     {
       "repoPath": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
       "category": "composables",
-      "lineCount": 449,
+      "lineCount": 432,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 449,
+          "value": 432,
           "threshold": 400,
-          "detail": "449 lines (composables max: 400)"
+          "detail": "432 lines (composables max: 400)"
         }
       ],
       "score": 3,
@@ -368,34 +308,16 @@
     {
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "category": "utils",
-      "lineCount": 319,
+      "lineCount": 318,
       "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 319,
+          "value": 318,
           "threshold": 300,
-          "detail": "319 lines (utils max: 300)"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/differentialScheduling.ts",
-      "category": "utils",
-      "lineCount": 321,
-      "exportCount": 6,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 321,
-          "threshold": 300,
-          "detail": "321 lines (utils max: 300)"
+          "detail": "318 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -456,6 +378,24 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "category": "utils",
+      "lineCount": 311,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 311,
+          "threshold": 300,
+          "detail": "311 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "category": "utils",
       "lineCount": 308,
@@ -476,25 +416,61 @@
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "category": "services",
-      "lineCount": 420,
+      "lineCount": 434,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 420,
+          "value": 434,
           "threshold": 400,
-          "detail": "420 lines (services max: 400)"
+          "detail": "434 lines (services max: 400)"
         }
       ],
       "score": 3,
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "category": "utils",
+      "lineCount": 377,
+      "exportCount": 8,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 377,
+          "threshold": 300,
+          "detail": "377 lines (utils max: 300)"
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/constants/entities.ts",
+      "category": "general",
+      "lineCount": 30,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/constants/fieldMetadata.ts",
       "category": "general",
-      "lineCount": 124,
+      "lineCount": 122,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -1032,9 +1008,45 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataErrorHandler.ts",
+      "category": "routes",
+      "lineCount": 10,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
       "category": "routes",
       "lineCount": 222,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataErrorHandler.ts",
+      "category": "routes",
+      "lineCount": 10,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1068,9 +1080,63 @@
       "priority": "P2"
     },
     {
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataErrorHandler.ts",
+      "category": "routes",
+      "lineCount": 10,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointment-fees/appointmentFeeCrudRouter.ts",
+      "category": "routes",
+      "lineCount": 25,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointment-fees/appointmentFeeRouter.ts",
+      "category": "routes",
+      "lineCount": 16,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
       "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
       "category": "routes",
-      "lineCount": 214,
+      "lineCount": 229,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

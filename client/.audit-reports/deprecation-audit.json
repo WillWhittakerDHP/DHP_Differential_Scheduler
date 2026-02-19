@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T01:12:24.892Z",
+  "generatedAt": "2026-02-19T13:40:42.711Z",
   "check": "Deprecation",
   "totalScanned": 797,
   "exceptionSummary": {
@@ -1434,6 +1434,92 @@
       ],
       "score": 1,
       "priority": "P2"
+    }
+  ],
+  "ruleset": [
+    {
+      "ruleId": "jsdoc-deprecated",
+      "label": "JSDoc @deprecated",
+      "severity": "warning",
+      "description": "JSDoc @deprecated tag present.",
+      "recommendedFix": "Document replacement or remove when no longer used; add migration note if needed."
+    },
+    {
+      "ruleId": "comment-deprecated",
+      "label": "Deprecated comment",
+      "severity": "warning",
+      "description": "Line comment containing \"deprecated\" or \"DEPRECATED\".",
+      "recommendedFix": "Add replacement or remove; use @deprecated JSDoc where applicable."
+    },
+    {
+      "ruleId": "paren-deprecated",
+      "label": "Parenthetical deprecation note",
+      "severity": "warning",
+      "description": "Parenthetical (deprecated ...) note in code.",
+      "recommendedFix": "Replace with supported API or document migration path."
+    },
+    {
+      "ruleId": "block-deprecated",
+      "label": "Block comment deprecation",
+      "severity": "warning",
+      "description": "Block comment containing deprecation.",
+      "recommendedFix": "Document replacement and timeline for removal."
+    },
+    {
+      "ruleId": "legacy-marker",
+      "label": "Legacy marker comment",
+      "severity": "info",
+      "description": "// LEGACY: or // legacy comment.",
+      "recommendedFix": "Plan removal or document why legacy path is still needed."
+    },
+    {
+      "ruleId": "compat-marker",
+      "label": "Migration compatibility marker",
+      "severity": "info",
+      "description": "\"kept for migration/backward compatibility\" phrase.",
+      "recommendedFix": "Add ticket or timeline to remove when migration is complete."
+    },
+    {
+      "ruleId": "legacy-keyword",
+      "label": "Legacy keyword in runtime code",
+      "severity": "warning",
+      "description": "Runtime code uses legacy/compat/backward/workaround/shim/polyfill.",
+      "recommendedFix": "Refactor to supported path or document and scope usage."
+    },
+    {
+      "ruleId": "fallback-keyword",
+      "label": "Fallback keyword in runtime code",
+      "severity": "info",
+      "description": "Runtime code uses \"fallback\" keyword.",
+      "recommendedFix": "Ensure fallback is intentional and logged if it masks errors."
+    },
+    {
+      "ruleId": "unhelpful-default-or",
+      "label": "Unhelpful default (|| empty)",
+      "severity": "warning",
+      "description": "|| '', || [], || {} used as default.",
+      "recommendedFix": "Prefer explicit handling or ?? for null/undefined; avoid masking errors."
+    },
+    {
+      "ruleId": "unhelpful-default-nullish",
+      "label": "Unhelpful default (?? empty)",
+      "severity": "warning",
+      "description": "?? '', ?? [], ?? {} used as default.",
+      "recommendedFix": "Use when intentional; avoid silencing null/undefined from APIs."
+    },
+    {
+      "ruleId": "default-param",
+      "label": "Default function parameter",
+      "severity": "info",
+      "description": "Default function parameter with string/array/object literal.",
+      "recommendedFix": "Ensure default is intentional and documented."
+    },
+    {
+      "ruleId": "chaining-fallback",
+      "label": "Optional chaining with default",
+      "severity": "info",
+      "description": "Optional chaining (?.) with ?? or || default.",
+      "recommendedFix": "Ensure default is correct and does not hide missing data."
     }
   ]
 }

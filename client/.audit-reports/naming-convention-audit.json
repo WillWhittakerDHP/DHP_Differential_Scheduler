@@ -1,16 +1,34 @@
 {
-  "generatedAt": "2026-02-18T23:28:25.755Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-19T13:40:48.510Z",
+  "totalScanned": 797,
   "exceptionSummary": {
-    "totalAllowed": 83,
-    "totalRequiresReview": 1,
+    "totalAllowed": 85,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
-      "pattern": 83,
+      "pattern": 85,
       "specific": 0
     }
   },
   "files": [
+    {
+      "repoPath": "client/src/composables/admin/entityFormRedirectOptions.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/admin/instanceComposableOptions.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/collectionTypes.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
     {
       "repoPath": "server/src/types/express.d.ts",
       "score": 2,
@@ -31,6 +49,28 @@
         }
       ],
       "requiresReview": []
+    },
+    {
+      "repoPath": "client/src/composables/admin/entityFormRedirectOptions.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: entityFormRedirectOptions.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/instanceComposableOptions.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: instanceComposableOptions.ts"
+        }
+      ]
     },
     {
       "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
@@ -111,7 +151,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 31,
+          "lineNumber": 37,
           "line": "export function calculateMaxBusinessHours(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
@@ -237,6 +277,17 @@
         }
       ],
       "requiresReview": []
+    },
+    {
+      "repoPath": "client/src/composables/collectionTypes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: collectionTypes.ts"
+        }
+      ]
     },
     {
       "repoPath": "client/src/composables/componentEntity/index.ts",
@@ -374,7 +425,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 40,
+          "lineNumber": 43,
           "line": "export function _clearCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
@@ -492,7 +543,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 108,
+          "lineNumber": 115,
           "line": "export function BusinessSettingsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -754,6 +805,32 @@
           "ruleId": "functionExport",
           "lineNumber": 53,
           "line": "export function AppointmentAttendeeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment_fee_entry.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 37,
+          "line": "export function AppointmentFeeEntryFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment_fee_summary.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 36,
+          "line": "export function AppointmentFeeSummaryFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
         }

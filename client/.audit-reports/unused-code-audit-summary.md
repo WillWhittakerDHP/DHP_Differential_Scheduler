@@ -13,6 +13,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/config/entityRegistry.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/services/addressGeocodingCache.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
+| `server/src/services/appointmentCalendarService.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `server/src/utils/userTypeMapping.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
 | `client/src/configs/eventPerspectiveLabels.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
@@ -26,7 +27,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/orderIndexUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `server/src/routes/helpers/dataController.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/services/appointmentCalendarService.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
 | `client/src/configs/adminConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/configs/availabilitySettings.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/configs/field/form/_archived/primitiveFieldConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -53,6 +53,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/services/appointmentSnapshotLoader.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/services/rateLimiter.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/test/setup/testDb.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/utils/envHelpers.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/composables/dev/useApiDevPanelData.ts` | P2 | 4 | 0 | 0 | 4 | 0 |
 | `server/src/services/constraintExtractor.ts` | P2 | 4 | 0 | 0 | 4 | 0 |
@@ -116,6 +117,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/routes/internal/properties/propertyErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/routes/internal/relationships/relationshipCrudRouter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/calendarEventsCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
+| `server/src/services/capacityComputer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/driveTimeCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/google/maps/mapsConstants.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/google/maps/mapsTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -125,7 +127,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/services/propertyFeatureMatcher.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/services/propertyFieldMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabilityPrimitives.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/propertyTransformers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/utils/sequelizeHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 2 | 0 | 0 | 2 | 0 |

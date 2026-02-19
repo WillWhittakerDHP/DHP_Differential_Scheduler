@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T23:30:33.372Z",
+  "generatedAt": "2026-02-19T13:39:41.370Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 248,
+  "totalScanned": 251,
   "overlap": {
     "duplicateExportNames": [
       {
@@ -71,192 +71,192 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 33,
+          "lineNumber": 50,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 45,
+          "lineNumber": 62,
           "line": "const createMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, Partial<GlobalEntity<GlobalEntityTypeKey>>, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 46,
+          "lineNumber": 63,
           "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 49,
+          "lineNumber": 66,
           "line": "const orderIndices = currentEntities.map((e) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 78,
+          "lineNumber": 95,
           "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 90,
+          "lineNumber": 107,
           "line": "onMutate: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 93,
+          "lineNumber": 110,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 166,
+          "lineNumber": 149,
           "line": "const updateMutation = useMutation<GlobalEntity<GlobalEntityTypeKey>, unknown, { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 167,
+          "lineNumber": 150,
           "line": "mutationFn: async ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 182,
+          "lineNumber": 165,
           "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 193,
+          "lineNumber": 176,
           "line": "onMutate: async (variables) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 196,
+          "lineNumber": 179,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 277,
+          "lineNumber": 260,
           "line": "const removeMutation = useMutation<{ deletedId: string }, unknown, GlobalEntityId, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 278,
+          "lineNumber": 261,
           "line": "mutationFn: async (id: GlobalEntityId) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 280,
+          "lineNumber": 263,
           "line": "const response = await apiClient.delete(deleteEndpoint)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 291,
+          "lineNumber": 274,
           "line": "onMutate: async (id) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 292,
+          "lineNumber": 275,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 298,
+          "lineNumber": 281,
           "line": "const updatedEntities = currentEntities.filter((entity) => entity.id !== id)"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 323,
+          "lineNumber": 306,
           "line": "const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 324,
+          "lineNumber": 307,
           "line": "mutationFn: async (updates: OrderIndexUpdate) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 326,
+          "lineNumber": 309,
           "line": "const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 331,
+          "lineNumber": 314,
           "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 332,
+          "lineNumber": 315,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "map",
-          "lineNumber": 338,
+          "lineNumber": 321,
           "line": "const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 339,
+          "lineNumber": 322,
           "line": "const updatedEntities = currentEntities.map((entity) => {"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 379,
+          "lineNumber": 362,
           "line": "const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 380,
+          "lineNumber": 363,
           "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 384,
+          "lineNumber": 367,
           "line": "const dehydratedUpdates = updates.map((update) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 393,
+          "lineNumber": 376,
           "line": "const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 398,
+          "lineNumber": 381,
           "line": "onMutate: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 399,
+          "lineNumber": 382,
           "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "map",
-          "lineNumber": 404,
+          "lineNumber": 387,
           "line": "const updateMap = new Map(updates.map((update) => [update.id, update]))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 406,
+          "lineNumber": 389,
           "line": "const updatedEntities = currentEntities.map((entity) => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 439,
+          "lineNumber": 422,
           "line": "create: async (entity) => createMutation.mutateAsync(entity),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 440,
+          "lineNumber": 423,
           "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 441,
+          "lineNumber": 424,
           "line": "remove: async (id) => removeMutation.mutateAsync(id),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 442,
+          "lineNumber": 425,
           "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 443,
+          "lineNumber": 426,
           "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
         }
       ],
@@ -274,7 +274,9 @@
         "@tanstack/vue-query",
         "axios"
       ],
-      "returnKeys": [],
+      "returnKeys": [
+        "message"
+      ],
       "complexityScore": 35.5,
       "priority": "P0",
       "suggestions": [
@@ -350,92 +352,92 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 69,
+          "lineNumber": 70,
           "line": "...toRemove.map((componentId) =>"
         },
         {
           "ruleId": "await",
-          "lineNumber": 77,
+          "lineNumber": 78,
           "line": "await Promise.all(promises)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 87,
+          "lineNumber": 88,
           "line": "export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>("
         },
         {
           "ruleId": "map",
-          "lineNumber": 100,
+          "lineNumber": 101,
           "line": "? currentValue.map((v) => String(v))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 108,
+          "lineNumber": 109,
           "line": "? plainValue.map((v: unknown) => String(v).trim()).filter((s) => s !== '')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 108,
+          "lineNumber": 109,
           "line": "? plainValue.map((v: unknown) => String(v).trim()).filter((s) => s !== '')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 110,
+          "lineNumber": 111,
           "line": "? [String(plainValue).trim()].filter((s) => s !== '')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 114,
+          "lineNumber": 115,
           "line": "const toAdd = newValues.filter((v) => !oldValues.includes(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 115,
+          "lineNumber": 116,
           "line": "const toRemove = oldValues.filter((v) => !newValues.includes(v))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 118,
+          "lineNumber": 119,
           "line": "...toAdd.map((childId) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "...toRemove.map((childId) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 131,
+          "lineNumber": 132,
           "line": "await Promise.all(promises)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 136,
+          "lineNumber": 137,
           "line": "const { cleanupInvalidActiveRelationships } = await import('@/utils/dependencyCleanup')"
         },
         {
           "ruleId": "await",
-          "lineNumber": 137,
+          "lineNumber": 138,
           "line": "await cleanupInvalidActiveRelationships("
         },
         {
           "ruleId": "map",
-          "lineNumber": 141,
+          "lineNumber": 142,
           "line": "newValues.map(toGlobalEntityId),"
         },
         {
           "ruleId": "await",
-          "lineNumber": 157,
+          "lineNumber": 158,
           "line": "await queryClient.refetchQueries({ queryKey: ['globalData'] })"
         },
         {
           "ruleId": "async",
-          "lineNumber": 171,
+          "lineNumber": 172,
           "line": "export async function saveRegularField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>("
         },
         {
           "ruleId": "await",
-          "lineNumber": 188,
+          "lineNumber": 189,
           "line": "await state.patchFieldAsync(patchPayload)"
         }
       ],
@@ -825,107 +827,107 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 66,
+          "lineNumber": 67,
           "line": "? computed(() => parentEntityId)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 68,
+          "lineNumber": 69,
           "line": "? computed(() => parentEntityId.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 72,
+          "lineNumber": 73,
           "line": "? computed(() => childEntityKeyInput as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 74,
+          "lineNumber": 75,
           "line": "? computed(() => childEntityKeyInput.value as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 78,
+          "lineNumber": 79,
           "line": "? computed(() => shapeEntityKeyInput as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 80,
+          "lineNumber": 81,
           "line": "? computed(() => shapeEntityKeyInput.value as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 84,
+          "lineNumber": 85,
           "line": "? computed(() => relationshipKeyInput)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 86,
+          "lineNumber": 87,
           "line": "? computed(() => relationshipKeyInput.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 90,
+          "lineNumber": 91,
           "line": "? computed(() => optionsFieldKeyInput)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 92,
+          "lineNumber": 93,
           "line": "? computed(() => optionsFieldKeyInput.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 96,
+          "lineNumber": 97,
           "line": "? computed(() => parentTypeEntityKeyInput as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 98,
+          "lineNumber": 99,
           "line": "? computed(() => parentTypeEntityKeyInput.value as GlobalEntityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 102,
+          "lineNumber": 103,
           "line": "? computed(() => parentTypeRefInput)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 104,
+          "lineNumber": 105,
           "line": "? computed(() => parentTypeRefInput.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 117,
+          "lineNumber": 118,
           "line": "const parentTypeEntity = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 127,
+          "lineNumber": 128,
           "line": "const validShapes = computed((): GlobalEntity<GlobalEntityKey>[] => {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 138,
+          "lineNumber": 139,
           "line": "return resolved.sort((a, b) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 150,
+          "lineNumber": 151,
           "line": "const existingChildren = computed((): GlobalEntity<GlobalEntityKey>[] => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 153,
+          "lineNumber": 154,
           "line": "const relationships = relationshipsRef.value.filter("
         },
         {
           "ruleId": "map",
-          "lineNumber": 158,
+          "lineNumber": 159,
           "line": "const childIds = relationships.map((rel) => String(rel.childId))"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 160,
+          "lineNumber": 161,
           "line": "return resolved.sort((a, b) => {"
         }
       ],
@@ -938,6 +940,7 @@
         "@/composables/useRelationship",
         "@/constants/entities",
         "@/constants/entityFieldConstants",
+        "@/constants/relationships",
         "@/types/entities",
         "@/utils/collections/resolveByIds",
         "@/utils/entities/entityFieldAccess",
@@ -2056,77 +2059,77 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 98,
+          "lineNumber": 90,
           "line": "const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 141,
+          "lineNumber": 133,
           "line": "const createdProperty = await createProperty.mutateAsync(propertyData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 160,
+          "lineNumber": 152,
           "line": "const createdClient = await createUser.mutateAsync(clientUserData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 175,
+          "lineNumber": 167,
           "line": "const createdAgent = await createUser.mutateAsync(agentUserData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 191,
+          "lineNumber": 183,
           "line": "const createdAnotherClient = await createUser.mutateAsync(anotherClientData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 208,
+          "lineNumber": 200,
           "line": "const createdTransactionManager = await createUser.mutateAsync(transactionManagerData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 225,
+          "lineNumber": 217,
           "line": "const createdSeller = await createUser.mutateAsync(sellerData)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 235,
+          "lineNumber": 227,
           "line": "const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 248,
+          "lineNumber": 240,
           "line": "? availability.candidateTimeSlots.map(slot => ({"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 274,
+          "lineNumber": 277,
           "line": "const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 282,
+          "lineNumber": 285,
           "line": "const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 290,
+          "lineNumber": 293,
           "line": "const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 301,
+          "lineNumber": 304,
           "line": "selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),"
         },
         {
           "ruleId": "map",
-          "lineNumber": 304,
+          "lineNumber": 307,
           "line": "? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 308,
+          "lineNumber": 311,
           "line": "? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)"
         }
       ],
@@ -2137,9 +2140,11 @@
         "@/constants/attendeeRoles",
         "@/types/appointment",
         "@/types/property",
-        "@/types/propertyForm",
         "@/types/user",
+        "@/types/wizard",
         "@/utils/booking/availabilityStepData",
+        "@/utils/booking/confirmationStepData",
+        "@/utils/logger",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
       ],
@@ -2776,6 +2781,7 @@
       ],
       "importSpecifiers": [
         "./useAdmin",
+        "@/composables/admin/useSelectDomTargets",
         "@/constants/entities",
         "@/types/entities",
         "@/types/entity/formFields",
@@ -2961,67 +2967,67 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 37,
+          "lineNumber": 40,
           "line": "...Object.values(businessHours).map(day => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 40,
+          "lineNumber": 43,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 41,
+          "lineNumber": 44,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 76,
+          "lineNumber": 79,
           "line": "const loading = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 77,
+          "lineNumber": 80,
           "line": "const saving = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 96,
+          "lineNumber": 99,
           "line": "const loadSettings = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 101,
+          "lineNumber": 104,
           "line": "const response = await apiClient.get('/business-settings/availability_settings')"
         },
         {
           "ruleId": "map",
-          "lineNumber": 176,
+          "lineNumber": 180,
           "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 177,
+          "lineNumber": 181,
           "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 196,
+          "lineNumber": 200,
           "line": "const saveSettings = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 314,
+          "lineNumber": 318,
           "line": "await apiClient.put('/business-settings/availability_settings', {"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 322,
+          "lineNumber": 326,
           "line": "setTimeout(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 344,
+          "lineNumber": 349,
           "line": "watch("
         }
       ],
@@ -3033,6 +3039,7 @@
         "@/configs/availabilitySettings",
         "@/constants/availabilitySettings",
         "@/utils/api",
+        "@/utils/logger",
         "vue"
       ],
       "returnKeys": [
@@ -3078,62 +3085,62 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 83,
+          "lineNumber": 81,
           "line": "* PATTERN: Function called in onMounted hook"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 126,
+          "lineNumber": 124,
           "line": "const isEdit = computed(() => !!route.params.id)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 133,
+          "lineNumber": 131,
           "line": "const entityId = computed(() => route.params.id as string | undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 140,
+          "lineNumber": 138,
           "line": "const blockTypeOptions = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 141,
+          "lineNumber": 139,
           "line": "return getGlobalEntities('blockShape').map(bt => ({"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 164,
+          "lineNumber": 162,
           "line": "const isSubmitting = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 178,
+          "lineNumber": 176,
           "line": "const loadEntity = async (): Promise<void> => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 197,
+          "lineNumber": 195,
           "line": "const handleSubmit = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "await update(formData.value as Partial<GlobalEntity<'blockInstance'>>, toGlobalEntityId(entityId.value!))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 205,
+          "lineNumber": 203,
           "line": "await create(formData.value as Partial<GlobalEntity<'blockInstance'>>)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 227,
+          "lineNumber": 226,
           "line": "* PATTERN: Call loadEntity in onMounted hook"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 229,
+          "lineNumber": 228,
           "line": "onMounted(() => {"
         }
       ],
@@ -3143,7 +3150,9 @@
       "importSpecifiers": [
         "../useEntity",
         "../useGlobal",
+        "./entityFormRedirectOptions",
         "@/types/entities",
+        "@/utils/logger",
         "vue",
         "vue-router"
       ],
@@ -3191,62 +3200,62 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 83,
+          "lineNumber": 81,
           "line": "* PATTERN: Function called in onMounted hook"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 126,
+          "lineNumber": 124,
           "line": "const isEdit = computed(() => !!route.params.id)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 133,
+          "lineNumber": 131,
           "line": "const entityId = computed(() => route.params.id as string | undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 140,
+          "lineNumber": 138,
           "line": "const partTypeOptions = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 141,
+          "lineNumber": 139,
           "line": "return getGlobalEntities('partShape').map(pt => ({"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 164,
+          "lineNumber": 162,
           "line": "const isSubmitting = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 178,
+          "lineNumber": 176,
           "line": "const loadEntity = async (): Promise<void> => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 197,
+          "lineNumber": 195,
           "line": "const handleSubmit = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "await update(formData.value as Partial<GlobalEntity<'partInstance'>>, toGlobalEntityId(entityId.value!))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 205,
+          "lineNumber": 203,
           "line": "await create(formData.value as Partial<GlobalEntity<'partInstance'>>)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 227,
+          "lineNumber": 226,
           "line": "* PATTERN: Call loadEntity in onMounted hook"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 229,
+          "lineNumber": 228,
           "line": "onMounted(() => {"
         }
       ],
@@ -3256,7 +3265,9 @@
       "importSpecifiers": [
         "../useEntity",
         "../useGlobal",
+        "./entityFormRedirectOptions",
         "@/types/entities",
+        "@/utils/logger",
         "vue",
         "vue-router"
       ],
@@ -3840,7 +3851,7 @@
         "sort": 0,
         "dom": 0,
         "timers": 3,
-        "console": 1
+        "console": 0
       },
       "matches": [
         {
@@ -3855,58 +3866,53 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 22,
+          "lineNumber": 25,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 23,
+          "lineNumber": 26,
           "line": "const isLoading: Ref<boolean> = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 25,
+          "lineNumber": 28,
           "line": "const loadAppointmentById = async (appointmentId: string): Promise<AppointmentResponse | null> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 31,
+          "lineNumber": 34,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 31,
+          "lineNumber": 34,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 38,
+          "lineNumber": 41,
           "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
         },
         {
           "ruleId": "await",
-          "lineNumber": 40,
+          "lineNumber": 43,
           "line": "await new Promise(resolve => setTimeout(resolve, 500))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 40,
+          "lineNumber": 43,
           "line": "await new Promise(resolve => setTimeout(resolve, 500))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 43,
+          "lineNumber": 46,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 43,
+          "lineNumber": 46,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 47,
-          "line": "console.error('[useAppointmentLoader] Error loading appointment:', error)"
         }
       ],
       "exportUseFunctions": [
@@ -3916,6 +3922,7 @@
         "@/composables/useAppointment",
         "@/composables/useBusiness",
         "@/types/appointment",
+        "@/utils/logger",
         "@tanstack/vue-query",
         "vue"
       ],
@@ -5114,7 +5121,7 @@
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 1
+        "console": 0
       },
       "matches": [
         {
@@ -5166,11 +5173,6 @@
           "ruleId": "filter",
           "lineNumber": 132,
           "line": "const missingKeys = beforeKeys.filter(key => !afterKeys.includes(key))"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 134,
-          "line": "console.warn(`[usePrimitiveMutation] Field count mismatch - fields lost:`, {"
         },
         {
           "ruleId": "filter",
@@ -5232,47 +5234,47 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 58,
+          "lineNumber": 61,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 80,
+          "lineNumber": 83,
           "line": "isLoading: computed(() => isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 81,
+          "lineNumber": 84,
           "line": "error: computed(() => error.value),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 91,
+          "lineNumber": 94,
           "line": "const fetchRandom = async (): Promise<AppointmentResponse | null> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 97,
+          "lineNumber": 100,
           "line": "await new Promise(resolve => setTimeout(resolve, 100))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 97,
+          "lineNumber": 100,
           "line": "await new Promise(resolve => setTimeout(resolve, 100))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 103,
+          "lineNumber": 106,
           "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
         },
         {
           "ruleId": "await",
-          "lineNumber": 104,
+          "lineNumber": 107,
           "line": "await new Promise(resolve => setTimeout(resolve, 500))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 104,
+          "lineNumber": 107,
           "line": "await new Promise(resolve => setTimeout(resolve, 500))"
         }
       ],
@@ -5285,6 +5287,7 @@
         "@/types/appointment",
         "@/utils/api",
         "@/utils/collections/pickRandomItem",
+        "@/utils/logger",
         "@/utils/transformers/fetchToBusinessTransformer",
         "@tanstack/vue-query",
         "vue"
@@ -5427,52 +5430,52 @@
       "matches": [
         {
           "ruleId": "vueQuery",
-          "lineNumber": 16,
+          "lineNumber": 17,
           "line": "import { useQueryClient } from '@tanstack/vue-query'"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 96,
+          "lineNumber": 97,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 128,
+          "lineNumber": 129,
           "line": "const parentEntityId = computed(() => fieldContext.entityId)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 133,
+          "lineNumber": 134,
           "line": "parentEntityKey: computed(() => fieldContext.entityKey),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 152,
+          "lineNumber": 153,
           "line": "const shouldShow = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 225,
+          "lineNumber": 226,
           "line": "const handleNewChildSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 253,
+          "lineNumber": 254,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 253,
+          "lineNumber": 254,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 255,
+          "lineNumber": 256,
           "line": "await createRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 260,
+          "lineNumber": 261,
           "line": "await Promise.all(["
         }
       ],
@@ -5487,6 +5490,7 @@
         "@/composables/useRelationship",
         "@/constants/entities",
         "@/constants/primitives",
+        "@/constants/relationships",
         "@/types/entities",
         "@/utils/entityDefaults",
         "@/utils/logger",
@@ -6278,42 +6282,42 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 55,
+          "lineNumber": 58,
           "line": "const handleDragEnd = async (): Promise<void> => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 72,
+          "lineNumber": 75,
           "line": ".map(id => entityMap.get(id))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 73,
+          "lineNumber": 76,
           "line": ".filter((entity): entity is GlobalEntity<EntityKey> => entity !== undefined)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 75,
+          "lineNumber": 78,
           "line": "const nonDraggedEntities = allEntities.filter("
         },
         {
           "ruleId": "map",
-          "lineNumber": 83,
+          "lineNumber": 86,
           "line": "const normalized = reordered.map((entity, index) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 91,
+          "lineNumber": 94,
           "line": "const updates = normalized.map((entity, index) => ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 96,
+          "lineNumber": 99,
           "line": "await patchOrderIndex(updates)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 109,
+          "lineNumber": 113,
           "line": "entityIds.value = filteredEntities.value.map(entity => entity.id)"
         }
       ],
@@ -6322,6 +6326,7 @@
         "@/composables/entityCrud",
         "@/constants/entities",
         "@/types/entities",
+        "@/utils/logger",
         "vue"
       ],
       "returnKeys": [
@@ -6795,22 +6800,22 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 153,
+          "lineNumber": 154,
           "line": "const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 185,
+          "lineNumber": 187,
           "line": "const handleUpdateAppointment = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 192,
+          "lineNumber": 194,
           "line": "const appointmentData = await collectAppointmentData()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 197,
+          "lineNumber": 199,
           "line": "await updateAppointment.mutateAsync({"
         }
       ],
@@ -6938,42 +6943,42 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 33,
+          "lineNumber": 36,
           "line": "const validate = async (): Promise<boolean> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 36,
+          "lineNumber": 39,
           "line": "await state.validateField()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 47,
+          "lineNumber": 50,
           "line": "const save = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 64,
+          "lineNumber": 67,
           "line": "await apiClient.get(verifyEndpoint)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 89,
+          "lineNumber": 93,
           "line": "const isValidResult = await validate()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 98,
+          "lineNumber": 102,
           "line": "await saveComponentEntityField({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 108,
+          "lineNumber": 112,
           "line": "await saveRelationshipField({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 115,
+          "lineNumber": 119,
           "line": "await saveRegularField({"
         }
       ],
@@ -6986,6 +6991,7 @@
         "@/constants/primitives",
         "@/constants/relationships",
         "@/utils/api",
+        "@/utils/logger",
         "@shared/constants/globalConfigIds",
         "axios"
       ],
@@ -7112,42 +7118,42 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 15,
+          "lineNumber": 17,
           "line": "const bufferValue = ref(20)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 16,
+          "lineNumber": 18,
           "line": "const progressValue = ref(10)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 17,
+          "lineNumber": 19,
           "line": "const isFallbackState = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 18,
+          "lineNumber": 20,
           "line": "const showProgress = ref(false)"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 19,
+          "lineNumber": 21,
           "line": "const interval = ref<ReturnType<typeof setInterval>>()"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 28,
+          "lineNumber": 30,
           "line": "interval.value = setInterval(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 39,
+          "lineNumber": 41,
           "line": "watch([progressValue, isFallbackState], () => {"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 67,
+          "lineNumber": 69,
           "line": "setTimeout(() => {"
         }
       ],
@@ -7284,37 +7290,37 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 59,
+          "lineNumber": 62,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 76,
+          "lineNumber": 79,
           "line": "const existingPartInstances = computed(() => existingPartInstancesRef.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 78,
+          "lineNumber": 81,
           "line": "const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 82,
+          "lineNumber": 85,
           "line": "const shouldShowPartInstances = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 148,
+          "lineNumber": 152,
           "line": "const handleNewPartInstanceSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 158,
+          "lineNumber": 162,
           "line": "await createPartAssignmentsRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 163,
+          "lineNumber": 167,
           "line": "await Promise.all(["
         }
       ],
@@ -7330,6 +7336,7 @@
         "@/composables/useRelationship",
         "@/types/entities",
         "@/utils/entityDefaults",
+        "@/utils/logger",
         "@tanstack/vue-query",
         "vue"
       ],
@@ -7360,48 +7367,43 @@
         "sort": 0,
         "dom": 0,
         "timers": 0,
-        "console": 1
+        "console": 0
       },
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 66,
+          "lineNumber": 69,
           "line": "const firstPartInstanceForMetadata = computed(() => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 81,
+          "lineNumber": 84,
           "line": "const bulkEditMode = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 113,
+          "lineNumber": 116,
           "line": "const applyPartInstanceBulkEdit = async (): Promise<void> => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 126,
+          "lineNumber": 129,
           "line": "const bulkEditEnabledFields = Object.keys(fieldMetadata).filter(fieldKey => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 132,
+          "lineNumber": 135,
           "line": "Object.entries(bulkEditData.value).filter(([fieldKey, value]) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 152,
+          "lineNumber": 155,
           "line": "const updates = instances.map(instance => ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 158,
+          "lineNumber": 161,
           "line": "await patchBulk(updates)"
-        },
-        {
-          "ruleId": "console",
-          "lineNumber": 164,
-          "line": "console.error('[usePartInstanceBulkEdit] Error in applyPartInstanceBulkEdit:', err)"
         }
       ],
       "exportUseFunctions": [
@@ -7412,6 +7414,7 @@
         "../useNotification",
         "./useEntityMetadata",
         "@/types/entities",
+        "@/utils/logger",
         "vue"
       ],
       "returnKeys": [
@@ -8116,6 +8119,7 @@
         "useInstanceFiltering"
       ],
       "importSpecifiers": [
+        "./instanceComposableOptions",
         "@/composables/useGlobal",
         "@/constants/bookingMode",
         "@/constants/entityFieldConstants",
@@ -8155,32 +8159,32 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 30,
+          "lineNumber": 28,
           "line": "const entityIdRef = typeof entityId === 'string' ? computed(() => entityId) : entityId"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 33,
+          "lineNumber": 31,
           "line": "const instance = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 39,
+          "lineNumber": 37,
           "line": "const shapeRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 50,
-          "line": "const blockShape = computed((): import('@/types/entities').BlockShapeEntity | null => {"
+          "lineNumber": 48,
+          "line": "const blockShape = computed((): BlockShapeEntity | null => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 60,
-          "line": "const partShape = computed((): import('@/types/entities').PartShapeEntity | null => {"
+          "lineNumber": 58,
+          "line": "const partShape = computed((): PartShapeEntity | null => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 70,
+          "lineNumber": 68,
           "line": "const shape = computed(() => {"
         }
       ],
@@ -8929,27 +8933,27 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 117,
+          "lineNumber": 115,
           "line": "const applyBulkEdit = async (blockShapeId: string): Promise<void> => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 129,
+          "lineNumber": 127,
           "line": "const updates = instances.map(instance => ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 135,
+          "lineNumber": 133,
           "line": "await patchBulk(updates)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 151,
+          "lineNumber": 149,
           "line": "watch(blockInstancesByShape, (map) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 154,
+          "lineNumber": 152,
           "line": "bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({"
         }
       ],
@@ -8959,7 +8963,7 @@
       "importSpecifiers": [
         "../useEntity",
         "../useNotification",
-        "@/types/entities",
+        "./instanceComposableOptions",
         "@/utils/logger",
         "vue"
       ],
@@ -11215,17 +11219,17 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 52,
+          "lineNumber": 55,
           "line": "const handleSubmit = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 54,
+          "lineNumber": 57,
           "line": "const appointmentData = await collectAppointmentData()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 60,
+          "lineNumber": 63,
           "line": "await createAppointment.mutateAsync(appointmentData)"
         }
       ],
@@ -11235,6 +11239,7 @@
       "importSpecifiers": [
         "@/constants/errorMessages",
         "@/types/appointment",
+        "@/utils/logger",
         "vue"
       ],
       "returnKeys": [],
@@ -11382,17 +11387,17 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 135,
+          "lineNumber": 139,
           "line": "const computedRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 158,
+          "lineNumber": 162,
           "line": "const computedRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 187,
+          "lineNumber": 191,
           "line": "const computedRef = computed(() => {"
         }
       ],
@@ -11406,6 +11411,7 @@
         "@/constants/entities",
         "@/constants/primitives",
         "@/types/entity/formFields",
+        "@/utils/logger",
         "vue"
       ],
       "returnKeys": [
@@ -11727,12 +11733,12 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 169,
+          "lineNumber": 172,
           "line": "const handleDelete = async (id: GlobalEntityId): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 177,
+          "lineNumber": 180,
           "line": "await remove(id)"
         }
       ],
@@ -11744,6 +11750,7 @@
         "../useNotification",
         "@/constants/entities",
         "@/types/entities",
+        "@/utils/logger",
         "vue-router"
       ],
       "returnKeys": [
@@ -11882,12 +11889,12 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 51,
+          "lineNumber": 49,
           "line": "const selectDomTargets = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 57,
+          "lineNumber": 55,
           "line": "return groupedByKey.value.map(group => {"
         }
       ],
@@ -11898,6 +11905,7 @@
         "@/composables/useFieldContext",
         "@/constants/entities",
         "@/constants/primitives",
+        "@/utils/forms/selectDomAssociation",
         "vue"
       ],
       "returnKeys": [
@@ -12603,12 +12611,12 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 38,
+          "lineNumber": 34,
           "line": "const isFallbackStateActive = ref(false)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 45,
+          "lineNumber": 41,
           "line": "watch([isFallbackStateActive, refLoadingIndicator], () => {"
         }
       ],
@@ -12616,6 +12624,7 @@
         "useLayoutLoading"
       ],
       "importSpecifiers": [
+        "@/composables/useLoadingIndicator",
         "vue"
       ],
       "returnKeys": [],
@@ -13637,7 +13646,7 @@
       "matches": [
         {
           "ruleId": "watchEffect",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "watchEffect(() => {"
         }
       ],
@@ -13647,6 +13656,7 @@
       "importSpecifiers": [
         "./useGlobal",
         "@/utils/debug/windowDebug",
+        "@/utils/logger",
         "@/utils/transformers/globalToBookingTransformer",
         "vue"
       ],

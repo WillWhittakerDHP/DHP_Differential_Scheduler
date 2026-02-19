@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-18T23:31:43.949Z",
+  "generatedAt": "2026-02-19T13:40:40.871Z",
   "check": "Unused Code",
   "status": "warning",
   "issues": [
@@ -8,7 +8,7 @@
       "type": "unused-function",
       "message": "Unused function: getStoreEntityForSync",
       "file": "client/src/components/admin/generic/EntityCard.vue",
-      "line": 243,
+      "line": 249,
       "code": "function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -35,7 +35,7 @@
       "type": "unused-function",
       "message": "Unused function: handleDeleteChild",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 240,
+      "line": 241,
       "code": "const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -307,7 +307,7 @@
       "type": "unused-export",
       "message": "Unused export: getWriteToCalendar (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 459,
+      "line": 479,
       "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -317,7 +317,7 @@
       "type": "unused-export",
       "message": "Unused export: getCalendarEmailsArray (function)",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 479,
+      "line": 499,
       "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -447,7 +447,7 @@
       "type": "unused-export",
       "message": "Unused export: buildSelectableFieldType (function)",
       "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "line": 91,
+      "line": 29,
       "code": "export function buildSelectableFieldType(): SelectableFieldTypeSuite {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -457,7 +457,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectableFieldType (type)",
       "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "line": 79,
+      "line": 17,
       "code": "export type SelectableFieldType<",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -467,7 +467,7 @@
       "type": "unused-export",
       "message": "Unused export: SelectableFieldTypeSuite (type)",
       "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-      "line": 87,
+      "line": 25,
       "code": "export type SelectableFieldTypeSuite = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -554,7 +554,7 @@
       "type": "unused-export",
       "message": "Unused export: setupGuards (const)",
       "file": "client/src/plugins/1.router/guards.ts",
-      "line": 7,
+      "line": 10,
       "code": "export const setupGuards = (router: Router) => {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -844,7 +844,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateBlockInstanceFee (function)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 62,
+      "line": 67,
       "code": "export function calculateBlockInstanceFee(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -854,7 +854,7 @@
       "type": "unused-export",
       "message": "Unused export: BlockInstanceFeeResult (type)",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 34,
+      "line": 39,
       "code": "export interface BlockInstanceFeeResult {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -864,7 +864,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 248,
+      "line": 267,
       "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
       "suggestion": "Review and clean up unused code"
     },
@@ -873,7 +873,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 250,
+      "line": 269,
       "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
       "suggestion": "Review and clean up unused code"
     },
@@ -882,7 +882,7 @@
       "type": "todo-marker",
       "message": "TODO/FIXME marker about unused code",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 251,
+      "line": 270,
       "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
       "suggestion": "Review and clean up unused code"
     },
@@ -951,7 +951,7 @@
       "type": "unused-export",
       "message": "Unused export: sumPartFinalsDuration (function)",
       "file": "client/src/utils/booking/partFinalizer.ts",
-      "line": 316,
+      "line": 315,
       "code": "export function sumPartFinalsDuration(parts: PartFinal[]): number {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1151,7 +1151,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateMajorStartTime (function)",
       "file": "client/src/utils/differentialScheduling.ts",
-      "line": 71,
+      "line": 105,
       "code": "export function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1161,7 +1161,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateMinorStartTime (function)",
       "file": "client/src/utils/differentialScheduling.ts",
-      "line": 99,
+      "line": 133,
       "code": "export function calculateMinorStartTime(selectedSlotTime: string): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1171,7 +1171,7 @@
       "type": "unused-export",
       "message": "Unused export: calculatePropertyAdjustments (function)",
       "file": "client/src/utils/differentialScheduling.ts",
-      "line": 104,
+      "line": 138,
       "code": "export function calculatePropertyAdjustments(_propertyDetails?: Record<string, unknown> | null): number {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1181,7 +1181,7 @@
       "type": "unused-export",
       "message": "Unused export: calculateMinorStartTimeFromMajor (function)",
       "file": "client/src/utils/differentialScheduling.ts",
-      "line": 118,
+      "line": 152,
       "code": "export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1271,7 +1271,7 @@
       "type": "unused-export",
       "message": "Unused export: FormElementPatchingOptions (type)",
       "file": "client/src/utils/forms/formElementPatching.ts",
-      "line": 9,
+      "line": 10,
       "code": "export type FormElementPatchingOptions = {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1301,7 +1301,7 @@
       "type": "unused-export",
       "message": "Unused export: optimisticUpsertById (function)",
       "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-      "line": 13,
+      "line": 16,
       "code": "export function optimisticUpsertById<TItem extends EntityWithStringId>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1311,7 +1311,7 @@
       "type": "unused-export",
       "message": "Unused export: optimisticRemoveById (function)",
       "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-      "line": 25,
+      "line": 28,
       "code": "export function optimisticRemoveById<TItem extends EntityWithStringId>(",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1321,8 +1321,8 @@
       "type": "unused-export",
       "message": "Unused export: EntityWithStringId (type)",
       "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-      "line": 1,
-      "code": "export type EntityWithStringId = { id: string }",
+      "line": 4,
+      "code": "export type EntityWithStringId = IdentifiableById",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -1461,7 +1461,7 @@
       "type": "unused-export",
       "message": "Unused export: BusinessTransformer (class)",
       "file": "client/src/utils/transformers/fetchToBusinessTransformer.ts",
-      "line": 44,
+      "line": 47,
       "code": "export class BusinessTransformer {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1800,7 +1800,7 @@
       "type": "unused-export",
       "message": "Unused export: RouteHandler (type)",
       "file": "server/src/routes/helpers/crudRouterTypes.ts",
-      "line": 91,
+      "line": 92,
       "code": "export type RouteHandler = (req: Request, res: Response) => Promise<void>",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -1860,7 +1860,7 @@
       "type": "unused-function",
       "message": "Unused function: attendeesData",
       "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "line": 89,
+      "line": 101,
       "code": "const attendeesData = (() => {",
       "suggestion": "Remove if unused or document why kept"
     },
@@ -1869,7 +1869,7 @@
       "type": "unused-export",
       "message": "Unused export: getWriteToCalendarFromSettings (function)",
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 26,
+      "line": 38,
       "code": "export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2068,7 +2068,7 @@
       "type": "unused-export",
       "message": "Unused export: isCalendarConfigured (function)",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 342,
+      "line": 344,
       "code": "export async function isCalendarConfigured(): Promise<boolean> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2078,7 +2078,7 @@
       "type": "unused-export",
       "message": "Unused export: syncInvitationStatus (function)",
       "file": "server/src/services/appointmentCalendarService.ts",
-      "line": 359,
+      "line": 361,
       "code": "export async function syncInvitationStatus(appointmentId: string): Promise<number> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2090,6 +2090,16 @@
       "file": "server/src/services/appointmentCalendarService.ts",
       "line": 22,
       "code": "export interface CalendarEventResult {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: ServerTimeSlot (type)",
+      "file": "server/src/services/appointmentCalendarService.ts",
+      "line": 40,
+      "code": "export interface ServerTimeSlot {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2129,6 +2139,16 @@
       "file": "server/src/services/calendarEventsCache.ts",
       "line": 210,
       "code": "export function clearEventsCache(): void {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: ScheduledCapacityResult (type)",
+      "file": "server/src/services/capacityComputer.ts",
+      "line": 31,
+      "code": "export interface ScheduledCapacityResult {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2202,7 +2222,7 @@
       "type": "unused-export",
       "message": "Unused export: AutocompleteResponse (type)",
       "file": "server/src/services/google/maps/mapsTypes.ts",
-      "line": 36,
+      "line": 33,
       "code": "export interface AutocompleteResponse {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
@@ -2312,8 +2332,18 @@
       "type": "unused-export",
       "message": "Unused export: sumWorkHoursForDateRange (function)",
       "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-      "line": 132,
+      "line": 133,
       "code": "export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {",
+      "suggestion": "Remove if unused or document why kept",
+      "fromPatternDetection": false
+    },
+    {
+      "severity": "warning",
+      "type": "unused-export",
+      "message": "Unused export: sumIncomeForDateRange (function)",
+      "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "line": 325,
+      "code": "export async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {",
       "suggestion": "Remove if unused or document why kept",
       "fromPatternDetection": false
     },
@@ -2407,7 +2437,7 @@
           "type": "unused-function",
           "message": "Unused function: getStoreEntityForSync",
           "file": "client/src/components/admin/generic/EntityCard.vue",
-          "line": 243,
+          "line": 249,
           "code": "function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -2448,7 +2478,7 @@
           "type": "unused-function",
           "message": "Unused function: handleDeleteChild",
           "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-          "line": 240,
+          "line": 241,
           "code": "const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -2832,7 +2862,7 @@
           "type": "unused-export",
           "message": "Unused export: getWriteToCalendar (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 459,
+          "line": 479,
           "code": "export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -2842,7 +2872,7 @@
           "type": "unused-export",
           "message": "Unused export: getCalendarEmailsArray (function)",
           "file": "client/src/configs/availabilitySettings.ts",
-          "line": 479,
+          "line": 499,
           "code": "export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3028,7 +3058,7 @@
           "type": "unused-export",
           "message": "Unused export: buildSelectableFieldType (function)",
           "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-          "line": 91,
+          "line": 29,
           "code": "export function buildSelectableFieldType(): SelectableFieldTypeSuite {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3038,7 +3068,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectableFieldType (type)",
           "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-          "line": 79,
+          "line": 17,
           "code": "export type SelectableFieldType<",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3048,7 +3078,7 @@
           "type": "unused-export",
           "message": "Unused export: SelectableFieldTypeSuite (type)",
           "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-          "line": 87,
+          "line": 25,
           "code": "export type SelectableFieldTypeSuite = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3198,7 +3228,7 @@
           "type": "unused-export",
           "message": "Unused export: setupGuards (const)",
           "file": "client/src/plugins/1.router/guards.ts",
-          "line": 7,
+          "line": 10,
           "code": "export const setupGuards = (router: Router) => {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3600,7 +3630,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateBlockInstanceFee (function)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 62,
+          "line": 67,
           "code": "export function calculateBlockInstanceFee(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3610,7 +3640,7 @@
           "type": "unused-export",
           "message": "Unused export: BlockInstanceFeeResult (type)",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 34,
+          "line": 39,
           "code": "export interface BlockInstanceFeeResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -3620,7 +3650,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 248,
+          "line": 267,
           "code": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "suggestion": "Review and clean up unused code"
         },
@@ -3629,7 +3659,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 250,
+          "line": 269,
           "code": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is im...",
           "suggestion": "Review and clean up unused code"
         },
@@ -3638,7 +3668,7 @@
           "type": "todo-marker",
           "message": "TODO/FIXME marker about unused code",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 251,
+          "line": 270,
           "code": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is impl...",
           "suggestion": "Review and clean up unused code"
         }
@@ -3742,7 +3772,7 @@
           "type": "unused-export",
           "message": "Unused export: sumPartFinalsDuration (function)",
           "file": "client/src/utils/booking/partFinalizer.ts",
-          "line": 316,
+          "line": 315,
           "code": "export function sumPartFinalsDuration(parts: PartFinal[]): number {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4040,7 +4070,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateMajorStartTime (function)",
           "file": "client/src/utils/differentialScheduling.ts",
-          "line": 71,
+          "line": 105,
           "code": "export function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4050,7 +4080,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateMinorStartTime (function)",
           "file": "client/src/utils/differentialScheduling.ts",
-          "line": 99,
+          "line": 133,
           "code": "export function calculateMinorStartTime(selectedSlotTime: string): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4060,7 +4090,7 @@
           "type": "unused-export",
           "message": "Unused export: calculatePropertyAdjustments (function)",
           "file": "client/src/utils/differentialScheduling.ts",
-          "line": 104,
+          "line": 138,
           "code": "export function calculatePropertyAdjustments(_propertyDetails?: Record<string, unknown> | null): number {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4070,7 +4100,7 @@
           "type": "unused-export",
           "message": "Unused export: calculateMinorStartTimeFromMajor (function)",
           "file": "client/src/utils/differentialScheduling.ts",
-          "line": 118,
+          "line": 152,
           "code": "export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4202,7 +4232,7 @@
           "type": "unused-export",
           "message": "Unused export: FormElementPatchingOptions (type)",
           "file": "client/src/utils/forms/formElementPatching.ts",
-          "line": 9,
+          "line": 10,
           "code": "export type FormElementPatchingOptions = {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4253,7 +4283,7 @@
           "type": "unused-export",
           "message": "Unused export: optimisticUpsertById (function)",
           "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-          "line": 13,
+          "line": 16,
           "code": "export function optimisticUpsertById<TItem extends EntityWithStringId>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4263,7 +4293,7 @@
           "type": "unused-export",
           "message": "Unused export: optimisticRemoveById (function)",
           "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-          "line": 25,
+          "line": 28,
           "code": "export function optimisticRemoveById<TItem extends EntityWithStringId>(",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4273,8 +4303,8 @@
           "type": "unused-export",
           "message": "Unused export: EntityWithStringId (type)",
           "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-          "line": 1,
-          "code": "export type EntityWithStringId = { id: string }",
+          "line": 4,
+          "code": "export type EntityWithStringId = IdentifiableById",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -4455,7 +4485,7 @@
           "type": "unused-export",
           "message": "Unused export: BusinessTransformer (class)",
           "file": "client/src/utils/transformers/fetchToBusinessTransformer.ts",
-          "line": 44,
+          "line": 47,
           "code": "export class BusinessTransformer {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -4934,7 +4964,7 @@
           "type": "unused-export",
           "message": "Unused export: RouteHandler (type)",
           "file": "server/src/routes/helpers/crudRouterTypes.ts",
-          "line": 91,
+          "line": 92,
           "code": "export type RouteHandler = (req: Request, res: Response) => Promise<void>",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5022,7 +5052,7 @@
           "type": "unused-function",
           "message": "Unused function: attendeesData",
           "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "line": 89,
+          "line": 101,
           "code": "const attendeesData = (() => {",
           "suggestion": "Remove if unused or document why kept"
         }
@@ -5038,7 +5068,7 @@
           "type": "unused-export",
           "message": "Unused export: getWriteToCalendarFromSettings (function)",
           "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "line": 26,
+          "line": 38,
           "code": "export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5314,7 +5344,7 @@
           "type": "unused-export",
           "message": "Unused export: isCalendarConfigured (function)",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 342,
+          "line": 344,
           "code": "export async function isCalendarConfigured(): Promise<boolean> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5324,7 +5354,7 @@
           "type": "unused-export",
           "message": "Unused export: syncInvitationStatus (function)",
           "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 359,
+          "line": 361,
           "code": "export async function syncInvitationStatus(appointmentId: string): Promise<number> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5338,10 +5368,20 @@
           "code": "export interface CalendarEventResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: ServerTimeSlot (type)",
+          "file": "server/src/services/appointmentCalendarService.ts",
+          "line": 40,
+          "code": "export interface ServerTimeSlot {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
         }
       ],
-      "score": 9,
-      "priority": "P1"
+      "score": 12,
+      "priority": "P0"
     },
     {
       "repoPath": "server/src/services/appointmentSnapshotLoader.ts",
@@ -5396,6 +5436,23 @@
           "file": "server/src/services/calendarEventsCache.ts",
           "line": 210,
           "code": "export function clearEventsCache(): void {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/services/capacityComputer.ts",
+      "issues": [
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: ScheduledCapacityResult (type)",
+          "file": "server/src/services/capacityComputer.ts",
+          "line": 31,
+          "code": "export interface ScheduledCapacityResult {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
@@ -5504,7 +5561,7 @@
           "type": "unused-export",
           "message": "Unused export: AutocompleteResponse (type)",
           "file": "server/src/services/google/maps/mapsTypes.ts",
-          "line": 36,
+          "line": 33,
           "code": "export interface AutocompleteResponse {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
@@ -5677,14 +5734,24 @@
           "type": "unused-export",
           "message": "Unused export: sumWorkHoursForDateRange (function)",
           "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-          "line": 132,
+          "line": 133,
           "code": "export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {",
+          "suggestion": "Remove if unused or document why kept",
+          "fromPatternDetection": false
+        },
+        {
+          "severity": "warning",
+          "type": "unused-export",
+          "message": "Unused export: sumIncomeForDateRange (function)",
+          "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+          "line": 325,
+          "code": "export async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {",
           "suggestion": "Remove if unused or document why kept",
           "fromPatternDetection": false
         }
       ],
-      "score": 3,
-      "priority": "P2"
+      "score": 6,
+      "priority": "P1"
     },
     {
       "repoPath": "server/src/utils/envHelpers.ts",
@@ -5796,18 +5863,18 @@
     }
   ],
   "recommendations": [
-    "Found 198 unused export(s) - review for removal",
+    "Found 201 unused export(s) - review for removal",
     "Found 1 commented-out export(s) - review and clean up",
     "Found 42 unused function(s) - review for removal",
     "Found 3 TODO/FIXME marker(s) about unused code - review and clean up"
   ],
-  "summary": "Scanned 754 file(s) (531 client, 223 server). Found 244 issue(s): 198 unused exports, 1 commented exports, 42 unused functions, 3 TODO markers, 0 dead scripts",
+  "summary": "Scanned 764 file(s) (535 client, 229 server). Found 247 issue(s): 201 unused exports, 1 commented exports, 42 unused functions, 3 TODO markers, 0 dead scripts",
   "summaryData": {
-    "totalFiles": 754,
+    "totalFiles": 764,
     "skippedFilesCount": 0,
-    "filesWithIssues": 143,
-    "totalIssues": 244,
-    "unusedExports": 198,
+    "filesWithIssues": 144,
+    "totalIssues": 247,
+    "unusedExports": 201,
     "commentedExports": 1,
     "unusedFunctions": 42,
     "todoMarkers": 3,

@@ -7,10 +7,10 @@ Generated from `.audit-reports/pattern-detection-audit.json`.
 | Category | Count |
 | --- | ---: |
 | String literals (3+ occurrences) | 0 |
-| Type definitions | 555 |
+| Type definitions | 562 |
 | Enum patterns | 7 |
 | Config locations | 39 |
-| Function patterns | 396 |
+| Function patterns | 397 |
 | Common patterns | 24 |
 
 ## Top String Literals (by occurrence count)

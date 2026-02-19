@@ -1,26 +1,5 @@
 # Coverage-Risk Crossref Audit (Generated)
 
-Generated at: 2026-02-12T01:57:24.691Z
+Generated at: 2026-02-19T13:40:51.355Z
 
-## Summary
-
-- High fan-in untested: **9**
-- High fan-in tested: **10**
-- Coverage of critical files (fan-in ≥ 20): **53%**
-- Risk files (score ≥ 15): **11**
-
-## Top risk files (high fan-in, no or low coverage)
-
-| File | Fan-in | Has test | Exports | Risk score | Priority |
-| --- | ---: | --- | ---: | ---: | --- |
-| `client/src/constants/entities.ts` | 127 | No | 0 | 191 | P0 |
-| `client/src/types/entities.ts` | 127 | No | 0 | 191 | P0 |
-| `client/src/constants/primitives.ts` | 76 | No | 0 | 114 | P0 |
-| `client/src/types/appointment.ts` | 48 | No | 0 | 72 | P0 |
-| `client/src/constants/entityFieldConstants.ts` | 40 | No | 0 | 60 | P0 |
-| `client/src/types/entityMetadata.ts` | 33 | No | 0 | 50 | P0 |
-| `client/src/components/booking/types/selectionCardTypes.ts` | 32 | No | 0 | 48 | P0 |
-| `client/src/types/datetime.ts` | 29 | No | 5 | 44 | P0 |
-| `client/src/utils/api` | 25 | No | 0 | 38 | P0 |
-| `client/src/utils/logger.ts` | 69 | Yes | 2 | 21 | P1 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | 53 | Yes | 1 | 16 | P1 |
+**Coverage-risk is suppressed while tests are disabled.** Set `testsDisabled` to `false` in `client/.audit-reports/audit-global-config.json` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.

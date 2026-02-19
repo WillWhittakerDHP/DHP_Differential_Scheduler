@@ -10,11 +10,8 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 
 | File | Priority | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/relationships/relationshipConstants.ts` | P0 | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/admin/useBusinessRuleForm.ts` | P0 | 32 | 0 | 0 | 8 | 0 | 0 | 0 | 0 |
 | `server/src/services/brightMls/brightMlsApiClient.ts` | P0 | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/routesApiService.ts` | P0 | 22 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyConstants.ts` | P0 | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/placesApiService.ts` | P0 | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
@@ -23,13 +20,13 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `server/src/config/entityRegistry.ts` | P1 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/importCalendarData.ts` | P1 | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 2 |
 | `client/src/components/admin/generic/EntityCard.vue` | P1 | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/beta/BetaFeedbackModal.vue` | P1 | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavSearchBar.vue` | P1 | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/google/maps/mapsHelpers.ts` | P1 | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/beta/BetaFeedbackDashboard.vue` | P1 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/PropertyDetailsStep.vue` | P1 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | P1 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P1 | 13 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `client/src/components/beta/BetaFeedbackModal.vue` | P1 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/steps/ContactsStep.vue` | P1 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/constraintColors.ts` | P1 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | P1 | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
@@ -37,19 +34,15 @@ Generated from `.audit-reports/hardcoding-audit.json`.
 | `server/src/services/propertyFeatureMatcher.ts` | P1 | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavbarShortcuts.vue` | P1 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/InstancesTab.vue` | P1 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/external/googleOauthConstants.ts` | P1 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/beta-feedback/betaFeedbackConstants.ts` | P1 | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/admin/useFieldKeyboardGuard.ts` | P1 | 10 | 0 | 0 | 0 | 3 | 0 | 0 | 0 |
+| `client/src/composables/booking/useWizardAppointmentManagement.ts` | P1 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/services/mapsApiService.ts` | P1 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/views/admin/tabs/PropertyMappingsTab.vue` | P1 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/db/models/admin/adminMetadata.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/db/models/admin/adminPrimitiveMetadata.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/calendar/eventCreationService.ts` | P2 | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 222 more files. See full report for details.*
+*...and 217 more files. See full report for details.*
 
 ## Notes
 
-- This is a *signal* index. Use the full report for line-level matches and suggestions: `client/.audit-reports/hardcoding-audit.md`.
-
-## Hardcoding remediation
-
-- **Full report:** [hardcoding-audit.md](hardcoding-audit.md) (per-file P1/P2 suggestions and line-level matches).
-- **First-wave P1 focus (completed):** Rule-type case strings in `useBusinessRuleForm.ts` replaced with `RULE_TYPE_VALUES` from `businessRulesConstants`. Canonical server constants and Bright MLS client allowlisted in [hardcoding-audit-config.json](hardcoding-audit-config.json).
-- **First-wave files (top hotspots):** `relationshipConstants.ts`, `propertyConstants.ts`, `brightMlsApiClient.ts` (allowlisted where appropriate); `useBusinessRuleForm.ts` (P1 case strings fixed); remaining hotspots (e.g. `routesApiService.ts`, `placesApiService.ts`, `fieldLocationDispatcher.ts`) have P1 suggestions in the per-file section of the audit—apply incrementally or add targeted allowlist with `// @audit-allow:hardcoding:<ruleId> - <reason>` where intentional.
-- **Backlog:** Remaining ~950+ findings are incremental by file or by rule type. Re-run `npm run audit:conventions` (and conventions summary) after changes to refresh counts.
+- This is a *signal* index. Use the full report for line-level matches and suggestions: `client/.audit/hardcoding-audit.md`.

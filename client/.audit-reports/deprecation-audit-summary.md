@@ -2,18 +2,18 @@
 
 Generated from `.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **56**
-- Requiring review: **140**
+- Files with findings: **57**
+- Requiring review: **143**
 - Allowed exceptions: 47
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **140**
+- Runtime legacy accommodation: **143**
 
 ## Top 30 files (ranked by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/booking/confirmationStepData.ts` | P0 | 12 | 0 | 6 |
+| `client/src/utils/booking/confirmationStepData.ts` | P0 | 15 | 0 | 8 |
 | `client/src/types/admin/adminEntity.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useDependentInstances.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
@@ -44,7 +44,7 @@ Generated from `.audit-reports/deprecation-audit.json`.
 | `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 
-*...and 26 more files. See full report for details.*
+*...and 27 more files. See full report for details.*
 
 ## Notes
 
