@@ -6,7 +6,8 @@
  * PATTERN: Pure functions for complex logic
  */
 
-import type { RelationshipMetadataEntry } from '../../../utils/adminRelationshipMetadataComposer.js'
+import type { RelationshipMetadataEntry } from '../../../utils/adminRelationshipMetadataComposer.js';
+import { mapMetaFieldsToPayload } from '../../../utils/adminMetadataPayload.js';
 
 /**
  * Transform metadata array to record format
@@ -20,19 +21,7 @@ import type { RelationshipMetadataEntry } from '../../../utils/adminRelationship
 export function transformMetadataToRecord(metadata: RelationshipMetadataEntry[]): Record<string, unknown> {
   const metadataRecord: Record<string, unknown> = {}
   for (const meta of metadata) {
-    metadataRecord[meta.relationshipKey] = {
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: meta.inputConfig || null,
-    }
+    metadataRecord[meta.relationshipKey] = mapMetaFieldsToPayload(meta);
   }
   return metadataRecord
 }

@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-20T01:28:59.869Z
+Generated at: 2026-02-20T15:40:58.127Z
 
 ## Summary
 
-- Total outdated: **1**
-- Major behind: **0** | Minor: **0** | Patch: **1**
+- Total outdated: **5**
+- Major behind: **0** | Minor: **1** | Patch: **4**
 
 ## Major behind (top 20)
 
@@ -16,3 +16,4 @@ Generated at: 2026-02-20T01:28:59.869Z
 
 | Package | Dependent | Current | Latest |
 | --- | --- | --- | --- |
+| vuetify | client | 3.11.8 | 3.12.0 |

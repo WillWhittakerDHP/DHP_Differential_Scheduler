@@ -8,6 +8,10 @@ import {
   toRepoPath,
 } from './shared-audit-utils.mjs'
 
+const _paths = resolveAuditPaths('bundle-size-budget')
+const DIST_DIR = path.join(_paths.clientRoot, 'dist')
+const ASSETS_DIR = path.join(DIST_DIR, 'assets')
+
 /**
  * Bundle Size Budget Audit Script
  *
@@ -22,23 +26,6 @@ import {
  *   - client/.audit-reports/bundle-size-budget-audit.json
  *   - client/.audit-reports/bundle-size-budget-audit.md
  */
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const DIST_DIR = path.join(CLIENT_ROOT, 'dist')
-const ASSETS_DIR = path.join(DIST_DIR, 'assets')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'bundle-size-budget-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'bundle-size-budget-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'bundle-size-budget-audit-config.json')
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
 
 function loadConfig() {
   const defaults = {

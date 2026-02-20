@@ -1,141 +1,16 @@
 {
-  "generatedAt": "2026-02-19T23:20:19.274Z",
-  "totalScanned": 802,
+  "generatedAt": "2026-02-20T15:57:57.400Z",
+  "totalScanned": 777,
   "totals": {
-    "totalScanned": 802,
-    "totalMarkers": 28,
+    "totalScanned": 777,
+    "totalMarkers": 14,
     "fresh": 2,
     "aging": 0,
     "stale": 0,
-    "ancient": 26,
-    "orphaned": 28
+    "ancient": 12,
+    "orphaned": 14
   },
   "files": [
-    {
-      "repoPath": "server/src/middlewares/security.ts",
-      "markers": [
-        {
-          "lineNumber": 23,
-          "marker": "TODO",
-          "line": "* TODO: When authentication is implemented, add CSRF token validation:",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 33,
-          "marker": "TODO",
-          "line": "// TODO: Implement CSRF token validation when authentication is added",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 49,
-          "marker": "TODO",
-          "line": "* TODO: When authentication is implemented, add JWT/session verification:",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 60,
-          "marker": "TODO",
-          "line": "// TODO: Implement authentication verification when auth is added",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 77,
-          "marker": "TODO",
-          "line": "* TODO: When authentication is implemented, add ownership verification:",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 94,
-          "marker": "TODO",
-          "line": "// TODO: Implement ownership verification when authentication is added",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 42,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
-      "markers": [
-        {
-          "lineNumber": 157,
-          "marker": "TEMP",
-          "line": "* PATTERN: Get from currentEntity or form (for temp entities)",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 181,
-          "marker": "TEMP",
-          "line": "// PATTERN: Check if entityId is temp ID, then try to access form values",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 299,
-          "marker": "TEMP",
-          "line": "// PATTERN: Skip warning for temp entities, only warn for existing entities that should exist",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 363,
-          "marker": "TEMP",
-          "line": "// PATTERN: Get from currentEntity or form (for temp entities), similar to parentTypeRef logic",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 28,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
-      "markers": [
-        {
-          "lineNumber": 259,
-          "marker": "TODO",
-          "line": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 261,
-          "marker": "TODO",
-          "line": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 262,
-          "marker": "TODO",
-          "line": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is implemented",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 21,
-      "priority": "P0"
-    },
     {
       "repoPath": "client/src/utils/booking/PartFinal.ts",
       "markers": [
@@ -171,7 +46,7 @@
       "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
       "markers": [
         {
-          "lineNumber": 127,
+          "lineNumber": 128,
           "marker": "TEMP",
           "line": "* PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID",
           "category": "ancient",
@@ -186,7 +61,7 @@
       "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
       "markers": [
         {
-          "lineNumber": 57,
+          "lineNumber": 58,
           "marker": "TEMP",
           "line": "* PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID",
           "category": "ancient",
@@ -216,7 +91,7 @@
       "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
       "markers": [
         {
-          "lineNumber": 136,
+          "lineNumber": 137,
           "marker": "TODO",
           "line": "* TODO: Update to use orderIndex-based matching when AppointmentSlots are available",
           "category": "ancient",
@@ -294,21 +169,6 @@
           "lineNumber": 174,
           "marker": "XXX",
           "line": "* @returns Formatted phone number (XXX-XXX-XXXX) or null",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/services/appointmentCalendarService.ts",
-      "markers": [
-        {
-          "lineNumber": 363,
-          "marker": "TODO",
-          "line": "// TODO: Implement status sync from Google Calendar",
           "category": "ancient",
           "days": 999,
           "orphaned": true

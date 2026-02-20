@@ -1,12 +1,15 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # CSS Extraction Audit Summary (Generated)
 
-Generated from `.audit-reports/css-audit.json`.
+Generated from `client/.audit-reports/css-audit.json`.
 
-## Context
+- Files with findings: **18**
 
-- Total files with findings: 18
-
-## Top 18 files (ranked by score)
+## Top 18 files
 
 | File | Priority | score | large-style | empty | unscoped | inline-static | inline-dynamic | !important | :deep | magic-color | css-in-ts |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -31,4 +34,4 @@ Generated from `.audit-reports/css-audit.json`.
 
 ## Notes
 
-- This is a *signal* index. Use the full report for line-level matches: `client/.audit-reports/css-audit.md`.
+- This is a *signal* index. Use the full report: `client/.audit-reports/css-audit.md`.

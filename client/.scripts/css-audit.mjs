@@ -10,7 +10,6 @@ import {
   categorizeMatches,
   renderAllowedExceptionsSection,
   summarizeExceptions,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T00:49:00.624Z",
+  "generatedAt": "2026-02-20T15:41:26.662Z",
   "totalScanned": 777,
   "thresholds": {
     "components": 500,
@@ -378,6 +378,222 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/composables/admin/useEntityCardReadiness.ts",
+      "category": "composables",
+      "lineCount": 9,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCard.ts",
+      "category": "composables",
+      "lineCount": 3,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardComponent.ts",
+      "category": "composables",
+      "lineCount": 4,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardConfig.ts",
+      "category": "composables",
+      "lineCount": 4,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardGroupState.ts",
+      "category": "composables",
+      "lineCount": 3,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardHandlers.ts",
+      "category": "composables",
+      "lineCount": 4,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardState.ts",
+      "category": "composables",
+      "lineCount": 4,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useSelectionCardStyles.ts",
+      "category": "composables",
+      "lineCount": 4,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useFormFields.ts",
+      "category": "composables",
+      "lineCount": 5,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/configs/availabilitySettings.ts",
       "category": "general",
       "lineCount": 472,
@@ -468,162 +684,1314 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/admin/useEntityCardReadiness.ts",
+      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "category": "composables",
+      "lineCount": 53,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
+      "category": "composables",
+      "lineCount": 44,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useCrudDataTableModel.ts",
+      "category": "composables",
+      "lineCount": 200,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useBufferSettings.ts",
+      "category": "composables",
+      "lineCount": 268,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
+      "category": "composables",
+      "lineCount": 297,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useConditionalFieldVisibility.ts",
+      "category": "composables",
+      "lineCount": 87,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
+      "category": "composables",
+      "lineCount": 98,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityDisplay.ts",
+      "category": "composables",
+      "lineCount": 111,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityDragHandlers.ts",
+      "category": "composables",
+      "lineCount": 122,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityFormRedirectOptions.ts",
       "category": "composables",
       "lineCount": 9,
-      "exportCount": 0,
+      "exportCount": 1,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCard.ts",
+      "repoPath": "client/src/composables/admin/useEntityList.ts",
       "category": "composables",
-      "lineCount": 3,
-      "exportCount": 0,
+      "lineCount": 196,
+      "exportCount": 3,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardComponent.ts",
+      "repoPath": "client/src/composables/admin/useExpansionState.ts",
       "category": "composables",
-      "lineCount": 4,
-      "exportCount": 0,
+      "lineCount": 51,
+      "exportCount": 2,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardConfig.ts",
+      "repoPath": "client/src/composables/admin/useFieldInputSetup.ts",
       "category": "composables",
-      "lineCount": 4,
-      "exportCount": 0,
+      "lineCount": 75,
+      "exportCount": 2,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardGroupState.ts",
+      "repoPath": "client/src/composables/admin/useFieldKeyboardGuard.ts",
       "category": "composables",
-      "lineCount": 3,
-      "exportCount": 0,
+      "lineCount": 119,
+      "exportCount": 4,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardHandlers.ts",
+      "repoPath": "client/src/composables/admin/useFieldMetadataUpdate.ts",
       "category": "composables",
-      "lineCount": 4,
-      "exportCount": 0,
+      "lineCount": 89,
+      "exportCount": 2,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardState.ts",
+      "repoPath": "client/src/composables/admin/useInputConfigEditor.ts",
       "category": "composables",
-      "lineCount": 4,
-      "exportCount": 0,
+      "lineCount": 139,
+      "exportCount": 4,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/booking/useSelectionCardStyles.ts",
+      "repoPath": "client/src/composables/admin/useInstanceComposableOptions.ts",
       "category": "composables",
-      "lineCount": 4,
-      "exportCount": 0,
+      "lineCount": 12,
+      "exportCount": 1,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/useFormFields.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDeletion.ts",
       "category": "composables",
-      "lineCount": 5,
-      "exportCount": 0,
+      "lineCount": 30,
+      "exportCount": 2,
       "mixedConcerns": false,
-      "hasExports": false,
+      "hasExports": true,
       "violations": [
         {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useInstanceSaveHandlers.ts",
+      "category": "composables",
+      "lineCount": 34,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useInstanceTabHandlers.ts",
+      "category": "composables",
+      "lineCount": 43,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useMetadataFieldUpdates.ts",
+      "category": "composables",
+      "lineCount": 110,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceDeletion.ts",
+      "category": "composables",
+      "lineCount": 30,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceExpansion.ts",
+      "category": "composables",
+      "lineCount": 47,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useShapeDeletion.ts",
+      "category": "composables",
+      "lineCount": 52,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useShapeEditModal.ts",
+      "category": "composables",
+      "lineCount": 65,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useShapeSaveHandlers.ts",
+      "category": "composables",
+      "lineCount": 125,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useStatusButtonValue.ts",
+      "category": "composables",
+      "lineCount": 37,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useTabNavigation.ts",
+      "category": "composables",
+      "lineCount": 37,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/beta/useBetaFeedback.ts",
+      "category": "composables",
+      "lineCount": 66,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardConfig.ts",
+      "category": "composables",
+      "lineCount": 47,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts",
+      "category": "composables",
+      "lineCount": 127,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useApiCallStatus.ts",
+      "category": "composables",
+      "lineCount": 61,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "category": "composables",
+      "lineCount": 302,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAppointmentDuration.ts",
+      "category": "composables",
+      "lineCount": 59,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAppointmentShape.ts",
+      "category": "composables",
+      "lineCount": 124,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilityStepData.ts",
+      "category": "composables",
+      "lineCount": 85,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilityStepHandlers.ts",
+      "category": "composables",
+      "lineCount": 136,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBookingWizardStepValidators.ts",
+      "category": "composables",
+      "lineCount": 91,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useConfirmationStepData.ts",
+      "category": "composables",
+      "lineCount": 108,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useDurationRounding.ts",
+      "category": "composables",
+      "lineCount": 87,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useDynamicGridConfig.ts",
+      "category": "composables",
+      "lineCount": 53,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useInstanceComponentsList.ts",
+      "category": "composables",
+      "lineCount": 76,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useOptionTypeBlockSelection.ts",
+      "category": "composables",
+      "lineCount": 43,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/usePerspectiveMapping.ts",
+      "category": "composables",
+      "lineCount": 45,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/usePropertyTypeBlockSelection.ts",
+      "category": "composables",
+      "lineCount": 44,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/usePropertyValidation.ts",
+      "category": "composables",
+      "lineCount": 113,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useTimeBasisHandler.ts",
+      "category": "composables",
+      "lineCount": 42,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardStepContent.ts",
+      "category": "composables",
+      "lineCount": 38,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
+      "category": "composables",
+      "lineCount": 62,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardSubmission.ts",
+      "category": "composables",
+      "lineCount": 84,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardValidation.ts",
+      "category": "composables",
+      "lineCount": 50,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardValidationErrors.ts",
+      "category": "composables",
+      "lineCount": 122,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/types.ts",
+      "category": "composables",
+      "lineCount": 61,
+      "exportCount": 8,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/useBusinessDataCollectionActions.ts",
+      "category": "composables",
+      "lineCount": 47,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
+      "category": "composables",
+      "lineCount": 49,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/componentEntity/useComponentEntityDomain.ts",
+      "category": "composables",
+      "lineCount": 199,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudActions.ts",
+      "category": "composables",
+      "lineCount": 28,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
+      "category": "composables",
+      "lineCount": 33,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
+      "category": "composables",
+      "lineCount": 87,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/types.ts",
+      "category": "composables",
+      "lineCount": 59,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContext.ts",
+      "category": "composables",
+      "lineCount": 51,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextActions.ts",
+      "category": "composables",
+      "lineCount": 163,
+      "exportCount": 2,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
+      "category": "composables",
+      "lineCount": 199,
+      "exportCount": 6,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/formFields/types.ts",
+      "category": "composables",
+      "lineCount": 57,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/types.ts",
+      "category": "composables",
+      "lineCount": 51,
+      "exportCount": 8,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
+      "category": "composables",
+      "lineCount": 33,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts",
+      "category": "composables",
+      "lineCount": 40,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useApiErrorMessage.ts",
+      "category": "composables",
+      "lineCount": 43,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useCollectionTypes.ts",
+      "category": "composables",
+      "lineCount": 29,
+      "exportCount": 4,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useComponentEntity.ts",
+      "category": "composables",
+      "lineCount": 59,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useLocalTime.ts",
+      "category": "composables",
+      "lineCount": 344,
+      "exportCount": 5,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useSelectionCard.ts",
+      "category": "composables",
+      "lineCount": 16,
+      "exportCount": 1,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/composables/useTimeFormatting.ts",
+      "category": "composables",
+      "lineCount": 42,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`."
         }
       ],
       "score": 1,

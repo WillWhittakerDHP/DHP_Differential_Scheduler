@@ -1,9 +1,9 @@
-# Lint Audit Summary (Generated)
-
 **Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
 
 **When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
 
+
+# Lint Audit Summary (Generated)
 
 Generated from `lint-audit.json`.
 
@@ -11,8 +11,8 @@ Generated from `lint-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 574 |
-| Total findings | 0 |
+| Total scanned | 556 |
+| Findings | 0 |
 | Files with findings | 0 |
 
 ## By rule
@@ -20,6 +20,11 @@ Generated from `lint-audit.json`.
 | Rule | Count |
 | --- | ---: |
 
+## Top 0 files
+
+| File | Priority | Score |
+| --- | --- | ---: |
+
 ## Notes
 
-- Full report: `client/.audit-reports/lint-audit.md`
+- Full report: `client/.audit-reports/lint-audit.md`.

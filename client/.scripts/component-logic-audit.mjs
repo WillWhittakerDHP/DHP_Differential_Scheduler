@@ -2,12 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -50,6 +48,8 @@ const RULES = [
   { id: 'vueQuery', label: 'vue-query usage', test: (l) => /\buse(Query|Mutation|QueryClient)\b/.test(l) },
 ]
 
+// Tier 1: only these drive "requiring review" and score. Tier 2 = computed, ref, reactive, filter, sort, provideInject, vueQuery (inventory only).
+const TIER1_RULE_IDS = ['watch', 'watchEffect', 'async', 'await', 'map', 'reduce', 'dom', 'inlineConfig', 'console', 'alert']
 
 /**
  * @param {string} absPath
@@ -83,6 +83,11 @@ function normalizeLine(line) {
   return line.trimEnd()
 }
 
+// Skip provideInject when line is only an import (no usage).
+function isProvideInjectImportOnly(line) {
+  return /^\s*import\s+/.test(line) && /\b(provide|inject)\b/.test(line)
+}
+
 /**
  * @param {string[]} lines
  * @returns {{counts: Record<string, number>, matches: Array<{ruleId: string, lineNumber: number, line: string}>}}
@@ -99,6 +104,8 @@ function scanLines(lines) {
     const lineNumber = i + 1
     for (const rule of RULES) {
       if (rule.test(raw)) {
+        if (rule.id === 'computed' && isSimpleReactiveWrapper(raw, lines, i)) continue
+        if (rule.id === 'provideInject' && isProvideInjectImportOnly(raw)) continue
         counts[rule.id] += 1
         matches.push({ ruleId: rule.id, lineNumber, line: raw.trim() })
       }
@@ -125,20 +132,16 @@ function isSimpleReactiveWrapper(line, lines, lineIndex) {
   return isPropWrapper || isComposableParam
 }
 
-function calculateScore(counts, matches = [], lines = []) {
-  // Count simple reactive wrappers separately
-  const simpleWrapperCount = matches.filter(m => 
-    m.ruleId === 'computed' && isSimpleReactiveWrapper(m.line, lines, m.lineNumber - 1)
-  ).length
-  
-  // Reduce weight for simple wrappers (count as 0.3 instead of 1)
-  const effectiveComputedCount = (counts.computed || 0) - (simpleWrapperCount * 0.7)
-  
-  // Calculate severity score based on risky patterns
-  const riskKeys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'inlineConfig', 'console']
-  const baseScore = riskKeys.reduce((sum, k) => sum + (counts[k] || 0), 0)
-  
-  return baseScore + effectiveComputedCount
+function recalculateCounts(matches) {
+  const counts = Object.fromEntries(TIER1_RULE_IDS.map(id => [id, 0]))
+  for (const m of matches) {
+    if (counts[m.ruleId] !== undefined) counts[m.ruleId]++
+  }
+  return counts
+}
+
+function calculateScoreFromTier1(reviewCounts) {
+  return TIER1_RULE_IDS.reduce((sum, k) => sum + (reviewCounts[k] || 0), 0)
 }
 
 function assignPriority(score, config) {
@@ -151,12 +154,10 @@ function assignPriority(score, config) {
 }
 
 function compareCounts(a, b) {
-  // stable sort: most "risky" first
-  const aScore = calculateScore(a.counts, a.matches || [], a.lines || [])
-  const bScore = calculateScore(b.counts, b.matches || [], b.lines || [])
-
-  if (bScore !== aScore) return bScore - aScore
-  if (b.counts.computed !== a.counts.computed) return b.counts.computed - a.counts.computed
+  if (b.score !== a.score) return b.score - a.score
+  const aT1 = (a.requiresReview || []).length
+  const bT1 = (b.requiresReview || []).length
+  if (bT1 !== aT1) return bT1 - aT1
   return a.repoPath.localeCompare(b.repoPath)
 }
 
@@ -175,8 +176,8 @@ function renderMarkdownReport(files) {
     '',
     '## Top hotspots (by heuristic score)',
     '',
-    '| File | computed | watch | async/await | map/reduce | DOM | inline :config | console/alert |',
-    '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
+    '| File | watch | async/await | map/reduce | DOM | inline :config | console/alert |',
+    '| --- | ---: | ---: | ---: | ---: | ---: | ---: |',
   ]
 
   const top = files.slice(0, 25).map(f => {
@@ -232,8 +233,6 @@ function main() {
     path.join(paths.clientSrc, 'views'),
     path.join(paths.clientSrc, 'layouts'),
   ]
-  // Load exception config
-  const configAllowlist = loadCentralAllowlist('component-logic')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   // Load priority config
@@ -255,17 +254,18 @@ function main() {
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
-    
-    const score = calculateScore(counts, matches, lines)
+    const requiresReview = matches.filter(m => TIER1_RULE_IDS.includes(m.ruleId))
+    const reviewCounts = recalculateCounts(requiresReview)
+    const score = calculateScoreFromTier1(reviewCounts)
     const priority = assignPriority(score, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
       repoPath,
       absPath: abs,
-      counts,
+      counts: reviewCounts,
       matches,
-      lines,
+      requiresReview,
       score,
       priority,
     })
@@ -273,10 +273,15 @@ function main() {
 
   scanned.sort(compareCounts)
 
-  // Filter out zero-score files from JSON output to reduce report bloat
-  const filesWithFindings = scanned.filter(f => f.score > 0 || f.matches.length > 0)
+  const tier1FileCount = scanned.filter(f => (f.requiresReview || []).length > 0).length
+  const filesWithFindings = scanned.filter(f => f.score > 0 || (f.requiresReview || []).length > 0)
 
-  const jsonOutput = { generatedAt: new Date().toISOString(), totalScanned: scanned.length, files: filesWithFindings }
+  const jsonOutput = {
+    generatedAt: new Date().toISOString(),
+    totalScanned: scanned.length,
+    exceptionSummary: { totalRequiresReview: tier1FileCount },
+    files: filesWithFindings,
+  }
   if (delta.enabled) { jsonOutput.deltaMode = true; jsonOutput.baseRef = delta.baseRef }
   const { outJson, outMd } = writeAuditReports('component-logic', jsonOutput, renderMarkdownReport(filesWithFindings))
 

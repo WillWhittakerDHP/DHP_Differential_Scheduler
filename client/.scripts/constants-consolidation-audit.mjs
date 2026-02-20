@@ -9,7 +9,6 @@ import {
   toRepoPath as toRepoPathShared,
   categorizeMatches,
   summarizeExceptions,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
   renderAllowedExceptionsSection,
 } from './shared-audit-utils.mjs'
@@ -35,30 +34,16 @@ import {
  * - client/.audit-reports/constants-consolidation-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'constants-consolidation-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'constants-consolidation-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'constants-consolidation-audit-config.json')
-
+const _paths = resolveAuditPaths('constants-consolidation')
+const PROJECT_ROOT = _paths.projectRoot
+const CLIENT_SRC = _paths.clientSrc
+const SERVER_SRC = _paths.serverSrc
+const CONFIG_PATH = _paths.configPath
+const OUT_DIR = _paths.outDir
 const AUDIT_TYPE = 'constants-consolidation'
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
 function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+  return toRepoPathShared(absPath, PROJECT_ROOT)
 }
 
 function toStableId(repoPath) {

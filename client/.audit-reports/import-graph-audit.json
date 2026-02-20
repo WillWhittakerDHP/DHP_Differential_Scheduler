@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T00:48:29.149Z",
+  "generatedAt": "2026-02-20T15:40:59.157Z",
   "totalFiles": 777,
   "thresholds": {
     "maxFanOut": 40,
@@ -8,6 +8,48 @@
   "cycles": [],
   "fanOutViolations": [],
   "fanInViolations": [],
-  "crossBoundary": [],
-  "files": []
+  "crossBoundary": [
+    {
+      "from": "client/src/composables/useAdmin.ts",
+      "to": "client/src/composables/admin/useMetadataCache",
+      "direction": "composable-root->domain"
+    },
+    {
+      "from": "client/src/composables/useBookingWizard.ts",
+      "to": "client/src/composables/booking/useWizardFilteredOptions",
+      "direction": "composable-root->domain"
+    },
+    {
+      "from": "client/src/composables/useSelectOptions.ts",
+      "to": "client/src/composables/admin/useSelectDomTargets",
+      "direction": "composable-root->domain"
+    },
+    {
+      "from": "client/src/composables/useSelectionCard.ts",
+      "to": "client/src/composables/booking/useSelectionCard",
+      "direction": "composable-root->domain"
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/composables/useAdmin.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useBookingWizard.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useSelectOptions.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useSelectionCard.ts",
+      "score": 5,
+      "priority": "P2"
+    }
+  ]
 }

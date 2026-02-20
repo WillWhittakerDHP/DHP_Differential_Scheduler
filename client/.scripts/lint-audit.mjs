@@ -167,11 +167,11 @@ function main() {
 
   for (const fileResult of rawResults) {
     const filePathRaw = fileResult.filePath || ''
-    const repoPath = toRepoPath(filePathRaw)
+    const repoPath = toRepoPath(filePathRaw, paths.projectRoot, paths.clientRoot)
     if (isGloballyExcluded(repoPath)) continue
     totalScanned += 1
 
-    const inlineExceptions = getInlineExceptions(repoPath)
+    const inlineExceptions = getInlineExceptions(repoPath, paths.projectRoot)
 
     for (const msg of fileResult.messages || []) {
       const ruleId = msg.ruleId || 'unknown'

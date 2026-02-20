@@ -1,8 +1,13 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Function Complexity Audit Summary (Generated)
 
-Generated from `.audit-reports/function-complexity-audit.json`.
+Generated from `client/.audit-reports/function-complexity-audit.json`.
 
-- Files with complex functions: **328**
+- Files with complex functions: **322**
 
 ## Top 30 files
 
@@ -13,7 +18,6 @@ Generated from `.audit-reports/function-complexity-audit.json`.
 | `server/src/services/propertyFeatureMatcher.ts` | P0 | 20 | 3 | 9 | 34 |
 | `server/src/services/google/maps/placesApiService.ts` | P0 | 19 | 3 | 8 | 43 |
 | `server/src/services/google/maps/routesApiService.ts` | P0 | 19 | 2 | 12 | 97 |
-| `server/src/utils/userTypeMapping.ts` | P0 | 19 | 3 | 11 | 45 |
 | `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 18 | 3 | 8 | 28 |
 | `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 18 | 3 | 15 | 82 |
 | `server/src/services/slotComputationService.ts` | P0 | 18 | 3 | 5 | 81 |
@@ -37,6 +41,7 @@ Generated from `.audit-reports/function-complexity-audit.json`.
 | `client/src/utils/transformers/composePropertyValue.ts` | P0 | 12 | 2 | 15 | 81 |
 | `server/src/services/computedAvailabilityService.ts` | P0 | 12 | 3 | 9 | 105 |
 | `client/src/components/booking/plugins/wizardStatePlugin.ts` | P1 | 11 | 1 | 18 | 92 |
-| `client/src/composables/_archived/useFieldMetadata.ts` | P1 | 11 | 1 | 20 | 171 |
+| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | P1 | 11 | 1 | 9 | 111 |
+| `client/src/composables/admin/useAttendeeQuickSelect.ts` | P1 | 11 | 1 | 10 | 116 |
 
-*...and 298 more files.*
+*...and 292 more. See full report.*

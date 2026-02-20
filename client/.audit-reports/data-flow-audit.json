@@ -1,15 +1,163 @@
 {
-  "generatedAt": "2026-02-19T23:20:19.619Z",
-  "totalScanned": 0,
+  "generatedAt": "2026-02-20T15:57:55.745Z",
+  "totalScanned": 105,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 10,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "files": [],
-  "scanned": []
+  "files": [
+    {
+      "repoPath": "server/src/routes/helpers/requestHelpers.ts",
+      "score": 6,
+      "priority": "P2",
+      "count": 2
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "score": 6,
+      "priority": "P2",
+      "count": 2
+    },
+    {
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/external/mapsRoutes.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/external/propertyEnrichmentRoutes.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    }
+  ],
+  "scanned": [
+    {
+      "repoPath": "server/src/routes/external/calendarRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqBodyUnvalidated",
+          "lineNumber": 75,
+          "line": "} = req.body;"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqQueryUnvalidated",
+          "lineNumber": 50,
+          "line": "const { code, error } = req.query;"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/external/mapsRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqQueryUnvalidated",
+          "lineNumber": 65,
+          "line": "const { input, sessionToken } = req.query"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqQueryUnvalidated",
+          "lineNumber": 37,
+          "line": "logger.debug('Query params:', JSON.stringify(req.query))"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/external/propertyEnrichmentRoutes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqQueryUnvalidated",
+          "lineNumber": 61,
+          "line": "const addressParam = req.query.address;"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/helpers/requestHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqParamsUnvalidated",
+          "lineNumber": 4,
+          "line": "* WHY: Express typings (and runtime) can give req.params[key] and req.query[key]"
+        },
+        {
+          "ruleId": "reqQueryUnvalidated",
+          "lineNumber": 4,
+          "line": "* WHY: Express typings (and runtime) can give req.params[key] and req.query[key]"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqParamsUnvalidated",
+          "lineNumber": 31,
+          "line": "const { blockInstanceId, annotationId } = req.params"
+        },
+        {
+          "ruleId": "reqBodyUnvalidated",
+          "lineNumber": 32,
+          "line": "const { userTypeBlockInstanceId } = req.body"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqBodyUnvalidated",
+          "lineNumber": 33,
+          "line": "const orderIndex = req.body.orderIndex ?? req.body.order_index"
+        }
+      ]
+    }
+  ]
 }

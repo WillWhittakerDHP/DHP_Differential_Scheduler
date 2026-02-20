@@ -7,7 +7,6 @@ import {
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
   renderAllowedExceptionsSection,
@@ -117,6 +116,40 @@ function checkExports(content, repoPath, lineOffset) {
   return matches.map(({ ruleId, lineNumber, line }) => ({ ruleId, lineNumber, line }))
 }
 
+function checkComposableSemanticNaming(content, repoPath, lineOffset) {
+  if (!repoPath.includes('/composables/')) return []
+  const matches = []
+  const hasReactive = /\b(computed|ref|watch)\s*\(/.test(content) || /\buse(Query|Mutation)\b/.test(content)
+  const hasWatchers = /\bwatch\s*\(/.test(content) || /\bwatchEffect\s*\(/.test(content)
+
+  EXPORT_FUNCTION_RE.lastIndex = 0
+  let m
+  while ((m = EXPORT_FUNCTION_RE.exec(content)) !== null) {
+    const name = m[1]
+    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
+    if (!USE_PREFIX.test(name)) continue
+    if (/use.*(Model|ViewModel)$/i.test(name) && !hasReactive) {
+      matches.push({ ruleId: 'composableSemanticModel', lineNumber: lineNum, line: `Export ${name}: name implies reactive but file appears non-reactive` })
+    }
+    if (name.includes('Config') && hasWatchers) {
+      matches.push({ ruleId: 'composableSemanticConfig', lineNumber: lineNum, line: `Export ${name}: name implies pure config but file uses watchers` })
+    }
+  }
+  EXPORT_CONST_RE.lastIndex = 0
+  while ((m = EXPORT_CONST_RE.exec(content)) !== null) {
+    const name = m[1]
+    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
+    if (!USE_PREFIX.test(name)) continue
+    if (/use.*(Model|ViewModel)$/i.test(name) && !hasReactive) {
+      matches.push({ ruleId: 'composableSemanticModel', lineNumber: lineNum, line: `Export ${name}: name implies reactive but file appears non-reactive` })
+    }
+    if (name.includes('Config') && hasWatchers) {
+      matches.push({ ruleId: 'composableSemanticConfig', lineNumber: lineNum, line: `Export ${name}: name implies pure config but file uses watchers` })
+    }
+  }
+  return matches
+}
+
 function renderMarkdownReport(scanned, exceptionSummary) {
   const lines = []
   lines.push(...getAuditReportHeaderLines())
@@ -169,10 +202,12 @@ function main() {
     const fileName = path.basename(abs)
     const fileViolations = checkFileName(repoPath, fileName)
     const exportMatches = checkExports(content, repoPath, 0)
+    const composableSemanticMatches = checkComposableSemanticNaming(content, repoPath, 0)
 
     const matches = [
       ...fileViolations.map(v => ({ ruleId: v.ruleId, lineNumber: v.lineNumber, line: v.message })),
       ...exportMatches,
+      ...composableSemanticMatches,
     ]
     if (matches.length === 0) continue
 

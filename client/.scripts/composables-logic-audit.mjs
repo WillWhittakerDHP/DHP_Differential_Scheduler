@@ -2,22 +2,18 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath,
-  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
  *
- * Goal: produce a deterministic inventory of composable hotspots + suggestions to:
- * - eliminate redundancies (overlap/dup candidates)
- * - introduce naming regularity
- * - place composables in the right folders (admin/booking/root) or utils/
- * - reduce complexity/opacity (split "god" composables, separate query/actions/state)
+ * Goal: identify composable complexity hotspots and suggest splits (state/actions/query
+ * separation). Structural concerns (placement, naming, redundancy) are handled by
+ * import-graph, naming-convention, and duplication audits respectively.
  *
  * Scope:
  * - Included: `client/src/composables/` (TypeScript/JavaScript composables)
@@ -32,7 +28,6 @@ import {
  *
  * Notes:
  * - This is a fast line-based scan + lightweight heuristics.
- * - It intentionally over-flags; the report is a starting point for a deep refactor plan.
  */
 
 const _paths = resolveAuditPaths('composables-logic')
@@ -68,10 +63,6 @@ const RULES = [
   { id: 'console', label: 'console.*', test: (l) => /\bconsole\.(log|warn|error|debug)\b/.test(l) },
 ]
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
 function toRepoPathLocal(absPath) {
   return toRepoPath(absPath, _paths.projectRoot)
 }
@@ -88,6 +79,11 @@ function normalizeLine(line) {
   return line.trimEnd()
 }
 
+// Vue Query usage is expected in composables; skip from match list (permissible).
+function isPermissibleComposableMatch(ruleId) {
+  return ruleId === 'vueQuery'
+}
+
 function scanLines(lines) {
   /** @type {Record<string, number>} */
   const counts = Object.fromEntries(RULES.map(r => [r.id, 0]))
@@ -101,6 +97,7 @@ function scanLines(lines) {
     for (const rule of RULES) {
       if (rule.test(raw)) {
         counts[rule.id] += 1
+        if (isPermissibleComposableMatch(rule.id)) continue
         matches.push({ ruleId: rule.id, lineNumber, line: raw.trim() })
       }
     }
@@ -117,15 +114,6 @@ function extractExportedUseFunctions(contents) {
   let m
   while ((m = functionRegex.exec(contents)) !== null) out.add(m[1])
   while ((m = constRegex.exec(contents)) !== null) out.add(m[1])
-  return Array.from(out.values()).sort()
-}
-
-function extractImportSpecifiers(contents) {
-  // best-effort: extract module specifiers from "from '...'"
-  const out = new Set()
-  const importRegex = /\bfrom\s+['"]([^'"]+)['"]/g
-  let m
-  while ((m = importRegex.exec(contents)) !== null) out.add(m[1])
   return Array.from(out.values()).sort()
 }
 
@@ -148,34 +136,19 @@ function extractReturnKeys(contents) {
   return Array.from(keys.values()).sort()
 }
 
-function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
+function classifyFile(repoPath, counts) {
   const suggestions = []
 
-  const inAdmin = repoPath.includes('/src/composables/admin/')
-  const inBooking = repoPath.includes('/src/composables/booking/')
-  const inRoot = repoPath.includes('/src/composables/') && !inAdmin && !inBooking
-
-  // Heuristic: pure helper candidates (no reactive, no query, no lifecycle)
   const reactiveCount = (counts.ref || 0) + (counts.computed || 0) + (counts.watch || 0) + (counts.watchEffect || 0) + (counts.reactive || 0)
   const orchestrationCount = (counts.async || 0) + (counts.await || 0) + (counts.vueQuery || 0) + (counts.lifecycle || 0) + (counts.timers || 0) + (counts.dom || 0)
-
-  const looksPure = reactiveCount === 0 && orchestrationCount === 0
-  if (looksPure) {
-    suggestions.push({
-      kind: 'move_candidate',
-      priority: 'P1',
-      message: 'Looks like a pure helper module (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/` and exporting non-`use*` helpers.',
-    })
-  }
 
   // Heuristic: "god composable" / opacity risk
   // Vue Query usage is the correct pattern, not complexity - reduce its weight
   const vueQueryCount = counts.vueQuery || 0
-  const vueQueryWeight = vueQueryCount * 0.5 // Count Vue Query as 0.5x instead of full weight
-  
+  const vueQueryWeight = vueQueryCount * 0.5
   const dataShaping = (counts.map || 0) + (counts.reduce || 0) + (counts.filter || 0) + (counts.sort || 0)
   const complexityScore = reactiveCount + (orchestrationCount - vueQueryCount) + dataShaping + vueQueryWeight
-  
+
   if (complexityScore >= 35) {
     suggestions.push({
       kind: 'split_candidate',
@@ -190,57 +163,11 @@ function classifyFile(repoPath, counts, exportUseFns, importSpecifiers) {
     })
   }
 
-  // Naming regularity suggestions
-  for (const fn of exportUseFns) {
-    if (/use.*(Model|ViewModel)$/i.test(fn) && !(counts.computed || counts.ref || counts.watch || counts.vueQuery)) {
-      suggestions.push({
-        kind: 'naming',
-        priority: 'P2',
-        message: `Export \`${fn}\` ends with Model/ViewModel but file appears non-reactive; consider renaming to a pure helper or moving logic into a real view-model composable.`,
-      })
-    }
-    if (fn.includes('Config') && (counts.watch || 0) > 0) {
-      suggestions.push({
-        kind: 'naming',
-        priority: 'P1',
-        message: `\`${fn}\` suggests "Config" but uses watchers. Consider splitting: keep config builders pure and move watchers/orchestration elsewhere.`,
-      })
-    }
-  }
-
-  // Placement suggestions: if a root composable heavily imports booking/admin modules, suggest moving.
-  const importsText = importSpecifiers.join(' ')
-  const importsAdmin = /@\/composables\/admin\//.test(importsText) || /\badmin\//.test(importsText)
-  const importsBooking = /@\/composables\/booking\//.test(importsText) || /\bbooking\//.test(importsText)
-
-  if (inRoot && importsAdmin) {
-    suggestions.push({
-      kind: 'placement',
-      priority: 'P1',
-      message: 'Root composable imports admin-specific modules. Consider moving under `src/composables/admin/` to reduce cross-surface coupling.',
-    })
-  }
-  if (inRoot && importsBooking) {
-    suggestions.push({
-      kind: 'placement',
-      priority: 'P1',
-      message: 'Root composable imports booking-specific modules. Consider moving under `src/composables/booking/` to keep domains isolated.',
-    })
-  }
-
   if ((counts.dom || 0) > 0) {
     suggestions.push({
       kind: 'side_effects',
       priority: 'P0',
       message: 'Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.',
-    })
-  }
-
-  if ((counts.console || 0) >= 3) {
-    suggestions.push({
-      kind: 'logging',
-      priority: 'P2',
-      message: 'Heavy console logging detected. Consider routing logs through a single debug logger utility (or guard behind a single flag).',
     })
   }
 
@@ -264,38 +191,7 @@ function compareHotspots(a, b) {
   return a.repoPath.localeCompare(b.repoPath)
 }
 
-function findOverlapGroups(files) {
-  // Group by export function names and by return-key signatures.
-  /** @type {Record<string, string[]>} */
-  const byExportFn = {}
-  /** @type {Record<string, string[]>} */
-  const byReturnKeys = {}
-
-  for (const f of files) {
-    for (const fn of f.exportUseFunctions) {
-      byExportFn[fn] = byExportFn[fn] || []
-      byExportFn[fn].push(f.repoPath)
-    }
-
-    const keySig = f.returnKeys.length >= 6 ? f.returnKeys.join('|') : null
-    if (keySig) {
-      byReturnKeys[keySig] = byReturnKeys[keySig] || []
-      byReturnKeys[keySig].push(f.repoPath)
-    }
-  }
-
-  const duplicateExportNames = Object.entries(byExportFn)
-    .filter(([, paths]) => paths.length >= 2)
-    .map(([fn, paths]) => ({ fn, paths: paths.sort() }))
-
-  const overlappingReturnShapes = Object.entries(byReturnKeys)
-    .filter(([, paths]) => paths.length >= 2)
-    .map(([sig, paths]) => ({ sig, paths: paths.sort() }))
-
-  return { duplicateExportNames, overlappingReturnShapes }
-}
-
-function renderMarkdownReport(files, overlap) {
+function renderMarkdownReport(files) {
   const lines = []
   lines.push(...getAuditReportHeaderLines())
   lines.push('# Composables Logic Audit (Generated)')
@@ -322,43 +218,11 @@ function renderMarkdownReport(files, overlap) {
   }
   lines.push('')
 
-  lines.push('## Redundancy candidates (heuristic)')
-  lines.push('')
-  lines.push('### Duplicate exported composable names')
-  lines.push('')
-  if (overlap.duplicateExportNames.length === 0) {
-    lines.push('- (none detected)')
-  } else {
-    for (const g of overlap.duplicateExportNames) {
-      lines.push(`- **\`${g.fn}\`**`)
-      for (const p of g.paths) lines.push(`  - \`${p}\``)
-    }
-  }
-  lines.push('')
-
-  lines.push('### Similar return “shapes” (same returned keys)')
-  lines.push('')
-  lines.push('LEARNING: This is a strong signal for consolidation when the files are in the same domain and differ only by API hooks.')
-  lines.push('')
-  if (overlap.overlappingReturnShapes.length === 0) {
-    lines.push('- (none detected)')
-  } else {
-    const topGroups = overlap.overlappingReturnShapes.slice(0, 15)
-    for (const g of topGroups) {
-      lines.push(`- **Return keys**: \`${g.sig.split('|').slice(0, 10).join(', ')}${g.sig.split('|').length > 10 ? ', …' : ''}\``)
-      for (const p of g.paths) lines.push(`  - \`${p}\``)
-    }
-    if (overlap.overlappingReturnShapes.length > topGroups.length) {
-      lines.push(`- … (${overlap.overlappingReturnShapes.length - topGroups.length} more groups omitted)`)
-    }
-  }
-  lines.push('')
-
   lines.push('## Per-file suggestions (actionable)')
   lines.push('')
   lines.push('Legend:')
   lines.push('- **P0**: fix soon (architecture/side-effect risk)')
-  lines.push('- **P1**: high leverage cleanup (dup/placement/naming)')
+  lines.push('- **P1**: high leverage cleanup (split / side effects)')
   lines.push('- **P2**: polish / consistency')
   lines.push('')
 
@@ -413,9 +277,6 @@ function renderMarkdownReport(files, overlap) {
 }
 
 function main() {
-  // Load exception config
-  const configAllowlist = loadCentralAllowlist('composables-logic')
-
   // Load priority config
   let priorityConfig = {}
   try {
@@ -434,9 +295,8 @@ function main() {
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
     const exportUseFunctions = extractExportedUseFunctions(contents)
-    const importSpecifiers = extractImportSpecifiers(contents)
     const returnKeys = extractReturnKeys(contents)
-    const { complexityScore, suggestions } = classifyFile(repoPath, counts, exportUseFunctions, importSpecifiers)
+    const { complexityScore, suggestions } = classifyFile(repoPath, counts)
     const filePriority = assignPriority(complexityScore, priorityConfig)
 
     scanned.push({
@@ -446,7 +306,6 @@ function main() {
       counts,
       matches,
       exportUseFunctions,
-      importSpecifiers,
       returnKeys,
       complexityScore,
       priority: filePriority,
@@ -456,7 +315,10 @@ function main() {
 
   scanned.sort(compareHotspots)
 
-  const overlap = findOverlapGroups(scanned)
+  // Tier 1: only split_candidate and side_effects suggestions drive "requiring review" (for meta report).
+  const tier1Count = scanned.filter(f =>
+    f.suggestions.some(s => s.kind === 'split_candidate' || s.kind === 'side_effects')
+  ).length
 
   // Filter out zero-score files from JSON output to reduce report bloat
   const filesWithFindings = scanned.filter(f => f.complexityScore > 0 || f.matches.length > 0)
@@ -467,11 +329,11 @@ function main() {
       excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*'],
     },
     totalScanned: scanned.length,
-    overlap,
+    exceptionSummary: { totalRequiresReview: tier1Count },
     files: filesWithFindings,
   }
 
-  const { outJson, outMd } = writeAuditReports('composables-logic', payload, renderMarkdownReport(scanned, overlap))
+  const { outJson, outMd } = writeAuditReports('composables-logic', payload, renderMarkdownReport(scanned))
 
   console.log(`Wrote:\n- ${toRepoPathLocal(outJson)}\n- ${toRepoPathLocal(outMd)}\nFiles scanned: ${scanned.length}`)
 }

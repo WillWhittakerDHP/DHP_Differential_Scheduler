@@ -6,6 +6,8 @@
  * PATTERN: Const objects with categorized constants
  */
 
+import { DEFAULT_PROPERTY_SOURCE } from '../../../../../shared/constants/propertyConstants.js'
+
 /**
  * Block shape names used in property validation
  * LEARNING: Block shape names are validated against these constants
@@ -43,6 +45,7 @@ export const ERROR_MESSAGES = {
   PROPERTY_TYPE_ALREADY_ASSIGNED: 'Property type already assigned to this property version',
   
   // Validation errors
+  INVALID_PATCH_BODY: 'Invalid PATCH body: only allowed property detail fields may be updated',
   MISSING_REQUIRED_FIELDS: 'Missing required fields',
   MISSING_BLOCK_INSTANCE_ID: 'Missing required field: blockInstanceId',
   BLOCK_INSTANCE_NOT_FOUND: 'Block instance not found',
@@ -62,7 +65,44 @@ export const REQUIRED_FIELDS = {
   PROPERTY_TYPE: ['blockInstanceId'] as const,
 } as const
 
-import { DEFAULT_PROPERTY_SOURCE } from '../../../../../shared/constants/propertyConstants.js'
+/**
+ * Allowed fields for PATCH property details (mass-assignment safety)
+ * LEARNING: Only these keys are accepted from req.body for partial updates
+ * WHY: Prevents arbitrary field injection; matches PropertyDetails updatable columns
+ */
+export const PATCH_PROPERTY_DETAILS_FIELDS = [
+  'mlsNumber',
+  'squareFootage',
+  'bedrooms',
+  'bathrooms',
+  'foundationAccess',
+  'additionalUnits',
+  'source',
+] as const
+
+/**
+ * PATCH field key constants for switch/case (hardcoding audit)
+ * LEARNING: Use in validators instead of string literals in case clauses
+ */
+export const PATCH_PROPERTY_FIELD_KEY = {
+  MLS_NUMBER: 'mlsNumber',
+  SQUARE_FOOTAGE: 'squareFootage',
+  BEDROOMS: 'bedrooms',
+  BATHROOMS: 'bathrooms',
+  FOUNDATION_ACCESS: 'foundationAccess',
+  ADDITIONAL_UNITS: 'additionalUnits',
+  SOURCE: 'source',
+} as const
+
+/**
+ * Valid foundationAccess enum values for PropertyDetails
+ */
+export const FOUNDATION_ACCESS_VALUES = ['basement', 'crawlspace', 'slab'] as const
+
+/**
+ * Valid source enum values for PropertyDetails (api, manual, client)
+ */
+export const PROPERTY_SOURCE_VALUES = ['api', 'manual', DEFAULT_PROPERTY_SOURCE] as const
 
 /**
  * Default values for property operations

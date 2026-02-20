@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-02-19T23:20:12.169Z",
+  "generatedAt": "2026-02-20T15:41:29.211Z",
   "check": "Deprecation",
-  "totalScanned": 802,
+  "totalScanned": 777,
   "exceptionSummary": {
-    "totalAllowed": 47,
-    "totalRequiresReview": 143,
+    "totalAllowed": 46,
+    "totalRequiresReview": 137,
     "bySource": {
       "inline": 4,
-      "pattern": 31,
+      "pattern": 30,
       "specific": 12
     }
   },
@@ -76,31 +76,31 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 75,
+          "lineNumber": 76,
           "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 76,
+          "lineNumber": 77,
           "line": "const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 174,
+          "lineNumber": 175,
           "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 177,
+          "lineNumber": 178,
           "line": "const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 196,
+          "lineNumber": 197,
           "line": "return Object.keys(this.displayConfig?.relationships ?? {})",
           "section": "legacy-accommodation"
         }
@@ -208,39 +208,6 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__utils__eventAttendeeUtils.ts",
-      "repoPath": "client/src/utils/eventAttendeeUtils.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 31,
-          "line": "const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 35,
-          "line": "const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 90,
-          "line": "const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]",
-          "section": "legacy-accommodation"
-        },
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 94,
-          "line": "const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 8,
-      "priority": "P1"
-    },
-    {
       "id": "client__src__components__admin__InstanceBulkEditModal.vue",
       "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
       "allowed": [],
@@ -328,19 +295,19 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "const componentRelationships = globalData.relationships.instanceComponents || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 144,
+          "lineNumber": 145,
           "line": "const componentRelationships = globalData.relationships.instanceComponents || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 148,
+          "lineNumber": 149,
           "line": "globalData.entities[entityKey] || [],",
           "section": "legacy-accommodation"
         }
@@ -355,19 +322,19 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 74,
+          "lineNumber": 75,
           "line": "} = options || {}",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "return (propValue as ValidAdminValue | undefined) ?? ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 203,
+          "lineNumber": 204,
           "line": "initialValue: (initialValue ?? '') as ValidAdminValue,",
           "section": "legacy-accommodation"
         }
@@ -883,19 +850,19 @@
       "requiresReview": [
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 100,
+          "lineNumber": 101,
           "line": "const moveableDuration = moveableEventFinal?.roundedDuration ?? 0",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "chaining-fallback",
-          "lineNumber": 108,
+          "lineNumber": 109,
           "line": "return moveableEventFinal?.roundedDuration ?? 0",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []",
           "section": "legacy-accommodation"
         }
@@ -961,13 +928,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 28,
+          "lineNumber": 29,
           "line": "const stack = new Error().stack || ''",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 102,
+          "lineNumber": 103,
           "line": "return entities ?? []",
           "section": "legacy-accommodation"
         }
@@ -1002,7 +969,7 @@
       "allowed": [
         {
           "ruleId": "compat-marker",
-          "lineNumber": 79,
+          "lineNumber": 80,
           "line": "// Transform GlobalRelationship[] to FetchedRelationship[] for backward compatibility",
           "section": "annotation",
           "reason": "Deprecation tracked; removal in future sprint",
@@ -1012,13 +979,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 108,
+          "lineNumber": 109,
           "line": "const currentRelationships = old.relationships[relationshipKey] || []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-or",
-          "lineNumber": 200,
+          "lineNumber": 201,
           "line": "const currentRelationships = old.relationships[relationshipKey] || []",
           "section": "legacy-accommodation"
         }
@@ -1054,13 +1021,13 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 118,
+          "lineNumber": 119,
           "line": "const majorAttendeeIds = differentialPerspectives.majorAttendees ?? []",
           "section": "legacy-accommodation"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 119,
+          "lineNumber": 120,
           "line": "const minorAttendeeIds = differentialPerspectives.minorAttendees ?? []",
           "section": "legacy-accommodation"
         }
@@ -1069,20 +1036,20 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__utils__optimistic__listByIdOptimistic.ts",
-      "repoPath": "client/src/utils/optimistic/listByIdOptimistic.ts",
+      "id": "client__src__utils__eventAttendeeUtils.ts",
+      "repoPath": "client/src/utils/eventAttendeeUtils.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 20,
-          "line": "const current = items ?? []",
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 18,
+          "line": "const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]",
           "section": "legacy-accommodation"
         },
         {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 32,
-          "line": "const current = items ?? []",
+          "ruleId": "unhelpful-default-or",
+          "lineNumber": 22,
+          "line": "const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]",
           "section": "legacy-accommodation"
         }
       ],
@@ -1237,7 +1204,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 225,
+          "lineNumber": 226,
           "line": "selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],",
           "section": "legacy-accommodation"
         }
@@ -1340,21 +1307,6 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__scripts__run-migrations.mjs",
-      "repoPath": "server/src/scripts/run-migrations.mjs",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-or",
-          "lineNumber": 57,
-          "line": ": executedMigrationsResult[0] || []",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "id": "server__src__services__propertyFieldMapper.ts",
       "repoPath": "server/src/services/propertyFieldMapper.ts",
       "allowed": [],
@@ -1378,21 +1330,6 @@
           "ruleId": "chaining-fallback",
           "lineNumber": 118,
           "line": "dataSource: dataSource?.value ?? 'real',",
-          "section": "legacy-accommodation"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__middlewares__security.ts",
-      "repoPath": "server/src/middlewares/security.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "default-param",
-          "lineNumber": 117,
-          "line": "export function requireSecureAccess(modelName: string, paramKey: string = 'id') {",
           "section": "legacy-accommodation"
         }
       ],

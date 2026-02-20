@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
@@ -9,7 +8,6 @@ import {
   toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -35,6 +33,11 @@ import {
  * Notes:
  * - Intentionally line-based and heuristic (fast + deterministic).
  * - This audit should never fail CI; it reports signals for manual cleanup.
+ *
+ * Tiers: Tier 1 = matches that participate in a forEach→mutation hit (counted in requiring review and score).
+ * Tier 2 = all other matches (not counted in main queue or score).
+ * Permissible: assignProp (and optionally assignIndex) lines matching ref.value, spread, Set/Map, Array.from,
+ * .value = filter/map/reduce, store/state, DOM, theme are filtered at scan time and never reach allowlist or requiring review.
  */
 
 const AUDIT_TYPE = 'loop-mutation'
@@ -87,6 +90,27 @@ function normalizeLine(line) {
   return line.trimEnd()
 }
 
+/**
+ * Excluded patterns: ref.value, spread, Set/Map, Array.from, .value = filter/map/reduce, store/state, DOM, themeConfig.
+ * When true, the line is not counted and not pushed to matches (used at scan time for assignProp).
+ */
+function isPermissibleLoopMutation(line, ruleId) {
+  if (ruleId !== 'assignProp') return false
+  const t = line.trim()
+  if (/\.value\s*=/.test(t)) return true
+  if (/v-model|@\w+|:[\w-]+=/.test(t)) return true
+  if (/\.(add|set|delete|clear|has)\s*\(/.test(t)) return true
+  if (/\[.*\.\.\..*\]/.test(t)) return true
+  if (/\{.*\.\.\..*\}/.test(t)) return true
+  if (/\.value\s*=\s*.*\.(filter|map|reduce|flatMap)\s*\(/.test(t)) return true
+  if (/Array\.from\s*\(/.test(t)) return true
+  if (/store.*\.value\s*=|\.state\.\w+\s*=/.test(t)) return true
+  if (/new\s+(Map|Set|WeakMap|WeakSet)\s*\(/.test(t)) return true
+  if (/MutationObserver|querySelector|appendChild|removeChild/.test(t)) return true
+  if (/themeConfig|themes\.value|colors\[/.test(t)) return true
+  return false
+}
+
 function scanLines(lines) {
   /** @type {Record<string, number>} */
   const counts = Object.fromEntries(RULES.map(r => [r.id, 0]))
@@ -99,6 +123,7 @@ function scanLines(lines) {
     const lineNumber = i + 1
     for (const rule of RULES) {
       if (rule.test(raw)) {
+        if (rule.id === 'assignProp' && isPermissibleLoopMutation(raw, rule.id)) continue
         counts[rule.id] += 1
         matches.push({ ruleId: rule.id, lineNumber, line: raw.trim() })
       }
@@ -310,7 +335,7 @@ function renderMarkdownReport(files, exceptionSummary) {
     }
   }
 
-  lines.push('## Per-file matches (line-level)')
+  lines.push('## Per-file matches requiring review (Tier 1)')
   lines.push('')
   lines.push('Legend: `ruleId@lineNumber: line`')
   lines.push('')
@@ -319,23 +344,23 @@ function renderMarkdownReport(files, exceptionSummary) {
     lines.push(`### \`${f.repoPath}\``)
     lines.push('')
     const c = f.counts
-    lines.push(`- counts: forEach=${c.forEach || 0}, forLoop=${c.forLoop || 0}, forOf=${c.forOf || 0}, forIn=${c.forIn || 0}, while=${c.while || 0}, push=${c.push || 0}, splice=${c.splice || 0}, sort=${c.sort || 0}, reverse=${c.reverse || 0}, assignIndex=${c.assignIndex || 0}, assignProp=${c.assignProp || 0}`)
+    lines.push(`- counts (Tier 1): forEach=${c.forEach || 0}, forLoop=${c.forLoop || 0}, forOf=${c.forOf || 0}, forIn=${c.forIn || 0}, while=${c.while || 0}, push=${c.push || 0}, splice=${c.splice || 0}, sort=${c.sort || 0}, reverse=${c.reverse || 0}, assignIndex=${c.assignIndex || 0}, assignProp=${c.assignProp || 0}`)
     lines.push('')
 
-    if (f.matches.length === 0) {
-      lines.push('- (no matches)')
+    if (f.requiresReview.length === 0) {
+      lines.push('- (no matches requiring review)')
       lines.push('')
       continue
     }
 
     const maxMatches = 80
-    const shown = f.matches.slice(0, maxMatches)
+    const shown = f.requiresReview.slice(0, maxMatches)
     lines.push('```')
     for (const m of shown) {
       lines.push(`${m.ruleId}@${m.lineNumber}: ${m.line}`)
     }
-    if (f.matches.length > maxMatches) {
-      lines.push(`... (${f.matches.length - maxMatches} more matches omitted)`)
+    if (f.requiresReview.length > maxMatches) {
+      lines.push(`... (${f.requiresReview.length - maxMatches} more matches omitted)`)
     }
     lines.push('```')
     lines.push('')
@@ -384,8 +409,14 @@ function main() {
     // Calculate forEach→mutation hits only for requiresReview matches
     const forEachMutationHits = countForEachPushNearby(requiresReview, repoPath)
     
-    // Score based on requiring-review only
-    const reviewCounts = recalculateCounts(requiresReview)
+    // Tier 1: only matches that participate in a forEach→mutation hit count toward requiring review and score
+    const lineNumbersInHits = new Set()
+    for (const h of forEachMutationHits) {
+      lineNumbersInHits.add(h.forEachAt)
+      lineNumbersInHits.add(h.mutationAt)
+    }
+    const requiresReviewTier1 = requiresReview.filter((m) => lineNumbersInHits.has(m.lineNumber))
+    const reviewCounts = recalculateCounts(requiresReviewTier1)
     const fileScore = score(reviewCounts, forEachMutationHits)
     const filePriority = assignPriority(fileScore, priorityConfig)
     
@@ -394,9 +425,10 @@ function main() {
       repoPath,
       absPath: abs,
       counts,
+      reviewCounts,
       matches,
       allowed,
-      requiresReview,
+      requiresReview: requiresReviewTier1,
       forEachMutationHits,
       score: fileScore,
       priority: filePriority,
@@ -408,8 +440,22 @@ function main() {
   // Calculate exception summary
   const exceptionSummary = summarizeExceptions(scanned)
 
-  // Filter out zero-score files from JSON output to reduce report bloat
-  const filesWithFindings = scanned.filter(f => f.score > 0 || f.requiresReview.length > 0)
+  // Filter out zero-score files from JSON output to reduce report bloat.
+  // Output uses Tier-1 counts so report and score align.
+  const filesWithFindings = scanned
+    .filter(f => f.score > 0 || f.requiresReview.length > 0)
+    .map(f => ({
+      id: f.id,
+      repoPath: f.repoPath,
+      absPath: f.absPath,
+      counts: f.reviewCounts,
+      matches: f.matches,
+      allowed: f.allowed,
+      requiresReview: f.requiresReview,
+      forEachMutationHits: f.forEachMutationHits,
+      score: f.score,
+      priority: f.priority,
+    }))
 
   const jsonPayload = {
     generatedAt: new Date().toISOString(),

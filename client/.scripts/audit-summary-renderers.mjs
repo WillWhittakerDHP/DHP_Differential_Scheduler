@@ -132,20 +132,20 @@ export const SUMMARY_RENDERERS = {
   'component-logic'(data, ctx) {
     const files = Array.isArray(data.files) ? data.files : []
     const lines = []
-    const keys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'computed', 'inlineConfig', 'console', 'alert']
-    function score(c) { return keys.reduce((sum, k) => sum + (c[k] || 0), 0) }
+    const tier1Keys = ['dom', 'watch', 'watchEffect', 'async', 'await', 'reduce', 'map', 'inlineConfig', 'console', 'alert']
+    function score(c) { return tier1Keys.reduce((sum, k) => sum + (c[k] || 0), 0) }
     lines.push('# Component Logic Audit Summary (Generated)')
     lines.push('')
     lines.push(genFrom(ctx))
     lines.push('')
     const MAX_ROWS = 30
-    lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked by score)`)
+    lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (Tier 1 score)`)
     lines.push('')
-    lines.push('| File | Priority | score | computed | ref | watch | async | await | map | reduce | DOM | inline :config | console | alert |')
-    lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
+    lines.push('| File | Priority | score | watch | async | await | map | reduce | DOM | inline :config | console | alert |')
+    lines.push('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |')
     for (const f of files.slice(0, MAX_ROWS)) {
       const c = f.counts || {}
-      lines.push(`| \`${f.repoPath}\` | ${f.priority || 'P2'} | ${score(c)} | ${c.computed || 0} | ${c.ref || 0} | ${c.watch || 0} | ${c.async || 0} | ${c.await || 0} | ${c.map || 0} | ${c.reduce || 0} | ${c.dom || 0} | ${c.inlineConfig || 0} | ${c.console || 0} | ${c.alert || 0} |`)
+      lines.push(`| \`${f.repoPath}\` | ${f.priority || 'P2'} | ${score(c)} | ${c.watch || 0} | ${c.async || 0} | ${c.await || 0} | ${c.map || 0} | ${c.reduce || 0} | ${c.dom || 0} | ${c.inlineConfig || 0} | ${c.console || 0} | ${c.alert || 0} |`)
     }
     if (files.length > MAX_ROWS) {
       lines.push('')
@@ -608,7 +608,7 @@ export const SUMMARY_RENDERERS = {
     return lines.join('\n')
   },
 
-  'lint'(data, ctx) {
+  'lint'(data, _ctx) {
     const lines = []
     const findings = Array.isArray(data.findings) ? data.findings : []
     const files = Array.isArray(data.files) ? data.files : []
@@ -657,7 +657,7 @@ export const SUMMARY_RENDERERS = {
     return lines.join('\n')
   },
 
-  'lint-warnings'(data, ctx) {
+  'lint-warnings'(data, _ctx) {
     const lines = []
     const findings = Array.isArray(data.findings) ? data.findings : []
     const files = Array.isArray(data.files) ? data.files : []

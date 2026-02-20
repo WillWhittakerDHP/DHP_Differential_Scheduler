@@ -1,42 +1,47 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # File Cohesion Audit Summary (Generated)
 
-Generated from `.audit-reports/file-cohesion-audit.json`.
+Generated from `client/.audit-reports/file-cohesion-audit.json`.
 
-- Files with violations: **90**
+- Files with violations: **159**
 
 ## Top 30 files
 
 | File | Category | Priority | Score | Lines | Exports | Violations |
 | --- | --- | --- | ---: | ---: | ---: | --- |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | components | P1 | 9 | 724 | 0 | oversized |
-| `server/src/scripts/importCalendarData.ts` | general | P1 | 7 | 475 | 0 | oversized, no-exports |
-| `client/src/configs/availabilitySettings.ts` | general | P1 | 6 | 496 | 13 | high-exports |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 497 | 5 | oversized |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | utils | P1 | 6 | 404 | 4 | oversized |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | utils | P1 | 6 | 430 | 6 | oversized |
-| `server/src/services/slotComputationService.ts` | services | P1 | 6 | 537 | 1 | oversized |
-| `client/src/constants/apiStatus.ts` | general | P1 | 4 | 76 | 12 | high-exports |
-| `client/src/types/entities.ts` | general | P1 | 4 | 111 | 12 | high-exports |
-| `server/src/routes/internal/relationships/relationshipHelpers.ts` | routes | P1 | 4 | 342 | 12 | high-exports |
-| `client/src/composables/admin/useSelectConfig.ts` | composables | P2 | 3 | 443 | 3 | oversized |
-| `client/src/composables/admin/useSelectFiltering.ts` | composables | P2 | 3 | 472 | 3 | oversized |
-| `client/src/composables/booking/useAvailabilityLogic.ts` | composables | P2 | 3 | 429 | 3 | oversized |
-| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | composables | P2 | 3 | 432 | 1 | oversized |
-| `client/src/utils/booking/mockGoogleCalendar.ts` | utils | P2 | 3 | 335 | 3 | oversized |
-| `client/src/utils/booking/partFinalizer.ts` | utils | P2 | 3 | 318 | 4 | oversized |
-| `client/src/utils/tablerIcons.ts` | utils | P2 | 3 | 366 | 1 | oversized |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | utils | P2 | 3 | 334 | 7 | oversized |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | utils | P2 | 3 | 320 | 2 | oversized |
-| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | components | P2 | 3 | 525 | 0 | oversized |
-| `server/src/routes/helpers/crudRouteHandlers.ts` | utils | P2 | 3 | 311 | 5 | oversized |
-| `server/src/scripts/helpers/calendarParsingHelpers.ts` | utils | P2 | 3 | 303 | 7 | oversized |
-| `server/src/services/computedAvailabilityService.ts` | services | P2 | 3 | 458 | 1 | oversized |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 381 | 8 | oversized |
-| `client/src/constants/entities.ts` | general | P2 | 2 | 30 | 11 | high-exports |
-| `client/src/constants/fieldMetadata.ts` | general | P2 | 2 | 107 | 11 | high-exports |
-| `client/src/utils/entities/entityTypeMapping.ts` | utils | P2 | 2 | 108 | 11 | high-exports |
-| `server/src/routes/internal/properties/propertyHelpers.ts` | routes | P2 | 2 | 233 | 11 | high-exports |
-| `client/src/composables/admin/useEntityCardReadiness.ts` | composables | P2 | 1 | 9 | 0 | no-exports |
-| `client/src/composables/booking/useSelectionCard.ts` | composables | P2 | 1 | 3 | 0 | no-exports |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | components | P1 | 9 | 0 | 0 | oversized |
+| `server/src/scripts/importCalendarData.ts` | general | P1 | 7 | 0 | 0 | oversized, no-exports |
+| `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 0 | 0 | oversized |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | utils | P1 | 6 | 0 | 0 | oversized |
+| `client/src/utils/transformers/globalToBookingTransformer.ts` | utils | P1 | 6 | 0 | 0 | oversized |
+| `server/src/services/slotComputationService.ts` | services | P1 | 6 | 0 | 0 | oversized |
+| `client/src/constants/apiStatus.ts` | general | P1 | 4 | 0 | 0 | high-exports |
+| `client/src/composables/admin/useSelectConfig.ts` | composables | P2 | 3 | 0 | 0 | oversized |
+| `client/src/composables/admin/useSelectFiltering.ts` | composables | P2 | 3 | 0 | 0 | oversized |
+| `client/src/composables/booking/useAvailabilityLogic.ts` | composables | P2 | 3 | 0 | 0 | oversized |
+| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | composables | P2 | 3 | 0 | 0 | oversized |
+| `client/src/utils/booking/partFinalizer.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/utils/tablerIcons.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | components | P2 | 3 | 0 | 0 | oversized |
+| `server/src/routes/helpers/crudRouteHandlers.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `server/src/scripts/helpers/calendarParsingHelpers.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `server/src/services/computedAvailabilityService.ts` | services | P2 | 3 | 0 | 0 | oversized |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/composables/admin/useEntityCardReadiness.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCard.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardComponent.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardConfig.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardGroupState.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardHandlers.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardState.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/booking/useSelectionCardStyles.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/composables/useFormFields.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
+| `client/src/configs/availabilitySettings.ts` | general | P2 | 2 | 0 | 0 | high-exports |
 
-*...and 60 more files.*
+*...and 129 more. See full report.*

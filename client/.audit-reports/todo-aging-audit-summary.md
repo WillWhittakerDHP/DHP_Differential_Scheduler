@@ -1,12 +1,16 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # TODO Aging Audit Summary (Generated)
 
-Generated from `.audit-reports/todo-aging-audit.json`.
+Generated from `client/.audit-reports/todo-aging-audit.json`.
 
-- Total markers: **28**
-- Ancient (> 180d): **26** | Stale (90-180d): **0** | Aging (30-90d): 0 | Fresh (< 30d): 2
-- Orphaned (no ticket): **28**
+- Total markers: **27**
+- Ancient: **25** | Stale: **0** | Aging: **0** | Fresh: **2** | Orphaned: **27**
 
-## Top 16 files
+## Top 15 files
 
 | File | Priority | Score | Total | Ancient | Stale | Orphaned |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -23,6 +27,5 @@ Generated from `.audit-reports/todo-aging-audit.json`.
 | `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/views/admin/tabs/components/RangeConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `server/src/scripts/helpers/calendarParsingHelpers.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `server/src/services/appointmentCalendarService.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 1 | 0 | 0 | 1 |
 | `client/src/composables/admin/useInputConfigEditor.ts` | P2 | 2 | 1 | 0 | 0 | 1 |

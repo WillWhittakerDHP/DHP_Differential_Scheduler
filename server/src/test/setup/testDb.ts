@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize'
 import { initializeModels } from '../../db/models/index.js'
 import { createLogger } from '../../utils/logger.js'
 
-const logger = createLogger('TestDb')
+const _logger = createLogger('TestDb')
 let testSequelize: Sequelize | null = null
 
 export async function setupTestDb(): Promise<Sequelize> {

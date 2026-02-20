@@ -22,15 +22,24 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+23 more) | 38 |
-| `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts` (+70 more) | 138 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+22 more) | 37 |
+| `get*` | `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+65 more) | 117 |
 | `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+213 more) | 220 |
 
 ## Summary
 
-- Files scanned: **611**
-- Groups (window=10 lines, minOccurrences=2): **211**
+- Files scanned: **594**
+- Groups (window=10 lines, minOccurrences=2): **204**
+- Duplicate composable export names: **1**
 - Candidate findings from pattern-detection: **3**
+
+## Duplicate composable export names
+
+Same `use*` export name in multiple composable files — consolidation or rename candidate.
+
+- **`useAvailabilitySettings`**
+  - `client/src/composables/admin/useAvailabilitySettings.ts`
+  - `client/src/composables/booking/useAvailabilitySettings.ts`
 
 ## Top duplication groups (by leverage)
 
@@ -41,18 +50,11 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-00c9105755d8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
 | `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@209`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@70` |
 | `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@135`, `server/src/utils/adminPrimitiveMetadataComposer.ts@112`, `server/src/utils/adminRelationshipMetadataComposer.ts@116` |
-| `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
-| `dup-255152a3acf3` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
 | `dup-433b7c717ff1` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
 | `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@134`, `server/src/utils/adminPrimitiveMetadataComposer.ts@111`, `server/src/utils/adminRelationshipMetadataComposer.ts@115` |
 | `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@72`, `server/src/db/models/booking/part_assignment.ts@72`, `server/src/db/models/booking/pricing_cascade.ts@72` |
 | `dup-69c0d3151348` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@50`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@50`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@50` |
-| `dup-7c1fb46c98e0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
-| `dup-838f910a5e1e` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@56`, `server/src/db/models/booking/booking_cascade.ts@54`, `server/src/db/models/booking/dependent_instance.ts@58` |
-| `dup-9c70b13d8940` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@62`, `server/src/db/models/booking/booking_cascade.ts@60`, `server/src/db/models/booking/dependent_instance.ts@64` |
-| `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
 | `dup-b91a6eb83ee2` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
-| `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
 | `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@210`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@71` |
 | `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@81`, `server/src/utils/adminPrimitiveMetadataComposer.ts@97`, `server/src/utils/adminRelationshipMetadataComposer.ts@85`, … |
 | `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@32`, `server/src/utils/logger.ts@32` |
@@ -61,6 +63,13 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-054b5d13687d` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@65`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@65` |
 | `dup-0650894690ad` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@73`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@73` |
 | `dup-067a7f23cd4b` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@46`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@46` |
+| `dup-081b9aedff50` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@22`, `server/src/db/models/booking/part_assignment.ts@22` |
+| `dup-0865f1a90261` | 2 | 2 | 10 | `client/src/utils/logger.ts@30`, `server/src/utils/logger.ts@30` |
+| `dup-08e13972093b` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@33`, `server/src/db/models/booking/part_assignment.ts@33` |
+| `dup-09542cc2230d` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@150`, `server/src/db/models/admin/adminRelationshipMetadata.ts@148` |
+| `dup-09b54b2c0516` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@47`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@47` |
+| `dup-0b9d7afa76c5` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@97`, `server/src/db/models/booking/annotation_assignment.ts@97` |
+| `dup-0bf0a50177b3` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@86`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@86` |
 
 ## Per-group details (top)
 
@@ -190,50 +199,6 @@ bulkEdit: meta.bulkEdit,
 inputConfig: meta.inputConfig || null,
 ```
 
-### Group `dup-11ee84441edb`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 71-100
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 69-98
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 73-102
-
-```
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
-```
-
-### Group `dup-255152a3acf3`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 64-93
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 62-91
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 66-95
-
-```
-return 'blockInstance';
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-```
-
 ### Group `dup-433b7c717ff1`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -322,94 +287,6 @@ error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
 required: REQUIRED_FIELDS.CREATE_UPDATE,
 ```
 
-### Group `dup-7c1fb46c98e0`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 58-88
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 56-86
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 60-90
-
-```
-return 'blockInstance';
-type: DataTypes.VIRTUAL,
-return 'blockInstance';
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-```
-
-### Group `dup-838f910a5e1e`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 56-85
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 54-83
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 58-87
-
-```
-type: DataTypes.VIRTUAL,
-return 'blockInstance';
-type: DataTypes.VIRTUAL,
-return 'blockInstance';
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-```
-
-### Group `dup-9c70b13d8940`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 62-90
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 60-88
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 64-92
-
-```
-type: DataTypes.VIRTUAL,
-return 'blockInstance';
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-```
-
-### Group `dup-b310fa6a5478`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 76-101
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 74-99
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 78-103
-
-```
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
-underscored: true,
-```
-
 ### Group `dup-b91a6eb83ee2`
 
 - unique files: **3**, occurrences: **3**, lineCount: **10**
@@ -430,28 +307,6 @@ if ((data as Record<string, unknown>)[field] === undefined || (data as Record<st
 missingFields.push(field)
 if (missingFields.length > 0) {
 error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
-```
-
-### Group `dup-ef36d1842f4c`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/additional_service_option.ts` @ lines 68-95
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 66-93
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 70-97
-
-```
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 ```
 
 ### Group `dup-faf7bc22dbba`
@@ -518,4 +373,151 @@ const scopes = raw
 .map((s) => s.trim())
 .filter((s) => s.length > 0)
 .map((s) => s.toLowerCase())
+```
+
+### Group `dup-02e09562fbee`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useMetadataFieldUpdates.ts` @ lines 51-70
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 36-55
+
+```
+const selectMode = inputConfig.selectMode as string | undefined
+if (selectMode === 'multiple') {
+return 'multiselect'
+if (inputConfig.targetMode === 'relationship') {
+return 'reference'
+if (dataType === 'boolean' || dataType === 'ternary') {
+return 'statusButton'
+if (dataType === 'number') {
+if (dataType === 'array') {
+return 'reference'
+```
+
+### Group `dup-0399e7cb7a09`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useMetadataFieldUpdates.ts` @ lines 47-64
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 32-49
+
+```
+const selectType = inputConfig.selectType as string | undefined
+if (selectType === 'partsCollectionSelect') {
+return 'relationshipCollection'
+const selectMode = inputConfig.selectMode as string | undefined
+if (selectMode === 'multiple') {
+return 'multiselect'
+if (inputConfig.targetMode === 'relationship') {
+return 'reference'
+if (dataType === 'boolean' || dataType === 'ternary') {
+return 'statusButton'
+```
+
+### Group `dup-054b5d13687d`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 65-109
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 65-109
+
+```
+error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
+required: REQUIRED_FIELDS.CREATE_UPDATE,
+missing: missingFields,
+return { valid: true }
+export function validateRenderAs(renderAs: unknown): ValidationResult {
+if (renderAs === 'toggle') {
+error: ERROR_MESSAGES.INVALID_RENDER_AS,
+message: 'renderAs "toggle" is not supported. Use "statusButton" for boolean toggle fields or "text" for regular boolean inputs.',
+return { valid: true }
+export function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {
+```
+
+### Group `dup-0650894690ad`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 73-114
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 73-114
+
+```
+return { valid: true }
+export function validateRenderAs(renderAs: unknown): ValidationResult {
+if (renderAs === 'toggle') {
+error: ERROR_MESSAGES.INVALID_RENDER_AS,
+message: 'renderAs "toggle" is not supported. Use "statusButton" for boolean toggle fields or "text" for regular boolean inputs.',
+return { valid: true }
+export function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {
+if (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {
+if (!inputConfig || typeof inputConfig !== 'object') {
+error: ERROR_MESSAGES.MISSING_INPUT_CONFIG,
+```
+
+### Group `dup-067a7f23cd4b`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 46-58
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 46-58
+
+```
+export function validateRequiredFields(data: {
+fieldKey?: unknown
+dataType?: unknown
+visibility?: unknown
+displayOrder?: unknown
+}): ValidationResult {
+const missingFields: string[] = []
+for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
+if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {
+missingFields.push(field)
+```
+
+### Group `dup-081b9aedff50`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/booking/active_part.ts` @ lines 22-32
+- `server/src/db/models/booking/part_assignment.ts` @ lines 22-32
+
+```
+InferAttributes<PartAssignment>,
+InferCreationAttributes<PartAssignment>
+declare id: CreationOptional<string>;
+declare kind: CreationOptional<string>;
+declare parentKind: CreationOptional<string>;
+declare childKind: CreationOptional<string>;
+declare parentId: ForeignKey<string>;
+declare childId: ForeignKey<string>;
+declare disabled: boolean;
+declare createdAt: CreationOptional<Date>;
+```
+
+### Group `dup-0865f1a90261`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/utils/logger.ts` @ lines 30-62
+- `server/src/utils/logger.ts` @ lines 30-62
+
+```
+normalized === 'warn' ||
+normalized === 'error' ||
+normalized === 'silent'
+function levelToNumber(level: LogLevel): number {
+let cachedLogLevel: LogLevel | null = null
+let cachedDebugScopes: Set<string> | null | undefined = undefined
+function parseDebugScopesList(raw: string | undefined): Set<string> | null {
+if (!raw) return null
+const scopes = raw
+.map((s) => s.trim())
 ```

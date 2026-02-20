@@ -1,6 +1,8 @@
 /**
  * Admin Entity Class
- * 
+ *
+ * @audit-allow deprecation:unhelpful-default-nullish - Intentional empty-object default for optional displayConfig keys
+ *
  * LEARNING: Provides validation, default values, and type-safe property access
  * WHY: Validates entity structure and ensures all properties exist with defaults
  * PATTERN: Class-based entity with validation methods, converted to plain object for Vue

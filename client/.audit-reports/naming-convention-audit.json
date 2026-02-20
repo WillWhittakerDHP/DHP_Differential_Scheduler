@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-02-19T23:20:17.274Z",
-  "totalScanned": 802,
+  "generatedAt": "2026-02-20T15:41:34.961Z",
+  "totalScanned": 777,
   "exceptionSummary": {
-    "totalAllowed": 86,
+    "totalAllowed": 75,
     "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
-      "pattern": 85,
+      "pattern": 74,
       "specific": 1
     }
   },
@@ -20,52 +20,39 @@
   ],
   "scanned": [
     {
-      "repoPath": "client/src/composables/_archived/useFieldMetadata.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 37,
-          "line": "export function clearMetadataCache(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 21,
+          "lineNumber": 22,
           "line": "export function attendeesFromClientAndAgent(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 34,
+          "lineNumber": 35,
           "line": "export function getClientIdFromAttendees(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 39,
+          "lineNumber": 40,
           "line": "export function getAgentIdFromAttendees(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 44,
+          "lineNumber": 45,
           "line": "export function getClientAttendee(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 48,
+          "lineNumber": 49,
           "line": "export function getAgentAttendee(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
@@ -187,19 +174,6 @@
       "requiresReview": []
     },
     {
-      "repoPath": "client/src/composables/booking/selectionCard/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "client/src/composables/booking/useStepValidation.ts",
       "allowed": [
         {
@@ -213,19 +187,6 @@
       "requiresReview": []
     },
     {
-      "repoPath": "client/src/composables/businessDataCollections/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "client/src/composables/businessDataCollections/types.ts",
       "allowed": [
         {
@@ -233,32 +194,6 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/componentEntity/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/entityCrud/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
           "source": "pattern"
         }
       ],
@@ -292,19 +227,6 @@
       "requiresReview": []
     },
     {
-      "repoPath": "client/src/composables/fieldContext/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "client/src/composables/fieldContext/types.ts",
       "allowed": [
         {
@@ -318,19 +240,6 @@
       "requiresReview": []
     },
     {
-      "repoPath": "client/src/composables/formFields/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "client/src/composables/formFields/types.ts",
       "allowed": [
         {
@@ -338,19 +247,6 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/globalDataCollections/index.ts",
-      "allowed": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: index.ts",
-          "reason": "Barrel/composable package; index is conventional",
           "source": "pattern"
         }
       ],
@@ -551,32 +447,6 @@
       "requiresReview": []
     },
     {
-      "repoPath": "server/src/db/models/admin/valid_component.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 35,
-          "line": "export function ValidComponentFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "server/src/db/models/admin/valid_composition.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 47,
-          "line": "export function ValidCompositionFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
       "repoPath": "server/src/db/models/admin/valid_event.ts",
       "allowed": [
         {
@@ -674,19 +544,6 @@
           "ruleId": "functionExport",
           "lineNumber": 35,
           "line": "export function PartAssignmentFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 39,
-          "line": "export function AdditionalServiceOptionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
         }

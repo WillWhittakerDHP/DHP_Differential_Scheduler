@@ -11,7 +11,7 @@ import { PropertyVersion, PropertyDetails, Address } from '../../../config/app.j
 import { transformPropertyVersion } from '../../../utils/propertyTransformers.js'
 import { ERROR_MESSAGES, DEFAULT_VALUES } from './propertyConstants.js'
 import { handleRouteError } from './propertyErrorHandler.js'
-import { validateAddressFields } from './propertyValidators.js'
+import { validateAddressFields, validatePropertyDetailsPatchBody } from './propertyValidators.js'
 import { findOrCreateAddress, getPropertyWithAssociations, getPropertyDetailsFromVersion } from './propertyHelpers.js'
 import { sendSuccess, sendCreated, sendNoContent, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
@@ -226,10 +226,17 @@ router.patch(
         return
       }
 
+      const patchValidation = validatePropertyDetailsPatchBody(req.body)
+      if (!patchValidation.valid) {
+        const detailsStr = patchValidation.details != null ? JSON.stringify(patchValidation.details) : undefined
+        sendBadRequest(res, patchValidation.error, detailsStr)
+        return
+      }
+
       const propertyDetails = getPropertyDetailsFromVersion(propertyVersion)
 
-      if (propertyDetails) {
-        await propertyDetails.update(req.body)
+      if (propertyDetails && Object.keys(patchValidation.data).length > 0) {
+        await propertyDetails.update(patchValidation.data)
       }
 
       await propertyVersion.reload({

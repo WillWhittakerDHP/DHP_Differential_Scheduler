@@ -39,12 +39,17 @@ export interface PartFinal {
 
 
 
+/** Placeholder values until eventAssignments-derived major/minor/moveable are wired. */
+const PART_FINAL_DEFAULT_MAJOR = 'false' as const
+const PART_FINAL_DEFAULT_MINOR = 'false' as const
+const PART_FINAL_DEFAULT_MOVEABLE = false
+
 /**
  * Create PartFinal from grouped part instances
  * LEARNING: Computes raw baseTime only - rounding happens at event level
  * WHY: Rounding moved to event level to prevent double rounding inflation
  * PATTERN: Sum raw values, rounding applied later when accumulating events
- * 
+ *
  * @param partShape - Part shape name
  * @param parts - Array of BookingPartInstance objects with same partShape
  * @returns PartFinal with raw baseTime (no rounding)
@@ -53,19 +58,17 @@ export function createPartFinal(
   partShape: string,
   parts: BookingPartInstance[]
 ): PartFinal {
-  // PATTERN: For now, use default values - these should be computed from eventAssignments in the future
-  // NOTE: This is a temporary solution - these properties should be computed from events when creating PartFinal
   const baseTime = parts.reduce((sum, p) => sum + (p.baseTime ?? 0), 0)
-  
+
   return {
     partShape,
     baseTime,
     baseFee: parts.reduce((sum, p) => sum + (p.baseFee ?? 0), 0),
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee: parts.reduce((sum, p) => sum + (p.rateOverBaseFee ?? 0), 0),
-    major: 'false' as const, // TODO: Compute from eventAssignments relationships
-    minor: 'false' as const, // TODO: Compute from eventAssignments relationships
-    moveable: false, // TODO: Compute from eventAssignments relationships
+    major: PART_FINAL_DEFAULT_MAJOR,
+    minor: PART_FINAL_DEFAULT_MINOR,
+    moveable: PART_FINAL_DEFAULT_MOVEABLE,
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }

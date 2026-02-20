@@ -2,12 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import {
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
@@ -944,8 +942,6 @@ function main() {
   const paths = resolveAuditPaths('type-similarity')
   const sharedRoot = path.join(paths.projectRoot, 'shared')
 
-  // Load config
-  const configAllowlist = loadCentralAllowlist('type-similarity')
   let config = {}
   try {
     if (fs.existsSync(paths.configPath)) {

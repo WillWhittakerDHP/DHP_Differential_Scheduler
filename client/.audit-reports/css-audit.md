@@ -109,9 +109,9 @@ deep-selector@203: .icon-input-field :deep(input::placeholder) {
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@867: .instances-tabs-container :deep(.v-tab) {
-deep-selector@871: .instances-tabs-container :deep(.v-tabs) {
-deep-selector@875: .instances-tabs-container :deep(.v-slide-group__content) {
+deep-selector@868: .instances-tabs-container :deep(.v-tab) {
+deep-selector@872: .instances-tabs-container :deep(.v-tabs) {
+deep-selector@876: .instances-tabs-container :deep(.v-slide-group__content) {
 ```
 
 ### `client/src/components/admin/generic/fields/BaseInput.vue`

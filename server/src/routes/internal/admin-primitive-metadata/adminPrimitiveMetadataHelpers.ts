@@ -6,7 +6,8 @@
  * PATTERN: Pure functions for complex logic
  */
 
-import type { FieldMetadataEntry } from '../../../utils/adminPrimitiveMetadataComposer.js'
+import type { FieldMetadataEntry } from '../../../utils/adminPrimitiveMetadataComposer.js';
+import { mapMetaFieldsToPayload } from '../../../utils/adminMetadataPayload.js';
 
 /**
  * Auto-compute renderAs based on dataType and inputConfig
@@ -70,19 +71,7 @@ export function computeRenderAs(
 export function transformMetadataToRecord(metadata: FieldMetadataEntry[]): Record<string, unknown> {
   const metadataRecord: Record<string, unknown> = {}
   for (const meta of metadata) {
-    metadataRecord[meta.fieldKey] = {
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: meta.inputConfig || null,
-    }
+    metadataRecord[meta.fieldKey] = mapMetaFieldsToPayload(meta);
   }
   return metadataRecord
 }

@@ -7,7 +7,6 @@ import {
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
   renderAllowedExceptionsSection,

@@ -1,26 +1,23 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Constants Consolidation Audit Summary (Generated)
 
-Generated from `.audit-reports/constants-consolidation-audit.json`.
+Generated from `client/.audit-reports/constants-consolidation-audit.json`.
 
-- Constants files scanned: **24**
-- Total exports scanned: **67**
-- Consolidation groups: **3**
-- Requiring review: **3**
-- Allowed exceptions: 3
+- Constants files: **24**
+- Exports scanned: **67**
+- Consolidation groups: **0**
+- Requiring review: **0** | Allowed: **0**
 
-## Top 3 Consolidation Groups (ranked by score)
+## Top 0 Consolidation Groups
 
 | Classification | Priority | Score | Description | Locations |
 | --- | --- | ---: | --- | ---: |
-| HOIST | P1 | 12 | Value 'development' defined in constants but used inline in 1 locations | 2 |
-| HOIST | P1 | 12 | Value 'test' defined in constants but used inline in 1 locations | 2 |
-| HOIST | P1 | 12 | Value 'production' defined in constants but used inline in 1 locations | 2 |
 
 ## Notes
 
-- **HOIST**: Identical values that should be moved to shared constants
-- **TEMPLATE**: Structural patterns that could use factory functions or base templates
-- **ENUM**: Related values that should be grouped into enums or const objects
-- **P0** (score >= 20): Immediate consolidation target
-- **P1** (score >= 10): Should consolidate soon
-- **P2** (score < 10): Nice to have
+- **HOIST**: Same value in multiple files → single constant. **TEMPLATE**: Structural duplication. **ENUM**: Inline literals → enum/const.
+- **P0/P1/P2**: Priority from config. See full report: `client/.audit-reports/constants-consolidation-audit.md`.

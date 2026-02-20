@@ -104,3 +104,16 @@ export const FIELD_PANEL = {
   EVENTS: 'events' as const satisfies SubPanelKey,
   COMPOSITION: 'composition' as const satisfies SubPanelKey,
 } as const
+
+/**
+ * Field location type discriminators (where a field renders)
+ * LEARNING: Matches FieldLocation['type'] union; use in switch to avoid string literal case clauses
+ * WHY: Single source of truth for location type strings; satisfies hardcoding audit
+ */
+export const FIELD_LOCATION_TYPE = {
+  TITLE_ROW: 'titleRow',
+  DIRECT_INLINE: 'directInline',
+  DIRECT_STACKED: 'directStacked',
+  SUB_PANEL: 'subPanel',
+  HIDDEN: 'hidden',
+} as const

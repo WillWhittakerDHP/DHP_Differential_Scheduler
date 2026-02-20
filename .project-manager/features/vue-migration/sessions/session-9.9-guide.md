@@ -249,7 +249,7 @@
 ### Task 9.9.10: Test Frontend Functionality
 
 **Steps:**
-1. Verify application starts successfully: `npm run start:dev:vue`
+1. Verify application starts successfully: `npm run start:dev` or `/verify-app`
 2. Test all frontend features:
    - Entity CRUD operations
    - Composition CRUD operations

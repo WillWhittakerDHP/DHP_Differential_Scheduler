@@ -352,21 +352,21 @@ function assignPriorityBucket(overallScore, config) {
 /**
  * Find corresponding test file for a source file
  */
-function findTestFile(sourcePath, allTestFiles) {
-  const repoPath = toRepoPath(sourcePath)
+function findTestFile(sourcePath, allTestFiles, projectRoot) {
+  const repoPath = toRepoPath(sourcePath, projectRoot)
   const baseName = path.basename(repoPath, path.extname(repoPath))
   const dirName = path.dirname(repoPath)
-  
+
   // Look for test file in same directory
   const sameDirTest = allTestFiles.find(testPath => {
-    const testRepoPath = toRepoPath(testPath)
+    const testRepoPath = toRepoPath(testPath, projectRoot)
     const testDir = path.dirname(testRepoPath)
     const testBase = path.basename(testRepoPath, path.extname(testRepoPath))
     return testDir === dirName && (testBase === `${baseName}.test` || testBase === `${baseName}.spec`)
   })
-  
+
   if (sameDirTest) return sameDirTest
-  
+
   // Look for test file in __tests__ directory
   const testDirPath = path.join(dirName, '__tests__')
   const testDirTest = allTestFiles.find(testPath => {
@@ -380,25 +380,24 @@ function findTestFile(sourcePath, allTestFiles) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
+  const paths = resolveAuditPaths('test')
+
   // Load priority config
-  const CONFIG_PATH = path.join(OUT_DIR, 'test-audit-config.json')
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
-  
-  const sourceFiles = listAuditFiles('test', [CLIENT_SRC, SERVER_SRC])
-  const testFiles = listTestFiles([CLIENT_SRC, SERVER_SRC])
-  
-  const clientSourceCount = sourceFiles.filter(f => f.startsWith(CLIENT_SRC)).length
-  const serverSourceCount = sourceFiles.filter(f => f.startsWith(SERVER_SRC)).length
-  const clientTestCount = testFiles.filter(f => f.startsWith(CLIENT_SRC)).length
-  const serverTestCount = testFiles.filter(f => f.startsWith(SERVER_SRC)).length
+
+  const sourceFiles = listAuditFiles('test', [paths.clientSrc, paths.serverSrc])
+  const testFiles = listTestFiles([paths.clientSrc, paths.serverSrc])
+
+  const clientSourceCount = sourceFiles.filter(f => f.startsWith(paths.clientSrc)).length
+  const serverSourceCount = sourceFiles.filter(f => f.startsWith(paths.serverSrc)).length
+  const clientTestCount = testFiles.filter(f => f.startsWith(paths.clientSrc)).length
+  const serverTestCount = testFiles.filter(f => f.startsWith(paths.serverSrc)).length
   
   console.log(`Scanning ${sourceFiles.length} source files (${clientSourceCount} client, ${serverSourceCount} server) and ${testFiles.length} test files (${clientTestCount} client, ${serverTestCount} server)...`)
   
@@ -436,7 +435,7 @@ function main() {
       composables,
       classMethods,
       hasTest: !!testFile,
-      testFile: testFile ? toRepoPath(testFile) : null,
+      testFile: testFile ? toRepoPath(testFile, paths.projectRoot) : null,
       exportCount,
       priority: {
         reliability,
@@ -469,7 +468,7 @@ function main() {
     ]
     
     const sourceFile = possibleSourcePaths.find(p => {
-      const abs = path.join(PROJECT_ROOT, p)
+      const abs = path.join(paths.projectRoot, p)
       return fs.existsSync(abs) && !isTestFileFromCentralConfig(p)
     })
     

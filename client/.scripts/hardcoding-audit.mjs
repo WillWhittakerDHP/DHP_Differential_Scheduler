@@ -10,7 +10,6 @@ import {
   categorizeMatches,
   renderAllowedExceptionsSection,
   summarizeExceptions,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -35,9 +34,25 @@ import {
  * Notes:
  * - Fast line-based scan (plus small project-aware signals like entity key strings).
  * - The audit never fails CI; it reports.
+ *
+ * Two-tier model: Tier 1 = flexibility/config-driven rules (counted in requiring review and score).
+ * Tier 2 = magicLabel (filtered by permissible patterns; used only for P2 ui_strings suggestion in Vue).
  */
 
 const AUDIT_TYPE = 'hardcoding'
+
+/** Rule ids that count toward "requiring review" and score. magicLabel is Tier 2 and excluded. */
+const TIER1_RULE_IDS = [
+  'switchEntityKey',
+  'switchTypeLike',
+  'caseString',
+  'fieldEqualsString',
+  'fieldMapping',
+  'inlineLabelMap',
+  'omitFieldsArray',
+  'headersArray',
+  'entityKeyString',
+]
 
 function toRepoPath(absPath, projectRoot) {
   return toRepoPathUtil(absPath, projectRoot)
@@ -99,6 +114,18 @@ const BASE_RULES = [
   { id: 'magicLabel', label: "Label-ish string", test: (l) => /['"][A-Z][A-Za-z0-9\s-]{6,}['"]/.test(l) },
 ]
 
+/**
+ * Excluded patterns: logger names (createLogger), throw/Error/Exception messages.
+ * When true, the line is not counted as magicLabel and not pushed to matches.
+ */
+function isPermissibleMagicLabel(line) {
+  const t = line.trim()
+  if (/createLogger\s*\(\s*['"]/.test(t)) return true
+  if (/throw\s+new\s+\w*Error\s*\(\s*['"]/.test(t)) return true
+  if (/throw\s+new\s+\w*Exception\s*\(\s*['"]/.test(t)) return true
+  return false
+}
+
 function scanLines(lines, entityKeyRe) {
   /** @type {Record<string, number>} */
   const counts = Object.fromEntries(BASE_RULES.map(r => [r.id, 0]))
@@ -113,6 +140,7 @@ function scanLines(lines, entityKeyRe) {
 
     for (const rule of BASE_RULES) {
       if (rule.test(raw)) {
+        if (rule.id === 'magicLabel' && isPermissibleMagicLabel(raw)) continue
         counts[rule.id] += 1
         matches.push({ ruleId: rule.id, lineNumber, line: raw.trim() })
       }
@@ -130,7 +158,7 @@ function scanLines(lines, entityKeyRe) {
 }
 
 function score(counts) {
-  // Stable heuristic: prioritize entity routing and switch/case.
+  // Tier 1 only: flexibility/config-driven. magicLabel (Tier 2) is not included.
   return (
     (counts.switchEntityKey || 0) * 12 +
     (counts.entityKeyString || 0) * 6 +
@@ -139,12 +167,17 @@ function score(counts) {
     (counts.fieldMapping || 0) * 3 +
     (counts.omitFieldsArray || 0) * 2 +
     (counts.headersArray || 0) * 2 +
-    (counts.inlineLabelMap || 0) * 2 +
-    (counts.magicLabel || 0)
+    (counts.inlineLabelMap || 0) * 2
   )
 }
 
-function suggest(repoPath, counts) {
+/**
+ * @param {string} repoPath
+ * @param {Record<string, number>} counts - Tier 1 counts (from recalculateCounts(requiresReviewTier1))
+ * @param {{ magicLabelCount?: number }} [options] - Filtered magicLabel count from scanLines (for P2 ui_strings in Vue)
+ */
+function suggest(repoPath, counts, options = {}) {
+  const magicLabelCount = options.magicLabelCount ?? 0
   /** @type {Array<{priority: 'P0'|'P1'|'P2', kind: string, message: string}>} */
   const suggestions = []
 
@@ -188,7 +221,7 @@ function suggest(repoPath, counts) {
     })
   }
 
-  if (repoPath.endsWith('.vue') && ((counts.magicLabel || 0) >= 4 || (counts.inlineLabelMap || 0) >= 2)) {
+  if (repoPath.endsWith('.vue') && (magicLabelCount >= 4 || (counts.inlineLabelMap || 0) >= 2)) {
     suggestions.push({
       priority: 'P2',
       kind: 'ui_strings',
@@ -303,7 +336,7 @@ function renderMarkdownReport(data) {
     lines.push('')
     const c = f.counts
     lines.push(
-      `- total counts: switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, fieldMapping=${c.fieldMapping || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}, magicLabel=${c.magicLabel || 0}`
+      `- total counts (Tier 1): switchEntityKey=${c.switchEntityKey || 0}, entityKeyString=${c.entityKeyString || 0}, caseString=${c.caseString || 0}, fieldEqualsString=${c.fieldEqualsString || 0}, fieldMapping=${c.fieldMapping || 0}, omitFieldsArray=${c.omitFieldsArray || 0}, headersArray=${c.headersArray || 0}, inlineLabelMap=${c.inlineLabelMap || 0}`
     )
     lines.push(`- requiring review: ${f.requiresReview.length}, allowed: ${f.allowed.length}`)
     lines.push('')
@@ -377,23 +410,25 @@ function main() {
       AUDIT_TYPE,
       configAllowlist
     )
-    
-    // Score based on requiring-review only (allowed exceptions don't count against score)
-    const reviewCounts = recalculateCounts(requiresReview)
+
+    // Restrict "requiring review" to Tier 1 (flexibility) only; magicLabel is Tier 2 and excluded
+    const requiresReviewTier1 = requiresReview.filter((m) => TIER1_RULE_IDS.includes(m.ruleId))
+    const reviewCounts = recalculateCounts(requiresReviewTier1)
     const fileScore = score(reviewCounts)
     const filePriority = assignPriority(fileScore, priorityConfig)
-    
+
     scanned.push({
       id: toStableId(repoPath),
       repoPath,
       absPath: abs,
       counts,
+      reviewCounts,
       matches,
       allowed,
-      requiresReview,
+      requiresReview: requiresReviewTier1,
       score: fileScore,
       priority: filePriority,
-      suggestions: suggest(repoPath, reviewCounts),
+      suggestions: suggest(repoPath, reviewCounts, { magicLabelCount: counts.magicLabel || 0 }),
     })
   }
 

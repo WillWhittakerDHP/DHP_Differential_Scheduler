@@ -345,7 +345,7 @@ function detectDuplicateReexports(allFiles, barrelDirs, projectRoot) {
 
     for (const match of content.matchAll(starReexportRe)) {
       const sourceSpec = match[1]
-      const resolved = resolveSpecifierFile(sourceSpec, abs)
+      const resolved = resolveSpecifierFile(sourceSpec, abs, projectRoot)
       if (resolved) {
         const key = `* from ${resolved}`
         if (!exportMap.has(key)) exportMap.set(key, [])
@@ -582,7 +582,7 @@ function main() {
   let scannedCount = 0
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     scannedCount++
@@ -598,8 +598,8 @@ function main() {
     const importsWithAbs = imports.map(i => ({ ...i, _importerAbs: abs }))
     allImportsMap.set(repoPath, importsWithAbs)
 
-    const barrelFindings = checkBarrelBypass(imports, abs, barrelDirs)
-    const relativeFindings = checkRelativeWhenAlias(imports, abs)
+    const barrelFindings = checkBarrelBypass(imports, abs, barrelDirs, paths.projectRoot, paths.clientSrc)
+    const relativeFindings = checkRelativeWhenAlias(imports, abs, paths.projectRoot)
     const inlineTypeFindings = checkInlineTypeImport(scriptContent).filter((f) => {
       const result = checkConfigAllowlist(repoPath, 'inline-type-import', f.lineNumber, configAllowlist)
       return !result.allowed

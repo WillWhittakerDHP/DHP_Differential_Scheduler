@@ -14,12 +14,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **801**
+- Files scanned: **777**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **572**
+- Type definitions found: **544**
 - Enum patterns found: **7**
-- Config locations found: **40**
-- Function patterns found: **398**
+- Config locations found: **37**
+- Function patterns found: **376**
 - Common patterns found: **24**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -32,10 +32,9 @@ _No frequent string literals found._
 
 | Type Name | Kind | Definition Location |
 | --- | --- | --- |
-| `AddressGeocodingCacheEntry` | interface | `server/src/services/addressGeocodingCache.ts:15` |
 | `AdminConfig` | interface | `client/src/configs/adminConfig.ts:159` |
-| `AdminEntityMap` | type | `client/src/types/admin/adminEntity.ts:202` |
-| `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:36` |
+| `AdminEntityMap` | type | `client/src/types/admin/adminEntity.ts:203` |
+| `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:37` |
 | `AnnotationAssignmentResponse` | interface | `client/src/types/annotations.ts:79` |
 | `AnnotationInstance` | type | `client/src/types/annotations.ts:28` |
 | `AnnotationInstanceEntity` | interface | `client/src/types/entities.ts:89` |
@@ -48,8 +47,8 @@ _No frequent string literals found._
 | `ApiCallStatusState` | interface | `client/src/composables/booking/useApiCallStatus.ts:13` |
 | `ApiStatusValue` | type | `client/src/constants/apiStatus.ts:57` |
 | `AppLogger` | type | `client/src/utils/logger.ts:21` |
-| `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts:60` |
-| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts:91` |
+| `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts:59` |
+| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts:90` |
 | `AppointmentShape` | interface | `client/src/types/appointment.ts:97` |
 | `AppointmentSlot` | interface | `client/src/types/appointment.ts:118` |
 | `AppointmentSlots` | type | `client/src/types/appointment.ts:141` |
@@ -57,22 +56,22 @@ _No frequent string literals found._
 | `AppointmentStatus` | type | `client/src/types/appointmentStatus.ts:7` |
 | `AppointmentStatusRequiringCalendarEvent` | type | `server/src/routes/internal/appointments/appointmentConstants.ts:54` |
 | `AppointmentVersionsResponse` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts:45` |
-| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts:37` |
+| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts:36` |
 | `AutocompleteResponse` | interface | `server/src/services/google/maps/mapsTypes.ts:33` |
 | `AutocompleteValue` | type | `client/src/utils/autocomplete.ts:1` |
-| `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:70` |
+| `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:71` |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts:39` |
 | `AvailabilitySettingsFormParams` | interface | `client/src/types/availabilitySettingsParams.ts:8` |
 | `AvailabilityStepData` | interface | `client/src/utils/booking/availabilityStepData.ts:14` |
 | `AvailabilityStepParamsBase` | interface | `client/src/types/availabilityStepParams.ts:13` |
 | `BetaFeedback` | interface | `client/src/types/betaFeedback.ts:25` |
-| `BetaFeedbackFilters` | interface | `client/src/types/betaFeedback.ts:69` |
+| `BetaFeedbackFilters` | type | `client/src/types/betaFeedback.ts:76` |
+| `BetaFeedbackFiltersBase` | interface | `client/src/types/betaFeedback.ts:70` |
 | `BetaFeedbackStats` | interface | `client/src/types/betaFeedback.ts:62` |
 | `BetaFeedbackSubmission` | interface | `client/src/types/betaFeedback.ts:46` |
 | `BlockFinal` | interface | `client/src/utils/booking/bookingFinalTypes.ts:16` |
 | `BlockInstanceAnnotationResponse` | interface | `client/src/types/annotations.ts:96` |
 | `BlockInstanceEntity` | interface | `client/src/types/entities.ts:34` |
-| `BlockInstanceFeeResult` | type | `client/src/utils/booking/confirmationStepData.ts:35` |
 | `BlockInstanceFormData` | interface | `client/src/composables/admin/useBlockInstanceForm.ts:24` |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:67` |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts:11` |
@@ -89,32 +88,22 @@ _No frequent string literals found._
 | `BrightMlsPropertyResponse` | interface | `server/src/types/brightMls.ts:17` |
 | `BuildBookingWizardStepValidatorsOptions` | type | `client/src/utils/booking/bookingWizardStepValidators.ts:3` |
 | `BuildMetadataEntryOptions` | interface | `client/src/utils/admin/buildMetadataEntry.ts:9` |
-| `BuildQueryOptionsParams` | interface | `server/src/routes/internal/relationships/relationshipQueryBuilders.ts:102` |
-| `BuildWhereClauseParams` | interface | `server/src/routes/internal/relationships/relationshipQueryBuilders.ts:64` |
 | `BusinessData` | type | `client/src/utils/transformers/fetchToBusinessTransformer.ts:34` |
-| `BusinessDataCollectionEndpoints` | type | `client/src/composables/businessDataCollections/types.ts:33` |
-| `BusinessHoursMap` | type | `client/src/utils/booking/timeSlotTypes.ts:55` |
+| `BusinessDataCollectionEndpoints` | type | `client/src/composables/businessDataCollections/types.ts:31` |
 | `BusinessRule` | interface | `client/src/composables/admin/useBusinessRules.ts:75` |
 | `BusinessRuleCore` | interface | `client/src/composables/admin/useBusinessRules.ts:67` |
 | `BusinessRuleFormData` | type | `client/src/composables/admin/useBusinessRules.ts:87` |
-| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts:63` |
+| `BusyTimeRange` | interface | `client/src/utils/booking/timeSlotTypes.ts:20` |
 | `CachedCalendarEvent` | type | `server/src/services/calendarEventsCache.ts:20` |
-| `CalendarApiErrorType` | type | `client/src/services/calendarApiService.ts:39` |
-| `CalendarApiOptions` | interface | `client/src/services/calendarApiService.ts:30` |
 | `CalendarErrorType` | type | `server/src/services/calendarErrorHandler.ts:28` |
-| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:126` |
-| `CalendarEventResult` | interface | `server/src/services/appointmentCalendarService.ts:22` |
+| `CalendarEvent` | interface | `client/src/services/calendarApiService.ts:114` |
 | `CalendarEventsResponseWithMeta` | interface | `server/src/services/google/calendar/calendarTypes.ts:16` |
-| `CascadeFilterParams` | interface | `client/src/utils/booking/cascadeFilterPipeline.ts:20` |
-| `CascadeStepResult` | type | `client/src/utils/booking/cascadeFilterPipeline.ts:16` |
-| `CategorizedFields` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:28` |
-| `CategorizeFieldsOptions` | interface | `client/src/utils/forms/fieldSectionCategorization.ts:47` |
+| `CascadeFilterParamsBase` | interface | `client/src/utils/booking/cascadeFilterPipeline.ts:21` |
 | `CollectionEndpoints` | type | `client/src/composables/useCollectionTypes.ts:25` |
 | `Component` | interface | `client/src/types/component.ts:42` |
-| `ComponentConfig` | type | `client/src/types/component.ts:5` |
+| `ComponentConfig` | type | `client/src/types/component.ts:6` |
 | `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts:8` |
-| `ComponentStrategy` | type | `client/src/types/component.ts:4` |
-| `ComposablePropertyValue` | type | `client/src/utils/transformers/composePropertyValue.ts:17` |
+| `ComponentStrategy` | type | `client/src/types/component.ts:5` |
 | `ComposedFieldConfig` | interface | `client/src/types/shapeFieldMetadata.ts:42` |
 | `ConfirmationStepData` | interface | `client/src/types/wizard.ts:145` |
 | `ContactInfo` | type | `client/src/composables/booking/useContactsStepData.ts:34` |
@@ -123,7 +112,8 @@ _No frequent string literals found._
 | `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts:56` |
 | `CreateEventParams` | interface | `server/src/services/google/calendar/calendarTypes.ts:40` |
 | `CreateNestedComputedOptions` | interface | `client/src/composables/admin/utils/nestedComputedFactory.ts:8` |
-| `CreateRelationshipPayload` | interface | `client/src/types/relationships.ts:50` |
+| `CreateRelationshipPayload` | type | `client/src/types/relationships.ts:60` |
+| `CreateRelationshipPayloadBase` | interface | `client/src/types/relationships.ts:49` |
 | `CrudDataTableModel` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:43` |
 | `CrudDataTableModelOptions` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:11` |
 | `CrudErrorMessages` | interface | `server/src/routes/helpers/crudRouterTypes.ts:16` |
@@ -131,8 +121,18 @@ _No frequent string literals found._
 | `CrudRouterConfig` | interface | `server/src/routes/helpers/crudRouterTypes.ts:51` |
 | `CustomValidator` | type | `client/src/composables/booking/useStepValidation.ts:12` |
 | `DataCollectionCrudConfig` | interface | `client/src/composables/dataCollections/useDataCollectionActions.ts:18` |
-| `DayBusinessHours` | type | `client/src/utils/booking/timeSlotTypes.ts:35` |
-| ... | ... | (+472 more) |
+| `DayOfWeek` | type | `client/src/types/datetime.ts:105` |
+| `DehydrateFieldSets` | type | `client/src/utils/transformers/fieldClassification.ts:14` |
+| `DevPanelCacheEntry` | interface | `client/src/composables/dev/useApiDevPanelData.ts:25` |
+| `DevPanelCacheShape` | interface | `client/src/composables/dev/useApiDevPanelData.ts:27` |
+| `DevPanelCacheStats` | interface | `client/src/composables/dev/useApiDevPanelData.ts:26` |
+| `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts:18` |
+| `DevPanelTab` | type | `client/src/composables/dev/useDevPanelTabs.ts:11` |
+| `DevPanelVisibleProps` | interface | `client/src/components/admin/dev/devPanelTypes.ts:6` |
+| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:34` |
+| `DisplayedMonth` | interface | `client/src/composables/booking/useDateRangeDecider.ts:14` |
+| `DisplayFieldConfigMap` | type | `client/src/configs/field/display/displayFieldTypes.ts:36` |
+| ... | ... | (+444 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -167,8 +167,6 @@ _No frequent string literals found._
 | `client/src/configs/field/display/displayFieldTypes.ts` | config-file |
 | `client/src/configs/field/display/fullFieldDisplayConfig.ts` | config-file |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | config-file |
-| `client/src/configs/field/form/_archived/primitiveFieldConfig.ts` | config-file |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | config-file |
 | `client/src/configs/field/form/appliedForm/baseEntityFields.ts` | config-file |
@@ -189,7 +187,6 @@ _No frequent string literals found._
 | `server/src/config/googleOAuth.ts` | config-file |
 | `server/src/config/googleOAuthTokenPersistence.ts` | config-file |
 | `server/src/config/models.ts` | config-file |
-| `server/src/db/config/database.mjs` | config-file |
 
 ## Function Naming Patterns
 
@@ -203,7 +200,6 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `getComponentsRecursive` | `get*` | 2 |
 | `createLocalStatePlugin` | `create*` | 1 |
 | `createWizardStatePlugin` | `create*` | 1 |
-| `getFieldMetadata` | `get*` | 1 |
 | `getClientIdFromAttendees` | `get*` | 1 |
 | `getAgentIdFromAttendees` | `get*` | 1 |
 | `getClientAttendee` | `get*` | 1 |
@@ -227,7 +223,8 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useCalibrationChart` | `use*` | 1 |
 | `useCapacitySettings` | `use*` | 1 |
 | `useConditionalFieldVisibility` | `use*` | 1 |
-| ... | ... | (+368 more) |
+| `useDefaultLocation` | `use*` | 1 |
+| ... | ... | (+346 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

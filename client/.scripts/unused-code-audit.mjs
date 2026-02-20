@@ -33,6 +33,9 @@ import {
  */
 
 const AUDIT_TYPE = 'unused-code'
+const _paths = resolveAuditPaths(AUDIT_TYPE)
+const PROJECT_ROOT = _paths.projectRoot
+const SERVER_ROOT = _paths.serverRoot
 
 function toRepoPath(absPath, projectRoot) {
   return toRepoPathUtil(absPath, projectRoot)
@@ -478,7 +481,7 @@ function detectDeadScripts(allFiles) {
   const findings = []
 
   for (const absPath of scriptFiles) {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPath(absPath, PROJECT_ROOT)
     const basename = path.basename(absPath)
     const basenameNoExt = basename.replace(/\.(ts|js|mjs|mts)$/, '')
 
@@ -616,13 +619,11 @@ function renderMarkdownReport(filesWithPriority, issues, summary, totalFiles) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
   // Load config
   const configAllowlist = loadCentralAllowlist('unused-code')
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(_paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
@@ -644,7 +645,7 @@ function main() {
   
   try {
     // List all files from both client and server
-    const allFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
+    const allFiles = listAuditFiles(AUDIT_TYPE, [_paths.clientSrc, _paths.serverSrc])
     
     if (allFiles.length === 0) {
       issues.push({
@@ -657,7 +658,7 @@ function main() {
     
     // Scan each file
     for (const file of allFiles) {
-      const repoPath = toRepoPath(file, paths.projectRoot)
+      const repoPath = toRepoPath(file, _paths.projectRoot)
       const fileIssues = scanFile(file, allFiles, configAllowlist)
       issues.push(...fileIssues)
       
@@ -705,8 +706,8 @@ function main() {
     }
     
     totalFiles = allFiles.length
-    clientCount = allFiles.filter(f => f.startsWith(paths.clientSrc)).length
-    serverCount = allFiles.filter(f => f.startsWith(paths.serverSrc)).length
+    clientCount = allFiles.filter(f => f.startsWith(_paths.clientSrc)).length
+    serverCount = allFiles.filter(f => f.startsWith(_paths.serverSrc)).length
   } catch (_error) {
     issues.push({
       severity: 'error',
@@ -772,7 +773,7 @@ function main() {
 
   const skippedMsg = skippedFilesCount > 0 ? `, Skipped: ${skippedFilesCount} (type errors)` : ''
   const pipelineMsg = (patternData || hardcodingData || typecheckErrorFiles) ? ', Using pipeline data' : ''
-  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}\nFiles scanned: ${totalFiles} (${clientCount} client, ${serverCount} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, _paths.projectRoot)}\n- ${toRepoPath(outMd, _paths.projectRoot)}\nFiles scanned: ${totalFiles} (${clientCount} client, ${serverCount} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
 }
 
 main()

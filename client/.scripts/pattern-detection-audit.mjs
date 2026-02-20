@@ -1,13 +1,10 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
@@ -505,9 +502,6 @@ function renderMarkdownReport(data) {
 
 function main() {
   const paths = resolveAuditPaths(_AUDIT_TYPE)
-
-  // Load exception config
-  const configAllowlist = loadCentralAllowlist(_AUDIT_TYPE)
 
   // Load priority config
   let _priorityConfig = {}

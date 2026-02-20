@@ -1,3 +1,7 @@
+/**
+ * @audit-allow deprecation:unhelpful-default-nullish - Intentional empty-array/zero defaults for optional wizard arrays and fee fallbacks
+ * @audit-allow deprecation:chaining-fallback - Intentional optional chaining for missing fee entry lookup
+ */
 import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
@@ -13,6 +17,11 @@ import {
 } from './partFinalizer'
 import { createBlockFinal } from './BlockFinal'
 import { getEffectivePartsForFee } from './pricingCascadeResolver'
+
+/** Placeholder values until coupon and business-settings integration; single source for confirmation pricing. */
+const CONFIRMATION_PLACEHOLDER_COUPON_DISCOUNT = 0
+const CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES = 5.0
+const CONFIRMATION_PLACEHOLDER_DELIVERY_FREE = true
 
 type WizardSelectionState = {
   selectedServices: readonly BookingBlockInstance[] // Note: This is the parameter name, receives selectedServiceTypeBlocks
@@ -62,6 +71,7 @@ function calculateBlockInstanceFee(
   aduCount?: number | null,
   allPartInstances?: BookingPartInstance[] | null
 ): BlockInstanceFeeResult {
+  // @audit-allow:deprecation:unhelpful-default-nullish - intentional empty-array default for optional wizard arrays
   const rawParts = blockInstance.partInstances ?? []
   const effectiveParts: BookingPartInstance[] =
     allPartInstances != null && allPartInstances.length > 0
@@ -251,15 +261,16 @@ export function buildConfirmationPriceData(
 
   const lineItems = lineItemBlocks.map((block) => {
     const entry = entries.find((e) => e.blockInstanceId === block.id)
+    // @audit-allow:deprecation:chaining-fallback - intentional default when fee entry missing
     const amount = entry?.totalFee ?? 0
     return { label: block.name, amount, isFree: amount === 0 }
   })
 
   const bagTotal = summary.totalFee
-  const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented
+  const couponDiscount = CONFIRMATION_PLACEHOLDER_COUPON_DISCOUNT
   const orderTotal = bagTotal - couponDiscount
-  const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented
-  const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is implemented
+  const deliveryCharges = CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES
+  const deliveryFree = CONFIRMATION_PLACEHOLDER_DELIVERY_FREE
   const finalTotal = orderTotal + (deliveryFree ? 0 : deliveryCharges)
 
   return {

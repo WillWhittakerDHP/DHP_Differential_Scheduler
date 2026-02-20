@@ -36,7 +36,14 @@ process.env.NODE_ENV = 'development'
 
 const testsEnabled = process.env.TEST_ENABLED === 'true'
 
-// Build first
+console.log('\n🔌 Killing open dev ports before starting...')
+try {
+  execSync('npm run kill:ports', { stdio: 'inherit', cwd: ROOT, env: process.env })
+  console.log('✅ Ports cleared.\n')
+} catch {
+  console.log('⚠️  No processes found on dev ports (or kill-port unavailable). Continuing.\n')
+}
+
 execSync('npm run build', { stdio: 'inherit', cwd: ROOT, env: process.env })
 
 // Then run server + client (+ optional test watcher)

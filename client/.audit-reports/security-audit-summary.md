@@ -1,6 +1,11 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Security Audit Summary (Generated)
 
-Generated from `.audit-reports/security-audit.json`.
+Generated from `client/.audit-reports/security-audit.json`.
 
 ## Summary
 
@@ -26,7 +31,5 @@ Generated from `.audit-reports/security-audit.json`.
 
 ## Notes
 
-- This is a *signal* index. Use the full report for line-level matches and details: `client/.audit-reports/security-audit.md`.
-- **P0**: Critical security issues (fix soon)
-- **P1**: Important security issues (high leverage cleanup)
-- **P2**: Low priority (best practices)
+- This is a *signal* index. Use the full report: `client/.audit-reports/security-audit.md`.
+- **P0**: Critical. **P1**: Important. **P2**: Low priority.

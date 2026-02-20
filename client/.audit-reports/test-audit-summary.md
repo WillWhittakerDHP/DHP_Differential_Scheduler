@@ -1,40 +1,41 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Test Audit Summary (Generated)
 
-Generated from `.audit-reports/test-audit.json`.
+Generated from `client/.audit-reports/test-audit.json`.
 
 ## Quick Stats
 
-- **Coverage**: 0%
-- **Untested**: 801 files
-- **Orphaned**: 0 tests
+- Coverage: **0%**
+- Untested source files: **777**
+- Orphaned test files: **0**
 
-## Top Untested Files (by Priority Score)
-
-Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independence 20%, Cognitive Load 10%).
+## Top 20 untested files (with exports)
 
 | File | Priority | Score | Reliability | ROI | Exports |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P0 | 9.2 | 10 | 10 | 6 |
-| `client/src/utils/transformers/fieldClassification.ts` | P0 | 8.7 | 10 | 10 | 2 |
-| `client/src/utils/transformers/transformerPrimitives.ts` | P0 | 8.4 | 8 | 10 | 9 |
-| `client/src/utils/transformers/annotationTransformers.ts` | P0 | 8.2 | 8 | 10 | 5 |
-| `client/src/composables/booking/useAvailabilityStepHandlers.ts` | P0 | 8.1 | 10 | 7 | 2 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | P0 | 8.0 | 10 | 7 | 2 |
-| `client/src/composables/booking/useAvailabilityDevPanel.ts` | P0 | 8.0 | 10 | 8 | 4 |
-| `client/src/utils/transformers/composePropertyValue.ts` | P0 | 8.0 | 9 | 8 | 1 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 8.0 | 10 | 10 | 5 |
-| `client/src/composables/booking/useWizardValidationErrors.ts` | P0 | 7.8 | 9 | 7 | 2 |
-| `client/src/utils/transformers/componentAggregator.ts` | P0 | 7.8 | 10 | 10 | 2 |
-| `client/src/utils/transformers/fetchToBusinessTransformer.ts` | P0 | 7.8 | 10 | 8 | 1 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P0 | 7.8 | 10 | 8 | 1 |
-| `client/src/composables/booking/useAvailabilityEmptyState.ts` | P0 | 7.7 | 10 | 7 | 2 |
-| `client/src/composables/booking/useConfirmationStepData.ts` | P0 | 7.7 | 10 | 7 | 2 |
-| `client/src/composables/booking/useTimeBasisHandler.ts` | P0 | 7.7 | 9 | 7 | 2 |
-| `client/src/composables/booking/useWizardFilteredOptions.ts` | P0 | 7.7 | 10 | 7 | 2 |
-| `client/src/utils/booking/partFinalizer.ts` | P0 | 7.7 | 9 | 9 | 4 |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | P0 | 7.7 | 10 | 8 | 1 |
-| `client/src/composables/booking/useAppointmentTimes.ts` | P0 | 7.6 | 10 | 7 | 2 |
+| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 9.2 | 9.2 | 10 | 10 | 6 |
+| `client/src/utils/transformers/fieldClassification.ts` | 8.7 | 8.7 | 10 | 10 | 2 |
+| `client/src/utils/transformers/transformerPrimitives.ts` | 8.4 | 8.4 | 8 | 10 | 9 |
+| `client/src/composables/booking/useAvailabilityStepHandlers.ts` | 8.1 | 8.1 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | 8 | 8 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAvailabilityDevPanel.ts` | 8 | 8 | 10 | 8 | 4 |
+| `client/src/utils/transformers/relationshipTransformers.ts` | 8 | 8 | 10 | 10 | 5 |
+| `client/src/composables/booking/useWizardValidationErrors.ts` | 7.8 | 7.8 | 9 | 7 | 2 |
+| `client/src/utils/transformers/componentAggregator.ts` | 7.8 | 7.8 | 10 | 10 | 2 |
+| `client/src/utils/transformers/fetchToBusinessTransformer.ts` | 7.8 | 7.8 | 10 | 8 | 1 |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | 7.8 | 7.8 | 10 | 8 | 1 |
+| `client/src/composables/booking/useAvailabilityEmptyState.ts` | 7.7 | 7.7 | 10 | 7 | 2 |
+| `client/src/composables/booking/useConfirmationStepData.ts` | 7.7 | 7.7 | 10 | 7 | 2 |
+| `client/src/composables/booking/useTimeBasisHandler.ts` | 7.7 | 7.7 | 9 | 7 | 2 |
+| `client/src/composables/booking/useWizardFilteredOptions.ts` | 7.7 | 7.7 | 10 | 7 | 2 |
+| `client/src/utils/booking/partFinalizer.ts` | 7.7 | 7.7 | 9 | 9 | 4 |
+| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 7.7 | 7.7 | 10 | 8 | 1 |
+| `client/src/composables/booking/useAppointmentTimes.ts` | 7.6 | 7.6 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAvailabilityDefaults.ts` | 7.6 | 7.6 | 10 | 7 | 2 |
+| `client/src/composables/booking/useDevPanelsComputed.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
 
-## Full Report
-
-See `.audit-reports/test-audit.md` for the complete analysis.
+Full report: `client/.audit-reports/test-audit.md`.

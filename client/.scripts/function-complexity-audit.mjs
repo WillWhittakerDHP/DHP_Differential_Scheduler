@@ -1,13 +1,10 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -245,7 +242,6 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
 
 function main() {
   const paths = resolveAuditPaths('function-complexity')
-  const configAllowlist = loadCentralAllowlist('function-complexity')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
   let config = {}
   try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }

@@ -46,44 +46,44 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **241**
-- **Requiring review: 805**
-- Allowed (with justification): 514 (inline: 2, pattern: 485, specific: 27)
+- Total files scanned: **52**
+- **Requiring review: 90**
+- Allowed (with justification): 511 (inline: 2, pattern: 485, specific: 24)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/google/maps/routesApiService.ts` | 22 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | 21 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/maps/placesApiService.ts` | 21 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/forms/fieldLocationDispatcher.ts` | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/iconMapper.ts` | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/components/PropertiesTable.vue` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/config/entityRegistry.ts` | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/importCalendarData.ts` | 15 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
-| `client/src/components/beta/BetaFeedbackModal.vue` | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/layouts/components/NavSearchBar.vue` | 14 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `client/src/components/beta/BetaFeedbackDashboard.vue` | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/services/computedAvailabilityService.ts` | 13 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 13 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/generic/EntityCard.vue` | 12 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/ContactsStep.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/constraintColors.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/properties/propertyValidators.ts` | 28 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/importCalendarData.ts` | 13 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/InstancesTab.vue` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/property-mappings/propertyMappingsRouter.ts` | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/propertyFeatureMatcher.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/layouts/components/NavbarShortcuts.vue` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useWizardAppointmentManagement.ts` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/services/mapsApiService.ts` | 10 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminPrimitiveMetadata.ts` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/calendar/eventCreationService.ts` | 9 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/computedAvailabilityService.ts` | 9 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/maps/placesApiService.ts` | 9 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `client/src/components/admin/generic/EntityCard.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/components/admin/generic/StatusButton.vue` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/SelectionCard.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/composables/admin/useFieldKeyboardGuard.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/helpers/calendarParsingHelpers.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/maps/mapsHelpers.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/services/google/maps/routesApiService.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/dev/DevPanelToggle.vue` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/IndependentSelectCard.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/composables/admin/useSelectConfig.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAppointmentShape.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useComputedAvailability.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useDateRangeDecider.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/layouts/components/NavSearchBar.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/services/mapsApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/services/propertyEnrichmentApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/utils/appointmentFieldFormatters.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -97,162 +97,54 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `server/src/services/google/maps/routesApiService.ts`
-
-- score: **22**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- score: **21**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/services/google/maps/placesApiService.ts`
-
-- score: **21**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
-
-- score: **20**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/views/admin/tabs/components/PropertiesTable.vue`
-
-- score: **16**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `server/src/scripts/importCalendarData.ts`
 
 - score: **15**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/components/beta/BetaFeedbackModal.vue`
+### `server/src/scripts/importCalendarData.ts`
 
-- score: **14**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/layouts/components/NavSearchBar.vue`
-
-- score: **14**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `server/src/services/google/maps/mapsHelpers.ts`
-
-- score: **14**
+- score: **13**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/components/beta/BetaFeedbackDashboard.vue`
-
-- score: **13**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
 ### `server/src/services/computedAvailabilityService.ts`
 
-- score: **13**
+- score: **9**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/services/google/maps/placesApiService.ts`
+
+- score: **9**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/components/admin/generic/EntityCard.vue`
 
-- score: **12**
+- score: **6**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/components/booking/steps/ContactsStep.vue`
-
-- score: **12**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/views/admin/tabs/InstancesTab.vue`
-
-- score: **12**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/layouts/components/NavbarShortcuts.vue`
-
-- score: **11**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/components/booking/steps/PropertyDetailsStep.vue`
-
-- score: **10**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/views/admin/tabs/PropertyMappingsTab.vue`
-
-- score: **10**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/components/beta/BetaFeedbackDetailModal.vue`
-
-- score: **8**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- score: **8**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `server/src/scripts/helpers/calendarParsingHelpers.ts`
-
-- score: **8**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/admin/generic/EntityCardSubPanels.vue`
-
-- score: **7**
-
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
 ### `client/src/components/admin/generic/StatusButton.vue`
 
-- score: **7**
+- score: **6**
 
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
 ### `client/src/components/booking/SelectionCard.vue`
 
-- score: **7**
+- score: **6**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/composables/admin/useFieldKeyboardGuard.ts`
 
-- score: **7**
-
-- **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
-
-### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
-
-- score: **7**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
-
 - score: **6**
 
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+- **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
 ### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
 
@@ -260,17 +152,11 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/layouts/components/NavBarNotifications.vue`
+### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
 - score: **6**
 
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/views/admin/tabs/components/UsersTable.vue`
-
-- score: **6**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
 
@@ -278,39 +164,33 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/views/admin/entities/BlockShapeForm.vue`
+### `server/src/scripts/helpers/calendarParsingHelpers.ts`
 
-- score: **5**
+- score: **6**
 
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/views/admin/entities/PartShapeForm.vue`
+### `server/src/services/google/maps/mapsHelpers.ts`
 
-- score: **5**
+- score: **6**
 
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/views/admin/tabs/ShapesTab.vue`
+### `server/src/services/google/maps/routesApiService.ts`
 
-- score: **5**
+- score: **6**
 
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `client/src/components/admin/MetadataEditModal.vue`
+### `client/src/components/booking/dev/DevPanelsContainer.vue`
 
-- score: **4**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
-
-### `client/src/components/common/AddressAutocomplete.vue`
-
-- score: **4**
+- score: **3**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
-### `client/src/layouts/components/UserProfile.vue`
+### `client/src/layouts/components/NavSearchBar.vue`
 
-- score: **4**
+- score: **3**
 
 - **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
@@ -318,371 +198,51 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 Legend: `ruleId@lineNumber: line`
 
-### `server/src/services/google/maps/routesApiService.ts`
+### `server/src/routes/internal/properties/propertyValidators.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
-- requiring review: 18, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 8, allowed: 0
 
 ```
-magicLabel@24: const logger = createLogger('RoutesApiService')
-magicLabel@74: throw new MapsApiError('invalid', 'At least one origin is required')
-magicLabel@77: throw new MapsApiError('invalid', 'At least one destination is required')
-magicLabel@107: 'Content-Type': 'application/json',
-magicLabel@108: 'X-Goog-Api-Key': apiKey,
-magicLabel@109: 'X-Goog-FieldMask': 'originIndex,destinationIndex,duration,distanceMeters,status,condition'
-fieldMapping@116: logger.error('Routes API HTTP error', { status: response.status, errorText })
-magicLabel@116: logger.error('Routes API HTTP error', { status: response.status, errorText })
-magicLabel@122: throw new MapsApiError('rate_limit', 'Routes API quota exceeded', true)
-magicLabel@136: logger.error('Unexpected response format', { data })
-magicLabel@137: throw new MapsApiError('invalid', 'Unexpected response format from Routes API')
-fieldMapping@144: logger.debug('Route matrix complete', { resultsCount: results.length })
-magicLabel@144: logger.debug('Route matrix complete', { resultsCount: results.length })
-magicLabel@155: logger.error('Route matrix error', { error })
-magicLabel@158: error instanceof Error ? error.message : 'Network error',
-magicLabel@189: logger.warn('Missing origin location data')
-magicLabel@194: logger.warn('Missing destination location data')
-magicLabel@209: logger.warn('No route found between locations')
+switchTypeLike@207: switch (key) {
+caseString@208: case 'mlsNumber':
+caseString@211: case 'squareFootage':
+caseString@212: case 'bedrooms':
+caseString@213: case 'additionalUnits': {
+caseString@222: case 'bathrooms': {
+caseString@231: case 'foundationAccess':
+caseString@244: case 'source':
 ```
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 11, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 5, allowed: 0
 
 ```
-magicLabel@124: showError('Please select at least one service type')
-magicLabel@130: showError('Property details are required')
-magicLabel@135: showError('Contact information is required')
-magicLabel@140: showError('Availability selection is required')
-fieldMapping@173: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
-fieldMapping@174: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-fieldMapping@175: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-fieldMapping@176: { info: contacts.transactionManagerInfo, role: 'transaction_manager', shouldCreate: contacts.showTransactionManager },
-fieldMapping@177: { info: contacts.sellerInfo, role: 'seller', shouldCreate: contacts.showSeller },
-magicLabel@286: logger.error('Failed to collect appointment data', { error })
-magicLabel@287: const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'
-```
-
-### `server/src/services/google/maps/placesApiService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 15, allowed: 0
-
-```
-magicLabel@28: const logger = createLogger('PlacesApiService')
-magicLabel@46: logger.debug('Fetching autocomplete', { input })
-fieldMapping@61: logger.debug('Autocomplete API status', { status: data.status })
-magicLabel@61: logger.debug('Autocomplete API status', { status: data.status })
-fieldMapping@62: if (data.error_message) logger.error('API error_message', { errorMessage: data.error_message })
-magicLabel@71: logger.error('Autocomplete error', { error })
-magicLabel@74: error instanceof Error ? error.message : 'Network error',
-magicLabel@88: if (!placeId) throw new MapsApiError('invalid', 'Place ID is required')
-magicLabel@93: logger.debug('Fetching place details', { placeId })
-magicLabel@105: if (!data.result) throw new MapsApiError('invalid', 'Invalid response from Places API')
-magicLabel@111: logger.error('Place details error', { error })
-magicLabel@114: error instanceof Error ? error.message : 'Network error',
-magicLabel@129: logger.debug('Geocoding cache hit', {
-fieldMapping@140: logger.debug('Geocoding cache miss, calling API', { address: address.substring(0, 50) })
-magicLabel@148: logger.warn('Geocoding error', {
-```
-
-### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=20
-- requiring review: 20, allowed: 0
-
-```
-magicLabel@52: {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
-magicLabel@68: {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
-magicLabel@82: label="Visibility"
-magicLabel@85: placeholder="Not Configured"
-magicLabel@97: placeholder="Not Configured"
-magicLabel@106: label="Status Button Color"
-magicLabel@109: placeholder="Not Configured"
-magicLabel@119: label="Select Mode"
-magicLabel@122: placeholder="Select mode"
-magicLabel@132: label="Enable Bulk Edit"
-magicLabel@165: const logger = createLogger('AdminPrimitiveMetadataEditor')
-magicLabel@320: logger.debug('Metadata cache refetched successfully')
-magicLabel@335: { title: 'Not Configured', value: 'notConfigured' },
-magicLabel@336: { title: 'Title Row', value: 'titleRow' },
-magicLabel@337: { title: 'Static As Title', value: 'staticAsTitle' },
-magicLabel@338: { title: 'Expanded Direct', value: 'expandedDirect' },
-magicLabel@339: { title: 'Expanded Panel', value: 'expandedPanel' },
-magicLabel@345: { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
-magicLabel@363: { title: 'Multiple', value: 'Multiple' },
-magicLabel@364: { title: 'Required', value: 'Required' },
-```
-
-### `client/src/utils/forms/fieldLocationDispatcher.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=5, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
-- requiring review: 6, allowed: 0
-
-```
-switchTypeLike@196: switch (location.type) {
-caseString@197: case 'titleRow':
-caseString@199: case 'directInline':
-caseString@201: case 'directStacked':
-caseString@203: case 'subPanel':
-caseString@211: case 'hidden':
-```
-
-### `client/src/utils/iconMapper.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=17
-- requiring review: 17, allowed: 0
-
-```
-magicLabel@17: 'DollarOutlined': 'tabler-currency-dollar',
-magicLabel@18: 'ContactsOutlined': 'tabler-users',
-magicLabel@19: 'HomeOutlined': 'tabler-home',
-magicLabel@20: 'EyeOutlined': 'tabler-eye',
-magicLabel@22: 'ShoppingCartOutlined': 'tabler-shopping-cart',
-magicLabel@23: 'UserOutlined': 'tabler-user',
-magicLabel@24: 'TeamOutlined': 'tabler-users',
-magicLabel@25: 'SettingOutlined': 'tabler-settings',
-magicLabel@26: 'EditOutlined': 'tabler-edit',
-magicLabel@27: 'DeleteOutlined': 'tabler-trash',
-magicLabel@28: 'PlusOutlined': 'tabler-plus',
-magicLabel@29: 'MinusOutlined': 'tabler-minus',
-magicLabel@30: 'CheckOutlined': 'tabler-check',
-magicLabel@31: 'CloseOutlined': 'tabler-x',
-magicLabel@32: 'InfoCircleOutlined': 'tabler-info-circle',
-magicLabel@33: 'WarningOutlined': 'tabler-alert-triangle',
-magicLabel@34: 'QuestionCircleOutlined': 'tabler-help-circle',
-```
-
-### `client/src/views/admin/tabs/components/PropertiesTable.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
-- requiring review: 16, allowed: 0
-
-```
-magicLabel@36: { title: 'Address', key: 'address', sortable: true },
-magicLabel@40: { title: 'Zip Code', key: 'zipCode', sortable: true },
-magicLabel@41: { title: 'MLS Number', key: 'mlsNumber', sortable: true },
-magicLabel@42: { title: 'Square Feet', key: 'squareFootage', sortable: true },
-magicLabel@43: { title: 'Bedrooms', key: 'bedrooms', sortable: true },
-magicLabel@44: { title: 'Bathrooms', key: 'bathrooms', sortable: true },
-magicLabel@45: { title: 'Foundation', key: 'foundationAccess', sortable: true },
-magicLabel@46: { title: 'Additional Units', key: 'additionalUnits', sortable: true },
-magicLabel@47: { title: 'Actions', key: 'actions', sortable: false },
-magicLabel@128: label="Square Footage"
-magicLabel@134: label="MLS Number"
-magicLabel@141: label="Bedrooms"
-magicLabel@148: label="Bathrooms"
-magicLabel@155: label="Foundation Access"
-magicLabel@163: label="Additional Units"
-magicLabel@182: No properties found. Click "Create Property" to add one.
-```
-
-### `server/src/config/entityRegistry.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=16
-- requiring review: 16, allowed: 0
-
-```
-magicLabel@6: const logger = createLogger('EntityRegistry');
-magicLabel@49: logger.warn('This is normal during module loading - models will be available after app initialization');
-magicLabel@56: displayName: 'Part Instance',
-magicLabel@57: description: 'Individual part instances with timing and fee configuration'
-magicLabel@62: displayName: 'Block Instance',
-magicLabel@63: description: 'Block instances with shape assignments and configuration',
-magicLabel@68: displayName: 'Part Shape',
-magicLabel@69: description: 'Part shape definitions and constraints'
-magicLabel@74: displayName: 'Block Shape',
-magicLabel@75: description: 'Block shape definitions and constraints'
-magicLabel@80: displayName: 'Event Shape',
-magicLabel@86: displayName: 'Event Instance',
-magicLabel@87: description: 'Event instance configurations with calendar event templates'
-magicLabel@92: displayName: 'Annotation Shape',
-magicLabel@98: displayName: 'Annotation Instance',
-magicLabel@99: description: 'Reusable annotation instances that can be assigned to block instances'
+fieldMapping@174: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+fieldMapping@175: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
+fieldMapping@176: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
+fieldMapping@177: { info: contacts.transactionManagerInfo, role: 'transaction_manager', shouldCreate: contacts.showTransactionManager },
+fieldMapping@178: { info: contacts.sellerInfo, role: 'seller', shouldCreate: contacts.showSeller },
 ```
 
 ### `server/src/scripts/importCalendarData.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=2, magicLabel=2
-- requiring review: 7, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=2
+- requiring review: 5, allowed: 0
 
 ```
-magicLabel@24: const logger = createLogger('CalendarImport');
 fieldMapping@52: where: { email: client.email },
 fieldMapping@99: await existingAddress.update({ unit: addressData.unit });
 fieldMapping@234: const existingUser = await User.findOne({ where: { email: client.email } });
-magicLabel@352: throw new Error('No events provided in stdin');
 inlineLabelMap@359: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 inlineLabelMap@413: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
-### `client/src/components/beta/BetaFeedbackModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=14
-- requiring review: 14, allowed: 0
-
-```
-magicLabel@24: label="Your name"
-magicLabel@38: label="Category"
-magicLabel@46: label="Severity"
-magicLabel@61: label="Description"
-magicLabel@80: label="Steps to reproduce"
-magicLabel@87: label="Expected behavior"
-magicLabel@94: label="Actual behavior"
-magicLabel@126: const logger = createLogger('BetaFeedbackModal');
-magicLabel@139: { title: 'Feature request', value: 'feature_request' },
-magicLabel@140: { title: 'Usability', value: 'usability' },
-magicLabel@141: { title: 'Performance', value: 'performance' },
-magicLabel@142: { title: 'General', value: 'general' },
-magicLabel@149: { title: 'Critical', value: 'critical' },
-magicLabel@228: logger.error('Failed to submit feedback', { err });
-```
-
-### `client/src/layouts/components/NavSearchBar.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@42: title: 'Popular Searches',
-magicLabel@44: { icon: 'tabler-chart-bar', title: 'Analytics', url: { name: 'dashboards-analytics' } },
-magicLabel@47: { icon: 'tabler-truck', title: 'Logistics', url: { name: 'dashboards-logistics' } },
-magicLabel@53: { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
-magicLabel@55: { icon: 'tabler-settings', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
-magicLabel@56: { icon: 'tabler-copy', title: 'Dialog Examples', url: { name: 'pages-dialog-examples' } },
-magicLabel@60: title: 'User Interface',
-magicLabel@62: { icon: 'tabler-typography', title: 'Typography', url: { name: 'pages-typography' } },
-magicLabel@63: { icon: 'tabler-menu-2', title: 'Accordion', url: { name: 'components-expansion-panel' } },
-magicLabel@72: { icon: 'tabler-file-invoice', title: 'Form Layouts', url: { name: 'forms-form-layouts' } },
-magicLabel@81: title: 'Analytics',
-fieldMapping@105: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
-```
-
-### `server/src/services/google/maps/mapsHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@78: : 'API key invalid or restricted'
-magicLabel@83: throw new MapsApiError('rate_limit', 'API quota exceeded', true)
-magicLabel@90: const message = invalidRequestAsNotFound ? 'Place not found' : defaultMessage
-magicLabel@96: throw new MapsApiError('not_found', 'Place not found')
-magicLabel@100: throw new MapsApiError('not_found', 'No results found')
-magicLabel@167: throw new MapsApiError('invalid', 'Place has no coordinates')
-magicLabel@199: const geocodeLogger = createLogger('PlacesGeocode')
-magicLabel@226: geocodeLogger.warn('Geocoding failed', {
-fieldMapping@275: return { placeId: location.placeId }
-fieldMapping@292: return { address: location.address }
-```
-
-### `client/src/components/beta/BetaFeedbackDashboard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=13
-- requiring review: 13, allowed: 0
-
-```
-magicLabel@59: label="Category"
-magicLabel@69: label="Severity"
-magicLabel@136: { title: 'Triaged', value: 'triaged' },
-magicLabel@137: { title: 'In progress', value: 'in_progress' },
-magicLabel@138: { title: 'Resolved', value: 'resolved' },
-magicLabel@144: { title: 'Feature request', value: 'feature_request' },
-magicLabel@145: { title: 'Usability', value: 'usability' },
-magicLabel@146: { title: 'Performance', value: 'performance' },
-magicLabel@147: { title: 'General', value: 'general' },
-magicLabel@154: { title: 'Critical', value: 'critical' },
-magicLabel@159: { title: 'Category', key: 'category', sortable: false, width: '120px' },
-magicLabel@160: { title: 'Severity', key: 'severity', sortable: false, width: '90px' },
-magicLabel@162: { title: 'Reporter', key: 'reporterName', sortable: false, width: '140px' },
-```
-
-### `server/src/services/computedAvailabilityService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@45: const logger = createLogger('ComputedAvailabilityService')
-fieldMapping@117: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
-fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
-magicLabel@132: logger.debug('Drive time cache check', {
-magicLabel@181: logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })
-fieldMapping@217: { status: result.status, condition: result.condition }
-magicLabel@224: logger.error('Failed to batch calculate driveFromCandidate', {
-```
-
-### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@46: const logger = createLogger('AvailabilitiesDbUtils');
-caseString@237: case 'past':
-caseString@242: case 'centered':
-caseString@247: case 'future':
-```
-
-### `client/src/components/admin/generic/EntityCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@139: if (key !== ' ' && key !== 'Spacebar' && key !== KEY_ENTER && event.keyCode !== 32 && event.keyCode !== 13) {
-magicLabel@210: const logger = createLogger('EntityCard')
-magicLabel@279: logger.debug('Fields needing contexts', {
-fieldMapping@374: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-magicLabel@374: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-fieldMapping@379: logger.debug('Form reset after save', { entityId: props.entity.id })
-magicLabel@379: logger.debug('Form reset after save', { entityId: props.entity.id })
-magicLabel@389: logger.debug('Save triggered', {
-```
-
-### `client/src/components/booking/steps/ContactsStep.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@116: label="First Name"
-magicLabel@127: label="Last Name"
-magicLabel@159: label="First Name"
-magicLabel@170: label="Last Name"
-magicLabel@214: label="First Name"
-magicLabel@225: label="Last Name"
-magicLabel@269: label="First Name"
-magicLabel@280: label="Last Name"
-magicLabel@281: placeholder="Johnson"
-magicLabel@324: label="First Name"
-magicLabel@335: label="Last Name"
-magicLabel@336: placeholder="Williams"
-```
-
-### `client/src/utils/booking/constraintColors.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@106: 'event': 'Calendar Event',
-magicLabel@107: 'outOfOffice': 'Out of Office',
-magicLabel@108: 'appointment': 'Appointment Buffer',
-magicLabel@109: 'driveToCandidate': 'Drive To Appointment',
-magicLabel@110: 'driveFromCandidate': 'Drive From Appointment',
-magicLabel@111: 'lunch': 'Lunch Break'
-magicLabel@130: 'daily': 'Daily Capacity',
-magicLabel@131: 'calendarWeek': 'Calendar Week Capacity',
-magicLabel@132: 'rollingWeek': 'Rolling Week Capacity'
-magicLabel@140: 'leadTime': 'Lead Time',
-magicLabel@141: 'dateRange': 'Date Range',
-magicLabel@142: 'businessHours': 'Business Hours'
-```
-
 ### `client/src/utils/booking/durationRounding.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 3, allowed: 0
 
 ```
@@ -691,49 +251,9 @@ caseString@95: case 'roundDown':
 caseString@97: case 'roundNearest':
 ```
 
-### `client/src/views/admin/tabs/InstancesTab.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@36: const logger = createLogger('InstancesTab')
-magicLabel@46: name: 'Global Config',
-magicLabel@311: logger.error('Error setting up event instances drag-and-drop', { error })
-magicLabel@324: alert('Please create an event shape first')
-magicLabel@353: success('Event instance created successfully')
-magicLabel@358: logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
-magicLabel@466: : 'No Cascades'
-magicLabel@486: {{ bulkEditMode.get(blockShape.id) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@671: label="Event Shape"
-magicLabel@684: label="Title Template"
-magicLabel@692: label="Description Template"
-magicLabel@700: label="Location Template"
-```
-
-### `server/src/routes/internal/property-mappings/propertyMappingsRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=12
-- requiring review: 12, allowed: 0
-
-```
-magicLabel@24: FETCH_ALL: 'Failed to fetch field mappings',
-magicLabel@25: FETCH_ONE: 'Failed to fetch field mapping',
-magicLabel@26: NOT_FOUND: 'Field mapping not found',
-magicLabel@27: CREATE: 'Failed to create field mapping',
-magicLabel@28: UPDATE: 'Failed to update field mapping',
-magicLabel@29: DELETE: 'Failed to delete field mapping',
-magicLabel@38: FETCH_ALL: 'Failed to fetch feature mappings',
-magicLabel@39: FETCH_ONE: 'Failed to fetch feature mapping',
-magicLabel@40: NOT_FOUND: 'Feature mapping not found',
-magicLabel@41: CREATE: 'Failed to create feature mapping',
-magicLabel@42: UPDATE: 'Failed to update feature mapping',
-magicLabel@43: DELETE: 'Failed to delete feature mapping',
-```
-
 ### `server/src/services/propertyFeatureMatcher.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 4, allowed: 0
 
 ```
@@ -743,378 +263,82 @@ caseString@56: case 'contains':
 caseString@59: case 'equals':
 ```
 
-### `client/src/layouts/components/NavbarShortcuts.vue`
+### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=11
-- requiring review: 11, allowed: 0
-
-```
-magicLabel@5: title: 'Calendar',
-magicLabel@6: subtitle: 'Appointments',
-magicLabel@11: title: 'Invoice App',
-magicLabel@12: subtitle: 'Manage Accounts',
-magicLabel@18: subtitle: 'Manage Users',
-magicLabel@23: title: 'Role Management',
-magicLabel@24: subtitle: 'Permission',
-magicLabel@29: title: 'Dashboard',
-magicLabel@30: subtitle: 'Dashboard Analytics',
-magicLabel@35: title: 'Settings',
-magicLabel@36: subtitle: 'Account Settings',
-```
-
-### `client/src/components/booking/steps/PropertyDetailsStep.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=3, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 3, allowed: 0
 
 ```
-magicLabel@32: const logger = createLogger('PropertyDetailsStep')
-magicLabel@261: label="Property Address"
-magicLabel@278: label="Street Address"
-magicLabel@300: placeholder="Los Angeles"
-magicLabel@325: label="Zip Code"
-magicLabel@396: label="MLS Number"
-magicLabel@404: label="Bedrooms"
-magicLabel@413: label="Bathrooms"
-magicLabel@422: label="Foundation Access"
-magicLabel@433: label="Number of Units"
+caseString@237: case 'past':
+caseString@242: case 'centered':
+caseString@247: case 'future':
 ```
 
-### `client/src/composables/booking/useWizardAppointmentManagement.ts`
+### `server/src/services/computedAvailabilityService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@127: showError('No appointments available to load')
-magicLabel@142: logger.error('Error loading appointment by ID', { error })
-magicLabel@150: showError('Unable to load appointment data')
-magicLabel@171: success('Appointment loaded successfully')
-magicLabel@174: logger.error('Failed to load appointment', { error })
-magicLabel@175: const errorMessage = error instanceof Error ? error.message : 'Failed to load appointment'
-magicLabel@189: showError('No appointment loaded')
-magicLabel@204: success('Appointment updated successfully')
-magicLabel@207: logger.error('Update appointment error', error)
-magicLabel@242: success('Wizard reset successfully')
-```
-
-### `client/src/services/mapsApiService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 8, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 3, allowed: 0
 
 ```
-magicLabel@45: this.name = 'MapsApiError'
-fieldMapping@104: const params = new URLSearchParams({ input: input.trim() })
-magicLabel@148: throw new MapsApiError('invalid', 'Place ID is required')
-magicLabel@192: axiosError.response.data.error ?? 'API error',
-magicLabel@197: return new MapsApiError('rate_limit', 'API rate limit exceeded', true)
-magicLabel@200: return new MapsApiError('auth', 'API key invalid or not configured')
-magicLabel@203: return new MapsApiError('not_found', 'Place not found')
-magicLabel@209: const message = rawError !== undefined && rawError !== null ? rawError : 'Invalid response from server'
+fieldMapping@117: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+fieldMapping@217: { status: result.status, condition: result.condition }
 ```
 
-### `client/src/views/admin/tabs/PropertyMappingsTab.vue`
+### `server/src/services/google/maps/placesApiService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=10
-- requiring review: 10, allowed: 0
-
-```
-magicLabel@90: { title: 'Source Field', key: 'sourceField', sortable: true },
-magicLabel@91: { title: 'Target Field', key: 'targetField', sortable: true },
-magicLabel@92: { title: 'Fallback', key: 'fallbackValue' },
-magicLabel@94: { title: 'Actions', key: 'actions', sortable: false }
-magicLabel@118: { title: 'Source Field', key: 'sourceField', sortable: true },
-magicLabel@119: { title: 'Match Type', key: 'matchType' },
-magicLabel@120: { title: 'Match Value', key: 'matchValue' },
-magicLabel@121: { title: 'Block Instance', key: 'blockInstance.name' },
-magicLabel@122: { title: 'Priority', key: 'priority', sortable: true },
-magicLabel@124: { title: 'Actions', key: 'actions', sortable: false }
-```
-
-### `server/src/db/models/admin/adminMetadata.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
-- requiring review: 9, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 3, allowed: 0
 
 ```
-magicLabel@63: comment: 'Entity type for this metadata entry',
-magicLabel@69: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@87: comment: 'Field data type',
-magicLabel@92: comment: 'Human-readable label',
-magicLabel@99: comment: 'Whether field is required',
-magicLabel@105: comment: 'Field visibility setting',
-magicLabel@111: comment: 'Layout within section',
-magicLabel@137: comment: 'Panel name for expandedPanel visibility',
-magicLabel@144: comment: 'Whether field can be bulk edited',
+fieldMapping@61: logger.debug('Autocomplete API status', { status: data.status })
+fieldMapping@62: if (data.error_message) logger.error('API error_message', { errorMessage: data.error_message })
+fieldMapping@140: logger.debug('Geocoding cache miss, calling API', { address: address.substring(0, 50) })
 ```
 
-### `server/src/db/models/admin/adminPrimitiveMetadata.ts`
+### `client/src/components/admin/generic/EntityCard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=9
-- requiring review: 9, allowed: 0
-
-```
-magicLabel@58: comment: 'Entity type for this primitive metadata entry',
-magicLabel@64: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@76: comment: 'Field data type',
-magicLabel@81: comment: 'Human-readable label',
-magicLabel@88: comment: 'Whether field is required',
-magicLabel@94: comment: 'Field visibility setting',
-magicLabel@100: comment: 'Layout within section',
-magicLabel@131: comment: 'Panel name for expandedPanel visibility',
-magicLabel@138: comment: 'Whether field can be bulk edited',
-```
-
-### `server/src/services/google/calendar/eventCreationService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 7, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
 
 ```
-magicLabel@18: const logger = createLogger('EventCreationService')
-magicLabel@49: throw new CalendarApiError('invalid', 'Event start time must be before end time')
-magicLabel@93: logger.debug('Creating event', {
-magicLabel@108: throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned')
-magicLabel@115: logger.debug('Invalidating caches after event creation', { calendarId })
-fieldMapping@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
-magicLabel@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
-```
-
-### `client/src/components/beta/BetaFeedbackDetailModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@76: label="Resolution notes"
-magicLabel@104: const logger = createLogger('BetaFeedbackDetailModal');
-magicLabel@118: { title: 'Triaged', value: 'triaged' },
-magicLabel@119: { title: 'In progress', value: 'in_progress' },
-magicLabel@120: { title: 'Resolved', value: 'resolved' },
-magicLabel@145: success('Feedback updated');
-magicLabel@149: logger.error('Failed to update feedback', { err });
-magicLabel@154: saveError.value = message || 'Failed to update feedback';
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@42: const logger = createLogger('DevPanelsContainer')
-fieldMapping@302: logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
-magicLabel@302: logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
-magicLabel@481: label="Service Type"
-magicLabel@502: {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
-magicLabel@582: : 'Not configured' }}
-```
-
-### `client/src/utils/entityDefaults.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@21: blockInstance: 'Block Profile',
-magicLabel@22: blockShape: 'Block Shape',
-magicLabel@23: partInstance: 'Part Profile',
-magicLabel@24: partShape: 'Part Shape',
-magicLabel@25: eventShape: 'Event Shape',
-magicLabel@26: eventInstance: 'Event Profile',
-magicLabel@27: annotationShape: 'Annotation Shape',
-magicLabel@28: annotationInstance: 'Annotation Profile',
-```
-
-### `server/src/db/models/admin/adminRelationshipMetadata.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=8
-- requiring review: 8, allowed: 0
-
-```
-magicLabel@56: comment: 'Entity type for this relationship metadata entry',
-magicLabel@62: comment: 'Entity ID or sentinel UUID for global configs',
-magicLabel@74: comment: 'Relationship data type',
-magicLabel@79: comment: 'Human-readable label',
-magicLabel@86: comment: 'Whether relationship field is required',
-magicLabel@92: comment: 'Relationship field visibility setting',
-magicLabel@98: comment: 'Layout within section',
-magicLabel@136: comment: 'Whether relationship field can be bulk edited',
-```
-
-### `server/src/routes/internal/appointments/appointmentHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@28: const logger = createLogger('AppointmentRouter')
-magicLabel@63: logger.debug('Calendar integration not enabled')
-fieldMapping@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
-magicLabel@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
-magicLabel@82: logger.debug('No writeTo calendar configured')
-magicLabel@85: logger.error('Error reading writeTo calendar from settings', { error })
-```
-
-### `server/src/scripts/helpers/calendarParsingHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@32: const DEFAULT_FIRST_NAME = 'Unknown' as const
-magicLabel@140: * @param fullName - Full name string (may be "Last, First" or "First Last")
-fieldMapping@255: logger.warn('Calendar parse: missing displayName, using email local part', { email: attendee.email })
-fieldMapping@262: logger.warn('Calendar parse: empty firstName, using default', { email: attendee.email })
-```
-
-### `server/src/services/google/shared/googleApiRetry.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@11: const logger = createLogger('GoogleApiRetry')
-magicLabel@97: logger.error('Non-retryable error', { errorType, message: (error as Error)?.message })
-fieldMapping@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
-magicLabel@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
-magicLabel@111: logger.warn('Retrying after delay', {
-magicLabel@123: throw lastError || new Error('Retry failed')
-```
-
-### `client/src/components/admin/generic/EntityCardSubPanels.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@193: relationshipTypes.push('Booking Cascades')
-magicLabel@206: relationshipTypes.push('Valid Cascades')
-magicLabel@209: relationshipTypes.push('Valid Parts')
-magicLabel@214: relationshipTypes.push('Pricing Cascades')
-magicLabel@219: relationshipTypes.push('Valid Pricing Cascades')
-magicLabel@259: {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-magicLabel@307: <!-- PATTERN: Simple panel with just "Annotations" label -->
+fieldMapping@374: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
+fieldMapping@379: logger.debug('Form reset after save', { entityId: props.entity.id })
 ```
 
 ### `client/src/components/admin/generic/StatusButton.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
 
 ```
 fieldEqualsString@111: const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
-magicLabel@111: const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
 fieldEqualsString@112: const isEnter = event.key === 'Enter' || event.keyCode === 13
 ```
 
 ### `client/src/components/booking/SelectionCard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
 
 ```
 fieldMapping@159: emit('update:number', { itemId: props.item.id, number: finalValue })
 fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
-magicLabel@226: label="Quantity"
 ```
 
 ### `client/src/composables/admin/useFieldKeyboardGuard.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
 
 ```
 fieldEqualsString@54: const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32
-magicLabel@54: const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32
 fieldEqualsString@56: const isTab = key === 'Tab' || event.keyCode === 9
-```
-
-### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
-
-```
-fieldMapping@44: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
-magicLabel@113: aria-label="Fee vs square footage by service"
-fieldMapping@174: :style="{ backgroundColor: item.color }"
-```
-
-### `server/src/routes/external/propertyEnrichmentRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=7
-- requiring review: 7, allowed: 0
-
-```
-magicLabel@22: const logger = createLogger('PropertyEnrichmentRoutes');
-magicLabel@66: error: 'Missing address query parameter',
-magicLabel@74: error: 'Property enrichment service not configured',
-magicLabel@105: error: 'No listing found for address',
-magicLabel@138: error: 'Property enrichment rate limit exceeded',
-magicLabel@143: logger.error('Property enrichment error', { error });
-magicLabel@145: error: 'Property enrichment failed',
-```
-
-### `server/src/services/appointmentCalendarService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('AppointmentCalendarService');
-magicLabel@44: readonly __brand?: 'ServerTimeSlot'
-fieldMapping@139: { where: { id: attendee.id } }
-magicLabel@159: error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
-magicLabel@245: 'Home Inspection Appointment',
-```
-
-### `client/src/components/admin/generic/collections/RelationshipCollection.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@131: const logger = createLogger('RelationshipCollection')
-magicLabel@202: parts: 'Click to create part instance',
-magicLabel@203: annotations: 'Click to create annotation instance',
-magicLabel@204: events: 'Click to create event instance'
-magicLabel@213: events: `No valid ${effectiveCollectionType.value === 'events' ? 'EventShapes' : 'Shapes'} configured. Configure valid options to add instances.`
-magicLabel@235: logger.warn('Could not find entity with id', { id })
-```
-
-### `client/src/composables/admin/useAvailabilitySettings.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@107: throw new Error('No settings found in API response')
-magicLabel@153: logger.error('Failed to load settings from API', { err })
-magicLabel@154: error.value = err instanceof Error ? err.message : 'Failed to load settings from API'
-magicLabel@169: error.value = 'Settings must be loaded before validation'
-magicLabel@205: error.value = 'Settings must be loaded before saving'
-magicLabel@330: logger.error('Failed to save availability settings', { err })
-```
-
-### `client/src/composables/admin/useBusinessRules.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@123: logger.error('Error fetching business rules', { error: err })
-magicLabel@145: logger.error('Error fetching business rules for block', { error: err, blockInstanceId })
-magicLabel@175: logger.error('Error creating business rule', { error: err })
-magicLabel@205: logger.error('Error updating business rule', { error: err, id, formData })
-magicLabel@230: logger.error('Error deleting business rule', { error: err, id })
-magicLabel@254: logger.error('Error toggling business rule', { error: err, id, active })
 ```
 
 ### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
@@ -1122,49 +346,19 @@ fieldMapping@140: const newMonth: DisplayedMonth = { year: newDate.getUTCFullYea
 fieldMapping@164: updateDisplayedMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() })
 ```
 
-### `client/src/layouts/components/NavBarNotifications.vue`
+### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@14: subtitle: 'Won the monthly best seller badge',
-magicLabel@20: text: 'Tom Holland',
-magicLabel@23: time: 'Yesterday',
-magicLabel@30: subtitle: 'You have 10 unread messages',
-magicLabel@38: subtitle: 'Received Payment',
-magicLabel@47: subtitle: 'New order received from john',
-```
-
-### `client/src/utils/booking/confirmationStepData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 4, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
 
 ```
-magicLabel@116: serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'
-magicLabel@120: propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'
-magicLabel@132: const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'
-fieldMapping@255: return { label: block.name, amount, isFree: amount === 0 }
-```
-
-### `client/src/views/admin/tabs/components/UsersTable.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=6
-- requiring review: 6, allowed: 0
-
-```
-magicLabel@36: { title: 'First Name', key: 'firstName', sortable: true },
-magicLabel@37: { title: 'Last Name', key: 'lastName', sortable: true },
-magicLabel@41: { title: 'Login ID', key: 'loginId', sortable: true },
-magicLabel@42: { title: 'Actions', key: 'actions', sortable: false },
-magicLabel@125: label="Login ID"
-magicLabel@144: No users found. Click "Create User" to add one.
+fieldMapping@44: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
+fieldMapping@174: :style="{ backgroundColor: item.color }"
 ```
 
 ### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
@@ -1172,550 +366,93 @@ fieldMapping@78: ...(body.status !== undefined && { status: body.status }),
 fieldMapping@79: ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
 ```
 
-### `client/src/composables/admin/usePartInstanceBulkEdit.ts`
+### `server/src/scripts/helpers/calendarParsingHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@121: showError('No PartInstances to update')
-magicLabel@151: showError('No changes to apply')
-magicLabel@167: logger.error('Error in applyPartInstanceBulkEdit', { err })
-magicLabel@168: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
-magicLabel@204: showError('No valid fields to update')
-```
-
-### `client/src/composables/admin/usePartInstanceCollection.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@112: logger.error('Failed to get default entity values for partInstance', { error: _error })
-magicLabel@128: const blockInstanceName = blockInstanceEntity.name || 'BlockInstance'
-magicLabel@131: const partShapeName = rawName !== undefined && rawName !== null && rawName !== '' ? rawName : 'PartShape'
-magicLabel@179: logger.error('Failed to link PartInstance to BlockInstance', { error: _error })
-magicLabel@180: notifyError('Failed to link PartInstance to BlockInstance')
-```
-
-### `client/src/composables/booking/useWizardValidationErrors.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@69: showError('Please select at least one property type')
-magicLabel@97: : 'Please complete all required fields'
-magicLabel@104: showError('Please complete all required fields before continuing')
-magicLabel@109: showError('Please complete all required fields before continuing')
-magicLabel@111: showError('Please complete all required fields before continuing')
-```
-
-### `client/src/composables/useFormValidation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@30: const required = (message = 'This field is required'): ValidationRule => {
-magicLabel@51: const email = (message = 'Please enter a valid email address'): ValidationRule => {
-magicLabel@66: const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
-magicLabel@144: const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
-magicLabel@159: const dateNotInPast = (message = 'Date cannot be in the past'): ValidationRule => {
-```
-
-### `client/src/router/index.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('Router Guard')
-magicLabel@65: if (isScopeExplicitlyEnabled('Router Guard')) {
-magicLabel@66: logger.debug('Prefetching admin metadata for', to.path)
-magicLabel@71: if (isScopeExplicitlyEnabled('Router Guard')) {
-magicLabel@72: logger.debug('Admin metadata prefetched successfully')
-```
-
-### `client/src/services/calendarApiService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@45: this.name = 'CalendarApiError'
-magicLabel@66: 'OAuth authentication required',
-magicLabel@75: 'API rate limit exceeded'
-magicLabel@83: 'Calendar not found or inaccessible'
-magicLabel@97: const message = rawMessage !== undefined && rawMessage !== null && rawMessage !== '' ? rawMessage : 'Invalid response from server'
-```
-
-### `client/src/utils/booking/cascadeFilterPipeline.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@37: return { success: false, error: 'Booking data not loaded', instances: currentSelection }
-fieldMapping@59: logger.debug('filterByCascade: activeBlockIds missing on parent', { parentId: parent.id })
-magicLabel@183: logger.warn('Cascade results filtered out - no matching shape in cascade results', {
-```
-
-### `client/src/utils/booking/slotGenerationValidation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@43: logger.warn('Non-integer duration will be rounded', { duration })
-magicLabel@58: logger.warn('Large minuteIncrement may result in few slots', { minuteIncrement })
-magicLabel@62: logger.error('Missing boundary parameters')
-magicLabel@71: logger.error('Invalid startBoundary datetime', { startBoundary })
-magicLabel@75: logger.error('Invalid endBoundary datetime', { endBoundary })
-```
-
-### `client/src/views/admin/entities/BlockShapeForm.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@7: {{ isEdit ? 'Edit Block Type' : 'Create Block Type' }}
-magicLabel@29: label="Order Index"
-magicLabel@79: const logger = createLogger('BlockShapeForm')
-magicLabel@124: logger.error('Failed to save block type', { err })
-magicLabel@125: error.value = err instanceof Error ? err.message : 'Failed to save block type'
-```
-
-### `client/src/views/admin/entities/PartShapeForm.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@7: {{ isEdit ? 'Edit Part Type' : 'Create Part Type' }}
-magicLabel@29: label="Order Index"
-magicLabel@65: const logger = createLogger('PartShapeForm')
-magicLabel@108: logger.error('Failed to save part type', { err })
-magicLabel@109: error.value = err instanceof Error ? err.message : 'Failed to save part type'
-```
-
-### `client/src/views/admin/tabs/ShapesTab.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@26: const logger = createLogger('ShapesTab')
-magicLabel@215: success('Annotation shape created successfully')
-magicLabel@220: logger.error('Failed to create annotation shape', { error: _error })
-magicLabel@255: success('Event shape created successfully')
-magicLabel@260: logger.error('Failed to create event shape', { error, name: newEventShapeName.value })
-```
-
-### `server/src/api/api.controller.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@7: res.status(500).json({ error: "An error occurred" });
-fieldMapping@13: res.status(200).json({ msg: req.body });
-magicLabel@15: res.status(500).json({ error: "An error occurred" });
-```
-
-### `server/src/db/models/admin/business_settings.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=5
-- requiring review: 5, allowed: 0
-
-```
-magicLabel@88: majorLabel?: string;  // Display label for major perspective (e.g., "Inspector")
-magicLabel@89: minorLabel?: string;  // Display label for minor perspective (e.g., "Client Formal Presentation")
-magicLabel@90: differentialGraphDefaultLabel?: string;  // Label shown when no time slot is selected (e.g., "Select a Time Slot")
-magicLabel@91: majorStateLabel?: string;  // State message when major perspective is selected (e.g., "Showing Major Times")
-magicLabel@92: minorStateLabel?: string;  // State message when minor perspective is selected (e.g., "Showing Client FormalPresentation Times")
-```
-
-### `client/src/components/admin/MetadataEditModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@67: const logger = createLogger('MetadataEditModal')
-magicLabel@107: showError('Editor not available')
-magicLabel@114: logger.error('Error saving metadata', { err })
-magicLabel@118: const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
-```
-
-### `client/src/components/booking/IndependentSelectCard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@47: selectionComponent: 'VCheckbox',
-fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
+fieldMapping@255: logger.warn('Calendar parse: missing displayName, using email local part', { email: attendee.email })
+fieldMapping@262: logger.warn('Calendar parse: empty firstName, using default', { email: attendee.email })
 ```
 
-### `client/src/components/common/AddressAutocomplete.vue`
+### `server/src/services/google/maps/mapsHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@87: const logger = createLogger('AddressAutocomplete')
-magicLabel@120: label: 'Address',
-magicLabel@224: errorMessage.value = 'Failed to fetch suggestions'
-magicLabel@341: errorMessage.value = 'Failed to fetch address details'
-```
-
-### `client/src/composables/admin/useCalendarEntries.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@249: return 'At least one calendar must be configured when calendar integration is enabled'
-magicLabel@255: return 'At least one calendar must have a valid email address'
-magicLabel@261: return 'At least one calendar must be selected for writing appointments'
-magicLabel@264: return 'Only one calendar can be selected for writing appointments'
-```
-
-### `client/src/composables/admin/useRelationshipCollection.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@107: // PATTERN: Replace 'Instance' with 'Shape' in entity key
-magicLabel@110: if (childKey.endsWith('Instance')) {
-magicLabel@111: return childKey.replace('Instance', 'Shape') as GlobalEntityKey
-magicLabel@113: return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
-```
-
-### `client/src/composables/booking/useAvailabilitySlotColor.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@78: *   - Normalize the incoming date value to a 'YYYY-MM-DD' key
-magicLabel@116: // LEARNING: Map keys are 'YYYY-MM-DD' strings — lexicographic sort equals chronological sort
-magicLabel@140: * Normalize a VDatePicker date value to 'YYYY-MM-DD' string
-magicLabel@155: // Handle ISO strings like '2026-02-10T00:00:00.000Z' or plain 'YYYY-MM-DD'
-```
-
-### `client/src/composables/entityCrud/usePrimitiveMutation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@37: if (!dynamicId) throw new Error('Missing dynamicId for primitive mutation')
-magicLabel@48: const errorMessage = axiosError.response?.data?.error || 'Entity not found'
-magicLabel@134: logger.warn('Field count mismatch - fields lost', {
-magicLabel@170: logger.error('Failed to update entity', { entityKey, error })
-```
-
-### `client/src/layouts/components/UserProfile.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@33: { type: 'navItem', icon: 'tabler-user', title: 'Profile', to: { name: 'apps-user-view-id', params: { id: 21 } } },
-magicLabel@34: { type: 'navItem', icon: 'tabler-settings', title: 'Settings', to: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
-magicLabel@35: { type: 'navItem', icon: 'tabler-file-dollar', title: 'Billing Plan', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '4' } },
-magicLabel@37: { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
-```
-
-### `client/src/main.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@45: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@56: if (errorMessage.includes('Cannot read properties of undefined') &&
-magicLabel@65: if (errorString.includes('Cannot read properties of undefined') &&
-magicLabel@215: logger.error('Failed to prefetch global data', { error })
-```
-
-### `client/src/services/propertyEnrichmentApiService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-fieldMapping@38: const params = new URLSearchParams({ address: address.trim() })
-magicLabel@61: throw new Error('Property enrichment rate limit exceeded')
+fieldMapping@275: return { placeId: location.placeId }
+fieldMapping@292: return { address: location.address }
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
+### `server/src/services/google/maps/routesApiService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@42: * @param partShapeName - Part shape name (e.g., "Client Presentation")
-fieldMapping@63: logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-```
-
-### `client/src/utils/booking/partFinalizer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@40: logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
-magicLabel@183: logger.error('Cannot determine ternary value for event shape - ternaryDefault is null', {
-```
-
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@29: const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
-fieldMapping@192: logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
-```
-
-### `server/src/db/models/booking/appointment_attendee.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@80: comment: 'Actual person with email for calendar invitations',
-magicLabel@97: comment: 'Whether this attendee should receive calendar invitation',
-magicLabel@104: comment: 'Status of calendar invitation for this attendee',
-magicLabel@110: comment: 'Google Calendar event ID for tracking invitation status',
-```
-
-### `server/src/routes/helpers/routerErrorHandler.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@13: const logger = createLogger('RouterErrorHandler')
-magicLabel@59: if (error.name === 'SequelizeUniqueConstraintError') {
-magicLabel@78: if (error.name === 'SequelizeValidationError') {
-magicLabel@85: const message = err.message || 'Validation error'
-```
-
-### `server/src/routes/internal/relationships/relationshipCrudRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@34: const logger = createLogger('RelationshipRouter')
-magicLabel@134: handleRouteError(error, res, 'Error validating entities', 'validating entities')
-magicLabel@146: handleRouteError(error, res, 'Error checking circular references', 'checking circular references')
-magicLabel@222: error.message.includes('EventShape') ? ERROR_MESSAGES.INVALID_PARENT_ENTITY : ERROR_MESSAGES.INVALID_CHILD_ENTITY,
-```
-
-### `server/src/services/brightMls/brightMlsAuth.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@16: const logger = createLogger('BrightMlsAuth');
-magicLabel@54: 'Content-Type': 'application/x-www-form-urlencoded',
-magicLabel@64: logger.error('Bright MLS token request failed', {
-magicLabel@80: logger.error('Bright MLS token request error', { error });
-```
-
-### `server/src/services/calendarErrorHandler.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@21: const logger = createLogger('CalendarErrorHandler')
-magicLabel@51: this.name = 'CalendarApiError'
-magicLabel@122: if (err.code === 'ETIMEDOUT' || (typeof err.message === 'string' && err.message.toLowerCase().includes('timeout'))) {
-magicLabel@228: logger.info('Returning cached data')
-```
-
-### `server/src/services/google/calendar/eventsService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@19: const logger = createLogger('EventsService')
-magicLabel@58: logger.debug('Fetching events', { calendarEmail })
-magicLabel@70: throw new Error('Invalid response from Google Calendar API')
-magicLabel@76: logger.debug('Fetched events', { calendarEmail, count: events.length })
-```
-
-### `server/src/services/slotComputationService.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@33: const logger = createLogger('SlotComputationService')
-switchTypeLike@89: switch (constraint.type) {
-fieldMapping@145: if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
-```
-
-### `server/src/utils/userTypeMapping.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=4
-- requiring review: 4, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('UserTypeMapping');
-magicLabel@28: 'transaction_manager': 'Transaction Manager',
-magicLabel@30: 'inspector': 'Inspector',    // The service provider/technician
-magicLabel@102: logger.warn('No state control BlockShapes found');
-```
-
-### `client/src/components/admin/BlockInstanceCreateModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@98: * WHY: Shows "Create" or "Duplicate" in modal title
-magicLabel@102: return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
-magicLabel@106: return props.sourceEntity ? 'Duplicate' : 'Create'
+fieldMapping@116: logger.error('Routes API HTTP error', { status: response.status, errorText })
+fieldMapping@144: logger.debug('Route matrix complete', { resultsCount: results.length })
 ```
 
 ### `client/src/components/admin/dev/ApiDevPanelComputedTab.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@52: return { dayCount: map.size, totalSlots, sample }
 ```
 
-### `client/src/components/admin/generic/fields/FieldRenderer.vue`
+### `client/src/components/booking/dev/DevPanelsContainer.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@74: const logger = createLogger('FieldRenderer')
-magicLabel@230: logger.error('Unknown input type detected', {
-magicLabel@253: : 'Unknown error - check field metadata configuration'
+fieldMapping@302: logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
 ```
 
-### `client/src/components/booking/DifferentialGraph.vue`
+### `client/src/components/booking/IndependentSelectCard.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@45: availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-magicLabel@49: availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
-magicLabel@135: <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
-```
-
-### `client/src/composables/admin/useEntityCardActions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@127: showError('Please fix form errors before saving')
-magicLabel@150: logger.error('Entity save failed', { err, entityKey })
-magicLabel@188: logger.error('Entity delete failed', { err, entityKey })
-```
-
-### `client/src/composables/admin/useFieldComponent.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@151: logger.warn('Unknown component type - missing fieldKey', {
-magicLabel@161: logger.warn('Unknown component type - missing entityKey', {
-magicLabel@171: logger.warn('Unknown component type determined', {
-```
-
-### `client/src/composables/admin/useFieldInputHandlers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@72: logger.error('Field save failed', {
-magicLabel@100: logger.warn('Failed to save new entity card on blur', { error, fieldKey: fieldContext.fieldKey })
-magicLabel@111: logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
-```
-
-### `client/src/composables/admin/useInstanceBulkEdit.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@122: showError('No changes to apply')
-magicLabel@138: logger.error('Error in applyBulkEdit', { err })
-magicLabel@139: const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
+fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 ```
 
 ### `client/src/composables/admin/useSelectConfig.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@246: { entityKey: fieldContext.entityKey, fieldKey: fieldContext.fieldKey, wrappedKeys: Object.keys(inputConfig) }
 ```
 
-### `client/src/composables/admin/useSelectLabelResolution.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@40: * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-magicLabel@55: if (!blockShapeRef) return rawLabel.replace('{blockShapeName}', 'Instance')
-magicLabel@58: const shapeName = blockShape?.name as string || 'Instance'
-```
-
 ### `client/src/composables/booking/useAppointmentShape.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@85: logger.debug('useAppointmentShape: matching rel children missing', { eventShapeId: eventShape.id })
-```
-
-### `client/src/composables/booking/useAvailabilityValidation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@32: selectedDate: [required('Please select a date'), dateNotInPast()]
-magicLabel@38: return 'Please select a time slot'
-magicLabel@45: return 'Selected time slot is invalid'
+fieldMapping@86: logger.debug('useAppointmentShape: matching rel children missing', { eventShapeId: eventShape.id })
 ```
 
 ### `client/src/composables/booking/useComputedAvailability.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
@@ -1724,173 +461,133 @@ fieldMapping@115: dateRange: { start: range.start, end: range.end },
 
 ### `client/src/composables/booking/useDateRangeDecider.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@35: return { year: now.getUTCFullYear(), month: now.getUTCMonth() }
 ```
 
-### `client/src/composables/booking/useMoveablePartsScheduling.ts`
+### `client/src/layouts/components/NavSearchBar.vue`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@51: if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
-magicLabel@99: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-magicLabel@107: const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-```
-
-### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@36: throw new Error('Component entity composable not available')
-magicLabel@62: logger.error('Add to component failed', { error })
-magicLabel@146: logger.warn('Failed to cleanup invalid active relationships', {
+fieldMapping@105: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
 ```
 
-### `client/src/types/availabilitySettingsParams.ts`
+### `client/src/services/mapsApiService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@12: export type UseBufferSettingsParams = AvailabilitySettingsFormParams & { readonly __brand: 'UseBufferSettingsParams' }
-magicLabel@13: export type UseDefaultLocationParams = AvailabilitySettingsFormParams & { readonly __brand: 'UseDefaultLocationParams' }
-magicLabel@14: export type UseDifferentialPerspectivesParams = AvailabilitySettingsFormParams & { readonly __brand: 'UseDifferentialPerspectivesParams' }
-```
-
-### `client/src/types/googleCalendar.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=1
-- requiring review: 2, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@11: export type GoogleCalendarBusyPeriod = TimeRangeBounds & { readonly __brand: 'GoogleCalendarBusyPeriod' }
-inlineLabelMap@48: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
+fieldMapping@104: const params = new URLSearchParams({ input: input.trim() })
 ```
 
-### `client/src/utils/api/index.ts`
+### `client/src/services/propertyEnrichmentApiService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1, magicLabel=1
-- requiring review: 2, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-inlineLabelMap@13: headers: { 'Content-Type': 'application/json' },
-magicLabel@13: headers: { 'Content-Type': 'application/json' },
+fieldMapping@38: const params = new URLSearchParams({ address: address.trim() })
 ```
 
 ### `client/src/utils/appointmentFieldFormatters.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldEqualsString@117: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
+### `client/src/utils/booking/appointmentSlotBuilder.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@64: logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
+```
+
+### `client/src/utils/booking/cascadeFilterPipeline.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@59: logger.debug('filterByCascade: activeBlockIds missing on parent', { parentId: parent.id })
+```
+
+### `client/src/utils/booking/confirmationStepData.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@264: return { label: block.name, amount, isFree: amount === 0 }
+```
+
+### `client/src/utils/booking/partFinalizer.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@41: logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
+```
+
 ### `client/src/utils/collections/resolveByIds.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@18: : { resolved: acc.resolved, missingIds: [...acc.missingIds, id] }
 ```
 
-### `client/src/utils/transformers/globalToAdminTransformer.ts`
+### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@81: rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
+fieldMapping@192: logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
 ```
 
-### `client/src/views/admin/entities/BlockInstanceForm.vue`
+### `client/src/utils/transformers/globalToAdminTransformer.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@7: {{ isEdit ? 'Edit Block Instance' : 'Create Block Instance' }}
-magicLabel@32: label="Block Type"
-magicLabel@39: label="Order Index"
-```
-
-### `client/src/views/admin/entities/BlockShapeList.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@83: const logger = createLogger('BlockShapeList')
-magicLabel@101: logger.error('Failed to delete block type', { error })
-magicLabel@102: notifyError('Failed to delete block type')
+fieldMapping@82: rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
 ```
 
-### `client/src/views/admin/entities/PartInstanceForm.vue`
+### `server/src/api/api.controller.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@7: {{ isEdit ? 'Edit Part Instance' : 'Create Part Instance' }}
-magicLabel@32: label="Part Type"
-magicLabel@39: label="Order Index"
-```
-
-### `client/src/views/admin/entities/PartInstanceList.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@75: const logger = createLogger('PartInstanceList')
-magicLabel@93: logger.error('Failed to delete part instance', { error })
-magicLabel@94: notifyError('Failed to delete part instance')
+fieldMapping@13: res.status(200).json({ msg: req.body });
 ```
 
-### `client/src/views/admin/entities/PartShapeList.vue`
+### `server/src/routes/internal/appointments/appointmentHelpers.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@74: const logger = createLogger('PartShapeList')
-magicLabel@92: logger.error('Failed to delete part type', { error })
-magicLabel@93: notifyError('Failed to delete part type')
-```
-
-### `server/src/config/googleOAuthTokenPersistence.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@42: logger.info('No saved tokens found - authentication required')
-magicLabel@89: logger.info('Tokens loaded from file')
-magicLabel@95: logger.info('Access token expired - will auto-refresh on next API call')
-```
-
-### `server/src/routes/external/oauthCallbackRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
-
-```
-magicLabel@36: logger.debug('Callback route hit')
-magicLabel@59: logger.warn('No authorization code received')
-magicLabel@81: logger.info('OAuth authentication successful')
+fieldMapping@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
 ```
 
 ### `server/src/routes/internal/availabilityRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
@@ -1899,1152 +596,108 @@ fieldMapping@33: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validat
 
 ### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldEqualsString@35: if (key && typeof key === 'string') {
 ```
 
-### `server/src/routes/internal/relationships/relationshipErrorHandler.ts`
+### `server/src/services/appointmentCalendarService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=3
-- requiring review: 3, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
 
 ```
-magicLabel@45: if (error.name === 'SequelizeUniqueConstraintError' || parentCode === SEQUELIZE_ERROR_CODES.UNIQUE_CONSTRAINT) {
-magicLabel@84: if (error.name === 'SequelizeForeignKeyConstraintError' || parentCode === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
-magicLabel@87: details: error.message || 'One of the referenced entities does not exist',
+fieldMapping@139: { where: { id: attendee.id } }
 ```
 
 ### `server/src/services/constraintExtractor.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@54: ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
 ```
 
+### `server/src/services/google/calendar/eventCreationService.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
+```
+
+### `server/src/services/google/shared/googleApiRetry.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
+```
+
 ### `server/src/services/rateLimiter.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
 fieldMapping@135: timestamps.push({ timestamp: Date.now() });
 ```
 
-### `client/src/components/admin/component/ComponentDistributionModal.vue`
+### `server/src/services/slotComputationService.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-magicLabel@28: label="Distribution Strategy"
-magicLabel@132: { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
+switchTypeLike@89: switch (constraint.type) {
+fieldMapping@145: if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
 ```
 
-### `client/src/components/admin/dev/ApiDevPanelDriveTimeTab.vue`
+### `client/src/types/googleCalendar.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@103: {{ entry.expired ? 'Expired' : 'Valid' }}
-magicLabel@175: {{ entry.expired ? 'Expired' : 'Valid' }}
-```
-
-### `client/src/components/admin/generic/EntityCardFeePreview.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@18: aria-label="Fee vs square footage for this service"
-magicLabel@60: aria-label="Square footage for cost preview"
-```
-
-### `client/src/components/admin/generic/fields/SelectInputs.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@244: { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-magicLabel@245: { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
-```
-
-### `client/src/components/admin/InstanceBulkEditModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@78: const logger = createLogger('InstanceBulkEditModal')
-magicLabel@132: logger.error('Error creating templateEntity', { error })
-```
-
-### `client/src/components/admin/PartInstanceBulkEditModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@82: const logger = createLogger('PartInstanceBulkEditModal')
-magicLabel@165: logger.error('Error creating templateEntity', { error })
-```
-
-### `client/src/components/booking/AppointmentSlotGrid.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@135: // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
-magicLabel@136: return 'Unavailable'
-```
-
-### `client/src/components/booking/MoveablePartsModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@71: label="Deadline Date"
-magicLabel@80: label="Deadline Time"
-```
-
-### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@85: entityLabel: 'Appointment',
-magicLabel@104: if (!payload.propertyVersionId) return 'Property is required'
-```
-
-### `client/src/composables/admin/useBlockInstanceForm.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@207: logger.error('Failed to save block instance', { err })
-magicLabel@208: error.value = err instanceof Error ? err.message : 'Failed to save block instance'
-```
-
-### `client/src/composables/admin/useEntityList.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@104: deleteErrorMessage = 'Failed to delete item'
-magicLabel@182: logger.error('Delete entity failed', { err })
-```
-
-### `client/src/composables/admin/usePartInstanceForm.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@207: logger.error('Failed to save part instance', { err })
-magicLabel@208: error.value = err instanceof Error ? err.message : 'Failed to save part instance'
-```
-
-### `client/src/composables/admin/useRelationshipCollectionField.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@167: // WHY: Options field name follows pattern: 'valid' + pluralized relationshipKey without 'Assignments' suffix
-magicLabel@169: if (relKey.endsWith('Assignments')) {
-```
-
-### `client/src/composables/admin/useShapeSaveHandlers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@91: success('Annotation shape created successfully')
-magicLabel@96: logger.error('Failed to create annotation shape', { error, name: newAnnotationShapeName.value })
-```
-
-### `client/src/composables/booking/useAppointmentDropdown.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@29: // PATTERN: Map appointments to items array, prepend "Random Appointment" option
-magicLabel@31: { text: 'Random Appointment', value: 'random' },
-```
-
-### `client/src/composables/booking/useAppointmentTimes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@114: return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-magicLabel@168: return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
-```
-
-### `client/src/composables/booking/useAvailabilitySettings.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@65: error.value = err instanceof Error ? err : new Error('Failed to load availability settings')
-magicLabel@85: error.value = err instanceof Error ? err : new Error('Failed to refresh availability settings')
-```
-
-### `client/src/composables/booking/usePropertyDetailsLogic.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@27: logger.debug('Address component missing', { fieldName })
-magicLabel@229: logger.warn('MLS enrichment failed', { err })
-```
-
-### `client/src/composables/booking/useTimeSlotCalculations.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@81: return 'Inspector'
-magicLabel@89: return 'Client Formal Presentation'
-```
-
-### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@303: throw new Error('Failed to update orderIndex')
-magicLabel@370: throw new Error('Failed to update entities')
-```
-
-### `client/src/composables/fieldContext/useFieldContextActions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@69: logger.error('Entity verify failed', { error: verifyError })
-magicLabel@125: logger.error('Field context save failed', { error })
-```
-
-### `client/src/composables/formFields/useFormFieldsContext.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@262: logger.error('Error creating context for field', { entityKey, entityIdValue, fieldKey, error })
-magicLabel@270: logger.warn('Cannot create contexts - form not ready', {
-```
-
-### `client/src/composables/useAdminConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@73: logger.error('Failed to get admin config', { error: _error })
-magicLabel@196: logger.error('Failed to get instance config', { error: _error })
-```
-
-### `client/src/plugins/1.router/guards.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@8: const logger = createLogger('RouterGuards')
-magicLabel@28: logger.warn('Failed to prefetch admin metadata', { error })
-```
-
-### `client/src/utils/booking/availabilityStepData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@30: * WHY: Event shapes have dynamic names (e.g., 'OnSite', 'ClientPresent'), not hardcoded 'Major'/'Minor'
-magicLabel@49: // WHY: Event names are configurable (e.g., 'OnSite', 'ClientPresent'), not hardcoded
-```
-
-### `client/src/utils/forms/getFieldKeys.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@15: * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
-magicLabel@41: // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
-```
-
-### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@223: blockShapeType: 'SERVICE',
-magicLabel@233: blockShapeType: 'PROPERTY',
-```
-
-### `server/src/db/models/admin/business_rule.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@81: comment: 'Block instance this rule applies to',
-magicLabel@103: comment: 'Optional link to annotation instance for validation message',
-```
-
-### `server/src/db/models/beta/beta_feedback_tag.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@45: onUpdate: 'CASCADE',
-magicLabel@46: onDelete: 'CASCADE',
-```
-
-### `server/src/db/models/booking/event_shape.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@33: declare name: string; // e.g., 'OnSite', 'Moveable', 'ClientPresent'
-magicLabel@61: comment: 'Order index for UI drag-and-drop ordering',
-```
-
-### `server/src/db/models/participantModels/Users.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@71: onUpdate: 'CASCADE',
-magicLabel@72: onDelete: 'SET NULL',
-```
-
-### `server/src/routes/external/googleOauthRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@7: const logger = createLogger('GoogleOAuthRoutes');
-magicLabel@81: logger.info('OAuth authentication successful');
-```
-
-### `server/src/routes/internal/dev/devStatusRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@22: const logger = createLogger('DevStatusRouter')
-magicLabel@148: sendError(res, 'Failed to fetch dev status', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, message)
-```
-
-### `server/src/services/driveTimeCache.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@16: const logger = createLogger('DriveTimeCache');
-magicLabel@193: logger.info('Cache cleared');
-```
-
-### `server/src/services/google/calendar/calendarHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=2
-- requiring review: 2, allowed: 0
-
-```
-magicLabel@14: const logger = createLogger('CalendarHelpers')
-magicLabel@81: logger.warn('Failed to geocode location', {
-```
-
-### `client/src/components/admin/generic/collections/PartsCollection.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@10: :bulk-edit-modal-component="PartInstanceBulkEditModal"
-```
-
-### `client/src/components/admin/generic/fields/IconInput.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@24: <span>{{ iconValue || fieldContext.displayConfig.placeholder || 'No icon selected' }}</span>
-```
-
-### `client/src/components/booking/BookingWizard.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@323: {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
-```
-
-### `client/src/components/booking/modals/PropertyConfirmationModal.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@164: return parts.length > 0 ? parts.join(', ') : 'No address provided'
-```
-
-### `client/src/components/booking/steps/AvailabilityCalendarSection.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@45: aria-label="Select appointment date"
-```
-
-### `client/src/components/booking/TimeBasisButtonGrid.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@29: return raw !== undefined && raw !== null && raw !== '' ? raw : 'Client Formal Presentation'
-```
-
-### `client/src/components/booking/TimeBasisSelector.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@31: return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor Formal Presentation'
-```
-
-### `client/src/composables/admin/tables/useCrudDataTableModel.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@16: /** Human-friendly entity label for notifications (e.g., "Appointment") */
-```
-
-### `client/src/composables/admin/tables/usePropertiesTableModel.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@19: entityLabel: 'Property',
-```
-
-### `client/src/composables/admin/useAttendeeQuickSelect.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@139: * WHY: Combines both major and minor attendees for "Select All" functionality
-```
-
-### `client/src/composables/admin/useCalibrationChart.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@150: title: { display: true, text: 'Square footage' },
-```
-
-### `client/src/composables/admin/useDragAndDrop.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@115: logger.error('Failed to initialize drag and drop', { error, group })
-```
-
-### `client/src/composables/admin/useEntityCardForm.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@61: logger.debug('Form initialized', {
-```
-
-### `client/src/composables/admin/useEntityDragHandlers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@101: logger.error('Failed to patch order index after drag', { error: _error })
-```
-
-### `client/src/composables/admin/useInstanceDragAndDrop.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@181: logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
-```
-
-### `client/src/composables/admin/usePartsTotals.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@105: logger.warn('Missing part instances', { entityId, missingIds })
-```
-
-### `client/src/composables/admin/useSelectHandlers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@222: logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
-```
-
-### `client/src/composables/admin/useStatusButtonToggle.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@193: logger.warn('Failed to toggle status button', { error, entityKey, entityId, fieldKey })
-```
-
-### `client/src/composables/admin/useStatusButtonValue.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@23: logger.error('Status button field configured in metadata but missing on entity', {
-```
-
-### `client/src/composables/booking/useAppointmentLoader.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@50: logger.error('Error loading appointment', { error })
-```
-
-### `client/src/composables/booking/useAvailabilityUI.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@121: selectedDate: 'Please select a date'
-```
-
-### `client/src/composables/booking/useCascadeInstances.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@47: *   targetBlockShapeName: 'Base Service'
-```
-
-### `client/src/composables/booking/useContactsStepData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@27: logger.warn('Contact field missing', { context })
-```
-
-### `client/src/composables/booking/usePropertyTypeBlockConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@22: selectionComponent: 'VCheckbox' | 'VRadio'
-```
-
-### `client/src/composables/booking/useWizardNavigation.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@128: showError?.('Please complete all required fields before continuing')
-```
-
-### `client/src/composables/booking/useWizardSubmission.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@73: logger.error('Create appointment failed', { error })
-```
-
-### `client/src/composables/componentEntity/useComponentEntityActions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@90: if (!globalData) throw new Error('Global data not available')
-```
-
-### `client/src/composables/dev/useApiDevPanelData.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@21: const logger = createLogger('ApiDevPanel')
-```
-
-### `client/src/composables/fieldContext/useFieldContextState.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@228: logger.error('Missing required displayConfig', { entityKey, fieldKey, error })
-```
-
-### `client/src/composables/useApiErrorMessage.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@15: const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'
-```
-
-### `client/src/composables/useAppointment.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@114: logger.error('Fetch random appointment failed', { error: _error })
-```
-
-### `client/src/composables/useBooking.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@67: logger.error('Transform global to booking failed', { error: _error })
-```
-
-### `client/src/composables/useEntityForm.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@84: throw new Error('Form validation failed')
-```
-
-### `client/src/composables/useRelationship.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@117: logger.warn('Parent or child entity not found for relationship', {
-```
-
-### `client/src/composables/useSelectOptions.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@296: logger.debug('Failed to group select options', { error, groupByKey: config.groupByKey })
-```
-
-### `client/src/layouts/blank.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@33: <Component :is="Component" />
-```
-
-### `client/src/layouts/Default.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@41: <Component :is="Component" />
-```
-
-### `client/src/types/events.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@13: * LEARNING: Defines what event types can exist (e.g., "OnSite", "Moveable", "ClientPresent")
-```
-
-### `client/src/types/moveableScheduling.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@28: dayLabel: string          // "Today", "Tomorrow", "Jan 16"
-```
-
-### `client/src/utils/blockInstanceUtils.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@42: logger.error('Block shape has no type defined', {
-```
-
-### `client/src/utils/booking/PartFinal.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@22: partShape: string  // Part shape name (e.g., "Client Presentation")
-```
-
-### `client/src/utils/booking/selectionCardComponent.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@28: } else if (params.selectionComponent === 'VCheckbox') {
-```
-
-### `client/src/utils/booking/selectionCardConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@6: selectionGroup: 'VRadioGroup',
-```
-
-### `client/src/utils/booking/selectionCardGroupConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@8: return config.selectionGroup || 'VRadioGroup'
-```
-
-### `client/src/utils/forms/formElementPatching.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@69: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
-```
-
-### `client/src/utils/patchFormElements.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@34: logger.debug('Failed to patch form elements', { error, formId: formElement.id })
-```
-
-### `client/src/utils/transformers/componentAggregator.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@145: logger.warn('Missing component entity IDs', {
-```
-
-### `client/src/utils/transformers/fetchToBusinessTransformer.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@69: logger.error('Fetch business data failed', { error: _error })
-```
-
-### `client/src/views/admin/entities/BlockInstanceList.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@90: deleteErrorMessage: 'Failed to delete block instance'
-```
-
-### `client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@193: {{ calendarProvider === 'google' ? 'Google' : 'Microsoft' }}
-```
-
-### `server/src/app.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@33: logger.info('Database initialized successfully')
-```
-
-### `server/src/config/database.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@5: const logger = createLogger("Database");
-```
-
-### `server/src/config/envConfig.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@6: const logger = createLogger("EnvConfig");
-```
-
-### `server/src/db/models/admin/valid_pricing_cascade.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@16: * (e.g. "HVAC Equipment" partShape can cascade into "Mechanical Inspection" partShape).
-```
-
-### `server/src/db/models/booking/annotation_instance.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@80: comment: 'Order index for UI drag-and-drop ordering',
-```
-
-### `server/src/db/models/booking/annotation_shape.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@59: comment: 'Order index for UI drag-and-drop ordering',
-```
-
-### `server/src/db/models/booking/appointment_fee_entry.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@55: onDelete: 'CASCADE',
-```
-
-### `server/src/db/models/booking/appointment_fee_summary.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@55: onDelete: 'CASCADE',
-```
-
-### `server/src/db/models/booking/event_instance.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@93: comment: 'Order index for UI drag-and-drop ordering',
-```
-
-### `server/src/db/models/booking/instance_component.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@86: comment: 'Order in which components should be displayed',
-```
-
-### `server/src/db/models/booking/part_instance_version.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@56: onDelete: 'CASCADE',
-```
-
-### `server/src/db/models/booking/property_version_type.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@70: comment: 'Order in which property types should be displayed',
-```
-
-### `server/src/middlewares/errorHandler.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@5: const logger = createLogger('ErrorHandler');
-```
-
-### `server/src/routes/external/calendarDebugRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@16: const logger = createLogger('CalendarDebugRoutes');
-```
-
-### `server/src/routes/external/calendarRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@26: const logger = createLogger('CalendarRoutes');
-```
-
-### `server/src/routes/external/mapsDebugRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@20: const logger = createLogger('MapsDebugRoutes')
-```
-
-### `server/src/routes/external/mapsRoutes.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@22: const logger = createLogger('MapsRoutes')
-```
-
-### `server/src/routes/helpers/dataController.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@6: const logger = createLogger('DataController');
-```
-
-### `server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@31: const logger = createLogger('AdminMetadataRouter')
-```
-
-### `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@33: const logger = createLogger('AppointmentRouter')
-```
-
-### `server/src/routes/internal/entities/entityBatchRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@19: const logger = createLogger('EntityBatchRouter')
-```
-
-### `server/src/routes/internal/entities/entityCrudRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@31: const logger = createLogger('EntityRouter')
-```
-
-### `server/src/routes/internal/entities/entityHelpers.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('EntityRouter')
-```
-
-### `server/src/routes/internal/entities/entityParamMiddleware.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@15: const logger = createLogger('EntityRouter')
-```
-
-### `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('RelationshipRouter')
-```
-
-### `server/src/routes/internal/relationships/relationshipBatchRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@17: const logger = createLogger('RelationshipBatchRouter')
-```
-
-### `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@19: const logger = createLogger('RelationshipRouter')
-```
-
-### `server/src/services/appointmentSnapshotLoader.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@6: const logger = createLogger('SnapshotLoader');
-```
-
-### `server/src/services/google/maps/mapsErrorHandler.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@24: this.name = 'MapsApiError'
-```
-
-### `server/src/services/google/shared/googleApiRateLimiter.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@12: const logger = createLogger('GoogleApiRateLimiter')
-```
-
-### `server/src/services/propertyEnrichmentCache.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
-- requiring review: 1, allowed: 0
-
-```
-magicLabel@12: const logger = createLogger('PropertyEnrichmentCache');
-```
-
-### `server/src/test/setup/testDb.ts`
-
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@46: throw new Error('Test database not initialized')
+inlineLabelMap@48: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
 ```
 
-### `server/src/utils/sequelizeHelpers.ts`
+### `client/src/utils/api/index.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=1
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
 - requiring review: 1, allowed: 0
 
 ```
-magicLabel@14: if (typeName === 'VIRTUAL' || typeName.includes('VIRTUAL')) {
+inlineLabelMap@13: headers: { 'Content-Type': 'application/json' },
 ```
 
 ### `client/src/composables/admin/useBusinessRuleForm.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-switchTypeLike@75: switch (newType) {
-switchTypeLike@133: switch (rule.ruleType) {
+switchTypeLike@76: switch (newType) {
+switchTypeLike@134: switch (rule.ruleType) {
+```
+
+### `client/src/utils/forms/fieldLocationDispatcher.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+switchTypeLike@197: switch (location.type) {
 ```
 
 ### `server/src/services/capacityComputer.ts`
 
-- total counts: switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0, magicLabel=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```

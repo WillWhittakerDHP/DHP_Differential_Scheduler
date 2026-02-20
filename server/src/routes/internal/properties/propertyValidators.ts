@@ -6,7 +6,15 @@
  * PATTERN: Pure validation functions that return validation results
  */
 
-import { BLOCK_SHAPE_NAMES, ERROR_MESSAGES, REQUIRED_FIELDS } from './propertyConstants.js'
+import {
+  BLOCK_SHAPE_NAMES,
+  ERROR_MESSAGES,
+  FOUNDATION_ACCESS_VALUES,
+  PATCH_PROPERTY_DETAILS_FIELDS,
+  PATCH_PROPERTY_FIELD_KEY,
+  PROPERTY_SOURCE_VALUES,
+  REQUIRED_FIELDS,
+} from './propertyConstants.js'
 import { isBlockInstanceWithShape } from './propertyHelpers.js'
 
 /**
@@ -162,4 +170,93 @@ export function validateRequiredField(
   }
   
   return { valid: true }
+}
+
+/**
+ * Result type for PATCH property details validation
+ * LEARNING: Discriminated union for type-safe validated payload
+ */
+export type PatchPropertyDetailsResult =
+  | { valid: true; data: Record<string, unknown> }
+  | { valid: false; error: string; details?: Record<string, unknown> }
+
+/**
+ * Validate and allowlist PATCH body for property details (mass-assignment safety)
+ * LEARNING: Only allowed fields are extracted; enums and types are validated/coerced
+ * WHY: Prevents mass-assignment; req.body must not be passed directly to Sequelize update()
+ * PATTERN: Allowlist keys, validate enums, coerce numbers, return plain object for update
+ *
+ * @param body - Raw request body (unknown)
+ * @returns PatchPropertyDetailsResult with validated data or error
+ */
+export function validatePropertyDetailsPatchBody(body: unknown): PatchPropertyDetailsResult {
+  if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+    return {
+      valid: false,
+      error: ERROR_MESSAGES.INVALID_PATCH_BODY,
+      details: { reason: 'Body must be a plain object' }
+    }
+  }
+
+  const raw = body as Record<string, unknown>
+  const data: Record<string, unknown> = {}
+
+  for (const key of PATCH_PROPERTY_DETAILS_FIELDS) {
+    const value = raw[key]
+    if (value === undefined) continue
+
+    switch (key) {
+      case PATCH_PROPERTY_FIELD_KEY.MLS_NUMBER:
+        data.mlsNumber = value === null ? null : typeof value === 'string' ? value : String(value)
+        break
+      case PATCH_PROPERTY_FIELD_KEY.SQUARE_FOOTAGE:
+      case PATCH_PROPERTY_FIELD_KEY.BEDROOMS:
+      case PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS: {
+        if (value === null) {
+          data[key] = null
+        } else {
+          const n = Number(value)
+          data[key] = Number.isInteger(n) ? n : null
+        }
+        break
+      }
+      case PATCH_PROPERTY_FIELD_KEY.BATHROOMS: {
+        if (value === null) {
+          data.bathrooms = null
+        } else {
+          const n = Number(value)
+          data.bathrooms = Number.isFinite(n) ? n : null
+        }
+        break
+      }
+      case PATCH_PROPERTY_FIELD_KEY.FOUNDATION_ACCESS:
+        if (value === null) {
+          data.foundationAccess = null
+        } else if (typeof value === 'string' && (FOUNDATION_ACCESS_VALUES as readonly string[]).includes(value)) {
+          data.foundationAccess = value
+        } else {
+          return {
+            valid: false,
+            error: ERROR_MESSAGES.INVALID_PATCH_BODY,
+            details: { field: key, allowed: [...FOUNDATION_ACCESS_VALUES] }
+          }
+        }
+        break
+      case PATCH_PROPERTY_FIELD_KEY.SOURCE:
+        if (typeof value === 'string' && (PROPERTY_SOURCE_VALUES as readonly string[]).includes(value)) {
+          data.source = value
+        } else {
+          return {
+            valid: false,
+            error: ERROR_MESSAGES.INVALID_PATCH_BODY,
+            details: { field: key, allowed: [...PROPERTY_SOURCE_VALUES] }
+          }
+        }
+        break
+      default:
+        data[key] = value
+    }
+  }
+
+  return { valid: true, data }
 }

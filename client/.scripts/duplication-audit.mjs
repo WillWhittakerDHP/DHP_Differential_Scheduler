@@ -3,12 +3,10 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
@@ -90,6 +88,34 @@ function isIgnorableLine(norm) {
 
 function shortHash(text) {
   return crypto.createHash('sha1').update(text).digest('hex').slice(0, 12)
+}
+
+function extractExportedUseFunctions(contents) {
+  const out = new Set()
+  const functionRegex = /export\s+function\s+(use[A-Za-z0-9_]+)\s*\(/g
+  const constRegex = /export\s+const\s+(use[A-Za-z0-9_]+)\s*=/g
+  let m
+  while ((m = functionRegex.exec(contents)) !== null) out.add(m[1])
+  while ((m = constRegex.exec(contents)) !== null) out.add(m[1])
+  return Array.from(out.values()).sort()
+}
+
+function findDuplicateComposableExports(composableAbsPaths, projectRoot) {
+  /** @type {Record<string, string[]>} */
+  const byName = {}
+  for (const abs of composableAbsPaths) {
+    const repoPath = toRepoPath(abs, projectRoot)
+    const content = fs.readFileSync(abs, 'utf8')
+    const names = extractExportedUseFunctions(content)
+    for (const name of names) {
+      if (!byName[name]) byName[name] = []
+      byName[name].push(repoPath)
+    }
+  }
+  return Object.entries(byName)
+    .filter(([, paths]) => paths.length >= 2)
+    .map(([name, paths]) => ({ name, paths: paths.sort() }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 }
 
 /**
@@ -315,6 +341,10 @@ function renderMarkdownReport(data) {
   lines.push('')
   lines.push(`- Files scanned: **${data.fileCount}**`)
   lines.push(`- Groups (window=${data.windowLines} lines, minOccurrences=${data.minGroupOccurrences}): **${data.groups.length}**`)
+  const dupComposable = data.duplicateComposableExports || []
+  if (dupComposable.length > 0) {
+    lines.push(`- Duplicate composable export names: **${dupComposable.length}**`)
+  }
   if (data.candidates) {
     const candidateCount = (data.candidates.similarTypeNames?.length || 0) + 
                           (data.candidates.similarFunctionPatterns?.length || 0) + 
@@ -322,6 +352,18 @@ function renderMarkdownReport(data) {
     lines.push(`- Candidate findings from pattern-detection: **${candidateCount}**`)
   }
   lines.push('')
+
+  if (dupComposable.length > 0) {
+    lines.push('## Duplicate composable export names')
+    lines.push('')
+    lines.push('Same `use*` export name in multiple composable files — consolidation or rename candidate.')
+    lines.push('')
+    for (const { name, paths } of dupComposable) {
+      lines.push(`- **\`${name}\`**`)
+      for (const p of paths) lines.push(`  - \`${p}\``)
+    }
+    lines.push('')
+  }
 
   lines.push('## Top duplication groups (by leverage)')
   lines.push('')
@@ -370,9 +412,6 @@ function renderMarkdownReport(data) {
 function main() {
   const paths = resolveAuditPaths('duplication')
 
-  // Load exception config
-  const configAllowlist = loadCentralAllowlist('duplication')
-
   // Load priority config
   let priorityConfig = {}
   try {
@@ -385,6 +424,8 @@ function main() {
   let absFiles = listAuditFiles('duplication', [paths.clientSrc, paths.serverSrc])
   const clientFiles = absFiles.filter((p) => p.startsWith(paths.clientSrc))
   const serverFiles = absFiles.filter((p) => p.startsWith(paths.serverSrc))
+  const composableAbsPaths = clientFiles.filter((p) => toRepoPath(p, paths.projectRoot).includes('composables/'))
+  const duplicateComposableExports = findDuplicateComposableExports(composableAbsPaths, paths.projectRoot)
 
   // Load pattern-detection candidates and prioritize files
   const candidates = loadPatternDetectionCandidates(paths.outDir)
@@ -481,6 +522,7 @@ function main() {
     minGroupOccurrences: MIN_WINDOWS_PER_GROUP,
     fileCount: perFile.length,
     candidates: candidates || null,
+    duplicateComposableExports,
     groups,
   }
 

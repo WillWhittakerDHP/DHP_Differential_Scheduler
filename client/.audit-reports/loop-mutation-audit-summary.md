@@ -1,44 +1,17 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Loop Mutation Audit Summary (Generated)
 
-Generated from `.audit-reports/loop-mutation-audit.json`.
+Generated from `client/.audit-reports/loop-mutation-audit.json`.
 
-## Top 30 files (ranked)
+## Top 0 files (ranked)
 
 | File | Priority | score | forEach | for-loops | mutators | assigns | forEach→mutation hits |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/slotComputationService.ts` | P0 | 40 | 0 | 4 | 3 | 15 | 0 |
-| `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 32 | 0 | 0 | 0 | 16 | 0 |
-| `server/src/services/propertyFieldMapper.ts` | P0 | 30 | 0 | 2 | 0 | 14 | 0 |
-| `client/src/types/admin/adminEntity.ts` | P0 | 26 | 0 | 0 | 0 | 13 | 0 |
-| `client/src/utils/forms/fieldSectionCategorization.ts` | P0 | 20 | 0 | 0 | 2 | 8 | 0 |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | P0 | 20 | 0 | 0 | 5 | 5 | 0 |
-| `client/src/components/admin/generic/EntityCardSubPanels.vue` | P0 | 18 | 0 | 0 | 9 | 13 | 0 |
-| `client/src/utils/transformers/componentAggregator.ts` | P0 | 18 | 0 | 0 | 0 | 9 | 0 |
-| `client/src/utils/transformers/globalToBookingTransformer.ts` | P0 | 18 | 0 | 0 | 0 | 9 | 0 |
-| `server/src/services/calendarErrorHandler.ts` | P0 | 16 | 0 | 0 | 0 | 8 | 0 |
-| `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `client/src/utils/entityDefaults.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `client/src/utils/transformers/fieldClassification.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `server/src/services/google/maps/mapsHelpers.ts` | P0 | 14 | 0 | 0 | 0 | 7 | 0 |
-| `client/src/utils/forms/formElementPatching.ts` | P0 | 13 | 1 | 4 | 0 | 4 | 0 |
-| `client/src/components/booking/modals/PropertyConfirmationModal.vue` | P0 | 12 | 0 | 0 | 6 | 0 | 0 |
-| `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/utils/appointmentFieldFormatters.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/utils/blockInstanceUtils.ts` | P0 | 12 | 0 | 1 | 0 | 6 | 0 |
-| `client/src/utils/booking/constraintColors.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/utils/eventAttendeeUtils.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/utils/transformers/annotationTransformers.ts` | P0 | 12 | 0 | 0 | 1 | 5 | 0 |
-| `client/src/utils/transformers/composePropertyValue.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `server/src/services/computedAvailabilityService.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `server/src/services/instanceVersioning.ts` | P0 | 12 | 0 | 0 | 0 | 6 | 0 |
-| `client/src/main.ts` | P1 | 11 | 1 | 2 | 0 | 4 | 0 |
-| `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | P1 | 10 | 0 | 6 | 1 | 8 | 0 |
-| `client/src/components/booking/IndependentSelectCard.vue` | P1 | 10 | 0 | 0 | 5 | 2 | 0 |
-
-*...and 178 more files. See full report for details.*
 
 ## Notes
 
-- This is a *signal* index. Use the full report for line-level matches and hit lists: `client/.audit/loop-mutation-audit.md`.
+- This is a *signal* index. Use the full report: `client/.audit-reports/loop-mutation-audit.md`.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T23:20:11.226Z",
+  "generatedAt": "2026-02-20T15:41:28.309Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 801,
+  "fileCount": 777,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -34,7 +34,6 @@
           "client/src/utils/booking/partFinalizer.ts",
           "client/src/utils/booking/slotShapeLookups.ts",
           "client/src/utils/booking/slotTimeUtils.ts",
-          "client/src/utils/booking/wizardValidation.ts",
           "client/src/utils/entities/entityFieldPatch.ts",
           "client/src/utils/logger.ts",
           "server/src/routes/helpers/createCrudRouter.ts",
@@ -47,12 +46,11 @@
           "server/src/services/instanceVersioning.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 38
+        "patternCount": 37
       },
       {
         "prefix": "get",
         "files": [
-          "client/src/composables/_archived/useFieldMetadata.ts",
           "client/src/composables/admin/tables/useAppointmentAttendees.ts",
           "client/src/composables/admin/tables/useAppointmentHelpers.ts",
           "client/src/composables/admin/useDragAndDropHelpers.ts",
@@ -60,12 +58,10 @@
           "client/src/composables/useApiErrorMessage.ts",
           "client/src/configs/adminConfig.ts",
           "client/src/configs/availabilitySettings.ts",
-          "client/src/configs/eventPerspectiveLabels.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/services/mapsApiService.ts",
           "client/src/types/datetime.ts",
           "client/src/utils/admin/entityDisplayText.ts",
-          "client/src/utils/annotationUtils.ts",
           "client/src/utils/api/adminMetadataApi.ts",
           "client/src/utils/api/appointmentApi.ts",
           "client/src/utils/api/availabilityApi.ts",
@@ -98,7 +94,6 @@
           "client/src/utils/forms/getFieldKeys.ts",
           "client/src/utils/iconMapper.ts",
           "client/src/utils/time/timeFormatting.ts",
-          "client/src/utils/transformers/annotationTransformers.ts",
           "client/src/utils/transformers/componentAggregator.ts",
           "client/src/utils/transformers/relationshipTransformers.ts",
           "client/src/vite-env.d.ts",
@@ -108,7 +103,6 @@
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
-          "server/src/routes/internal/relationships/relationshipHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
           "server/src/services/calendarEventsCache.ts",
@@ -126,7 +120,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 138
+        "patternCount": 117
       },
       {
         "prefix": "use",
@@ -516,24 +510,6 @@
           }
         ]
       },
-      "FieldMetadata": {
-        "definition": "export type FieldMetadata = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/composables/_archived/useFieldMetadata.ts",
-            "line": 41
-          },
-          {
-            "file": "client/src/configs/adminConfig.ts",
-            "line": 34
-          },
-          {
-            "file": "client/src/constants/fieldMetadata.ts",
-            "line": 48
-          }
-        ]
-      },
       "AppointmentsTableModel": {
         "definition": "export interface AppointmentsTableModel extends CrudDataTableModel<",
         "isInterface": true,
@@ -728,7 +704,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useCapacitySettings.ts",
-            "line": 22
+            "line": 18
           }
         ]
       },
@@ -1688,17 +1664,17 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollection.ts",
-            "line": 36
+            "line": 39
           }
         ]
       },
       "RelationshipCollectionModel": {
-        "definition": "export interface RelationshipCollectionModel {",
+        "definition": "export interface RelationshipCollectionModel extends UseRelationshipCollectionDataReturnBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollection.ts",
-            "line": 44
+            "line": 48
           }
         ]
       },
@@ -1708,7 +1684,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollection.ts",
-            "line": 71
+            "line": 66
           }
         ]
       },
@@ -1722,13 +1698,23 @@
           }
         ]
       },
-      "UseRelationshipCollectionDataReturn": {
-        "definition": "export interface UseRelationshipCollectionDataReturn {",
+      "UseRelationshipCollectionDataReturnBase": {
+        "definition": "export interface UseRelationshipCollectionDataReturnBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-            "line": 37
+            "line": 38
+          }
+        ]
+      },
+      "UseRelationshipCollectionDataReturn": {
+        "definition": "export type UseRelationshipCollectionDataReturn = UseRelationshipCollectionDataReturnBase",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
+            "line": 45
           }
         ]
       },
@@ -2123,12 +2109,12 @@
         ]
       },
       "UseSelectionCardComponentParams": {
-        "definition": "export interface UseSelectionCardComponentParams {",
+        "definition": "export interface UseSelectionCardComponentParams extends UseSelectionCardStylesParamsBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardComponent.ts",
-            "line": 13
+            "line": 15
           }
         ]
       },
@@ -2222,13 +2208,23 @@
           }
         ]
       },
-      "UseSelectionCardStylesParams": {
-        "definition": "export interface UseSelectionCardStylesParams {",
+      "UseSelectionCardStylesParamsBase": {
+        "definition": "export interface UseSelectionCardStylesParamsBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
-            "line": 17
+            "line": 18
+          }
+        ]
+      },
+      "UseSelectionCardStylesParams": {
+        "definition": "export type UseSelectionCardStylesParams = UseSelectionCardStylesParamsBase",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
+            "line": 23
           }
         ]
       },
@@ -2238,7 +2234,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
-            "line": 22
+            "line": 25
           }
         ]
       },
@@ -2268,7 +2264,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 43
+            "line": 44
           }
         ]
       },
@@ -2278,7 +2274,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 94
+            "line": 95
           }
         ]
       },
@@ -2328,7 +2324,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentShape.ts",
-            "line": 23
+            "line": 24
           }
         ]
       },
@@ -2338,7 +2334,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentShape.ts",
-            "line": 27
+            "line": 28
           }
         ]
       },
@@ -2388,7 +2384,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 22
+            "line": 23
           }
         ]
       },
@@ -2398,7 +2394,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 30
+            "line": 31
           }
         ]
       },
@@ -2408,7 +2404,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDevPanel.ts",
-            "line": 34
+            "line": 33
           }
         ]
       },
@@ -2438,7 +2434,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityLogic.ts",
-            "line": 33
+            "line": 34
           }
         ]
       },
@@ -2448,7 +2444,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityLogic.ts",
-            "line": 52
+            "line": 53
           },
           {
             "file": "client/src/utils/booking/availabilityStepData.ts",
@@ -2532,7 +2528,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityUI.ts",
-            "line": 17
+            "line": 18
           }
         ]
       },
@@ -2542,7 +2538,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityUI.ts",
-            "line": 23
+            "line": 24
           }
         ]
       },
@@ -3446,7 +3442,7 @@
         "locations": [
           {
             "file": "client/src/composables/businessDataCollections/types.ts",
-            "line": 33
+            "line": 31
           }
         ]
       },
@@ -3540,13 +3536,43 @@
           }
         ]
       },
+      "UseEntityCrudStateReturn": {
+        "definition": "export type UseEntityCrudStateReturn = UseEntityCrudStateReturnBase",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudState.ts",
+            "line": 5
+          }
+        ]
+      },
       "OrderIndexUpdate": {
         "definition": "export type OrderIndexUpdate = Array<{ id: GlobalEntityId; orderIndex: number }>",
         "isInterface": false,
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-            "line": 5
+            "line": 6
+          }
+        ]
+      },
+      "UseEntityCrudStateReturnBase": {
+        "definition": "export interface UseEntityCrudStateReturnBase {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
+            "line": 13
+          }
+        ]
+      },
+      "UseEntityCrudMutationsReturnBase": {
+        "definition": "export interface UseEntityCrudMutationsReturnBase<GlobalEntityTypeKey extends GlobalEntityKey> {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
+            "line": 20
           }
         ]
       },
@@ -3686,7 +3712,7 @@
         "locations": [
           {
             "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-            "line": 16
+            "line": 18
           }
         ]
       },
@@ -3696,7 +3722,7 @@
         "locations": [
           {
             "file": "client/src/composables/globalDataCollections/types.ts",
-            "line": 23
+            "line": 21
           }
         ]
       },
@@ -3916,6 +3942,20 @@
           }
         ]
       },
+      "FieldMetadata": {
+        "definition": "export interface FieldMetadata {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/configs/adminConfig.ts",
+            "line": 34
+          },
+          {
+            "file": "client/src/constants/fieldMetadata.ts",
+            "line": 48
+          }
+        ]
+      },
       "InstanceConfig": {
         "definition": "export type InstanceConfig = {",
         "isInterface": false,
@@ -3942,7 +3982,7 @@
         "locations": [
           {
             "file": "client/src/configs/availabilitySettings.ts",
-            "line": 46
+            "line": 47
           }
         ]
       },
@@ -3952,7 +3992,7 @@
         "locations": [
           {
             "file": "client/src/configs/availabilitySettings.ts",
-            "line": 70
+            "line": 71
           }
         ]
       },
@@ -3962,17 +4002,7 @@
         "locations": [
           {
             "file": "client/src/configs/availabilitySettings.ts",
-            "line": 213
-          }
-        ]
-      },
-      "EventPerspectiveKey": {
-        "definition": "export type EventPerspectiveKey = typeof EVENT_PERSPECTIVE_KEYS[keyof typeof EVENT_PERSPECTIVE_KEYS]",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/configs/eventPerspectiveLabels.ts",
-            "line": 43
+            "line": 214
           }
         ]
       },
@@ -4007,40 +4037,6 @@
           {
             "file": "client/src/configs/field/display/displayFieldTypes.ts",
             "line": 42
-          }
-        ]
-      },
-      "SelectableDisplayTypeSuite": {
-        "definition": "export type SelectableDisplayTypeSuite = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-            "line": 124
-          }
-        ]
-      },
-      "PrimitiveFieldTypeMap": {
-        "definition": "export type PrimitiveFieldTypeMap = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/configs/field/form/_archived/primitiveFieldConfig.ts",
-            "line": 14
-          }
-        ]
-      },
-      "SelectableFieldTypeSuite": {
-        "definition": "export type SelectableFieldTypeSuite = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-            "line": 25
-          },
-          {
-            "file": "client/src/types/entity/formFields.ts",
-            "line": 89
           }
         ]
       },
@@ -4208,33 +4204,13 @@
           }
         ]
       },
-      "CalendarApiOptions": {
-        "definition": "export interface CalendarApiOptions {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/services/calendarApiService.ts",
-            "line": 30
-          }
-        ]
-      },
-      "CalendarApiErrorType": {
-        "definition": "export type CalendarApiErrorType =",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/services/calendarApiService.ts",
-            "line": 39
-          }
-        ]
-      },
       "CalendarEvent": {
         "definition": "export interface CalendarEvent {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/services/calendarApiService.ts",
-            "line": 126
+            "line": 114
           },
           {
             "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
@@ -4256,23 +4232,13 @@
           }
         ]
       },
-      "UseI18nOptions": {
-        "definition": "export type UseI18nOptions = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/shims/vue-i18n.ts",
-            "line": 17
-          }
-        ]
-      },
       "AdminEntityMap": {
         "definition": "export type AdminEntityMap = {",
         "isInterface": false,
         "locations": [
           {
             "file": "client/src/types/admin/adminEntity.ts",
-            "line": 202
+            "line": 203
           }
         ]
       },
@@ -4470,7 +4436,7 @@
         "locations": [
           {
             "file": "client/src/types/appointmentApi.ts",
-            "line": 37
+            "line": 36
           }
         ]
       },
@@ -4480,7 +4446,7 @@
         "locations": [
           {
             "file": "client/src/types/appointmentApi.ts",
-            "line": 60
+            "line": 59
           }
         ]
       },
@@ -4490,7 +4456,7 @@
         "locations": [
           {
             "file": "client/src/types/appointmentApi.ts",
-            "line": 91
+            "line": 90
           }
         ]
       },
@@ -4636,28 +4602,28 @@
           }
         ]
       },
-      "BetaFeedbackFilters": {
-        "definition": "export interface BetaFeedbackFilters {",
+      "BetaFeedbackFiltersBase": {
+        "definition": "export interface BetaFeedbackFiltersBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/types/betaFeedback.ts",
-            "line": 69
+            "line": 70
+          }
+        ]
+      },
+      "BetaFeedbackFilters": {
+        "definition": "export type BetaFeedbackFilters = BetaFeedbackFiltersBase",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/types/betaFeedback.ts",
+            "line": 76
           }
         ]
       },
       "ComponentStrategy": {
-        "definition": "export type ComponentStrategy = SharedComponentStrategy;",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/types/component.ts",
-            "line": 4
-          }
-        ]
-      },
-      "ComponentConfig": {
-        "definition": "export type ComponentConfig = SharedComponentConfig;",
+        "definition": "export type ComponentStrategy = SharedComponentStrategy",
         "isInterface": false,
         "locations": [
           {
@@ -4666,13 +4632,23 @@
           }
         ]
       },
-      "DistributionStrategy": {
-        "definition": "export type DistributionStrategy = 'proportional' | 'equal' | 'manual';",
+      "ComponentConfig": {
+        "definition": "export type ComponentConfig = SharedComponentConfig",
         "isInterface": false,
         "locations": [
           {
             "file": "client/src/types/component.ts",
-            "line": 14
+            "line": 6
+          }
+        ]
+      },
+      "DistributionStrategy": {
+        "definition": "export type DistributionStrategy = 'proportional' | 'equal' | 'manual'",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/types/component.ts",
+            "line": 15
           }
         ]
       },
@@ -4682,17 +4658,17 @@
         "locations": [
           {
             "file": "client/src/types/component.ts",
-            "line": 16
+            "line": 17
           }
         ]
       },
       "InstanceComponent": {
-        "definition": "export interface InstanceComponent {",
+        "definition": "export interface InstanceComponent extends CreateRelationshipPayloadBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/types/component.ts",
-            "line": 32
+            "line": 34
           }
         ]
       },
@@ -4722,7 +4698,7 @@
         "locations": [
           {
             "file": "client/src/types/datetime.ts",
-            "line": 106
+            "line": 105
           }
         ]
       },
@@ -4806,6 +4782,16 @@
           }
         ]
       },
+      "SelectableFieldTypeSuite": {
+        "definition": "export type SelectableFieldTypeSuite = {",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/types/entity/formFields.ts",
+            "line": 89
+          }
+        ]
+      },
       "FormFieldConfigMap": {
         "definition": "export type FormFieldConfigMap = {",
         "isInterface": false,
@@ -4853,6 +4839,16 @@
           {
             "file": "client/src/types/googleCalendar.ts",
             "line": 54
+          }
+        ]
+      },
+      "MetadataEditorPropsBase": {
+        "definition": "export interface MetadataEditorPropsBase {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/types/metadataEditorProps.ts",
+            "line": 12
           }
         ]
       },
@@ -4942,17 +4938,27 @@
         "locations": [
           {
             "file": "client/src/types/relationships.ts",
-            "line": 13
+            "line": 14
           }
         ]
       },
-      "CreateRelationshipPayload": {
-        "definition": "export interface CreateRelationshipPayload {",
+      "CreateRelationshipPayloadBase": {
+        "definition": "export interface CreateRelationshipPayloadBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/types/relationships.ts",
-            "line": 50
+            "line": 49
+          }
+        ]
+      },
+      "CreateRelationshipPayload": {
+        "definition": "export type CreateRelationshipPayload = CreateRelationshipPayloadBase",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "client/src/types/relationships.ts",
+            "line": 60
           }
         ]
       },
@@ -5146,16 +5152,6 @@
           }
         ]
       },
-      "FieldFormatter": {
-        "definition": "export type FieldFormatter = (",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/appointmentFieldFormatters.ts",
-            "line": 19
-          }
-        ]
-      },
       "AutocompleteValue": {
         "definition": "export type AutocompleteValue = 'false' | 'off' | 'nope'",
         "isInterface": false,
@@ -5206,53 +5202,13 @@
           }
         ]
       },
-      "CascadeStepResult": {
-        "definition": "export type CascadeStepResult =",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 16
-          }
-        ]
-      },
-      "CascadeFilterParams": {
-        "definition": "export interface CascadeFilterParams {",
+      "CascadeFilterParamsBase": {
+        "definition": "export interface CascadeFilterParamsBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 20
-          }
-        ]
-      },
-      "FallbackParams": {
-        "definition": "export interface FallbackParams {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 97
-          }
-        ]
-      },
-      "PipelineParams": {
-        "definition": "export interface PipelineParams {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 121
-          }
-        ]
-      },
-      "BlockInstanceFeeResult": {
-        "definition": "export type BlockInstanceFeeResult = FeeEntryBase",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/confirmationStepData.ts",
-            "line": 35
+            "line": 21
           }
         ]
       },
@@ -5286,43 +5242,13 @@
           }
         ]
       },
-      "MockBusyPeriodConfig": {
-        "definition": "export interface MockBusyPeriodConfig {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/mockGoogleCalendar.ts",
-            "line": 23
-          }
-        ]
-      },
-      "PartWithTotals": {
-        "definition": "export interface PartWithTotals {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/partsTotals.ts",
-            "line": 14
-          }
-        ]
-      },
-      "PartsTotalsResult": {
-        "definition": "export interface PartsTotalsResult {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/partsTotals.ts",
-            "line": 27
-          }
-        ]
-      },
       "ResolvedEventShapes": {
         "definition": "export interface ResolvedEventShapes {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/utils/booking/perspectiveResolver.ts",
-            "line": 18
+            "line": 19
           }
         ]
       },
@@ -5356,43 +5282,13 @@
           }
         ]
       },
-      "ParsedBusyTimeRange": {
-        "definition": "export interface ParsedBusyTimeRange {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/timeSlotTypes.ts",
-            "line": 22
-          }
-        ]
-      },
-      "DayBusinessHours": {
-        "definition": "export type DayBusinessHours = TimeRangeBounds & { readonly __brand: 'DayBusinessHours' }",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/timeSlotTypes.ts",
-            "line": 35
-          }
-        ]
-      },
-      "BusinessHoursMap": {
-        "definition": "export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/timeSlotTypes.ts",
-            "line": 55
-          }
-        ]
-      },
       "BusyTimeRange": {
         "definition": "export interface BusyTimeRange {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/utils/booking/timeSlotTypes.ts",
-            "line": 63
+            "line": 20
           }
         ]
       },
@@ -5406,23 +5302,13 @@
           }
         ]
       },
-      "WizardStepValidatorsMap": {
-        "definition": "export type WizardStepValidatorsMap = Record<number, StepValidator | null>",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/booking/wizardValidation.ts",
-            "line": 3
-          }
-        ]
-      },
       "UseWizardValidationReturn": {
         "definition": "export type UseWizardValidationReturn = {",
         "isInterface": false,
         "locations": [
           {
             "file": "client/src/utils/booking/wizardValidation.ts",
-            "line": 5
+            "line": 3
           }
         ]
       },
@@ -5473,36 +5359,6 @@
           {
             "file": "client/src/utils/forms/fieldSectionCategorization.ts",
             "line": 21
-          }
-        ]
-      },
-      "CategorizedFields": {
-        "definition": "export interface CategorizedFields {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-            "line": 28
-          }
-        ]
-      },
-      "CategorizeFieldsOptions": {
-        "definition": "export interface CategorizeFieldsOptions {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-            "line": 47
-          }
-        ]
-      },
-      "VFormInstance": {
-        "definition": "export type VFormInstance = InstanceType<typeof VForm>",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/forms/formElementPatching.ts",
-            "line": 7
           }
         ]
       },
@@ -5576,16 +5432,6 @@
           }
         ]
       },
-      "EntityWithStringId": {
-        "definition": "export type EntityWithStringId = IdentifiableById",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/optimistic/listByIdOptimistic.ts",
-            "line": 4
-          }
-        ]
-      },
       "AppointmentVersionsResponse": {
         "definition": "export interface AppointmentVersionsResponse {",
         "isInterface": true,
@@ -5603,16 +5449,6 @@
           {
             "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
             "line": 37
-          }
-        ]
-      },
-      "ComposablePropertyValue": {
-        "definition": "export type ComposablePropertyValue = string | number | boolean | unknown[]",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "client/src/utils/transformers/composePropertyValue.ts",
-            "line": 17
           }
         ]
       },
@@ -5652,7 +5488,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/globalToAdminTransformer.ts",
-            "line": 36
+            "line": 37
           }
         ]
       },
@@ -5726,43 +5562,13 @@
           }
         ]
       },
-      "PropertyFieldMappingRow": {
-        "definition": "export interface PropertyFieldMappingRow {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
-            "line": 14
-          }
-        ]
-      },
-      "PropertyFeatureMappingRow": {
-        "definition": "export interface PropertyFeatureMappingRow {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
-            "line": 27
-          }
-        ]
-      },
-      "FoundationAccessType": {
-        "definition": "export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "server/src/config/brightMlsFoundationMapping.ts",
-            "line": 9
-          }
-        ]
-      },
       "EntityType": {
         "definition": "export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape",
         "isInterface": false,
         "locations": [
           {
             "file": "server/src/config/entityRegistry.ts",
-            "line": 70
+            "line": 20
           }
         ]
       },
@@ -5772,7 +5578,7 @@
         "locations": [
           {
             "file": "server/src/config/entityRegistry.ts",
-            "line": 79
+            "line": 29
           }
         ]
       },
@@ -5886,26 +5692,6 @@
           }
         ]
       },
-      "DependentDelete": {
-        "definition": "export type DependentDelete = {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "server/src/routes/helpers/dataController.ts",
-            "line": 201
-          }
-        ]
-      },
-      "SafeDeleteOptions": {
-        "definition": "export interface SafeDeleteOptions {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/routes/helpers/dataController.ts",
-            "line": 206
-          }
-        ]
-      },
       "AppointmentStatusRequiringCalendarEvent": {
         "definition": "export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[num",
         "isInterface": false,
@@ -5913,16 +5699,6 @@
           {
             "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
             "line": 54
-          }
-        ]
-      },
-      "PropertyVersionWithAssociations": {
-        "definition": "export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "server/src/routes/internal/properties/propertyHelpers.ts",
-            "line": 14
           }
         ]
       },
@@ -5956,26 +5732,6 @@
           }
         ]
       },
-      "BuildWhereClauseParams": {
-        "definition": "export interface BuildWhereClauseParams {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
-            "line": 64
-          }
-        ]
-      },
-      "BuildQueryOptionsParams": {
-        "definition": "export interface BuildQueryOptionsParams {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipQueryBuilders.ts",
-            "line": 102
-          }
-        ]
-      },
       "ParsedClient": {
         "definition": "export interface ParsedClient extends ContactInfoBase {",
         "isInterface": true,
@@ -5993,36 +5749,6 @@
           {
             "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
             "line": 78
-          }
-        ]
-      },
-      "AddressGeocodingCacheEntry": {
-        "definition": "export interface AddressGeocodingCacheEntry {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/addressGeocodingCache.ts",
-            "line": 15
-          }
-        ]
-      },
-      "CalendarEventResult": {
-        "definition": "export interface CalendarEventResult {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 22
-          }
-        ]
-      },
-      "ServerTimeSlot": {
-        "definition": "export interface ServerTimeSlot {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 40
           }
         ]
       },
@@ -6173,26 +5899,6 @@
           {
             "file": "server/src/services/propertyFieldMapper.ts",
             "line": 13
-          }
-        ]
-      },
-      "RateLimitStatus": {
-        "definition": "export type RateLimitStatus = 'available' | 'throttled' | 'exceeded';",
-        "isInterface": false,
-        "locations": [
-          {
-            "file": "server/src/services/rateLimiter.ts",
-            "line": 71
-          }
-        ]
-      },
-      "RateLimitResult": {
-        "definition": "export interface RateLimitResult {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "server/src/services/rateLimiter.ts",
-            "line": 73
           }
         ]
       },
@@ -6420,16 +6126,6 @@
       },
       {
         "type": "config-file",
-        "file": "client/src/configs/field/form/_archived/primitiveFieldConfig.ts",
-        "description": "Configuration file location"
-      },
-      {
-        "type": "config-file",
-        "file": "client/src/configs/field/form/_archived/selectableFieldConfig.ts",
-        "description": "Configuration file location"
-      },
-      {
-        "type": "config-file",
         "file": "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts",
         "description": "Configuration file location"
       },
@@ -6527,11 +6223,6 @@
         "type": "config-file",
         "file": "server/src/config/models.ts",
         "description": "Configuration file location"
-      },
-      {
-        "type": "config-file",
-        "file": "server/src/db/config/database.mjs",
-        "description": "Configuration file location"
       }
     ],
     "functionPatterns": {
@@ -6555,22 +6246,12 @@
           }
         ]
       },
-      "getFieldMetadata": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/composables/_archived/useFieldMetadata.ts",
-            "line": 51,
-            "name": "FieldMetadata"
-          }
-        ]
-      },
       "getClientIdFromAttendees": {
         "prefix": "get",
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-            "line": 35,
+            "line": 36,
             "name": "ClientIdFromAttendees"
           }
         ]
@@ -6580,7 +6261,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-            "line": 40,
+            "line": 41,
             "name": "AgentIdFromAttendees"
           }
         ]
@@ -6590,7 +6271,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-            "line": 45,
+            "line": 46,
             "name": "ClientAttendee"
           }
         ]
@@ -6600,7 +6281,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
-            "line": 49,
+            "line": 50,
             "name": "AgentAttendee"
           }
         ]
@@ -6755,7 +6436,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useBusinessRuleForm.ts",
-            "line": 11,
+            "line": 12,
             "name": "BusinessRuleForm"
           }
         ]
@@ -6795,7 +6476,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useCapacitySettings.ts",
-            "line": 91,
+            "line": 87,
             "name": "CapacitySettings"
           }
         ]
@@ -7395,7 +7076,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollection.ts",
-            "line": 92,
+            "line": 87,
             "name": "RelationshipCollection"
           }
         ]
@@ -7405,7 +7086,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
-            "line": 52,
+            "line": 54,
             "name": "RelationshipCollectionData"
           }
         ]
@@ -7715,7 +7396,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
-            "line": 35,
+            "line": 38,
             "name": "SelectionCardStyles"
           }
         ]
@@ -7735,7 +7416,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 105,
+            "line": 106,
             "name": "AppointmentDataCollection"
           }
         ]
@@ -7775,7 +7456,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentShape.ts",
-            "line": 38,
+            "line": 39,
             "name": "AppointmentShape"
           }
         ]
@@ -7805,7 +7486,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 54,
+            "line": 55,
             "name": "AvailabilityDefaults"
           }
         ]
@@ -7815,7 +7496,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDevPanel.ts",
-            "line": 63,
+            "line": 62,
             "name": "AvailabilityDevPanel"
           }
         ]
@@ -7825,7 +7506,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDevPanel.ts",
-            "line": 107,
+            "line": 106,
             "name": "DevPanelData"
           }
         ]
@@ -7845,7 +7526,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityLogic.ts",
-            "line": 83,
+            "line": 84,
             "name": "AvailabilityLogic"
           }
         ]
@@ -7895,7 +7576,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityUI.ts",
-            "line": 42,
+            "line": 43,
             "name": "AvailabilityUI"
           }
         ]
@@ -8125,7 +7806,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-            "line": 80,
+            "line": 81,
             "name": "MoveablePartsScheduling"
           }
         ]
@@ -8435,7 +8116,7 @@
         "locations": [
           {
             "file": "client/src/composables/componentEntity/useComponentEntityDomain.ts",
-            "line": 31,
+            "line": 32,
             "name": "ComponentEntityDomain"
           }
         ]
@@ -8485,7 +8166,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrud.ts",
-            "line": 20,
+            "line": 21,
             "name": "EntityCrud"
           }
         ]
@@ -8505,7 +8186,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
-            "line": 45,
+            "line": 38,
             "name": "EntityCrudMutations"
           }
         ]
@@ -8525,7 +8206,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudState.ts",
-            "line": 15,
+            "line": 12,
             "name": "EntityCrudState"
           }
         ]
@@ -8595,7 +8276,7 @@
         "locations": [
           {
             "file": "client/src/composables/fieldContext/useFieldContextState.ts",
-            "line": 63,
+            "line": 64,
             "name": "FieldContextState"
           }
         ]
@@ -8615,7 +8296,7 @@
         "locations": [
           {
             "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-            "line": 28,
+            "line": 30,
             "name": "FormFieldsContext"
           }
         ]
@@ -8665,7 +8346,7 @@
         "locations": [
           {
             "file": "client/src/composables/useAdmin.ts",
-            "line": 222,
+            "line": 223,
             "name": "Admin"
           }
         ]
@@ -8775,7 +8456,7 @@
         "locations": [
           {
             "file": "client/src/composables/useComponentDistribution.ts",
-            "line": 51,
+            "line": 46,
             "name": "ComponentDistribution"
           }
         ]
@@ -8785,7 +8466,7 @@
         "locations": [
           {
             "file": "client/src/composables/useComponentEntity.ts",
-            "line": 24,
+            "line": 22,
             "name": "ComponentEntity"
           }
         ]
@@ -8905,7 +8586,7 @@
         "locations": [
           {
             "file": "client/src/composables/useRelationship.ts",
-            "line": 34,
+            "line": 35,
             "name": "RelationshipCrud"
           }
         ]
@@ -8965,7 +8646,7 @@
         "locations": [
           {
             "file": "client/src/configs/availabilitySettings.ts",
-            "line": 310,
+            "line": 311,
             "name": "AvailabilitySettings"
           }
         ]
@@ -8975,38 +8656,8 @@
         "locations": [
           {
             "file": "client/src/configs/availabilitySettings.ts",
-            "line": 438,
+            "line": 439,
             "name": "ReadFromCalendars"
-          }
-        ]
-      },
-      "getWriteToCalendar": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/configs/availabilitySettings.ts",
-            "line": 469,
-            "name": "WriteToCalendar"
-          }
-        ]
-      },
-      "getCalendarEmailsArray": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/configs/availabilitySettings.ts",
-            "line": 489,
-            "name": "CalendarEmailsArray"
-          }
-        ]
-      },
-      "getPerspectiveLabel": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/configs/eventPerspectiveLabels.ts",
-            "line": 45,
-            "name": "PerspectiveLabel"
           }
         ]
       },
@@ -9065,7 +8716,7 @@
         "locations": [
           {
             "file": "client/src/types/datetime.ts",
-            "line": 125,
+            "line": 124,
             "name": "DayOfWeek"
           }
         ]
@@ -9117,16 +8768,6 @@
             "file": "client/src/utils/admin/entityDisplayText.ts",
             "line": 51,
             "name": "EntityDeleteTitle"
-          }
-        ]
-      },
-      "getAvailableUserTypeBlocksForAnnotation": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/annotationUtils.ts",
-            "line": 13,
-            "name": "AvailableUserTypeBlocksForAnnotation"
           }
         ]
       },
@@ -9320,33 +8961,13 @@
           }
         ]
       },
-      "getPropertyFieldMappingByIdEndpoint": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/api/propertyMappingsApi.ts",
-            "line": 10,
-            "name": "PropertyFieldMappingByIdEndpoint"
-          }
-        ]
-      },
       "getPropertyFeatureMappingsEndpoint": {
         "prefix": "get",
         "locations": [
           {
             "file": "client/src/utils/api/propertyMappingsApi.ts",
-            "line": 14,
+            "line": 10,
             "name": "PropertyFeatureMappingsEndpoint"
-          }
-        ]
-      },
-      "getPropertyFeatureMappingByIdEndpoint": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/api/propertyMappingsApi.ts",
-            "line": 18,
-            "name": "PropertyFeatureMappingByIdEndpoint"
           }
         ]
       },
@@ -9377,26 +8998,6 @@
             "file": "client/src/utils/api/relationshipApi.ts",
             "line": 18,
             "name": "RelationshipsBatchEndpoint"
-          }
-        ]
-      },
-      "getBlockInstanceAnnotationsEndpoint": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/api/relationshipApi.ts",
-            "line": 22,
-            "name": "BlockInstanceAnnotationsEndpoint"
-          }
-        ]
-      },
-      "getBlockInstanceAnnotationEndpoint": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/api/relationshipApi.ts",
-            "line": 26,
-            "name": "BlockInstanceAnnotationEndpoint"
           }
         ]
       },
@@ -9455,18 +9056,8 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 76,
+            "line": 55,
             "name": "StateControlBlockInstances"
-          }
-        ]
-      },
-      "getBlockShapeIdByName": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 91,
-            "name": "BlockShapeIdByName"
           }
         ]
       },
@@ -9475,18 +9066,8 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 102,
+            "line": 70,
             "name": "BlockShapeIdByType"
-          }
-        ]
-      },
-      "getStateControlBlockInstanceOptions": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 126,
-            "name": "StateControlBlockInstanceOptions"
           }
         ]
       },
@@ -9525,7 +9106,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 214,
+            "line": 212,
             "name": "UserTypeBlocks"
           }
         ]
@@ -9555,7 +9136,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/partFinalizer.ts",
-            "line": 68,
+            "line": 69,
             "name": "PartFinals"
           }
         ]
@@ -9680,16 +9261,6 @@
           }
         ]
       },
-      "createWizardValidator": {
-        "prefix": "create",
-        "locations": [
-          {
-            "file": "client/src/utils/booking/wizardValidation.ts",
-            "line": 9,
-            "name": "WizardValidator"
-          }
-        ]
-      },
       "getComplementaryColor": {
         "prefix": "get",
         "locations": [
@@ -9780,22 +9351,12 @@
           }
         ]
       },
-      "getAgentEventShape": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 76,
-            "name": "AgentEventShape"
-          }
-        ]
-      },
       "getAllUserTypeBlockIds": {
         "prefix": "get",
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 89,
+            "line": 17,
             "name": "AllUserTypeBlockIds"
           }
         ]
@@ -9805,7 +9366,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 113,
+            "line": 56,
             "name": "MajorEventShape"
           }
         ]
@@ -9815,7 +9376,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 136,
+            "line": 79,
             "name": "MinorEventShape"
           }
         ]
@@ -9895,26 +9456,6 @@
           }
         ]
       },
-      "getDefaultAnnotation": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/transformers/annotationTransformers.ts",
-            "line": 143,
-            "name": "DefaultAnnotation"
-          }
-        ]
-      },
-      "getThroughAttributes": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/transformers/annotationTransformers.ts",
-            "line": 164,
-            "name": "ThroughAttributes"
-          }
-        ]
-      },
       "getComponentsRecursive": {
         "prefix": "get",
         "locations": [
@@ -9960,22 +9501,12 @@
           }
         ]
       },
-      "getComponentConfig": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/config/entityRegistry.ts",
-            "line": 40,
-            "name": "ComponentConfig"
-          }
-        ]
-      },
       "getEntityConfig": {
         "prefix": "get",
         "locations": [
           {
             "file": "server/src/config/entityRegistry.ts",
-            "line": 160,
+            "line": 110,
             "name": "EntityConfig"
           }
         ]
@@ -10210,16 +9741,6 @@
           }
         ]
       },
-      "getComponentChildIds": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-            "line": 99,
-            "name": "ComponentChildIds"
-          }
-        ]
-      },
       "updateComponentActiveStates": {
         "prefix": "update",
         "locations": [
@@ -10237,26 +9758,6 @@
             "file": "server/src/services/addressGeocodingCache.ts",
             "line": 86,
             "name": "CachedPlaceId"
-          }
-        ]
-      },
-      "getGeocodingCacheStats": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/services/addressGeocodingCache.ts",
-            "line": 154,
-            "name": "GeocodingCacheStats"
-          }
-        ]
-      },
-      "getAllCachedGeocodings": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/services/addressGeocodingCache.ts",
-            "line": 185,
-            "name": "AllCachedGeocodings"
           }
         ]
       },
@@ -10505,38 +10006,8 @@
         "locations": [
           {
             "file": "server/src/utils/userTypeMapping.ts",
-            "line": 58,
+            "line": 50,
             "name": "UserTypeBlockIdForRole"
-          }
-        ]
-      },
-      "getUserTypeBlockIdsForRoles": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/utils/userTypeMapping.ts",
-            "line": 103,
-            "name": "UserTypeBlockIdsForRoles"
-          }
-        ]
-      },
-      "getRoleForBlockName": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/utils/userTypeMapping.ts",
-            "line": 216,
-            "name": "RoleForBlockName"
-          }
-        ]
-      },
-      "getAvailableRoleMappings": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/utils/userTypeMapping.ts",
-            "line": 224,
-            "name": "AvailableRoleMappings"
           }
         ]
       }
@@ -10552,14 +10023,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 273,
+        "line": 274,
         "pattern": "AppointmentStatus workflow",
         "code": "// LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 276,
+        "line": 277,
         "pattern": "AppointmentStatus workflow",
         "code": "status: isQuoteMode ? 'quoted' : 'submitted' as AppointmentStatus,"
       },

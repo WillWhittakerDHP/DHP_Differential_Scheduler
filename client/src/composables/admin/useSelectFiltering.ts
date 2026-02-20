@@ -4,7 +4,12 @@
  * LEARNING: Extracts entity filtering logic from SelectInputs component
  * WHY: Components should be thin UI wrappers - filtering logic belongs in composables
  * PATTERN: Composable that provides filtered entities based on select config
- * 
+ *
+ * LEARNING (entity source): For entities not yet persisted, we detect them via
+ * TEMPORARY_ID_PATTERNS.NEW_PREFIX on fieldContext.entityId. When currentEntity
+ * is missing or the entity is new, we read from form values (useForm()) so that
+ * parent type ref and path values are available for filtering before save.
+ *
  * This composable handles:
  * - Active child select filtering (bookingCascades, partAssignments)
  * - Direct matching select filtering (dependentInstances)
@@ -152,9 +157,7 @@ export function useSelectFiltering(
   })
 
   /**
-   * LEARNING: Get parent type reference (blockShapeRef/partShapeRef)
-   * WHY: Need to look up the parent type entity to get valid children
-   * PATTERN: Get from currentEntity or form (for temp entities)
+   * LEARNING: Get parent type reference (blockShapeRef/partShapeRef). See file LEARNING for new-entity/form fallback.
    */
   const parentTypeRef = computed<string | null>(() => {
     if (!isActiveChildSelect.value) return null
@@ -178,7 +181,7 @@ export function useSelectFiltering(
       }
     }
     
-    // PATTERN: Check if entityId is temp ID, then try to access form values
+    // When entity is new (not yet persisted), read from form values. See file LEARNING.
     const entityIdString = String(fieldContext.entityId)
     const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
     
@@ -292,11 +295,11 @@ export function useSelectFiltering(
     }
     
     if (isActiveChildSelect.value) {
-      // PATTERN: Check parentTypeRef (which checks form values) instead of just currentEntity
+      // parentTypeRef already considers form values for new entities. See file LEARNING.
       const entityIdString = String(fieldContext.entityId)
       const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
       
-      // PATTERN: Skip warning for temp entities, only warn for existing entities that should exist
+      // Skip warning for new entities; only warn when an existing entity is missing parent type.
       if (!currentEntity.value && !isTempEntity) {
         return []
       }
@@ -360,7 +363,7 @@ export function useSelectFiltering(
       const parentPathKey = candidateParentPath[0]
       const childPathKey = candidateChildPath[0]
       
-      // PATTERN: Get from currentEntity or form (for temp entities), similar to parentTypeRef logic
+      // Get from currentEntity or form for new entities. Same pattern as parentTypeRef (see file LEARNING).
       let currentEntityValue: string | null = null
       
       if (currentEntity.value) {

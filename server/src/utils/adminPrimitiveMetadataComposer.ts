@@ -10,6 +10,7 @@
 import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import type { FieldMetadataEntry } from './adminMetadataComposer.js';
+import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
 
 export type { FieldMetadataEntry };
 
@@ -30,34 +31,14 @@ export async function getAdminPrimitiveMetadata(
     if (entityType === 'partInstance' && entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) {
       return entityMetadata.map(meta => ({
         fieldKey: meta.fieldKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
     if (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {
       return entityMetadata.map(meta => ({
         fieldKey: meta.fieldKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
@@ -76,48 +57,19 @@ export async function getAdminPrimitiveMetadata(
       
       return fallbackMetadata.map(meta => ({
         fieldKey: meta.fieldKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
     return entityMetadata.map(meta => ({
       fieldKey: meta.fieldKey,
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: meta.inputConfig || null,
+      ...mapMetaFieldsToPayload(meta),
     }));
   }
 
   return entityMetadata.map(meta => ({
     fieldKey: meta.fieldKey,
-    dataType: meta.dataType,
-    label: meta.label,
-    isRequired: meta.isRequired,
-    visibility: meta.visibility,
-    layout: meta.layout,
-    displayOrder: meta.displayOrder,
-    renderAs: meta.renderAs,
-    statusButtonColor: meta.statusButtonColor || null,
-    panel: meta.panel,
-    bulkEdit: meta.bulkEdit,
-    inputConfig: meta.inputConfig || null,
+    ...mapMetaFieldsToPayload(meta),
+    statusButtonColor: meta.statusButtonColor ?? null,
   }));
 }

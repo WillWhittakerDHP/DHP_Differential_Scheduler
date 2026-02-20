@@ -10,6 +10,7 @@ import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipM
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
+import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
 
 /** Extends shared MetadataEntryBase; relationship entries use relationshipKey (TYPE_SIMILARITY 1.11). */
 export interface RelationshipMetadataEntry extends MetadataEntryBase {
@@ -34,34 +35,14 @@ export async function getAdminRelationshipMetadata(
     if (entityType === 'partInstance' && entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
     if (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {
       return entityMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
@@ -80,48 +61,19 @@ export async function getAdminRelationshipMetadata(
       
       return fallbackMetadata.map(meta => ({
         relationshipKey: meta.relationshipKey,
-        dataType: meta.dataType,
-        label: meta.label,
-        isRequired: meta.isRequired,
-        visibility: meta.visibility,
-        layout: meta.layout,
-        displayOrder: meta.displayOrder,
-        renderAs: meta.renderAs,
-        statusButtonColor: meta.statusButtonColor,
-        panel: meta.panel,
-        bulkEdit: meta.bulkEdit,
-        inputConfig: meta.inputConfig || null,
+        ...mapMetaFieldsToPayload(meta),
       }));
     }
     
     return entityMetadata.map(meta => ({
       relationshipKey: meta.relationshipKey,
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: meta.inputConfig || null,
+      ...mapMetaFieldsToPayload(meta),
     }));
   }
 
   return entityMetadata.map(meta => ({
     relationshipKey: meta.relationshipKey,
-    dataType: meta.dataType,
-    label: meta.label,
-    isRequired: meta.isRequired,
-    visibility: meta.visibility,
-    layout: meta.layout,
-    displayOrder: meta.displayOrder,
-    renderAs: meta.renderAs,
-    statusButtonColor: meta.statusButtonColor || null,
-    panel: meta.panel,
-    bulkEdit: meta.bulkEdit,
-    inputConfig: meta.inputConfig || null,
+    ...mapMetaFieldsToPayload(meta),
+    statusButtonColor: meta.statusButtonColor ?? null,
   }));
 }

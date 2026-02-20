@@ -6,7 +6,7 @@ import {
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
-  toRepoPath as toRepoPathUtil,
+  toRepoPath,
   checkConfigAllowlist,
   getAuditReportHeaderLines,
 } from './shared-audit-utils.mjs'

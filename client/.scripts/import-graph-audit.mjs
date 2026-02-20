@@ -2,12 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -165,6 +163,15 @@ function detectCrossBoundary(importerPath, importedPath) {
 
   if (importerIsClient && importedIsServer) return 'client->server'
   if (importerIsServer && importedIsClient) return 'server->client'
+
+  // Composable domain boundaries: root composable (composables/useXxx.ts) should not import admin/booking
+  const inComposablesRoot = /composables\/[^/]+\.(ts|js|vue)$/.test(importerPath) &&
+    !/composables\/(admin|booking)\//.test(importerPath)
+  const importsAdmin = importedPath.includes('composables/admin')
+  const importsBooking = importedPath.includes('composables/booking')
+  if (inComposablesRoot && (importsAdmin || importsBooking)) {
+    return 'composable-root->domain'
+  }
   return null
 }
 
@@ -229,10 +236,29 @@ function renderMarkdownReport(result) {
   if (result.crossBoundary.length > 0) {
     lines.push('## Cross-boundary imports')
     lines.push('')
-    for (const cb of result.crossBoundary.slice(0, 20)) {
-      lines.push(`- \`${cb.from}\` → \`${cb.to}\` (${cb.direction})`)
+    const composableDomain = result.crossBoundary.filter(cb => cb.direction === 'composable-root->domain')
+    const otherBoundary = result.crossBoundary.filter(cb => cb.direction !== 'composable-root->domain')
+    if (composableDomain.length > 0) {
+      lines.push('### Composable domain boundary (root → admin/booking)')
+      lines.push('')
+      lines.push('Root composables importing admin or booking modules. Consider moving under `src/composables/admin/` or `src/composables/booking/`.')
+      lines.push('')
+      for (const cb of composableDomain.slice(0, 30)) {
+        lines.push(`- \`${cb.from}\` → \`${cb.to}\``)
+      }
+      if (composableDomain.length > 30) {
+        lines.push(`- … (${composableDomain.length - 30} more)`)
+      }
+      lines.push('')
     }
-    lines.push('')
+    if (otherBoundary.length > 0) {
+      lines.push('### Other (client↔server)')
+      lines.push('')
+      for (const cb of otherBoundary.slice(0, 20)) {
+        lines.push(`- \`${cb.from}\` → \`${cb.to}\` (${cb.direction})`)
+      }
+      lines.push('')
+    }
   }
 
   return lines.join('\n')
@@ -240,7 +266,6 @@ function renderMarkdownReport(result) {
 
 function main() {
   const paths = resolveAuditPaths('import-graph')
-  const configAllowlist = loadCentralAllowlist('import-graph')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let config = {}

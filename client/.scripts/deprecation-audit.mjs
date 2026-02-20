@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
@@ -9,7 +8,6 @@ import {
   toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 

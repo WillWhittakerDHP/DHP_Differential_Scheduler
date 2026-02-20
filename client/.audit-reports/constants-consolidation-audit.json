@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T23:20:18.352Z",
+  "generatedAt": "2026-02-20T15:41:35.960Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,16 +11,16 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 696,
+  "totalScanned": 672,
   "totalConstantsFiles": 24,
   "totalExportsScanned": 67,
   "exceptionSummary": {
-    "totalAllowed": 3,
-    "totalRequiresReview": 3,
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
-      "specific": 3
+      "specific": 0
     }
   },
   "constantsFiles": [
@@ -49,128 +49,6 @@
     "server/src/services/google/calendar/calendarConstants.ts",
     "server/src/services/google/maps/mapsConstants.ts"
   ],
-  "consolidationGroups": [
-    {
-      "id": "inline-orphan-development",
-      "classification": "HOIST",
-      "description": "Value 'development' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/constants/appConstants.ts",
-          "export": "NODE_ENV",
-          "line": 52,
-          "inline": false
-        },
-        {
-          "file": "server/src/db/config/database.mjs",
-          "export": null,
-          "line": 5,
-          "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
-    },
-    {
-      "id": "inline-orphan-test",
-      "classification": "HOIST",
-      "description": "Value 'test' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/constants/appConstants.ts",
-          "export": "NODE_ENV",
-          "line": 52,
-          "inline": false
-        },
-        {
-          "file": "server/src/db/config/database.mjs",
-          "export": null,
-          "line": 15,
-          "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
-    },
-    {
-      "id": "inline-orphan-production",
-      "classification": "HOIST",
-      "description": "Value 'production' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/constants/appConstants.ts",
-          "export": "NODE_ENV",
-          "line": 52,
-          "inline": false
-        },
-        {
-          "file": "server/src/db/config/database.mjs",
-          "export": null,
-          "line": 25,
-          "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
-    }
-  ],
-  "files": [
-    {
-      "id": "server__src__constants__appConstants.ts",
-      "repoPath": "server/src/constants/appConstants.ts",
-      "score": 18,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 52,
-          "line": "export: NODE_ENV"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 52,
-          "line": "export: NODE_ENV"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 52,
-          "line": "export: NODE_ENV"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__config__database.mjs",
-      "repoPath": "server/src/db/config/database.mjs",
-      "score": 18,
-      "priority": "P1",
-      "allowed": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 5,
-          "line": "inline: value",
-          "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention",
-          "source": "specific"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 15,
-          "line": "inline: value",
-          "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention",
-          "source": "specific"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 25,
-          "line": "inline: value",
-          "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention",
-          "source": "specific"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "consolidationGroups": [],
+  "files": []
 }

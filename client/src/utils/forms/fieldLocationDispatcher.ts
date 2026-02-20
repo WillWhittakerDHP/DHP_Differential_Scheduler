@@ -16,6 +16,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import {
+  FIELD_LOCATION_TYPE,
   FIELD_VISIBILITY,
   FIELD_LAYOUT,
   SUB_PANEL_KEYS,
@@ -194,13 +195,13 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
       const location = getFieldLocation(fieldKey, metadata, context)
 
       switch (location.type) {
-        case 'titleRow':
+        case FIELD_LOCATION_TYPE.TITLE_ROW:
           return { ...acc, titleRow: [...acc.titleRow, fieldKey] }
-        case 'directInline':
+        case FIELD_LOCATION_TYPE.DIRECT_INLINE:
           return { ...acc, directInline: [...acc.directInline, fieldKey] }
-        case 'directStacked':
+        case FIELD_LOCATION_TYPE.DIRECT_STACKED:
           return { ...acc, directStacked: [...acc.directStacked, fieldKey] }
-        case 'subPanel':
+        case FIELD_LOCATION_TYPE.SUB_PANEL:
           return {
             ...acc,
             subPanels: {
@@ -208,7 +209,7 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
               [location.panel]: [...acc.subPanels[location.panel], fieldKey]
             }
           }
-        case 'hidden':
+        case FIELD_LOCATION_TYPE.HIDDEN:
           return { ...acc, hidden: [...acc.hidden, fieldKey] }
         default:
           return acc

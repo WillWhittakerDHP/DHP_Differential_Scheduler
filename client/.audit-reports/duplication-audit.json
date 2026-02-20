@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T23:19:04.047Z",
+  "generatedAt": "2026-02-20T15:41:27.021Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 611,
+  "fileCount": 594,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -37,7 +37,6 @@
           "client/src/utils/booking/partFinalizer.ts",
           "client/src/utils/booking/slotShapeLookups.ts",
           "client/src/utils/booking/slotTimeUtils.ts",
-          "client/src/utils/booking/wizardValidation.ts",
           "client/src/utils/entities/entityFieldPatch.ts",
           "client/src/utils/logger.ts",
           "server/src/routes/helpers/createCrudRouter.ts",
@@ -50,12 +49,11 @@
           "server/src/services/instanceVersioning.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 38
+        "patternCount": 37
       },
       {
         "prefix": "get",
         "files": [
-          "client/src/composables/_archived/useFieldMetadata.ts",
           "client/src/composables/admin/tables/useAppointmentAttendees.ts",
           "client/src/composables/admin/tables/useAppointmentHelpers.ts",
           "client/src/composables/admin/useDragAndDropHelpers.ts",
@@ -63,12 +61,10 @@
           "client/src/composables/useApiErrorMessage.ts",
           "client/src/configs/adminConfig.ts",
           "client/src/configs/availabilitySettings.ts",
-          "client/src/configs/eventPerspectiveLabels.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/services/mapsApiService.ts",
           "client/src/types/datetime.ts",
           "client/src/utils/admin/entityDisplayText.ts",
-          "client/src/utils/annotationUtils.ts",
           "client/src/utils/api/adminMetadataApi.ts",
           "client/src/utils/api/appointmentApi.ts",
           "client/src/utils/api/availabilityApi.ts",
@@ -101,7 +97,6 @@
           "client/src/utils/forms/getFieldKeys.ts",
           "client/src/utils/iconMapper.ts",
           "client/src/utils/time/timeFormatting.ts",
-          "client/src/utils/transformers/annotationTransformers.ts",
           "client/src/utils/transformers/componentAggregator.ts",
           "client/src/utils/transformers/relationshipTransformers.ts",
           "client/src/vite-env.d.ts",
@@ -111,7 +106,6 @@
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
-          "server/src/routes/internal/relationships/relationshipHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
           "server/src/services/calendarEventsCache.ts",
@@ -129,7 +123,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 138
+        "patternCount": 117
       },
       {
         "prefix": "use",
@@ -356,6 +350,15 @@
     ],
     "repeatedStringFiles": []
   },
+  "duplicateComposableExports": [
+    {
+      "name": "useAvailabilitySettings",
+      "paths": [
+        "client/src/composables/admin/useAvailabilitySettings.ts",
+        "client/src/composables/booking/useAvailabilitySettings.ts"
+      ]
+    }
+  ],
   "groups": [
     {
       "groupId": "dup-132c63251d30",
@@ -621,72 +624,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-11ee84441edb",
-      "hash": "11ee84441edb",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 71,
-          "endLine": 100,
-          "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 69,
-          "endLine": 98,
-          "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 73,
-          "endLine": 102,
-          "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-255152a3acf3",
-      "hash": "255152a3acf3",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 64,
-          "endLine": 93,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 62,
-          "endLine": 91,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 66,
-          "endLine": 95,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-433b7c717ff1",
       "hash": "433b7c717ff1",
       "uniqueFiles": 3,
@@ -819,138 +756,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-7c1fb46c98e0",
-      "hash": "7c1fb46c98e0",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 58,
-          "endLine": 88,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 56,
-          "endLine": 86,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 60,
-          "endLine": 90,
-          "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-838f910a5e1e",
-      "hash": "838f910a5e1e",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 56,
-          "endLine": 85,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 54,
-          "endLine": 83,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 58,
-          "endLine": 87,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-9c70b13d8940",
-      "hash": "9c70b13d8940",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 62,
-          "endLine": 90,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 60,
-          "endLine": 88,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 64,
-          "endLine": 92,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-b310fa6a5478",
-      "hash": "b310fa6a5478",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 76,
-          "endLine": 101,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 74,
-          "endLine": 99,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 78,
-          "endLine": 103,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-b91a6eb83ee2",
       "hash": "b91a6eb83ee2",
       "uniqueFiles": 3,
@@ -978,39 +783,6 @@
           "endLine": 65,
           "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,",
           "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-ef36d1842f4c",
-      "hash": "ef36d1842f4c",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/booking/additional_service_option.ts",
-          "startLine": 68,
-          "endLine": 95,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/additional_service_option.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
-          "startLine": 66,
-          "endLine": 93,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/booking_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
-          "startLine": 70,
-          "endLine": 97,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 33,
@@ -1558,6 +1330,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-11ee84441edb",
+      "hash": "11ee84441edb",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 69,
+          "endLine": 98,
+          "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 73,
+          "endLine": 102,
+          "windowText": "model: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-1367027fb70b",
       "hash": "1367027fb70b",
       "uniqueFiles": 2,
@@ -1896,6 +1694,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-255152a3acf3",
+      "hash": "255152a3acf3",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 62,
+          "endLine": 91,
+          "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 66,
+          "endLine": 95,
+          "windowText": "return 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-25c4fc0e6f86",
       "hash": "25c4fc0e6f86",
       "uniqueFiles": 2,
@@ -2000,32 +1824,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-2a30231dd798",
-      "hash": "2a30231dd798",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "model: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 67,
-          "endLine": 96,
-          "windowText": "model: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 67,
-          "endLine": 96,
-          "windowText": "model: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,",
-          "target": "server/src/db/models/admin/valid_component.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-2a65fd444518",
       "hash": "2a65fd444518",
       "uniqueFiles": 2,
@@ -2113,15 +1911,15 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 153,
-          "endLine": 167,
+          "startLine": 154,
+          "endLine": 168,
           "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
         {
           "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-          "startLine": 85,
-          "endLine": 99,
+          "startLine": 86,
+          "endLine": 100,
           "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
           "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
         }
@@ -2150,32 +1948,6 @@
           "endLine": 37,
           "windowText": "declare kind: CreationOptional<string>;\ndeclare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(",
           "target": "server/src/db/models/booking/part_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-30c06464e8f9",
-      "hash": "30c06464e8f9",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 54,
-          "endLine": 84,
-          "windowText": "return 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 54,
-          "endLine": 84,
-          "windowText": "return 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/admin/valid_component.ts"
         }
       ],
       "score": 22,
@@ -3413,15 +3185,15 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 159,
-          "endLine": 170,
+          "startLine": 160,
+          "endLine": 171,
           "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
         {
           "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-          "startLine": 91,
-          "endLine": 102,
+          "startLine": 92,
+          "endLine": 103,
           "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
           "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
         }
@@ -3580,6 +3352,32 @@
           "endLine": 135,
           "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...args)\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...args)\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...args)\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7c1fb46c98e0",
+      "hash": "7c1fb46c98e0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 56,
+          "endLine": 86,
+          "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 60,
+          "endLine": 90,
+          "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 22,
@@ -3768,26 +3566,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-840356d96352",
-      "hash": "840356d96352",
+      "groupId": "dup-838f910a5e1e",
+      "hash": "838f910a5e1e",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
+      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
       "locations": [
         {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 52,
-          "endLine": 81,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 54,
+          "endLine": 83,
+          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
         },
         {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 52,
-          "endLine": 81,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
-          "target": "server/src/db/models/admin/valid_component.ts"
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 58,
+          "endLine": 87,
+          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 22,
@@ -4427,17 +4225,43 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 154,
-          "endLine": 168,
+          "startLine": 155,
+          "endLine": 169,
           "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
         {
           "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-          "startLine": 86,
-          "endLine": 100,
+          "startLine": 87,
+          "endLine": 101,
           "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
           "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-9c70b13d8940",
+      "hash": "9c70b13d8940",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 60,
+          "endLine": 88,
+          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 64,
+          "endLine": 92,
+          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 22,
@@ -4730,32 +4554,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-a80df1aaab51",
-      "hash": "a80df1aaab51",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 72,
-          "endLine": 97,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 72,
-          "endLine": 97,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
-          "target": "server/src/db/models/admin/valid_component.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-aa0673e4a618",
       "hash": "aa0673e4a618",
       "uniqueFiles": 2,
@@ -4817,15 +4615,15 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 158,
-          "endLine": 169,
+          "startLine": 159,
+          "endLine": 170,
           "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
         {
           "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-          "startLine": 90,
-          "endLine": 101,
+          "startLine": 91,
+          "endLine": 102,
           "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
           "target": "client/src/components/admin/generic/EntityFormContent.vue::<script>"
         }
@@ -4854,6 +4652,32 @@
           "endLine": 72,
           "windowText": ">(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]",
           "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b310fa6a5478",
+      "hash": "b310fa6a5478",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 74,
+          "endLine": 99,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 78,
+          "endLine": 103,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntimestamps: false,\nunderscored: true,",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 22,
@@ -5036,32 +4860,6 @@
           "endLine": 34,
           "windowText": "BlockInstanceVersion,\nPartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,",
           "target": "server/src/config/models.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-c33f13fe9e53",
-      "hash": "c33f13fe9e53",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 58,
-          "endLine": 86,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 58,
-          "endLine": 86,
-          "windowText": "type: DataTypes.VIRTUAL,\nreturn 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/admin/valid_component.ts"
         }
       ],
       "score": 22,
@@ -5432,32 +5230,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-ddddc2915557",
-      "hash": "ddddc2915557",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 60,
-          "endLine": 89,
-          "windowText": "return 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 60,
-          "endLine": 89,
-          "windowText": "return 'blockShape';\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
-          "target": "server/src/db/models/admin/valid_component.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-e00b05d38585",
       "hash": "e00b05d38585",
       "uniqueFiles": 2,
@@ -5770,26 +5542,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-f0758a5ada8e",
-      "hash": "f0758a5ada8e",
+      "groupId": "dup-ef36d1842f4c",
+      "hash": "ef36d1842f4c",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+      "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
       "locations": [
         {
-          "repoPath": "server/src/db/models/admin/valid_cascade.ts",
-          "startLine": 64,
-          "endLine": 91,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/admin/valid_cascade.ts"
+          "repoPath": "server/src/db/models/booking/booking_cascade.ts",
+          "startLine": 66,
+          "endLine": 93,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/booking/booking_cascade.ts"
         },
         {
-          "repoPath": "server/src/db/models/admin/valid_component.ts",
-          "startLine": 64,
-          "endLine": 91,
-          "windowText": "type: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.UUID,\nmodel: 'block_shapes',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
-          "target": "server/src/db/models/admin/valid_component.ts"
+          "repoPath": "server/src/db/models/booking/dependent_instance.ts",
+          "startLine": 70,
+          "endLine": 97,
+          "windowText": "type: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/booking/dependent_instance.ts"
         }
       ],
       "score": 22,

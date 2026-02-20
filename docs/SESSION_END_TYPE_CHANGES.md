@@ -81,7 +81,7 @@ These changes were made to get the server build (`tsc`) to pass so `verifyApp` c
 
 | File | Change | Reason |
 |------|--------|--------|
-| `package.json` | Added `"restart:dev:vue"` script (alias for `restart:dev`) | `verifyApp` calls `npm run restart:dev:vue` which didn't exist |
+| `package.json` | Removed `"restart:dev:vue"` (use `restart:dev` or `start:dev`) | `verifyApp` now checks ports first and only runs `npm run start:dev` if not up |
 | `.project-manager/.current-feature` | **NEW** — contains `feature-2-google-apis-integration` | `WorkflowCommandContext.getCurrent()` needs this to find the right feature folder |
 | `.cursor/commands/tiers/session/composite/session-end.ts` | Passed `context.feature.name` into `appendLog`, `updateHandoffMinimal`, `updateGuide`, `markSessionComplete` | These functions defaulted to `'vue-migration'` — needed current feature name |
 | `.project-manager/features/feature-2-google-apis-integration/phases/phase-2.2-handoff.md` | Updated session 2.2.5 status to Complete, session 2.2.6 to Next | Done manually during first attempt (not by the workflow) |

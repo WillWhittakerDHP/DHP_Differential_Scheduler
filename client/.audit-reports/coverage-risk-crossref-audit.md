@@ -1,5 +1,5 @@
 # Coverage-Risk Crossref Audit (Generated)
 
-Generated at: 2026-02-19T23:20:20.328Z
+Generated at: 2026-02-20T15:41:37.858Z
 
-**Coverage-risk is suppressed while testing is off.** Set `CURSOR_TESTS_ENABLED=true` in project root `.env` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.
+**Coverage-risk is suppressed while testing is off.** Set `TEST_ENABLED=true` in project root `.env` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.

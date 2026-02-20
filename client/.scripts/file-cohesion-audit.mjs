@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
@@ -64,6 +63,14 @@ function detectMixedConcerns(content) {
   return hasUIImports && hasServerImports
 }
 
+function looksLikePureHelperInComposables(repoPath, content) {
+  if (!repoPath.includes('/composables/')) return false
+  const hasReactivity = /\b(computed|ref|reactive|watch|watchEffect)\s*\(/.test(content) ||
+    /\b(onMounted|onUnmounted|onBeforeUnmount)\b/.test(content) ||
+    /\buse(Query|Mutation|QueryClient)\b/.test(content)
+  return !hasReactivity
+}
+
 function analyzeFile(absPath, thresholds, projectRoot) {
   const repoPath = toRepoPath(absPath, projectRoot)
   const content = fs.readFileSync(absPath, 'utf-8')
@@ -113,10 +120,19 @@ function analyzeFile(absPath, thresholds, projectRoot) {
     })
   }
 
+  if (looksLikePureHelperInComposables(repoPath, content)) {
+    violations.push({
+      rule: 'pureHelperInComposables',
+      value: 1,
+      threshold: 0,
+      detail: 'Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`.',
+    })
+  }
+
   return { repoPath, category, lineCount, exportCount, mixedConcerns, hasExports, violations }
 }
 
-const VIOLATION_WEIGHT = { oversized: 3, 'high-exports': 2, 'mixed-concerns': 5, 'no-exports': 1 }
+const VIOLATION_WEIGHT = { oversized: 3, 'high-exports': 2, 'mixed-concerns': 5, 'no-exports': 1, pureHelperInComposables: 1 }
 
 function calculateScore(violations, lineCount, lineThreshold) {
   let score = 0
@@ -159,7 +175,7 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
       violationCounts[v.rule] = (violationCounts[v.rule] || 0) + 1
     }
   }
-  lines.push(`- Oversized: ${violationCounts.oversized || 0} | High exports: ${violationCounts['high-exports'] || 0} | Mixed concerns: ${violationCounts['mixed-concerns'] || 0} | No exports: ${violationCounts['no-exports'] || 0}`)
+  lines.push(`- Oversized: ${violationCounts.oversized || 0} | High exports: ${violationCounts['high-exports'] || 0} | Mixed concerns: ${violationCounts['mixed-concerns'] || 0} | No exports: ${violationCounts['no-exports'] || 0} | Pure helper in composables: ${violationCounts.pureHelperInComposables || 0}`)
   lines.push('')
 
   lines.push('## Top hotspots')

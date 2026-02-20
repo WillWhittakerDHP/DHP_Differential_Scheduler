@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T23:20:11.480Z",
+  "generatedAt": "2026-02-20T15:41:28.540Z",
   "scope": {
     "included": [
       "client/src/**/*.vue",
@@ -332,17 +332,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 867,
+          "lineNumber": 868,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 871,
+          "lineNumber": 872,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 875,
+          "lineNumber": 876,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],
@@ -350,17 +350,17 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 867,
+          "lineNumber": 868,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 871,
+          "lineNumber": 872,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 875,
+          "lineNumber": 876,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],

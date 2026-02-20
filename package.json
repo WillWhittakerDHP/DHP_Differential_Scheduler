@@ -22,7 +22,6 @@
     "comments:cleanup": "node scripts/comment-tools/cleanup-comments.mjs",
     "kill:ports": "kill-port 3000 3001 3002 3003 3004 3005 3006 3007 3008 3009 5173 || true",
     "restart:dev": "npm run kill:ports && sleep 1 && npm run start:dev",
-    "restart:dev:vue": "npm run kill:ports && sleep 1 && npm run start:dev",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
     "server:refresh": "npm --prefix server run dev",

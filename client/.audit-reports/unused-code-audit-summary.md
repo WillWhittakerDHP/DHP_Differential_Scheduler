@@ -1,153 +1,18 @@
+**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.
+
+**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
+
+
 # Unused Code Audit Summary (Generated)
 
-Generated from `.audit-reports/unused-code-audit.json`.
+Generated from `client/.audit-reports/unused-code-audit.json`.
 
 ## Full index (all files)
 
 | File | Priority | Score | Unused Exports | Commented | Unused Functions | TODO Markers |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 18 | 6 | 0 | 0 | 0 |
-| `server/src/constants/metadataDefaults.mjs` | P0 | 18 | 6 | 0 | 0 | 0 |
-| `client/src/utils/transformers/annotationTransformers.ts` | P0 | 15 | 5 | 0 | 0 | 0 |
-| `client/src/utils/differentialScheduling.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/config/entityRegistry.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipHelpers.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/services/addressGeocodingCache.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/services/appointmentCalendarService.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `server/src/utils/userTypeMapping.ts` | P0 | 12 | 4 | 0 | 0 | 0 |
-| `client/src/configs/eventPerspectiveLabels.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/configs/field/display/selectableDisplayConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/configs/field/form/_archived/selectableFieldConfig.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/blockInstanceUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/booking/confirmationStepData.ts` | P1 | 9 | 2 | 0 | 0 | 3 |
-| `client/src/utils/booking/mockGoogleCalendar.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/booking/timeSlotTypes.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/eventAttendeeUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/optimistic/listByIdOptimistic.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/orderIndexUtils.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/utils/transformers/composePropertyValue.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `server/src/routes/helpers/dataController.ts` | P1 | 9 | 3 | 0 | 0 | 0 |
-| `client/src/configs/adminConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/configs/availabilitySettings.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/configs/field/form/_archived/primitiveFieldConfig.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/services/calendarApiService.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/shims/vue-i18n.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/annotationUtils.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/api/propertyMappingsApi.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/api/relationshipApi.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/appointmentFieldFormatters.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/booking/partsTotals.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/booking/timeSlotMatching.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/booking/wizardValidation.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/datetime.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/forms/fieldSectionCategorization.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/utils/forms/formElementPatching.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/PropertyMappingsTab.vue` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/config/brightMlsFoundationMapping.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/db/models/admin/valid_component.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/db/models/admin/valid_composition.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/db/models/booking/additional_service_option.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/middlewares/security.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyHelpers.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipErrorHandler.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipQueryBuilders.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/services/appointmentSnapshotLoader.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/services/rateLimiter.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/test/setup/testDb.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabiltiesDbUtils.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `server/src/utils/envHelpers.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
-| `client/src/composables/dev/useApiDevPanelData.ts` | P2 | 4 | 0 | 0 | 4 | 0 |
-| `server/src/services/constraintExtractor.ts` | P2 | 4 | 0 | 0 | 4 | 0 |
-| `client/src/composables/admin/useMetadataCache.ts` | P2 | 3 | 0 | 0 | 3 | 0 |
-| `client/src/composables/booking/useMoveablePartsScheduling.ts` | P2 | 3 | 0 | 0 | 3 | 0 |
-| `client/src/composables/componentEntity/useComponentEntityDomain.ts` | P2 | 3 | 0 | 0 | 3 | 0 |
-| `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/form/appliedForm/annotationInstanceFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/plugins/1.router/guards.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/plugins/5.vuetify/theme.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/admin/buildMetadataEntry.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/admin/entityDisplayText.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/api/availabilityApi.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/autocomplete.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/appointmentTimeCalculations.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/constraintColors.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/durationRounding.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/partFinalizer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/perspectiveResolver.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/pricingCascadeResolver.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/selectionCardComponent.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/selectionCardConfig.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/slotGenerationValidation.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/collections/resolveByIds.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/colors/complementaryColors.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/dev/formatDevPanelData.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/entities/entityFieldPatch.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/entities/entityTypeMapping.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/entityDefaults.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/forms/getFieldKeys.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/iconMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/ternary/ternaryUtils.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/transformers/componentAggregator.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/transformers/fetchToBusinessTransformer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/transformers/fieldClassification.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/transformers/transformerPrimitives.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/wizardStateFieldConfig.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/config/envConfig.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/config/googleOAuthTokenPersistence.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminPrimitiveMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/db/models/admin/adminRelationshipMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/db/models/booking/relationships.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/db/models/mappings/property_feature_mapping.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/helpers/crudRouterTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/appointments/appointmentConstants.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/entities/entityErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/entities/entitySanitizers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/properties/propertyErrorHandler.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/routes/internal/relationships/relationshipCrudRouter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/calendarEventsCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/capacityComputer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/driveTimeCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/google/maps/mapsConstants.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/google/maps/mapsTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/google/maps/routesApiService.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/google/shared/googleApiRateLimiter.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/propertyEnrichmentCache.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/propertyFeatureMatcher.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/services/propertyFieldMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/utils/availabilities/availabilityPrimitives.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/utils/sequelizeHelpers.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 2 | 0 | 0 | 2 | 0 |
-| `client/src/composables/admin/tables/useAppointmentAttendees.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
-| `client/src/composables/entityCrud/useEntityCrud.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
-| `client/src/composables/useLocalTime.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
-| `client/src/composables/useNotification.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
-| `server/src/routes/internal/participantRoutes/login-routes.ts` | P2 | 2 | 0 | 1 | 0 | 0 |
-| `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/components/admin/generic/fields/IconPicker.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/composables/admin/useEntityCardExpansion.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/composables/beta/useBetaFeedback.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/composables/fieldContext/useFieldContextState.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/composables/formFields/useFormFieldsContext.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/composables/useFormValidation.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/layouts/components/NavSearchBar.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/main.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/plugins/1.router/additional-routes.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `server/src/services/calendarErrorHandler.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
-| `server/src/services/google/calendar/eventsService.ts` | P2 | 1 | 0 | 0 | 1 | 0 |
 
 ## Notes
 
-- This is a *signal* index, not a semantic judgement. Some exports may be intentionally unused (e.g., public API, future use).
-- Use the full line-level report for exact match lines: `client/.audit-reports/unused-code-audit.md`.
+- This is a *signal* index. Use the full report: `client/.audit-reports/unused-code-audit.md`.
 - Heuristic-based detection may have false positives - manual review required.

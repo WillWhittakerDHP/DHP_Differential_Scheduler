@@ -1,14 +1,11 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import { execSync } from 'node:child_process'
 import {
   getAuditReportHeaderLines,
-  loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
-  checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
 
@@ -160,7 +157,6 @@ function renderMarkdownReport(filesWithFindings, totals) {
 
 function main() {
   const paths = resolveAuditPaths('todo-aging')
-  const configAllowlist = loadCentralAllowlist('todo-aging')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let priorityConfig = {}

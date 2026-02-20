@@ -1,13 +1,49 @@
 {
-  "generatedAt": "2026-02-20T01:28:59.869Z",
-  "totalScanned": 1,
+  "generatedAt": "2026-02-20T15:40:58.127Z",
+  "totalScanned": 5,
   "byBehind": {
     "major-behind": 0,
-    "minor-behind": 0,
-    "patch-behind": 1,
+    "minor-behind": 1,
+    "patch-behind": 4,
     "current": 0
   },
   "packages": [
+    {
+      "package": "@eslint/js",
+      "dependent": "client",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
+      "package": "vuetify",
+      "dependent": "client",
+      "current": "3.11.8",
+      "wanted": "3.12.0",
+      "latest": "3.12.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "@eslint/js",
+      "dependent": "server",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
+      "package": "eslint",
+      "dependent": "server",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
     {
       "package": "nodemon",
       "dependent": "server",
@@ -19,6 +55,50 @@
     }
   ],
   "files": [
+    {
+      "repoPath": "client:vuetify",
+      "score": 2,
+      "priority": "P1",
+      "package": "vuetify",
+      "dependent": "client",
+      "current": "3.11.8",
+      "wanted": "3.12.0",
+      "latest": "3.12.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:@eslint/js",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "@eslint/js",
+      "dependent": "client",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind"
+    },
+    {
+      "repoPath": "server:@eslint/js",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "@eslint/js",
+      "dependent": "server",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind"
+    },
+    {
+      "repoPath": "server:eslint",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "eslint",
+      "dependent": "server",
+      "current": "9.39.2",
+      "wanted": "9.39.3",
+      "latest": "9.39.3",
+      "behind": "patch-behind"
+    },
     {
       "repoPath": "server:nodemon",
       "score": 0.5,
@@ -33,7 +113,7 @@
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 5,
     "bySource": {
       "inline": 0,
       "pattern": 0,
