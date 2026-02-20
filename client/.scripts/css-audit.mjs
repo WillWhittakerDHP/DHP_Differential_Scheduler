@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   categorizeMatches,
   renderAllowedExceptionsSection,
   summarizeExceptions,
@@ -30,19 +33,6 @@ import {
  * - Config: audit-global-config.json allowlists.css
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC)
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'css-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'css-audit.md')
-
 const AUDIT_TYPE = 'css'
 const LARGE_STYLE_LINE_THRESHOLD = 80
 
@@ -58,12 +48,8 @@ const RULE_IDS = [
   'css-in-ts',
 ]
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) {
@@ -328,14 +314,13 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
+  const paths = resolveAuditPaths(AUDIT_TYPE)
   const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
-  const allCssFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC])
-  const composablesDir = path.join(CLIENT_SRC, 'composables')
-  const utilsDir = path.join(CLIENT_SRC, 'utils')
+  const allCssFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc])
+  const composablesDir = path.join(paths.clientSrc, 'composables')
+  const utilsDir = path.join(paths.clientSrc, 'utils')
   const vueFiles = allCssFiles.filter(f => f.endsWith('.vue'))
   const tsFilesForCss = allCssFiles.filter(
     f => f.endsWith('.ts') && (f.startsWith(composablesDir + path.sep) || f.startsWith(utilsDir + path.sep))
@@ -344,7 +329,7 @@ function main() {
   const scanned = []
 
   for (const abs of vueFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const { counts, matches } = scanVueFile(contents, repoPath)
@@ -373,7 +358,7 @@ function main() {
   }
 
   for (const abs of tsFilesForCss) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const matches = scanTsForCssInTs(contents, 0)
@@ -427,10 +412,9 @@ function main() {
     files: filesWithFindings,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(out))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${scanned.length} (Vue: ${vueFiles.length}, TS for css-in-ts: ${tsFilesForCss.length})`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0

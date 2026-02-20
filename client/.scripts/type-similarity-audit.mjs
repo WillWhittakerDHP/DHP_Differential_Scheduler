@@ -1,7 +1,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
+import {
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+  checkConfigAllowlist,
+} from './shared-audit-utils.mjs'
 
 /**
  * Type Similarity Audit Script (Structural Type Governance)
@@ -43,24 +50,6 @@ import { loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './sh
  * - Deterministic ordering and stable IDs so diffs are meaningful.
  */
 
-// ─── Path Setup ─────────────────────────────────────────────────────────────
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-const SHARED_ROOT = path.join(PROJECT_ROOT, 'shared')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC)
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'type-similarity-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'type-similarity-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'type-similarity-audit-config.json')
-
 // ─── Tunables ───────────────────────────────────────────────────────────────
 // LEARNING: These thresholds control sensitivity. Lower = more findings, higher = fewer false positives.
 const MIN_PROPERTIES_FOR_STRUCTURAL = 2   // Minimum properties to compare structure
@@ -69,12 +58,8 @@ const MIN_GROUP_SIZE = 2                  // Minimum types in a group to report
 
 // ─── Utility Functions ──────────────────────────────────────────────────────
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function shortHash(text) {
@@ -299,8 +284,8 @@ function generateSignature(properties) {
  * @param {string} filePath - Absolute path to the file
  * @returns {ParsedTypeDefinition[]}
  */
-function scanFileForTypes(filePath) {
-  const repoPath = toRepoPath(filePath)
+function scanFileForTypes(filePath, projectRoot) {
+  const repoPath = toRepoPath(filePath, projectRoot)
   let content
   try {
     content = fs.readFileSync(filePath, 'utf8')
@@ -956,26 +941,27 @@ function renderMarkdown(data) {
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths('type-similarity')
+  const sharedRoot = path.join(paths.projectRoot, 'shared')
 
   // Load config
   const configAllowlist = loadCentralAllowlist('type-similarity')
   let config = {}
   try {
-    if (fs.existsSync(CONFIG_PATH)) {
-      config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'))
+    if (fs.existsSync(paths.configPath)) {
+      config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8'))
     }
   } catch {
     // Config might not exist yet, use defaults
   }
 
   // Collect files from all three source directories
-  const allFiles = listAuditFiles('type-similarity', [CLIENT_SRC, SERVER_SRC, SHARED_ROOT])
+  const allFiles = listAuditFiles('type-similarity', [paths.clientSrc, paths.serverSrc, sharedRoot])
 
   // Scan all files for type definitions
   const allDefinitions = []
   for (const absFile of allFiles) {
-    const definitions = scanFileForTypes(absFile)
+    const definitions = scanFileForTypes(absFile, paths.projectRoot)
     allDefinitions.push(...definitions)
   }
 
@@ -1005,8 +991,7 @@ function main() {
     })),
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdown(output))
+  const { outJson, outMd } = writeAuditReports('type-similarity', output, renderMarkdown(output))
 
   // Console summary
   const actionCounts = { UNIFY: 0, BRAND: 0, EXTEND: 0, REVIEW: 0 }
@@ -1014,10 +999,10 @@ function main() {
     actionCounts[group.action] = (actionCounts[group.action] || 0) + 1
   }
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  const clientCount = allFiles.filter(f => f.startsWith(CLIENT_SRC)).length
-  const serverCount = allFiles.filter(f => f.startsWith(SERVER_SRC)).length
-  const sharedCount = allFiles.filter(f => f.startsWith(SHARED_ROOT)).length
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
+  const clientCount = allFiles.filter(f => f.startsWith(paths.clientSrc)).length
+  const serverCount = allFiles.filter(f => f.startsWith(paths.serverSrc)).length
+  const sharedCount = allFiles.filter(f => f.startsWith(sharedRoot)).length
   console.log(`Files scanned: ${allFiles.length} (${clientCount} client, ${serverCount} server, ${sharedCount} shared)`)
   console.log(`Type definitions: ${allDefinitions.length}, Similarity groups: ${groups.length}`)
   console.log(`Actions: UNIFY=${actionCounts.UNIFY}, BRAND=${actionCounts.BRAND}, EXTEND=${actionCounts.EXTEND}, REVIEW=${actionCounts.REVIEW}`)

@@ -16,9 +16,9 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **208**
-- **Requiring review: 682**
-- Allowed (with justification): 1127 (inline: 2, pattern: 1125, specific: 0)
+- Total files scanned: **200**
+- **Requiring review: 631**
+- Allowed (with justification): 1142 (inline: 2, pattern: 1126, specific: 14)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -27,7 +27,6 @@ Exception handling:
 | `server/src/services/slotComputationService.ts` | 40 | 0 | 4 | 3 | 15 | 0 | 0 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | 32 | 0 | 0 | 0 | 16 | 0 | 0 |
 | `server/src/services/propertyFieldMapper.ts` | 30 | 0 | 2 | 0 | 14 | 0 | 0 |
-| `client/src/types/admin/adminEntity.ts` | 26 | 0 | 0 | 0 | 13 | 0 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | 20 | 0 | 0 | 2 | 8 | 0 | 0 |
 | `server/src/services/brightMls/brightMlsApiClient.ts` | 20 | 0 | 0 | 5 | 5 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardSubPanels.vue` | 18 | 0 | 0 | 9 | 13 | 0 | 13 |
@@ -39,21 +38,22 @@ Exception handling:
 | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `client/src/utils/transformers/fieldClassification.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
 | `server/src/services/google/maps/mapsHelpers.ts` | 14 | 0 | 0 | 0 | 7 | 0 | 0 |
-| `client/src/utils/forms/formElementPatching.ts` | 13 | 1 | 4 | 0 | 4 | 0 | 0 |
 | `client/src/components/booking/modals/PropertyConfirmationModal.vue` | 12 | 0 | 0 | 6 | 0 | 0 | 0 |
 | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
-| `client/src/utils/blockInstanceUtils.ts` | 12 | 0 | 1 | 0 | 6 | 0 | 0 |
 | `client/src/utils/booking/constraintColors.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
-| `client/src/utils/eventAttendeeUtils.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
-| `client/src/utils/transformers/annotationTransformers.ts` | 12 | 0 | 0 | 1 | 5 | 0 | 0 |
 | `client/src/utils/transformers/composePropertyValue.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `server/src/services/instanceVersioning.ts` | 12 | 0 | 0 | 0 | 6 | 0 | 0 |
 | `client/src/main.ts` | 11 | 1 | 2 | 0 | 4 | 0 | 0 |
 | `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | 10 | 0 | 6 | 1 | 8 | 0 | 7 |
 | `client/src/components/booking/IndependentSelectCard.vue` | 10 | 0 | 0 | 5 | 2 | 0 | 2 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 10 | 0 | 0 | 0 | 5 | 0 | 0 |
+| `client/src/utils/booking/appointmentTimeCalculations.ts` | 10 | 0 | 0 | 1 | 4 | 0 | 0 |
+| `client/src/utils/booking/selectionCardComponent.ts` | 10 | 0 | 0 | 0 | 5 | 0 | 0 |
+| `client/src/utils/booking/selectionCardGroupConfig.ts` | 10 | 0 | 0 | 0 | 5 | 0 | 0 |
+| `client/src/utils/dependencyCleanup.ts` | 10 | 0 | 2 | 2 | 2 | 0 | 0 |
 
 ## Action signals (heuristic)
 
@@ -141,26 +141,6 @@ assignProp@86: if (m.targetField === 'foundationAccess') {
 assignProp@87: result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null;
 assignProp@88: } else if (m.targetField === 'additionalUnits') {
 assignProp@89: result.additionalUnits =
-```
-
-### `client/src/types/admin/adminEntity.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=10
-
-```
-assignProp@38: this.id = admin.id
-assignProp@39: this.entityKey = admin.entityKey as GE
-assignProp@53: this.displayConfig = displayConfig
-assignProp@55: this.isDirty = false
-assignProp@56: this.isExpanded = false
-assignProp@57: this.isSelected = false
-assignIndex@85: acc[fieldKey] = this[fieldKey] as ValidAdminValue
-assignProp@105: this.orderIndex = index
-assignProp@106: this.isDirty = true
-assignIndex@132: this[fieldKey as string] = value
-assignProp@133: this.isDirty = true
-assignIndex@144: this[fieldKey as string] = value
-assignProp@145: this.isDirty = true
 ```
 
 ### `client/src/utils/forms/fieldSectionCategorization.ts`
@@ -278,13 +258,13 @@ assignProp@162: return new CalendarApiError('unknown', (typeof err.message === '
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=7
 
 ```
-assignProp@41: if (parents.length === 0) {
-assignProp@63: if (allowedIds.size === 0) {
-assignProp@75: selected => !cascadedInstances.some(instance => instance.id === selected.id)
-assignProp@94: return instances.filter(instance => instance.blockShapeRef === shapeId)
-assignProp@117: instance => instance.blockShapeRef === shapeId && instance.active
-assignProp@182: afterShape.length === 0 &&
-assignProp@217: if (stateControl.length === 0) return []
+assignProp@44: if (parents.length === 0) {
+assignProp@66: if (allowedIds.size === 0) {
+assignProp@78: selected => !cascadedInstances.some(instance => instance.id === selected.id)
+assignProp@97: return instances.filter(instance => instance.blockShapeRef === shapeId)
+assignProp@120: instance => instance.blockShapeRef === shapeId && instance.active
+assignProp@180: afterShape.length === 0 &&
+assignProp@215: if (stateControl.length === 0) return []
 ```
 
 ### `client/src/utils/entityDefaults.ts`
@@ -343,22 +323,6 @@ assignProp@95: if (data.status === GOOGLE_API_STATUS.NOT_FOUND) {
 assignProp@99: if (throwOnZeroResults && data.status === GOOGLE_API_STATUS.ZERO_RESULTS) {
 ```
 
-### `client/src/utils/forms/formElementPatching.ts`
-
-- counts: forEach=1, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
-
-```
-assignProp@25: return el.tagName === 'FORM' ? (el as HTMLFormElement) : null
-assignProp@47: if (el.tagName === 'FORM') {
-assignProp@54: if (formElement && formElement.tagName === 'FORM') {
-assignProp@69: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
-forEach@74: formControls?.forEach((el: Element) => {
-forLoop@97: for (const mutation of mutations) {
-forOf@97: for (const mutation of mutations) {
-forLoop@98: for (const node of mutation.addedNodes) {
-forOf@98: for (const node of mutation.addedNodes) {
-```
-
 ### `client/src/components/booking/modals/PropertyConfirmationModal.vue`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=6, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=0
@@ -411,20 +375,6 @@ assignProp@103: a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?
 assignProp@109: const user = users.find(u => u.id === agentAttendee.userId)
 ```
 
-### `client/src/utils/blockInstanceUtils.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@69: return blockShape.type === 'user'
-assignProp@96: const blockShape = blockShapes.find((bs) => bs.name === name)
-assignProp@107: const blockShape = blockShapes.find((bs) => bs.type === type)
-assignProp@130: const stateControlBlockShapes = blockShapes.filter((bs) => bs.isStateControl === true)
-assignProp@164: (instance) => instance.blockShapeRef === blockShapeRef
-while@182: while (
-assignProp@184: (instance) => instance.name === `${baseName} ${newNumber}`
-```
-
 ### `client/src/utils/booking/constraintColors.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=4, assignProp=2
@@ -436,32 +386,6 @@ assignIndex@92: if (parts[0] === 'overlap' && parts.length >= 3) {
 assignIndex@100: const [reasonType, minutes] = reasonPart.split(':')
 assignIndex@127: if (parts[0] === 'capacity') {
 assignIndex@137: if (parts[0] === 'range') {
-```
-
-### `client/src/utils/eventAttendeeUtils.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
-
-```
-assignProp@8: * NOTE: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
-assignProp@32: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-assignProp@80: if (agentUserTypeBlockIds.length === 0) {
-assignProp@91: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-assignProp@117: if (majorAttendeeIds.length === 0) {
-assignProp@140: if (minorAttendeeIds.length === 0) {
-```
-
-### `client/src/utils/transformers/annotationTransformers.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=5
-
-```
-assignProp@87: id: typeof rawAnnotation.id === 'string' ? toGlobalEntityId(rawAnnotation.id) : toGlobalEntityId(''),
-assignProp@116: return annotations.filter(a => a.userTypeBlock === null)
-assignProp@122: return annotationWithBlockId.userTypeBlockBlockInstanceId === userTypeBlock
-assignProp@124: return a.userTypeBlock === userTypeBlock
-sort@140: return [...annotations].sort((a, b) => a.orderIndex - b.orderIndex)
-assignProp@174: typeof t.userTypeBlockBlockInstanceId === 'string' ? t.userTypeBlockBlockInstanceId : null
 ```
 
 ### `client/src/utils/transformers/composePropertyValue.ts`
@@ -559,11 +483,11 @@ assignProp@141: v-if="mergedConfig.controlPosition === 'left'"
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
 
 ```
-assignProp@40: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
-assignProp@56: const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
-assignProp@68: .filter((pi) => pi.partShape === partShapeName)
-assignProp@72: rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
-assignProp@79: .map(id => eventInstances.find(ei => ei.id === id))
+assignProp@41: * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
+assignProp@57: const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
+assignProp@69: .filter((pi) => pi.partShape === partShapeName)
+assignProp@73: rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+assignProp@80: .map(id => eventInstances.find(ei => ei.id === id))
 ```
 
 ### `client/src/utils/booking/appointmentTimeCalculations.ts`
@@ -602,30 +526,18 @@ assignProp@19: if (cols.lg !== undefined) result.lg = cols.lg
 assignProp@20: if (cols.xl !== undefined) result.xl = cols.xl
 ```
 
-### `client/src/utils/booking/timeSlotMatching.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
-
-```
-assignProp@102: if (loadedSlots.length === 0 || availableSlots.length === 0) return
-assignProp@107: majorAppointmentSlotRef.value = majorMatch
-assignProp@114: minorAppointmentSlotRef.value = minorMatch
-assignProp@134: if (loadedSlots.length === 0 || availableSlots.length === 0) {
-assignProp@167: return appointmentSlots.find(slot => slot.orderIndex === orderIndex)
-```
-
 ### `client/src/utils/dependencyCleanup.ts`
 
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=2, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-assignProp@67: if (affectedEntities.length === 0) {
-assignProp@81: if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {
-forLoop@91: for (const childId of activeRelationships) {
-forOf@91: for (const childId of activeRelationships) {
-push@94: invalidRelationships.push({
-push@104: invalidRelationships.push({
-delete@128: logger.debug('Failed to delete invalid active relationship (may already be deleted)', {
+assignProp@68: if (affectedEntities.length === 0) {
+assignProp@82: if (!Array.isArray(activeRelationships) || activeRelationships.length === 0) {
+forLoop@92: for (const childId of activeRelationships) {
+forOf@92: for (const childId of activeRelationships) {
+push@95: invalidRelationships.push({
+push@105: invalidRelationships.push({
+delete@129: logger.debug('Failed to delete invalid active relationship (may already be deleted)', {
 ```
 
 ### `client/src/utils/transformers/appointmentToWizardTransformer.ts`
@@ -645,13 +557,13 @@ assignProp@139: typeof attendee.userTypeBlockInstance?.name === 'string'
 - counts: forEach=2, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=2, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@36: if (!ids || ids.length === 0) return []
-sort@61: * Immutable sort: returns a new array. Use instead of mutating [...arr].sort() at call sites.
-sort@67: return [...items].sort(compareFn)
-forLoop@76: for (const src of sources) {
-forOf@76: for (const src of sources) {
-forEach@78: src.forEach((id) => result.add(String(id)))
-forEach@80: src.forEach((id) => result.add(String(id)))
+assignProp@35: if (!ids || ids.length === 0) return []
+sort@60: * Immutable sort: returns a new array. Use instead of mutating [...arr].sort() at call sites.
+sort@66: return [...items].sort(compareFn)
+forLoop@75: for (const src of sources) {
+forOf@75: for (const src of sources) {
+forEach@77: src.forEach((id) => result.add(String(id)))
+forEach@79: src.forEach((id) => result.add(String(id)))
 ```
 
 ### `server/src/services/capacityComputer.ts`
@@ -691,20 +603,6 @@ assignProp@69: if (entityMetadata.length === 0) {
 forLoop@132: for (const meta of metadata) {
 forOf@132: for (const meta of metadata) {
 assignIndex@133: metadataRecord[meta.fieldKey] = {
-```
-
-### `server/src/utils/userTypeMapping.ts`
-
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-forLoop@111: for (const role of roles) {
-forOf@111: for (const role of roles) {
-assignProp@125: * LEARNING: UserTypeBlocks are BlockInstances where blockShape.isStateControl === true
-assignProp@135: if (stateControlShapes.length === 0) {
-assignProp@179: if (stateControlShapes.length === 0) {
-forLoop@198: for (const block of userTypeBlocks) {
-forOf@198: for (const block of userTypeBlocks) {
 ```
 
 ### `client/src/composables/admin/useAvailabilitySettings.ts`
@@ -803,10 +701,10 @@ assignIndex@245: errors[field] = result as string
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@57: this.name = 'CalendarApiError'
-assignProp@75: if (axiosError.response?.status === 401) {
-assignProp@84: if (axiosError.response?.status === 429) {
-assignProp@92: if (axiosError.response?.status === 404) {
+assignProp@45: this.name = 'CalendarApiError'
+assignProp@63: if (axiosError.response?.status === 401) {
+assignProp@72: if (axiosError.response?.status === 429) {
+assignProp@80: if (axiosError.response?.status === 404) {
 ```
 
 ### `client/src/services/mapsApiService.ts`
@@ -818,6 +716,18 @@ assignProp@45: this.name = 'MapsApiError'
 assignProp@196: if (axiosError.response?.status === 429) {
 assignProp@199: if (axiosError.response?.status === 401) {
 assignProp@202: if (axiosError.response?.status === 404) {
+```
+
+### `client/src/utils/blockInstanceUtils.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=1, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
+
+```
+assignProp@48: return blockShape.type === 'user'
+assignProp@75: const blockShape = blockShapes.find((bs) => bs.type === type)
+assignProp@97: (instance) => instance.blockShapeRef === blockShapeRef
+while@115: while (
+assignProp@117: (instance) => instance.name === `${baseName} ${newNumber}`
 ```
 
 ### `client/src/utils/booking/availabilityStepData.ts`
@@ -858,34 +768,21 @@ assignProp@37: ? config.controlPosition === 'left'
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=2
 
 ```
-assignProp@87: majorEventFinal = majorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id) : undefined
-assignProp@88: minorEventFinal = minorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id) : undefined
-assignIndex@216: adjustedEventTimeRanges[minorEventName] = minorTimeRange
-assignIndex@279: adjustedEventTimeRanges[minorEventName] = minorTimeRange
+assignProp@88: majorEventFinal = majorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id) : undefined
+assignProp@89: minorEventFinal = minorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id) : undefined
+assignIndex@199: adjustedEventTimeRanges[minorEventName] = minorTimeRange
+assignIndex@262: adjustedEventTimeRanges[minorEventName] = minorTimeRange
 ```
 
-### `client/src/utils/orderIndexUtils.ts`
+### `client/src/utils/eventAttendeeUtils.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=2, sort=1, reverse=0, assignIndex=1, assignProp=0
-
-```
-sort@39: return [...entities].sort((a, b) => {
-splice@52: const [movedItem] = reordered.splice(fromIndex, 1)
-assignIndex@52: const [movedItem] = reordered.splice(fromIndex, 1)
-splice@53: reordered.splice(toIndex, 0, movedItem)
-```
-
-### `server/src/services/addressGeocodingCache.ts`
-
-- counts: forEach=0, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-forLoop@69: for (const [key, entry] of cache.entries()) {
-forOf@69: for (const [key, entry] of cache.entries()) {
-assignProp@87: if (!address || typeof address !== 'string' || address.trim().length === 0) {
-assignProp@123: if (!address || typeof address !== 'string' || address.trim().length === 0) {
-forLoop@162: for (const entry of cache.values()) {
-forOf@162: for (const entry of cache.values()) {
+assignProp@8: * NOTE: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
+assignProp@19: const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
+assignProp@60: if (majorAttendeeIds.length === 0) {
+assignProp@83: if (minorAttendeeIds.length === 0) {
 ```
 
 ### `server/src/services/google/maps/routesApiService.ts`
@@ -932,25 +829,15 @@ assignProp@164: if (props.type === 'expansion') {
 push@165: classes.push('card-button-expansion')
 ```
 
-### `client/src/composables/_archived/useFieldMetadata.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=0
-
-```
-assignIndex@68: let fieldType: FieldMetadata['fieldType'] = 'text'
-assignIndex@196: acc[key] = v
-assignIndex@200: acc[key] = v
-```
-
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=1
 
 ```
-assignProp@123: if (wizard.selectedServiceTypeBlocks.value.length === 0) {
-assignIndex@235: acc[service.id] = number
-assignIndex@243: acc[property.id] = number
-assignIndex@251: acc[option.id] = number
+assignProp@124: if (wizard.selectedServiceTypeBlocks.value.length === 0) {
+assignIndex@236: acc[service.id] = number
+assignIndex@244: acc[property.id] = number
+assignIndex@252: acc[option.id] = number
 ```
 
 ### `client/src/composables/booking/useWizardNumberUpdate.ts`
@@ -971,18 +858,18 @@ assignIndex@62: wizard.selectedOptionTypeBlocks.value[optionIndex] = {
 - counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=8
 
 ```
-assignProp@60: typeof currentFormInstance.values === 'object'
-forEach@81: combinedKeys.forEach((fieldKey) => {
-assignIndex@108: const getFieldTypeFromMetadata = (meta: FieldMetadataEntry): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig']['fieldType'] => {
-assignProp@111: if (meta.renderAs === 'multiselect') return 'multiselect'
-assignProp@112: if (meta.renderAs === 'select' || meta.renderAs === 'reference') return 'select'
-assignProp@115: if (meta.dataType === 'boolean') return 'boolean'
-assignProp@116: if (meta.dataType === 'number') return 'number'
-assignIndex@121: const getFieldDisplayConfig = (fieldKey: string): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig'] => {
-assignProp@200: required: meta.isRequired === true, // Explicit boolean check, no default
-assignProp@201: disabled: (meta as { disabled?: boolean }).disabled === true, // Explicit boolean check, no default
-assignProp@202: readOnly: (meta as { readOnly?: boolean }).readOnly === true, // Explicit boolean check, no default
-forEach@281: fieldsToCreate.forEach((fieldKey) => {
+assignProp@64: typeof currentFormInstance.values === 'object'
+forEach@85: combinedKeys.forEach((fieldKey) => {
+assignIndex@112: const getFieldTypeFromMetadata = (meta: FieldMetadataEntry): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig']['fieldType'] => {
+assignProp@115: if (meta.renderAs === 'multiselect') return 'multiselect'
+assignProp@116: if (meta.renderAs === 'select' || meta.renderAs === 'reference') return 'select'
+assignProp@119: if (meta.dataType === 'boolean') return 'boolean'
+assignProp@120: if (meta.dataType === 'number') return 'number'
+assignIndex@125: const getFieldDisplayConfig = (fieldKey: string): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig'] => {
+assignProp@204: required: meta.isRequired === true, // Explicit boolean check, no default
+assignProp@205: disabled: (meta as { disabled?: boolean }).disabled === true, // Explicit boolean check, no default
+assignProp@206: readOnly: (meta as { readOnly?: boolean }).readOnly === true, // Explicit boolean check, no default
+forEach@285: fieldsToCreate.forEach((fieldKey) => {
 ```
 
 ### `client/src/composables/useLocalTime.ts`
@@ -1003,15 +890,15 @@ assignIndex@191: const [hours, minutes] = time.split(':').map(Number)
 - counts: forEach=2, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=4
 
 ```
-forEach@48: relationships.forEach((rel: GlobalRelationship) => {
-forEach@51: rel.children.forEach((child: { id: string; entityKey: GlobalEntityKey }) => {
-push@52: fetched.push({
-assignProp@129: (rel: GlobalRelationship) => rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
-assignProp@136: const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
-assignIndex@156: updatedRelationships[parentRelIndex] = {
-assignProp@204: const parentRelIndex = currentRelationships.findIndex((rel: GlobalRelationship) => rel.parent.id === parentIdStr)
-assignProp@213: if (updatedChildren.length === 0) {
-assignIndex@224: updatedRelationships[parentRelIndex] = {
+forEach@49: relationships.forEach((rel: GlobalRelationship) => {
+forEach@52: rel.children.forEach((child: { id: string; entityKey: GlobalEntityKey }) => {
+push@53: fetched.push({
+assignProp@130: (rel: GlobalRelationship) => rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
+assignProp@137: const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
+assignIndex@157: updatedRelationships[parentRelIndex] = {
+assignProp@205: const parentRelIndex = currentRelationships.findIndex((rel: GlobalRelationship) => rel.parent.id === parentIdStr)
+assignProp@214: if (updatedChildren.length === 0) {
+assignIndex@225: updatedRelationships[parentRelIndex] = {
 ```
 
 ### `client/src/configs/field/display/fullFieldDisplayConfig.ts`
@@ -1024,24 +911,24 @@ assignProp@84: config.relationshipDisplay = selectConfig;
 assignProp@86: config.typeDisplay = selectConfig;
 ```
 
-### `client/src/utils/annotationUtils.ts`
+### `client/src/types/admin/adminEntity.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
-
-```
-assignProp@38: typeof metadata.orderIndex === 'number' &&
-assignProp@40: typeof metadata.isDefault === 'boolean' &&
-assignProp@41: (metadata.userTypeBlock === null || typeof metadata.userTypeBlock === 'string') // userTypeBlock is BlockInstance ID (GlobalEntityId) or null
-```
-
-### `client/src/utils/booking/mockGoogleCalendar.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=2
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=3, assignProp=10
 
 ```
-assignProp@300: if (!mergeOverlapping || allBusyPeriods.length === 0) {
-sort@305: const sorted = [...allBusyPeriods].sort((a, b) =>
-assignProp@311: if (merged.length === 0) {
+assignProp@39: this.id = admin.id
+assignProp@40: this.entityKey = admin.entityKey as GE
+assignProp@54: this.displayConfig = displayConfig
+assignProp@56: this.isDirty = false
+assignProp@57: this.isExpanded = false
+assignProp@58: this.isSelected = false
+assignIndex@86: acc[fieldKey] = this[fieldKey] as ValidAdminValue
+assignProp@106: this.orderIndex = index
+assignProp@107: this.isDirty = true
+assignIndex@133: this[fieldKey as string] = value
+assignProp@134: this.isDirty = true
+assignIndex@145: this[fieldKey as string] = value
+assignProp@146: this.isDirty = true
 ```
 
 ### `client/src/utils/booking/partFinalizer.ts`
@@ -1049,10 +936,31 @@ assignProp@311: if (merged.length === 0) {
 - counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-push@54: grouped.get(partShape)!.push(part)
-forLoop@173: for (const eventInstance of events) {
-forOf@173: for (const eventInstance of events) {
-assignProp@261: // LEARNING: SlotShape.roundedDuration = max event roundedDuration (slot span from start to latest event end)
+push@55: grouped.get(partShape)!.push(part)
+forLoop@174: for (const eventInstance of events) {
+forOf@174: for (const eventInstance of events) {
+assignProp@262: // LEARNING: SlotShape.roundedDuration = max event roundedDuration (slot span from start to latest event end)
+```
+
+### `client/src/utils/booking/timeSlotMatching.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+
+```
+assignProp@102: if (loadedSlots.length === 0 || availableSlots.length === 0) return
+assignProp@107: majorAppointmentSlotRef.value = majorMatch
+assignProp@114: minorAppointmentSlotRef.value = minorMatch
+```
+
+### `server/src/services/addressGeocodingCache.ts`
+
+- counts: forEach=0, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+forLoop@69: for (const [key, entry] of cache.entries()) {
+forOf@69: for (const [key, entry] of cache.entries()) {
+assignProp@87: if (!address || typeof address !== 'string' || address.trim().length === 0) {
+assignProp@123: if (!address || typeof address !== 'string' || address.trim().length === 0) {
 ```
 
 ### `server/src/services/appointmentCalendarService.ts`
@@ -1098,14 +1006,20 @@ forOf@79: for (const m of sorted) {
 push@89: results.push({
 ```
 
-### `server/src/utils/envHelpers.ts`
+### `client/src/utils/forms/formElementPatching.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=1, forLoop=2, forOf=2, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-assignProp@12: return process.env.NODE_ENV === NODE_ENV.PRODUCTION
-assignProp@16: return process.env.NODE_ENV === NODE_ENV.DEVELOPMENT
-assignProp@20: return process.env.NODE_ENV === NODE_ENV.TEST
+assignProp@25: return el.tagName === 'FORM' ? (el as HTMLFormElement) : null
+assignProp@47: if (el.tagName === 'FORM') {
+assignProp@54: if (formElement && formElement.tagName === 'FORM') {
+assignProp@69: if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
+forEach@74: formControls?.forEach((el: Element) => {
+forLoop@97: for (const mutation of mutations) {
+forOf@97: for (const mutation of mutations) {
+forLoop@98: for (const node of mutation.addedNodes) {
+forOf@98: for (const node of mutation.addedNodes) {
 ```
 
 ### `client/src/components/admin/component/ComponentDistributionModal.vue`
@@ -1158,14 +1072,14 @@ splice@192: expandedPlaceholders.value.splice(index, 1)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=2, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-splice@270: expandedPlaceholders.value.splice(index, 1)
-splice@286: expandedPlaceholders.value.splice(index, 1)
-assignProp@329: collectionModel.bulkEditMode = bulkEditMode
-assignProp@330: collectionModel.bulkEditData = bulkEditData
-assignProp@331: collectionModel.toggleBulkEditMode = toggleBulkEditMode
-assignProp@332: collectionModel.applyBulkEdit = applyBulkEdit
-assignProp@333: collectionModel.handleBulkEditModalUpdate = handleBulkEditModalUpdate
-assignProp@334: collectionModel.handleBulkEditConfirm = handleBulkEditConfirm
+splice@265: expandedPlaceholders.value.splice(index, 1)
+splice@281: expandedPlaceholders.value.splice(index, 1)
+assignProp@324: collectionModel.bulkEditMode = bulkEditMode
+assignProp@325: collectionModel.bulkEditData = bulkEditData
+assignProp@326: collectionModel.toggleBulkEditMode = toggleBulkEditMode
+assignProp@327: collectionModel.applyBulkEdit = applyBulkEdit
+assignProp@328: collectionModel.handleBulkEditModalUpdate = handleBulkEditModalUpdate
+assignProp@329: collectionModel.handleBulkEditConfirm = handleBulkEditConfirm
 ```
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts`
@@ -1173,8 +1087,8 @@ assignProp@334: collectionModel.handleBulkEditConfirm = handleBulkEditConfirm
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=2, reverse=0, assignIndex=0, assignProp=0
 
 ```
-sort@139: return resolved.sort((a, b) => {
-sort@161: return resolved.sort((a, b) => {
+sort@141: return resolved.sort((a, b) => {
+sort@163: return resolved.sort((a, b) => {
 ```
 
 ### `client/src/composables/admin/useSelectHandlers.ts`
@@ -1252,19 +1166,19 @@ sort@142: return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.order
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=11
 
 ```
-assignProp@114: moveableOptions.value = null
-assignProp@137: moveableOptions.value = null
-assignProp@142: isLoadingOptions.value = true
-assignIndex@148: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
-assignIndex@150: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
-assignProp@188: moveableOptions.value = {
-assignProp@198: moveableOptions.value = null
-assignProp@200: isLoadingOptions.value = false
-assignProp@205: if (selectedSlotIndex.value === null || !moveableOptions.value) {
-assignProp@212: showModal.value = true
-assignProp@216: showModal.value = false
-assignProp@220: selectedSlotIndex.value = index
-assignProp@224: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
+assignProp@115: moveableOptions.value = null
+assignProp@138: moveableOptions.value = null
+assignProp@143: isLoadingOptions.value = true
+assignIndex@149: const [year, month, day] = contingencyPeriod.value.endDate.split('-').map(Number)
+assignIndex@151: const [hours, minutes] = contingencyPeriod.value.endTime.split(':').map(Number)
+assignProp@189: moveableOptions.value = {
+assignProp@199: moveableOptions.value = null
+assignProp@201: isLoadingOptions.value = false
+assignProp@206: if (selectedSlotIndex.value === null || !moveableOptions.value) {
+assignProp@213: showModal.value = true
+assignProp@217: showModal.value = false
+assignProp@221: selectedSlotIndex.value = index
+assignProp@225: contingencyPeriod.value = { ...DEFAULT_CONTINGENCY }
 ```
 
 ### `client/src/composables/booking/useStepValidation.ts`
@@ -1344,12 +1258,12 @@ assignProp@219: loading.value.ratelimit = false
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=3
 
 ```
-delete@86: delete backendPayload.id
-assignProp@126: if (currentEntities.some((e) => e.id === data.id)) return old
-assignProp@186: const entityIndex = currentEntities.findIndex((e) => e.id === variables.id)
-assignIndex@197: updatedEntities[entityIndex] = {
-assignProp@222: const entityIndex = currentEntities.findIndex((e) => e.id === data.id)
-assignIndex@227: updatedEntities[entityIndex] = {
+delete@79: delete backendPayload.id
+assignProp@119: if (currentEntities.some((e) => e.id === data.id)) return old
+assignProp@179: const entityIndex = currentEntities.findIndex((e) => e.id === variables.id)
+assignIndex@190: updatedEntities[entityIndex] = {
+assignProp@215: const entityIndex = currentEntities.findIndex((e) => e.id === data.id)
+assignIndex@220: updatedEntities[entityIndex] = {
 ```
 
 ### `client/src/composables/useBookingWizard.ts`
@@ -1384,14 +1298,14 @@ push@143: selectedLineItemBlocks.value.push(block)
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=2, assignProp=6
 
 ```
-assignProp@86: const component = globalData.entities[entityKey]?.find(e => e.id === componentId)
-assignProp@102: const component = globalData.entities[entityKey]?.find(e => e.id === componentId)
-assignIndex@140: acc[componentId] = getCurrentValue(componentId)
-assignIndex@142: acc[componentId] = manualValues.value[componentId]
-assignProp@146: manualValues.value = { ...manualValues.value, ...newManualValues }
-assignProp@159: distributionStrategy.value = 'proportional'
-assignProp@161: manualValues.value = {}
-assignProp@172: if (distributionStrategy.value === 'manual') {
+assignProp@81: const component = globalData.entities[entityKey]?.find(e => e.id === componentId)
+assignProp@97: const component = globalData.entities[entityKey]?.find(e => e.id === componentId)
+assignIndex@135: acc[componentId] = getCurrentValue(componentId)
+assignIndex@137: acc[componentId] = manualValues.value[componentId]
+assignProp@141: manualValues.value = { ...manualValues.value, ...newManualValues }
+assignProp@154: distributionStrategy.value = 'proportional'
+assignProp@156: manualValues.value = {}
+assignProp@167: if (distributionStrategy.value === 'manual') {
 ```
 
 ### `client/src/composables/usePartInstanceData.ts`
@@ -1570,6 +1484,15 @@ push@31: dates.push(cursor.toISOString().split('T')[0])
 assignProp@89: (e) => e.eventType === 'outOfOffice'
 ```
 
+### `server/src/utils/userTypeMapping.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
+
+```
+assignProp@91: * LEARNING: UserTypeBlocks are BlockInstances where blockShape.isStateControl === true
+assignProp@101: if (stateControlShapes.length === 0) {
+```
+
 ### `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
 
 - counts: forEach=1, forLoop=1, forOf=1, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=5
@@ -1579,11 +1502,11 @@ assignProp@26: <div v-else-if="draggableFieldKeys.length === 0" class="text-cent
 assignProp@59: v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
 assignProp@91: v-if="getEffectiveFieldMetadata(fieldKey)?.visibility === 'expandedDirect'"
 assignProp@103: v-if="getEffectiveFieldMetadata(fieldKey)?.dataType === 'boolean' || getEffectiveFieldMetadata(fieldKey)?.dataType === 'ternary'"
-forEach@213: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
-delete@213: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
-forLoop@290: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
-forOf@290: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
-assignProp@300: finalUpdates.renderAs = computeRenderAs(dataType, inputConfig, fieldKey)
+forEach@209: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
+delete@209: Object.keys(pendingChanges).forEach(key => delete pendingChanges[key])
+forLoop@286: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
+forOf@286: for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
+assignProp@296: finalUpdates.renderAs = computeRenderAs(dataType, inputConfig, fieldKey)
 ```
 
 ### `client/src/composables/admin/useInstanceDragAndDrop.ts`
@@ -1625,21 +1548,21 @@ forEach@70: draggableFieldKeys.value.forEach((fieldKey, index) => {
 - counts: forEach=3, forLoop=0, forOf=0, forIn=0, while=0, push=3, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=9
 
 ```
-assignProp@218: if (!slots || slots.length === 0 || !date?.start) {
-forEach@224: slots.forEach(slot => {
-push@236: slotsByDate.get(slotDate)!.push(slot)
-forEach@243: slots.forEach((slot, index) => {
-push@262: appointmentSlotsForDate.push(...normalized)
-assignProp@289: service.differential === 'override'
-assignProp@293: option.differential === 'override'
-assignProp@307: * - If service.differential === 'true' AND no override → return true (differential)
-assignProp@326: if (!slots || slots.length === 0 || !date?.start) {
-assignProp@327: timeSlotsPerDay.value = []
-forEach@333: slots.forEach(slot => {
-push@345: slotsByDate.get(slotDate)!.push(slot)
-assignProp@348: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-assignProp@383: selectedDate.value = { start: dateString, end: null }
-assignProp@398: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
+assignProp@219: if (!slots || slots.length === 0 || !date?.start) {
+forEach@225: slots.forEach(slot => {
+push@237: slotsByDate.get(slotDate)!.push(slot)
+forEach@244: slots.forEach((slot, index) => {
+push@263: appointmentSlotsForDate.push(...normalized)
+assignProp@290: service.differential === 'override'
+assignProp@294: option.differential === 'override'
+assignProp@308: * - If service.differential === 'true' AND no override → return true (differential)
+assignProp@327: if (!slots || slots.length === 0 || !date?.start) {
+assignProp@328: timeSlotsPerDay.value = []
+forEach@334: slots.forEach(slot => {
+push@346: slotsByDate.get(slotDate)!.push(slot)
+assignProp@349: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+assignProp@384: selectedDate.value = { start: dateString, end: null }
+assignProp@399: const daySlots = timeSlotsPerDay.value.find(day => day.date === selectedDate.value.start)
 ```
 
 ### `client/src/utils/patchFormElements.ts`
@@ -1890,11 +1813,11 @@ assignProp@249: isAddressExpanded.value = false
 assignProp@268: isEnrichmentLoading.value = true
 assignProp@269: if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []
 assignProp@283: formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')
-assignProp@284: formData.squareFootage.value = enrichment.squareFootage
-assignProp@285: formData.bedrooms.value = enrichment.bedrooms
-assignProp@286: formData.bathrooms.value = enrichment.bathrooms
-assignProp@287: formData.foundationAccess.value = enrichment.foundationAccess
-assignProp@288: formData.additionalUnits.value = enrichment.additionalUnits
+assignProp@284: formData.squareFootage.value = enrichment.squareFootage ?? null
+assignProp@285: formData.bedrooms.value = enrichment.bedrooms ?? null
+assignProp@286: formData.bathrooms.value = enrichment.bathrooms ?? null
+assignProp@287: formData.foundationAccess.value = enrichment.foundationAccess ?? null
+assignProp@288: formData.additionalUnits.value = enrichment.additionalUnits ?? null
 assignProp@289: if (formData.source) formData.source.value = 'api'
 assignProp@292: formData.suggestedBlockInstanceIds.value = suggestedIds
 assignProp@296: formData.propertySize.value = enrichment.squareFootage
@@ -1956,7 +1879,7 @@ push@264: groupedMap.get(String(groupKey))!.children.push(entity as GlobalEntity
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@200: ('category' in c && c.category === 'range' ? c : { ...c, category: 'range' as const }) as RangeConstraint
+assignProp@201: ('category' in c && c.category === 'range' ? c : { ...c, category: 'range' as const }) as RangeConstraint
 ```
 
 ### `client/src/layouts/components/NavSearchBar.vue`
@@ -1964,13 +1887,13 @@ assignProp@200: ('category' in c && c.category === 'range' ? c : { ...c, categor
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=6
 
 ```
-assignProp@102: isLoading.value = true
-assignProp@106: searchResult.value = response.data
-assignProp@109: isLoading.value = false
-assignProp@116: isAppSearchBarVisible.value = false
-assignProp@117: searchQuery.value = ''
-push@121: router.push(selected.url as string)
-assignProp@141: v-if="configStore.appContentLayoutNav === 'vertical'"
+assignProp@103: isLoading.value = true
+assignProp@107: searchResult.value = response.data
+assignProp@110: isLoading.value = false
+assignProp@117: isAppSearchBarVisible.value = false
+assignProp@118: searchQuery.value = ''
+push@122: router.push(selected.url as string)
+assignProp@142: v-if="configStore.appContentLayoutNav === 'vertical'"
 ```
 
 ### `client/src/layouts/components/UserProfile.vue`
@@ -2087,7 +2010,7 @@ assignProp@27: return slotShape.eventFinals.find(ef => ef.eventShape.name === na
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@13: const alreadyExists = existing.some((existingItem) => existingItem.id === item.id)
+assignProp@11: const alreadyExists = existing.some((existingItem) => existingItem.id === item.id)
 ```
 
 ### `client/src/utils/collections/pickRandomItem.ts`
@@ -2096,14 +2019,6 @@ assignProp@13: const alreadyExists = existing.some((existingItem) => existingIte
 
 ```
 assignProp@8: if (items.length === 0) return null
-```
-
-### `client/src/utils/datetime.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
-
-```
-assignIndex@42: const [year, month, day] = date.split('-').map(Number)
 ```
 
 ### `client/src/utils/entities/entityFieldPatch.ts`
@@ -2137,14 +2052,6 @@ sort@39: return [...fields].sort((a, b) => {
 ```
 forLoop@29: for (const target of targets) {
 forOf@29: for (const target of targets) {
-```
-
-### `client/src/utils/optimistic/listByIdOptimistic.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=1, assignProp=0
-
-```
-assignIndex@24: updated[index] = next
 ```
 
 ### `client/src/utils/ternary/ternaryUtils.ts`
@@ -2204,30 +2111,30 @@ push@116: router.push({ name: 'part-types-list' })
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=1, reverse=0, assignIndex=0, assignProp=23
 
 ```
-assignProp@214: createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)
-assignProp@215: createModalSourceEntity.value = undefined
-assignProp@216: createModalOpen.value = true
-assignProp@222: createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)
-assignProp@223: createModalSourceEntity.value = blockInstanceEntity
-assignProp@224: createModalOpen.value = true
-assignProp@228: createModalOpen.value = false
-sort@265: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-assignProp@323: if (eventShapes.value.length === 0) {
-assignProp@327: newEventInstanceData.value = {
-assignProp@334: isCreatingEventInstance.value = true
-assignProp@335: expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
-assignProp@341: isCreatingEventInstanceLoading.value = true
-assignProp@354: isCreatingEventInstance.value = false
-assignProp@355: newEventInstanceData.value = null
-assignProp@356: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-assignProp@360: isCreatingEventInstanceLoading.value = false
-assignProp@365: isCreatingEventInstance.value = false
-assignProp@366: newEventInstanceData.value = null
-assignProp@367: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-assignProp@517: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
-assignProp@577: (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&
-assignProp@578: (groupedInstancesByShape.get(blockShape.id) || []).length === 0
-assignProp@759: v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'"
+assignProp@215: createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)
+assignProp@216: createModalSourceEntity.value = undefined
+assignProp@217: createModalOpen.value = true
+assignProp@223: createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)
+assignProp@224: createModalSourceEntity.value = blockInstanceEntity
+assignProp@225: createModalOpen.value = true
+assignProp@229: createModalOpen.value = false
+sort@266: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+assignProp@324: if (eventShapes.value.length === 0) {
+assignProp@328: newEventInstanceData.value = {
+assignProp@335: isCreatingEventInstance.value = true
+assignProp@336: expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
+assignProp@342: isCreatingEventInstanceLoading.value = true
+assignProp@355: isCreatingEventInstance.value = false
+assignProp@356: newEventInstanceData.value = null
+assignProp@357: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+assignProp@361: isCreatingEventInstanceLoading.value = false
+assignProp@366: isCreatingEventInstance.value = false
+assignProp@367: newEventInstanceData.value = null
+assignProp@368: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+assignProp@518: panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
+assignProp@578: (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&
+assignProp@579: (groupedInstancesByShape.get(blockShape.id) || []).length === 0
+assignProp@760: v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'"
 ```
 
 ### `server/src/app.ts`
@@ -2236,14 +2143,6 @@ assignProp@759: v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInst
 
 ```
 assignProp@53: if (req.body === undefined) req.body = {}
-```
-
-### `server/src/config/entityRegistry.ts`
-
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
-
-```
-assignProp@33: return blockShape.composable === true;
 ```
 
 ### `server/src/db/models/admin/block_shape.ts`
@@ -2327,6 +2226,14 @@ assignProp@68: if (entityMetadata.length === 0) {
 assignProp@60: slotSum + (typeof (slot as { duration?: number }).duration === 'number' ? (slot as { duration: number }).duration : 0),
 ```
 
+### `server/src/utils/envHelpers.ts`
+
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
+
+```
+assignProp@12: return process.env.NODE_ENV === NODE_ENV.PRODUCTION
+```
+
 ### `server/src/utils/sequelizeHelpers.ts`
 
 - counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
@@ -2397,8 +2304,8 @@ assignProp@71: activeStep.value = 4 // Confirmation step is at index 4
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=1
 
 ```
-assignProp@33: const entity = currentGlobalData.entities[entityKey]?.find((e) => e.id === entityId)
-forEach@58: Object.entries(computedChanges).forEach(([key, value]) => {
+assignProp@34: const entity = currentGlobalData.entities[entityKey]?.find((e) => e.id === entityId)
+forEach@59: Object.entries(computedChanges).forEach(([key, value]) => {
 ```
 
 ### `client/src/composables/entityCrud/useSharedMutationHandlers.ts`
@@ -2414,10 +2321,10 @@ forEach@68: queryKeys.forEach((queryKey, index) => {
 - counts: forEach=1, forLoop=0, forOf=0, forIn=0, while=0, push=1, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=2
 
 ```
-push@40: instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
-assignProp@89: return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined
-forEach@126: entities.forEach(entity => {
-assignProp@239: instanceCallSites.length = 0
+push@41: instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
+assignProp@90: return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined
+forEach@127: entities.forEach(entity => {
+assignProp@240: instanceCallSites.length = 0
 ```
 
 ### `server/src/services/google/shared/googleApiRetry.ts`
@@ -2547,13 +2454,14 @@ delete@19: * LEARNING: Handle delete PartInstance event
 
 ### `client/src/composables/booking/useAvailabilityUI.ts`
 
-- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=3
+- counts: forEach=0, forLoop=0, forOf=0, forIn=0, while=0, push=0, splice=0, sort=0, reverse=0, assignIndex=0, assignProp=4
 
 ```
-delete@104: delete newErrors.selectedDate
-assignProp@105: fieldErrors.value = newErrors
-assignProp@108: fieldErrors.value = {
+assignProp@102: selectedDate.value = { start: dateString, end: null }
+delete@110: delete newErrors.selectedDate
+assignProp@111: fieldErrors.value = newErrors
 assignProp@114: fieldErrors.value = {
+assignProp@120: fieldErrors.value = {
 ```
 
 ### `client/src/composables/useAppointment.ts`

@@ -4,6 +4,9 @@ import {
   parseChangedOnlyFlag,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   getAuditReportHeaderLines,
 } from './shared-audit-utils.mjs'
@@ -30,35 +33,17 @@ import {
  *   - client/.audit-reports/api-contract-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SHARED_ROOT = path.join(PROJECT_ROOT, 'shared')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'api-contract-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'api-contract-audit.md')
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
 /**
  * Scan client service files for axios/fetch calls
  * Extracts: HTTP method, URL pattern, request type, response type
  */
-function scanClientServices(serviceDir) {
+function scanClientServices(serviceDir, projectRoot) {
   const endpoints = []
   const files = listAuditFiles('api-contract', [serviceDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')
-    const repoPath = toRepoPath(file)
+    const repoPath = toRepoPath(file, projectRoot)
 
     // Match axios.get<ResponseType>('/api/xxx') patterns
     const axiosRe = /(?:axios|api|http)\.(get|post|put|patch|delete)\s*(?:<([^>]*)>)?\s*\(\s*[`'"](\/[^'"`$]*)[`'"]/gi
@@ -94,13 +79,13 @@ function scanClientServices(serviceDir) {
  * Scan server route files for Express handlers
  * Extracts: HTTP method, URL pattern, request body validation, response typing
  */
-function scanServerRoutes(routesDir) {
+function scanServerRoutes(routesDir, projectRoot) {
   const endpoints = []
   const files = listAuditFiles('api-contract', [routesDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')
-    const repoPath = toRepoPath(file)
+    const repoPath = toRepoPath(file, projectRoot)
 
     // Match router.get('/xxx', handler) or app.post('/xxx', handler)
     const routeRe = /(?:router|app)\.(get|post|put|patch|delete)\s*\(\s*['"]([^'"]*)['"]/gi
@@ -139,14 +124,14 @@ function scanServerRoutes(routesDir) {
 /**
  * Scan shared types directory
  */
-function scanSharedTypes(sharedDir) {
+function scanSharedTypes(sharedDir, projectRoot) {
   const types = []
   if (!fs.existsSync(sharedDir)) return types
   const files = listAuditFiles('api-contract', [sharedDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')
-    const repoPath = toRepoPath(file)
+    const repoPath = toRepoPath(file, projectRoot)
 
     const typeRe = /export\s+(?:type|interface)\s+(\w+)/g
     for (const match of content.matchAll(typeRe)) {
@@ -303,17 +288,17 @@ function renderMarkdownReport(result) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const paths = resolveAuditPaths('api-contract')
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
   const configAllowlist = loadCentralAllowlist('api-contract')
 
-  const clientServicesDir = path.join(CLIENT_SRC, 'services')
-  const serverRoutesDir = path.join(SERVER_ROOT, 'src', 'routes')
+  const clientServicesDir = path.join(paths.clientSrc, 'services')
+  const serverRoutesDir = path.join(paths.serverRoot, 'src', 'routes')
+  const sharedTypesDir = path.join(paths.projectRoot, 'shared', 'types')
 
-  const clientEndpoints = scanClientServices(clientServicesDir)
-  const serverEndpoints = scanServerRoutes(serverRoutesDir)
-  const sharedTypes = scanSharedTypes(path.join(SHARED_ROOT, 'types'))
+  const clientEndpoints = scanClientServices(clientServicesDir, paths.projectRoot)
+  const serverEndpoints = scanServerRoutes(serverRoutesDir, paths.projectRoot)
+  const sharedTypes = scanSharedTypes(sharedTypesDir, paths.projectRoot)
 
   let findings = matchEndpoints(clientEndpoints, serverEndpoints)
   findings = findings.filter((f) => {
@@ -334,10 +319,9 @@ function main() {
     findings,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('api-contract', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Client endpoints: ${clientEndpoints.length}, Server routes: ${serverEndpoints.length}, Findings: ${findings.length}`)
   process.exitCode = 0
 }

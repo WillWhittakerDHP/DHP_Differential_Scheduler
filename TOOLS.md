@@ -104,10 +104,9 @@ Differential_Scheduler/
 #### Typecheck Tools:
 - `typecheck-audit.mjs` - TypeScript error detection with prioritization
 - `typecheck-run.mjs` - Runs vue-tsc and generates reports
-- `typecheck-audit-summary.mjs` - Summary generator
 
-#### Summary Generators:
-- `*-audit-summary.mjs` - Generate summaries for each audit type
+#### Summary:
+- `audit-summary.mjs` - Single summary runner: `node .scripts/audit-summary.mjs <audit-type>`. Supported audit types (e.g. type-import, typecheck, hardcoding, loop-mutation, duplication, security, lint, lint-warnings) are listed in the script usage; render logic lives in `audit-summary-renderers.mjs`.
 
 #### Test Utilities:
 - `test-cleanup.mjs` - Clean up test files

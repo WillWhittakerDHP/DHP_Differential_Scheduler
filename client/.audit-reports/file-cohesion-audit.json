@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T23:19:03.672Z",
-  "totalScanned": 802,
+  "generatedAt": "2026-02-20T00:49:00.624Z",
+  "totalScanned": 777,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -54,28 +54,10 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "category": "general",
-      "lineCount": 496,
-      "exportCount": 13,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 13,
-          "threshold": 10,
-          "detail": "13 exports (max: 10)"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
       "category": "general",
       "lineCount": 497,
-      "exportCount": 5,
+      "exportCount": 2,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
@@ -162,42 +144,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/types/entities.ts",
-      "category": "general",
-      "lineCount": 111,
-      "exportCount": 12,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 12,
-          "threshold": 10,
-          "detail": "12 exports (max: 10)"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-      "category": "routes",
-      "lineCount": 342,
-      "exportCount": 12,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 12,
-          "threshold": 10,
-          "detail": "12 exports (max: 10)"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/composables/admin/useSelectConfig.ts",
       "category": "composables",
       "lineCount": 443,
@@ -236,16 +182,16 @@
     {
       "repoPath": "client/src/composables/booking/useAvailabilityLogic.ts",
       "category": "composables",
-      "lineCount": 429,
+      "lineCount": 430,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 429,
+          "value": 430,
           "threshold": 400,
-          "detail": "429 lines (composables max: 400)"
+          "detail": "430 lines (composables max: 400)"
         }
       ],
       "score": 3,
@@ -254,34 +200,16 @@
     {
       "repoPath": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
       "category": "composables",
-      "lineCount": 432,
+      "lineCount": 425,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 432,
+          "value": 425,
           "threshold": 400,
-          "detail": "432 lines (composables max: 400)"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/booking/mockGoogleCalendar.ts",
-      "category": "utils",
-      "lineCount": 335,
-      "exportCount": 3,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 335,
-          "threshold": 300,
-          "detail": "335 lines (utils max: 300)"
+          "detail": "425 lines (composables max: 400)"
         }
       ],
       "score": 3,
@@ -290,16 +218,16 @@
     {
       "repoPath": "client/src/utils/booking/partFinalizer.ts",
       "category": "utils",
-      "lineCount": 318,
+      "lineCount": 319,
       "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 318,
+          "value": 319,
           "threshold": 300,
-          "detail": "318 lines (utils max: 300)"
+          "detail": "319 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -435,7 +363,7 @@
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "category": "utils",
       "lineCount": 381,
-      "exportCount": 8,
+      "exportCount": 6,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
@@ -447,6 +375,24 @@
         }
       ],
       "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/configs/availabilitySettings.ts",
+      "category": "general",
+      "lineCount": 472,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)"
+        }
+      ],
+      "score": 2,
       "priority": "P2"
     },
     {
@@ -486,9 +432,9 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
-      "category": "utils",
-      "lineCount": 108,
+      "repoPath": "client/src/types/entities.ts",
+      "category": "general",
+      "lineCount": 111,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -504,9 +450,9 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/routes/internal/properties/propertyHelpers.ts",
-      "category": "routes",
-      "lineCount": 233,
+      "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
+      "category": "utils",
+      "lineCount": 108,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -666,42 +612,6 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/composables/useEntity.ts",
-      "category": "composables",
-      "lineCount": 10,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/composables/useFieldContext.ts",
-      "category": "composables",
-      "lineCount": 12,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/composables/useFormFields.ts",
       "category": "composables",
       "lineCount": 5,
@@ -741,6 +651,24 @@
       "repoPath": "client/src/types/entity/formDataEnums.ts",
       "category": "general",
       "lineCount": 75,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/annotationUtils.ts",
+      "category": "utils",
+      "lineCount": 6,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -975,6 +903,24 @@
       "repoPath": "server/src/routes/external/propertyEnrichmentRoutes.ts",
       "category": "routes",
       "lineCount": 153,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "no-exports",
+          "value": 0,
+          "threshold": 1,
+          "detail": "No exports detected - dead module or undocumented side-effect file"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/helpers/dataController.ts",
+      "category": "utils",
+      "lineCount": 201,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1569,24 +1515,6 @@
       "repoPath": "server/src/routes/internal/users/userRouter.ts",
       "category": "routes",
       "lineCount": 19,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "no-exports",
-          "value": 0,
-          "threshold": 1,
-          "detail": "No exports detected - dead module or undocumented side-effect file"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "server/src/scripts/run-migrations.mjs",
-      "category": "general",
-      "lineCount": 114,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

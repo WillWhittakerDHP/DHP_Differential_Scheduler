@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { resolveAuditPaths, writeAuditReports, toRepoPath as toRepoPathUtil } from './shared-audit-utils.mjs'
 
 /**
  * API Versioning Audit Script
@@ -11,33 +12,20 @@ import path from 'node:path'
  * Writes: api-versioning-baseline.json (when --accept), api-versioning-audit.json, .md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const _CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'api-versioning-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'api-versioning-audit.md')
-const CONTRACT_JSON = path.join(OUT_DIR, 'api-contract-audit.json')
-const BASELINE_JSON = path.join(OUT_DIR, 'api-versioning-baseline.json')
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 function endpointKey(f) {
   return `${f.method || 'GET'} ${f.url || f.path || ''}`.trim()
 }
 
-function loadContract() {
-  if (!fs.existsSync(CONTRACT_JSON)) return null
-  return JSON.parse(fs.readFileSync(CONTRACT_JSON, 'utf8'))
+function loadContract(contractJson) {
+  if (!fs.existsSync(contractJson)) return null
+  return JSON.parse(fs.readFileSync(contractJson, 'utf8'))
 }
 
-function loadBaseline() {
-  if (!fs.existsSync(BASELINE_JSON)) return null
-  return JSON.parse(fs.readFileSync(BASELINE_JSON, 'utf8'))
+function loadBaseline(baselineJson) {
+  if (!fs.existsSync(baselineJson)) return null
+  return JSON.parse(fs.readFileSync(baselineJson, 'utf8'))
 }
 
 function buildEndpointSet(findings) {
@@ -52,10 +40,12 @@ function buildEndpointSet(findings) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths('api-versioning')
+  const contractJson = path.join(paths.outDir, 'api-contract-audit.json')
+  const baselineJson = path.join(paths.outDir, 'api-versioning-baseline.json')
   const accept = process.argv.includes('--accept')
 
-  if (!fs.existsSync(CONTRACT_JSON)) {
+  if (!fs.existsSync(contractJson)) {
     const out = {
       generatedAt: new Date().toISOString(),
       error: 'Missing api-contract-audit.json. Run audit:api-contract first.',
@@ -63,18 +53,17 @@ function main() {
       nonBreaking: [],
       summary: { breaking: 0, nonBreaking: 0, unchanged: 0 },
     }
-    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-    fs.writeFileSync(OUT_MD, '# API Versioning Audit\n\nRun audit:api-contract first.\n')
-    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    const { outJson, outMd } = writeAuditReports('api-versioning', out, '# API Versioning Audit\n\nRun audit:api-contract first.\n')
+    console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
     console.log('Missing api-contract-audit.json. Run audit:api-contract first.')
     process.exitCode = 0
     return
   }
 
-  const contract = loadContract()
+  const contract = loadContract(contractJson)
   const currentFindings = contract.findings || []
   const current = buildEndpointSet(currentFindings)
-  const baseline = loadBaseline()
+  const baseline = loadBaseline(baselineJson)
 
   if (accept) {
     const baselineData = {
@@ -82,8 +71,8 @@ function main() {
       findings: currentFindings.map(f => ({ method: f.method, url: f.url, type: f.type, severity: f.severity, serverFile: f.serverFile, clientFile: f.clientFile })),
       endpointKeys: [...current.set],
     }
-    fs.writeFileSync(BASELINE_JSON, JSON.stringify(baselineData, null, 2))
-    console.log('Baseline updated:', toRepoPath(BASELINE_JSON))
+    fs.writeFileSync(baselineJson, JSON.stringify(baselineData, null, 2))
+    console.log('Baseline updated:', toRepoPath(baselineJson, paths.projectRoot))
   }
 
   const breakingChanges = []
@@ -165,10 +154,9 @@ function main() {
   lines.push('Run with `--accept` to update the baseline.')
   lines.push('')
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, lines.join('\n'))
+  const { outJson, outMd } = writeAuditReports('api-versioning', out, lines.join('\n'))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
   console.log(`Breaking: ${summary.breaking} | Non-breaking: ${summary.nonBreaking} | Unchanged: ${summary.unchanged}`)
   process.exitCode = 0
 }

@@ -1,6 +1,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+  checkConfigAllowlist,
+} from './shared-audit-utils.mjs'
 
 /**
  * Pattern Detection Audit Script
@@ -27,35 +35,14 @@ import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkC
  * - Deterministic ordering and stable IDs so diffs are meaningful.
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC) 
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'pattern-detection-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'pattern-detection-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'pattern-detection-audit-config.json')
-
 const _AUDIT_TYPE = 'pattern-detection'
 
 // Minimum occurrences to consider a pattern significant
 const MIN_STRING_LITERAL_OCCURRENCES = 3
 const _MIN_TYPE_USAGE_OCCURRENCES = 2
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function _toStableId(repoPath) {
@@ -77,8 +64,8 @@ function extractVueScriptBlocks(vueContent) {
 /**
  * Scan file for patterns
  */
-function scanFile(filePath, allFiles) {
-  const repoPath = toRepoPath(filePath)
+function scanFile(filePath, allFiles, projectRoot) {
+  const repoPath = toRepoPath(filePath, projectRoot)
   const patterns = {
     stringLiterals: [], // String literals that appear multiple times
     typeDefinitions: [], // export type, export interface
@@ -517,28 +504,28 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
+  const paths = resolveAuditPaths(_AUDIT_TYPE)
+
   // Load exception config
-  const configAllowlist = loadCentralAllowlist('pattern-detection')
-  
+  const configAllowlist = loadCentralAllowlist(_AUDIT_TYPE)
+
   // Load priority config
   let _priorityConfig = {}
   try {
-    if (fs.existsSync(CONFIG_PATH)) {
-      const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    if (fs.existsSync(paths.configPath)) {
+      const configRaw = fs.readFileSync(paths.configPath, 'utf8')
       _priorityConfig = JSON.parse(configRaw)
     }
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 
-  const absFiles = listAuditFiles(_AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
+  const absFiles = listAuditFiles(_AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   
   const filePatterns = []
   
   for (const abs of absFiles) {
-    const patterns = scanFile(abs, absFiles)
+    const patterns = scanFile(abs, absFiles, paths.projectRoot)
     filePatterns.push(patterns)
   }
   
@@ -594,12 +581,11 @@ function main() {
     },
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
-  
-  const clientCount = absFiles.filter(f => f.startsWith(CLIENT_SRC)).length
-  const serverCount = absFiles.filter(f => f.startsWith(SERVER_SRC)).length
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  const { outJson, outMd } = writeAuditReports(_AUDIT_TYPE, out, renderMarkdownReport(out))
+
+  const clientCount = absFiles.filter(f => f.startsWith(paths.clientSrc)).length
+  const serverCount = absFiles.filter(f => f.startsWith(paths.serverSrc)).length
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${absFiles.length} (${clientCount} client, ${serverCount} server)`)
   console.log(`Patterns found: ${Object.keys(aggregated.stringLiterals || {}).length} string literals, ${Object.keys(aggregated.typeDefinitions || {}).length} types, ${Object.keys(aggregated.enumPatterns || {}).length} enums, ${aggregated.configLocations.length} config files, ${Object.keys(aggregated.functionPatterns || {}).length} function patterns`)
   process.exitCode = 0

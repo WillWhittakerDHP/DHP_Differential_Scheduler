@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathShared,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
@@ -722,9 +725,7 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
-  const configAllowlist = loadCentralAllowlist('constants-consolidation')
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
   const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
   
   // Load priority config
@@ -739,7 +740,7 @@ function main() {
   }
   
   // Get all files
-  const allFiles = listAuditFiles('constants-consolidation', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
   
   // Phase 1: Inventory
   const { catalog, constantsFiles } = inventoryConstantsFiles(allFiles)
@@ -847,10 +848,9 @@ function main() {
     files,
   }
   
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
-  
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(out))
+
+  console.log(`Wrote:\n- ${toRepoPath(outJson)}\n- ${toRepoPath(outMd)}`)
   console.log(`Constants files: ${constantsFiles.length}, Exports: ${catalog.length}, Groups: ${consolidationGroups.length}`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0

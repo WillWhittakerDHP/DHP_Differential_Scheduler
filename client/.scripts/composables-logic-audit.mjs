@@ -1,6 +1,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath,
+  checkConfigAllowlist,
+} from './shared-audit-utils.mjs'
 
 /**
  * Composables Logic Audit Script (TypeScript composables)
@@ -27,24 +35,9 @@ import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkC
  * - It intentionally over-flags; the report is a starting point for a deep refactor plan.
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const _PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
-
-// If src exists in cwd, we're in client/; otherwise assume project root
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-const COMPOSABLES_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, 'src', 'composables')
-  : path.join(CWD, 'client', 'src', 'composables')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'composables-logic-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'composables-logic-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'composables-logic-audit-config.json')
+const _paths = resolveAuditPaths('composables-logic')
+const COMPOSABLES_DIR = path.join(_paths.clientSrc, 'composables')
+const CONFIG_PATH = _paths.configPath
 
 /** @type {Array<{id: string, label: string, test: (line: string) => boolean}>} */
 const RULES = [
@@ -79,8 +72,8 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true })
 }
 
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPathLocal(absPath) {
+  return toRepoPath(absPath, _paths.projectRoot)
 }
 
 function toStableId(repoPath) {
@@ -420,11 +413,9 @@ function renderMarkdownReport(files, overlap) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
   // Load exception config
   const configAllowlist = loadCentralAllowlist('composables-logic')
-  
+
   // Load priority config
   let priorityConfig = {}
   try {
@@ -438,7 +429,7 @@ function main() {
   const scanned = []
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPathLocal(abs)
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
@@ -469,28 +460,20 @@ function main() {
 
   // Filter out zero-score files from JSON output to reduce report bloat
   const filesWithFindings = scanned.filter(f => f.complexityScore > 0 || f.matches.length > 0)
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    scope: {
+      included: ['client/src/composables/**/*.{ts,js}'],
+      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*'],
+    },
+    totalScanned: scanned.length,
+    overlap,
+    files: filesWithFindings,
+  }
 
-  fs.writeFileSync(
-    OUT_JSON,
-    JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        scope: {
-          included: ['client/src/composables/**/*.{ts,js}'],
-          excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*'],
-        },
-        totalScanned: scanned.length,
-        overlap,
-        files: filesWithFindings,
-      },
-      null,
-      2
-    )
-  )
+  const { outJson, outMd } = writeAuditReports('composables-logic', payload, renderMarkdownReport(scanned, overlap))
 
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, overlap))
-
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${scanned.length}`)
+  console.log(`Wrote:\n- ${toRepoPathLocal(outJson)}\n- ${toRepoPathLocal(outMd)}\nFiles scanned: ${scanned.length}`)
 }
 
 main()

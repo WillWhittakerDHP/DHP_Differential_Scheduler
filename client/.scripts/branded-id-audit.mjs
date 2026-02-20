@@ -1,6 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath,
+} from './shared-audit-utils.mjs'
 
 /**
  * Branded ID Audit Script
@@ -17,26 +23,6 @@ import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.
  *
  * Output: client/.audit-reports/branded-id-audit.json, branded-id-audit.md
  */
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC)
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'branded-id-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'branded-id-audit.md')
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
-}
 
 function splitLines(contents) {
   return contents.replaceAll('\r\n', '\n').split('\n')
@@ -121,13 +107,13 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  const absFiles = listAuditFiles('branded-id', [CLIENT_SRC])
+  const paths = resolveAuditPaths('branded-id')
+  const absFiles = listAuditFiles('branded-id', [paths.clientSrc])
   const files = []
   const summary = { total: 0, asGlobalentityid: 0, stringIdParam: 0, stringWrapId: 0 }
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const findings = scanFile(lines, repoPath)
@@ -153,11 +139,10 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
+  const { outJson, outMd } = writeAuditReports('branded-id', out, renderMarkdownReport(out))
 
   console.log(
-    `Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${absFiles.length}, Files with findings: ${files.length}, Total findings: ${summary.total}`
+    `Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}\nFiles scanned: ${absFiles.length}, Files with findings: ${files.length}, Total findings: ${summary.total}`
   )
   process.exitCode = 0
 }

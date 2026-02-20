@@ -1,6 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { listAuditFiles, listTestFiles, isTestFileFromCentralConfig } from './shared-audit-utils.mjs'
+import {
+  listAuditFiles,
+  listTestFiles,
+  isTestFileFromCentralConfig,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+} from './shared-audit-utils.mjs'
 
 /**
  * Test Audit Script
@@ -24,28 +31,8 @@ import { listAuditFiles, listTestFiles, isTestFileFromCentralConfig } from './sh
  * - It intentionally over-flags; the report is a starting point for test strategy
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'test-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'test-audit.md')
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 /**
@@ -383,7 +370,7 @@ function findTestFile(sourcePath, allTestFiles) {
   // Look for test file in __tests__ directory
   const testDirPath = path.join(dirName, '__tests__')
   const testDirTest = allTestFiles.find(testPath => {
-    const testRepoPath = toRepoPath(testPath)
+    const testRepoPath = toRepoPath(testPath, projectRoot)
     const testDir = path.dirname(testRepoPath)
     const testBase = path.basename(testRepoPath, path.extname(testRepoPath))
     return testDir === testDirPath && (testBase === baseName || testBase === `${baseName}.test` || testBase === `${baseName}.spec`)
@@ -417,7 +404,7 @@ function main() {
   
   // Analyze source files
   const sourceAnalysis = sourceFiles.map(absPath => {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPath(absPath, paths.projectRoot)
     const contents = fs.readFileSync(absPath, 'utf8')
     const functions = extractExportedFunctions(contents)
     const classes = extractExportedClasses(contents)
@@ -430,7 +417,7 @@ function main() {
       classMethods[className] = extractClassMethods(contents, className)
     }
     
-    const testFile = findTestFile(absPath, testFiles)
+    const testFile = findTestFile(absPath, testFiles, paths.projectRoot)
     const exportCount = functions.length + classes.length + composables.length
     
     // Calculate priority scores
@@ -464,7 +451,7 @@ function main() {
   
   // Analyze test files
   const testAnalysis = testFiles.map(absPath => {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPath(absPath, paths.projectRoot)
     const contents = fs.readFileSync(absPath, 'utf8')
     const analysis = analyzeTestFile(contents, repoPath)
     
@@ -548,8 +535,6 @@ function main() {
     sourceAnalysis,
     testAnalysis
   }
-  
-  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
   
   // Generate markdown report
   const mdLines = []
@@ -677,15 +662,15 @@ function main() {
   mdLines.push('```')
   mdLines.push('')
   
-  fs.writeFileSync(OUT_MD, mdLines.join('\n'))
-  
+  const { outJson, outMd } = writeAuditReports('test', output, mdLines.join('\n'))
+
   console.log(`\n✅ Test audit complete!`)
   console.log(`📊 Coverage: ${output.summary.coveragePercentage}%`)
   console.log(`📝 Untested files: ${output.summary.untestedSourceFiles}`)
   console.log(`🔍 Orphaned tests: ${output.summary.orphanedTestFiles}`)
   console.log(`\n📄 Reports:`)
-  console.log(`   - ${toRepoPath(OUT_JSON)}`)
-  console.log(`   - ${toRepoPath(OUT_MD)}`)
+  console.log(`   - ${toRepoPath(outJson, paths.projectRoot)}`)
+  console.log(`   - ${toRepoPath(outMd, paths.projectRoot)}`)
 }
 
 main()

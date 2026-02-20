@@ -7,18 +7,20 @@
 
 ## Summary
 
-- Files scanned: **801**
+- Files scanned: **777**
 - value-import-from-type-only-file: **0**
-- type-used-as-value: **1**
+- type-used-as-value: **2**
 
 ## type-used-as-value
 
 | File | Line | Symbol |
 | --- | ---: | --- |
 | `client/src/configs/usStates.ts` | 5 | SelectOptionBase |
+| `client/src/types/component.ts` | 32 | CreateRelationshipPayloadBase |
 
 ## Files by finding count (score)
 
 | File | Score |
 | --- | ---: |
 | `client/src/configs/usStates.ts` | 2 |
+| `client/src/types/component.ts` | 2 |

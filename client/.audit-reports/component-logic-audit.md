@@ -339,22 +339,22 @@ await@196: await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, ev
 - counts: computed=2, ref=5, watch=1, async=2, await=2, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=1
 
 ```
-ref@209: const createModalOpen = ref(false)
-ref@242: const isCreatingEventInstance = ref(false)
-ref@243: const eventInstanceMetadataModalOpen = ref(false)
-computed@255: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
-ref@256: const isCreatingEventInstanceLoading = ref(false)
-computed@264: const filteredEventInstances = computed(() => {
-sort@265: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-async@277: patchOrderIndex: async (updates) => {
-await@278: await patchEventInstanceOrderIndex(updates)
-watch@282: watch(filteredEventInstances, () => {
-alert@324: alert('Please create an event shape first')
-async@338: const handleEventInstanceCreate = async () => {
-await@343: await createEventInstance({
-filter@356: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-filter@367: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-ref@513: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
+ref@210: const createModalOpen = ref(false)
+ref@243: const isCreatingEventInstance = ref(false)
+ref@244: const eventInstanceMetadataModalOpen = ref(false)
+computed@256: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
+ref@257: const isCreatingEventInstanceLoading = ref(false)
+computed@265: const filteredEventInstances = computed(() => {
+sort@266: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+async@278: patchOrderIndex: async (updates) => {
+await@279: await patchEventInstanceOrderIndex(updates)
+watch@283: watch(filteredEventInstances, () => {
+alert@325: alert('Please create an event shape first')
+async@339: const handleEventInstanceCreate = async () => {
+await@344: await createEventInstance({
+filter@357: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+filter@368: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+ref@514: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
 ```
 
 ### `src/components/admin/generic/DynamicForm.vue`
@@ -362,12 +362,12 @@ ref@513: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstan
 - counts: computed=5, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@132: watch(() => props.entityId, (newId) => {
-computed@138: const entityForMetadata = computed(() => {
-computed@149: const fieldKeys = computed(() => {
-computed@157: const instanceConfig = computed(() => {
-computed@161: const inlineFieldsConfig = computed(() => {
-computed@166: const stackedFieldsConfig = computed(() => {
+watch@133: watch(() => props.entityId, (newId) => {
+computed@139: const entityForMetadata = computed(() => {
+computed@150: const fieldKeys = computed(() => {
+computed@158: const instanceConfig = computed(() => {
+computed@162: const inlineFieldsConfig = computed(() => {
+computed@167: const stackedFieldsConfig = computed(() => {
 ```
 
 ### `src/components/admin/generic/EntityFormContent.vue`
@@ -375,12 +375,12 @@ computed@166: const stackedFieldsConfig = computed(() => {
 - counts: computed=5, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@61: watch(() => props.entityId, (newId) => {
-computed@70: const entity = computed(() => {
-computed@81: const fieldKeys = computed(() => {
-computed@89: const instanceConfig = computed(() => {
-computed@93: const inlineFieldsConfig = computed(() => {
-computed@98: const stackedFieldsConfig = computed(() => {
+watch@62: watch(() => props.entityId, (newId) => {
+computed@71: const entity = computed(() => {
+computed@82: const fieldKeys = computed(() => {
+computed@90: const instanceConfig = computed(() => {
+computed@94: const inlineFieldsConfig = computed(() => {
+computed@99: const stackedFieldsConfig = computed(() => {
 ```
 
 ### `src/components/admin/generic/StatusButton.vue`
@@ -1027,6 +1027,6 @@ provideInject@38: provide('adminCurrentTab', currentTab)
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-filter@59: :items="users.filter((u) => u.userRole === 'client')"
-filter@79: :items="users.filter((u) => u.userRole === 'agent')"
+filter@60: :items="users.filter((u) => u.userRole === 'client')"
+filter@80: :items="users.filter((u) => u.userRole === 'agent')"
 ```

@@ -4,6 +4,9 @@ import childProcess from 'node:child_process'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   parseInlineExceptions,
   isGloballyExcluded,
 } from './shared-audit-utils.mjs'
@@ -31,32 +34,15 @@ import {
 
 const AUDIT_TYPE = 'typecheck'
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-
-const OUT_DIR = path.join(CLIENT_ROOT, '.audit-reports/typecheck')
-const OUT_JSON = path.join(OUT_DIR, 'typecheck-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'typecheck-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'typecheck-audit-config.json')
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
-}
-
-function loadConfig() {
-  if (!fs.existsSync(CONFIG_PATH)) {
+function loadConfig(configPath) {
+  if (!fs.existsSync(configPath)) {
     return null
   }
-  const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
+  const raw = fs.readFileSync(configPath, 'utf8')
   return JSON.parse(raw)
 }
 
@@ -202,20 +188,20 @@ function getFileContent(absPath) {
  */
 const inlineExceptionCache = new Map()
 
-function getInlineExceptions(repoPath) {
+function getInlineExceptions(repoPath, projectRoot) {
   if (inlineExceptionCache.has(repoPath)) {
     return inlineExceptionCache.get(repoPath)
   }
-  
-  const absPath = path.join(PROJECT_ROOT, repoPath)
+
+  const absPath = path.join(projectRoot, repoPath)
   const content = getFileContent(absPath)
   const exceptions = parseInlineExceptions(content, AUDIT_TYPE)
   inlineExceptionCache.set(repoPath, exceptions)
   return exceptions
 }
 
-function runVueTsc() {
-  const vueTscBin = path.join(CLIENT_ROOT, 'node_modules', '.bin', 'vue-tsc')
+function runVueTsc(clientRoot) {
+  const vueTscBin = path.join(clientRoot, 'node_modules', '.bin', 'vue-tsc')
   if (!fs.existsSync(vueTscBin)) {
     return {
       exitCode: 1,
@@ -224,10 +210,10 @@ function runVueTsc() {
       command: `vue-tsc -b --pretty false`,
     }
   }
-  
+
   const args = ['-b', '--pretty', 'false']
   const result = childProcess.spawnSync(vueTscBin, args, {
-    cwd: CLIENT_ROOT,
+    cwd: clientRoot,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
   })
@@ -360,8 +346,8 @@ function compileRegexes(patterns) {
   return patterns.map((p) => new RegExp(p, 'g'))
 }
 
-function scanTypeSmellsForFile(repoPath, config) {
-  const abs = path.join(PROJECT_ROOT, repoPath)
+function scanTypeSmellsForFile(repoPath, config, projectRoot) {
+  const abs = path.join(projectRoot, repoPath)
   if (!fs.existsSync(abs)) return { unsafeCastHits: 0, suppressionHits: 0 }
   const raw = fs.readFileSync(abs, 'utf8')
 
@@ -472,14 +458,15 @@ function renderMarkdown(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  let config = loadConfig()
+  const paths = resolveAuditPaths(AUDIT_TYPE, { outputSubdir: 'typecheck' })
+
+  let config = loadConfig(paths.configPath)
   if (!config) config = {}
   config.allowlist = loadCentralAllowlist('typecheck')
 
   // Run both client and server type checks
-  const clientCheck = runVueTsc()
-  const serverCheck = runTsc(SERVER_ROOT)
+  const clientCheck = runVueTsc(paths.clientRoot)
+  const serverCheck = runTsc(paths.serverRoot)
   
   // Combine outputs
   const clientCombined = `${clientCheck.stdout}\n${clientCheck.stderr}`.trim()
@@ -492,13 +479,13 @@ function main() {
 
   // Normalize file paths to repo-relative when possible
   const allErrors = parsedErrors.map((e) => {
-    let repoPath = e.file.startsWith('/') ? toRepoPath(e.file) : e.file
+    let repoPath = e.file.startsWith('/') ? toRepoPath(e.file, paths.projectRoot) : e.file
     // Ensure server files are prefixed with server/src
     if (e.scope === 'server' && !repoPath.startsWith('server/')) {
       // Try to normalize server paths
-      const serverPath = path.join(SERVER_ROOT, 'src')
+      const serverPath = path.join(paths.serverRoot, 'src')
       if (e.file.startsWith(serverPath)) {
-        repoPath = 'server/' + path.relative(SERVER_ROOT, e.file).replaceAll(path.sep, '/')
+        repoPath = 'server/' + path.relative(paths.serverRoot, e.file).replaceAll(path.sep, '/')
       } else if (e.file.includes('server/src')) {
         repoPath = e.file.replace(/.*(server\/src\/.*)/, '$1')
       } else {
@@ -507,9 +494,9 @@ function main() {
     }
     // Ensure client files are prefixed with client/src
     if (e.scope === 'client' && !repoPath.startsWith('client/') && !repoPath.startsWith('src/')) {
-      const clientPath = path.join(CLIENT_ROOT, 'src')
+      const clientPath = path.join(paths.clientRoot, 'src')
       if (e.file.startsWith(clientPath)) {
-        repoPath = 'client/' + path.relative(CLIENT_ROOT, e.file).replaceAll(path.sep, '/')
+        repoPath = 'client/' + path.relative(paths.clientRoot, e.file).replaceAll(path.sep, '/')
       } else if (e.file.includes('client/src')) {
         repoPath = e.file.replace(/.*(client\/src\/.*)/, '$1')
       } else if (e.file.startsWith('src/')) {
@@ -530,7 +517,7 @@ function main() {
   const errors = []
   
   for (const error of nonMigrationErrors) {
-    const inlineExceptions = getInlineExceptions(error.repoPath)
+    const inlineExceptions = getInlineExceptions(error.repoPath, paths.projectRoot)
     const result = checkErrorAllowed(error, config, inlineExceptions)
     
     if (result.allowed) {
@@ -580,7 +567,7 @@ function main() {
     let unsafeCastHits = 0
     let suppressionHits = 0
     for (const f of files) {
-      const smells = scanTypeSmellsForFile(f, config)
+      const smells = scanTypeSmellsForFile(f, config, paths.projectRoot)
       unsafeCastHits += smells.unsafeCastHits
       suppressionHits += smells.suppressionHits
     }
@@ -624,7 +611,7 @@ function main() {
 
   const files = Array.from(fileMap.entries())
     .map(([repoPath, fileErrors]) => {
-      const smells = scanTypeSmellsForFile(repoPath, config)
+      const smells = scanTypeSmellsForFile(repoPath, config, paths.projectRoot)
       return {
         repoPath,
         errorCount: fileErrors.length,
@@ -642,9 +629,9 @@ function main() {
   
   const out = {
     generatedAt: new Date().toISOString(),
-    scope: { 
-      client: { command: clientCheck.command, cwd: toRepoPath(CLIENT_ROOT) },
-      server: { command: serverCheck.command, cwd: toRepoPath(SERVER_ROOT) },
+    scope: {
+      client: { command: clientCheck.command, cwd: toRepoPath(paths.clientRoot, paths.projectRoot) },
+      server: { command: serverCheck.command, cwd: toRepoPath(paths.serverRoot, paths.projectRoot) },
     },
     exitCode: combinedExitCode,
     command: combinedCommand,
@@ -655,15 +642,14 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdown(out))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdown(out), { outputSubdir: 'typecheck' })
 
   const clientErrorCount = errors.filter(e => e.scope === 'client').length
   const serverErrorCount = errors.filter(e => e.scope === 'server').length
   const clientAllowedCount = allowedErrors.filter(e => e.scope === 'client').length
   const serverAllowedCount = allowedErrors.filter(e => e.scope === 'server').length
-  
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Client errors: ${clientErrorCount} requiring review, ${clientAllowedCount} allowed`)
   console.log(`Server errors: ${serverErrorCount} requiring review, ${serverAllowedCount} allowed`)
   console.log(`Total errors: ${errors.length} requiring review, ${allowedErrors.length} allowed`)

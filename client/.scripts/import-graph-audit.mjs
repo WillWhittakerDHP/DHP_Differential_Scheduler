@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
@@ -32,32 +35,15 @@ import {
  *   - client/.audit-reports/import-graph-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'import-graph-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'import-graph-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'import-graph-audit-config.json')
-
 const DEFAULTS = { maxFanOut: 15, maxFanIn: 20 }
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 /**
  * Extract import specifiers from file content
  * Returns resolved repo-relative paths where possible
  */
-function extractImports(content, absPath) {
+function extractImports(content, absPath, projectRoot) {
   const imports = []
   const dir = path.dirname(absPath)
 
@@ -89,7 +75,7 @@ function extractImports(content, absPath) {
       if (specifier.startsWith('.')) {
         // Resolve relative path
         resolved = path.resolve(dir, specifier)
-        resolved = toRepoPath(resolved)
+        resolved = toRepoPath(resolved, projectRoot)
       } else if (specifier.startsWith('@/')) {
         // Vue alias - resolve to client/src/
         resolved = 'client/src/' + specifier.substring(2)
@@ -253,20 +239,19 @@ function renderMarkdownReport(result) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
+  const paths = resolveAuditPaths('import-graph')
   const configAllowlist = loadCentralAllowlist('import-graph')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let config = {}
-  try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
+  try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
   const thresholds = {
     maxFanOut: config.thresholds?.maxFanOut ?? DEFAULTS.maxFanOut,
     maxFanIn: config.thresholds?.maxFanIn ?? DEFAULTS.maxFanIn,
   }
 
-  const allFiles = listAuditFiles('import-graph', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles('import-graph', [paths.clientSrc, paths.serverSrc])
 
   // Build adjacency list
   const adjacencyList = new Map()
@@ -275,10 +260,10 @@ function main() {
   const crossBoundary = []
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
 
     const content = fs.readFileSync(abs, 'utf-8')
-    const imports = extractImports(content, abs)
+    const imports = extractImports(content, abs, paths.projectRoot)
     const normalizedSource = normalizeImportPath(repoPath)
 
     adjacencyList.set(normalizedSource, imports)
@@ -342,10 +327,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('import-graph', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Cycles: ${cycles.length}, Fan-out violations: ${fanOutViolations.length}, Fan-in violations: ${fanInViolations.length}, Cross-boundary: ${crossBoundary.length}`)
   process.exitCode = 0
 }

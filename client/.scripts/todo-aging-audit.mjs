@@ -5,6 +5,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
@@ -36,32 +39,15 @@ import {
  *   - client/.audit-reports/todo-aging-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'todo-aging-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'todo-aging-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'todo-aging-audit-config.json')
-
 const MARKER_RE = /\b(TODO|FIXME|HACK|XXX|TEMP|WORKAROUND)\b/i
 const TICKET_RE = /#\d+|[A-Z]{2,}-\d+/
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 /**
  * Get commit dates for specific lines using git blame --porcelain
  */
-function getBlameDate(absPath, lineNumbers) {
+function getBlameDate(absPath, lineNumbers, projectRoot) {
   const dates = new Map()
   if (lineNumbers.length === 0) return dates
 
@@ -69,7 +55,7 @@ function getBlameDate(absPath, lineNumbers) {
     // Build line ranges for blame
     const output = execSync(
       `git blame --porcelain "${absPath}"`,
-      { cwd: PROJECT_ROOT, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024, timeout: 30000 }
+      { cwd: projectRoot, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024, timeout: 30000 }
     )
 
     let currentLine = 0
@@ -173,23 +159,22 @@ function renderMarkdownReport(filesWithFindings, totals) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
+  const paths = resolveAuditPaths('todo-aging')
   const configAllowlist = loadCentralAllowlist('todo-aging')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let priorityConfig = {}
   try {
-    const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const raw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(raw)
   } catch { /* defaults */ }
 
-  const allFiles = listAuditFiles('todo-aging', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles('todo-aging', [paths.clientSrc, paths.serverSrc])
   const scanned = []
   const totals = { totalScanned: allFiles.length, totalMarkers: 0, fresh: 0, aging: 0, stale: 0, ancient: 0, orphaned: 0 }
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     const content = fs.readFileSync(abs, 'utf-8')
@@ -206,7 +191,7 @@ function main() {
     if (matchedLines.length === 0) continue
 
     // Get blame dates for matched lines
-    const blameDates = getBlameDate(abs, matchedLines.map(m => m.lineNumber))
+    const blameDates = getBlameDate(abs, matchedLines.map(m => m.lineNumber), paths.projectRoot)
 
     const markers = matchedLines.map(m => {
       const commitDate = blameDates.get(m.lineNumber)
@@ -238,10 +223,9 @@ function main() {
     files: scanned,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, totals))
+  const { outJson, outMd } = writeAuditReports('todo-aging', out, renderMarkdownReport(scanned, totals))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Markers: ${totals.totalMarkers} (ancient: ${totals.ancient}, stale: ${totals.stale}, aging: ${totals.aging}, fresh: ${totals.fresh}, orphaned: ${totals.orphaned})`)
   process.exitCode = 0
 }

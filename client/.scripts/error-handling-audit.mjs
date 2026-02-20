@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
@@ -37,22 +40,6 @@ import {
  * - client/.audit-reports/error-handling-audit.json
  * - client/.audit-reports/error-handling-audit.md
  */
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'error-handling-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'error-handling-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'error-handling-audit-config.json')
 
 const AUDIT_TYPE = 'error-handling'
 
@@ -248,12 +235,8 @@ function checkConsoleWithoutLogger(content, repoPath) {
   return null
 }
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) {
@@ -319,8 +302,8 @@ function detectCatchBlocks(lines) {
   return catchContextMap
 }
 
-function scanFile(filePath, _configAllowlist) {
-  const repoPath = toRepoPath(filePath)
+function scanFile(filePath, _configAllowlist, projectRoot) {
+  const repoPath = toRepoPath(filePath, projectRoot)
   let content = fs.readFileSync(filePath, 'utf-8')
 
   if (filePath.endsWith('.vue')) {
@@ -483,25 +466,25 @@ function renderMarkdownReport(filesWithFindings, exceptionSummary) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths(AUDIT_TYPE)
 
-  const configAllowlist = loadCentralAllowlist('error-handling')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch { /* defaults */ }
 
-  const absFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
+  const absFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const scanned = []
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
-    const { matches, content } = scanFile(abs, configAllowlist)
+    const { matches, content } = scanFile(abs, configAllowlist, paths.projectRoot)
     if (matches.length === 0) continue
 
     const { allowed, requiresReview } = categorizeMatches(matches, repoPath, content, AUDIT_TYPE, configAllowlist)
@@ -543,10 +526,9 @@ function main() {
     ruleset,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings, exceptionSummary))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(filesWithFindings, exceptionSummary))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${absFiles.length}, Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0
 }

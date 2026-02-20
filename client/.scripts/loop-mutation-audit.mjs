@@ -411,29 +411,22 @@ function main() {
   // Filter out zero-score files from JSON output to reduce report bloat
   const filesWithFindings = scanned.filter(f => f.score > 0 || f.requiresReview.length > 0)
 
-  fs.writeFileSync(
-    OUT_JSON,
-    JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        scope: {
-          included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
-          excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
-        },
-        totalScanned: scanned.length,
-        ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
-        exceptionSummary,
-        files: filesWithFindings,
-      },
-      null,
-      2
-    )
-  )
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings, exceptionSummary))
+  const jsonPayload = {
+    generatedAt: new Date().toISOString(),
+    scope: {
+      included: ['client/src/**/*.{ts,js,vue}', 'server/src/**/*.{ts,mjs}'],
+      excluded: ['**/__tests__/**', '**/*.test.*', '**/*.spec.*', 'client/src/@core/**', 'client/src/@layouts/**'],
+    },
+    totalScanned: scanned.length,
+    ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
+    exceptionSummary,
+    files: filesWithFindings,
+  }
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, jsonPayload, renderMarkdownReport(filesWithFindings, exceptionSummary))
 
   const clientFilesCount = clientFiles.length
   const serverFilesCount = serverFiles.length
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${scanned.length} (${clientFilesCount} client, ${serverFilesCount} server)`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0

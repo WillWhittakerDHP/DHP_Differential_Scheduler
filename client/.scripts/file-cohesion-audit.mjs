@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
@@ -29,22 +32,6 @@ import {
  *   - client/.audit-reports/file-cohesion-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'file-cohesion-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'file-cohesion-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'file-cohesion-audit-config.json')
-
 const DEFAULT_THRESHOLDS = {
   components: 500,
   composables: 400,
@@ -55,8 +42,7 @@ const DEFAULT_THRESHOLDS = {
   maxExports: 10,
 }
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 function categorizeFile(repoPath) {
   if (repoPath.includes('/components/') || repoPath.includes('/views/') || repoPath.includes('/layouts/')) return 'components'
@@ -78,8 +64,8 @@ function detectMixedConcerns(content) {
   return hasUIImports && hasServerImports
 }
 
-function analyzeFile(absPath, thresholds) {
-  const repoPath = toRepoPath(absPath)
+function analyzeFile(absPath, thresholds, projectRoot) {
+  const repoPath = toRepoPath(absPath, projectRoot)
   const content = fs.readFileSync(absPath, 'utf-8')
   const lineCount = content.split('\n').length
   const category = categorizeFile(repoPath)
@@ -208,24 +194,23 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
+  const paths = resolveAuditPaths('file-cohesion')
   const configAllowlist = loadCentralAllowlist('file-cohesion')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let config = {}
-  try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
+  try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
   const thresholds = { ...DEFAULT_THRESHOLDS, ...(config.thresholds || {}) }
 
-  const allFiles = listAuditFiles('file-cohesion', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles('file-cohesion', [paths.clientSrc, paths.serverSrc])
   const scanned = []
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
-    const result = analyzeFile(abs, thresholds)
+    const result = analyzeFile(abs, thresholds, paths.projectRoot)
     // Filter out violations that are allowed by config (e.g. specific file + ruleId)
     result.violations = result.violations.filter(
       (v) => !checkConfigAllowlist(repoPath, v.rule, 1, configAllowlist).allowed
@@ -249,10 +234,9 @@ function main() {
     files: scanned,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, allFiles.length))
+  const { outJson, outMd } = writeAuditReports('file-cohesion', out, renderMarkdownReport(scanned, allFiles.length))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files with violations: ${scanned.length}`)
   process.exitCode = 0
 }

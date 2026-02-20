@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T00:29:50.908Z",
+  "generatedAt": "2026-02-20T00:48:59.502Z",
   "totalScanned": 104,
   "files": [
     {
@@ -113,7 +113,7 @@
         "import { useBusinessRules, type BusinessRule } from '@/composables/admin/useBusinessRules'",
         "import { useBusinessRuleForm } from '@/composables/admin/useBusinessRuleForm'",
         "import { useGlobal } from '@/composables/useGlobal'",
-        "import type { GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
         "import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'",
         "import RulesList from './RulesList.vue'",
         "import RuleFormDialog from './RuleFormDialog.vue'",
@@ -1948,7 +1948,7 @@
         "import { useLocalTime } from '@/composables/useLocalTime'",
         "import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'",
         "import type { AppointmentSlot } from '@/types/appointment'",
-        "import type { RFC3339DateTime } from '@/types/datetime'",
+        "import type { RFC3339DateTime } from '@shared/types/primitiveBrands'",
         "import type { PartFinal } from '@/utils/booking/PartFinal'",
         "import type { EventShape } from '@/types/events'",
         "import { useBookingWizard } from '@/composables/useBookingWizard'",
@@ -6994,82 +6994,82 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 209,
+          "lineNumber": 210,
           "line": "const createModalOpen = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 242,
+          "lineNumber": 243,
           "line": "const isCreatingEventInstance = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 243,
+          "lineNumber": 244,
           "line": "const eventInstanceMetadataModalOpen = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 255,
+          "lineNumber": 256,
           "line": "const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 256,
+          "lineNumber": 257,
           "line": "const isCreatingEventInstanceLoading = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 264,
+          "lineNumber": 265,
           "line": "const filteredEventInstances = computed(() => {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 265,
+          "lineNumber": 266,
           "line": "return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         },
         {
           "ruleId": "async",
-          "lineNumber": 277,
+          "lineNumber": 278,
           "line": "patchOrderIndex: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 278,
+          "lineNumber": 279,
           "line": "await patchEventInstanceOrderIndex(updates)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 282,
+          "lineNumber": 283,
           "line": "watch(filteredEventInstances, () => {"
         },
         {
           "ruleId": "alert",
-          "lineNumber": 324,
+          "lineNumber": 325,
           "line": "alert('Please create an event shape first')"
         },
         {
           "ruleId": "async",
-          "lineNumber": 338,
+          "lineNumber": 339,
           "line": "const handleEventInstanceCreate = async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 343,
+          "lineNumber": 344,
           "line": "await createEventInstance({"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 356,
+          "lineNumber": 357,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 367,
+          "lineNumber": 368,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 513,
+          "lineNumber": 514,
           "line": "groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))"
         }
       ],
@@ -7083,7 +7083,8 @@
         "-->",
         "<script setup lang=\"ts\">",
         "import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'",
-        "import { toGlobalEntityId, type BlockInstanceEntity, type GlobalEntity, type GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
+        "import { toGlobalEntityId, type BlockInstanceEntity, type GlobalEntity } from '@/types/entities'",
         "import type { GlobalEntityKey } from '@/constants/entities'",
         "import EntityCard from '@/components/admin/generic/EntityCard.vue'",
         "import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'",
@@ -7997,32 +7998,32 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 132,
+          "lineNumber": 133,
           "line": "watch(() => props.entityId, (newId) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 138,
+          "lineNumber": 139,
           "line": "const entityForMetadata = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 149,
+          "lineNumber": 150,
           "line": "const fieldKeys = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 157,
+          "lineNumber": 158,
           "line": "const instanceConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 161,
+          "lineNumber": 162,
           "line": "const inlineFieldsConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 166,
+          "lineNumber": 167,
           "line": "const stackedFieldsConfig = computed(() => {"
         }
       ],
@@ -8103,7 +8104,8 @@
         "import type { FormContext } from 'vee-validate'",
         "import type { GlobalEntityKey } from '@/constants/entities'",
         "import type { GlobalFieldKey } from '@/constants/primitives'",
-        "import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
+        "import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'",
         "import { VForm } from 'vuetify/components'",
         "import { useAdminConfig } from '@/composables/useAdminConfig'",
         "import { useAdmin } from '@/composables/useAdmin'",
@@ -8285,32 +8287,32 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 61,
+          "lineNumber": 62,
           "line": "watch(() => props.entityId, (newId) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 70,
+          "lineNumber": 71,
           "line": "const entity = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 81,
+          "lineNumber": 82,
           "line": "const fieldKeys = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 90,
           "line": "const instanceConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 93,
+          "lineNumber": 94,
           "line": "const inlineFieldsConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 98,
+          "lineNumber": 99,
           "line": "const stackedFieldsConfig = computed(() => {"
         }
       ],
@@ -8326,7 +8328,8 @@
         "import { ref, computed, watch } from 'vue'",
         "import type { GlobalEntityKey } from '@/constants/entities'",
         "import type { GlobalFieldKey } from '@/constants/primitives'",
-        "import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
+        "import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'",
         "import DynamicForm from './DynamicForm.vue'",
         "import FieldRenderer from './fields/FieldRenderer.vue'",
         "import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'",
@@ -13327,7 +13330,7 @@
         "<script setup lang=\"ts\">",
         "import { computed } from 'vue'",
         "import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'",
-        "import type { RFC3339DateTime } from '@/types/datetime'",
+        "import type { RFC3339DateTime } from '@shared/types/primitiveBrands'",
         "import { useLocalTime } from '@/composables/useLocalTime'",
         "",
         "const { formatDateTimeForDisplay } = useLocalTime()",
@@ -14701,7 +14704,7 @@
         "<script setup lang=\"ts\">",
         "import { ref, computed } from 'vue'",
         "import type { GlobalEntityKey } from '@/constants/entities'",
-        "import type { GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
         "import type { DistributionStrategy } from '@/types/component'",
         "import { DISTRIBUTION_STRATEGIES } from '@/constants/component'",
         "import { useComponentDistribution } from '@/composables/useComponentDistribution'",
@@ -14855,7 +14858,7 @@
         "import { computed } from 'vue'",
         "import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'",
         "import type { CalendarEvent as SharedCalendarEvent } from '@shared/types/availabilityTypes'",
-        "import type { RFC3339DateTime } from '@/types/datetime'",
+        "import type { RFC3339DateTime } from '@shared/types/primitiveBrands'",
         "",
         "interface Props {",
         "  computedAvailability: UseComputedAvailabilityReturn | null",
@@ -17994,7 +17997,7 @@
         "import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'",
         "import { useNotification } from '@/composables/useNotification'",
         "import { createLogger } from '@/utils/logger'",
-        "import type { GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
         "",
         "const logger = createLogger('BlockShapeList')",
         "const router = useRouter()",
@@ -18134,7 +18137,7 @@
         "import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'",
         "import { useNotification } from '@/composables/useNotification'",
         "import { createLogger } from '@/utils/logger'",
-        "import type { GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
         "",
         "const logger = createLogger('PartInstanceList')",
         "const router = useRouter()",
@@ -18273,7 +18276,7 @@
         "import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'",
         "import { useNotification } from '@/composables/useNotification'",
         "import { createLogger } from '@/utils/logger'",
-        "import type { GlobalEntityId } from '@/types/entities'",
+        "import type { GlobalEntityId } from '@shared/types/primitiveBrands'",
         "",
         "const logger = createLogger('PartShapeList')",
         "const router = useRouter()",
@@ -21599,12 +21602,12 @@
       "matches": [
         {
           "ruleId": "filter",
-          "lineNumber": 59,
+          "lineNumber": 60,
           "line": ":items=\"users.filter((u) => u.userRole === 'client')\""
         },
         {
           "ruleId": "filter",
-          "lineNumber": 79,
+          "lineNumber": 80,
           "line": ":items=\"users.filter((u) => u.userRole === 'agent')\""
         }
       ],
@@ -21619,6 +21622,7 @@
         "import type { UserResponse } from '@/types/user'",
         "import { APPOINTMENT_STATUSES } from '@/types/appointment'",
         "import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'",
+        "import { toISO8601Date } from '@/types/datetime'",
         "",
         "/** Parent passes ref value so form can update fields (object is shared). */",
         "defineProps<{",
@@ -21744,7 +21748,7 @@
         "            :model-value=\"newAppointment.selectedDate\"",
         "            type=\"date\"",
         "            :label=\"APPOINTMENTS_TABLE_UI.SELECTED_DATE_LABEL\"",
-        "            @update:model-value=\"(v: string) => emit('update:patch', { selectedDate: v ?? null })\"",
+        "            @update:model-value=\"(v: string) => emit('update:patch', { selectedDate: v != null && v !== '' ? toISO8601Date(v) : null })\"",
         "          />",
         "        </VCol>",
         "      </VRow>",

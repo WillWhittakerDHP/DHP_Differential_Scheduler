@@ -12,18 +12,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const _CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(CWD, 'client')
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const LINT_AUDIT_JSON = path.join(OUT_DIR, 'lint-audit.json')
-const OUT_JSON = path.join(OUT_DIR, 'lint-warnings-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'lint-warnings-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'lint-audit-config.json')
+import { getAuditReportHeaderLines, resolveAuditPaths, writeAuditReports } from './shared-audit-utils.mjs'
 
 function assignPriority(score, config) {
   const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 15)
@@ -80,7 +69,11 @@ function renderMarkdownReport(result) {
 }
 
 function main() {
-  if (!fs.existsSync(LINT_AUDIT_JSON)) {
+  const paths = resolveAuditPaths('lint-warnings')
+  const lintAuditJson = path.join(paths.outDir, 'lint-audit.json')
+  const lintConfigPath = path.join(paths.outDir, 'lint-audit-config.json')
+
+  if (!fs.existsSync(lintAuditJson)) {
     console.error('lint-audit.json not found. Run: npm run audit:lint')
     process.exitCode = 1
     return
@@ -88,14 +81,14 @@ function main() {
 
   let config = {}
   try {
-    if (fs.existsSync(CONFIG_PATH)) {
-      config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'))
+    if (fs.existsSync(lintConfigPath)) {
+      config = JSON.parse(fs.readFileSync(lintConfigPath, 'utf8'))
     }
   } catch {
     /* defaults */
   }
 
-  const lintAudit = JSON.parse(fs.readFileSync(LINT_AUDIT_JSON, 'utf8'))
+  const lintAudit = JSON.parse(fs.readFileSync(lintAuditJson, 'utf8'))
   const warningsOnly = (lintAudit.findings || []).filter(isWarning)
 
   const fileScores = new Map()
@@ -121,10 +114,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('lint-warnings', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${OUT_JSON}\n- ${OUT_MD}`)
+  console.log(`Wrote:\n- ${outJson}\n- ${outMd}`)
   console.log(`Warning findings: ${warningsOnly.length} (files: ${files.length})`)
   process.exitCode = 0
 }

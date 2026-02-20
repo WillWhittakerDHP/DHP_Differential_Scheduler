@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
@@ -24,22 +27,9 @@ import {
  *   - client/.audit-reports/data-flow-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const SERVER_ROOT = path.join(IS_CLIENT_DIR ? CWD : PROJECT_ROOT, 'server')
-const ROUTES_DIR = path.join(SERVER_ROOT, 'src', 'routes')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'data-flow-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'data-flow-audit.md')
-
 const AUDIT_TYPE = 'data-flow'
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 const REQ_BODY = /\breq\.body\b/
 const REQ_PARAMS = /\breq\.params\b/
@@ -108,14 +98,15 @@ function renderMarkdownReport(scanned, exceptionSummary) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  const configAllowlist = loadCentralAllowlist('data-flow')
+  const paths = resolveAuditPaths(AUDIT_TYPE)
+  const routesDir = path.join(paths.serverRoot, 'src', 'routes')
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
 
-  const routeFiles = listAuditFiles(AUDIT_TYPE, [ROUTES_DIR])
+  const routeFiles = listAuditFiles(AUDIT_TYPE, [routesDir])
   const scanned = []
 
   for (const abs of routeFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     const content = fs.readFileSync(abs, 'utf8')
     const matches = scanFile(abs, repoPath, content)
     if (matches.length === 0) continue
@@ -143,10 +134,9 @@ function main() {
     scanned: scanned.filter(f => f.requiresReview.length > 0 || f.allowed.length > 0),
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, exceptionSummary))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(scanned, exceptionSummary))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
   console.log(`Data-flow findings: ${exceptionSummary.totalRequiresReview} (allowed: ${exceptionSummary.totalAllowed})`)
   process.exitCode = 0
 }

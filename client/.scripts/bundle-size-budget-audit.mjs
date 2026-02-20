@@ -1,7 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
-import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath,
+} from './shared-audit-utils.mjs'
 
 /**
  * Bundle Size Budget Audit Script
@@ -44,9 +49,9 @@ function loadConfig() {
       entryPointKb: 150,
     },
   }
-  if (!fs.existsSync(CONFIG_PATH)) return defaults
+  if (!fs.existsSync(_paths.configPath)) return defaults
   try {
-    const raw = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'))
+    const raw = JSON.parse(fs.readFileSync(_paths.configPath, 'utf8'))
     return { budgets: { ...defaults.budgets, ...raw.budgets } }
   } catch {
     return defaults
@@ -158,7 +163,6 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
   const config = loadConfig()
   const budgets = config.budgets
 
@@ -174,9 +178,8 @@ function main() {
       exceptionSummary: { totalAllowed: 0, totalRequiresReview: 0, bySource: { inline: 0, pattern: 0, specific: 0 } },
       files: [],
     }
-    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-    fs.writeFileSync(OUT_MD, '# Bundle Size Budget Audit (Generated)\n\nNo build output found. Run `npm run build` in client/ first.\n')
-    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    const { outJson, outMd } = writeAuditReports('bundle-size-budget', out, '# Bundle Size Budget Audit (Generated)\n\nNo build output found. Run `npm run build` in client/ first.\n')
+    console.log('Wrote:', toRepoPath(outJson, _paths.projectRoot), toRepoPath(outMd, _paths.projectRoot))
     console.log('No dist/assets found. Run npm run build in client/ first.')
     process.exitCode = 0
     return
@@ -218,10 +221,9 @@ function main() {
     priority,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
+  const { outJson, outMd } = writeAuditReports('bundle-size-budget', out, renderMarkdownReport(out))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPath(outJson, _paths.projectRoot), toRepoPath(outMd, _paths.projectRoot))
   console.log(`Chunks: ${chunks.length} | JS: ${totals.totalJsKb.toFixed(1)} KB | CSS: ${totals.totalCssKb.toFixed(1)} KB | Priority: ${priority}`)
   if (totalRequiresReview > 0) {
     console.log(`Budget violations: ${totalRequiresReview}`)

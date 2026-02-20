@@ -1,6 +1,16 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist, parseInlineExceptions, checkInlineException } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+  checkConfigAllowlist,
+  parseInlineExceptions,
+  checkInlineException,
+} from './shared-audit-utils.mjs'
 
 /**
  * Unused Code Audit Script
@@ -24,29 +34,8 @@ import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkC
 
 const AUDIT_TYPE = 'unused-code'
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'unused-code-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'unused-code-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'unused-code-audit-config.json')
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 /**
@@ -230,9 +219,9 @@ function isFunctionUsed(funcName, allFiles, currentFile) {
 /**
  * Load pattern-detection data if available
  */
-function loadPatternDetectionData() {
+function loadPatternDetectionData(outDir) {
   try {
-    const patternJson = path.join(OUT_DIR, 'pattern-detection-audit.json')
+    const patternJson = path.join(outDir, 'pattern-detection-audit.json')
     if (fs.existsSync(patternJson)) {
       const data = JSON.parse(fs.readFileSync(patternJson, 'utf8'))
       return data.aggregated || null
@@ -246,9 +235,9 @@ function loadPatternDetectionData() {
 /**
  * Load hardcoding audit data if available
  */
-function loadHardcodingData() {
+function loadHardcodingData(outDir) {
   try {
-    const hardcodingJson = path.join(OUT_DIR, 'hardcoding-audit.json')
+    const hardcodingJson = path.join(outDir, 'hardcoding-audit.json')
     if (fs.existsSync(hardcodingJson)) {
       const data = JSON.parse(fs.readFileSync(hardcodingJson, 'utf8'))
       return data.files || null
@@ -262,9 +251,9 @@ function loadHardcodingData() {
 /**
  * Load typecheck audit data if available
  */
-function loadTypecheckData() {
+function loadTypecheckData(outDir) {
   try {
-    const typecheckJson = path.join(OUT_DIR, 'typecheck', 'typecheck-audit.json')
+    const typecheckJson = path.join(outDir, 'typecheck', 'typecheck-audit.json')
     if (fs.existsSync(typecheckJson)) {
       const data = JSON.parse(fs.readFileSync(typecheckJson, 'utf8'))
       // Extract files with P0/P1 errors
@@ -310,9 +299,9 @@ function isExportInPatternDetection(exportName, patternData) {
 /**
  * Scan a file for unused code patterns
  */
-function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingData, _typecheckErrorFiles) {
+function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingData, _typecheckErrorFiles, projectRoot) {
   const issues = []
-  const repoPath = toRepoPath(filePath)
+  const repoPath = toRepoPath(filePath, projectRoot)
   
   try {
     const content = fs.readFileSync(filePath, 'utf-8')
@@ -655,7 +644,7 @@ function main() {
   
   try {
     // List all files from both client and server
-    const allFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
+    const allFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
     
     if (allFiles.length === 0) {
       issues.push({
@@ -668,7 +657,7 @@ function main() {
     
     // Scan each file
     for (const file of allFiles) {
-      const repoPath = toRepoPath(file)
+      const repoPath = toRepoPath(file, paths.projectRoot)
       const fileIssues = scanFile(file, allFiles, configAllowlist)
       issues.push(...fileIssues)
       
@@ -716,8 +705,8 @@ function main() {
     }
     
     totalFiles = allFiles.length
-    clientCount = allFiles.filter(f => f.startsWith(CLIENT_SRC)).length
-    serverCount = allFiles.filter(f => f.startsWith(SERVER_SRC)).length
+    clientCount = allFiles.filter(f => f.startsWith(paths.clientSrc)).length
+    serverCount = allFiles.filter(f => f.startsWith(paths.serverSrc)).length
   } catch (_error) {
     issues.push({
       severity: 'error',
@@ -779,12 +768,11 @@ function main() {
     summaryData: summary,
   }
   
-  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithPriority, issues, summary, totalFiles))
-  
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, output, renderMarkdownReport(filesWithPriority, issues, summary, totalFiles))
+
   const skippedMsg = skippedFilesCount > 0 ? `, Skipped: ${skippedFilesCount} (type errors)` : ''
   const pipelineMsg = (patternData || hardcodingData || typecheckErrorFiles) ? ', Using pipeline data' : ''
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${totalFiles} (${clientCount} client, ${serverCount} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}\nFiles scanned: ${totalFiles} (${clientCount} client, ${serverCount} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
 }
 
 main()

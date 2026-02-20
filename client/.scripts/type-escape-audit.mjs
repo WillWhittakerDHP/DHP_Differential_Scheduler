@@ -3,6 +3,9 @@ import path from 'node:path'
 import {
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
@@ -24,22 +27,6 @@ import {
  * Output: .audit-reports/type-escape-audit.json, .audit-reports/type-escape-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'type-escape-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'type-escape-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'type-escape-audit-config.json')
-
 const RULE_WEIGHTS = {
   'as-any': 3,
   'as-unknown': 2,
@@ -51,8 +38,7 @@ const RULE_WEIGHTS = {
   'as-keyof-named': 1,
 }
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 const RULES = [
   { ruleId: 'as-any', pattern: /\bas\s+any\b/g, message: 'Type assertion to any' },
@@ -210,22 +196,22 @@ function renderMarkdownReport(result) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths('type-escape')
 
   const configAllowlist = loadCentralAllowlist('type-escape')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let config = {}
-  try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
+  try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
-  const allFiles = listAuditFiles('type-escape', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles('type-escape', [paths.clientSrc, paths.serverSrc])
 
   const allFindings = []
   const fileScores = new Map()
   let scannedCount = 0
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     scannedCount++
@@ -256,10 +242,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('type-escape', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Findings: ${allFindings.length} (files with findings: ${files.length})`)
   process.exitCode = 0
 }

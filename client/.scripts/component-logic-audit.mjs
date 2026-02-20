@@ -1,6 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist, parseChangedOnlyFlag } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+  checkConfigAllowlist,
+  parseChangedOnlyFlag,
+} from './shared-audit-utils.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -19,35 +28,6 @@ import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkC
  * - We intentionally do NOT try to fully parse Vue SFC blocks. We do a fast line-based scan.
  * - The audit is best-effort; it flags likely hotspots for manual classification.
  */
-
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const CLIENT_SRC = path.join(CWD, 'src')
-const _PROJECT_ROOT_SRC = path.join(CWD, 'client', 'src')
-
-// If src exists in cwd, we're in client/; otherwise assume project root
-const IS_CLIENT_DIR = fs.existsSync(CLIENT_SRC)
-const PROJECT_ROOT = IS_CLIENT_DIR ? CWD : CWD
-
-/** @type {string[]} */
-const INCLUDE_DIRS = IS_CLIENT_DIR
-  ? [
-      path.join(CWD, 'src', 'components'),
-      path.join(CWD, 'src', 'views'),
-      path.join(CWD, 'src', 'layouts'),
-    ]
-  : [
-      path.join(CWD, 'client', 'src', 'components'),
-      path.join(CWD, 'client', 'src', 'views'),
-      path.join(CWD, 'client', 'src', 'layouts'),
-    ]
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'component-logic-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'component-logic-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'component-logic-audit-config.json')
 
 /** @type {Array<{id: string, label: string, test: (line: string) => boolean}>} */
 const RULES = [
@@ -70,16 +50,13 @@ const RULES = [
   { id: 'vueQuery', label: 'vue-query usage', test: (l) => /\buse(Query|Mutation|QueryClient)\b/.test(l) },
 ]
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
 
 /**
  * @param {string} absPath
  * @returns {string}
  */
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 /**
@@ -249,26 +226,30 @@ function renderMarkdownReport(files) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
+  const paths = resolveAuditPaths('component-logic')
+  const includeDirs = [
+    path.join(paths.clientSrc, 'components'),
+    path.join(paths.clientSrc, 'views'),
+    path.join(paths.clientSrc, 'layouts'),
+  ]
   // Load exception config
   const configAllowlist = loadCentralAllowlist('component-logic')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
-  
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
+
   // Load priority config
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 
-  const vueFilesAbs = listAuditFiles('component-logic', INCLUDE_DIRS)
+  const vueFilesAbs = listAuditFiles('component-logic', includeDirs)
   const scanned = []
 
   for (const abs of vueFilesAbs) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     const contents = fs.readFileSync(abs, 'utf8')
@@ -297,11 +278,9 @@ function main() {
 
   const jsonOutput = { generatedAt: new Date().toISOString(), totalScanned: scanned.length, files: filesWithFindings }
   if (delta.enabled) { jsonOutput.deltaMode = true; jsonOutput.baseRef = delta.baseRef }
-  fs.writeFileSync(OUT_JSON, JSON.stringify(jsonOutput, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings))
+  const { outJson, outMd } = writeAuditReports('component-logic', jsonOutput, renderMarkdownReport(filesWithFindings))
 
-   
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${scanned.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}\nFiles scanned: ${scanned.length}`)
 }
 
 main()

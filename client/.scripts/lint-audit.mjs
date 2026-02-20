@@ -16,23 +16,14 @@ import {
   getAuditReportHeaderLines,
   isGloballyExcluded,
   loadCentralAllowlist,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   parseInlineExceptions,
   isMatchAllowed,
 } from './shared-audit-utils.mjs'
 
 const AUDIT_TYPE = 'lint'
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'lint-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'lint-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'lint-audit-config.json')
 
 const DEFAULT_RULE_WEIGHTS = {
   'vue/no-mutating-props': 4,
@@ -40,15 +31,11 @@ const DEFAULT_RULE_WEIGHTS = {
   '@typescript-eslint/no-unused-vars': 2,
 }
 
-function ensureDir(d) {
-  fs.mkdirSync(d, { recursive: true })
-}
-
-function toRepoPath(filePath) {
+function toRepoPath(filePath, projectRoot, clientRoot) {
   const resolved = path.isAbsolute(filePath)
     ? filePath
-    : path.join(CLIENT_ROOT, filePath)
-  return path.relative(PROJECT_ROOT, resolved).replaceAll(path.sep, '/')
+    : path.join(clientRoot, filePath)
+  return toRepoPathUtil(resolved, projectRoot)
 }
 
 function assignPriority(score, config) {
@@ -59,9 +46,9 @@ function assignPriority(score, config) {
   return 'P2'
 }
 
-function runEslint() {
+function runEslint(clientRoot) {
   const result = spawnSync('npx', ['eslint', '.', '--format', 'json'], {
-    cwd: CLIENT_ROOT,
+    cwd: clientRoot,
     encoding: 'utf-8',
     maxBuffer: 10 * 1024 * 1024,
   })
@@ -78,11 +65,11 @@ function getFileContent(absPath) {
 
 const inlineExceptionCache = new Map()
 
-function getInlineExceptions(repoPath) {
+function getInlineExceptions(repoPath, projectRoot) {
   if (inlineExceptionCache.has(repoPath)) {
     return inlineExceptionCache.get(repoPath)
   }
-  const absPath = path.join(PROJECT_ROOT, repoPath)
+  const absPath = path.join(projectRoot, repoPath)
   const content = getFileContent(absPath)
   const exceptions = parseInlineExceptions(content, AUDIT_TYPE)
   inlineExceptionCache.set(repoPath, exceptions)
@@ -149,21 +136,21 @@ function renderMarkdownReport(result) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths(AUDIT_TYPE)
 
   let config = {}
   try {
-    if (fs.existsSync(CONFIG_PATH)) {
-      config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'))
+    if (fs.existsSync(paths.configPath)) {
+      config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8'))
     }
   } catch {
     /* defaults */
   }
 
-  const configAllowlist = loadCentralAllowlist('lint')
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
   const ruleWeights = { ...DEFAULT_RULE_WEIGHTS, ...(config.ruleWeights || {}) }
 
-  const { stdout, status } = runEslint()
+  const { stdout, status } = runEslint(paths.clientRoot)
 
   let rawResults = []
   try {
@@ -226,10 +213,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${OUT_JSON}\n- ${OUT_MD}`)
+  console.log(`Wrote:\n- ${outJson}\n- ${outMd}`)
   console.log(`Findings: ${allFindings.length} (files with findings: ${files.length})`)
   if (status !== 0) {
     process.exitCode = 1

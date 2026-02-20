@@ -1,6 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { isTestingEnabled } from './shared-audit-utils.mjs'
+import {
+  isTestingEnabled,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath,
+} from './shared-audit-utils.mjs'
 
 /**
  * Coverage-Risk Crossref Audit Script
@@ -18,20 +23,13 @@ import { isTestingEnabled } from './shared-audit-utils.mjs'
  *   - client/.audit-reports/coverage-risk-crossref-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const _CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'coverage-risk-crossref-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'coverage-risk-crossref-audit.md')
-const IMPORT_GRAPH_JSON = path.join(OUT_DIR, 'import-graph-audit.json')
-const TEST_AUDIT_JSON = path.join(OUT_DIR, 'test-audit.json')
+const _paths = resolveAuditPaths('coverage-risk-crossref')
+const IMPORT_GRAPH_JSON = path.join(_paths.outDir, 'import-graph-audit.json')
+const TEST_AUDIT_JSON = path.join(_paths.outDir, 'test-audit.json')
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPathLocal(p) {
+  return toRepoPath(p, _paths.projectRoot)
+}
 
 /** Normalize path for matching: strip extension, normalize slashes */
 function normalizePath(repoPath) {
@@ -52,8 +50,6 @@ function assignPriority(riskScore) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
   if (!isTestingEnabled()) {
     const out = {
       generatedAt: new Date().toISOString(),
@@ -65,17 +61,16 @@ function main() {
       files: [],
       exceptionSummary: { totalAllowed: 0, totalRequiresReview: 0, bySource: { inline: 0, pattern: 0, specific: 0 } },
     }
-    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-    const mdLines = [
+    const mdContent = [
       '# Coverage-Risk Crossref Audit (Generated)',
       '',
       `Generated at: ${out.generatedAt}`,
       '',
       '**Coverage-risk is suppressed while testing is off.** Set `TEST_ENABLED=true` in project root `.env` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
       '',
-    ]
-    fs.writeFileSync(OUT_MD, mdLines.join('\n'))
-    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    ].join('\n')
+    const { outJson, outMd } = writeAuditReports('coverage-risk-crossref', out, mdContent)
+    console.log('Wrote:', toRepoPathLocal(outJson), toRepoPathLocal(outMd))
     console.log('Testing disabled (TEST_ENABLED not true): coverage-risk suppressed.')
     process.exitCode = 0
     return
@@ -92,9 +87,8 @@ function main() {
       files: [],
       exceptionSummary: { totalAllowed: 0, totalRequiresReview: 0, bySource: { inline: 0, pattern: 0, specific: 0 } },
     }
-    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-    fs.writeFileSync(OUT_MD, '# Coverage-Risk Crossref Audit\n\nRun audit:import-graph and audit:test first.\n')
-    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    const { outJson, outMd } = writeAuditReports('coverage-risk-crossref', out, '# Coverage-Risk Crossref Audit\n\nRun audit:import-graph and audit:test first.\n')
+    console.log('Wrote:', toRepoPathLocal(outJson), toRepoPathLocal(outMd))
     console.log('Missing import-graph-audit.json. Run audit:import-graph first.')
     process.exitCode = 0
     return
@@ -111,9 +105,8 @@ function main() {
       files: [],
       exceptionSummary: { totalAllowed: 0, totalRequiresReview: 0, bySource: { inline: 0, pattern: 0, specific: 0 } },
     }
-    fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-    fs.writeFileSync(OUT_MD, '# Coverage-Risk Crossref Audit\n\nRun audit:test first.\n')
-    console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+    const { outJson, outMd } = writeAuditReports('coverage-risk-crossref', out, '# Coverage-Risk Crossref Audit\n\nRun audit:test first.\n')
+    console.log('Wrote:', toRepoPathLocal(outJson), toRepoPathLocal(outMd))
     console.log('Missing test-audit.json. Run audit:test first.')
     process.exitCode = 0
     return
@@ -244,10 +237,9 @@ function main() {
     lines.push(`*...and ${riskFiles.length - 40} more.*`)
   }
   lines.push('')
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, lines.join('\n'))
+  const { outJson, outMd } = writeAuditReports('coverage-risk-crossref', out, lines.join('\n'))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPathLocal(outJson), toRepoPathLocal(outMd))
   console.log(`Risk files: ${riskFiles.length} | High fan-in untested: ${summary.highFanInUntested} | Critical coverage: ${summary.coverageOfCriticalFiles}`)
   process.exitCode = 0
 }

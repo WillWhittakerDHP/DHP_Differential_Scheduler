@@ -1,7 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
+  checkConfigAllowlist,
+} from './shared-audit-utils.mjs'
 
 /**
  * Duplication Audit Script (DRY opportunities)
@@ -27,34 +35,14 @@ import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkC
  * - Deterministic ordering and stable IDs so diffs are meaningful.
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC) 
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'duplication-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'duplication-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'duplication-audit-config.json')
 
 // Tunables (keep deterministic + simple)
 const WINDOW_LINES = 10
 const MIN_LINE_LEN = 18
 const MIN_WINDOWS_PER_GROUP = 2
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) {
@@ -212,9 +200,9 @@ function compareGroups(a, b) {
 /**
  * Load pattern-detection candidates if available
  */
-function loadPatternDetectionCandidates() {
+function loadPatternDetectionCandidates(outDir) {
   try {
-    const patternJson = path.join(OUT_DIR, 'pattern-detection-audit.json')
+    const patternJson = path.join(outDir, 'pattern-detection-audit.json')
     if (fs.existsSync(patternJson)) {
       const data = JSON.parse(fs.readFileSync(patternJson, 'utf8'))
       return data.candidates || null
@@ -228,9 +216,9 @@ function loadPatternDetectionCandidates() {
 /**
  * Prioritize files that have candidates from pattern-detection
  */
-function prioritizeFilesWithCandidates(absFiles, candidates) {
+function prioritizeFilesWithCandidates(absFiles, candidates, projectRoot) {
   if (!candidates) return absFiles
-  
+
   const candidateFiles = new Set()
   
   // Collect all candidate files
@@ -245,8 +233,8 @@ function prioritizeFilesWithCandidates(absFiles, candidates) {
   }
   
   // Sort: candidate files first
-  const candidate = absFiles.filter(f => candidateFiles.has(toRepoPath(f)))
-  const nonCandidate = absFiles.filter(f => !candidateFiles.has(toRepoPath(f)))
+  const candidate = absFiles.filter(f => candidateFiles.has(toRepoPath(f, projectRoot)))
+  const nonCandidate = absFiles.filter(f => !candidateFiles.has(toRepoPath(f, projectRoot)))
   return [...candidate, ...nonCandidate]
 }
 
@@ -380,35 +368,35 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
+  const paths = resolveAuditPaths('duplication')
+
   // Load exception config
   const configAllowlist = loadCentralAllowlist('duplication')
-  
+
   // Load priority config
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 
-  let absFiles = listAuditFiles('duplication', [CLIENT_SRC, SERVER_SRC])
-  const clientFiles = absFiles.filter((p) => p.startsWith(CLIENT_SRC))
-  const serverFiles = absFiles.filter((p) => p.startsWith(SERVER_SRC))
+  let absFiles = listAuditFiles('duplication', [paths.clientSrc, paths.serverSrc])
+  const clientFiles = absFiles.filter((p) => p.startsWith(paths.clientSrc))
+  const serverFiles = absFiles.filter((p) => p.startsWith(paths.serverSrc))
 
   // Load pattern-detection candidates and prioritize files
-  const candidates = loadPatternDetectionCandidates()
+  const candidates = loadPatternDetectionCandidates(paths.outDir)
   if (candidates) {
-    absFiles = prioritizeFilesWithCandidates(absFiles, candidates)
+    absFiles = prioritizeFilesWithCandidates(absFiles, candidates, paths.projectRoot)
   }
   
   /** @type {Array<{id: string, repoPath: string, windows: Array<{hash: string, windowText: string, startLine: number, endLine: number, lineCount: number}>}>} */
   const perFile = []
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     const contents = fs.readFileSync(abs, 'utf8')
     const targets = extractTargets(repoPath, contents)
     const allWindows = []
@@ -496,12 +484,11 @@ function main() {
     groups,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
+  const { outJson, outMd } = writeAuditReports('duplication', out, renderMarkdownReport(out))
 
   const clientFilesCount = clientFiles.length
   const serverFilesCount = serverFiles.length
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${perFile.length} (${clientFilesCount} client, ${serverFilesCount} server), Groups: ${groups.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}\nFiles scanned: ${perFile.length} (${clientFilesCount} client, ${serverFilesCount} server), Groups: ${groups.length}`)
   process.exitCode = 0
 }
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T23:18:25.711Z",
+  "generatedAt": "2026-02-20T00:48:29.343Z",
   "clientEndpoints": 0,
   "serverEndpoints": 66,
   "sharedTypes": [
@@ -89,6 +89,10 @@
     },
     {
       "name": "BufferConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "OverlapMinutesBase",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
@@ -253,6 +257,10 @@
     },
     {
       "name": "PlaceDetails",
+      "file": "shared/types/mapsTypes.ts"
+    },
+    {
+      "name": "LocationBase",
       "file": "shared/types/mapsTypes.ts"
     },
     {

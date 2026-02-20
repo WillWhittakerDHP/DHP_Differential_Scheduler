@@ -1,7 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
-import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.mjs'
+import {
+  getAuditReportHeaderLines,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath,
+} from './shared-audit-utils.mjs'
 
 /**
  * Security Audit Script
@@ -26,30 +32,17 @@ import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.
  * - Priority scoring: P0 (critical), P1 (important), P2 (low priority)
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_ROOT)
-  ? path.join(CLIENT_ROOT, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'security-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'security-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'security-audit-config.json')
-
+const _paths = resolveAuditPaths('security')
+const PROJECT_ROOT = _paths.projectRoot
+const CLIENT_ROOT = _paths.clientRoot
+const SERVER_ROOT = _paths.serverRoot
+const SERVER_SRC = _paths.serverSrc
+const CONFIG_PATH = _paths.configPath
 const _AUDIT_TYPE = 'security'
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+/** Local toRepoPath using PROJECT_ROOT for all call sites that pass a single path. */
+function toRepoPathLocal(absPath) {
+  return toRepoPath(absPath, PROJECT_ROOT)
 }
 
 function toStableId(repoPath) {
@@ -217,7 +210,7 @@ function checkSecrets(files) {
   const fileIssues = new Map()
   
   for (const absPath of files) {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPathLocal(absPath)
     try {
       const content = fs.readFileSync(absPath, 'utf-8')
       const lines = content.split('\n')
@@ -297,7 +290,7 @@ function checkConfig() {
     if (fs.existsSync(configFile)) {
       try {
         const content = fs.readFileSync(configFile, 'utf-8')
-        const repoPath = toRepoPath(configFile)
+        const repoPath = toRepoPathLocal(configFile)
         
         // Check for default passwords
         if (content.match(/password\s*[:=]\s*["'](password|admin|123456|changeme|default)["']/gi)) {
@@ -404,7 +397,7 @@ function checkCSRF(files) {
   
   // Scan route files
   for (const absPath of files) {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPathLocal(absPath)
     if (!repoPath.includes('route') && !repoPath.includes('router')) continue
     
     try {
@@ -493,7 +486,7 @@ function checkAuth(files) {
   
   // Scan route files for protected routes without auth
   for (const absPath of files) {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPathLocal(absPath)
     if (!repoPath.includes('route') && !repoPath.includes('router')) continue
     
     try {
@@ -555,7 +548,7 @@ function checkIDOR(files) {
   
   // Scan controller/route files
   for (const absPath of files) {
-    const repoPath = toRepoPath(absPath)
+    const repoPath = toRepoPathLocal(absPath)
     if (!repoPath.includes('route') && !repoPath.includes('router') && !repoPath.includes('controller')) {
       continue
     }
@@ -705,8 +698,6 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
   // Load priority config
   let priorityConfig = {}
   try {
@@ -835,10 +826,9 @@ function main() {
     files,
   }
   
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
-  
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  const { outJson, outMd } = writeAuditReports('security', out, renderMarkdownReport(out))
+
+  console.log(`Wrote:\n- ${toRepoPathLocal(outJson)}\n- ${toRepoPathLocal(outMd)}`)
   console.log(`Files scanned: ${serverFiles.length}`)
   console.log(`Findings: ${totalErrors} error(s), ${totalWarnings} warning(s)`)
   process.exitCode = 0

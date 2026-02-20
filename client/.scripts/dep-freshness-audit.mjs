@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
+import { resolveAuditPaths, writeAuditReports, toRepoPath as toRepoPathUtil } from './shared-audit-utils.mjs'
 
 /**
  * Dependency Freshness Audit
@@ -14,27 +15,13 @@ import { execSync } from 'node:child_process'
  *   - client/.audit-reports/dep-freshness-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'dep-freshness-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'dep-freshness-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'dep-freshness-audit-config.json')
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function loadConfig() {
+function loadConfig(configPath) {
   const defaults = { thresholds: { maxMajorBehind: 5, abandonedDays: 730 } }
-  if (!fs.existsSync(CONFIG_PATH)) return defaults
+  if (!fs.existsSync(configPath)) return defaults
   try {
-    const raw = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'))
+    const raw = JSON.parse(fs.readFileSync(configPath, 'utf8'))
     return { thresholds: { ...defaults.thresholds, ...raw.thresholds } }
   } catch {
     return defaults
@@ -78,13 +65,13 @@ function runNpmOutdated(dirPath) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  const _config = loadConfig()
+  const paths = resolveAuditPaths('dep-freshness')
+  const _config = loadConfig(paths.configPath)
 
   const packages = []
   const dirs = [
-    { name: 'client', path: CLIENT_ROOT },
-    { name: 'server', path: SERVER_ROOT },
+    { name: 'client', path: paths.clientRoot },
+    { name: 'server', path: paths.serverRoot },
   ]
 
   for (const { name, path: dirPath } of dirs) {
@@ -167,10 +154,9 @@ function main() {
   }
   lines.push('')
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, lines.join('\n'))
+  const { outJson, outMd } = writeAuditReports('dep-freshness', out, lines.join('\n'))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
   console.log(`Outdated: ${packages.length} (major: ${byBehind['major-behind']}, minor: ${byBehind['minor-behind']}, patch: ${byBehind['patch-behind']})`)
   process.exitCode = 0
 }

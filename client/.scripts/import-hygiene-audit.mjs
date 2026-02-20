@@ -3,6 +3,9 @@ import path from 'node:path'
 import {
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   getAuditReportHeaderLines,
@@ -42,24 +45,7 @@ import {
  *   - client/.audit-reports/import-hygiene-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'import-hygiene-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'import-hygiene-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'import-hygiene-audit-config.json')
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 // ─── Barrel Detection ─────────────────────────────────────────────────────────
 
@@ -67,13 +53,13 @@ function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.s
  * Build a set of directories that contain a barrel file (index.ts / index.js).
  * Returns Map<repoRelativeDir, absPathToIndex>
  */
-function findBarrelDirs(allFiles) {
+function findBarrelDirs(allFiles, projectRoot) {
   const barrels = new Map()
   for (const abs of allFiles) {
     const basename = path.basename(abs)
     if (basename === 'index.ts' || basename === 'index.js') {
       const dirAbs = path.dirname(abs)
-      const dirRepo = toRepoPath(dirAbs)
+      const dirRepo = toRepoPath(dirAbs, projectRoot)
       barrels.set(dirRepo, abs)
     }
   }
@@ -126,14 +112,14 @@ function parseSymbols(raw) {
 /**
  * Resolve a specifier to a repo-relative directory path (for barrel-bypass check).
  */
-function resolveSpecifierDir(specifier, importerAbs) {
+function resolveSpecifierDir(specifier, importerAbs, projectRoot, clientSrc) {
   if (specifier.startsWith('.')) {
     const resolved = path.resolve(path.dirname(importerAbs), specifier)
-    return toRepoPath(path.dirname(resolved))
+    return toRepoPath(path.dirname(resolved), projectRoot)
   }
   if (specifier.startsWith('@/')) {
-    const resolved = path.join(CLIENT_SRC, specifier.substring(2))
-    return toRepoPath(path.dirname(resolved))
+    const resolved = path.join(clientSrc, specifier.substring(2))
+    return toRepoPath(path.dirname(resolved), projectRoot)
   }
   return null
 }
@@ -141,9 +127,9 @@ function resolveSpecifierDir(specifier, importerAbs) {
 /**
  * Resolve a specifier to a repo-relative file path (without extension).
  */
-function resolveSpecifierFile(specifier, importerAbs) {
+function resolveSpecifierFile(specifier, importerAbs, projectRoot) {
   if (specifier.startsWith('.')) {
-    return toRepoPath(path.resolve(path.dirname(importerAbs), specifier))
+    return toRepoPath(path.resolve(path.dirname(importerAbs), specifier), projectRoot)
       .replace(/\.(ts|js|vue|mjs|tsx|jsx)$/, '')
   }
   if (specifier.startsWith('@/')) {
@@ -156,8 +142,8 @@ function resolveSpecifierFile(specifier, importerAbs) {
 const SOURCE_EXTENSIONS = ['.ts', '.tsx', '.vue', '.js']
 
 /** Resolve repo-relative path (no extension) to absolute path of first existing file. */
-function resolveRepoPathToAbs(repoPathNoExt) {
-  const base = path.join(PROJECT_ROOT, repoPathNoExt.replace(/\//g, path.sep))
+function resolveRepoPathToAbs(repoPathNoExt, projectRoot) {
+  const base = path.join(projectRoot, repoPathNoExt.replace(/\//g, path.sep))
   for (const ext of SOURCE_EXTENSIONS) {
     const candidate = base + ext
     if (fs.existsSync(candidate)) return candidate
@@ -195,22 +181,22 @@ function escapeRegex(s) {
  * RULE: barrel-bypass
  * Check if a file imports from a specific file inside a directory that has a barrel.
  */
-function checkBarrelBypass(imports, importerAbs, barrelDirs) {
+function checkBarrelBypass(imports, importerAbs, barrelDirs, projectRoot, clientSrc) {
   const findings = []
-  const importerDir = toRepoPath(path.dirname(importerAbs))
+  const importerDir = toRepoPath(path.dirname(importerAbs), projectRoot)
 
   for (const imp of imports) {
     if (!imp.specifier.startsWith('.') && !imp.specifier.startsWith('@/')) continue
     if (imp.specifier.endsWith('/index') || imp.specifier.endsWith('/')) continue
 
-    const targetDir = resolveSpecifierDir(imp.specifier, importerAbs)
+    const targetDir = resolveSpecifierDir(imp.specifier, importerAbs, projectRoot, clientSrc)
     if (!targetDir) continue
 
     if (targetDir === importerDir) continue
 
     if (barrelDirs.has(targetDir)) {
-      const targetFile = resolveSpecifierFile(imp.specifier, importerAbs)
-      const barrelFile = toRepoPath(barrelDirs.get(targetDir))
+      const targetFile = resolveSpecifierFile(imp.specifier, importerAbs, projectRoot)
+      const barrelFile = toRepoPath(barrelDirs.get(targetDir), projectRoot)
         .replace(/\.(ts|js)$/, '')
 
       if (targetFile && targetFile !== barrelFile) {
@@ -257,9 +243,9 @@ function checkInlineTypeImport(content) {
  * RULE: relative-when-alias
  * Flag relative imports that traverse 3+ parent directories.
  */
-function checkRelativeWhenAlias(imports, importerAbs) {
+function checkRelativeWhenAlias(imports, importerAbs, projectRoot) {
   const findings = []
-  const importerRepo = toRepoPath(importerAbs)
+  const importerRepo = toRepoPath(importerAbs, projectRoot)
   const isClientFile = importerRepo.startsWith('client/src')
 
   if (!isClientFile) return findings
@@ -286,12 +272,12 @@ function checkRelativeWhenAlias(imports, importerAbs) {
  * Build a map: normalizedTargetFile -> Array<{ importerFile, specifier, lineNumber }>
  * Then find targets imported via multiple distinct specifier styles.
  */
-function detectInconsistentPaths(allImportsMap) {
+function detectInconsistentPaths(allImportsMap, projectRoot) {
   const targetUsages = new Map()
 
   for (const [importerRepo, imports] of allImportsMap.entries()) {
     for (const imp of imports) {
-      const resolved = resolveSpecifierFile(imp.specifier, imp._importerAbs)
+      const resolved = resolveSpecifierFile(imp.specifier, imp._importerAbs, projectRoot)
       if (!resolved) continue
 
       if (!targetUsages.has(resolved)) targetUsages.set(resolved, [])
@@ -333,12 +319,12 @@ function detectInconsistentPaths(allImportsMap) {
  * RULE: duplicate-reexport
  * Find symbols exported from multiple barrel/facade files.
  */
-function detectDuplicateReexports(allFiles, barrelDirs) {
+function detectDuplicateReexports(allFiles, barrelDirs, projectRoot) {
   const exportMap = new Map()
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
-    const isBarrel = Array.from(barrelDirs.values()).some(b => toRepoPath(b) === repoPath)
+    const repoPath = toRepoPath(abs, projectRoot)
+    const isBarrel = Array.from(barrelDirs.values()).some(b => toRepoPath(b, projectRoot) === repoPath)
     const isFacade = /^export\s+\*?\s+from/m.test(
       fs.readFileSync(abs, 'utf-8').split('\n').slice(0, 5).join('\n')
     )
@@ -388,8 +374,8 @@ function detectDuplicateReexports(allFiles, barrelDirs) {
  * In barrel files (index.ts), flag re-exports where the source exports the symbol only as a type
  * (should be "export type { X }" instead of "export { X }").
  */
-function checkTypeValueReexport(barrelAbs, configAllowlist) {
-  const repoPath = toRepoPath(barrelAbs)
+function checkTypeValueReexport(barrelAbs, configAllowlist, projectRoot) {
+  const repoPath = toRepoPath(barrelAbs, projectRoot)
   const content = fs.readFileSync(barrelAbs, 'utf-8')
   const findings = []
   const reexportRe = /export\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"]/g
@@ -402,9 +388,9 @@ function checkTypeValueReexport(barrelAbs, configAllowlist) {
       const symbols = match[1].split(',').map(s => s.trim().split(/\s+as\s+/)[0].trim()).filter(Boolean)
       const sourceSpec = match[2]
       if (!sourceSpec.startsWith('.') && !sourceSpec.startsWith('@/')) continue
-      const sourceRepo = resolveSpecifierFile(sourceSpec, barrelAbs)
+      const sourceRepo = resolveSpecifierFile(sourceSpec, barrelAbs, projectRoot)
       if (!sourceRepo) continue
-      const sourceAbs = resolveRepoPathToAbs(sourceRepo)
+      const sourceAbs = resolveRepoPathToAbs(sourceRepo, projectRoot)
       if (!sourceAbs) continue
       for (const sym of symbols) {
         if (!sourceExportsSymbolOnlyAsType(sourceAbs, sym)) continue
@@ -577,17 +563,16 @@ function renderMarkdownReport(result) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
-  ensureDir(OUT_DIR)
-
+  const paths = resolveAuditPaths('import-hygiene')
   const configAllowlist = loadCentralAllowlist('import-hygiene')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let config = {}
-  try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
+  try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
-  const allFiles = listAuditFiles('import-hygiene', [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles('import-hygiene', [paths.clientSrc, paths.serverSrc])
 
-  const barrelDirs = findBarrelDirs(allFiles)
+  const barrelDirs = findBarrelDirs(allFiles, paths.projectRoot)
 
   const allBarrelBypass = []
   const allRelativeWhenAlias = []
@@ -641,12 +626,12 @@ function main() {
     }
   }
 
-  const inconsistentPaths = detectInconsistentPaths(allImportsMap)
-  const duplicateReexports = detectDuplicateReexports(allFiles, barrelDirs)
+  const inconsistentPaths = detectInconsistentPaths(allImportsMap, paths.projectRoot)
+  const duplicateReexports = detectDuplicateReexports(allFiles, barrelDirs, paths.projectRoot)
 
   const allTypeValueReexport = []
   for (const barrelAbs of barrelDirs.values()) {
-    const findings = checkTypeValueReexport(barrelAbs, configAllowlist)
+    const findings = checkTypeValueReexport(barrelAbs, configAllowlist, paths.projectRoot)
     for (const f of findings) {
       allTypeValueReexport.push(f)
       const repoPath = f.file
@@ -661,7 +646,7 @@ function main() {
   for (const ip of inconsistentPaths) {
     for (const f of ip.files) {
       if (!fileFindings.has(f)) {
-        fileFindings.set(f, { barrelBypass: 0, relativeWhenAlias: 0 })
+        fileFindings.set(f, { barrelBypass: 0, relativeWhenAlias: 0, typeValueReexport: 0 })
       }
     }
   }
@@ -696,10 +681,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('import-hygiene', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(
     `Barrel bypasses: ${allBarrelBypass.length}, ` +
     `Inconsistent paths: ${inconsistentPaths.length}, ` +

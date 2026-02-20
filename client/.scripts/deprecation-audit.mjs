@@ -4,6 +4,9 @@ import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
   listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
@@ -43,22 +46,6 @@ import {
  *   - client/.audit-reports/deprecation-audit.json
  *   - client/.audit-reports/deprecation-audit.md
  */
-
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'deprecation-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'deprecation-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'deprecation-audit-config.json')
 
 const AUDIT_TYPE = 'deprecation'
 
@@ -134,10 +121,8 @@ const REPLACEMENT_PATTERNS = [
   /prefer\s+(\w+)/i,
 ]
 
-function ensureDir(dirPath) { fs.mkdirSync(dirPath, { recursive: true }) }
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) { return repoPath.replaceAll('/', '__') }
@@ -157,8 +142,8 @@ function extractReplacement(line) {
   return null
 }
 
-function scanFile(filePath) {
-  const _repoPath = toRepoPath(filePath)
+function scanFile(filePath, projectRoot) {
+  const _repoPath = toRepoPath(filePath, projectRoot)
   let content = fs.readFileSync(filePath, 'utf-8')
 
   if (filePath.endsWith('.vue')) {
@@ -308,25 +293,24 @@ function renderMarkdownReport(filesWithFindings, exceptionSummary) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-
-  const configAllowlist = loadCentralAllowlist('deprecation')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const paths = resolveAuditPaths(AUDIT_TYPE)
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch { /* defaults */ }
 
-  const allFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
+  const allFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const scanned = []
 
   for (const file of allFiles) {
-    const repoPath = toRepoPath(file)
+    const repoPath = toRepoPath(file, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
-    const { matches, content } = scanFile(file)
+    const { matches, content } = scanFile(file, paths.projectRoot)
     if (matches.length === 0) continue
 
     const { allowed, requiresReview } = categorizeMatches(matches, repoPath, content, AUDIT_TYPE, configAllowlist)
@@ -365,10 +349,9 @@ function main() {
     ruleset,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(filesWithFindings, exceptionSummary))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, output, renderMarkdownReport(filesWithFindings, exceptionSummary))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${allFiles.length}, Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0
 }
