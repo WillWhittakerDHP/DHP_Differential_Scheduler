@@ -14,35 +14,45 @@ This document serves as the master project plan for the DHP Differential Schedul
 **Structure:** Feature → Phase → Session → Task
 
 **Related Documents:**
-- **Launch Infrastructure:** `../../BETA_LAUNCH_CHECKLIST.md` — Hosting, security, deployment, testing (separate from feature development)
-- **Future Features:** `future-features-catalog.md` — Evaluated and prioritized feature ideas
+- **BETA_LAUNCH_CHECKLIST.md** — Hosting, security, deployment, testing (separate from feature development)
+- **future-features-catalog.md** — Evaluated and prioritized feature ideas
 
 ---
 
 ## Feature Summary
 
-| # | Feature | Status | Directory | Key Dates |
-|---|---------|--------|-----------|-----------|
-| 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
-| 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
-| 2 | Google APIs Integration | ✅ Functionally Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
-| 3 | Booking Calculations | ⏳ Core Complete | `features/booking-calculations/` | — |
-| 4 | Calendar & Appointment Availability | ✅ Functionally Complete | `features/calendar-appointment-availability/` | — |
-| 5 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
-| 6 | Pricing Cascades | ✅ Complete | — (sub-feature, no dedicated dir) | Completed 2026-02-13 |
-| 7 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature, no dedicated dir) | Completed 2026-02-11 |
-| 8 | Appointment Workflow | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
-| 9 | Test Suite Setup | 📋 Planning | `features/test-suite-setup/` | — |
-| 10 | Authentication | 📋 Planning | `features/authentication/` | — |
-| 11 | Security Hardening | 📋 Planning | `features/security-hardening/` | — |
-| 12 | Test Quality Validation | 📋 Planning | `features/test-quality-validation/` | — |
-| 13 | Guided Beta Testing | 📋 Planning | `features/guided-beta-testing/` | — |
-| 14 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
-| 15 | Beta Launch | 📋 Planning | `features/beta-launch/` | — |
-| 16 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
-| 17 | UI Polish | 🔮 Future | `features/feature-7-ui-polish/` | — |
-| 18 | Admin UI Overhaul | 🔮 Future | `features/admin-ui-overhaul/` | — |
-| 19 | Admin Assistance Wizard | 🔮 Future | `features/gpt-admin-automation/` (to be renamed) | — |
+| # | Feature | Status | Key Dates |
+|---|---------|--------|-----------|
+| 0 | Vue.js Migration | ✅ Complete | Completed ~2025-02 |
+| 1 | Data Flow Alignment | ✅ Complete | 2025-02-01 → 2026-01-31 |
+| 2 | Google APIs Integration | ✅ Complete | Started 2026-01-31 |
+| 3 | Calendar & Appointment Availability | ✅ Functionally Complete | — |
+| 4 | Pricing Cascades | ✅ Complete | Completed 2026-02-13 |
+| 5 | Property Enrichment & Mappings | ✅ Complete | Completed 2026-02-11 |
+| 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | Phase 1 complete Jan 2026 |
+| 7 | Authentication | 📋 Planning | — |
+| 8 | Security Hardening | 📋 Planning | — |
+| 9 | Testing & Quality Validation | 📋 Planning | — |
+| 10 | Production Readiness | 📋 Planning | — |
+| 11 | Pre-Launch Polish | 📋 Planning | — |
+| 12 | Alpha Launch & Deployment | 📋 Planning | — |
+| 13 | Beta Feedback System | ✅ Complete | Completed 2026-02-10 |
+| 14 | Guided Beta Testing | 📋 Planning | — |
+| 15 | Beta Feedback Response | 📋 Planning | — |
+| 16 | UI Polish | 🔮 Future | — |
+| 17 | Admin UI Overhaul | 🔮 Future | — |
+| 18 | Admin Assistance Wizard | 🔮 Future | — |
+
+---
+
+## Milestones
+
+| Milestone | Definition of Done |
+|-----------|--------------------|
+| **Alpha Ready** | Features 7–10 and Feature 12 substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
+| **Beta Ready** | Features 7–14 complete. E2E tests cover critical paths, error tracking live, guided testing system seeded. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. |
+| **Production Ready** | Features 7–15 plus password auth transition. Full test coverage, polished UI, rollback procedures documented and tested. Ready for public access. |
+| **Native App Ready** | Capacitor shell wrapping the deployed SPA (iOS/Android). Not a PROJECT_PLAN feature — detailed plan in BETA_LAUNCH_CHECKLIST.md Phase 7. |
 
 ---
 
@@ -61,14 +71,9 @@ Structural migration complete. All major systems in place and functional:
 
 **Archived Phases:**
 - Phase 7: Archived (work completed in Phase 6)
-- Phase 8: Deferred → Feature 9 (UI Polish)
+- Phase 8: Deferred → Feature 15 (UI Polish)
 - Phase 10: Cancelled (user preference)
-- Phase 11: Moved → Feature 9 (UI Polish, bulk updates enhancement)
-
-**Detailed Documentation:**
-- **Completion Summary:** `features/vue-migration/vue-migration-completion-summary.md`
-- **Feature Guide:** `features/vue-migration/feature-vue-migration-guide.md`
-- **Phase Guides:** `features/vue-migration/phases/phase-[N]-guide.md`
+- Phase 11: Moved → Feature 15 (UI Polish, bulk updates enhancement)
 
 ---
 
@@ -96,16 +101,11 @@ Structural migration complete. All major systems in place and functional:
 - Created database-driven business rules system (replaces hardcoded validation)
 - 30+ sessions across all phases
 
-### Related Documents
-- **Completion Summary:** `features/data-flow-alignment/feature-completion-summary.md` ⭐
-- **Feature Plan:** `features/data-flow-alignment/feature-plan.md`
-- **README:** `features/data-flow-alignment/README.md`
-
 ---
 
 ## Feature 2: Google APIs Integration
 
-**Status:** ✅ Functionally Complete
+**Status:** ✅ Complete
 **Description:** Integrate Google Calendar API (availability fetching, event creation), Google Maps API (address autocomplete, drive time), and MLS API (property data).
 **Branch:** `feature/google-apis-integration`
 **Started:** 2026-01-31
@@ -171,70 +171,12 @@ Structural migration complete. All major systems in place and functional:
 - `client/src/composables/booking/useComputedAvailability.ts` — Server slot fetching with 14-day prefetch
 - `client/src/composables/booking/useMapsSessionToken.ts` — Maps session tokens
 
-### Remaining Work
-- **Production token storage:** OAuth tokens currently file-based. Consider database storage for production deployment.
-
-### Pre-Beta MLS Activation (before beta tester access)
-
-All MLS infrastructure is built and returns 503 until credentials are configured. This work must happen after deployment but before beta testers receive access:
-
-1. **Procure Bright MLS API credentials** — contact contentlicensing@brightmls.com with GCAAR affiliate credentials
-2. **Configure credentials** in Render env vars (`BRIGHT_MLS_CLIENT_ID`, `BRIGHT_MLS_CLIENT_SECRET`)
-3. **Validate field mappings against live API** — run property lookups with real RESO responses, verify transformer output matches expected `PropertyDetails` shape
-4. **Pre-test enrichment pipeline end-to-end** — search by address → transform → auto-populate form → feature suggestions
-5. **Verify error handling** with real API edge cases (property not found, partial data, rate limit responses)
-
-See also: Feature 15 (Beta Launch) Phase 15.2 item 1.8b
+Production OAuth token storage and MLS activation (credentials, validation, end-to-end testing) are tracked in **Feature 11 (Beta Launch)** Phase 11.2 (items 1.8, 1.8b and production token storage).
 
 ### Related Documents
-- **Feature Plan:** `features/feature-2-google-apis-integration/feature-plan.md`
-- **Handoff:** `features/feature-2-google-apis-integration/feature-2-handoff.md`
-- **Log:** `features/feature-2-google-apis-integration/feature-2-log.md`
-
 ---
 
-## Feature 3: Booking Calculations
-
-**Status:** ⏳ Core Complete
-**Description:** Fee and time calculation logic for the booking wizard. Core calculation logic is implemented and tested; needs consolidation into a unified composable.
-**Branch:** `feature/google-apis-integration` (built alongside other features)
-
-### What's Built
-
-**Fee Calculations (Working)**
-- `calculateBlockInstanceFee()` — base fee + overage fee per block instance, with pricing cascade integration
-- `buildConfirmationPriceData()` — aggregates fees across all block types into full breakdown (`baseFeeTotal`, `overageFeeTotal`, `totalFee`, `lineItems`)
-- `calculatePartsTotals()` — shared utility for summing part properties (fees, times, rates)
-- Pricing cascade resolution via `pricingCascadeResolver.ts` (`resolvePricingCascadeParts()`, `getEffectivePartsForFee()`)
-
-**Time Calculations (Working)**
-- `useTimeSlotCalculations()` — composable for time slot duration calculations from `AppointmentShape`
-- `calculateAppointmentSlots()` — creates `AppointmentSlots` from block instances
-- `calculateTotalDurationFromAppointmentSlots()` — sums durations across slots
-- `createBlockFinal()` / `createPartFinals()` — block and part finalization with totals
-
-**Tests (Exist)**
-- `client/src/utils/booking/__tests__/confirmationStepData.test.ts` — fee calculation edge cases, multipliers, overage fees, aggregation, line items
-
-### Key Files
-- `client/src/utils/booking/confirmationStepData.ts` — Fee calculations
-- `client/src/utils/booking/partsTotals.ts` — Parts totals utility
-- `client/src/utils/booking/pricingCascadeResolver.ts` — Pricing cascade resolution
-- `client/src/composables/booking/useTimeSlotCalculations.ts` — Time slot calculations
-- `client/src/utils/booking/appointmentTimeCalculations.ts` — Appointment slot calculations
-- `client/src/utils/booking/BlockFinal.ts` / `PartFinal.ts` — Finalization logic
-
-### Remaining Work
-- **`useBookingCalculator` composable:** Planned unified API wrapping existing calculation utilities. The underlying logic works — this is a consolidation refactor, not new logic.
-- **Hardcoded values:** `couponDiscount = 0`, `deliveryCharges = 5.0`, `deliveryFree = true` need to come from business settings or a coupon system.
-
-### Related Documents
-- **Feature Plan:** `features/booking-calculations/feature-plan.md`
-- **README:** `features/booking-calculations/README.md`
-
----
-
-## Feature 4: Calendar & Appointment Availability
+## Feature 3: Calendar & Appointment Availability
 
 **Status:** ✅ Functionally Complete
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
@@ -269,44 +211,13 @@ See also: Feature 15 (Beta Launch) Phase 15.2 item 1.8b
 8. User selects slot → stored in wizard state
 
 ### Remaining Work
-- **Admin calendar view:** Admins can configure calendars but can't view a calendar overview of all appointments
-- **Real-time sync:** Relies on API calls; no WebSocket/polling for live updates
-- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective
+- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective.
 
-These gaps are admin/management features, not part of the core booking availability flow.
-
-### Related Documents
-- **Feature Plan:** `features/calendar-appointment-availability/feature-plan.md`
-- **README:** `features/calendar-appointment-availability/README.md`
+Admin calendar view is tracked in **Feature 16 (Admin UI Overhaul)**. Real-time availability sync is tracked in **Feature 11 (Beta Launch)**.
 
 ---
 
-## Feature 5: Beta Feedback System
-
-**Status:** ✅ Complete
-**Description:** Full-stack beta feedback collection system with categorized submissions, tagging, and admin dashboard.
-**Branch:** `feature/google-apis-integration`
-**Completed:** 2026-02-10
-
-### What Was Built
-- Floating feedback widget accessible from any page
-- Modal form with category selection (bug, feature_request, general, ux)
-- Tags system for organizing feedback
-- Admin dashboard with filtering, sorting, and management
-- Full CRUD API with database models and migration
-
-### Key Files
-- **Server:** `server/src/db/models/beta/`, `server/src/routes/internal/beta-feedback/`
-- **Client:** `client/src/components/beta/`, `client/src/composables/beta/`
-- **Migration:** `server/src/db/migrations/20260210_100000_create_beta_feedback.mjs`
-
-### Related Documents
-- **Feature Plan:** `features/beta-feedback/feature-plan.md`
-- **README:** `features/beta-feedback/README.md`
-
----
-
-## Feature 6: Pricing Cascades
+## Feature 4: Pricing Cascades
 
 **Status:** ✅ Complete
 **Description:** Pricing cascade system with shape-level validation and instance-level resolution for booking fee calculations.
@@ -327,7 +238,7 @@ These gaps are admin/management features, not part of the core booking availabil
 
 ---
 
-## Feature 7: Property Enrichment & Mappings
+## Feature 5: Property Enrichment & Mappings
 
 **Status:** ✅ Complete
 **Description:** BrightMLS integration with field mapping and feature mapping systems for automatic property data enrichment.
@@ -351,38 +262,182 @@ These gaps are admin/management features, not part of the core booking availabil
 
 ---
 
-## Feature 8: Appointment Workflow
+## Feature 6: Appointment Workflow & Booking Calculations
 
-**Status:** ⏳ Partial (Phase 1 Complete)
-**Description:** Comprehensive appointment status workflow with 8 statuses, user tracking, and interactive UI enhancements.
+**Status:** ⏳ Partial (Phase 1 Complete for workflow; core complete for calculations)
+**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard. Booking calculation logic is implemented; workflow Phase 1 complete.
 **Branch:** `feature/google-apis-integration`
 
-### Phases
+### Appointment Workflow Phases
 
-| Phase | Name | Status |
-|-------|------|--------|
-| 8.1 | Status Workflow & UI Enhancements | ✅ Complete (Jan 2026) |
-| 8.2 | Held Status & Booking Fee Logic | Not Started |
-| 8.3 | Confirmation Routine | Not Started |
-| 8.4 | Rescheduling Flow | Not Started |
-| 8.5 | Soft Delete vs Hard Delete | Not Started |
-| 8.6 | Scheduled By Auto-Population | Not Started (depends on auth) |
+| Phase | Name | Status | What |
+|-------|------|--------|------|
+| 6.1 | Status Workflow & UI Enhancements | ✅ Complete (Jan 2026) | — |
+| 6.2 | Held & Override Stubs | Not Started | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
+| 6.3 | Confirmation Routine | Not Started | submitted to confirmed; admin or auto confirm; notifications. |
+| 6.4 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard; rescheduling to submitted. |
+| 6.5 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
+| 6.6 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
+| 6.7 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 
-### Phase 8.1 Completed
+### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
 - Added `scheduled_by_id` column with FK to users table
 - Interactive tooltips and cross-tab navigation in admin UI
 - Color-coded status chips
 
+### Booking Calculations (Core Complete)
+**Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
+
+**Remaining (calculations):** **useFeeCalculations composable:** Add a composable parallel to `useTimeSlotCalculations()`, reusing existing fee and finalization utils (`calculateBlockInstanceFee`, `buildConfirmationPriceData`, pricing cascade resolution, `createBlockFinal` / `createPartFinals`). Wire it into the confirmation step so fee logic is exposed in one place. **Admin-configurable fee-related settings:** Coupon discount, delivery charges, and delivery-free behavior are currently hardcoded in the fee flow. Move to admin-configurable business settings and have the fee flow (e.g. useFeeCalculations or shared utils) read from those settings.
+
+### Phase 6.7: Admin Force-Create & Constraint Overrides (Detail)
+
+**Goal:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers — and persist which constraints were overridden so the system can honor those exceptions during a future reschedule. **Dependency:** Feature 7 (Authentication) must be complete — force-create requires `req.user` to record who authorized the override.
+
+**Architecture (summary):**
+- **Force-create flow:** Admin picks a blocked slot → client calls `POST /api/v1/internal/appointments/force-create` → server runs slot computation for that time, collects ALL violations (no short-circuit), creates appointment and a `constraint_override` record (appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end).
+- **Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment.
+
+**Data model:** `constraint_overrides` — id (UUID PK), appointment_id (FK → appointments, ON DELETE CASCADE), overridden_violations (TEXT[]), authorized_by_id (FK → users), reason (TEXT nullable), slot_start, slot_end (TIMESTAMPTZ), created_at, updated_at. Index on appointment_id.
+
+**Integration with existing system:** `slotComputationService.ts` already produces violation keys (e.g. `range.leadTime`, `overlap.event.direct`, `capacity.daily`). New `computeViolationsForSlot()` runs all constraint checks without short-circuiting and returns `ForceCreateViolationReport`. New `relaxConstraintsForExceptions(constraints, allowedExceptions)` clones matching constraints with `enforcement: 'off'` for reschedule; extend `computeAvailabilityData()` to accept optional `allowedExceptions` and verify against stored override.
+
+**Implementation checklist (Phase 6.7):**
+
+| Step | What |
+|------|------|
+| 6.7.1 | Create `constraint_overrides` migration (columns as above, index on appointment_id) |
+| 6.7.2 | Create `ConstraintOverride` Sequelize model; associations to Appointment and User (as authorizedBy) |
+| 6.7.3 | Create `computeViolationsForSlot()` in slotComputationService — re-use checkRange/Overlap/Capacity, collect all violations, return ForceCreateViolationReport |
+| 6.7.4 | Create `POST /api/v1/internal/appointments/force-create` route (requireAuth, requireRole('admin')); call computeViolationsForSlot, create appointment + ConstraintOverride |
+| 6.7.5 | Create force-create validator (forceSlot times, reason max 500 chars, normal appointment fields) |
+| 6.7.6 | Mount force-create router in appointmentRouter |
+| 6.7.7 | Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off') |
+| 6.7.8 | Extend computeAvailabilityData() and availabilityRouter to accept optional `allowedExceptions` when appointmentId provided |
+| 6.7.9 | Server-side auth: verify appointmentId exists, has ConstraintOverride, requested allowedExceptions ⊆ overridden_violations |
+| 6.7.10 | Create useForceCreateAppointment composable (violation preview, confirmation, reason) |
+| 6.7.11 | Create force-create confirmation dialog (violations by category, human-readable labels, explicit confirm, optional reason) |
+| 6.7.12 | Add "Force Schedule" button to admin appointments UI (admin-only; blocked slots selectable in distinct color) |
+| 6.7.13 | Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator |
+| 6.7.14 | On reschedule complete, create new ConstraintOverride record for the new slot |
+
+**Violation key reference:** Range: `range.leadTime`, `range.dateRange`. Overlap: `overlap.event.direct`, `overlap.outOfOffice.direct`, `overlap.driveToCandidate.buffer:N`, `overlap.driveFromCandidate.buffer:N`. Capacity: `capacity.daily`, `capacity.calendarWeek`, `capacity.rollingWeek`.
+
+**Decision log:** Override storage = separate table; violation recording = exact violation key strings; reschedule exceptions = server-side verification; constraint relaxation = clone with enforcement 'off'; admin UI = show all slots (blocked = distinct color); reason = optional.
+
+### Key Files
+- **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
+- **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
+- **Archived planning:** booking-calculations planning (archived)
+
 ### Related Documents
-- **Feature Plan:** `features/appointment-workflow/feature-plan.md`
+- BETA_LAUNCH_CHECKLIST.md Phase 8A (force-create detail); Feature 6 workflow and booking-calculations planning
 
 ---
 
-## Feature 9: Test Suite Setup
+## Feature 7: Authentication
 
 **Status:** 📋 Planning
-**Description:** Comprehensive testing strategy with E2E tests (Playwright), expanded integration tests, and CI pipeline enhancements.
+**Description:** Pluggable authentication using a Strategy Pattern: Magic Link for beta/development (passwordless), Email + Password for production. Shared session infrastructure (PostgreSQL sessions table, httpOnly cookies, requireAuth middleware). See BETA_LAUNCH_CHECKLIST.md Phase 2A.
+**Branch:** TBD
+
+### Existing Stubs & Scaffolding
+
+The following auth-related code already exists in the codebase:
+
+| What | File | Notes |
+|------|------|-------|
+| `csrfProtection` (stub) | `server/src/middlewares/security.ts` | Exported, already wired into many CRUD/state-changing routes. Just calls `next()`. |
+| `checkOwnership` (stub) | `server/src/middlewares/security.ts` | Exported, wired into property, entity, business-settings, appointment CRUD. Just calls `next()`. |
+| `_requireAuth` (stub) | `server/src/middlewares/security.ts` | **Not exported / not used anywhere.** Ready to be replaced by the real `requireAuth` from `auth/`. |
+| Login routes (empty) | `server/src/routes/internal/participantRoutes/login-routes.ts` | Commented-out export; no functional routes. |
+| Login model (empty) | `server/src/db/models/participantModels/Logins.ts` | Commented-out password/hooks; no functional model. |
+| Security docs | `server/docs/SECURITY_STUBS.md` | Documents planned behavior of the security stubs. |
+| Router guards | `client/src/plugins/1.router/guards.ts` | Checks `userData` and `accessToken` cookies for isLoggedIn; redirects to `login` route. |
+| UserProfile logout | `client/src/layouts/components/UserProfile.vue` | Clears cookies and redirects to `/login`. |
+
+**What does NOT exist yet:** No `server/src/auth/` directory (strategy interface, session manager, auth router, magic-link strategy), no session/magic_links DB tables/models, no client auth store or auth views.
+
+### Implementation Order
+
+| Step | What | Depends On |
+|------|------|------------|
+| 1 | **Database & Models** — Migrations for `sessions` and `magic_links` tables; Sequelize models. | — |
+| 2 | **Server Auth Infrastructure** — Strategy interface (`strategyTypes.ts`), session manager (`sessionManager.ts`), real `requireAuth` middleware (cookie → session → `req.user`), auth router, auth config. Replace `_requireAuth` stub. | Step 1 |
+| 3 | **Magic Link Strategy** — `magicLinkStrategy.ts`, email service (or console log in dev), verify route that creates a session and sets the cookie. | Step 2 |
+| 4 | **Client Auth** — Pinia auth store + composable, auth views (MagicLinkForm, verify landing), align router guards with real session cookie. | Step 3 |
+| 5 | **Enactment** — Wire auth into other features (see checklist below). | Step 4 |
+| — | **Password Strategy** — Deferred to production (post-beta). | Step 2 |
+
+### Enactment (after auth is in place)
+
+Implement the following so that authenticated users and roles are used where other features expect them:
+
+- [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
+- [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
+- [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
+- [ ] **Guided beta / feedback:** Where Feature 14 (Guided Beta Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
+- [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
+- [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
+
+### Related Documents
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2A
+
+---
+
+## Feature 8: Security Hardening
+
+**Status:** 📋 Planning
+**Description:** CORS lockdown, rate limiting, request validation (Joi), secrets audit, security headers (Helmet), CSRF when using session-based auth. Protects API before external access.
+**Branch:** TBD
+
+### Existing Infrastructure & Stubs
+
+| What | File(s) | Status |
+|------|---------|--------|
+| Helmet (security headers) | `server/src/app.ts` | Installed (`^8.1.0`), applied globally via `app.use(helmet())`. **Default config only** — no custom CSP, HSTS tuning, or referrer policy. |
+| CORS | `server/src/app.ts` | Installed (`^2.8.6`), applied globally via `app.use(cors())`. **Wide open** — no origin restriction. No `CORS_ORIGIN` env var exists. |
+| Joi | `server/package.json` | Installed (`^18.0.2`). Used only in `envConfig.ts` for env-var validation — **not used for request body validation**. |
+| Custom per-route validators | `*Validators.ts` files across most routers | Hand-written `ValidationResult`-based functions (required fields, enum checks, ID validation). Present for entities, relationships, properties, businessSettings, betaFeedback, admin-metadata, availability, businessRules. **Not Joi schemas.** |
+| Per-route sanitizers | `entitySanitizers.ts` | Exist for entities (booking mode enum fix-up). Other routers lack dedicated sanitizers. |
+| CRUD router factory security wiring | `server/src/routes/helpers/createCrudRouter.ts` | `csrfProtection` on POST/PUT/PATCH/DELETE; `checkOwnership` on PUT/PATCH/DELETE. **All CRUD routers inherit this automatically.** |
+| `csrfProtection` (stub) | `server/src/middlewares/security.ts` | Exported, wired into ~16 route files. Just calls `next()`. |
+| `checkOwnership` (stub) | `server/src/middlewares/security.ts` | Exported, wired into ~7 route files. Just calls `next()`. |
+| Outbound API rate limiter | `server/src/services/rateLimiter.ts`, `googleApiRateLimiter.ts` | Sliding-window limiter for **outbound** Google/MLS API calls. **Not** inbound HTTP rate limiting. |
+| `.gitignore` | Root `.gitignore` | Covers `.env`, `.env.*`, `.google-tokens.json`. |
+| `.env.example` | `server/.env.example` | Exists but **only covers Bright MLS vars** — missing DB, PORT, Google OAuth, and future auth vars. |
+| Error handler | `server/src/middlewares/errorHandler.ts` | Global handler hides stack traces in production (`isProduction() ? "🥞" : stack`). |
+| Security stubs doc | `server/docs/SECURITY_STUBS.md` | Documents planned behavior for csrf, requireAuth, checkOwnership. |
+| Route structure | `server/src/routes/index.ts` | Clean split: `/api/v1/internal/*` (admin/app CRUD) vs `/api/v1/external/*` (Google/MLS integrations). Rate limiting can target these separately. |
+
+**What does NOT exist yet:** No `express-rate-limit` (inbound HTTP rate limiting), no CORS origin restriction, no Helmet production config (CSP, HSTS), no Joi request-body schemas, no real CSRF implementation, no real checkOwnership implementation, no comprehensive `.env.example`, no formal secrets audit.
+
+**Key architectural note:** The CRUD router factory (`createCrudRouter`) already wires `csrfProtection` and `checkOwnership` into every CRUD resource. Replacing the stubs with real implementations in `security.ts` will activate them on all routes automatically — no route-file changes needed.
+
+### Implementation Order
+
+| Step | What | Depends On |
+|------|------|------------|
+| 1 | **CORS lockdown** — Add `CORS_ORIGIN` env var, pass `{ origin }` to `cors()`. Set `http://localhost:3002` in dev, Render URL in production. | — |
+| 2 | **Inbound rate limiting** — Install `express-rate-limit`, apply general limiter to `/api/v1/internal/*` (100 req/15 min), stricter limiter for auth routes (10 req/15 min). | — |
+| 3 | **Helmet production config** — Add CSP, tighten HSTS, configure referrer policy. Verify Vue app still loads. | — |
+| 4 | **Secrets audit** — Scan committed files for hardcoded credentials; expand `.env.example` to document all expected env vars; verify `.gitignore` coverage. | — |
+| 5 | **Joi request body validation** — Audit routes missing validation; add Joi schemas for unvalidated POST/PUT bodies. Optionally migrate existing custom validators to Joi over time. | — |
+| 6 | **CSRF real implementation** — Replace `csrfProtection` stub with token validation (double-submit cookie or `csrf-csrf`). Existing route wiring stays. | Feature 7 (sessions) |
+| 7 | **checkOwnership real implementation** — Replace stub to verify `req.user.id` against resource owner field. Existing route wiring stays. | Feature 7 (`req.user`) |
+
+> **Steps 1–5 are independent of Feature 7** and can be done now. Steps 6–7 require working sessions/auth and align with Feature 7's Enactment phase.
+
+### Related Documents
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2
+
+---
+
+## Feature 9: Testing & Quality Validation
+
+**Status:** 📋 Planning
+**Description:** Test infrastructure (E2E with Playwright, integration tests, CI) plus quality validation (mutation testing with Stryker, property-based testing with fast-check, behavioral alignment audit). Ensures tests exist and verify desired behavior.
 **Branch:** TBD
 
 ### Phases
@@ -393,132 +448,260 @@ These gaps are admin/management features, not part of the core booking availabil
 | 9.2 | Playwright Setup | Not Started |
 | 9.3 | E2E Tests for Critical Flows | Not Started |
 | 9.4 | Server Integration Tests | Not Started |
-| 9.5 | CI Pipeline Enhancements | Not Started |
+| 9.5 | Mutation & Property-Based Testing (Stryker, fast-check) | Not Started |
+| 9.6 | Behavioral Alignment Audit | Not Started |
+| 9.7 | CI Pipeline Enhancements | Not Started |
 
-**Current test infrastructure:** 117 Vitest client tests, 15 Jest server tests, TypeScript + ESLint static analysis. No E2E tests.
+### Existing Test Infrastructure
+
+| What | Location | Status |
+|------|----------|--------|
+| Vitest (client unit tests) | `client/vitest.config.ts`, `client/src/**/__tests__/*.test.ts` | **~112 test files.** jsdom environment, single-threaded pool, v8 coverage provider (text, json, html, lcov reporters). |
+| Jest (server unit/integration) | `server/jest.config.js`, `server/src/**/__tests__/*.test.ts` | **15 test files.** ts-jest ESM preset, coverage collection. |
+| Test DB infrastructure | `server/src/test/setup/testDb.ts`, `jestSetup.ts` | Full lifecycle: `setupTestDb` (connect + sync force to `scheduler_test`), `clearTestData` (truncate), `teardownTestDb` (close). |
+| Client test setup | `client/src/utils/__tests__/setup.ts` | Stubs for `matchMedia`, `IntersectionObserver`, `ResizeObserver`; filters jsdom noise. |
+| Test factories | `client/src/utils/__tests__/factories/` | 4 factories: entity, appointment, relationship, globalData. |
+| Test helpers & mocks | `client/src/utils/__tests__/testHelpers.ts`, `mocks/mockApiResponses.ts`, `mocks/apiHandlers.ts` | Shared test utilities and API mocks. |
+| `TEST_ENABLED` master switch | Root `.env` (`TEST_ENABLED=false`), `scripts/start-dev.mjs`, `.cursor/commands/testing/utils/test-config.ts` | Master toggle defaults to `false`. When `true`: dev script adds test watcher, Cursor command test prompts activate, audit scripts respect the toggle. |
+| `start:dev:testing` script | Root `package.json` | `cross-env TEST_ENABLED=true node scripts/start-dev.mjs` — runs server + client + test watcher. |
+| CI pipeline | `.github/workflows/ci.yml` | 7 jobs: lint-client, lint-server, typecheck-client, typecheck-server, test-client (Vitest), test-server (Jest + PostgreSQL service), build-client. |
+| Test files excluded from tsc | `client/tsconfig.json`, `server/tsconfig.json` | Both exclude `__tests__/**` and `*.test.ts` from compilation (intentional until Phase 3.0). |
+| Testing rules (disabled) | `.cursor/rules/testing-headers.mdc` | `alwaysApply: false` — disabled until Phase 3.0. Requires descriptive headers on test files. |
+| Test audit system | `client/.scripts/test-audit.mjs`, `.audit-reports/test-audit*.{json,md}` | Identifies untested source files, priorities, coverage gaps. Reports **787 untested source files**, 0 orphaned tests. |
+| Coverage-risk crossref audit | `client/.scripts/coverage-risk-crossref-audit.mjs` | Cross-references fan-in with test coverage to surface high-risk untested files. |
+| Test generation scripts | `client/package.json` scripts: `audit:test:generate`, `audit:test:generate:api`, `audit:test:ai` | Scripts to generate test stubs and AI-assisted test creation. |
+| Cursor test config | `.cursor/commands/testing/utils/test-config.ts` | Fine-grained toggles for watch mode, smart detection, prompt-driven resolution, auto-fix. All gated behind `TEST_ENABLED`. |
+
+**What does NOT exist yet:** `TEST_ENABLED` is `false` (all test automation dormant), no Playwright (no E2E tests), no Stryker (no mutation testing), no fast-check (no property-based tests), no behavioral alignment audit script, no coverage thresholds enforced in vitest/jest configs, no E2E CI job, no pre-commit hooks (husky/lint-staged).
+
+**Key architectural note:** The `TEST_ENABLED` master switch in root `.env` is the single gate. Flipping it to `true` activates the test watcher in `start:dev`, all Cursor command test prompts, and audit script integration — no code changes needed, just an env var flip.
+
+### Implementation Order
+
+| Step | What | Depends On |
+|------|------|------------|
+| **0** | **Activate testing** — (a) Set `TEST_ENABLED=true` in root `.env`. (b) Re-enable `.cursor/rules/testing-headers.mdc` (`alwaysApply: true`). (c) Remove `__tests__/**` and `*.test.ts` exclusions from client and server `tsconfig.json` so test files are type-checked. | — |
+| 1 | **Coverage audit (Phase 9.1)** — Run `npx vitest --coverage` (client) and `npx jest --coverage` (server). Review against the 787-file gap list. Define and enforce coverage targets. | Step 0 |
+| 2 | **Fix & expand existing tests (Phase 9.4)** — Fill coverage gaps for the test audit's high-priority files (transformers, booking composables). Add server integration tests for newer routes (appointments, beta-feedback, admin-metadata, property-mappings, availability). | Step 1 |
+| 3 | **Playwright setup (Phase 9.2)** — Install Playwright, create `e2e/` directory, base fixtures, smoke tests (health check, pages load). | Step 0 |
+| 4 | **E2E critical flows (Phase 9.3)** — Booking wizard happy path, admin CRUD, error states, responsive. Auth flow E2E deferred until Feature 7 is built. | Step 3, partial Feature 7 |
+| 5 | **Mutation testing — Stryker (Phase 9.5)** — Install Stryker, configure for Vitest, run on transformer primitives and booking composables. Fix surviving mutants. | Step 2 |
+| 6 | **Property-based testing — fast-check (Phase 9.5)** — Install fast-check, write `*.property.test.ts` for pure functions (transformers, booking utils). | Step 2 |
+| 7 | **Behavioral alignment audit (Phase 9.6)** — Create `test-alignment-audit.mjs`, grade existing tests A–D, strengthen low-grade tests. | Step 2 |
+| 8 | **CI enhancements (Phase 9.7)** — Expand `.github/workflows/ci.yml` branch triggers to all branches (currently only main/master). Add Playwright E2E job, coverage reporting on PRs, artifact uploads on failure. Optional: pre-commit hooks (husky + lint-staged). | Steps 3–4 |
+
+> **Step 0 is the prerequisite for everything** — TEST_ENABLED flip, testing-headers rule, and tsconfig re-inclusion so test files are type-checked. Everything else builds from there.
+
+### Security Note
+
+⚠️ The root `.env` file currently contains a `GIT_MCP_SERVER` GitHub PAT token alongside `TEST_ENABLED`. While `.env` is gitignored, this token should be moved to a more appropriate location (e.g., a dedicated `.env.local` or an OS keychain) and flagged in the Feature 8 secrets audit (Step 4). PAT tokens in any `.env` file — even gitignored ones — risk accidental exposure in backups, screenshots, or shared dev environments.
 
 ### Related Documents
-- **Feature Plan:** `features/test-suite-setup/feature-plan.md`
-- **README:** `features/test-suite-setup/README.md`
-- **Detailed Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` (Phase 3, items 3.1–3.10)
+- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` (Phase 3, 3A, items 3.1–3.10)
 
 ---
 
-## Feature 10: Authentication
-
-**Status:** 📋 Planning
-**Description:** Pluggable authentication using a Strategy Pattern: Magic Link for beta/development (passwordless), Email + Password for production. Shared session infrastructure (PostgreSQL sessions table, httpOnly cookies, requireAuth middleware). See BETA_LAUNCH_CHECKLIST.md Phase 2A.
-**Branch:** TBD
-
-### Related Documents
-- **Feature Plan:** `features/authentication/feature-plan.md`
-- **README:** `features/authentication/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2A
-
----
-
-## Feature 11: Security Hardening
-
-**Status:** 📋 Planning
-**Description:** CORS lockdown, rate limiting, request validation (Joi), secrets audit, security headers (Helmet), CSRF when using session-based auth. Protects API before external access.
-**Branch:** TBD
-
-### Related Documents
-- **Feature Plan:** `features/security-hardening/feature-plan.md`
-- **README:** `features/security-hardening/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 2
-
----
-
-## Feature 12: Test Quality Validation
-
-**Status:** 📋 Planning
-**Description:** Mutation testing (Stryker), property-based testing (fast-check), behavioral alignment audit. Ensures tests verify desired behavior, not just execution. Complements Feature 9 (Test Suite Setup).
-**Branch:** TBD
-
-### Related Documents
-- **Feature Plan:** `features/test-quality-validation/feature-plan.md`
-- **README:** `features/test-quality-validation/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 3A
-
----
-
-## Feature 13: Guided Beta Testing
-
-**Status:** 📋 Planning
-**Description:** In-app guided testing: assign randomized tasks to testers, collect structured feedback per task, coverage analytics. Database-driven (beta_test_tasks, beta_test_assignments, beta_test_addresses). Depends on Feature 10 (Authentication).
-**Branch:** TBD
-
-### Related Documents
-- **Feature Plan:** `features/guided-beta-testing/feature-plan.md`
-- **README:** `features/guided-beta-testing/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 6A
-
----
-
-## Feature 14: Production Readiness
+## Feature 10: Production Readiness
 
 **Status:** 📋 Planning
 **Description:** Health check endpoint, Sentry error tracking, production logging, database backups, uptime monitoring, migration strategy, rollback procedures (application + DB + seed).
 **Branch:** TBD
 
+### Existing Infrastructure
+
+| What | Location | Status |
+|------|----------|--------|
+| Scoped logger (server) | `server/src/utils/logger.ts` | Fully implemented. Level gating via `LOG_LEVEL` env var. **Defaults to `warn` in production**, `debug` in dev. Scope-based debug filtering via `DEBUG_SCOPES`. Used across entire server. |
+| Scoped logger (client) | `client/src/utils/logger.ts` | Parallel implementation using Vite env vars (`VITE_LOG_LEVEL`). Shared types from `shared/types/loggerTypes.ts`. |
+| Global error handler | `server/src/middlewares/errorHandler.ts` | Catches all unhandled Express errors. Hides stack in production (`"🥞"`). Logs via `createLogger`. **Natural Sentry integration point.** |
+| `isProduction()` helper | `server/src/utils/envHelpers.ts` | Centralized `NODE_ENV === 'production'` check. Used by logger and error handler. |
+| Env config with Joi validation | `server/src/config/envConfig.ts` | Validates 6 core env vars at startup (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`, `PORT`). Crashes if invalid. **Does not validate** Google, JWT, Bright MLS, or future auth/security vars (~15+ other `process.env` refs across 21 files). |
+| Migration infrastructure | `server/src/scripts/run-migrations.mjs`, `server/src/db/migrations/` (9 files) | Custom ESM-compatible runner, full `up`/`down` support. Scripts: `migrate`, `migrate:status`, `migrate:undo`, `migrate:undo:all`, `db:migrate:generate`. |
+| Migration documentation | `server/src/db/migrations/README.md` | Comprehensive docs: commands, best practices, workflow, troubleshooting, rollback procedures (application, DB, seed data). |
+| `.env.production` template | `server/.env.production` | Exists with values for DB, Google API, JWT. **Contains real credentials — should be placeholder-only** (see security note). |
+| `.env.example` | `server/.env.example` | Exists but **only covers Bright MLS vars** — incomplete. |
+| CI pipeline | `.github/workflows/ci.yml` | 7 jobs: lint, typecheck, test, build. **No deploy job.** |
+
+**What does NOT exist yet:** No health check endpoint, no Sentry (`@sentry/node` / `@sentry/vue`), no request ID / correlation ID middleware, no uptime monitoring, no `render.yaml` Blueprint, no comprehensive env audit or `.env.example`, no database backup script, no deploy CI job, no pre-deploy migration hook.
+
+**Key architectural notes:**
+- **Logging is production-ready.** Level gating and stack-trace hiding already work. Main gap is request IDs for per-request traceability.
+- **Migration infrastructure is solid.** Runner, undo, docs, and rollback procedures exist. Just needs wiring into a deployment pipeline (e.g., Render pre-deploy command).
+- **Error handler is the Sentry hook.** `errorHandler.ts` is the single catch-all — adding `Sentry.captureException(error)` is a one-line integration.
+- **`envConfig.ts` validates only 6 of ~15+ env vars.** Google OAuth, JWT, Bright MLS, and future auth/security vars are all accessed via raw `process.env` without startup validation.
+
+### Implementation Order
+
+| Step | What | Depends On |
+|------|------|------------|
+| 1 | **Health check endpoint** — `GET /api/v1/health` returning `{ status, database, timestamp }`. Verify DB connectivity. | — |
+| 2 | **Comprehensive env audit** — Inventory all `process.env` usage (21 files), expand `envConfig.ts` Joi schema to validate all required vars at startup, expand `.env.example` to document every var. | — |
+| 3 | **Sentry setup** — Install `@sentry/node` (server) and `@sentry/vue` (client). Integrate into `errorHandler.ts`. Configure DSN via env var. | — |
+| 4 | **Request ID middleware** — Generate UUID per request, attach to `req`, include in logger prefix. Enables log tracing. | — |
+| 5 | **Production logging review** — Verify `LOG_LEVEL=warn` in production env. Audit noisy log calls. Consider structured JSON logging (optional). | — |
+| 6 | **Database backup strategy** — Document Render backup tier or create `pg_dump` script for free tier. | — |
+| 7 | **Pre-deploy migration hook** — Wire `npm run migrate` into Render's pre-deploy command or build script. | Step 1 (health check for verification) |
+| 8 | **Uptime monitoring** — Set up UptimeRobot (free) or equivalent to monitor health check endpoint. Configure alerts. | Step 1 |
+| 9 | **Rollback verification** — Test `migrate:undo` for all recent migrations locally. Document verified rollback state. | Step 7 |
+
+> **Steps 1–5 are independent and could be parallelized.** Steps 6–9 relate to the deploy pipeline which overlaps with Feature 12 (Alpha Launch).
+
+### Security Note
+
+⚠️ `server/.env.production` currently contains **real credentials**: Google API keys, Google client secret, JWT secret key, GitHub PAT token, and default DB password. While `.env.*` files are gitignored, this file should be sanitized to contain only placeholder values (e.g., `YOUR_GOOGLE_CLIENT_ID_HERE`). Real production secrets should live exclusively in the hosting platform's environment variable configuration (e.g., Render dashboard). Flag for Feature 8 secrets audit (Step 4).
+
 ### Related Documents
-- **Feature Plan:** `features/production-readiness/feature-plan.md`
-- **README:** `features/production-readiness/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` Phase 5
+- BETA_LAUNCH_CHECKLIST.md Phase 5; Feature 10 production-readiness planning
 
 ---
 
-## Feature 15: Beta Launch
+## Feature 11: Pre-Launch Polish
 
 **Status:** 📋 Planning
-**Description:** Last MVP feature. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. Depends on Features 10–14. See BETA_LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
+**Description:** Pre-launch polish before inviting testers: Vue error boundary, loading/error state review, cross-browser and device testing, README update, verify feedback system in production, alpha tester onboarding guide. Depends on Feature 12 (Alpha Launch) for production verification items.
+**Branch:** TBD
+
+### Scope (from BETA_LAUNCH_CHECKLIST Phase 6)
+
+- **Vue error boundary** — Graceful fallback UI when a component crashes.
+- **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
+- **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
+- **README update** — Deployment instructions and architecture overview.
+- **Verify feedback system in production** — Smoke-test existing feedback system (Feature 13) in hosted env; blocked by Feature 12 (deployed env).
+- **Alpha tester onboarding guide** — Static document for testers who prefer docs over in-app guide.
+
+### Related Documents
+- BETA_LAUNCH_CHECKLIST.md Phase 6
+
+---
+
+## Feature 12: Alpha Launch & Deployment
+
+**Status:** 📋 Planning
+**Description:** Alpha milestone. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. App deployed, auth working, core booking + admin flows functional; no external testers yet. Depends on Features 7–10. See BETA_LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
+**Branch:** TBD
+
+### Existing Infrastructure
+
+| What | Location | Status |
+|------|----------|--------|
+| Server PORT handling | `server/src/index.ts` | Reads `process.env.SERVER_PORT \|\| process.env.PORT \|\| 3001`. **Render-compatible** — respects dynamically assigned PORT. |
+| Server build & start | `server/package.json` | `build: "tsc"` → `dist/`. `start: "node dist/server/src/index.js"`. Ready for Render Web Service. |
+| Client build | `client/package.json` | `build: "vue-tsc -b && vite build"` → `client/dist/` with manual chunk splitting. |
+| Root build scripts | `package.json` | `start` (prod build + serve), `build:prod` (server tsc), `client:build`, `seed`. |
+| `VITE_API_BASE_URL` env var | `client/src/utils/api/index.ts`, 3 service files, `vite-env.d.ts` | **Typed** in `ImportMetaEnv`. Used across all API calls. See inconsistency note below. |
+| Vite dev proxy | `client/vite.config.ts` lines 100–108 | Proxies `/api` → `http://localhost:3001`. Dev only — production needs `VITE_API_BASE_URL`. |
+| Migration runner | `server/src/scripts/run-migrations.mjs` | `npm run migrate`. Ready to wire as Render pre-deploy command. |
+| Seed script | Root `package.json` | `seed: "npm --prefix server run seed"`. Available for initial production data. |
+| Google OAuth token persistence | `server/src/config/googleOAuthTokenPersistence.ts` | **File-based** (`.google-tokens.json`). Works for dev, **not production-safe** — tokens lost on Render deploys/restarts. |
+| Google OAuth redirect URI | `server/src/config/googleOAuth.ts` | Reads `process.env.GOOGLE_REDIRECT_URI`. Configurable per environment. |
+| CORS (wide open) | `server/src/app.ts` line 49 | `app.use(cors())` — no origin restriction. Must be locked down before launch (Feature 8 Step 1). |
+| CI pipeline | `.github/workflows/ci.yml` | 7 jobs (lint, typecheck, test, build). **No deploy job.** |
+| Feature 12 planning | BETA_LAUNCH_CHECKLIST Phase 0–1, Appendix A | Merge/sanity, Render setup, Blueprint; env var table, render.yaml template spec. |
+
+**What does NOT exist yet:** No `render.yaml` Blueprint (spec exists in feature plan but no actual file), no Dockerfile/docker-compose, no deploy CI job, no client `.env.production`, no health check endpoint (Feature 10 prerequisite), CORS not locked down (Feature 8 prerequisite), no production OAuth token storage, Bright MLS credentials not yet procured.
+
+### Issues to Resolve Before Launch
+
+**API base URL inconsistency:** The main axios client (`client/src/utils/api/index.ts`) defaults to `'/api/v1/internal'` (relative path — works with Vite proxy, breaks in production without `VITE_API_BASE_URL`). The three external service files (`calendarApiService.ts`, `mapsApiService.ts`, `propertyEnrichmentApiService.ts`) default to `'http://localhost:3001'` (absolute — also breaks in production). These need normalization, and `VITE_API_BASE_URL` **must** be set in Render at build time.
+
+**Google OAuth tokens:** File-based storage is ephemeral on Render. Tokens are lost on every deploy/restart. Needs DB-backed or alternative persistent storage for production. Feature plan notes this as optional item 1.8c.
+
+**Vite `base` option:** Not set in `vite.config.ts`. Fine for root-domain/subdomain deployment (Render default URLs). Only needs changing if deploying to a subdirectory.
+
+### Implementation Order
+
+| Step | What | Depends On |
+|------|------|------------|
+| 1 | **Fix API base URL inconsistency** — Normalize all service files to use a shared constant or the same axios client. Ensure consistent fallback. | — |
+| 2 | **Create client `.env.production`** — Set `VITE_API_BASE_URL` placeholder. Create `.env.development` if needed. | Step 1 |
+| 3 | **Merge & sanity check (Feature 12)** — Verify CI passes, production build works, SPA serves correctly. Verify PORT handling. Checklist Phase 0. | — |
+| 4 | **Create `render.yaml` Blueprint (Feature 12)** — Codify infrastructure: PostgreSQL, API web service, static site, env vars. Checklist Phase 1. | — |
+| 5 | **Render account & DB setup (Feature 12)** — Create Render account, connect GitHub, create PostgreSQL instance. Checklist Phase 1. | — |
+| 6 | **Deploy API service (Feature 12)** — Configure web service, set env vars, lock CORS, run migrations. | Feature 8 Step 1 (CORS), Feature 10 Step 1 (health check) |
+| 7 | **Deploy static site (Feature 12)** — Configure static site, set `VITE_API_BASE_URL`, add SPA rewrite rule. | Step 6 |
+| 8 | **Google OAuth production config (Feature 12)** — Update redirect URI in Google Cloud Console. Consider DB-backed token storage. | Step 6 |
+| 9 | **Bright MLS credentials (Feature 12)** — Procure credentials, configure env vars, test enrichment pipeline. | Step 6 |
+| 10 | **End-to-end verification (Feature 12)** — Static site loads, API responds, DB connected, calendar works. | Steps 6–9 |
+| 11 | **Deploy CI job (optional)** — Add auto-deploy from `main` to Render. Manual deploys initially acceptable. | Step 10 |
+
+> **Steps 1–4 can be done before any Render account exists.** Steps 5–10 are the deployment sequence. Feature 12 depends on Features 7 (auth), 8 (security), 9 (testing), and 10 (production readiness) being substantially complete.
+
+### Related Documents
+- BETA_LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A
+
+---
+
+## Feature 13: Beta Feedback System
+
+**Status:** ✅ Complete
+**Description:** Full-stack beta feedback collection system with categorized submissions, tagging, and admin dashboard.
+**Branch:** `feature/google-apis-integration`
+**Completed:** 2026-02-10
+
+### What Was Built
+- Floating feedback widget accessible from any page
+- Modal form with category selection (bug, feature_request, general, ux)
+- Tags system for organizing feedback
+- Admin dashboard with filtering, sorting, and management
+- Full CRUD API with database models and migration
+
+### Key Files
+- **Server:** beta models, beta-feedback routes
+- **Client:** beta components, beta composables
+- **Migration:** beta feedback table (20260210)
+
+### Related Documents
+- BETA_LAUNCH_CHECKLIST.md; Feature 13 planning
+
+---
+
+## Feature 14: Guided Beta Testing
+
+**Status:** 📋 Planning
+**Description:** In-app guided testing: assign randomized tasks to testers, collect structured feedback per task, coverage analytics. Database-driven (beta_test_tasks, beta_test_assignments, beta_test_addresses). Depends on Feature 7 (Authentication).
 **Branch:** TBD
 
 ### Related Documents
-- **Feature Plan:** `features/beta-launch/feature-plan.md`
-- **README:** `features/beta-launch/README.md`
-- **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md`
+- BETA_LAUNCH_CHECKLIST.md Phase 6A
 
 ---
 
-## Feature 16: Beta Feedback Response
+## Feature 15: Beta Feedback Response
 
 **Status:** 📋 Planning
-**Description:** Dedicated workflow for triaging, prioritizing, and responding to beta tester feedback (Feature 5). Status tracking, email notifications to reporters, feedback → work item pipeline, analytics. Post-launch.
+**Description:** Dedicated workflow for triaging, prioritizing, and responding to beta tester feedback (Feature 13). Status tracking, email notifications to reporters, feedback → work item pipeline, analytics. Post-launch.
 **Branch:** TBD
 
 ### Dependencies
-- Feature 5 (Beta Feedback System) — complete (✅)
-- Feature 10 (Authentication) — for user identity and email notifications
+- Feature 13 (Beta Feedback System) — complete (✅)
+- Feature 7 (Authentication) — for user identity and email notifications
 
 ### Related Documents
-- **Feature 16 docs:** `features/beta-feedback-response/`
-- **Feature 5 docs:** `features/beta-feedback/`
+- BETA_LAUNCH_CHECKLIST.md; Feature 13 planning
 
 ---
 
-## Feature 17: UI Polish
+## Feature 16: UI Polish
 
 **Status:** 🔮 Future
 **Description:** Polish admin panel and booking wizard UI. Fix flow/interactions, improve visual design, consistent styling. Includes bulk updates as small admin UI enhancement.
-**Branch:** `feature/ui-polish`
+**Branch:** TBD
 
 ### Phases
 | Phase | Name | Status |
 |-------|------|--------|
-| 17.1 | Admin Panel UI Polish | Not Started |
-| 17.2 | Booking Wizard UI Polish | Not Started |
-| 17.3 | Responsive Design and Mobile Optimization | Not Started |
-| 17.4 | Bulk Updates Enhancement | Not Started |
+| 16.1 | Admin Panel UI Polish | Not Started |
+| 16.2 | Booking Wizard UI Polish | Not Started |
+| 16.3 | Responsive Design and Mobile Optimization | Not Started |
+| 16.4 | Bulk Updates Enhancement | Not Started |
 
 ### Related Documents
-- **Feature Plan:** `features/feature-7-ui-polish/feature-plan.md`
-- **README:** `features/feature-7-ui-polish/README.md`
+- BETA_LAUNCH_CHECKLIST.md; Feature 16 planning
 
 ---
 
-## Feature 18: Admin UI Overhaul
+## Feature 17: Admin UI Overhaul
 
 **Status:** 🔮 Future
 **Description:** Complete redesign of the admin interface. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure.
@@ -527,20 +710,18 @@ These gaps are admin/management features, not part of the core booking availabil
 ### Planned Phases
 1. **Smart UI Redesign** — Guided workflows, relationship builder, templates
 2. **Live Preview Panel** — Real-time booking simulation as admins configure services
-3. **Integration with Admin Assistance Wizard** (Feature 19)
+3. **Integration with Admin Assistance Wizard** (Feature 18)
 
 ### Related Documents
-- **Feature Plan:** `features/admin-ui-overhaul/feature-plan.md`
-- **README:** `features/admin-ui-overhaul/README.md`
+- BETA_LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); Feature 17 planning
 
 ---
 
-## Feature 19: Admin Assistance Wizard
+## Feature 18: Admin Assistance Wizard
 
 **Status:** 🔮 Future
-**Description:** Step-by-step guided wizard for setting up services, parts, relationships, and compositions. No external AI — deterministic guided workflow. Build after Feature 18 so wizard integrates into redesigned admin panel.
+**Description:** Step-by-step guided wizard for setting up services, parts, relationships, and compositions. No external AI — deterministic guided workflow. Build after Feature 17 so wizard integrates into redesigned admin panel.
 **Branch:** TBD
-**Directory:** `features/gpt-admin-automation/` (to be renamed when work begins)
 
 ### Planned Phases
 1. Foundation & Wizard Framework
@@ -550,7 +731,7 @@ These gaps are admin/management features, not part of the core booking availabil
 5. Contextual Help & Validation
 
 ### Related Documents
-- **Existing directory:** `features/gpt-admin-automation/`
+- Feature 18 planning (wizard; to be renamed from prior automation concept)
 
 ---
 
@@ -571,7 +752,13 @@ The following work was completed on the `feature/google-apis-integration` branch
 
 ## Future Features Catalog
 
-See `future-features-catalog.md` for comprehensive catalog of future features identified in USER_STORY.md and common commercial scheduler features for evaluation and prioritization.
+See future-features-catalog.md for comprehensive catalog of future features identified in USER_STORY.md and common commercial scheduler features for evaluation and prioritization.
+
+---
+
+## Native App Shell (Checklist-Only)
+
+Native app packaging is not tracked as a PROJECT_PLAN feature. **BETA_LAUNCH_CHECKLIST.md Phase 7** holds the full plan: Capacitor Stage 1 (wrap SPA as iOS/Android app, zero component changes), optional Ionic Stage 2 (selective Ionic Vue conversion for booking wizard after Admin UI Overhaul). Stage 2 depends on **Feature 17 (Admin UI Overhaul)** and **Feature 16 Phase 16.3 (Responsive Design)** for mobile UX baseline.
 
 ---
 
@@ -582,24 +769,6 @@ See `future-features-catalog.md` for comprehensive catalog of future features id
 - **Future Features:** `future-features-catalog.md`
 - **Feature Validation:** `FEATURE_VALIDATION_CHECKLIST.md`
 
-### Feature Documentation
-
-| Feature | Key Documents |
-|---------|--------------|
-| Feature 0: Vue Migration | `features/vue-migration/vue-migration-completion-summary.md` |
-| Feature 1: Data Flow Alignment | `features/data-flow-alignment/feature-completion-summary.md` |
-| Feature 2: Google APIs | `features/feature-2-google-apis-integration/feature-2-handoff.md` |
-| Feature 3: Booking Calculations | `features/booking-calculations/feature-plan.md` |
-| Feature 4: Calendar & Availability | `features/calendar-appointment-availability/feature-plan.md` |
-| Feature 5: Beta Feedback | `features/beta-feedback/feature-plan.md` |
-| Feature 8: Appointment Workflow | `features/appointment-workflow/feature-plan.md` |
-| Feature 9: Test Suite Setup | `features/test-suite-setup/feature-plan.md` |
-| Feature 10: Beta Feedback Response | `features/beta-feedback-response/feature-plan.md` |
-| Feature 11: Beta Launch | `../../BETA_LAUNCH_CHECKLIST.md` |
-| Feature 12: UI Polish | `features/feature-7-ui-polish/feature-plan.md` |
-| Feature 13: Admin UI Overhaul | `features/admin-ui-overhaul/feature-plan.md` |
-| Feature 14: Admin Assistance Wizard | `features/gpt-admin-automation/feature-plan.md` (to be renamed) |
-
 ---
 
 ## Notes
@@ -608,10 +777,9 @@ See `future-features-catalog.md` for comprehensive catalog of future features id
 - All phase guides and session documents should align with this document
 - **Vue Migration (Feature 0) is Core Complete** — structural migration achieved; remaining work is feature development
 - **Data Flow Alignment (Feature 1) is Complete** — all 5 phases finished 2026-01-31
-- **Google APIs (Feature 2) is Functionally Complete** — Calendar and Maps fully working, MLS infrastructure built but blocked on external credentials
-- **Booking Calculations (Feature 3) is Core Complete** — calculation logic works end-to-end, needs consolidation composable
-- **Calendar & Availability (Feature 4) is Functionally Complete** — full server-side computation and client-side UI working for booking flow
-- **Beta Launch Infrastructure** is tracked separately in `BETA_LAUNCH_CHECKLIST.md` (hosting, auth, security, CI/CD)
-- The `client/` directory contains the Vue 3 application (previously `client-vue/` — renamed after React removal)
-- Features 6–7 (Pricing Cascades, Property Enrichment) are complete sub-features without dedicated directories
-- Feature 14 (Admin Assistance Wizard) replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency
+- **Google APIs (Feature 2) is Complete** — Calendar and Maps fully working, MLS infrastructure built (returns 503 until configured). Production OAuth storage and MLS activation are tracked in Feature 12 (Alpha Launch).
+- **Calendar & Availability (Feature 3) is Functionally Complete** — full server-side computation and client-side UI working for booking flow
+- **Features 4–5 (Pricing Cascades, Property Enrichment)** are complete sub-features without dedicated directories
+- **Feature 6 (Appointment Workflow & Booking Calculations)** — workflow Phase 1 complete; booking calculation logic core complete, needs consolidation composable
+- **Launch infrastructure** is tracked in BETA_LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)
+- **Feature 18 (Admin Assistance Wizard)** replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency

@@ -1,6 +1,6 @@
-# Feature 10: Authentication
+# Feature 7: Authentication
 
-**Feature Number:** 10
+**Feature Number:** 7
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD

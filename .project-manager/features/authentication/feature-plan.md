@@ -1,4 +1,4 @@
-# Feature 10: Authentication — Feature Plan
+# Feature 7: Authentication — Feature Plan
 
 **Feature:** Authentication & User Identity (Strategy Pattern)
 **Status:** 📋 Planning
@@ -323,7 +323,7 @@ client/src/
 
 ---
 
-## Phase 10.2: Server Infrastructure (Strategy Interface, Session Manager, Auth Config, Middleware, Router)
+## Phase 7.2: Server Infrastructure (Strategy Interface, Session Manager, Auth Config, Middleware, Router)
 
 - [ ] **2A.4** Create auth strategy interface (`server/src/auth/strategies/strategyTypes.ts`)
 
@@ -574,7 +574,7 @@ client/src/
 
 ---
 
-## Phase 10.3: Magic Link Strategy (Beta / Development)
+## Phase 7.3: Magic Link Strategy (Beta / Development)
 
 - [ ] **2A.8** Create email service (`server/src/auth/emailService.ts`)
 
@@ -624,7 +624,7 @@ client/src/
 
 ---
 
-## Phase 10.4: Client-Side Auth
+## Phase 7.4: Client-Side Auth
 
 - [ ] **2A.13** Create Pinia auth store (`client/src/stores/auth.ts`)
 
@@ -644,7 +644,7 @@ client/src/
 
 ---
 
-## Phase 10.5: Password Strategy (Production — Deferred)
+## Phase 7.5: Password Strategy (Production — Deferred)
 
 - [ ] **2A.19** Create `login` table migration (when ready for production). SQL: CREATE TABLE public.login (id serial PRIMARY KEY, user_id uuid NOT NULL UNIQUE REFERENCES public.users(id) ON DELETE CASCADE, email varchar(255) NOT NULL UNIQUE, password_hash varchar(255) NOT NULL, created_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL, updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL);
 
@@ -653,6 +653,17 @@ client/src/
 - [ ] **2A.21** Create `PasswordLoginForm.vue` when transitioning to production (email + password fields, submit to login).
 
 - [ ] **2A.22** In authConfig.ts, when NODE_ENV === 'production', return new PasswordStrategy(); or use AUTH_STRATEGY env var for override.
+
+---
+
+## Enact After Auth (Integration Todos)
+
+When authentication is in place, implement the following so other features can rely on authenticated users and roles:
+
+- [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
+- [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally track who last updated the appointment on edit. Use `req.user` and persist via appointment API.
+- [ ] **Role-based access:** Restrict admin panel and admin-only routes to authenticated users with appropriate roles (e.g. agent, transaction_manager).
+- [ ] **Guided beta and feedback:** Where Feature 13 (Guided Beta Testing) or Feature 14 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, email notifications to reporter), wire in auth so those features can rely on current user/session.
 
 ---
 
