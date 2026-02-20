@@ -27,7 +27,7 @@
 
 ### Tasks
 
-- [ ] #### Task 2.2.6.1: Fix Violation Attribution Logic
+- [x] #### Task 2.2.6.1: Fix Violation Attribution Logic ✅
 **Goal:** Ensure direct conflicts are always appointment, drive times are always buffer
 **Files:** 
 - `client/src/utils/booking/timeAvailabilityManager.ts`
@@ -71,7 +71,7 @@
 - Allows child tabs to know if they're active
 **Checkpoint:** currentTab provided correctly, available to children
 
-- [ ] #### Task 2.2.6.5: Update BusinessControlsTab for Conditional Loading
+- [x] #### Task 2.2.6.5: Update BusinessControlsTab for Conditional Loading ✅
 **Goal:** Load settings only when tab is active
 **Files:** 
 - `client/src/views/admin/tabs/BusinessControlsTab.vue`

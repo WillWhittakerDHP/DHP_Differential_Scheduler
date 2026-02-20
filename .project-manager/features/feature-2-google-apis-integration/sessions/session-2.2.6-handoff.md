@@ -11,9 +11,9 @@
 
 ## Current Status
 
-**Last Completed:** Session 2.2.6 (documentation alignment)
-**Next Session:** TBD (e.g. Error Handling & Fallbacks)
-**Last Updated:** 2026-02-19
+**Last Completed:** Session 2.2.6 (documentation alignment + session-end workflow)
+**Next Session:** Phase 2.2 complete — next action is /phase-end 2.2 or begin Phase 2.3 if defined
+**Last Updated:** 2026-02-20
 
 ---
 
