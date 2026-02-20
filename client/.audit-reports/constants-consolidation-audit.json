@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T16:44:10.617Z",
+  "generatedAt": "2026-02-20T18:43:31.696Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 673,
+  "totalScanned": 688,
   "totalConstantsFiles": 24,
   "totalExportsScanned": 71,
   "exceptionSummary": {
@@ -20,7 +20,8 @@
     "bySource": {
       "inline": 0,
       "pattern": 0,
-      "specific": 0
+      "specific": 0,
+      "linePattern": 0
     }
   },
   "constantsFiles": [
@@ -70,7 +71,7 @@
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 25,
+          "line": 27,
           "inline": true
         }
       ],
@@ -92,13 +93,13 @@
         {
           "file": "server/src/services/propertyFieldMapper.ts",
           "export": null,
-          "line": 86,
+          "line": 87,
           "inline": true
         },
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 28,
+          "line": 30,
           "inline": true
         }
       ],
@@ -120,13 +121,13 @@
         {
           "file": "server/src/services/propertyFieldMapper.ts",
           "export": null,
-          "line": 88,
+          "line": 89,
           "inline": true
         },
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 29,
+          "line": 31,
           "inline": true
         }
       ],
@@ -148,7 +149,7 @@
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 24,
+          "line": 26,
           "inline": true
         }
       ],
@@ -170,7 +171,7 @@
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 26,
+          "line": 28,
           "inline": true
         }
       ],
@@ -192,7 +193,7 @@
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 27,
+          "line": 29,
           "inline": true
         }
       ],
@@ -214,7 +215,7 @@
         {
           "file": "server/src/utils/propertyTransformers.ts",
           "export": null,
-          "line": 30,
+          "line": 32,
           "inline": true
         }
       ],
@@ -277,7 +278,22 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 25,
+          "lineNumber": 27,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 31,
+          "line": "inline: value"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 26,
           "line": "inline: value"
         },
         {
@@ -292,22 +308,7 @@
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 24,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 26,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 27,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 30,
+          "lineNumber": 32,
           "line": "inline: value"
         }
       ]
@@ -321,12 +322,12 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 86,
+          "lineNumber": 87,
           "line": "inline: value"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 88,
+          "lineNumber": 89,
           "line": "inline: value"
         }
       ]

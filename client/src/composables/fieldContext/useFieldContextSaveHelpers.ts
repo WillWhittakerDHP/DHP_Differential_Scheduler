@@ -16,9 +16,11 @@ import type { CreateRelationshipPayload } from '@/types/relationships'
 import { getRelationshipByParentChildEndpoint, getRelationshipEndpoint } from '@/utils/api'
 import apiClient from '@/utils/api'
 import { normalizePrimitiveForSave } from '@/utils/transformers/transformerPrimitives'
+import { calculateArrayDiff } from '@/utils/collections/arrayDiff'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { UseFieldContextStateReturn } from './useFieldContextState'
 import { createLogger } from '@/utils/logger'
+import { invalidateEntityQueries } from '@/composables/entityCrud/useSharedMutationHandlers'
 
 const logger = createLogger('useFieldContextSaveHelpers')
 
@@ -49,14 +51,15 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
       ? new Set([String(plainValue).trim()].filter((s) => s !== ''))
       : new Set<string>()
 
-  const toAdd = Array.from(newComponentIds).filter((id) => !oldComponentIds.has(toGlobalEntityId(id)))
-  const toRemove = Array.from(oldComponentIds).filter((id) => !newComponentIds.has(String(id)))
+  const oldIds = Array.from(oldComponentIds).map((id) => String(id))
+  const newIds = Array.from(newComponentIds).map((id) => toGlobalEntityId(id))
+  const { toAdd, toRemove } = calculateArrayDiff(oldIds, newIds)
 
   const promises: Promise<void>[] = [
-    ...toAdd.map((componentId, index) =>
+    ...toAdd.map((globalId, index) =>
       addToComponent({
         composerId: toGlobalEntityId(String(state.entityId)),
-        componentId: toGlobalEntityId(componentId),
+        componentId: toGlobalEntityId(globalId),
         orderIndex: currentComponents.length + index,
       }).catch((error: unknown) => {
         logger.error('Add to component failed', { error })
@@ -67,10 +70,10 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
         throw error
       })
     ),
-    ...toRemove.map((componentId) =>
+    ...toRemove.map((globalId) =>
       removeFromComponent({
         composerId: toGlobalEntityId(String(state.entityId)),
-        componentId: toGlobalEntityId(componentId),
+        componentId: toGlobalEntityId(globalId),
       })
     ),
   ]
@@ -112,8 +115,7 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
       : []
 
   const parentId = String(state.entityId)
-  const toAdd = newValues.filter((v) => !oldValues.includes(v))
-  const toRemove = oldValues.filter((v) => !newValues.includes(v))
+  const { toAdd, toRemove } = calculateArrayDiff(oldValues, newValues)
 
   const promises: Promise<void>[] = [
     ...toAdd.map((childId) => {
@@ -151,17 +153,11 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
     }
   }
 
-  // WHY: Ensures UI reflects latest relationship state
-  // PATTERN: Invalidate related queries, then refetch global data
-  queryClient.invalidateQueries({ queryKey: [relationshipKey] })
-  queryClient.invalidateQueries({ queryKey: [state.entityKey] })
-  await queryClient.refetchQueries({ queryKey: ['globalData'] })
-
-  // WHY: BlockInstance and BlockShape changes affect scheduler admin state
-  // PATTERN: Conditional invalidation for specific entity types
-  if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
-    queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
-  }
+  await invalidateEntityQueries(queryClient, {
+    entityKey: state.entityKey,
+    relationshipKey,
+    refetchGlobalData: true,
+  })
 }
 
 export interface SaveRegularFieldParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
@@ -188,11 +184,5 @@ export async function saveRegularField<GE extends GlobalEntityKey, FieldKey exte
 
   await state.patchFieldAsync(patchPayload)
 
-  // PATTERN: Invalidate entity queries, conditionally invalidate scheduler admin
-  queryClient.invalidateQueries({ queryKey: [state.entityKey] })
-  if (['blockInstance', 'blockShape'].includes(state.entityKey)) {
-    queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
-  }
-  
-  // PATTERN: Let the reactive watches handle syncing - no need to manually reset here
+  await invalidateEntityQueries(queryClient, { entityKey: state.entityKey })
 }

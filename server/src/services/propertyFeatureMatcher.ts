@@ -6,8 +6,9 @@
  * PATTERN: match_type (exists, contains, equals, greater_than)
  */
 
-import type { BrightMlsPropertyResponse } from '../types/brightMls.js';
-import type { PropertyFeatureMapping } from '../db/models/mappings/property_feature_mapping.js';
+import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
+import type { PropertyFeatureMapping } from '../db/models/mappings/property_feature_mapping.js'
+import { normalizeToArray } from '../utils/arrayNormalize.js'
 
 export interface FeatureMatchResult {
   blockInstanceId: string;
@@ -18,15 +19,14 @@ function getSourceValue(
   response: BrightMlsPropertyResponse,
   sourceField: string
 ): string[] | number | null {
-  const val = (response as Record<string, unknown>)[sourceField];
+  const val = (response as Record<string, unknown>)[sourceField]
 
-  if (val == null) return null;
-  if (Array.isArray(val)) {
-    return val.map((v) => (typeof v === 'string' ? v : String(v)));
-  }
-  if (typeof val === 'string') return [val];
-  if (typeof val === 'number') return val;
-  return null;
+  if (val == null) return null
+  if (typeof val === 'number') return val
+  const arr = normalizeToArray(val).map((v) =>
+    typeof v === 'string' ? v : String(v)
+  )
+  return arr
 }
 
 function matches(

@@ -16,6 +16,7 @@ import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '@/constants/errorMessages'
 
 const logger = createLogger('useAttendeeQuickSelect')
@@ -117,7 +118,7 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     if (!hasMajorAttendees.value) {
       return []
     }
-    const majorAttendees = settings.value?.differentialPerspectives?.majorAttendees || []
+    const majorAttendees = asEmptyArray(settings.value?.differentialPerspectives?.majorAttendees)
     return filterToValidOptions(majorAttendees, validOptionIds)
   }
 
@@ -130,7 +131,7 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     if (!hasMinorAttendees.value) {
       return []
     }
-    const minorAttendees = settings.value?.differentialPerspectives?.minorAttendees || []
+    const minorAttendees = asEmptyArray(settings.value?.differentialPerspectives?.minorAttendees)
     return filterToValidOptions(minorAttendees, validOptionIds)
   }
 

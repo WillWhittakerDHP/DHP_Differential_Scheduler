@@ -7,6 +7,7 @@ import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntity } from '@/types/entities'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('usePrimitiveMutation')
 
@@ -52,7 +53,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
             if (!old) return old
             
-            const currentEntities = old.entities[entityKey] || []
+            const currentEntities = asEmptyArray(old.entities[entityKey])
             const filteredEntities = currentEntities.filter(
               (entity) => entity.id !== errorId
             )
@@ -103,7 +104,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           return old
         }
 
-        const currentEntities = old.entities[entityKey] || []
+        const currentEntities = asEmptyArray(old.entities[entityKey])
         const entityIndex = currentEntities.findIndex((entity) => 
           entity.id === variables.dynamicId
         )

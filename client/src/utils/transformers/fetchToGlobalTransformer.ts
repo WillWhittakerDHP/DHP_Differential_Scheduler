@@ -20,6 +20,7 @@ import { transformApiRelationships } from './relationshipTransformers'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
+import { asEmptyString } from '@/utils/safeDefaults'
 import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
 import { safeArray, safeString, safeId } from './transformerPrimitives'
 import { groupByParentId, immutableSort } from './transformerCollections'
@@ -192,7 +193,7 @@ function transformApiRelationship(
     logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
   }
   return {
-    id: toGlobalEntityId(idResolved ?? ''),
+    id: toGlobalEntityId(asEmptyString(idResolved)),
     kind: relationshipKey,
     parentKind: (parentKindOverride ?? parentKind) as GlobalEntityKey,
     childKind: childKind as GlobalEntityKey,
@@ -219,7 +220,6 @@ function attachLegacyInstanceComponents(
   return Object.fromEntries(
     ENTITY_KEYS.map((entityKey) => {
       const entityList = safeArray(fetchedEntities[entityKey])
-      // @audit-allow:loop-mutation:assignProp - read-only filter callback, no mutation
       const componentRels = fetchedRelationships.filter(
         (rel) =>
           rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled
@@ -271,7 +271,6 @@ export class GlobalTransformer {
       // LEARNING: Use batch endpoints to reduce N+18 HTTP requests to 2 requests
       // WHY: Dramatically improves initial load performance, reduces network overhead
       // PATTERN: Fetch entities and relationships in parallel using batch endpoints
-      // @audit-allow:loop-mutation:assignIndex - destructuring Promise.all result, not loop mutation
       const [entitiesResponse, relationshipsResponse] = await Promise.all([
         apiClient.get<Record<GlobalEntityKey, Record<string, unknown>[]>>(getEntitiesBatchEndpoint()),
         apiClient.get<Record<GlobalRelationshipKey, Record<string, unknown>[]>>(getRelationshipsBatchEndpoint())
@@ -393,7 +392,6 @@ export class GlobalTransformer {
     const fieldSets = buildFieldClassificationSets(entityType, metadata)
     const transformedEntries = Object.entries(entity)
       .map((entry) => transformFieldForDehydrate(entry, fieldSets, metadata))
-      // @audit-allow:loop-mutation:assignIndex - type guard filter, no mutation
       .filter((entry): entry is [string, unknown] => entry !== null)
     return Object.fromEntries(transformedEntries)
   }

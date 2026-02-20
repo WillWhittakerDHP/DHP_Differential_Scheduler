@@ -14,6 +14,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { globalTransformer } from '@/utils/transformers/fetchToGlobalTransformer'
+import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
 let instanceCount = 0
@@ -23,7 +24,7 @@ const instanceCallSites: Array<{ count: number; stack: string }> = []
 let globalInstance: ReturnType<typeof createGlobalInstance> | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
-  const stack = new Error().stack || ''
+  const stack = asEmptyString(new Error().stack)
   const lines = stack.split('\n')
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {
@@ -77,7 +78,7 @@ function createGlobalInstance() {
   function getGlobalEntities<GE extends GlobalEntityKey>(entityKey: GE): GlobalEntity<GE>[] {
     const data = globalData.value
     if (!data || !data.entities) return []
-    return (data.entities[entityKey] || []) as GlobalEntity<GE>[]
+    return asEmptyArray(data.entities[entityKey]) as GlobalEntity<GE>[]
   }
   
   /**

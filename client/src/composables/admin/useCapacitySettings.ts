@@ -2,7 +2,6 @@
  * Composable for capacity settings (max work hours per day, calendar week, rolling week)
  * WHY: Extracts capacity logic from BusinessControlsTab to reduce script size and complexity
  * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
- * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'

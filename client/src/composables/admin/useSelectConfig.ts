@@ -19,10 +19,17 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import { useAdmin } from '@/composables/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { createLogger } from '@/utils/logger'
+import { asEmptyString } from '@/utils/safeDefaults'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
+import {
+  unwrapInputConfig,
+  getSelectConfigFromUnwrapped,
+  resolveSelectMultiple,
+  resolveOptionEntityKey,
+} from '@/utils/admin/selectTypeResolver'
 
 const logger = createLogger('useSelectConfig')
 
@@ -155,8 +162,8 @@ export function useSelectConfig(
     const normalizedOptions = rawOptions
       .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
       .map((option) => ({
-        value: option.value === null ? null : String(option.value ?? ''),
-        label: String(option.label ?? '')
+        value: option.value === null ? null : String(asEmptyString(option.value as string | null | undefined)),
+        label: String(asEmptyString(option.label as string | null | undefined))
       }))
     
     const hasInvalidOption = normalizedOptions.some(
@@ -229,39 +236,31 @@ export function useSelectConfig(
       )
     }
     
-    // LEARNING: inputConfig is stored in direct format (not wrapped)
-    // PATTERN: Use inputConfig directly, check targetMode to determine type
     let inputConfig = meta.inputConfig as Record<string, unknown>
-    
-    // DEFENSIVE: Handle legacy wrapped format where inputConfig is { relationshipSelect: { ...actualConfig } }
-    // WHY: Stale metadata rows with metadata_type='primitive' used the old wrapped format.
-    //      If such rows re-appear (e.g., from re-seeding), unwrap and warn loudly so it gets fixed at the source.
     if (!('targetMode' in inputConfig) && 'relationshipSelect' in inputConfig) {
       const wrapped = inputConfig.relationshipSelect
       if (typeof wrapped === 'object' && wrapped !== null && 'targetMode' in wrapped) {
         logger.warn(
-          `Legacy wrapped inputConfig detected for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-          `inputConfig is wrapped in "relationshipSelect" key — this is stale data that should be fixed in admin_metadata. ` +
-          `Unwrapping automatically, but the database row needs to be corrected.`,
-          { entityKey: fieldContext.entityKey, fieldKey: fieldContext.fieldKey, wrappedKeys: Object.keys(inputConfig) }
+          `Wrapped inputConfig detected (stale relationshipSelect format) for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+            `inputConfig is wrapped in "relationshipSelect" key — fix in admin_metadata.`,
+          {
+            entityKey: fieldContext.entityKey,
+            fieldKey: fieldContext.fieldKey,
+            wrappedKeys: Object.keys(inputConfig),
+          }
         )
-        inputConfig = wrapped as Record<string, unknown>
       }
     }
-    
-    if ('targetMode' in inputConfig) {
-      const targetMode = inputConfig.targetMode as string
-      if (targetMode === 'relationship') {
-        return inputConfig as RelationshipFieldType<typeof fieldContext.entityKey>
-      } else if (targetMode === 'property') {
-        return inputConfig as VirtualFieldType<typeof fieldContext.entityKey>
-      }
-    }
-    
-    throw new Error(
-      `[useSelectConfig] Invalid inputConfig format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-      `Expected direct select config with targetMode ('relationship' or 'property').`
+    inputConfig = unwrapInputConfig(
+      inputConfig,
+      String(fieldContext.entityKey),
+      String(fieldContext.fieldKey)
     )
+    return getSelectConfigFromUnwrapped(
+      inputConfig,
+      String(fieldContext.entityKey),
+      String(fieldContext.fieldKey)
+    ) as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
   })
 
   /**
@@ -300,38 +299,15 @@ export function useSelectConfig(
    * WHY: Config determines selectMode (single, multiple, required)
    * PATTERN: Read selectMode from config, fail if missing (except enum selects)
    */
-  const isMultiple = computed(() => {
-    // PATTERN: Return false for enum selects
-    if (isEnumSelect.value) {
-      return false
-    }
-
-    // PATTERN: Use selectMode when available, otherwise default to single
-    if (isOptionsSelect.value) {
-      const config = optionsSelectConfig.value
-      if (config?.selectMode) {
-        return config.selectMode === RelationshipSelectModeEnum.Multiple
-      }
-      return false
-    }
-    
-    const config = selectConfig.value
-    
-    // PATTERN: Return false as safe default when config is undefined
-    if (!config) {
-      return false
-    }
-    
-    // PATTERN: Fail explicitly when selectMode is missing (but only if config exists)
-    if (!config.selectMode) {
-      throw new Error(
-        `[useSelectConfig] Missing selectMode in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Select fields must have selectMode configured in inputConfig.`
-      )
-    }
-    
-    return config.selectMode === RelationshipSelectModeEnum.Multiple
-  })
+  const isMultiple = computed(() =>
+    resolveSelectMultiple(
+      isEnumSelect.value,
+      optionsSelectConfig.value,
+      selectConfig.value,
+      String(fieldContext.entityKey),
+      String(fieldContext.fieldKey)
+    )
+  )
 
   /**
    * LEARNING: Computed props for chips - only add when multiple is true
@@ -353,44 +329,15 @@ export function useSelectConfig(
    * WHY: Config determines which entity type to fetch options from
    * PATTERN: Read candidateChildKey or targetKey from config, fail if missing (except enum selects)
    */
-  const optionEntityKey = computed(() => {
-    // PATTERN: Return blockShape as default for enum selects (not actually used)
-    if (isEnumSelect.value) {
-      return 'blockShape' as GlobalEntityKey
-    }
-
-    // PATTERN: Return blockShape as a harmless default (not used)
-    if (isOptionsSelect.value) {
-      return 'blockShape' as GlobalEntityKey
-    }
-    
-    const config = selectConfig.value
-    
-    // PATTERN: Return blockShape as safe default when config is undefined
-    if (!config) {
-      return 'blockShape' as GlobalEntityKey
-    }
-    
-    if (config.targetMode === 'property') {
-      if (!config.targetKey) {
-        throw new Error(
-          `[useSelectConfig] Missing targetKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-          `Type select fields (targetMode: property) must have targetKey configured.`
-        )
-      }
-      return config.targetKey
-    }
-    
-    if (!config.candidateChildKey) {
-      throw new Error(
-        `[useSelectConfig] Missing candidateChildKey in inputConfig for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
-        `Relationship select fields (targetMode: relationship) must have candidateChildKey configured.`
-      )
-    }
-    
-    const optionKey = config.candidateChildKey as GlobalEntityKey
-    return optionKey
-  })
+  const optionEntityKey = computed(() =>
+    resolveOptionEntityKey(
+      isEnumSelect.value,
+      isOptionsSelect.value,
+      selectConfig.value,
+      String(fieldContext.entityKey),
+      String(fieldContext.fieldKey)
+    )
+  )
 
   /**
    * LEARNING: Determine optionLabelKey for entity name access - defaults to 'name' for all entity types

@@ -14,6 +14,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 
@@ -63,7 +64,7 @@ export function useBusiness(): {
  */
 export function useAppointments(): ComputedRef<BusinessData['appointments']> {
   const { businessData } = useBusiness()
-  return computed(() => businessData.value?.appointments ?? [])
+  return computed(() => asEmptyArray(businessData.value?.appointments))
 }
 
 /**
@@ -75,7 +76,7 @@ export function useAppointments(): ComputedRef<BusinessData['appointments']> {
  */
 export function useProperties(): ComputedRef<BusinessData['properties']> {
   const { businessData } = useBusiness()
-  return computed(() => businessData.value?.properties ?? [])
+  return computed(() => asEmptyArray(businessData.value?.properties))
 }
 
 /**
@@ -87,6 +88,6 @@ export function useProperties(): ComputedRef<BusinessData['properties']> {
  */
 export function useUsers(): ComputedRef<BusinessData['users']> {
   const { businessData } = useBusiness()
-  return computed(() => businessData.value?.users ?? [])
+  return computed(() => asEmptyArray(businessData.value?.users))
 }
 

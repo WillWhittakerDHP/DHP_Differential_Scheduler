@@ -85,7 +85,9 @@
           "reason": "Router catch blocks delegate to handleRouteError which logs via routerErrorHandler"
         }
       ],
-      "specific": []
+      "specific": [
+        { "file": "client/src/types/datetime.ts", "ruleIds": ["console-in-catch", "catch-without-logger"], "reason": "JSDoc example only; no executable catch in this file" }
+      ]
     },
     "deprecation": {
       "patterns": [
@@ -115,7 +117,10 @@
           "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
           "ruleId": "unhelpful-default-or",
           "reason": "Comment/docs only; no runtime || '' in code"
-        }
+        },
+        { "file": "client/src/utils/booking/confirmationStepData.ts", "ruleIds": ["chaining-fallback", "unhelpful-default-nullish"], "reason": "Intentional optional chaining and empty-array default for optional wizard arrays" },
+        { "file": "client/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" },
+        { "file": "server/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" }
       ]
     },
     "import-hygiene": {
@@ -274,7 +279,12 @@
       ],
       "specific": [
         { "file": "client/src/types/admin/adminEntity.ts", "ruleIds": ["assignProp"], "reason": "Class constructor and toPlainObject intentionally assign to this; stateful entity pattern" },
-        { "file": "client/src/utils/forms/formElementPatching.ts", "ruleIds": ["assignProp", "push"], "reason": "DOM form patching requires imperative mutation of form elements" }
+        { "file": "client/src/utils/forms/formElementPatching.ts", "ruleIds": ["assignProp", "push"], "reason": "DOM form patching requires imperative mutation of form elements" },
+        { "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts", "ruleIds": ["assignProp", "assignIndex"], "reason": "Read-only filter callback and type-guard filter; not loop mutation" },
+        { "file": "client/src/utils/transformers/globalToBookingTransformer.ts", "ruleIds": ["assignProp"], "reason": "Read-only filter callback; no mutation" }
+      ],
+      "linePatterns": [
+        { "ruleId": "assignIndex", "pattern": "const\\s*\\[\\s*[^\\]]*\\]\\s*=\\s*await\\s*Promise\\.all", "reason": "Destructuring Promise.all result; not loop mutation" }
       ]
     },
     "duplication": {
@@ -340,7 +350,14 @@
         { "glob": "server/**/*Constants.ts", "ruleIds": ["magicLabel"], "reason": "Canonical server constants files; string values are the source of truth" }
       ],
       "specific": [
-        { "file": "server/src/services/brightMls/brightMlsApiClient.ts", "ruleIds": ["magicLabel"], "reason": "Bright MLS API field names and client-specific strings (external API contract)" }
+        { "file": "server/src/services/brightMls/brightMlsApiClient.ts", "ruleIds": ["magicLabel"], "reason": "Bright MLS API field names and client-specific strings (external API contract)" },
+        { "file": "client/src/components/booking/types/selectionCardTypes.ts", "ruleId": "magicLabel", "reason": "UI component type unions for selection config" }
+      ],
+      "linePatterns": [
+        { "ruleId": "switchTypeLike", "pattern": "switch\\s*\\(\\s*\\w+\\.type\\s*\\)", "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching" },
+        { "ruleId": "fieldMapping", "pattern": "logger\\.(debug|info|warn|error)\\s*\\(", "reason": "Logger metadata object; not API/DB field mapping" },
+        { "ruleId": "fieldMapping", "pattern": "return\\s*\\{\\s*[a-zA-Z_$][a-zA-Z0-9_$]*\\s*:", "reason": "Simple return shape; not API/DB mapping" },
+        { "ruleId": "fieldMapping", "pattern": "\\b(entityKey|fieldKey|wrappedKeys|year|month|status|entityId|itemId)\\s*:", "reason": "Metadata/context object; not API/DB field mapping" }
       ]
     },
     "typecheck": {
@@ -352,6 +369,23 @@
       "specific": [
         { "file": "src/utils/entityDefaults.ts", "ruleId": "TS6133", "lineRange": [1, 50], "reason": "ENTITY_REQUIRED_DEFAULTS kept for reference despite being deprecated" }
       ]
+    }
+  },
+  "neverPermissibleCategories": {
+    "$comment": "Rule categories that are NEVER permissible: no allowlisting; eliminate or migrate. Used by shared-audit-utils getNeverPermissible* and calculateScoreWithNeverPermissible. Any audit can reference a category key to emit emphatic report text and high per-finding scores.",
+    "legacy-backward-compat": {
+      "sectionTitle": "CRITICAL: Legacy and backward compatibility are NEVER permissible",
+      "instructions": "Findings in this report (deprecation, legacy markers, backward-compatibility accommodation) are NEVER permissible. They are HIGH refactor targets. Do not allowlist them in config; the goal is to eliminate these patterns or migrate off the legacy path. Scores are weighted so that legacy/compat findings produce high numeric values and high priority (P0/P1).",
+      "summaryLine": "Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.",
+      "notesLines": [
+        "Legacy and backward-compat findings are NEVER permissible. Do not add config allowlist entries for them; refactor or migrate instead.",
+        "P0: High refactor priority (cleanup soon); score threshold indicates high density or legacy/compat findings",
+        "P1: High refactor priority (schedule cleanup)",
+        "P2: Refactor when convenient; still not permissible to allowlist"
+      ],
+      "instructionsForJson": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
+      "ruleIds": ["legacy-keyword", "legacy-marker", "compat-marker"],
+      "findingScore": 10
     }
   }
 }

@@ -13,8 +13,6 @@ import {
   fetchAll,
   fetchById,
   createRecord,
-  updateRecord,
-  patchRecord,
   deleteRecord,
 } from './dataController.js'
 import { handleRouteError } from './routerErrorHandler.js'
@@ -23,11 +21,18 @@ import {
   sendCreated,
   sendNoContent,
   sendNotFound,
-  sendBadRequest,
 } from './routerResponseHelpers.js'
 import type { CrudHandlerContext } from './crudRouterTypes.js'
 import type { Includeable, Order } from 'sequelize'
 import { paramString } from './requestHelpers.js'
+import {
+  runMutationValidation,
+  performUpdateAndFetch,
+  executeOptionalHook,
+  handleValidationResult,
+  applyOptionalTransform,
+  type MutationMethod,
+} from './crudHandlerHelpers.js'
 
 type FetchAllOptions = {
   includes?: Includeable[]
@@ -92,7 +97,7 @@ export function createGetByIdHandler<T extends Model>(
         sendNotFound(res, errorMessages.NOT_FOUND, id)
         return
       }
-      const transformedRecord = transformResponse ? transformResponse(record) : record
+      const transformedRecord = applyOptionalTransform(record, transformResponse)
       sendSuccess(res, transformedRecord)
     } catch (error) {
       handleRouteError(
@@ -127,27 +132,28 @@ export function createPostHandler<T extends Model>(
   } = context
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      if (validateRequest) {
-        const validation = validateRequest(req, 'create')
-        if (!validation.valid) {
-          const details = validation.details && 'message' in validation.details
-            ? String(validation.details.message)
-            : undefined
-          sendBadRequest(res, validation.error, details)
-          return
-        }
-      }
-      if (beforeCreate) {
-        await beforeCreate(req, res)
-        if (res.headersSent) return
-      }
+      if (validateRequest && !handleValidationResult(validateRequest(req, 'create'), res)) return
+      if (
+        !(await executeOptionalHook(
+          beforeCreate as (...args: unknown[]) => Promise<void>,
+          res,
+          req
+        ))
+      )
+        return
       const data = sanitizeInput ? sanitizeInput(req.body, 'create') : req.body
       const record = await createRecord(model, data as MakeNullishOptional<T['_creationAttributes']>)
-      if (afterCreate) {
-        await afterCreate(record, req, res)
-        if (res.headersSent) return
-      }
-      const transformedRecord = transformResponse ? transformResponse(record) : record
+      if (
+        !(await executeOptionalHook(
+          afterCreate as (...args: unknown[]) => Promise<void>,
+          res,
+          record,
+          req,
+          res
+        ))
+      )
+        return
+      const transformedRecord = applyOptionalTransform(record, transformResponse)
       sendCreated(res, transformedRecord)
     } catch (error) {
       handleRouteError(
@@ -161,52 +167,6 @@ export function createPostHandler<T extends Model>(
       )
     }
   }
-}
-
-type MutationMethod = 'update' | 'patch'
-
-/** Run mutation validation; returns false if invalid (and sends response). */
-function runMutationValidation(
-  req: Request,
-  res: Response,
-  validateRequest: CrudHandlerContext<Model>['validateRequest'],
-  validationMethod: 'update' | 'patch',
-  id: string
-): boolean {
-  if (!validateRequest) return true
-  const validation = validateRequest(req, validationMethod)
-  if (validation.valid) return true
-  const details =
-    validation.details && 'message' in validation.details
-      ? String(validation.details.message)
-      : undefined
-  sendBadRequest(res, validation.error, details, id)
-  return false
-}
-
-/** Perform update or patch and fetch record; returns null if not found (and sends response). */
-async function performUpdateAndFetch<T extends Model>(
-  model: CrudHandlerContext<T>['model'],
-  id: string,
-  data: Partial<T['_creationAttributes']>,
-  method: MutationMethod,
-  errorMessages: CrudHandlerContext<T>['errorMessages'],
-  res: Response
-): Promise<T | null> {
-  const updatedCount =
-    method === 'update'
-      ? await updateRecord(model, id, data)
-      : await patchRecord(model, id, data)
-  if (updatedCount === 0) {
-    sendNotFound(res, errorMessages.NOT_FOUND, id)
-    return null
-  }
-  const record = await fetchById(model, id)
-  if (!record) {
-    sendNotFound(res, errorMessages.NOT_FOUND, id)
-    return null
-  }
-  return record
 }
 
 /**
@@ -236,10 +196,14 @@ export function createMutationHandler<T extends Model>(
     try {
       const id = paramString(req, paramKey)
       if (!runMutationValidation(req, res, validateRequest, validationMethod, id)) return
-      if (beforeUpdate) {
-        await beforeUpdate(req, res)
-        if (res.headersSent) return
-      }
+      if (
+        !(await executeOptionalHook(
+          beforeUpdate as (...args: unknown[]) => Promise<void>,
+          res,
+          req
+        ))
+      )
+        return
       const data = sanitizeInput ? sanitizeInput(req.body, validationMethod) : req.body
       const record = await performUpdateAndFetch(
         model,
@@ -250,11 +214,17 @@ export function createMutationHandler<T extends Model>(
         res
       )
       if (!record) return
-      if (afterUpdate) {
-        await afterUpdate(record, req, res)
-        if (res.headersSent) return
-      }
-      const transformedRecord = transformResponse ? transformResponse(record) : record
+      if (
+        !(await executeOptionalHook(
+          afterUpdate as (...args: unknown[]) => Promise<void>,
+          res,
+          record,
+          req,
+          res
+        ))
+      )
+        return
+      const transformedRecord = applyOptionalTransform(record, transformResponse)
       sendSuccess(res, transformedRecord)
     } catch (error) {
       handleRouteError(
@@ -285,10 +255,16 @@ export function createDeleteHandler<T extends Model>(
         sendNotFound(res, errorMessages.NOT_FOUND, id)
         return
       }
-      if (beforeDelete) {
-        await beforeDelete(record, req, res)
-        if (res.headersSent) return
-      }
+      if (
+        !(await executeOptionalHook(
+          beforeDelete as (...args: unknown[]) => Promise<void>,
+          res,
+          record,
+          req,
+          res
+        ))
+      )
+        return
       const deletedCount = await deleteRecord(model, id)
       if (deletedCount === 0) {
         sendNotFound(res, errorMessages.NOT_FOUND, id)

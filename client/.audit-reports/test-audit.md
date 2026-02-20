@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-20T16:44:12.362Z
+Generated at: 2026-02-20T17:33:39.042Z
 
 ## Summary
 
-- **Total source files**: 778
+- **Total source files**: 787
 - **Total test files**: 0
-- **Untested source files**: 778
+- **Untested source files**: 787
 - **Orphaned test files**: 0
 - **Coverage**: 0%
 
@@ -21,7 +21,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/transformers/fieldClassification.ts` | **8.7** | 10 | 10 | 8 | 1 | 2 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | **8.4** | 8 | 10 | 10 | 2 | 9 |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | **8.0** | 10 | 7 | 8 | 3 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | **8.0** | 10 | 8 | 8 | 0 | 4 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | **8.0** | 10 | 10 | 4 | 2 | 5 |
 | `client/src/composables/booking/useWizardValidationErrors.ts` | **7.8** | 9 | 7 | 10 | 1 | 2 |
@@ -36,6 +35,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | **7.7** | 10 | 8 | 6 | 1 | 1 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | **7.6** | 10 | 7 | 7 | 1 | 2 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | **7.6** | 10 | 7 | 7 | 1 | 2 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | **7.5** | 9 | 7 | 9 | 0 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | **7.5** | 10 | 7 | 6 | 2 | 2 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | **7.5** | 10 | 7 | 6 | 2 | 2 |
@@ -56,6 +56,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | **7.2** | 10 | 7 | 4 | 3 | 2 |
 | `client/src/utils/transformers/transformerCollections.ts` | **7.2** | 7 | 8 | 10 | 0 | 1 |
 | `client/src/composables/booking/useDependentInstances.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
+| `client/src/utils/booking/appointmentDataBuilders.ts` | **7.1** | 6 | 10 | 8 | 1 | 7 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | **7.0** | 8 | 6 | 8 | 4 | 6 |
 | `client/src/composables/admin/useAvailabilitySettings.ts` | **6.9** | 10 | 6 | 4 | 3 | 3 |
 | `client/src/composables/admin/useCalendarEntries.ts` | **6.9** | 9 | 5 | 8 | 2 | 2 |
@@ -66,7 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useWizardStepContent.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardSubmission.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | **6.9** | 7 | 9 | 7 | 0 | 3 |
-| `client/src/composables/booking/selectionCard/useSelectionCard.ts` | **6.8** | 7 | 8 | 8 | 0 | 4 |
 
 ## Orphaned Test Files (Priority: Medium)
 
@@ -99,6 +99,7 @@ These test files may not have corresponding source files, or the mapping failed.
 | `client/src/utils/dev` | 1 | 0 | 1 | 0% |
 | `client/src/utils/dom` | 1 | 0 | 1 | 0% |
 | `client/src/utils/env` | 1 | 0 | 1 | 0% |
+| `client/src/utils/errors` | 1 | 0 | 1 | 0% |
 | `client/src/utils/optimistic` | 1 | 0 | 1 | 0% |
 | `client/src/utils/ternary` | 1 | 0 | 1 | 0% |
 | `client/src/utils/time` | 1 | 0 | 1 | 0% |
@@ -107,7 +108,6 @@ These test files may not have corresponding source files, or the mapping failed.
 | `client/src/views/booking` | 1 | 0 | 1 | 0% |
 | `server/src/db/models` | 1 | 0 | 1 | 0% |
 | `server/src/routes` | 1 | 0 | 1 | 0% |
-| `server/src/routes/internal/dev` | 1 | 0 | 1 | 0% |
 
 ## Recommendations
 

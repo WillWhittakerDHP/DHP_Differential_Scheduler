@@ -12,11 +12,11 @@ Generated from `client/.audit-reports/pattern-detection-audit.json`.
 | Category | Count |
 | --- | ---: |
 | String literals (3+ occurrences) | 0 |
-| Type definitions | 548 |
+| Type definitions | 557 |
 | Enum patterns | 9 |
 | Config locations | 37 |
-| Function patterns | 376 |
-| Common patterns | 24 |
+| Function patterns | 381 |
+| Common patterns | 23 |
 
 ## Top String Literals (by occurrence count)
 

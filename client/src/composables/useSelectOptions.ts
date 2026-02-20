@@ -10,7 +10,7 @@
  */
 
 import { computed, type Ref } from 'vue'
-import type { SelectGroup } from '@/composables/admin/useSelectDomTargets'
+import type { SelectGroup } from '@/types/entity/selectOptions'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
@@ -19,6 +19,27 @@ import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useSelectOptions')
+
+/** Map from property/ref names to entity keys for group resolution. Single source for groupedByKey and options. */
+const PROPERTY_TO_ENTITY_KEY_MAP: Record<string, GlobalEntityKey> = {
+  blockShapeRef: 'blockShape',
+  partShapeRef: 'partShape',
+  blockShape: 'blockShape',
+  partShape: 'partShape',
+}
+
+/**
+ * Resolve groupByKey (and optional candidateParentKey) to the entity key used for group parent lookup.
+ */
+function resolveGroupEntityKey(
+  groupByKey: string,
+  config?: { candidateParentKey?: GlobalEntityKey }
+): GlobalEntityKey | null {
+  if (config?.candidateParentKey) {
+    return config.candidateParentKey
+  }
+  return PROPERTY_TO_ENTITY_KEY_MAP[groupByKey] ?? null
+}
 
 /** Base shape for select options (P2 type-similarity); USStateOption matches, SelectOption adds children. */
 export interface SelectOptionBase {
@@ -89,22 +110,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     }
     
     const groupByKey = config.groupByKey
-    
-    // PATTERN: Infer entity key from groupByKey pattern or use config's candidateParentKey
-    let groupEntityKey: GlobalEntityKey | null = null
-    
-    if ('candidateParentKey' in config && config.candidateParentKey) {
-      groupEntityKey = config.candidateParentKey as GlobalEntityKey
-    } else {
-      const propertyToEntityKeyMap: Record<string, GlobalEntityKey> = {
-        'blockShapeRef': 'blockShape',
-        'partShapeRef': 'partShape',
-        'blockShape': 'blockShape',
-        'partShape': 'partShape'
-      }
-      groupEntityKey = propertyToEntityKeyMap[groupByKey] || null
-    }
-    
+    const groupEntityKey = resolveGroupEntityKey(String(groupByKey), 'candidateParentKey' in config ? config : undefined)
     const groupParentMap = groupEntityKey ? adminComp.getEntityMap(groupEntityKey) : new Map()
     
     const groupedMap = new Map<string, { 
@@ -217,15 +223,7 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
           }))
         }
         
-        // PATTERN: Map common property keys to their corresponding entity keys
-        const propertyToEntityKeyMap: Record<string, GlobalEntityKey> = {
-          'blockShapeRef': 'blockShape',
-          'partShapeRef': 'partShape',
-          'blockShape': 'blockShape', // In case it's already an entity key
-          'partShape': 'partShape'    // In case it's already an entity key
-        }
-        
-        const groupEntityKey = propertyToEntityKeyMap[groupByKey] || groupByKey as GlobalEntityKey
+        const groupEntityKey = resolveGroupEntityKey(String(groupByKey), 'candidateParentKey' in config ? config : undefined) ?? (groupByKey as GlobalEntityKey)
         
         const groupParentMap = adminComp.getEntityMap(groupEntityKey)
         

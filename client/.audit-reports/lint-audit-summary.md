@@ -11,7 +11,7 @@ Generated from `lint-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Total scanned | 556 |
+| Total scanned | 563 |
 | Findings | 0 |
 | Files with findings | 0 |
 

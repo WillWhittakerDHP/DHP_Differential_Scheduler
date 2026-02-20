@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T16:44:01.095Z",
+  "generatedAt": "2026-02-20T17:33:23.750Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,209 +10,11 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 242,
+  "totalScanned": 246,
   "exceptionSummary": {
-    "totalRequiresReview": 10
+    "totalRequiresReview": 9
   },
   "files": [
-    {
-      "id": "client__src__composables__entityCrud__useEntityCrudMutations.ts",
-      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutations.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 15,
-        "await": 10,
-        "vueQuery": 7,
-        "map": 6,
-        "reduce": 0,
-        "filter": 1,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "async",
-          "lineNumber": 56,
-          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 59,
-          "line": "const orderIndices = currentEntities.map((e) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 88,
-          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 100,
-          "line": "onMutate: async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 103,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 143,
-          "line": "mutationFn: async ({"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 158,
-          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 169,
-          "line": "onMutate: async (variables) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 172,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 254,
-          "line": "mutationFn: async (id: GlobalEntityId) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 256,
-          "line": "const response = await apiClient.delete(deleteEndpoint)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 267,
-          "line": "onMutate: async (id) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 268,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 274,
-          "line": "const updatedEntities = currentEntities.filter((entity) => entity.id !== id)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 300,
-          "line": "mutationFn: async (updates: OrderIndexUpdate) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 302,
-          "line": "const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 307,
-          "line": "onMutate: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 308,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 314,
-          "line": "const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 315,
-          "line": "const updatedEntities = currentEntities.map((entity) => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 356,
-          "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 360,
-          "line": "const dehydratedUpdates = updates.map((update) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 369,
-          "line": "const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 374,
-          "line": "onMutate: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 375,
-          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 380,
-          "line": "const updateMap = new Map(updates.map((update) => [update.id, update]))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 382,
-          "line": "const updatedEntities = currentEntities.map((entity) => {"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 415,
-          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 416,
-          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 417,
-          "line": "remove: async (id) => removeMutation.mutateAsync(id),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 418,
-          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 419,
-          "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
-        }
-      ],
-      "exportUseFunctions": [],
-      "returnKeys": [
-        "message"
-      ],
-      "complexityScore": 35.5,
-      "priority": "P0",
-      "suggestions": [
-        {
-          "kind": "split_candidate",
-          "priority": "P0",
-          "message": "High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin."
-        }
-      ]
-    },
     {
       "id": "client__src__composables__fieldContext__useFieldContextSaveHelpers.ts",
       "repoPath": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
@@ -1651,6 +1453,96 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__entityCrud__useEntityCrudMutations.ts",
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutations.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 7,
+        "await": 2,
+        "vueQuery": 7,
+        "map": 3,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 50,
+          "line": "mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 51,
+          "line": "const dehydratedUpdates = updates.map((update) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 55,
+          "line": "const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 60,
+          "line": "onMutate: async (updates) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 61,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 65,
+          "line": "const updateMap = new Map(updates.map((update) => [update.id, update]))"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 67,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 91,
+          "line": "create: async (entity) => createMutation.mutateAsync(entity),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 92,
+          "line": "update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 93,
+          "line": "remove: async (id) => removeMutation.mutateAsync(id),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 94,
+          "line": "patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 95,
+          "line": "patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),"
+        }
+      ],
+      "exportUseFunctions": [],
+      "returnKeys": [],
+      "complexityScore": 15.5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__useSelectConfig.ts",
       "repoPath": "client/src/composables/admin/useSelectConfig.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useSelectConfig.ts",
@@ -1755,117 +1647,6 @@
       "returnKeys": [
         "options",
         "selectMode"
-      ],
-      "complexityScore": 15,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDataCollection.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 2,
-        "await": 3,
-        "vueQuery": 0,
-        "map": 6,
-        "reduce": 3,
-        "filter": 1,
-        "sort": 0,
-        "dom": 0,
-        "timers": 0,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "async",
-          "lineNumber": 76,
-          "line": "async function createAttendeeFromSpec("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 81,
-          "line": "const created = await createUser.mutateAsync({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 122,
-          "line": "const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 165,
-          "line": "const createdProperty = await createProperty.mutateAsync(propertyData)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 180,
-          "line": "const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 180,
-          "line": "const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 181,
-          "line": "const attendeesCollection = results.filter((r): r is AttendeeCollectionItem => r !== null)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 183,
-          "line": "const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 196,
-          "line": "? availability.candidateTimeSlots.map(slot => ({"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 233,
-          "line": "const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 241,
-          "line": "const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {"
-        },
-        {
-          "ruleId": "reduce",
-          "lineNumber": 249,
-          "line": "const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 260,
-          "line": "selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 263,
-          "line": "? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 267,
-          "line": "? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAppointmentDataCollection"
-      ],
-      "returnKeys": [
-        "role",
-        "shouldReceiveInvitation",
-        "userId"
       ],
       "complexityScore": 15,
       "priority": "P2",
@@ -2372,72 +2153,72 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 83,
+          "lineNumber": 104,
           "line": "const groupedByKey = computed((): GroupedEntities[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 155,
+          "lineNumber": 161,
           "line": "const shouldUseMultipleSelects = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 171,
+          "lineNumber": 177,
           "line": "return group.entities.map((entity) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 184,
+          "lineNumber": 190,
           "line": "const groupEntityIds = new Set(group.entities.map(e => e.id))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 188,
+          "lineNumber": 194,
           "line": "? currentValue.map(v => String(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 191,
+          "lineNumber": 197,
           "line": "const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 204,
+          "lineNumber": 210,
           "line": "const options = computed((): SelectOption[] => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 214,
+          "lineNumber": 220,
           "line": "return entities.map((entity) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 277,
+          "lineNumber": 275,
           "line": "const result = groupedEntities.map(group => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 280,
+          "lineNumber": 278,
           "line": "children: group.children.map((entity) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 300,
+          "lineNumber": 298,
           "line": "const flatOptions = entities.map((entity) => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 313,
+          "lineNumber": 311,
           "line": "const normalizedValue = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 318,
+          "lineNumber": 316,
           "line": "return value.map(v => String(v)).filter(v => v !== '')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 318,
+          "lineNumber": 316,
           "line": "return value.map(v => String(v)).filter(v => v !== '')"
         }
       ],
@@ -7477,6 +7258,68 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__entityCrud__useEntityCrudMutationsOrder.ts",
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 2,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 19,
+          "line": "mutationFn: async (updates: OrderIndexUpdate) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 20,
+          "line": "const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 25,
+          "line": "onMutate: async (updates) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 26,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 31,
+          "line": "const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 32,
+          "line": "const updatedEntities = currentEntities.map((entity) => {"
+        }
+      ],
+      "exportUseFunctions": [],
+      "returnKeys": [
+        "mutationFn"
+      ],
+      "complexityScore": 6,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__useMapsSessionToken.ts",
       "repoPath": "client/src/composables/useMapsSessionToken.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useMapsSessionToken.ts",
@@ -8254,6 +8097,120 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__entityCrud__useEntityCrudMutationsCreate.ts",
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 1,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 29,
+          "line": "mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 32,
+          "line": "const orderIndices = currentEntities.map((e) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 61,
+          "line": "const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 70,
+          "line": "onMutate: async () => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 71,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        }
+      ],
+      "exportUseFunctions": [],
+      "returnKeys": [
+        "mutationFn"
+      ],
+      "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__entityCrud__useEntityCrudMutationsRemove.ts",
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 24,
+          "line": "mutationFn: async (id: GlobalEntityId) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 26,
+          "line": "const response = await apiClient.delete(deleteEndpoint)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 34,
+          "line": "onMutate: async (id) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 35,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 40,
+          "line": "const updatedEntities = currentEntities.filter((entity) => entity.id !== id)"
+        }
+      ],
+      "exportUseFunctions": [],
+      "returnKeys": [
+        "mutationFn"
+      ],
+      "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__formFields__useFormFields.ts",
       "repoPath": "client/src/composables/formFields/useFormFields.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/formFields/useFormFields.ts",
@@ -8984,6 +8941,60 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__entityCrud__useEntityCrudMutationsUpdate.ts",
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 26,
+          "line": "mutationFn: async ({"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 39,
+          "line": "const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 47,
+          "line": "onMutate: async (variables) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 48,
+          "line": "await queryClient.cancelQueries({ queryKey: ['globalData'] })"
+        }
+      ],
+      "exportUseFunctions": [],
+      "returnKeys": [
+        "entity",
+        "id",
+        "mutationFn"
+      ],
+      "complexityScore": 4,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__globalDataCollections__useGlobalDataCollectionQuery.ts",
       "repoPath": "client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts",
@@ -9522,6 +9533,55 @@
       "returnKeys": [
         "cardClasses",
         "controlClasses"
+      ],
+      "complexityScore": 3,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
+      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDataCollection.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 76,
+          "line": "const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 99,
+          "line": "const createdProperty = await createProperty.mutateAsync(propertyData)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 105,
+          "line": "const attendees = await buildAttendeesFromContacts(contacts, createUser)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointmentDataCollection"
+      ],
+      "returnKeys": [
+        "collectAppointmentData"
       ],
       "complexityScore": 3,
       "priority": "P2",
@@ -10558,12 +10618,12 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 49,
+          "lineNumber": 46,
           "line": "const selectDomTargets = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 55,
+          "lineNumber": 52,
           "line": "return groupedByKey.value.map(group => {"
         }
       ],

@@ -16,6 +16,7 @@ import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
 import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
+import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
@@ -26,7 +27,7 @@ const instanceCallSites: Array<{ count: number; stack: string }> = []
 let adminInstance: ReturnType<typeof createAdminInstance> | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
-  const stack = new Error().stack || ''
+  const stack = asEmptyString(new Error().stack)
   const lines = stack.split('\n')
   const callerLine = lines[3] || lines[4] || 'unknown'
   return {
@@ -100,7 +101,7 @@ function createAdminInstance() {
     const entities = transformedEntities.value[entityKey] as AdminObject<GE>[] | undefined
     // WHY: Prevents undefined errors when accessing entities that haven't been loaded yet
     // PATTERN: Return empty array as safe default
-    return entities ?? []
+    return asEmptyArray(entities)
   }
   
   /**

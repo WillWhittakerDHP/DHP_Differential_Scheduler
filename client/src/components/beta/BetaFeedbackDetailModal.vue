@@ -100,6 +100,7 @@ import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
 import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
 import { useNotification } from '@/composables/useNotification';
 import { createLogger } from '@/utils/logger';
+import { asEmptyString } from '@/utils/safeDefaults';
 
 const logger = createLogger('BetaFeedbackDetailModal');
 
@@ -126,7 +127,7 @@ watch(
   (f) => {
     if (f) {
       localStatus.value = f.status;
-      localResolutionNotes.value = f.resolutionNotes ?? '';
+      localResolutionNotes.value = asEmptyString(f.resolutionNotes);
       saveError.value = '';
     }
   },

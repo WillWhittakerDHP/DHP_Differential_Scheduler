@@ -11,7 +11,6 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 
 | File | Priority | score | exports(use*) | vue-query | watch | computed | ref | async | await | DOM | console |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P0 | 38 | 0 | 7 | 0 | 0 | 0 | 15 | 10 | 0 | 0 |
 | `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` | P1 | 18 | 0 | 0 | 0 | 0 | 0 | 3 | 6 | 0 | 0 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 24 | 0 | 6 | 0 | 0 | 0 | 8 | 8 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRules.ts` | P1 | 21 | 1 | 0 | 0 | 0 | 5 | 6 | 10 | 0 | 0 |
@@ -23,8 +22,8 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/admin/useCalibrationChart.ts` | P2 | 14 | 1 | 0 | 0 | 5 | 3 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/dev/usePanelPosition.ts` | P2 | 11 | 1 | 0 | 1 | 0 | 2 | 1 | 1 | 6 | 0 |
 | `client/src/composables/booking/useContactsValidation.ts` | P2 | 16 | 1 | 0 | 0 | 16 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | P2 | 19 | 0 | 7 | 0 | 0 | 0 | 7 | 2 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | P2 | 14 | 1 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | P2 | 14 | 1 | 0 | 0 | 0 | 0 | 2 | 3 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | P2 | 15 | 1 | 0 | 5 | 9 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useSelectFiltering.ts` | P2 | 7 | 1 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | P2 | 14 | 1 | 0 | 0 | 14 | 0 | 0 | 0 | 0 | 0 |
@@ -41,8 +40,9 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/booking/useElementDimensions.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 6 | 0 |
 | `client/src/composables/booking/useAppointmentLoader.ts` | P2 | 9 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/admin/useDragAndDrop.ts` | P2 | 4 | 1 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
 
-*...and 147 more. See full report.*
+*...and 151 more. See full report.*
 
 ## Notes
 

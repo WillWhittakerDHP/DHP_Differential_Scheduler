@@ -46,58 +46,63 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **51**
-- **Requiring review: 82**
-- Allowed (with justification): 512 (inline: 3, pattern: 485, specific: 24)
+- Total files scanned: **32**
+- **Requiring review: 51**
+- Allowed (with justification): 543 (inline: 0, pattern: 485, specific: 26, linePattern: 32)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/importCalendarData.ts` | 13 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
+| `client/src/utils/booking/appointmentDataBuilders.ts` | 15 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/services/propertyFeatureMatcher.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/services/computedAvailabilityService.ts` | 9 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/maps/placesApiService.ts` | 9 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/generic/EntityCard.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/scripts/importCalendarData.ts` | 8 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/StatusButton.vue` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/SelectionCard.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useFieldKeyboardGuard.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `server/src/scripts/helpers/calendarParsingHelpers.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/maps/mapsHelpers.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `server/src/services/google/maps/routesApiService.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
-| `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/services/computedAvailabilityService.ts` | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 1 |
+| `server/src/scripts/helpers/calendarImportHelpers.ts` | 5 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/booking/dev/DevPanelToggle.vue` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/IndependentSelectCard.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/composables/admin/useSelectConfig.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAppointmentShape.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/SelectionCard.vue` | 3 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 |
 | `client/src/composables/booking/useComputedAvailability.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useDateRangeDecider.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/layouts/components/NavSearchBar.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/services/mapsApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/services/propertyEnrichmentApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/utils/collections/resolveByIds.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/utils/transformers/globalToAdminTransformer.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/api/api.controller.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/availabilityRouter.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | 3 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 |
+| `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/appointmentCalendarService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/services/constraintExtractor.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/services/rateLimiter.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `server/src/services/slotComputationService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 |
+| `client/src/types/googleCalendar.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+| `client/src/utils/api/index.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 217 | linePattern | Metadata/context object; not API/DB field mapping |
+| `client/src/components/booking/SelectionCard.vue` | fieldMapping | 159 | linePattern | Metadata/context object; not API/DB field mapping |
+| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | fieldMapping | 79 | linePattern | Metadata/context object; not API/DB field mapping |
+| `server/src/services/slotComputationService.ts` | switchTypeLike | 89 | linePattern | Exhaustive dispatch on discriminated union (.type); not c... |
 
 
 ## Per-file suggestions
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
+### `client/src/utils/booking/appointmentDataBuilders.ts`
 
 - score: **15**
 
@@ -105,28 +110,9 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 ### `server/src/scripts/importCalendarData.ts`
 
-- score: **13**
+- score: **8**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/services/computedAvailabilityService.ts`
-
-- score: **9**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/services/google/maps/placesApiService.ts`
-
-- score: **9**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/admin/generic/EntityCard.vue`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
 ### `client/src/components/admin/generic/StatusButton.vue`
 
@@ -134,23 +120,11 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
-### `client/src/components/booking/SelectionCard.vue`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
 ### `client/src/composables/admin/useFieldKeyboardGuard.ts`
 
 - score: **6**
 
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
-
-### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
@@ -158,35 +132,11 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
-### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
+### `server/src/services/computedAvailabilityService.ts`
 
 - score: **6**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/scripts/helpers/calendarParsingHelpers.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/services/google/maps/mapsHelpers.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `server/src/services/google/maps/routesApiService.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- score: **3**
-
-- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
 
 ### `client/src/layouts/components/NavSearchBar.vue`
 
@@ -198,30 +148,17 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 Legend: `ruleId@lineNumber: line`
 
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
+### `client/src/utils/booking/appointmentDataBuilders.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 5, allowed: 0
 
 ```
-fieldMapping@174: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
-fieldMapping@175: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-fieldMapping@176: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-fieldMapping@177: { info: contacts.transactionManagerInfo, role: 'transaction_manager', shouldCreate: contacts.showTransactionManager },
-fieldMapping@178: { info: contacts.sellerInfo, role: 'seller', shouldCreate: contacts.showSeller },
-```
-
-### `server/src/scripts/importCalendarData.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=2
-- requiring review: 5, allowed: 0
-
-```
-fieldMapping@52: where: { email: client.email },
-fieldMapping@99: await existingAddress.update({ unit: addressData.unit });
-fieldMapping@234: const existingUser = await User.findOne({ where: { email: client.email } });
-inlineLabelMap@359: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-inlineLabelMap@413: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+fieldMapping@103: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+fieldMapping@104: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
+fieldMapping@105: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
+fieldMapping@106: { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
+fieldMapping@107: { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },
 ```
 
 ### `client/src/utils/booking/durationRounding.ts`
@@ -258,36 +195,15 @@ caseString@242: case 'centered':
 caseString@247: case 'future':
 ```
 
-### `server/src/services/computedAvailabilityService.ts`
+### `server/src/scripts/importCalendarData.ts`
 
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@117: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
-fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
-fieldMapping@217: { status: result.status, condition: result.condition }
-```
-
-### `server/src/services/google/maps/placesApiService.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 3, allowed: 0
-
-```
-fieldMapping@61: logger.debug('Autocomplete API status', { status: data.status })
-fieldMapping@62: if (data.error_message) logger.error('API error_message', { errorMessage: data.error_message })
-fieldMapping@140: logger.debug('Geocoding cache miss, calling API', { address: address.substring(0, 50) })
-```
-
-### `client/src/components/admin/generic/EntityCard.vue`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@374: logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-fieldMapping@379: logger.debug('Form reset after save', { entityId: props.entity.id })
+fieldMapping@59: where: { email: client.email },
+fieldMapping@128: const existingUser = await User.findOne({ where: { email: client.email } });
+inlineLabelMap@247: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/components/admin/generic/StatusButton.vue`
@@ -300,16 +216,6 @@ fieldEqualsString@111: const isSpace = event.key === ' ' || event.key === 'Space
 fieldEqualsString@112: const isEnter = event.key === 'Enter' || event.keyCode === 13
 ```
 
-### `client/src/components/booking/SelectionCard.vue`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@159: emit('update:number', { itemId: props.item.id, number: finalValue })
-fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
-```
-
 ### `client/src/composables/admin/useFieldKeyboardGuard.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
@@ -320,82 +226,34 @@ fieldEqualsString@54: const isSpace = key === ' ' || key === 'Spacebar' || event
 fieldEqualsString@56: const isTab = key === 'Tab' || event.keyCode === 9
 ```
 
-### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@140: const newMonth: DisplayedMonth = { year: newDate.getUTCFullYear(), month: newDate.getUTCMonth() }
-fieldMapping@164: updateDisplayedMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() })
-```
-
 ### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 2, allowed: 0
 
 ```
-fieldMapping@44: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
-fieldMapping@174: :style="{ backgroundColor: item.color }"
+fieldMapping@45: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
+fieldMapping@175: :style="{ backgroundColor: item.color }"
 ```
 
-### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
+### `server/src/services/computedAvailabilityService.ts`
 
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 1
+
+```
+fieldMapping@117: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+```
+
+### `server/src/scripts/helpers/calendarImportHelpers.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
 - requiring review: 2, allowed: 0
 
 ```
-fieldMapping@78: ...(body.status !== undefined && { status: body.status }),
-fieldMapping@79: ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
-```
-
-### `server/src/scripts/helpers/calendarParsingHelpers.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@255: logger.warn('Calendar parse: missing displayName, using email local part', { email: attendee.email })
-fieldMapping@262: logger.warn('Calendar parse: empty firstName, using default', { email: attendee.email })
-```
-
-### `server/src/services/google/maps/mapsHelpers.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@275: return { placeId: location.placeId }
-fieldMapping@292: return { address: location.address }
-```
-
-### `server/src/services/google/maps/routesApiService.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
-
-```
-fieldMapping@116: logger.error('Routes API HTTP error', { status: response.status, errorText })
-fieldMapping@144: logger.debug('Route matrix complete', { resultsCount: results.length })
-```
-
-### `client/src/components/admin/dev/ApiDevPanelComputedTab.vue`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@52: return { dayCount: map.size, totalSlots, sample }
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@302: logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
+fieldMapping@63: await existingAddress.update({ unit: addressData.unit });
+inlineLabelMap@165: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
@@ -416,22 +274,13 @@ fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 ```
 
-### `client/src/composables/admin/useSelectConfig.ts`
+### `client/src/components/booking/SelectionCard.vue`
 
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@246: { entityKey: fieldContext.entityKey, fieldKey: fieldContext.fieldKey, wrappedKeys: Object.keys(inputConfig) }
-```
-
-### `client/src/composables/booking/useAppointmentShape.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 1
 
 ```
-fieldMapping@86: logger.debug('useAppointmentShape: matching rel children missing', { eventShapeId: eventShape.id })
+fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
 ```
 
 ### `client/src/composables/booking/useComputedAvailability.ts`
@@ -441,15 +290,6 @@ fieldMapping@86: logger.debug('useAppointmentShape: matching rel children missin
 
 ```
 fieldMapping@115: dateRange: { start: range.start, end: range.end },
-```
-
-### `client/src/composables/booking/useDateRangeDecider.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@35: return { year: now.getUTCFullYear(), month: now.getUTCMonth() }
 ```
 
 ### `client/src/layouts/components/NavSearchBar.vue`
@@ -488,42 +328,6 @@ fieldMapping@38: const params = new URLSearchParams({ address: address.trim() })
 fieldEqualsString@117: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
 ```
 
-### `client/src/utils/booking/appointmentSlotBuilder.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@64: logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-```
-
-### `client/src/utils/booking/cascadeFilterPipeline.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@59: logger.debug('filterByCascade: activeBlockIds missing on parent', { parentId: parent.id })
-```
-
-### `client/src/utils/booking/confirmationStepData.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@266: return { label: block.name, amount, isFree: amount === 0 }
-```
-
-### `client/src/utils/booking/partFinalizer.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@41: logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
-```
-
 ### `client/src/utils/collections/resolveByIds.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
@@ -531,15 +335,6 @@ fieldMapping@41: logger.debug('groupPartsByShape: partShape missing', { partId: 
 
 ```
 fieldMapping@18: : { resolved: acc.resolved, missingIds: [...acc.missingIds, id] }
-```
-
-### `client/src/utils/transformers/fetchToGlobalTransformer.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@192: logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
 ```
 
 ### `client/src/utils/transformers/globalToAdminTransformer.ts`
@@ -560,15 +355,6 @@ fieldMapping@82: rel.children.map((child) => ({ parentId: rel.parent.id, childId
 fieldMapping@13: res.status(200).json({ msg: req.body });
 ```
 
-### `server/src/routes/internal/appointments/appointmentHelpers.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@78: logger.debug('Found writeTo calendar', { email: writeToEntry.email })
-```
-
 ### `server/src/routes/internal/availabilityRouter.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
@@ -576,6 +362,15 @@ fieldMapping@78: logger.debug('Found writeTo calendar', { email: writeToEntry.em
 
 ```
 fieldMapping@33: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
+```
+
+### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 1
+
+```
+fieldMapping@80: ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
 ```
 
 ### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts`
@@ -605,40 +400,21 @@ fieldMapping@139: { where: { id: attendee.id } }
 fieldMapping@54: ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
 ```
 
-### `server/src/services/google/calendar/eventCreationService.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@120: logger.debug('Successfully created event', { eventId: createdEvent.id })
-```
-
-### `server/src/services/google/shared/googleApiRetry.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@103: logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
-```
-
 ### `server/src/services/rateLimiter.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@135: timestamps.push({ timestamp: Date.now() });
+fieldMapping@137: timestamps.push({ timestamp: Date.now() });
 ```
 
 ### `server/src/services/slotComputationService.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 0
+- requiring review: 1, allowed: 1
 
 ```
-switchTypeLike@89: switch (constraint.type) {
 fieldMapping@145: if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
 ```
 
@@ -677,13 +453,4 @@ switchTypeLike@134: switch (rule.ruleType) {
 
 ```
 switchTypeLike@208: switch (key) {
-```
-
-### `server/src/services/capacityComputer.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-switchTypeLike@81: switch (keyParts.type) {
 ```

@@ -22,8 +22,47 @@ import { getMajorEventShape } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('useMoveablePartsScheduling')
+
+export interface ComputeMoveableSlotsParams {
+  innerBoundary: RFC3339DateTime
+  outerBoundary: RFC3339DateTime
+  duration: number
+  minuteIncrement: number
+  formatDayLabel: (iso: RFC3339DateTime) => string
+  formatTimeLabel: (start: RFC3339DateTime, end: RFC3339DateTime) => string
+}
+
+/**
+ * Pure computation: generate slots in range and map to MoveableSlot with labels.
+ * WHY: Reduces watchEffect body complexity; testable without Vue/reactivity.
+ */
+export function computeMoveableSlots(params: ComputeMoveableSlotsParams): MoveableSlot[] {
+  const {
+    innerBoundary,
+    outerBoundary,
+    duration,
+    minuteIncrement,
+    formatDayLabel,
+    formatTimeLabel,
+  } = params
+  const slots = generateSlotsInRange({
+    startBoundary: innerBoundary,
+    endBoundary: outerBoundary,
+    duration,
+    minuteIncrement,
+    includeFlags: { major: false, minor: false, moveable: true },
+  })
+  return slots.map((slot) => ({
+    startTime: slot.startTime,
+    endTime: slot.endTime,
+    duration: slot.duration,
+    dayLabel: formatDayLabel(slot.startTime),
+    timeLabel: formatTimeLabel(slot.startTime, slot.endTime),
+  }))
+}
 
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
@@ -123,7 +162,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     let majorTimeRange: TimeRange | null = null
     const globalData = getGlobalData()
     if (globalData && settings.value?.differentialPerspectives && slot.shape.slotShape.eventFinals.length > 0) {
-      const majorAttendeeIds = settings.value.differentialPerspectives.majorAttendees || []
+      const majorAttendeeIds = asEmptyArray(settings.value.differentialPerspectives.majorAttendees)
       if (majorAttendeeIds.length > 0) {
         const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
         const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
@@ -167,24 +206,16 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         outerBoundary = toRFC3339DateTime(defaultDate)
       }
       
-      const settings = await getAvailabilitySettings()
-
-      const slots = generateSlotsInRange({
-        startBoundary: innerBoundary,
-        endBoundary: outerBoundary,
+      const availabilitySettings = await getAvailabilitySettings()
+      const availableSlots = computeMoveableSlots({
+        innerBoundary,
+        outerBoundary,
         duration,
-        minuteIncrement: settings.minuteIncrement,
-        includeFlags: { major: false, minor: false, moveable: true },
+        minuteIncrement: availabilitySettings.minuteIncrement,
+        formatDayLabel: (iso) => formatDayLabel(iso, formatDateForDisplay),
+        formatTimeLabel: (start, end) => formatTimeLabel(start, end, formatTimeForDisplay),
       })
 
-      const availableSlots: MoveableSlot[] = slots.map((slot) => ({
-        startTime: slot.startTime,
-        endTime: slot.endTime,
-        duration: slot.duration,
-        dayLabel: formatDayLabel(slot.startTime, formatDateForDisplay),
-        timeLabel: formatTimeLabel(slot.startTime, slot.endTime, formatTimeForDisplay)
-      }))
-      
       const earliestCompletion = availableSlots.length > 0 ? availableSlots[0].startTime : outerBoundary
       moveableOptions.value = {
         innerBoundary,

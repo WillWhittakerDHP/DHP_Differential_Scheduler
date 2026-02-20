@@ -19,6 +19,7 @@ import { computed, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/fieldContext/types'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export interface FieldsByLayout {
   inline: Array<GlobalFieldKey<GlobalEntityKey>>
@@ -72,8 +73,8 @@ export function useEntityCardLayout(
     }
     
     return {
-      inline: formContentRef.value.readyInlineFields?.value || [],
-      stacked: formContentRef.value.readyStackedFields?.value || []
+      inline: asEmptyArray(formContentRef.value.readyInlineFields?.value),
+      stacked: asEmptyArray(formContentRef.value.readyStackedFields?.value)
     }
   })
   

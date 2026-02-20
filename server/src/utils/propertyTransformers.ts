@@ -1,10 +1,12 @@
 /**
  * Property Transformer Utilities
- * 
+ *
  * LEARNING: Config-driven field mappings for property transformation
  * WHY: Eliminates hardcoded field names in property transformation logic
  * PATTERN: Const object with field mappings, utility function for transformation
  */
+
+import { normalizeToSingle } from './arrayNormalize.js'
 
 /**
  * Property field mappings
@@ -49,7 +51,10 @@ export function transformPropertyVersion(propertyVersion: unknown): Record<strin
   }
   const address = pv.address
   const rawDetails = pv.propertyDetails
-  const propertyDetails = Array.isArray(rawDetails) ? rawDetails[0] : rawDetails as Record<string, unknown> | undefined
+  const propertyDetails =
+    rawDetails != null
+      ? (normalizeToSingle(rawDetails) as Record<string, unknown>)
+      : undefined
 
   return {
     id: pv.id,

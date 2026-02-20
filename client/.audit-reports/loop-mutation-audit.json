@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T16:44:01.417Z",
+  "generatedAt": "2026-02-20T18:43:27.546Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,14 +13,15 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 670,
+  "totalScanned": 683,
   "exceptionSummary": {
-    "totalAllowed": 549,
+    "totalAllowed": 560,
     "totalRequiresReview": 0,
     "bySource": {
-      "inline": 2,
-      "pattern": 533,
-      "specific": 14
+      "inline": 0,
+      "pattern": 530,
+      "specific": 26,
+      "linePattern": 4
     }
   },
   "files": []

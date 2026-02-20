@@ -7,6 +7,7 @@
  */
 
 import type { Request } from 'express'
+import { asEmptyString } from '../../utils/safeDefaults.js'
 
 /**
  * Return a single string for a route param (e.g. id, relationshipType).
@@ -14,5 +15,5 @@ import type { Request } from 'express'
  */
 export function paramString(req: Request, key: string): string {
   const raw = req.params[key]
-  return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')
+  return Array.isArray(raw) ? asEmptyString(raw[0]) : asEmptyString(raw)
 }

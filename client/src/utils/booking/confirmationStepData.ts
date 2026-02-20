@@ -1,6 +1,5 @@
 /**
- * @audit-allow deprecation:unhelpful-default-nullish - Intentional empty-array/zero defaults for optional wizard arrays and fee fallbacks
- * @audit-allow deprecation:chaining-fallback - Intentional optional chaining for missing fee entry lookup
+ * Confirmation step data and fee calculation helpers.
  */
 import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -17,6 +16,7 @@ import {
 } from './partFinalizer'
 import { createBlockFinal } from './BlockFinal'
 import { getEffectivePartsForFee } from './pricingCascadeResolver'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 /** Placeholder values until coupon and business-settings integration; single source for confirmation pricing. */
 const CONFIRMATION_PLACEHOLDER_COUPON_DISCOUNT = 0
@@ -71,7 +71,6 @@ function calculateBlockInstanceFee(
   aduCount?: number | null,
   allPartInstances?: BookingPartInstance[] | null
 ): BlockInstanceFeeResult {
-  // @audit-allow:deprecation:unhelpful-default-nullish - intentional empty-array default for optional wizard arrays
   const rawParts = blockInstance.partInstances ?? []
   const effectiveParts: BookingPartInstance[] =
     allPartInstances != null && allPartInstances.length > 0
@@ -175,10 +174,10 @@ export function buildAppointmentFeeBreakdown(
   const adu = aduCount ?? 1
 
   const allPartInstances: BookingPartInstance[] = [
-    ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
-    ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
-    ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
-    ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+    ...asEmptyArray(wizard.selectedServices).flatMap((s) => asEmptyArray(s.partInstances)),
+    ...asEmptyArray(wizard.selectedPropertyTypeBlocks).flatMap((p) => asEmptyArray(p.partInstances)),
+    ...asEmptyArray(wizard.selectedOptionTypeBlocks).flatMap((o) => asEmptyArray(o.partInstances)),
+    ...asEmptyArray(wizard.selectedLineItemBlocks).flatMap((l) => asEmptyArray(l.partInstances)),
   ]
 
   const blocksWithFees: Array<{ block: BookingBlockInstance; fee: BlockInstanceFeeResult }> = [
@@ -194,7 +193,7 @@ export function buildAppointmentFeeBreakdown(
       block,
       fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
     })),
-    ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
+    ...asEmptyArray(wizard.selectedLineItemBlocks).map((block) => ({
       block,
       fee: calculateBlockInstanceFee(block, sqft, aduCount, allPartInstances),
     })),
@@ -246,7 +245,7 @@ export function buildConfirmationPriceData(
   // PATTERN: Use squareFootage parameter (extracted from propertyDetailsStepData by caller)
   const { summary, entries } = buildAppointmentFeeBreakdown(wizard, squareFootage, aduCount)
 
-  const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
+  const lineItemBlocks = asEmptyArray(wizard.selectedLineItemBlocks)
   const lineItemEntries = entries.filter((e) =>
     lineItemBlocks.some((b) => b.id === e.blockInstanceId)
   )
@@ -261,7 +260,6 @@ export function buildConfirmationPriceData(
 
   const lineItems = lineItemBlocks.map((block) => {
     const entry = entries.find((e) => e.blockInstanceId === block.id)
-    // @audit-allow:deprecation:chaining-fallback - intentional default when fee entry missing
     const amount = entry?.totalFee ?? 0
     return { label: block.name, amount, isFree: amount === 0 }
   })

@@ -28,7 +28,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **595**
+- Files scanned: **603**
 - Groups (window=10 lines, minOccurrences=2): **189**
 - Duplicate composable export names: **1**
 - Candidate findings from pattern-detection: **3**

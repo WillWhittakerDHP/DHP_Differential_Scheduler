@@ -7,9 +7,8 @@
  */
 
 import 'dotenv/config';
-import { Address, PropertyVersion, PropertyDetails, User, sequelize, initializeDatabase } from '../config/app.js';
+import { Address, PropertyVersion, User, sequelize, initializeDatabase } from '../config/app.js';
 import { USER_ROLE_CLIENT } from '../constants/userRoles.js';
-import { DEFAULT_VALUES as PROPERTY_DEFAULT_VALUES } from '../routes/internal/properties/propertyConstants.js';
 import { createLogger } from '../utils/logger.js';
 import {
   CalendarEvent,
@@ -20,6 +19,14 @@ import {
   parseName,
   parseAddress,
 } from './helpers/calendarParsingHelpers.js';
+import {
+  findOrCreateAddress,
+  findOrCreatePropertyVersionForAddress,
+  findOrCreatePropertyDetailsForVersion,
+  updatePropertyDetailsIfNeeded,
+  readEventsFromStdin,
+  printImportSummary,
+} from './helpers/calendarImportHelpers.js';
 
 const logger = createLogger('CalendarImport');
 
@@ -72,89 +79,11 @@ async function upsertUser(client: ParsedClient): Promise<string> {
 }
 
 /**
- * Find or create Address (reused pattern from propertyRouter.ts)
- * LEARNING: Addresses are normalized separately from property details
- * WHY: Allows reuse of addresses across multiple property versions
- */
-async function findOrCreateAddress(addressData: {
-  address: string;
-  unit?: string | null;
-  city: string;
-  state: string;
-  zipCode: string;
-}) {
-  const existingAddress = await Address.findOne({
-    where: {
-      address: addressData.address,
-      city: addressData.city,
-      state: addressData.state,
-      zipCode: addressData.zipCode,
-      unit: addressData.unit || null,
-    },
-  });
-
-  if (existingAddress) {
-    // Update unit if provided and different
-    if (addressData.unit && existingAddress.unit !== addressData.unit) {
-      await existingAddress.update({ unit: addressData.unit });
-    }
-    return existingAddress;
-  }
-
-  return await Address.create({
-    address: addressData.address,
-    unit: addressData.unit || null,
-    city: addressData.city,
-    state: addressData.state,
-    zipCode: addressData.zipCode,
-  });
-}
-
-/**
- * Build property details update object
- * LEARNING: Extracted helper to reduce upsertProperty complexity
- * WHY: Replaces 6-line if-chain with single function call
- * 
- * @param property - Parsed property data
- * @returns Partial update object with only non-null fields
- */
-function buildPropertyDetailsUpdates(property: ParsedProperty): Partial<{
-  mlsNumber: string | null;
-  squareFootage: number | null;
-  bedrooms: number | null;
-  bathrooms: number | null;
-  foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
-  additionalUnits: number | null;
-}> {
-  const updates: Partial<{
-    mlsNumber: string | null;
-    squareFootage: number | null;
-    bedrooms: number | null;
-    bathrooms: number | null;
-    foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
-    additionalUnits: number | null;
-  }> = {};
-
-  if (property.mlsNumber !== null) updates.mlsNumber = property.mlsNumber;
-  if (property.squareFootage !== null) updates.squareFootage = property.squareFootage;
-  if (property.bedrooms !== null) updates.bedrooms = property.bedrooms;
-  if (property.bathrooms !== null) updates.bathrooms = property.bathrooms;
-  if (property.foundationAccess !== null) updates.foundationAccess = property.foundationAccess;
-  if (property.additionalUnits !== null) updates.additionalUnits = property.additionalUnits;
-
-  return updates;
-}
-
-/**
- * Upsert property using normalized structure (Address → PropertyVersion → PropertyDetails)
- * LEARNING: Uses three-table structure instead of deprecated Property model
- * WHY: Separates stable address from versioned property details
- * PATTERN: Find or create Address, find or create PropertyVersion, find or create PropertyDetails
- * Returns propertyVersionId (used by appointments)
+ * Upsert property using normalized structure (Address → PropertyVersion → PropertyDetails).
+ * Delegates to calendarImportHelpers for each step to keep nesting and length low.
  */
 async function upsertProperty(property: ParsedProperty): Promise<string> {
   return await PropertyVersion.sequelize!.transaction(async (transaction) => {
-    // Step 1: Find or create Address
     const addressRecord = await findOrCreateAddress({
       address: property.address,
       unit: property.unit,
@@ -162,48 +91,13 @@ async function upsertProperty(property: ParsedProperty): Promise<string> {
       state: property.state,
       zipCode: property.zipCode,
     });
-
-    // Step 2: Find or create PropertyVersion for this Address
-    let propertyVersion = await PropertyVersion.findOne({
-      where: {
-        addressId: addressRecord.id,
-      },
-      transaction,
-    });
-    
-    if (!propertyVersion) {
-      propertyVersion = await PropertyVersion.create({
-        addressId: addressRecord.id,
-      }, { transaction });
-    }
-
-    // Step 3: Find or create PropertyDetails for this PropertyVersion
-    const [propertyDetails, detailsCreated] = await PropertyDetails.findOrCreate({
-      where: {
-        propertyVersionId: propertyVersion.id,
-      },
-      defaults: {
-        propertyVersionId: propertyVersion.id,
-        source: PROPERTY_DEFAULT_VALUES.SOURCE,
-        mlsNumber: property.mlsNumber,
-        squareFootage: property.squareFootage,
-        bedrooms: property.bedrooms,
-        bathrooms: property.bathrooms,
-        foundationAccess: property.foundationAccess,
-        additionalUnits: property.additionalUnits,
-      },
-      transaction,
-    });
-
-    // Update existing PropertyDetails if any new data is provided
-    if (!detailsCreated) {
-      const updates = buildPropertyDetailsUpdates(property);
-
-      if (Object.keys(updates).length > 0) {
-        await propertyDetails.update(updates, { transaction });
-      }
-    }
-
+    const propertyVersion = await findOrCreatePropertyVersionForAddress(addressRecord.id, transaction);
+    const { propertyDetails, detailsCreated } = await findOrCreatePropertyDetailsForVersion(
+      propertyVersion.id,
+      property,
+      transaction
+    );
+    await updatePropertyDetailsIfNeeded(propertyDetails, property, detailsCreated, transaction);
     return propertyVersion.id;
   });
 }
@@ -334,103 +228,39 @@ async function processEvents(events: CalendarEvent[], organizerEmail: string): P
 }
 
 /**
- * Read calendar events from stdin
- * LEARNING: Extracted helper to reduce importCalendarData complexity
- * WHY: Separates input handling from main orchestration
- * 
- * @returns Array of calendar events parsed from stdin
- * @throws Error if JSON parsing fails
- */
-async function readEventsFromStdin(): Promise<CalendarEvent[]> {
-  const chunks: Buffer[] = [];
-  for await (const chunk of process.stdin) {
-    chunks.push(chunk);
-  }
-  const inputData = Buffer.concat(chunks).toString('utf-8');
-  
-  if (!inputData.trim()) {
-    throw new Error('No events provided in stdin');
-  }
-  
-  try {
-    return JSON.parse(inputData);
-  } catch (parseError) {
-    logger.error('Failed to parse JSON input:', parseError);
-    logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-    throw parseError;
-  }
-}
-
-/**
- * Print import summary statistics
- * LEARNING: Extracted helper to reduce importCalendarData complexity
- * WHY: Separates output formatting from main orchestration
- * 
- * @param stats - Statistics object
- * @param eventCount - Total number of events processed
- */
-function printImportSummary(
-  stats: {
-    clientsImported: number;
-    propertiesImported: number;
-    clientsUpdated: number;
-    propertiesUpdated: number;
-  },
-  eventCount: number
-): void {
-  logger.info('\n📊 Import Summary:');
-  logger.info(`  ✅ Clients imported: ${stats.clientsImported}`);
-  logger.info(`  🔄 Clients updated: ${stats.clientsUpdated}`);
-  logger.info(`  ✅ Properties imported: ${stats.propertiesImported}`);
-  logger.info(`  🔄 Properties updated: ${stats.propertiesUpdated}`);
-  logger.info(`  📝 Total events processed: ${eventCount}`);
-}
-
-/**
- * Main calendar import function
- * LEARNING: Orchestrator pattern with focused helpers
- * WHY: Reduced complexity through extraction of input handling, processing, and output
- * 
- * @param events - Optional pre-provided events array
+ * Main calendar import function (thin orchestrator).
  */
 async function importCalendarData(events?: CalendarEvent[]): Promise<void> {
   try {
     logger.info('📅 Starting calendar data import...');
-    
     await initializeDatabase();
-    
-    const organizerEmail = process.env.ORGANIZER_EMAIL || DEFAULT_ORGANIZER_EMAIL;
-    
-    let eventsToProcess: CalendarEvent[] = [];
-    
-    if (events && events.length > 0) {
+
+    const organizerEmail = process.env.ORGANIZER_EMAIL ?? DEFAULT_ORGANIZER_EMAIL;
+
+    let eventsToProcess: CalendarEvent[];
+    if (events != null && events.length > 0) {
       eventsToProcess = events;
       logger.info(`📆 Processing ${eventsToProcess.length} calendar events...`);
+    } else if (process.stdin.isTTY) {
+      logger.warn('⚠️  No events provided.');
+      logger.info('📖 Usage options:');
+      logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+      logger.info('  2. Use AI assistant with MCP to fetch and import events');
+      logger.info('  3. Call importCalendarData([events]) programmatically');
+      return;
     } else {
-      if (process.stdin.isTTY) {
-        logger.warn('⚠️  No events provided.');
-        logger.info('📖 Usage options:');
-        logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
-        logger.info('  2. Use AI assistant with MCP to fetch and import events');
-        logger.info('  3. Call importCalendarData([events]) programmatically');
-        return;
-      } else {
-        eventsToProcess = await readEventsFromStdin();
-        logger.info(`📆 Processing ${eventsToProcess.length} calendar events from input...`);
-      }
+      eventsToProcess = await readEventsFromStdin();
+      logger.info(`📆 Processing ${eventsToProcess.length} calendar events from input...`);
     }
-    
+
     if (eventsToProcess.length === 0) {
       logger.warn('⚠️  No events to process.');
       return;
     }
-    
+
     const stats = await processEvents(eventsToProcess, organizerEmail);
-    
     printImportSummary(stats, eventsToProcess.length);
-    
     logger.info('\n✅ Calendar import completed successfully!');
-    
   } catch (error) {
     logger.error('❌ Error during calendar import:', error);
     throw error;

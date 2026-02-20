@@ -12,13 +12,12 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **242**
+- Total composable files scanned: **246**
 
 ## Top hotspots (heuristic)
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | 35.5 | 7 | 0 | 0 | 25 | 0 | 1 |
 | `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` | 26 | 0 | 0 | 0 | 9 | 0 | 1 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | 22 | 6 | 0 | 0 | 16 | 0 | 1 |
 | `client/src/composables/admin/useBusinessRules.ts` | 21 | 0 | 0 | 5 | 16 | 0 | 1 |
@@ -30,8 +29,8 @@ Scope:
 | `client/src/composables/admin/useCalibrationChart.ts` | 17 | 0 | 0 | 8 | 0 | 0 | 0 |
 | `client/src/composables/booking/dev/usePanelPosition.ts` | 17 | 0 | 1 | 2 | 2 | 6 | 1 |
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
+| `client/src/composables/entityCrud/useEntityCrudMutations.ts` | 15.5 | 7 | 0 | 0 | 9 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 5 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 15 | 0 | 5 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useSelectFiltering.ts` | 14 | 0 | 0 | 3 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
@@ -43,6 +42,7 @@ Scope:
 | `client/src/composables/admin/usePartInstanceForm.ts` | 13 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 13 | 0 | 1 | 5 | 3 | 0 | 0 |
 | `client/src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
+| `client/src/composables/admin/useSelectInputsAsync.ts` | 12 | 0 | 0 | 1 | 8 | 0 | 0 |
 
 ## Per-file suggestions (actionable)
 
@@ -50,14 +50,6 @@ Legend:
 - **P0**: fix soon (architecture/side-effect risk)
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
-
-### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
-
-- exports: (none detected)
-- score: **35.5**
-- return keys (first return): `message`
-
-- **P0** (split_candidate): High complexity score. Consider splitting into `useXxxState` + `useXxxActions` + `useXxxQuery` and keeping the SFC-facing API thin.
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
@@ -133,45 +125,6 @@ Legend:
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
-
-- counts: vueQuery=7, watch=0, computed=0, ref=0, async=15, await=10, dom=0, console=0
-
-```
-async@56: mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {
-map@59: const orderIndices = currentEntities.map((e) => {
-await@88: const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)
-async@100: onMutate: async () => {
-await@103: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-async@143: mutationFn: async ({
-await@158: const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
-async@169: onMutate: async (variables) => {
-await@172: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-async@254: mutationFn: async (id: GlobalEntityId) => {
-await@256: const response = await apiClient.delete(deleteEndpoint)
-async@267: onMutate: async (id) => {
-await@268: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-filter@274: const updatedEntities = currentEntities.filter((entity) => entity.id !== id)
-async@300: mutationFn: async (updates: OrderIndexUpdate) => {
-await@302: const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)
-async@307: onMutate: async (updates) => {
-await@308: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-map@314: const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))
-map@315: const updatedEntities = currentEntities.map((entity) => {
-async@356: mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
-map@360: const dehydratedUpdates = updates.map((update) => {
-await@369: const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)
-async@374: onMutate: async (updates) => {
-await@375: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-map@380: const updateMap = new Map(updates.map((update) => [update.id, update]))
-map@382: const updatedEntities = currentEntities.map((entity) => {
-async@415: create: async (entity) => createMutation.mutateAsync(entity),
-async@416: update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),
-async@417: remove: async (id) => removeMutation.mutateAsync(id),
-async@418: patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),
-async@419: patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),
-```
 
 ### `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts`
 
@@ -454,6 +407,25 @@ computed@90: sellerEmail: computed(() => sellerInfo.value.email)
 computed@97: const reactiveRules = computed(() => {
 ```
 
+### `client/src/composables/entityCrud/useEntityCrudMutations.ts`
+
+- counts: vueQuery=7, watch=0, computed=0, ref=0, async=7, await=2, dom=0, console=0
+
+```
+async@50: mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {
+map@51: const dehydratedUpdates = updates.map((update) => {
+await@55: const response = await apiClient.patch(getBulkPatchEndpoint(entityKey), dehydratedUpdates)
+async@60: onMutate: async (updates) => {
+await@61: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+map@65: const updateMap = new Map(updates.map((update) => [update.id, update]))
+map@67: const updatedEntities = currentEntities.map((entity) => {
+async@91: create: async (entity) => createMutation.mutateAsync(entity),
+async@92: update: async (entity, id) => updateMutation.mutateAsync({ entity, id }),
+async@93: remove: async (id) => removeMutation.mutateAsync(id),
+async@94: patchOrderIndex: async (updates) => patchOrderIndexMutation.mutateAsync(updates),
+async@95: patchBulk: async (updates) => patchBulkMutation.mutateAsync(updates),
+```
+
 ### `client/src/composables/admin/useSelectConfig.ts`
 
 - counts: vueQuery=0, watch=0, computed=12, ref=0, async=0, await=0, dom=0, console=0
@@ -474,28 +446,6 @@ computed@303: const isMultiple = computed(() => {
 computed@341: const chipsProps = computed(() => {
 computed@356: const optionEntityKey = computed(() => {
 computed@401: const optionLabelKey = computed(() => {
-```
-
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=3, dom=0, console=0
-
-```
-async@76: async function createAttendeeFromSpec(
-await@81: const created = await createUser.mutateAsync({
-async@122: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
-await@165: const createdProperty = await createProperty.mutateAsync(propertyData)
-await@180: const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))
-map@180: const results = await Promise.all(specs.map(spec => createAttendeeFromSpec(spec, createUser)))
-filter@181: const attendeesCollection = results.filter((r): r is AttendeeCollectionItem => r !== null)
-map@183: const attendees: AttendeeRequest[] = attendeesCollection.map(item => ({
-map@196: ? availability.candidateTimeSlots.map(slot => ({
-reduce@233: const serviceQuantities = wizard.selectedServiceTypeBlocks.value.reduce((acc, service) => {
-reduce@241: const propertyQuantities = wizard.selectedPropertyTypeBlocks.value.reduce((acc, property) => {
-reduce@249: const optionTypeBlockQuantities = wizard.selectedOptionTypeBlocks.value.reduce((acc, option) => {
-map@260: selectedServiceIds: wizard.selectedServiceTypeBlocks.value.map(s => s.id),
-map@263: ? wizard.selectedPropertyTypeBlocks.value.map(d => d.id)
-map@267: ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
 ```
 
 ### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
@@ -588,20 +538,20 @@ await@228: await fetchDevStatus()
 - counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@83: const groupedByKey = computed((): GroupedEntities[] => {
-computed@155: const shouldUseMultipleSelects = computed(() => {
-map@171: return group.entities.map((entity) => ({
-map@184: const groupEntityIds = new Set(group.entities.map(e => e.id))
-map@188: ? currentValue.map(v => String(v))
-filter@191: const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))
-computed@204: const options = computed((): SelectOption[] => {
-map@214: return entities.map((entity) => ({
-map@277: const result = groupedEntities.map(group => ({
-map@280: children: group.children.map((entity) => {
-map@300: const flatOptions = entities.map((entity) => ({
-computed@313: const normalizedValue = computed(() => {
-map@318: return value.map(v => String(v)).filter(v => v !== '')
-filter@318: return value.map(v => String(v)).filter(v => v !== '')
+computed@104: const groupedByKey = computed((): GroupedEntities[] => {
+computed@161: const shouldUseMultipleSelects = computed(() => {
+map@177: return group.entities.map((entity) => ({
+map@190: const groupEntityIds = new Set(group.entities.map(e => e.id))
+map@194: ? currentValue.map(v => String(v))
+filter@197: const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))
+computed@210: const options = computed((): SelectOption[] => {
+map@220: return entities.map((entity) => ({
+map@275: const result = groupedEntities.map(group => ({
+map@278: children: group.children.map((entity) => {
+map@298: const flatOptions = entities.map((entity) => ({
+computed@311: const normalizedValue = computed(() => {
+map@316: return value.map(v => String(v)).filter(v => v !== '')
+filter@316: return value.map(v => String(v)).filter(v => v !== '')
 ```
 
 ### `client/src/composables/fieldContext/useFieldContextState.ts`
@@ -1578,6 +1528,19 @@ computed@150: const serviceTypeOptions = computed(() => {
 map@151: return allActiveServiceTypes.value.map(service => ({
 ```
 
+### `client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=0
+
+```
+async@19: mutationFn: async (updates: OrderIndexUpdate) => {
+await@20: const response = await apiClient.patch(getOrderIndexEndpoint(entityKey), updates)
+async@25: onMutate: async (updates) => {
+await@26: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+map@31: const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))
+map@32: const updatedEntities = currentEntities.map((entity) => {
+```
+
 ### `client/src/composables/useMapsSessionToken.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=2, async=2, await=2, dom=0, console=0
@@ -1734,6 +1697,30 @@ computed@91: const loadedPropertyAddress = computed(() => {
 filter@101: return parts.filter(Boolean).join(', ') || null
 ```
 
+### `client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=0
+
+```
+async@29: mutationFn: async (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => {
+map@32: const orderIndices = currentEntities.map((e) => {
+await@61: const response = await apiClient.post<GlobalEntity<GlobalEntityTypeKey>>(endpoint, backendPayload)
+async@70: onMutate: async () => {
+await@71: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+```
+
+### `client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=0
+
+```
+async@24: mutationFn: async (id: GlobalEntityId) => {
+await@26: const response = await apiClient.delete(deleteEndpoint)
+async@34: onMutate: async (id) => {
+await@35: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+filter@40: const updatedEntities = currentEntities.filter((entity) => entity.id !== id)
+```
+
 ### `client/src/composables/formFields/useFormFields.ts`
 
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
@@ -1878,6 +1865,17 @@ computed@47: const error = computed((): unknown | undefined => businessError.val
 computed@56: const item = computed((): CollectionItem | undefined => {
 ```
 
+### `client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=0
+
+```
+async@26: mutationFn: async ({
+await@39: const response = await apiClient.put<GlobalEntity<GlobalEntityTypeKey>>(updateEndpoint, backendPayload)
+async@47: onMutate: async (variables) => {
+await@48: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+```
+
 ### `client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts`
 
 - counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
@@ -1987,6 +1985,16 @@ watch@92: watch(dialogOpen, (isOpen) => {
 computed@44: const cardClasses = computed(() => {
 computed@48: const controlClasses = computed(() => {
 computed@52: const contentContainerClasses = computed(() => {
+```
+
+### `client/src/composables/booking/useAppointmentDataCollection.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=2, dom=0, console=0
+
+```
+async@76: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
+await@99: const createdProperty = await createProperty.mutateAsync(propertyData)
+await@105: const attendees = await buildAttendeesFromContacts(contacts, createUser)
 ```
 
 ### `client/src/composables/booking/useBlockInstanceSelection.ts`
@@ -2197,8 +2205,8 @@ computed@114: const titleRowFields = computed(() => {
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@49: const selectDomTargets = computed(() => {
-map@55: return groupedByKey.value.map(group => {
+computed@46: const selectDomTargets = computed(() => {
+map@52: return groupedByKey.value.map(group => {
 ```
 
 ### `client/src/composables/admin/useShapeDisplayNames.ts`

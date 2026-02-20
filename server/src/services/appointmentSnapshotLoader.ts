@@ -2,6 +2,7 @@ import { Model } from 'sequelize';
 import { BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
 import type { BlockInstanceSnapshot } from '../db/models/booking/appointment.js';
 import { createLogger } from '../utils/logger.js';
+import { asEmptyString } from '../utils/safeDefaults.js';
 
 const logger = createLogger('SnapshotLoader');
 
@@ -30,7 +31,7 @@ function transformBlockVersionToBookingInstance(
   return {
     id: versionData.blockInstanceId as string,
     name: versionData.name as string,
-    icon: (versionData.icon as string | null) ?? '',
+    icon: asEmptyString(versionData.icon as string | null | undefined),
     baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
     allowMultiple: Boolean(versionData.allowMultiple),
     differential: versionData.differential === 'true',
@@ -38,7 +39,7 @@ function transformBlockVersionToBookingInstance(
       const partData = partVersion.toJSON() as Record<string, unknown>;
       return {
         id: partData.partInstanceId as string,
-        name: (partData.name as string | null) ?? '',
+        name: asEmptyString(partData.name as string | null | undefined),
         baseFee: partData.baseFee as number,
         baseTime: partData.baseTime as number,
         rateOverBaseFee: partData.rateOverBaseFee as number,

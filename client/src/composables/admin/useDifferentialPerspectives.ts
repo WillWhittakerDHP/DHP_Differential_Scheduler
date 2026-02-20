@@ -2,7 +2,6 @@
  * Composable for differential perspectives (major/minor attendees and labels)
  * WHY: Extracts differential form bindings from BusinessControlsTab
  * PATTERN: Writable computeds that ensure differentialPerspectives exists on set
- * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
 import { computed, type ComputedRef, type WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'

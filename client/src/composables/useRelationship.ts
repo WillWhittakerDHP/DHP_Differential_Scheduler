@@ -20,8 +20,109 @@ import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('useRelationship')
+
+interface RelationshipKeyConfig {
+  parentEntity: GlobalEntityKey
+  childEntity: GlobalEntityKey
+}
+
+/**
+ * Pure helper: produce updated GlobalData with one relationship added (for optimistic create).
+ * WHY: Shrinks onMutate callback and reduces nesting in useRelationship.
+ */
+function addRelationshipToCache(
+  old: GlobalData,
+  relationshipKey: GlobalRelationshipKey,
+  config: RelationshipKeyConfig,
+  payload: CreateRelationshipPayload,
+  logWarn: (msg: string, meta: unknown) => void
+): GlobalData {
+  const currentRelationships = asEmptyArray(old.relationships[relationshipKey])
+  const parentId = String(payload.parentId)
+  const childId = String(payload.childId)
+  const parentEntity = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
+  const childEntity = old.entities[config.childEntity]?.find((e) => String(e.id) === childId)
+  if (!parentEntity || !childEntity) {
+    if (isDevModeEnabled()) {
+      logWarn('Parent or child entity not found for relationship', {
+        relationshipKey,
+        parentId,
+        childId,
+        parentFound: !!parentEntity,
+        childFound: !!childEntity,
+      })
+    }
+    return old
+  }
+  const existingRelIndex = currentRelationships.findIndex(
+    (rel: GlobalRelationship) =>
+      rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
+  )
+  if (existingRelIndex !== -1) return old
+  const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
+  if (parentRelIndex === -1) {
+    const updatedRelationships = [
+      ...currentRelationships,
+      {
+        relationshipKind: relationshipKey,
+        parent: parentEntity,
+        children: [childEntity],
+      },
+    ]
+    return {
+      ...old,
+      relationships: { ...old.relationships, [relationshipKey]: updatedRelationships },
+    }
+  }
+  const updatedRelationships = [...currentRelationships]
+  updatedRelationships[parentRelIndex] = {
+    ...updatedRelationships[parentRelIndex],
+    children: [...updatedRelationships[parentRelIndex].children, childEntity],
+  }
+  return {
+    ...old,
+    relationships: { ...old.relationships, [relationshipKey]: updatedRelationships },
+  }
+}
+
+/**
+ * Pure helper: produce updated GlobalData with one relationship removed (for optimistic delete).
+ * WHY: Shrinks onMutate callback and reduces nesting in useRelationship.
+ */
+function removeRelationshipFromCache(
+  old: GlobalData,
+  relationshipKey: GlobalRelationshipKey,
+  parentIdStr: string,
+  childIdStr: string
+): GlobalData {
+  const currentRelationships = asEmptyArray(old.relationships[relationshipKey])
+  const parentRelIndex = currentRelationships.findIndex(
+    (rel: GlobalRelationship) => rel.parent.id === parentIdStr
+  )
+  if (parentRelIndex === -1) return old
+  const parentRel = currentRelationships[parentRelIndex]
+  const updatedChildren = parentRel.children.filter(
+    (child: { id: string }) => child.id !== childIdStr
+  )
+  if (updatedChildren.length === 0) {
+    const updatedRelationships = currentRelationships.filter(
+      (_: GlobalRelationship, index: number) => index !== parentRelIndex
+    )
+    return {
+      ...old,
+      relationships: { ...old.relationships, [relationshipKey]: updatedRelationships },
+    }
+  }
+  const updatedRelationships = [...currentRelationships]
+  updatedRelationships[parentRelIndex] = { ...parentRel, children: updatedChildren }
+  return {
+    ...old,
+    relationships: { ...old.relationships, [relationshipKey]: updatedRelationships },
+  }
+}
 
 /**
  * Relationship CRUD composable
@@ -103,71 +204,9 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       const config = RELATIONSHIP_KEYS[relationshipKey]
       if (!config) return { previousData }
 
-      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
-        if (!old) return old
-
-        const currentRelationships = old.relationships[relationshipKey] || []
-        const parentId = String(payload.parentId)
-        const childId = String(payload.childId)
-
-        const parentEntity = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
-        const childEntity = old.entities[config.childEntity]?.find((e) => String(e.id) === childId)
-
-        if (!parentEntity || !childEntity) {
-          if (isDevModeEnabled()) {
-            logger.warn('Parent or child entity not found for relationship', {
-              relationshipKey,
-              parentId,
-              childId,
-              parentFound: !!parentEntity,
-              childFound: !!childEntity
-            })
-          }
-          return old
-        }
-
-        const existingRelIndex = currentRelationships.findIndex(
-          (rel: GlobalRelationship) => rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
-        )
-
-        if (existingRelIndex !== -1) {
-          return old
-        }
-
-        const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
-        
-        if (parentRelIndex === -1) {
-          const updatedRelationships = [
-            ...currentRelationships,
-            {
-              relationshipKind: relationshipKey,
-              parent: parentEntity,
-              children: [childEntity],
-            },
-          ]
-          return {
-            ...old,
-            relationships: {
-              ...old.relationships,
-              [relationshipKey]: updatedRelationships,
-            },
-          }
-        } else {
-          const updatedRelationships = [...currentRelationships]
-          updatedRelationships[parentRelIndex] = {
-            ...updatedRelationships[parentRelIndex],
-            children: [...updatedRelationships[parentRelIndex].children, childEntity],
-          }
-          return {
-            ...old,
-            relationships: {
-              ...old.relationships,
-              [relationshipKey]: updatedRelationships,
-            },
-          }
-        }
-      })
-
+      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) =>
+        !old ? old : addRelationshipToCache(old, relationshipKey, config, payload, (msg, meta) => logger.warn(msg, meta))
+      )
       return { previousData }
     },
     onError: (_error: unknown, _payload: CreateRelationshipPayload, context: { previousData?: GlobalData } | undefined) => {
@@ -195,47 +234,9 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
       await cancelQueriesBeforeMutate(queryClient, [['globalData']])
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
 
-      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
-        if (!old) return old
-
-        const currentRelationships = old.relationships[relationshipKey] || []
-        const parentIdStr = String(parentId)
-        const childIdStr = String(childId)
-
-        const parentRelIndex = currentRelationships.findIndex((rel: GlobalRelationship) => rel.parent.id === parentIdStr)
-
-        if (parentRelIndex === -1) {
-          return old
-        }
-
-        const parentRel = currentRelationships[parentRelIndex]
-        const updatedChildren = parentRel.children.filter((child: { id: string }) => child.id !== childIdStr)
-
-        if (updatedChildren.length === 0) {
-          const updatedRelationships = currentRelationships.filter((_: GlobalRelationship, index: number) => index !== parentRelIndex)
-          return {
-            ...old,
-            relationships: {
-              ...old.relationships,
-              [relationshipKey]: updatedRelationships,
-            },
-          }
-        } else {
-          const updatedRelationships = [...currentRelationships]
-          updatedRelationships[parentRelIndex] = {
-            ...parentRel,
-            children: updatedChildren,
-          }
-          return {
-            ...old,
-            relationships: {
-              ...old.relationships,
-              [relationshipKey]: updatedRelationships,
-            },
-          }
-        }
-      })
-
+      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) =>
+        !old ? old : removeRelationshipFromCache(old, relationshipKey, String(parentId), String(childId))
+      )
       return { previousData }
     },
     onError: (_error: unknown, _variables: { parentId: GlobalEntityId; childId: GlobalEntityId }, context: { previousData?: GlobalData } | undefined) => {

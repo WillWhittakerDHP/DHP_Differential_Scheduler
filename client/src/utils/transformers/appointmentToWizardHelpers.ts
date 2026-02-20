@@ -14,6 +14,7 @@ import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
 
 /**
@@ -117,7 +118,7 @@ function transformVersionToBookingInstance(
       orderIndex: safeNumber(currentPart?.orderIndex, 'VersionBlockInstance.partInstances.orderIndex'),
       partShape: safeString(currentPart?.partShape, 'VersionBlockInstance.partInstances.partShape'),
       zeroOutPart: currentPart?.zeroOutPart ?? false,
-      activePartIds: currentPart?.activePartIds ?? [],
+      activePartIds: asEmptyArray(currentPart?.activePartIds),
     }
   })
 

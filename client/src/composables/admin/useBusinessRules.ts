@@ -11,6 +11,8 @@ import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
+import { withAsyncOperation } from '@/utils/async/withAsyncOperation'
 import {
   BUSINESS_RULES_API_BASE,
   BUSINESS_RULES_MESSAGES,
@@ -110,22 +112,23 @@ export function useBusinessRules() {
     ruleType?: RuleType
     active?: boolean
   }): Promise<void> => {
-    loading.value = true
-    error.value = null
-
-    try {
-      const queryString = buildBusinessRulesQueryString(filters)
-      const url = `${BUSINESS_RULES_API_BASE}${queryString ? `?${queryString}` : ''}`
-
-      const response = await apiClient.get<BusinessRule[]>(url)
-      rules.value = response.data ?? []
-    } catch (err) {
-      logger.error('Error fetching business rules', { error: err })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD
-      rules.value = []
-    } finally {
-      loading.value = false
-    }
+    await withAsyncOperation(
+      async () => {
+        const queryString = buildBusinessRulesQueryString(filters)
+        const url = `${BUSINESS_RULES_API_BASE}${queryString ? `?${queryString}` : ''}`
+        const response = await apiClient.get<BusinessRule[]>(url)
+        rules.value = asEmptyArray(response.data)
+      },
+      { busyRef: loading, errorRef: error },
+      {
+        logger,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD,
+        errorPrefix: 'Error fetching business rules',
+        onError: () => {
+          rules.value = []
+        },
+      }
+    )
   }
   
   /**
@@ -135,19 +138,21 @@ export function useBusinessRules() {
    * PATTERN: Async function with loading state, returns only active rules
    */
   const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {
-    loading.value = true
-    error.value = null
-
-    try {
-      const response = await apiClient.get<BusinessRule[]>(`${BUSINESS_RULES_API_BASE}/block/${blockInstanceId}`)
-      return response.data ?? []
-    } catch (err) {
-      logger.error('Error fetching business rules for block', { error: err, blockInstanceId })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD_FOR_BLOCK
-      return []
-    } finally {
-      loading.value = false
-    }
+    const result = await withAsyncOperation(
+      async () => {
+        const response = await apiClient.get<BusinessRule[]>(
+          `${BUSINESS_RULES_API_BASE}/block/${blockInstanceId}`
+        )
+        return asEmptyArray(response.data)
+      },
+      { busyRef: loading, errorRef: error },
+      {
+        logger,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_LOAD_FOR_BLOCK,
+        errorPrefix: 'Error fetching business rules for block',
+      }
+    )
+    return asEmptyArray(result)
   }
   
   /**
@@ -157,27 +162,24 @@ export function useBusinessRules() {
    * PATTERN: Async function with saving state, success message, auto-refresh
    */
   const createRule = async (formData: BusinessRuleFormData): Promise<BusinessRule | null> => {
-    saving.value = true
-    error.value = null
-    success.value = null
-
-    try {
-      const response = await apiClient.post<BusinessRule>(BUSINESS_RULES_API_BASE, formData)
-
-      if (response.data) {
-        success.value = BUSINESS_RULES_MESSAGES.CREATED
-        await fetchRules()
-        return response.data
+    const result = await withAsyncOperation(
+      async () => {
+        const response = await apiClient.post<BusinessRule>(BUSINESS_RULES_API_BASE, formData)
+        if (response.data) {
+          await fetchRules()
+          return response.data
+        }
+        return null
+      },
+      { busyRef: saving, errorRef: error, successRef: success },
+      {
+        logger,
+        successMessage: BUSINESS_RULES_MESSAGES.CREATED,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_CREATE,
+        errorPrefix: 'Error creating business rule',
       }
-
-      return null
-    } catch (err) {
-      logger.error('Error creating business rule', { error: err })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_CREATE
-      return null
-    } finally {
-      saving.value = false
-    }
+    )
+    return result
   }
   
   /**
@@ -186,28 +188,31 @@ export function useBusinessRules() {
    * WHY: Admin edits existing validation rules via admin panel
    * PATTERN: Async function with saving state, success message, auto-refresh
    */
-  const updateRule = async (id: GlobalEntityId, formData: BusinessRuleFormData): Promise<BusinessRule | null> => {
-    saving.value = true
-    error.value = null
-    success.value = null
-
-    try {
-      const response = await apiClient.put<BusinessRule>(`${BUSINESS_RULES_API_BASE}/${id}`, formData)
-
-      if (response.data) {
-        success.value = BUSINESS_RULES_MESSAGES.UPDATED
-        await fetchRules()
-        return response.data
+  const updateRule = async (
+    id: GlobalEntityId,
+    formData: BusinessRuleFormData
+  ): Promise<BusinessRule | null> => {
+    const result = await withAsyncOperation(
+      async () => {
+        const response = await apiClient.put<BusinessRule>(
+          `${BUSINESS_RULES_API_BASE}/${id}`,
+          formData
+        )
+        if (response.data) {
+          await fetchRules()
+          return response.data
+        }
+        return null
+      },
+      { busyRef: saving, errorRef: error, successRef: success },
+      {
+        logger,
+        successMessage: BUSINESS_RULES_MESSAGES.UPDATED,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_UPDATE,
+        errorPrefix: 'Error updating business rule',
       }
-
-      return null
-    } catch (err) {
-      logger.error('Error updating business rule', { error: err, id, formData })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_UPDATE
-      return null
-    } finally {
-      saving.value = false
-    }
+    )
+    return result
   }
   
   /**
@@ -217,22 +222,21 @@ export function useBusinessRules() {
    * PATTERN: Async function with saving state, success message, auto-refresh
    */
   const deleteRule = async (id: GlobalEntityId): Promise<boolean> => {
-    saving.value = true
-    error.value = null
-    success.value = null
-
-    try {
-      await apiClient.delete(`${BUSINESS_RULES_API_BASE}/${id}`)
-      success.value = BUSINESS_RULES_MESSAGES.DELETED
-      await fetchRules()
-      return true
-    } catch (err) {
-      logger.error('Error deleting business rule', { error: err, id })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_DELETE
-      return false
-    } finally {
-      saving.value = false
-    }
+    const result = await withAsyncOperation(
+      async () => {
+        await apiClient.delete(`${BUSINESS_RULES_API_BASE}/${id}`)
+        await fetchRules()
+        return true
+      },
+      { busyRef: saving, errorRef: error, successRef: success },
+      {
+        logger,
+        successMessage: BUSINESS_RULES_MESSAGES.DELETED,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_DELETE,
+        errorPrefix: 'Error deleting business rule',
+      }
+    )
+    return result === true
   }
   
   /**
@@ -242,21 +246,21 @@ export function useBusinessRules() {
    * PATTERN: Async function using PATCH for partial update
    */
   const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {
-    saving.value = true
-    error.value = null
-
-    try {
-      await apiClient.put(`${BUSINESS_RULES_API_BASE}/${id}`, { active })
-      success.value = active ? BUSINESS_RULES_MESSAGES.ENABLED : BUSINESS_RULES_MESSAGES.DISABLED
-      await fetchRules()
-      return true
-    } catch (err) {
-      logger.error('Error toggling business rule', { error: err, id, active })
-      error.value = err instanceof Error ? err.message : BUSINESS_RULES_MESSAGES.FAILED_TO_TOGGLE
-      return false
-    } finally {
-      saving.value = false
-    }
+    const result = await withAsyncOperation(
+      async () => {
+        await apiClient.put(`${BUSINESS_RULES_API_BASE}/${id}`, { active })
+        await fetchRules()
+        return true
+      },
+      { busyRef: saving, errorRef: error, successRef: success },
+      {
+        logger,
+        successMessage: active ? BUSINESS_RULES_MESSAGES.ENABLED : BUSINESS_RULES_MESSAGES.DISABLED,
+        errorMessage: BUSINESS_RULES_MESSAGES.FAILED_TO_TOGGLE,
+        errorPrefix: 'Error toggling business rule',
+      }
+    )
+    return result === true
   }
   
   return {

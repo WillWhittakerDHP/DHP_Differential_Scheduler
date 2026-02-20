@@ -11,6 +11,7 @@ import { ref, computed, watch, type Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { asEmptyObject } from '@/utils/safeDefaults'
 
 export interface UseMetadataFieldOrderingOptions {
   fieldMetadata: Ref<Record<string, FieldMetadataEntry>>
@@ -39,7 +40,7 @@ export function useMetadataFieldOrdering(
 
   // PATTERN: Sort by displayOrder, then alphabetically for fields without order. Coerce to string for Map/API compatibility.
   const availableFieldsSorted = computed<string[]>(() => {
-    const metadataKeys = Object.keys(fieldMetadata.value || {})
+    const metadataKeys = Object.keys(asEmptyObject(fieldMetadata.value))
     const allKeys = new Set([...allPossibleFieldKeys.value.map(String), ...metadataKeys])
     const fields = Array.from(allKeys)
     

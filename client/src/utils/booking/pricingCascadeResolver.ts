@@ -7,6 +7,7 @@
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const partInstanceById = (all: BookingPartInstance[]): Map<string, BookingPartInstance> =>
   new Map(all.map((p) => [p.id, p]))
@@ -27,7 +28,7 @@ export function resolvePricingCascadeParts(
   const byId = partInstanceById(allPartInstances)
   const ids = new Set<string>()
   for (const part of serviceParts) {
-    const activeIds = part.activePartIds ?? []
+    const activeIds = asEmptyArray(part.activePartIds)
     for (const id of activeIds) {
       ids.add(id)
     }

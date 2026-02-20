@@ -7,12 +7,12 @@
 
 Generated from `client/.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **55**
-- Requiring review: **135**
-- Allowed exceptions: **48**
+- Files with findings: **47**
+- Requiring review: **104**
+- Allowed exceptions: **7**
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **135**
+- Runtime legacy accommodation: **116**
 
 ## Top 30 files (ranked by score)
 
@@ -32,24 +32,24 @@ Generated from `client/.audit-reports/deprecation-audit.json`.
 | `client/src/utils/booking/availabilityStepData.ts` | P1 | 6 | 0 | 3 |
 | `client/src/utils/transformers/componentAggregator.ts` | P1 | 6 | 0 | 3 |
 | `server/src/services/rateLimiter.ts` | P1 | 6 | 0 | 3 |
-| `client/src/components/booking/DifferentialGraph.vue` | P1 | 5 | 0 | 5 |
-| `client/src/composables/admin/useBufferSettings.ts` | P1 | 5 | 0 | 3 |
-| `client/src/composables/admin/useMetadataFieldOrdering.ts` | P1 | 5 | 0 | 4 |
-| `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P1 | 5 | 0 | 3 |
-| `client/src/composables/useFormValidation.ts` | P1 | 5 | 0 | 5 |
-| `client/src/views/admin/tabs/BusinessControlsTab.vue` | P1 | 5 | 0 | 4 |
-| `client/src/components/AppNotification.vue` | P1 | 4 | 0 | 3 |
 | `client/src/composables/admin/useAttendeeQuickSelect.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/admin/useBufferSettings.ts` | P1 | 4 | 0 | 3 |
 | `client/src/composables/admin/useBusinessRules.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useEntityCardLayout.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P1 | 4 | 0 | 2 |
-| `client/src/composables/booking/useMoveablePartsScheduling.ts` | P1 | 4 | 0 | 3 |
+| `client/src/composables/booking/useTimeSlotCalculations.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/entityCrud/usePrimitiveMutation.ts` | P1 | 4 | 0 | 3 |
+| `client/src/composables/formFields/useFormFields.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/useAdmin.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/useGlobal.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/useRelationship.ts` | P1 | 4 | 0 | 2 |
+| `client/src/configs/field/display/fullFieldDisplayConfig.ts` | P1 | 4 | 0 | 2 |
 
-*...and 25 more. See full report for details.*
+*...and 17 more. See full report for details.*
 
 ## Notes
 

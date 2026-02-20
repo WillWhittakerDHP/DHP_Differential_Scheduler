@@ -6,6 +6,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import { useCalibrationChart } from '@/composables/admin/useCalibrationChart'
 
 const {
@@ -26,8 +27,8 @@ const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
 /** SVG path data and scale for drawing lines; legend labels with colors */
 const svgChart = computed(() => {
   const data = chartData.value
-  const labels = data.labels ?? []
-  const datasets = (data.datasets ?? []) as Array<{ label: string; data: number[]; borderColor: string }>
+  const labels = asEmptyArray(data.labels)
+  const datasets = asEmptyArray(data.datasets) as Array<{ label: string; data: number[]; borderColor: string }>
   if (labels.length === 0 || datasets.length === 0) {
     return { polylines: [], legend: [], xScale: (_: number) => PAD.left, yScale: (_: number) => PAD.top, yMax: 0 }
   }

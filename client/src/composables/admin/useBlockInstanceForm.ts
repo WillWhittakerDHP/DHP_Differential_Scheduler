@@ -18,6 +18,7 @@ import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useGlobal } from '../useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('useBlockInstanceForm')
 
@@ -179,8 +180,8 @@ export function useBlockInstanceForm(
     const entity = getGlobalEntities('blockInstance').find(e => e.id === entityId.value)
     if (entity) {
       formData.value = {
-        name: entity.name || '',
-        blockShapeRef: entity.blockShapeRef || '',
+        name: asEmptyString(entity.name),
+        blockShapeRef: asEmptyString(entity.blockShapeRef),
         orderIndex: entity.orderIndex ?? 0,
         active: entity.active ?? true,
       }

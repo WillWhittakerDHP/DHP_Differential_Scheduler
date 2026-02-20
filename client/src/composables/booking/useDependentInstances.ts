@@ -20,6 +20,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { GlobalRelationship } from '@/types/relationships'
 import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers/relationshipTransformers'
 import { useGlobal } from '@/composables/useGlobal'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('useDependentInstances')
 
@@ -107,11 +108,11 @@ export function useDependentInstances(
     for (const id of ids) {
       const entity = getGlobalEntityById('blockInstance', id)
       if (entity) {
-        const blockShapeRef = entity.blockShapeRef ?? ''
+        const blockShapeRef = asEmptyString(entity.blockShapeRef)
         const blockShapeEntity = blockShapeRef ? getGlobalEntityById('blockShape', blockShapeRef) : null
-        const blockShape = blockShapeEntity?.name?.trim() ?? ''
+        const blockShape = asEmptyString(blockShapeEntity?.name?.trim())
         if (!blockShape && blockShapeRef) logger.debug('block shape name missing', { blockShapeRef })
-        const icon = entity.icon?.trim() ?? ''
+        const icon = asEmptyString(entity.icon?.trim())
         if (!icon) logger.debug('icon missing for blockInstance', { id })
         const activeBlockIds = Array.isArray(entity.instanceComponents) ? entity.instanceComponents.map(String) : []
         const instance: BookingBlockInstance = {
@@ -124,7 +125,7 @@ export function useDependentInstances(
           bookingMode: entity.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE,
           differential: entity.differential === 'true' ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
-          blockShape: (blockShape || blockShapeEntity?.name) ?? '',
+          blockShape: asEmptyString(blockShape || blockShapeEntity?.name),
           blockShapeRef,
           activeBlockIds,
           partInstances: [],

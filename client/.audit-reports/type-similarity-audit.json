@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T16:43:33.357Z",
+  "generatedAt": "2026-02-20T17:32:52.654Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 801,
-  "totalDefinitions": 651,
+  "fileCount": 810,
+  "totalDefinitions": 656,
   "groups": [
     {
       "groupId": "sim-subset-d547718a19b9",
@@ -812,6 +812,49 @@
       "propertyCount": 13,
       "score": 12,
       "priority": "P0"
+    },
+    {
+      "groupId": "sim-high_overlap-99828820f350",
+      "relationship": "HIGH_OVERLAP",
+      "action": "REVIEW",
+      "members": [
+        {
+          "name": "WizardState",
+          "kind": "interface",
+          "file": "client/src/types/wizard.ts",
+          "line": 20,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBlockInstance[], selectedOptionTypeBlocks: BookingBlockInstance[], selectedPropertyTypeBlocks: BookingBlockInstance[], selectedServiceTypeBlocks: BookingBlockInstance[], selectedUserTypeBlock: BookingBlockInstance | null }"
+        },
+        {
+          "name": "WizardBlocksForBuilders",
+          "kind": "interface",
+          "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+          "line": 34,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBlockInstance[], selectedOptionTypeBlocks: BookingBlockInstance[], selectedPropertyTypeBlocks: BookingBlockInstance[], selectedServiceTypeBlocks: BookingBlockInstance[], selectedUserTypeBlock: { id: string } | null }"
+        }
+      ],
+      "signature": "{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBlockInstance[], selectedOptionTypeBlocks: BookingBlockInstance[], selectedPropertyTypeBlocks: BookingBlockInstance[], selectedServiceTypeBlocks: BookingBlockInstance[], selectedUserTypeBlock: BookingBlockInstance | null }",
+      "propertyCount": 6,
+      "overlapPercent": 83,
+      "sharedProperties": [
+        "isQuoteMode",
+        "selectedLineItemBlocks",
+        "selectedOptionTypeBlocks",
+        "selectedPropertyTypeBlocks",
+        "selectedServiceTypeBlocks"
+      ],
+      "uniqueToFirst": [
+        "selectedUserTypeBlock(BookingBlockInstance | null)"
+      ],
+      "uniqueToSecond": [
+        "selectedUserTypeBlock({ id: string } | null)"
+      ],
+      "score": 9,
+      "priority": "P1"
     },
     {
       "groupId": "sim-subset-339c96daa549",
@@ -2720,20 +2763,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "SelectGroup",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useSelectDomTargets.ts",
-      "line": 16,
-      "exported": true,
-      "fingerprint": "c34a7234220d",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseSelectDomTargetsOptions",
       "kind": "interface",
       "file": "client/src/composables/admin/useSelectDomTargets.ts",
-      "line": 21,
+      "line": 18,
       "exported": true,
       "fingerprint": "038a8b2b0f55",
       "propertyCount": 3,
@@ -2743,7 +2776,7 @@
       "name": "UseSelectDomTargetsReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useSelectDomTargets.ts",
-      "line": 29,
+      "line": 26,
       "exported": true,
       "fingerprint": "56a2b925da16",
       "propertyCount": 1,
@@ -3160,40 +3193,20 @@
       "primitiveAlias": null
     },
     {
-      "name": "AttendeeCollectionItem",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 32,
-      "exported": false,
-      "fingerprint": "57c7d22614f4",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseAppointmentDataCollectionParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 43,
+      "line": 32,
       "exported": true,
       "fingerprint": "2727815dfca0",
       "propertyCount": 16,
       "primitiveAlias": null
     },
     {
-      "name": "AttendeeSpec",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 66,
-      "exported": false,
-      "fingerprint": "127be454b394",
-      "propertyCount": 5,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseAppointmentDataCollectionReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 94,
+      "line": 53,
       "exported": true,
       "fingerprint": "eb85b286448f",
       "propertyCount": 1,
@@ -4513,7 +4526,7 @@
       "name": "UseEntityCrudStateReturnBase",
       "kind": "interface",
       "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-      "line": 13,
+      "line": 24,
       "exported": true,
       "fingerprint": "800533d77f18",
       "propertyCount": 3,
@@ -4843,7 +4856,7 @@
       "name": "SelectOptionBase",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 24,
+      "line": 45,
       "exported": true,
       "fingerprint": "fbee4b3e4137",
       "propertyCount": 2,
@@ -4853,7 +4866,7 @@
       "name": "SelectOption",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 28,
+      "line": 49,
       "exported": true,
       "fingerprint": "48cd07de0ad9",
       "propertyCount": 1,
@@ -4863,7 +4876,7 @@
       "name": "GroupedEntities",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 34,
+      "line": 55,
       "exported": true,
       "fingerprint": "cc1e63e0db8f",
       "propertyCount": 1,
@@ -4873,7 +4886,7 @@
       "name": "UseSelectOptionsOptions",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 37,
+      "line": 58,
       "exported": true,
       "fingerprint": "e94cdfae9b06",
       "propertyCount": 7,
@@ -4883,7 +4896,7 @@
       "name": "UseSelectOptionsReturn",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 47,
+      "line": 68,
       "exported": true,
       "fingerprint": "686c75148e24",
       "propertyCount": 6,
@@ -5480,6 +5493,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "SelectGroup",
+      "kind": "interface",
+      "file": "client/src/types/entity/selectOptions.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "c34a7234220d",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "GoogleCalendarError",
       "kind": "interface",
       "file": "client/src/types/googleCalendar.ts",
@@ -5830,6 +5853,56 @@
       "primitiveAlias": null
     },
     {
+      "name": "AttendeeSpecInput",
+      "kind": "interface",
+      "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "line": 24,
+      "exported": true,
+      "fingerprint": "8f973e490f24",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "CreateUserMutate",
+      "kind": "interface",
+      "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "line": 30,
+      "exported": true,
+      "fingerprint": "58e81cc278c3",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "WizardBlocksForBuilders",
+      "kind": "interface",
+      "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "line": 34,
+      "exported": true,
+      "fingerprint": "2c8bf0c3b184",
+      "propertyCount": 6,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilityPayload",
+      "kind": "interface",
+      "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "line": 119,
+      "exported": true,
+      "fingerprint": "ae38dc74df48",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BlockQuantities",
+      "kind": "interface",
+      "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "line": 140,
+      "exported": true,
+      "fingerprint": "9de9aefade51",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "SelectedTimeSlot",
       "kind": "interface",
       "file": "client/src/utils/booking/availabilityStepData.ts",
@@ -6057,6 +6130,16 @@
       "exported": false,
       "fingerprint": "545ec98668c7",
       "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ExtractedErrorMessage",
+      "kind": "interface",
+      "file": "client/src/utils/errors/axiosErrorUtils.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "a14d5912dc53",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -6410,23 +6493,23 @@
       "primitiveAlias": null
     },
     {
-      "name": "FetchAllOptions",
-      "kind": "type-alias-object",
-      "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-      "line": 31,
-      "exported": false,
-      "fingerprint": "89738ee605e9",
-      "propertyCount": 2,
+      "name": "MutationMethod",
+      "kind": "type-alias-union",
+      "file": "server/src/routes/helpers/crudHandlerHelpers.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "3d350505ecdc",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
-      "name": "MutationMethod",
-      "kind": "type-alias-union",
+      "name": "FetchAllOptions",
+      "kind": "type-alias-object",
       "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-      "line": 165,
+      "line": 30,
       "exported": false,
-      "fingerprint": "3d350505ecdc",
-      "propertyCount": 0,
+      "fingerprint": "89738ee605e9",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -6540,6 +6623,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "ImportStats",
+      "kind": "interface",
+      "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+      "line": 142,
+      "exported": true,
+      "fingerprint": "d1a9d1af43e6",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
@@ -6573,7 +6666,7 @@
       "name": "AddressWithVersions",
       "kind": "interface",
       "file": "server/src/scripts/importCalendarData.ts",
-      "line": 38,
+      "line": 45,
       "exported": false,
       "fingerprint": "7be27331580c",
       "propertyCount": 1,

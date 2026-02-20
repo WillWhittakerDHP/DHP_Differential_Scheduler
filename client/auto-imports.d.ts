@@ -17,6 +17,9 @@ declare global {
   const alphaDashValidator: typeof import('./src/@core/utils/validators').alphaDashValidator
   const alphaValidator: typeof import('./src/@core/utils/validators').alphaValidator
   const api: typeof import('./src/utils/api/index').default
+  const asEmptyArray: typeof import('./src/utils/safeDefaults').asEmptyArray
+  const asEmptyObject: typeof import('./src/utils/safeDefaults').asEmptyObject
+  const asEmptyString: typeof import('./src/utils/safeDefaults').asEmptyString
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
   const avatarText: typeof import('./src/@core/utils/formatters').avatarText
@@ -604,6 +607,9 @@ declare module 'vue' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly alphaDashValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['alphaDashValidator']>
     readonly alphaValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['alphaValidator']>
+    readonly asEmptyArray: UnwrapRef<typeof import('./src/utils/safeDefaults')['asEmptyArray']>
+    readonly asEmptyObject: UnwrapRef<typeof import('./src/utils/safeDefaults')['asEmptyObject']>
+    readonly asEmptyString: UnwrapRef<typeof import('./src/utils/safeDefaults')['asEmptyString']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>

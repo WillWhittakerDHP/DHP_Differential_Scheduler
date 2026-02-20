@@ -32,8 +32,8 @@ interface TimeBlock {
  * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
  */
 export interface DifferentialTimeBlocks {
-  major: TimeBlock  // Major perspective (legacy name)
-  minor: TimeBlock | null  // Minor perspective (legacy name)
+  major: TimeBlock  // Major perspective (inspector)
+  minor: TimeBlock | null  // Minor perspective (client)
 }
 
 interface UseTimeSlotCalculationsParams {

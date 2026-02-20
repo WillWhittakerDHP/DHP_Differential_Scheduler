@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-20T16:43:36.617Z",
-  "totalFiles": 778,
+  "generatedAt": "2026-02-20T17:32:55.458Z",
+  "totalFiles": 787,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135
@@ -20,11 +20,6 @@
       "direction": "composable-root->domain"
     },
     {
-      "from": "client/src/composables/useSelectOptions.ts",
-      "to": "client/src/composables/admin/useSelectDomTargets",
-      "direction": "composable-root->domain"
-    },
-    {
       "from": "client/src/composables/useSelectionCard.ts",
       "to": "client/src/composables/booking/useSelectionCard",
       "direction": "composable-root->domain"
@@ -38,11 +33,6 @@
     },
     {
       "file": "client/src/composables/useBookingWizard.ts",
-      "score": 5,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/composables/useSelectOptions.ts",
       "score": 5,
       "priority": "P2"
     },

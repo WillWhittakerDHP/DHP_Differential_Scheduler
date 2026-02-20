@@ -8,6 +8,8 @@
  * CRITICAL: Must be implemented before making API calls to prevent quota exhaustion
  */
 
+import { asEmptyArray } from '../utils/safeDefaults.js';
+
 type ApiName = 'google-calendar' | 'google-maps' | 'mls';
 
 interface RateLimitConfig {
@@ -88,7 +90,7 @@ export function checkRateLimit(apiName: ApiName): RateLimitResult {
   cleanOldTimestamps(apiName);
 
   const config = rateLimitConfigs[apiName];
-  const timestamps = requestTimestamps.get(apiName) || [];
+  const timestamps = asEmptyArray(requestTimestamps.get(apiName));
   const currentCount = timestamps.length;
 
   // Calculate oldest timestamp in window (if any)
@@ -131,7 +133,7 @@ export function checkRateLimit(apiName: ApiName): RateLimitResult {
  */
 export function recordRequest(apiName: ApiName): void {
   initializeApiStorage(apiName);
-  const timestamps = requestTimestamps.get(apiName) || [];
+  const timestamps = asEmptyArray(requestTimestamps.get(apiName));
   timestamps.push({ timestamp: Date.now() });
   requestTimestamps.set(apiName, timestamps);
 }
@@ -176,7 +178,7 @@ export function getRateLimitStats(apiName: ApiName) {
   cleanOldTimestamps(apiName);
   
   const config = rateLimitConfigs[apiName];
-  const timestamps = requestTimestamps.get(apiName) || [];
+  const timestamps = asEmptyArray(requestTimestamps.get(apiName));
   
   return {
     apiName,

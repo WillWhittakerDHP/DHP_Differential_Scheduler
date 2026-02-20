@@ -78,6 +78,7 @@ import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstan
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('PartInstanceBulkEditModal')
 
@@ -148,7 +149,7 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'partInstance' as const,
       name: '',
-      partShapeRef: partShapeRef.value || '',
+      partShapeRef: asEmptyString(partShapeRef.value),
       orderIndex: 0,
       baseTime: editData.baseTime ?? 0,
       rateOverBaseTime: editData.rateOverBaseTime ?? 0,
@@ -167,7 +168,7 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'partInstance',
       name: '',
-      partShapeRef: partShapeRef.value !== undefined && partShapeRef.value !== null && partShapeRef.value !== '' ? partShapeRef.value : '',
+      partShapeRef: asEmptyString(partShapeRef.value),
       orderIndex: 0,
       baseTime: 0,
       rateOverBaseTime: 0,

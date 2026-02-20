@@ -14,6 +14,7 @@ import apiClient from '@/utils/api'
 import { appendIfMissingById } from '@/utils/collections/appendIfMissingById'
 import type { UpdateByIdPayload } from '@/composables/businessDataCollections/types'
 import { createRefetchQueriesHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export interface DataCollectionCrudConfig<
   CollectionItem extends { id: string },
@@ -63,7 +64,7 @@ export function useDataCollectionActions<
       if (enableOptimisticUpdates && createdItem?.id) {
         const currentData = queryClient.getQueryData<DataType>(queryKey)
         if (currentData) {
-          const currentCollection = config.selectCollection(currentData) ?? []
+          const currentCollection = asEmptyArray(config.selectCollection(currentData))
           const updatedCollection = appendIfMissingById(currentCollection, createdItem)
           const updatedData = config.updateCollection(currentData, updatedCollection)
           queryClient.setQueryData<DataType>(queryKey, updatedData)
@@ -86,7 +87,7 @@ export function useDataCollectionActions<
       if (enableOptimisticUpdates && updatedItem?.id) {
         const currentData = queryClient.getQueryData<DataType>(queryKey)
         if (currentData) {
-          const currentCollection = config.selectCollection(currentData) ?? []
+          const currentCollection = asEmptyArray(config.selectCollection(currentData))
           const updatedCollection = currentCollection.map(item =>
             item.id === updatedItem.id ? updatedItem : item
           )
@@ -111,7 +112,7 @@ export function useDataCollectionActions<
       if (enableOptimisticUpdates && patchedItem?.id) {
         const currentData = queryClient.getQueryData<DataType>(queryKey)
         if (currentData) {
-          const currentCollection = config.selectCollection(currentData) ?? []
+          const currentCollection = asEmptyArray(config.selectCollection(currentData))
           const updatedCollection = currentCollection.map(item =>
             item.id === patchedItem.id ? patchedItem : item
           )
@@ -132,7 +133,7 @@ export function useDataCollectionActions<
       if (enableOptimisticUpdates) {
         const currentData = queryClient.getQueryData<DataType>(queryKey)
         if (currentData) {
-          const currentCollection = config.selectCollection(currentData) ?? []
+          const currentCollection = asEmptyArray(config.selectCollection(currentData))
           const updatedCollection = currentCollection.filter(item => item.id !== deletedId)
           const updatedData = config.updateCollection(currentData, updatedCollection)
           queryClient.setQueryData<DataType>(queryKey, updatedData)

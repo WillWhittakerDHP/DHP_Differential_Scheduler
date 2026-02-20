@@ -6,6 +6,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { asEmptyString } from '@/utils/safeDefaults'
 import { useNotification } from '@/composables/useNotification'
 
 /**
@@ -20,7 +21,7 @@ const { notification, showNotification, close } = useNotification()
  * WHY: Ensures slot content is tracked within render function
  * PATTERN: Computed property for slot content
  */
-const message = computed(() => notification.value?.message || '')
+const message = computed(() => asEmptyString(notification.value?.message))
 const color = computed(() => notification.value?.color || 'info')
 const timeout = computed(() => notification.value?.timeout || 4000)
 </script>

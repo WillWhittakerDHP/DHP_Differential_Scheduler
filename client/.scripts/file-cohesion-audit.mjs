@@ -31,6 +31,9 @@ import {
  *   - client/.audit-reports/file-cohesion-audit.md
  */
 
+/** Tier 1 = drives score and file count. Tier 2 = report-only. */
+const TIER1_RULES = ['oversized', 'high-exports', 'mixed-concerns']
+
 const DEFAULT_THRESHOLDS = {
   components: 500,
   composables: 400,
@@ -129,16 +132,32 @@ function analyzeFile(absPath, thresholds, projectRoot) {
     })
   }
 
-  return { repoPath, category, lineCount, exportCount, mixedConcerns, hasExports, violations }
+  const violationsWithTier = violations.map((v) => ({
+    ...v,
+    tier: TIER1_RULES.includes(v.rule) ? 1 : 2,
+  }))
+
+  return { repoPath, category, lineCount, exportCount, mixedConcerns, hasExports, violations: violationsWithTier }
+}
+
+/** Skip at scan time: small composable with only pureHelperInComposables (never in report). */
+const PURE_HELPER_PERMISSIBLE_LINE_CAP = 30
+
+function isPermissibleCohesionFile(result) {
+  if (result.category !== 'composables' || result.lineCount >= PURE_HELPER_PERMISSIBLE_LINE_CAP) return false
+  const onlyPureHelper =
+    result.violations.length === 1 && result.violations[0].rule === 'pureHelperInComposables'
+  return onlyPureHelper
 }
 
 const VIOLATION_WEIGHT = { oversized: 3, 'high-exports': 2, 'mixed-concerns': 5, 'no-exports': 1, pureHelperInComposables: 1 }
 
+/** Score from Tier 1 violations only (oversized, high-exports, mixed-concerns). */
 function calculateScore(violations, lineCount, lineThreshold) {
+  const tier1 = violations.filter((v) => v.tier === 1)
   let score = 0
-  for (const v of violations) {
+  for (const v of tier1) {
     if (v.rule === 'oversized') {
-      // 3 points per 100 lines over threshold
       score += Math.ceil((lineCount - lineThreshold) / 100) * 3
     } else if (v.rule === 'high-exports') {
       score += (v.value - v.threshold) * 2
@@ -166,16 +185,21 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
   lines.push('')
   lines.push('## Summary')
   lines.push('')
+  lines.push('Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Tier 2 (no-exports, pureHelperInComposables) is report-only.')
+  lines.push('')
   lines.push(`- Files scanned: **${totalScanned}**`)
   lines.push(`- Files with violations: **${filesWithFindings.length}**`)
 
   const violationCounts = {}
+  const tier1Counts = {}
   for (const f of filesWithFindings) {
     for (const v of f.violations) {
       violationCounts[v.rule] = (violationCounts[v.rule] || 0) + 1
+      if (v.tier === 1) tier1Counts[v.rule] = (tier1Counts[v.rule] || 0) + 1
     }
   }
   lines.push(`- Oversized: ${violationCounts.oversized || 0} | High exports: ${violationCounts['high-exports'] || 0} | Mixed concerns: ${violationCounts['mixed-concerns'] || 0} | No exports: ${violationCounts['no-exports'] || 0} | Pure helper in composables: ${violationCounts.pureHelperInComposables || 0}`)
+  lines.push(`- Tier 1 violations (score): oversized=${tier1Counts.oversized || 0}, high-exports=${tier1Counts['high-exports'] || 0}, mixed-concerns=${tier1Counts['mixed-concerns'] || 0}`)
   lines.push('')
 
   lines.push('## Top hotspots')
@@ -227,7 +251,6 @@ function main() {
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     const result = analyzeFile(abs, thresholds, paths.projectRoot)
-    // Filter out violations that are allowed by config (e.g. specific file + ruleId)
     result.violations = result.violations.filter(
       (v) => !checkConfigAllowlist(repoPath, v.rule, 1, configAllowlist).allowed
     )
@@ -235,8 +258,10 @@ function main() {
 
     const lineThreshold = thresholds[result.category] || thresholds.general
     const score = calculateScore(result.violations, result.lineCount, lineThreshold)
-    const priority = assignPriority(score, config)
+    if (score === 0) continue
+    if (isPermissibleCohesionFile(result)) continue
 
+    const priority = assignPriority(score, config)
     scanned.push({ ...result, score, priority })
   }
 
@@ -245,6 +270,8 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     totalScanned: allFiles.length,
+    tierModel: 'tier1',
+    tier1Rules: TIER1_RULES,
     thresholds,
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     files: scanned,

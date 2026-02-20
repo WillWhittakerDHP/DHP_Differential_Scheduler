@@ -10,7 +10,7 @@ Generated from `client/.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - Coverage: **0%**
-- Untested source files: **778**
+- Untested source files: **787**
 - Orphaned test files: **0**
 
 ## Top 20 untested files (with exports)
@@ -21,7 +21,6 @@ Generated from `client/.audit-reports/test-audit.json`.
 | `client/src/utils/transformers/fieldClassification.ts` | 8.7 | 8.7 | 10 | 10 | 2 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | 8.4 | 8.4 | 8 | 10 | 9 |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | 8.1 | 8.1 | 10 | 7 | 2 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | 8 | 8 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | 8 | 8 | 10 | 8 | 4 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | 8 | 8 | 10 | 10 | 5 |
 | `client/src/composables/booking/useWizardValidationErrors.ts` | 7.8 | 7.8 | 9 | 7 | 2 |
@@ -36,6 +35,7 @@ Generated from `client/.audit-reports/test-audit.json`.
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 7.7 | 7.7 | 10 | 8 | 1 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | 7.6 | 7.6 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | 7.6 | 7.6 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | 7.5 | 7.5 | 9 | 7 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
 
 Full report: `client/.audit-reports/test-audit.md`.

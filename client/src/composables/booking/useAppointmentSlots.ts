@@ -21,6 +21,7 @@ import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointment
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useGlobal } from '@/composables/useGlobal'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
 import {
   getMajorEventShape,
@@ -130,8 +131,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       return { major: null, minor: null }
     }
 
-    const majorAttendeeIds = availabilitySettingsValue.differentialPerspectives.majorAttendees ?? []
-    const minorAttendeeIds = availabilitySettingsValue.differentialPerspectives.minorAttendees ?? []
+    const majorAttendeeIds = asEmptyArray(availabilitySettingsValue.differentialPerspectives.majorAttendees)
+    const minorAttendeeIds = asEmptyArray(availabilitySettingsValue.differentialPerspectives.minorAttendees)
     const shape = appointmentShape.value
     if (!shape?.slotShape.eventFinals) return { major: null, minor: null }
 

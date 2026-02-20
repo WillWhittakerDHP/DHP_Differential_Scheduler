@@ -8,6 +8,7 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
+import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
 
 /** Extends shared base for single source of truth (TYPE_SIMILARITY 1.14). */
@@ -23,7 +24,7 @@ export function useAppointmentDropdown(
   const { fetchAll } = options
 
   const appointmentDropdownItems = computed(() => {
-    const appointments = fetchAll.data.value || []
+    const appointments = asEmptyArray(fetchAll.data.value)
     
     // WHY: Functional approach avoids forEach with array mutations
     // PATTERN: Map appointments to items array, prepend "Random Appointment" option
@@ -32,7 +33,7 @@ export function useAppointmentDropdown(
       ...appointments.map((appointment) => {
         const address = appointment.propertyVersion?.address
         const addressText = address 
-          ? `${address.address || ''}${address.unit ? ` ${address.unit}` : ''}, ${address.city || ''}, ${address.state || ''}`.trim()
+          ? `${asEmptyString(address.address)}${address.unit ? ` ${address.unit}` : ''}, ${asEmptyString(address.city)}, ${asEmptyString(address.state)}`.trim()
           : `Appointment ${appointment.id.slice(0, 8)}`
         return {
           text: addressText || `Appointment ${appointment.id.slice(0, 8)}`,

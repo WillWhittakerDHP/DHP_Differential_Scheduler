@@ -282,7 +282,7 @@ function renderMarkdownReport(data) {
   lines.push(`- Entity keys detected (from \`client/src/constants/entities.ts\`): ${entityKeys.length ? entityKeys.map(k => `\`${k}\``).join(', ') : '(none detected)'}`)
   lines.push(`- Total files scanned: **${files.length}**`)
   lines.push(`- **Requiring review: ${exceptionSummary.totalRequiresReview}**`)
-  lines.push(`- Allowed (with justification): ${exceptionSummary.totalAllowed} (inline: ${exceptionSummary.bySource.inline}, pattern: ${exceptionSummary.bySource.pattern}, specific: ${exceptionSummary.bySource.specific})`)
+  lines.push(`- Allowed (with justification): ${exceptionSummary.totalAllowed} (inline: ${exceptionSummary.bySource.inline}, pattern: ${exceptionSummary.bySource.pattern}, specific: ${exceptionSummary.bySource.specific}, linePattern: ${exceptionSummary.bySource.linePattern ?? 0})`)
   lines.push('')
   lines.push('## Top hotspots (by heuristic score, excluding allowed)')
   lines.push('')

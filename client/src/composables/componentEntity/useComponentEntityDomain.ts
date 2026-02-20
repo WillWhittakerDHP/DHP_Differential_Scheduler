@@ -7,6 +7,7 @@ import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export type UseComponentEntityDomainParams<GE extends GlobalEntityKey> = {
   entityKey: GE
@@ -123,7 +124,7 @@ export function useComponentEntityDomain<GE extends GlobalEntityKey>(
   function getComposedEntity(composerId: GlobalEntityId): GlobalEntity<GE> | null {
     const globalData = getGlobalData()
     if (!globalData) return null
-    const componentRelationships = globalData.relationships.instanceComponents || []
+    const componentRelationships = asEmptyArray(globalData.relationships.instanceComponents)
 
     return getComposedEntityFromRelationships(
       composerId,
@@ -142,11 +143,11 @@ export function useComponentEntityDomain<GE extends GlobalEntityKey>(
     const globalData = getGlobalData()
     if (!globalData) return []
 
-    const componentRelationships = globalData.relationships.instanceComponents || []
+    const componentRelationships = asEmptyArray(globalData.relationships.instanceComponents)
     const componentIds = getComponentsRecursive(composerId, entityKey, componentRelationships)
 
     const { resolved: components } = resolveByIds(
-      globalData.entities[entityKey] || [],
+      asEmptyArray(globalData.entities[entityKey]),
       componentIds
     )
 

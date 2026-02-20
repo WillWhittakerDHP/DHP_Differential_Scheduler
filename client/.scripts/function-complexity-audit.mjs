@@ -51,10 +51,41 @@ function extractVueScriptBlocks(content) {
   return blocks
 }
 
+/** Route path pattern for permissible handler heuristic. */
+const ROUTES_PATH_RE = /\/(?:routes|src\/routes)\//
+
+/** Return true to skip this function (excluded from report and score). */
+function isPermissibleComplexFunction(fn, context) {
+  const { repoPath, isVueSetup, firstLine } = context
+  if (fn.name === '<script setup>') {
+    const onlyScriptSetupLength =
+      fn.violations.length === 1 && fn.violations[0].rule === 'script-setup-length'
+    return onlyScriptSetupLength
+  }
+  if (repoPath && ROUTES_PATH_RE.test(repoPath) && firstLine) {
+    const hasReq = /\breq\b/.test(firstLine)
+    const hasRes = /\bres\b/.test(firstLine)
+    if (hasReq && hasRes) return true
+  }
+  return false
+}
+
+/** Tier 1 = drives score and file count. Tier 2 = report-only. */
+function assignTiers(violations, thresholds, maxNesting, branches) {
+  const hasNestingOrBranches =
+    violations.some((v) => v.rule === 'nesting' || v.rule === 'branches')
+  return violations.map((v) => {
+    let tier = 2
+    if (v.rule === 'nesting' || v.rule === 'branches') tier = 1
+    else if (v.rule === 'length' && hasNestingOrBranches) tier = 1
+    return { ...v, tier }
+  })
+}
+
 /**
  * Detect function boundaries and measure complexity metrics
  */
-function analyzeFile(content, isVueSetup, thresholds) {
+function analyzeFile(content, isVueSetup, thresholds, repoPath = null) {
   const lines = content.split('\n')
   const functions = []
 
@@ -121,26 +152,35 @@ function analyzeFile(content, isVueSetup, thresholds) {
         : 0
       
       // Determine violations
-      const violations = []
-      if (maxNesting > thresholds.maxNesting) violations.push({ rule: 'nesting', value: maxNesting, threshold: thresholds.maxNesting })
-      if (branches > thresholds.maxBranches) violations.push({ rule: 'branches', value: branches, threshold: thresholds.maxBranches })
-      if (funcLength > thresholds.maxFunctionLines) violations.push({ rule: 'length', value: funcLength, threshold: thresholds.maxFunctionLines })
-      if (params > thresholds.maxParams) violations.push({ rule: 'params', value: params, threshold: thresholds.maxParams })
-      if (returns > thresholds.maxReturns) violations.push({ rule: 'returns', value: returns, threshold: thresholds.maxReturns })
-      
-      if (violations.length > 0) {
-        functions.push({
-          name,
-          startLine: startLine + 1,
-          endLine: endLine + 1,
-          length: funcLength,
-          maxNesting,
-          branches,
-          params,
-          returns,
-          violations,
-        })
+      const violationsRaw = []
+      if (maxNesting > thresholds.maxNesting) violationsRaw.push({ rule: 'nesting', value: maxNesting, threshold: thresholds.maxNesting })
+      if (branches > thresholds.maxBranches) violationsRaw.push({ rule: 'branches', value: branches, threshold: thresholds.maxBranches })
+      if (funcLength > thresholds.maxFunctionLines) violationsRaw.push({ rule: 'length', value: funcLength, threshold: thresholds.maxFunctionLines })
+      if (params > thresholds.maxParams) violationsRaw.push({ rule: 'params', value: params, threshold: thresholds.maxParams })
+      if (returns > thresholds.maxReturns) violationsRaw.push({ rule: 'returns', value: returns, threshold: thresholds.maxReturns })
+
+      if (violationsRaw.length === 0) {
+        i = endLine + 1
+        continue
       }
+
+      const violations = assignTiers(violationsRaw, thresholds, maxNesting, branches)
+      const fn = {
+        name,
+        startLine: startLine + 1,
+        endLine: endLine + 1,
+        length: funcLength,
+        maxNesting,
+        branches,
+        params,
+        returns,
+        violations,
+      }
+      if (repoPath != null && isPermissibleComplexFunction(fn, { repoPath, isVueSetup, firstLine: line })) {
+        i = endLine + 1
+        continue
+      }
+      functions.push(fn)
       
       i = endLine + 1
       continue
@@ -150,7 +190,10 @@ function analyzeFile(content, isVueSetup, thresholds) {
   
   // For Vue script setup, also check the entire block length
   if (isVueSetup && lines.length > thresholds.maxScriptSetupLines) {
-    functions.push({
+    const scriptSetupViolation = [
+      { rule: 'script-setup-length', value: lines.length, threshold: thresholds.maxScriptSetupLines, tier: 2 },
+    ]
+    const scriptSetupFn = {
       name: '<script setup>',
       startLine: 1,
       endLine: lines.length,
@@ -159,18 +202,27 @@ function analyzeFile(content, isVueSetup, thresholds) {
       branches: 0,
       params: 0,
       returns: 0,
-      violations: [{ rule: 'script-setup-length', value: lines.length, threshold: thresholds.maxScriptSetupLines }],
-    })
+      violations: scriptSetupViolation,
+    }
+    if (repoPath == null || !isPermissibleComplexFunction(scriptSetupFn, { repoPath, isVueSetup })) {
+      functions.push(scriptSetupFn)
+    }
   }
-  
+
   return functions
 }
 
 const VIOLATION_SCORE = { nesting: 5, branches: 3, length: 2, params: 2, returns: 1, 'script-setup-length': 3 }
 
 function calculateScore(functions) {
-  return functions.reduce((sum, fn) =>
-    sum + fn.violations.reduce((vs, v) => vs + (VIOLATION_SCORE[v.rule] || 1), 0), 0)
+  return functions.reduce(
+    (sum, fn) =>
+      sum +
+      fn.violations
+        .filter((v) => v.tier === 1)
+        .reduce((vs, v) => vs + (VIOLATION_SCORE[v.rule] || 1), 0),
+    0
+  )
 }
 
 function assignPriority(score, config) {
@@ -190,21 +242,26 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
   lines.push('')
   lines.push('## Summary')
   lines.push('')
+  lines.push('Tier 1 (nesting, branches, length-when-branchy) drives score and file count; Tier 2 (params, returns, length-only, script-setup-length) is report-only. Route handlers and script-setup length-only are excluded.')
+  lines.push('')
   lines.push(`- Files scanned: **${totalScanned}**`)
   lines.push(`- Files with complex functions: **${filesWithFindings.length}**`)
 
   let totalFns = 0
   const violationCounts = {}
+  const tier1Counts = {}
   for (const f of filesWithFindings) {
     totalFns += f.functions.length
     for (const fn of f.functions) {
       for (const v of fn.violations) {
         violationCounts[v.rule] = (violationCounts[v.rule] || 0) + 1
+        if (v.tier === 1) tier1Counts[v.rule] = (tier1Counts[v.rule] || 0) + 1
       }
     }
   }
   lines.push(`- Complex functions found: **${totalFns}**`)
   lines.push(`- Violations: nesting=${violationCounts.nesting || 0}, branches=${violationCounts.branches || 0}, length=${violationCounts.length || 0}, params=${violationCounts.params || 0}, returns=${violationCounts.returns || 0}`)
+  lines.push(`- Tier 1 violations (score): nesting=${tier1Counts.nesting || 0}, branches=${tier1Counts.branches || 0}, length=${tier1Counts.length || 0}`)
   lines.push('')
 
   lines.push('## Top hotspots')
@@ -278,12 +335,13 @@ function main() {
       }
     }
 
-    const functions = analyzeFile(content, isVueSetup, thresholds)
+    const functions = analyzeFile(content, isVueSetup, thresholds, repoPath)
     if (functions.length === 0) continue
 
     const fileScore = calculateScore(functions)
-    const filePriority = assignPriority(fileScore, config)
+    if (fileScore === 0) continue
 
+    const filePriority = assignPriority(fileScore, config)
     scanned.push({ repoPath, functions, score: fileScore, priority: filePriority })
   }
 
@@ -292,6 +350,8 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     totalScanned: allFiles.length,
+    tierModel: 'tier1',
+    tier1Rules: ['nesting', 'branches', 'length-when-branchy'],
     thresholds,
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     files: scanned,

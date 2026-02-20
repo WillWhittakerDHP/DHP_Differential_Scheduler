@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-20T16:44:12.362Z",
+  "generatedAt": "2026-02-20T17:33:39.042Z",
   "summary": {
-    "totalSourceFiles": 778,
+    "totalSourceFiles": 787,
     "totalTestFiles": 0,
-    "untestedSourceFiles": 778,
+    "untestedSourceFiles": 787,
     "orphanedTestFiles": 0,
     "coveragePercentage": 0
   },
@@ -2559,10 +2559,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -3074,11 +3074,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 8,
+        "reliability": 9,
+        "independence": 9,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 8,
+        "cognitiveLoad": 0,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -4606,10 +4606,70 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 3,
+        "independence": 5,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 3.3,
+        "cognitiveLoad": 2,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
         "bucket": "P2"
       }
     },
@@ -4655,10 +4715,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -6869,6 +6929,21 @@
       }
     },
     {
+      "repoPath": "client/src/types/entity/selectOptions.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/types/events.ts",
       "functions": [],
       "classes": [],
@@ -7446,6 +7521,29 @@
         "cognitiveLoad": 0,
         "overall": 5.4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "functions": [
+        "buildAppointmentRequest",
+        "buildAttendeeSpecs",
+        "buildAttendeesFromContacts",
+        "buildAvailabilityPayload",
+        "buildBlockQuantities",
+        "buildPropertyDetailsForRequest",
+        "buildPropertyRequest"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 7,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 10,
+        "cognitiveLoad": 1,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -8324,6 +8422,23 @@
         "cognitiveLoad": 0,
         "overall": 4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/errors/axiosErrorUtils.ts",
+      "functions": [
+        "extractAxiosErrorMessage"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -10829,6 +10944,23 @@
       }
     },
     {
+      "repoPath": "server/src/routes/helpers/crudHandlerHelpers.ts",
+      "functions": [
+        "runMutationValidation"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
       "functions": [],
       "classes": [],
@@ -10838,8 +10970,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 1.7,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -12361,6 +12493,29 @@
       }
     },
     {
+      "repoPath": "server/src/scripts/helpers/calendarImportHelpers.ts",
+      "functions": [
+        "buildPropertyDetailsUpdates",
+        "findOrCreateAddress",
+        "findOrCreatePropertyDetailsForVersion",
+        "findOrCreatePropertyVersionForAddress",
+        "printImportSummary",
+        "readEventsFromStdin",
+        "updatePropertyDetailsIfNeeded"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 7,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 4,
+        "overall": 3.9,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "functions": [
         "extractClients",
@@ -13421,9 +13576,9 @@
     },
     {
       "directory": "client/src/composables/entityCrud",
-      "sourceCount": 8,
+      "sourceCount": 12,
       "testCount": 0,
-      "untestedCount": 8
+      "untestedCount": 12
     },
     {
       "directory": "client/src/composables/fieldContext",
@@ -13559,9 +13714,9 @@
     },
     {
       "directory": "client/src/types/entity",
-      "sourceCount": 2,
+      "sourceCount": 3,
       "testCount": 0,
-      "untestedCount": 2
+      "untestedCount": 3
     },
     {
       "directory": "client/src/utils/admin",
@@ -13583,9 +13738,9 @@
     },
     {
       "directory": "client/src/utils/booking",
-      "sourceCount": 37,
+      "sourceCount": 38,
       "testCount": 0,
-      "untestedCount": 37
+      "untestedCount": 38
     },
     {
       "directory": "client/src/utils/collections",
@@ -13625,6 +13780,12 @@
     },
     {
       "directory": "client/src/utils/env",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
+    },
+    {
+      "directory": "client/src/utils/errors",
       "sourceCount": 1,
       "testCount": 0,
       "untestedCount": 1
@@ -13769,9 +13930,9 @@
     },
     {
       "directory": "server/src/routes/helpers",
-      "sourceCount": 9,
+      "sourceCount": 10,
       "testCount": 0,
-      "untestedCount": 9
+      "untestedCount": 10
     },
     {
       "directory": "server/src/routes",
@@ -13871,9 +14032,9 @@
     },
     {
       "directory": "server/src/scripts/helpers",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 2
     },
     {
       "directory": "server/src/scripts",
@@ -17100,10 +17261,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -17727,11 +17888,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 8,
+        "reliability": 9,
+        "independence": 9,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 8,
+        "cognitiveLoad": 0,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -19595,10 +19756,86 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 3,
+        "independence": 5,
         "roi": 2,
-        "cognitiveLoad": 5,
-        "overall": 3.3,
+        "cognitiveLoad": 2,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 2.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 4,
+        "independence": 6,
+        "roi": 2,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
         "bucket": "P2"
       }
     },
@@ -19656,10 +19893,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -22444,6 +22681,25 @@
       }
     },
     {
+      "repoPath": "client/src/types/entity/selectOptions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/entity/selectOptions.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/types/events.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/events.ts",
       "functions": [],
@@ -23161,6 +23417,33 @@
         "cognitiveLoad": 0,
         "overall": 5.4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentDataBuilders.ts",
+      "functions": [
+        "buildAppointmentRequest",
+        "buildAttendeeSpecs",
+        "buildAttendeesFromContacts",
+        "buildAvailabilityPayload",
+        "buildBlockQuantities",
+        "buildPropertyDetailsForRequest",
+        "buildPropertyRequest"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 7,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 10,
+        "cognitiveLoad": 1,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -24239,6 +24522,27 @@
         "cognitiveLoad": 0,
         "overall": 4,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/errors/axiosErrorUtils.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/errors/axiosErrorUtils.ts",
+      "functions": [
+        "extractAxiosErrorMessage"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 7,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -27571,6 +27875,27 @@
       }
     },
     {
+      "repoPath": "server/src/routes/helpers/crudHandlerHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/crudHandlerHelpers.ts",
+      "functions": [
+        "runMutationValidation"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/crudRouteHandlers.ts",
       "functions": [],
@@ -27584,8 +27909,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 1.7,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -29467,6 +29792,33 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2.8,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/scripts/helpers/calendarImportHelpers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/scripts/helpers/calendarImportHelpers.ts",
+      "functions": [
+        "buildPropertyDetailsUpdates",
+        "findOrCreateAddress",
+        "findOrCreatePropertyDetailsForVersion",
+        "findOrCreatePropertyVersionForAddress",
+        "printImportSummary",
+        "readEventsFromStdin",
+        "updatePropertyDetailsIfNeeded"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 7,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 5,
+        "cognitiveLoad": 4,
+        "overall": 3.9,
         "bucket": "P2"
       }
     },

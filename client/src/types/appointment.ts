@@ -88,7 +88,6 @@ export interface SlotShape {
  * BlockFinal Refactor: Added finalizedBlocks as source of truth
  * WHY: Makes it explicit that we're finalizing blocks, preserving block-level context
  * PATTERN: finalizedBlocks is source of truth, finalizedParts is derived for backward compatibility
- * @audit-allow:deprecation:compat-marker - Intentional compat note for finalizedParts vs finalizedBlocks
  *
  * LEARNING: Events are appointment-level features, not part-level properties
  * WHY: Events are configured at shape level (PartShape → EventInstance), parts determine which events apply
@@ -96,7 +95,6 @@ export interface SlotShape {
  */
 export interface AppointmentShape {
   finalizedBlocks: BlockFinal[]  // New: source of truth - finalized blocks
-  // @audit-allow:deprecation:compat-marker - Intentional compat note for finalizedParts vs finalizedBlocks
   finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility
   
   slotShape: SlotShape

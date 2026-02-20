@@ -9,6 +9,7 @@ import type { GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useAdmin } from '@/composables/useAdmin'
 import { createLogger } from '@/utils/logger'
+import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('useFieldContextState')
 import { useComponentEntity } from '@/composables/useComponentEntity'
@@ -67,12 +68,13 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   entityId: GlobalEntityId,
   options?: UseFieldContextStateOptions<GE, FieldKey>
 ): UseFieldContextStateReturn<GE, FieldKey> {
+  const resolvedOptions = asEmptyObject(options as Record<string, unknown> | null | undefined) as UseFieldContextStateOptions<GE, FieldKey>
   const {
     form,
     displayConfig: providedDisplayConfig = {},
     validationRules: providedValidationRules = {},
     initialValue: explicitInitialValue,
-  } = options || {}
+  } = resolvedOptions
 
   const isTempEntity = computed(() => {
     if (!entityId) return true
@@ -138,7 +140,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     const propertyName = actualPropertyName.value
     if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
       const propValue = (currentEntity as Record<string, unknown>)[propertyName]
-      return (propValue as ValidAdminValue | undefined) ?? ''
+      return asEmptyString(propValue as string | null | undefined) as ValidAdminValue
     }
     return ''
   })
@@ -201,7 +203,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const fieldOptions: FieldOptions<ValidAdminValue> = {
     form: formInstance,
-    initialValue: (initialValue ?? '') as ValidAdminValue,
+    initialValue: (initialValue != null ? initialValue : '') as ValidAdminValue,
     validateOnValueUpdate: true,
   }
 

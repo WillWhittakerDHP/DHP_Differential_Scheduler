@@ -17,6 +17,7 @@ import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { composePropertiesFromComponents } from './composePropertyValue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('componentAggregator')
 
@@ -31,7 +32,7 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
   entityKind: GE,
   globalData: GlobalData
 ): InstanceComponent[] {
-  const relationships = globalData.relationships.instanceComponents || []
+  const relationships = asEmptyArray(globalData.relationships.instanceComponents)
   
   // PATTERN: Use flatMap to transform relationships to InstanceComponents immutably
   return relationships
@@ -97,7 +98,7 @@ export function composePartInstances(
   composedBlockIds: string[],
   globalData: GlobalData
 ): string[] {
-  const partAssignmentsRelationships = globalData.relationships.partAssignments || []
+  const partAssignmentsRelationships = asEmptyArray(globalData.relationships.partAssignments)
   
   // PATTERN: Use flatMap to collect all part instance IDs immutably, then deduplicate with Set
   const allPartInstanceIds = new Set(
@@ -138,7 +139,7 @@ export function composeProperties<GE extends GlobalEntityKey>(
     return {}
   }
   
-  const { resolved: components, missingIds } = resolveByIds(globalData.entities[entityKind] || [], componentIds)
+  const { resolved: components, missingIds } = resolveByIds(asEmptyArray(globalData.entities[entityKind]), componentIds)
 
   // PATTERN: Log and continue with resolved entities only
   if (missingIds.length > 0 && isDevModeEnabled()) {

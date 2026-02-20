@@ -13,13 +13,14 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[] {
-  const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]
+  const blockShapes = asEmptyArray(globalData.entities.blockShape) as BlockShapeEntity[]
   const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
   const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
   
-  const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]
+  const blockInstances = asEmptyArray(globalData.entities.blockInstance) as BlockInstanceEntity[]
   const stateControlBlockInstances = blockInstances.filter(
     instance => 
       stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef))

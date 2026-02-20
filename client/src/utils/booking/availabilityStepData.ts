@@ -4,6 +4,7 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventShapeEntity } from '@/types/entities'
 import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 export interface SelectedTimeSlot {
   startTime: RFC3339DateTime  // Explicit RFC3339 start
@@ -42,13 +43,13 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
   // LEARNING: Get event shapes from the slot's shape (already computed by appointmentSlotBuilder)
   // WHY: EventFinals contain the event shapes with their names and attendees
-  const eventFinals = params.selectedSlot.shape?.slotShape?.eventFinals || []
+  const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
   // LEARNING: Use attendee-based lookup to find major/minor event shapes
   // WHY: Event names are configurable (e.g., 'OnSite', 'ClientPresent'), not hardcoded
-  const majorAttendeeIds = params.availabilitySettings?.differentialPerspectives?.majorAttendees || []
-  const minorAttendeeIds = params.availabilitySettings?.differentialPerspectives?.minorAttendees || []
+  const majorAttendeeIds = asEmptyArray(params.availabilitySettings?.differentialPerspectives?.majorAttendees)
+  const minorAttendeeIds = asEmptyArray(params.availabilitySettings?.differentialPerspectives?.minorAttendees)
 
   // Find major event shape and its time range
   const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)

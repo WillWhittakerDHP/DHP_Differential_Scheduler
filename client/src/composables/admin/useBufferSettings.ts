@@ -2,7 +2,6 @@
  * Composable for buffer settings (appointment, drive time) and lead time constraint
  * WHY: Extracts buffer and range-constraint logic from BusinessControlsTab
  * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
- * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
 import { computed, type Ref, type WritableComputedRef } from 'vue'
 import type {
@@ -13,6 +12,7 @@ import type {
   DriveTimeApplyTo
 } from '@/configs/availabilitySettings'
 import { createNestedComputed, createEnsureNested } from '@/composables/admin/utils/nestedComputedFactory'
+import { asEmptyObject } from '@/utils/safeDefaults'
 import type { UseBufferSettingsParams } from '@/types/availabilitySettingsParams'
 
 export type { UseBufferSettingsParams }
@@ -93,7 +93,7 @@ export function useBufferSettings(params: UseBufferSettingsParams): {
 } {
   const { formData } = params
 
-  const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
+  const ensureBuffers = (current: Buffers | undefined): Buffers => asEmptyObject(current)
 
   const ensureAppointmentBuffer = createEnsureNested(
     ensureBuffers,
@@ -193,7 +193,7 @@ export function useBufferSettings(params: UseBufferSettingsParams): {
   )
 
   const ensureRangeConstraints = (current: RangeConstraints | undefined): RangeConstraints =>
-    current ?? {}
+    asEmptyObject(current)
 
   const ensureLeadTimeConstraint = createEnsureNested(
     ensureRangeConstraints,

@@ -14,6 +14,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity } from '@/types/entities'
 import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 
 export interface ResolvedEventShapes {
@@ -116,8 +117,8 @@ export function derivePerspective(
     return null
   }
 
-  const majorAttendeeIds = differentialPerspectives.majorAttendees ?? []
-  const minorAttendeeIds = differentialPerspectives.minorAttendees ?? []
+  const majorAttendeeIds = asEmptyArray(differentialPerspectives.majorAttendees)
+  const minorAttendeeIds = asEmptyArray(differentialPerspectives.minorAttendees)
   const { majorEventShape, minorEventShape, majorEventName, minorEventName } = resolveEventShapes(
     majorAttendeeIds,
     minorAttendeeIds,

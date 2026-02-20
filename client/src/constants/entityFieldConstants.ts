@@ -3,7 +3,6 @@
  *
  * WHY: Single source of truth for field names and temporary-id patterns; aligns with server contract
  * PATTERN: Mirror of server/src/routes/internal/entities/entityConstants.ts for client-only usage
- * @audit-allow:hardcoding:magicLabel - Canonical source; string literals are the constant definitions.
  */
 
 export const FIELD_NAMES = {

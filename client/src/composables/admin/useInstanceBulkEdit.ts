@@ -16,6 +16,7 @@ import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
 import { createLogger } from '@/utils/logger'
+import { asEmptyArray, asEmptyObject } from '@/utils/safeDefaults'
 import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
 
 const logger = createLogger('useInstanceBulkEdit')
@@ -114,7 +115,7 @@ export function useInstanceBulkEdit(
    */
   const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
     try {
-      const instances = blockInstancesByShape.value.get(blockShapeId) || []
+      const instances = asEmptyArray(blockInstancesByShape.value.get(blockShapeId))
       
       const editData = getBulkEditData(blockShapeId)
       
@@ -157,7 +158,7 @@ export function useInstanceBulkEdit(
             return bulkEditData.value.get(blockShapeId)!.baseSqFt
           },
           set(newValue: number | undefined) {
-            const current = bulkEditData.value.get(blockShapeId) || {}
+            const current = asEmptyObject(bulkEditData.value.get(blockShapeId))
             bulkEditData.value.set(blockShapeId, { ...current, baseSqFt: newValue })
           }
         }))

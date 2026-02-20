@@ -16,6 +16,7 @@ import { blockShapeDisplays } from './appliedDisplay/blockShapeDisplays'
 import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
 import { partShapeDisplays } from './appliedDisplay/partShapeDisplays'
 import { buildSelectableDisplayType, type SelectableDisplayType } from './selectableDisplayConfig'
+import { asEmptyObject } from '@/utils/safeDefaults'
 
 export type { DisplayFieldType, DisplayFieldConfig, DisplayFieldConfigMap } from './displayFieldTypes'
 
@@ -56,8 +57,8 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
   primitiveDisplayConfig: DisplayFieldTypeMap[GE],
   selectableDisplayConfig: Partial<Record<GlobalFieldKey<GE>, SelectableDisplayType<GE>>>
 ): Partial<Record<GlobalFieldKey<GE>, DisplayFieldConfig<GE, GlobalFieldKey<GE>>>> {
-  const primitiveKeys = Object.keys(primitiveDisplayConfig || {});
-  const selectableKeys = Object.keys(selectableDisplayConfig || {});
+  const primitiveKeys = Object.keys(asEmptyObject(primitiveDisplayConfig));
+  const selectableKeys = Object.keys(asEmptyObject(selectableDisplayConfig));
 
   const allFieldKeys = [...new Set([...primitiveKeys, ...selectableKeys])];
 

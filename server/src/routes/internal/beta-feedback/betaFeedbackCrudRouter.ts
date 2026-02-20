@@ -15,6 +15,7 @@ import { validateCreateBody, validateUpdateBody } from './betaFeedbackValidators
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js';
 import type { ValidationResult } from '../../helpers/routerValidators.js';
 import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js';
+import { asEmptyArray } from '../../../utils/safeDefaults.js';
 
 const router = createCrudRouter({
   model: BetaFeedback,
@@ -44,7 +45,7 @@ const router = createCrudRouter({
       });
       const transformed = list.map((row) => {
         const json = row.toJSON() as Record<string, unknown> & { tags?: { tag: string }[] };
-        const tags = json.tags?.map((t) => t.tag) ?? [];
+        const tags = asEmptyArray(json.tags?.map((t) => t.tag));
         const { tags: _t, ...rest } = json;
         return { ...rest, tags };
       });
@@ -94,7 +95,7 @@ const router = createCrudRouter({
   },
   transformResponse: (record) => {
     const json = record.toJSON() as Record<string, unknown> & { tags?: { tag: string }[] };
-    const tags = json.tags?.map((t: { tag: string }) => t.tag) ?? [];
+    const tags = asEmptyArray(json.tags?.map((t: { tag: string }) => t.tag));
     const { tags: _t, ...rest } = json;
     return { ...rest, tags };
   },

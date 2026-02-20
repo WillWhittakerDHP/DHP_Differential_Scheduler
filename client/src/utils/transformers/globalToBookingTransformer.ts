@@ -370,7 +370,6 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partShapes.map((partShape) => [partShape.id, partShape])
   )
 
-  // @audit-allow:loop-mutation:assignProp - read-only filter callback, no mutation
   const componentIds = new Set(
     instanceComponentsRelationships
       .filter((rel) => rel.relationshipKind === 'instanceComponents')

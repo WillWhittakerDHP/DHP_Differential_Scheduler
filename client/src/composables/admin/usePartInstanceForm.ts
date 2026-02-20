@@ -18,6 +18,7 @@ import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useGlobal } from '../useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('usePartInstanceForm')
 
@@ -179,8 +180,8 @@ export function usePartInstanceForm(
     const entity = getGlobalEntities('partInstance').find(e => e.id === entityId.value)
     if (entity) {
       formData.value = {
-        name: entity.name || '',
-        partShapeRef: entity.partShapeRef || '',
+        name: asEmptyString(entity.name),
+        partShapeRef: asEmptyString(entity.partShapeRef),
         orderIndex: entity.orderIndex ?? 0,
         active: entity.active ?? true,
       }

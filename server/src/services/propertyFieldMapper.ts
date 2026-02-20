@@ -9,6 +9,7 @@
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js';
 import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js';
 import { mapFoundationType } from '../config/brightMlsFoundationMapping.js';
+import { asEmptyString } from '../utils/safeDefaults.js';
 
 export interface PartialPropertyDetails {
   mlsNumber?: string | null;
@@ -76,7 +77,7 @@ export function mapFieldsToModel(
     let mapped: string | number | null = null;
 
     if (m.valueMapping && typeof m.valueMapping === 'object') {
-      const key = String(raw ?? '').toLowerCase().trim();
+      const key = String(asEmptyString(raw as string | null | undefined)).toLowerCase().trim();
       const vm = m.valueMapping as Record<string, string | number>;
       mapped = key in vm ? vm[key] : (m.fallbackValue ?? null);
     } else {

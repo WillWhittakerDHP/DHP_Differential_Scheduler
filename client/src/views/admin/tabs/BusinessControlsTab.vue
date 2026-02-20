@@ -31,6 +31,7 @@ import DurationRoundingPanel from './components/DurationRoundingPanel.vue'
 import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
 import GridConfigPanel from './components/GridConfigPanel.vue'
 import BusinessRulesTab from './BusinessRulesTab.vue'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
 const isTabActive = computed(() => adminCurrentTab?.value === 'business')
@@ -172,7 +173,7 @@ const durationRoundingMethod = computed({
 })
 
 const timezone = computed({
-  get: () => formData.value?.timezone ?? '',
+  get: () => asEmptyString(formData.value?.timezone),
   set: (v: string) => {
     if (formData.value) formData.value.timezone = v
   }

@@ -2,7 +2,7 @@
  * Transformer Primitives
  *
  * LEARNING: Typed safe-extraction at the API boundary.
- * WHY: Replaces scattered ?? '' / ?? 0 / ?? [] fallbacks with explicit, observable behavior.
+ * WHY: Replaces scattered nullish-coalescing-to-empty fallbacks with explicit, observable behavior.
  * PATTERN: Accept unknown, use type guards, optional context for debug logging when fallback is used.
  */
 

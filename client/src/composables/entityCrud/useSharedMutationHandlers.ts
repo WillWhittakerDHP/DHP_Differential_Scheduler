@@ -20,6 +20,33 @@ export function createRefetchGlobalDataHandler(queryClient: QueryClient) {
   }
 }
 
+export interface InvalidateEntityQueriesOptions {
+  entityKey: string
+  relationshipKey?: string
+  refetchGlobalData?: boolean
+}
+
+/**
+ * Invalidate entity/relationship queries, optionally refetch globalData and invalidate schedulerAdmin for block entities.
+ * WHY: Centralizes the pattern used after field/relationship saves so UI reflects latest state.
+ */
+export async function invalidateEntityQueries(
+  queryClient: QueryClient,
+  options: InvalidateEntityQueriesOptions
+): Promise<void> {
+  const { entityKey, relationshipKey, refetchGlobalData = false } = options
+  queryClient.invalidateQueries({ queryKey: [entityKey] })
+  if (relationshipKey) {
+    queryClient.invalidateQueries({ queryKey: [relationshipKey] })
+  }
+  if (refetchGlobalData) {
+    await queryClient.refetchQueries({ queryKey: ['globalData'] })
+  }
+  if (entityKey === 'blockInstance' || entityKey === 'blockShape') {
+    queryClient.invalidateQueries({ queryKey: ['schedulerAdmin'] })
+  }
+}
+
 /**
  * LEARNING: Shared onSuccess handler for refetching multiple queries
  * WHY: Some mutations need to refetch multiple queries after success

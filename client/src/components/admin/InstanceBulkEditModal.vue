@@ -74,6 +74,7 @@ import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { TernaryBoolean } from '@/types/ternary'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { createLogger } from '@/utils/logger'
+import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
 
 const logger = createLogger('InstanceBulkEditModal')
 
@@ -107,12 +108,12 @@ const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
  */
 const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   try {
-    const editData = props.bulkEditData || {}
+    const editData = asEmptyObject(props.bulkEditData)
     const base = {
       id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'blockInstance' as const,
       name: '',
-      blockShapeRef: props.blockShapeId ?? '',
+      blockShapeRef: asEmptyString(props.blockShapeId),
       baseSqFt: editData.baseSqFt ?? 0,
       active: true,
       composite: false,
@@ -134,7 +135,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'blockInstance',
       name: '',
-      blockShapeRef: props.blockShapeId || '',
+      blockShapeRef: asEmptyString(props.blockShapeId),
       baseSqFt: 0,
       active: true,
       composite: false,

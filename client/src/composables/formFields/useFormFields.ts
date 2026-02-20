@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { categorizeFieldsByLayout as categorizeFieldsByLayoutPure } from '@/utils/forms/layoutFieldCategorization'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseFormFieldsOptions, UseFormFieldsReturn } from './types'
 import { useFormFieldsContext } from './useFormFieldsContext'
 import { useFormFieldsStandardLayout } from './useFormFieldsStandardLayout'
@@ -46,8 +47,8 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   const categorizeFieldsByLayout = (fields: GlobalFieldKey<GlobalEntityKey>[]) => {
     return categorizeFieldsByLayoutPure(
       fields.map(String),
-      (inlineFieldsConfig.value || []).map(String),
-      (stackedFieldsConfig.value || []).map(String)
+      asEmptyArray(inlineFieldsConfig.value).map(String),
+      asEmptyArray(stackedFieldsConfig.value).map(String)
     )
   }
 

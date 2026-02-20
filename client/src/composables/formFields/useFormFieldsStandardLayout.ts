@@ -2,6 +2,7 @@ import { computed, type Ref } from 'vue'
 import { filterFieldsInConfigOrder } from '@/utils/forms/layoutFieldCategorization'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseFormFieldsStandardLayoutReturn } from './types'
 
 type UseFormFieldsStandardLayoutOptions = {
@@ -24,14 +25,14 @@ export function useFormFieldsStandardLayout(
   options: UseFormFieldsStandardLayoutOptions
 ): UseFormFieldsStandardLayoutReturn {
   const inlineFields = computed(() => {
-    const fields = (options.fieldKeys.value || []).map(String)
-    const config = (options.inlineFieldsConfig.value || []).map(String)
+    const fields = asEmptyArray(options.fieldKeys.value).map(String)
+    const config = asEmptyArray(options.inlineFieldsConfig.value).map(String)
     return filterFieldsInConfigOrder(fields, config) as GlobalFieldKey<GlobalEntityKey>[]
   })
 
   const stackedFields = computed(() => {
-    const fields = (options.fieldKeys.value || []).map(String)
-    const config = (options.stackedFieldsConfig.value || []).map(String)
+    const fields = asEmptyArray(options.fieldKeys.value).map(String)
+    const config = asEmptyArray(options.stackedFieldsConfig.value).map(String)
     return filterFieldsInConfigOrder(fields, config) as GlobalFieldKey<GlobalEntityKey>[]
   })
 

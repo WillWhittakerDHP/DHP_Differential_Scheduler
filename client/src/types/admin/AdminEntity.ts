@@ -1,8 +1,6 @@
 /**
  * Admin Entity Class
  *
- * @audit-allow deprecation:unhelpful-default-nullish - Intentional empty-object default for optional displayConfig keys
- *
  * LEARNING: Provides validation, default values, and type-safe property access
  * WHY: Validates entity structure and ensures all properties exist with defaults
  * PATTERN: Class-based entity with validation methods, converted to plain object for Vue
@@ -16,6 +14,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { DisplayFieldType } from '@/configs/field/display/fullFieldDisplayConfig'
 import type { FormFieldConfigMap } from '@/types/entity/formFields'
+import { asEmptyObject } from '@/utils/safeDefaults'
 
 export class AdminEntity<GE extends GlobalEntityKey> {
   id: GlobalEntityId
@@ -75,8 +74,8 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     if (formFieldConfig) {
       fieldNames = Object.keys(formFieldConfig)
     } else {
-      const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
-      const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})
+      const primitiveNames = Object.keys(asEmptyObject(this.displayConfig?.primitives))
+      const relationshipNames = Object.keys(asEmptyObject(this.displayConfig?.relationships))
       fieldNames = [...primitiveNames, ...relationshipNames]
     }
     
@@ -174,10 +173,10 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   getFieldNames(formFieldConfig?: Record<string, ValidAdminValue>): GlobalFieldKey<GE>[] {
     if (formFieldConfig) {
       const allKeys = Object.keys(formFieldConfig)
-      const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+      const primitiveNames = Object.keys(asEmptyObject(this.displayConfig?.primitives))
       return allKeys.filter(key => primitiveNames.includes(key) || !this.displayConfig?.relationships?.[key]) as GlobalFieldKey<GE>[]
     }
-    const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+    const primitiveNames = Object.keys(asEmptyObject(this.displayConfig?.primitives))
     return primitiveNames as GlobalFieldKey<GE>[]
   }
   
@@ -196,7 +195,7 @@ export class AdminEntity<GE extends GlobalEntityKey> {
         return !!(fieldConfig?.relationshipSelect || fieldConfig?.typeSelect)
       })
     }
-    return Object.keys(this.displayConfig?.relationships ?? {})
+    return Object.keys(asEmptyObject(this.displayConfig?.relationships))
   }
 }
 

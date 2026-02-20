@@ -2,11 +2,11 @@
  * Composable for default location (address, label, coordinates, placeId)
  * WHY: Extracts default location bindings from BusinessControlsTab for reuse
  * PATTERN: Writable computeds that ensure defaultLocation exists on set
- * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
 import { computed, type WritableComputedRef } from 'vue'
 import type { Coordinates } from '@/configs/availabilitySettings'
 import type { UseDefaultLocationParams } from '@/types/availabilitySettingsParams'
+import { asEmptyString } from '@/utils/safeDefaults'
 
 export type { UseDefaultLocationParams }
 
@@ -19,7 +19,7 @@ export function useDefaultLocation(params: UseDefaultLocationParams): {
   const { formData } = params
 
   const defaultLocationAddress = computed({
-    get: () => formData.value?.defaultLocation?.address ?? '',
+    get: () => asEmptyString(formData.value?.defaultLocation?.address),
     set: (value: string) => {
       if (formData.value) {
         if (!formData.value.defaultLocation) {
@@ -31,7 +31,7 @@ export function useDefaultLocation(params: UseDefaultLocationParams): {
   })
 
   const defaultLocationLabel = computed({
-    get: () => formData.value?.defaultLocation?.label ?? '',
+    get: () => asEmptyString(formData.value?.defaultLocation?.label),
     set: (value: string) => {
       if (formData.value) {
         if (!formData.value.defaultLocation) {
@@ -55,7 +55,7 @@ export function useDefaultLocation(params: UseDefaultLocationParams): {
   })
 
   const defaultLocationPlaceId = computed({
-    get: () => formData.value?.defaultLocation?.placeId ?? '',
+    get: () => asEmptyString(formData.value?.defaultLocation?.placeId),
     set: (value: string) => {
       if (formData.value) {
         if (!formData.value.defaultLocation) {

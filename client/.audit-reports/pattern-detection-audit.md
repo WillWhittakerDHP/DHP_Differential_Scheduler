@@ -14,13 +14,13 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **778**
+- Files scanned: **787**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **548**
+- Type definitions found: **557**
 - Enum patterns found: **9**
 - Config locations found: **37**
-- Function patterns found: **376**
-- Common patterns found: **24**
+- Function patterns found: **381**
+- Common patterns found: **23**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -58,8 +58,10 @@ _No frequent string literals found._
 | `AppointmentStatusRequiringCalendarEvent` | type | `server/src/routes/internal/appointments/appointmentConstants.ts:54` |
 | `AppointmentVersionsResponse` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts:45` |
 | `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts:36` |
+| `AttendeeSpecInput` | interface | `client/src/utils/booking/appointmentDataBuilders.ts:25` |
 | `AutocompleteResponse` | interface | `server/src/services/google/maps/mapsTypes.ts:33` |
 | `AutocompleteValue` | type | `client/src/utils/autocomplete.ts:1` |
+| `AvailabilityPayload` | interface | `client/src/utils/booking/appointmentDataBuilders.ts:120` |
 | `AvailabilitySettings` | interface | `client/src/configs/availabilitySettings.ts:71` |
 | `AvailabilitySettingsData` | interface | `server/src/db/models/admin/business_settings.ts:39` |
 | `AvailabilitySettingsFormParams` | interface | `client/src/types/availabilitySettingsParams.ts:8` |
@@ -77,6 +79,7 @@ _No frequent string literals found._
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts:67` |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts:11` |
 | `BlockInstanceWithShape` | type | `server/src/routes/internal/properties/propertyHelpers.ts:20` |
+| `BlockQuantities` | interface | `client/src/utils/booking/appointmentDataBuilders.ts:141` |
 | `BlockShapeEntity` | interface | `client/src/types/entities.ts:49` |
 | `BlockShapeType` | type | `client/src/constants/blockShapeTypes.ts:16` |
 | `BookingBlockInstance` | type | `client/src/utils/transformers/globalToBookingTransformer.ts:55` |
@@ -115,6 +118,7 @@ _No frequent string literals found._
 | `CreateNestedComputedOptions` | interface | `client/src/composables/admin/utils/nestedComputedFactory.ts:8` |
 | `CreateRelationshipPayload` | type | `client/src/types/relationships.ts:60` |
 | `CreateRelationshipPayloadBase` | interface | `client/src/types/relationships.ts:49` |
+| `CreateUserMutate` | interface | `client/src/utils/booking/appointmentDataBuilders.ts:31` |
 | `CrudDataTableModel` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:43` |
 | `CrudDataTableModelOptions` | interface | `client/src/composables/admin/tables/useCrudDataTableModel.ts:11` |
 | `CrudErrorMessages` | interface | `server/src/routes/helpers/crudRouterTypes.ts:16` |
@@ -128,11 +132,7 @@ _No frequent string literals found._
 | `DevPanelCacheShape` | interface | `client/src/composables/dev/useApiDevPanelData.ts:27` |
 | `DevPanelCacheStats` | interface | `client/src/composables/dev/useApiDevPanelData.ts:26` |
 | `DevPanelsComputedData` | interface | `client/src/composables/booking/useDevPanelsComputed.ts:18` |
-| `DevPanelTab` | type | `client/src/composables/dev/useDevPanelTabs.ts:11` |
-| `DevPanelVisibleProps` | interface | `client/src/components/admin/dev/devPanelTypes.ts:6` |
-| `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:34` |
-| `DisplayedMonth` | interface | `client/src/composables/booking/useDateRangeDecider.ts:14` |
-| ... | ... | (+448 more) |
+| ... | ... | (+457 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -226,18 +226,18 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useCapacitySettings` | `use*` | 1 |
 | `useConditionalFieldVisibility` | `use*` | 1 |
 | `useDefaultLocation` | `use*` | 1 |
-| ... | ... | (+346 more) |
+| ... | ... | (+351 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 24 occurrences of status workflow patterns:
+Found 23 occurrences of status workflow patterns:
 
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 1 occurrence(s)
-- `client/src/composables/booking/useAppointmentDataCollection.ts`: 2 occurrence(s)
 - `client/src/types/appointmentStatus.ts`: 6 occurrence(s)
 - `client/src/utils/appointmentFieldFormatters.ts`: 1 occurrence(s)
+- `client/src/utils/booking/appointmentDataBuilders.ts`: 1 occurrence(s)
 - `server/src/db/models/booking/appointment.ts`: 3 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentConstants.ts`: 1 occurrence(s)
 - `server/src/utils/availabilities/availabiltiesDbUtils.ts`: 10 occurrence(s)

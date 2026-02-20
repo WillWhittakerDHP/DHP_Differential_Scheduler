@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-20T16:43:33.357Z**
-- Files scanned: **801**
-- Type definitions found: **651**
-- Similarity groups: **19**
+- Generated at: **2026-02-20T17:32:52.654Z**
+- Files scanned: **810**
+- Type definitions found: **656**
+- Similarity groups: **20**
 - UNIFY candidates: **0**
 - BRAND candidates: **3**
 - EXTEND candidates: **16**
-- REVIEW candidates: **0**
+- REVIEW candidates: **1**
 
-- P0 (high): **13**, P1 (medium): **6**, P2 (low): **0**
+- P0 (high): **13**, P1 (medium): **7**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -47,6 +47,7 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `Props`, `DefaultLocation` | 2 | 13 | `{ clearable?: boolean, coordinates?: Coordinates, debounc...` |
 | P0 | EXTEND | SUBSET | `PropertyFormData`, `WizardStateData`, `PropertyDetailsStepData` | 3 | 12 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
 | P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions` | 3 | 12 | `{ appointmentDropdownItems: ComputedRef<Array<{ text: str...` |
+| P1 | REVIEW | HIGH_OVERLAP | `WizardState`, `WizardBlocksForBuilders` | 2 | 9 | `{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBl...` |
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 | `{ contingencyPeriod: {, endDate: string | null, endTime: ...` |
 | P1 | EXTEND | SUBSET | `Props`, `TimeBasisHandlerProps` | 2 | 8 | `{ graphBars: {, isDifferentialService: boolean, major: Ti...` |
 | P1 | EXTEND | SUBSET | `Props`, `FieldInputProps` | 2 | 8 | `{ fieldContext?: FieldContextType<GlobalEntityKey, Global...` |
@@ -316,6 +317,25 @@ Overlap: **60%** shared properties
 - Only in `FieldsByLocation`: `hidden`, `titleRow`
 
 _(1 more EXTEND groups omitted — see JSON for full data)_
+
+## REVIEW Candidates (1)
+
+These types have high structural overlap. Review to determine if they should be unified, branded, or left as-is.
+
+### sim-high_overlap-99828820f350
+
+- Relationship: **HIGH_OVERLAP**, Priority: **P1**, Score: **9**
+- Structure: `{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBlockInstance[], selectedOptionTypeBlocks: BookingBlockInstance[], selectedPropertyTypeBlocks: BookingBlockInstance[], selectedServiceTypeBlocks: BookingBlockInstance[], selectedUserTypeBlock: BookingBlockInstance | null }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `WizardState` | interface | `client/src/types/wizard.ts` | 20 | yes |
+| `WizardBlocksForBuilders` | interface | `client/src/utils/booking/appointmentDataBuilders.ts` | 34 | yes |
+
+Overlap: **83%** shared properties
+- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`
+- Only in `WizardState`: `selectedUserTypeBlock(BookingBlockInstance | null)`
+- Only in `WizardBlocksForBuilders`: `selectedUserTypeBlock({ id: string } | null)`
 
 ## Primitive Alias Inventory
 

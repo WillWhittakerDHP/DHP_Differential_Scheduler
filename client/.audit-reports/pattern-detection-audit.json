@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T16:44:03.528Z",
+  "generatedAt": "2026-02-20T17:33:26.244Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 778,
+  "fileCount": 787,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -25,6 +25,10 @@
           "client/src/composables/admin/tables/useTableModelHelpers.ts",
           "client/src/composables/admin/useDragAndDropHelpers.ts",
           "client/src/composables/admin/utils/nestedComputedFactory.ts",
+          "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+          "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+          "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+          "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
           "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
           "client/src/constants/fieldMetadata.ts",
           "client/src/utils/api/relationshipApiHelpers.ts",
@@ -46,7 +50,7 @@
           "server/src/services/instanceVersioning.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 37
+        "patternCount": 41
       },
       {
         "prefix": "get",
@@ -343,6 +347,15 @@
           "client/src/shims/vue-i18n.ts"
         ],
         "patternCount": 220
+      },
+      {
+        "prefix": "update",
+        "files": [
+          "client/src/utils/booking/selectionCardHandlers.ts",
+          "server/src/routes/internal/relationships/relationshipHelpers.ts",
+          "server/src/scripts/helpers/calendarImportHelpers.ts"
+        ],
+        "patternCount": 3
       }
     ],
     "repeatedStringFiles": []
@@ -1738,23 +1751,13 @@
           }
         ]
       },
-      "SelectGroup": {
-        "definition": "export interface SelectGroup {",
-        "isInterface": true,
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useSelectDomTargets.ts",
-            "line": 17
-          }
-        ]
-      },
       "UseSelectDomTargetsOptions": {
         "definition": "export interface UseSelectDomTargetsOptions {",
         "isInterface": true,
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectDomTargets.ts",
-            "line": 22
+            "line": 19
           }
         ]
       },
@@ -1764,7 +1767,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectDomTargets.ts",
-            "line": 30
+            "line": 27
           }
         ]
       },
@@ -2264,7 +2267,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 44
+            "line": 33
           }
         ]
       },
@@ -2274,7 +2277,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 95
+            "line": 54
           }
         ]
       },
@@ -3546,13 +3549,23 @@
           }
         ]
       },
+      "EntityCrudMutationContext": {
+        "definition": "export interface EntityCrudMutationContext<GlobalEntityTypeKey extends GlobalEntityKey> {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
+            "line": 10
+          }
+        ]
+      },
       "OrderIndexUpdate": {
         "definition": "export type OrderIndexUpdate = Array<{ id: GlobalEntityId; orderIndex: number }>",
         "isInterface": false,
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-            "line": 6
+            "line": 17
           }
         ]
       },
@@ -3562,7 +3575,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-            "line": 13
+            "line": 24
           }
         ]
       },
@@ -3572,7 +3585,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-            "line": 20
+            "line": 31
           }
         ]
       },
@@ -3888,7 +3901,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 24
+            "line": 45
           }
         ]
       },
@@ -3898,7 +3911,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 29
+            "line": 50
           }
         ]
       },
@@ -3908,7 +3921,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 34
+            "line": 55
           }
         ]
       },
@@ -3918,7 +3931,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 38
+            "line": 59
           }
         ]
       },
@@ -3928,7 +3941,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 48
+            "line": 69
           }
         ]
       },
@@ -4802,6 +4815,16 @@
           }
         ]
       },
+      "SelectGroup": {
+        "definition": "export interface SelectGroup {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/types/entity/selectOptions.ts",
+            "line": 7
+          }
+        ]
+      },
       "EventShape": {
         "definition": "export type EventShape = EventShapeEntity",
         "isInterface": false,
@@ -5172,6 +5195,56 @@
           }
         ]
       },
+      "AttendeeSpecInput": {
+        "definition": "export interface AttendeeSpecInput {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+            "line": 25
+          }
+        ]
+      },
+      "CreateUserMutate": {
+        "definition": "export interface CreateUserMutate {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+            "line": 31
+          }
+        ]
+      },
+      "WizardBlocksForBuilders": {
+        "definition": "export interface WizardBlocksForBuilders {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+            "line": 35
+          }
+        ]
+      },
+      "AvailabilityPayload": {
+        "definition": "export interface AvailabilityPayload {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+            "line": 120
+          }
+        ]
+      },
+      "BlockQuantities": {
+        "definition": "export interface BlockQuantities {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+            "line": 141
+          }
+        ]
+      },
       "AvailabilityStepData": {
         "definition": "export interface AvailabilityStepData {",
         "isInterface": true,
@@ -5319,6 +5392,16 @@
           {
             "file": "client/src/utils/collections/resolveByIds.ts",
             "line": 4
+          }
+        ]
+      },
+      "ExtractedErrorMessage": {
+        "definition": "export interface ExtractedErrorMessage {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "client/src/utils/errors/axiosErrorUtils.ts",
+            "line": 8
           }
         ]
       },
@@ -5652,6 +5735,16 @@
           }
         ]
       },
+      "MutationMethod": {
+        "definition": "export type MutationMethod = 'update' | 'patch'",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/routes/helpers/crudHandlerHelpers.ts",
+            "line": 12
+          }
+        ]
+      },
       "CrudErrorMessages": {
         "definition": "export interface CrudErrorMessages {",
         "isInterface": true,
@@ -5739,6 +5832,16 @@
           {
             "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
             "line": 39
+          }
+        ]
+      },
+      "ImportStats": {
+        "definition": "export interface ImportStats {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+            "line": 142
           }
         ]
       },
@@ -7184,7 +7287,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectDomTargets.ts",
-            "line": 39,
+            "line": 36,
             "name": "SelectDomTargets"
           }
         ]
@@ -7484,7 +7587,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-            "line": 106,
+            "line": 65,
             "name": "AppointmentDataCollection"
           }
         ]
@@ -8254,8 +8357,48 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
-            "line": 38,
+            "line": 21,
             "name": "EntityCrudMutations"
+          }
+        ]
+      },
+      "createCreateMutationOptions": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
+            "line": 17,
+            "name": "CreateMutationOptions"
+          }
+        ]
+      },
+      "createOrderMutationOptions": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
+            "line": 13,
+            "name": "OrderMutationOptions"
+          }
+        ]
+      },
+      "createRemoveMutationOptions": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
+            "line": 13,
+            "name": "RemoveMutationOptions"
+          }
+        ]
+      },
+      "createUpdateMutationOptions": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
+            "line": 15,
+            "name": "UpdateMutationOptions"
           }
         ]
       },
@@ -8664,7 +8807,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 66,
+            "line": 87,
             "name": "SelectOptions"
           }
         ]
@@ -9624,7 +9767,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-            "line": 55,
+            "line": 54,
             "name": "GetAllHandler"
           }
         ]
@@ -9634,7 +9777,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-            "line": 82,
+            "line": 81,
             "name": "GetByIdHandler"
           }
         ]
@@ -9644,7 +9787,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-            "line": 114,
+            "line": 113,
             "name": "PostHandler"
           }
         ]
@@ -9654,7 +9797,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-            "line": 215,
+            "line": 168,
             "name": "MutationHandler"
           }
         ]
@@ -9664,7 +9807,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/crudRouteHandlers.ts",
-            "line": 276,
+            "line": 229,
             "name": "DeleteHandler"
           }
         ]
@@ -9816,6 +9959,16 @@
             "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
             "line": 305,
             "name": "ComponentActiveStates"
+          }
+        ]
+      },
+      "updatePropertyDetailsIfNeeded": {
+        "prefix": "update",
+        "locations": [
+          {
+            "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+            "line": 128,
+            "name": "PropertyDetailsIfNeeded"
           }
         ]
       },
@@ -10090,20 +10243,6 @@
       },
       {
         "type": "status-workflow",
-        "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 274,
-        "pattern": "AppointmentStatus workflow",
-        "code": "// LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode"
-      },
-      {
-        "type": "status-workflow",
-        "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "line": 277,
-        "pattern": "AppointmentStatus workflow",
-        "code": "status: isQuoteMode ? 'quoted' : 'submitted' as AppointmentStatus,"
-      },
-      {
-        "type": "status-workflow",
         "file": "client/src/types/appointmentStatus.ts",
         "line": 8,
         "pattern": "AppointmentStatus workflow",
@@ -10150,6 +10289,13 @@
         "line": 127,
         "pattern": "AppointmentStatus workflow",
         "code": "status: (_appointment, value) => String(value || 'started'),"
+      },
+      {
+        "type": "status-workflow",
+        "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+        "line": 184,
+        "pattern": "AppointmentStatus workflow",
+        "code": "const status: AppointmentStatus = wizard.isQuoteMode ? 'quoted' : 'submitted'"
       },
       {
         "type": "status-workflow",

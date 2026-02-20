@@ -22,6 +22,11 @@ import { execSync } from 'node:child_process'
  * 4. PER-AUDIT CONFIG FILE - For priorities, thresholds, and other non-allowlist options only
  *    Location: .audit-reports/<auditType>-audit-config.json
  *
+ * 5. NEVER-PERMISSIBLE CATEGORIES - Rule categories that must never be allowlisted (eliminate or migrate)
+ *    Location: .audit-reports/audit-global-config.json under "neverPermissibleCategories.<categoryKey>"
+ *    Usage: getNeverPermissibleReportSectionLines(), getNeverPermissibleSummaryLine(), getNeverPermissibleNotesLines(),
+ *           getNeverPermissibleInstructionsForJson(), calculateScoreWithNeverPermissible()
+ *
  * Report conventions (see AUDIT_REPORT_CONVENTIONS.md):
  * - Every audit that emits a .md report must push the standard header at the start of renderMarkdownReport()
  *   using getAuditReportHeaderLines().
@@ -492,12 +497,12 @@ export function isTestFileFromCentralConfig(repoPath) {
  * Returns { patterns, specific } for checkConfigAllowlist().
  *
  * @param {string} auditType - Key under allowlists (e.g. 'type-escape', 'type-import')
- * @returns {{patterns: Array, specific: Array}}
+ * @returns {{patterns: Array, specific: Array, linePatterns: Array}}
  */
 export function loadCentralAllowlist(auditType) {
   const configPath = resolveGlobalConfigPath()
   if (!fs.existsSync(configPath)) {
-    return { patterns: [], specific: [] }
+    return { patterns: [], specific: [], linePatterns: [] }
   }
   try {
     const raw = fs.readFileSync(configPath, 'utf8')
@@ -506,11 +511,107 @@ export function loadCentralAllowlist(auditType) {
     return {
       patterns: entry?.patterns ?? [],
       specific: entry?.specific ?? [],
+      linePatterns: entry?.linePatterns ?? [],
     }
   } catch (err) {
     console.warn(`Warning: Could not parse central allowlist for ${auditType} at ${configPath}: ${err.message}`)
-    return { patterns: [], specific: [] }
+    return { patterns: [], specific: [], linePatterns: [] }
   }
+}
+
+// ─── Never-permissible categories (shared pattern) ───────────────────────────
+// Rule categories that are NEVER permissible: no allowlisting; eliminate or migrate.
+// Config: audit-global-config.json → neverPermissibleCategories.<categoryKey>
+// Use: getNeverPermissibleReportSectionLines(), getNeverPermissibleSummaryLine(),
+//      getNeverPermissibleNotesLines(), getNeverPermissibleInstructionsForJson(),
+//      calculateScoreWithNeverPermissible().
+
+/**
+ * Load a never-permissible category from audit-global-config.json.
+ * @param {string} categoryKey - Key under neverPermissibleCategories (e.g. 'legacy-backward-compat')
+ * @returns {{ sectionTitle: string, instructions: string, summaryLine: string, notesLines: string[], instructionsForJson: string, ruleIds: string[], findingScore: number } | null}
+ */
+export function getNeverPermissibleCategory(categoryKey) {
+  const config = loadRawConfig()
+  const categories = config?.neverPermissibleCategories
+  const cat = categories?.[categoryKey]
+  if (!cat || typeof cat !== 'object') return null
+  return {
+    sectionTitle: cat.sectionTitle ?? 'CRITICAL: Findings are NEVER permissible',
+    instructions: cat.instructions ?? '',
+    summaryLine: cat.summaryLine ?? '',
+    notesLines: Array.isArray(cat.notesLines) ? cat.notesLines : [],
+    instructionsForJson: cat.instructionsForJson ?? cat.instructions ?? '',
+    ruleIds: Array.isArray(cat.ruleIds) ? cat.ruleIds : [],
+    findingScore: Number(cat.findingScore) || 10,
+  }
+}
+
+/**
+ * Markdown lines for the "never permissible" report section (## CRITICAL block).
+ * Push these after scope/intro and before Purpose (or equivalent).
+ * @param {string} categoryKey - Key under neverPermissibleCategories
+ * @returns {string[]}
+ */
+export function getNeverPermissibleReportSectionLines(categoryKey) {
+  const cat = getNeverPermissibleCategory(categoryKey)
+  if (!cat || !cat.instructions) return []
+  return [
+    '',
+    `## ${cat.sectionTitle}`,
+    '',
+    `**${cat.instructions}**`,
+    '',
+  ]
+}
+
+/**
+ * Single summary line for the Summary section (e.g. bold lead-in).
+ * @param {string} categoryKey - Key under neverPermissibleCategories
+ * @returns {string}
+ */
+export function getNeverPermissibleSummaryLine(categoryKey) {
+  const cat = getNeverPermissibleCategory(categoryKey)
+  return (cat?.summaryLine ?? '').trim() || ''
+}
+
+/**
+ * Note lines to append to the report's Notes section (each line can be '- **...**' or '- ...').
+ * @param {string} categoryKey - Key under neverPermissibleCategories
+ * @returns {string[]}
+ */
+export function getNeverPermissibleNotesLines(categoryKey) {
+  const cat = getNeverPermissibleCategory(categoryKey)
+  if (!cat?.notesLines?.length) return []
+  return cat.notesLines.map((line) => (line.startsWith('- ') ? line : `- ${line}`))
+}
+
+/**
+ * Short instructions string for JSON report (e.g. neverPermissibleInstructions).
+ * @param {string} categoryKey - Key under neverPermissibleCategories
+ * @returns {string}
+ */
+export function getNeverPermissibleInstructionsForJson(categoryKey) {
+  const cat = getNeverPermissibleCategory(categoryKey)
+  return (cat?.instructionsForJson ?? '').trim() || ''
+}
+
+/**
+ * Compute total score for requiresReview, using high per-finding score for never-permissible rule IDs.
+ * For each match: if match.ruleId is in the category's ruleIds, add category.findingScore; otherwise add getBaseScoreForMatch(match).
+ * @param {Array<{ ruleId: string }>} requiresReview - List of findings
+ * @param {(m: { ruleId: string }) => number} getBaseScoreForMatch - Function returning base score for one match
+ * @param {string} categoryKey - Key under neverPermissibleCategories
+ * @returns {number}
+ */
+export function calculateScoreWithNeverPermissible(requiresReview, getBaseScoreForMatch, categoryKey) {
+  const cat = getNeverPermissibleCategory(categoryKey)
+  const neverPermissibleIds = cat ? new Set(cat.ruleIds) : new Set()
+  const highScore = cat?.findingScore ?? 10
+  return requiresReview.reduce((sum, m) => {
+    if (neverPermissibleIds.has(m.ruleId)) return sum + highScore
+    return sum + getBaseScoreForMatch(m)
+  }, 0)
 }
 
 /**
@@ -680,6 +781,35 @@ export function checkConfigAllowlist(repoPath, ruleId, lineNumber, allowlist) {
 }
 
 /**
+ * Check if a match is allowed by a line-content regex (e.g. logger metadata, simple return shape).
+ *
+ * @param {string} lineContent - The source line text
+ * @param {string} ruleId - The rule ID that matched
+ * @param {Array<{ruleId: string, pattern: string, reason: string}>} linePatterns - From config allowlist
+ * @returns {{allowed: boolean, reason: string | null, source: 'linePattern' | null}}
+ */
+export function checkLinePatternAllowlist(lineContent, ruleId, linePatterns) {
+  if (!linePatterns?.length || lineContent == null || lineContent === '') {
+    return { allowed: false, reason: null, source: null }
+  }
+
+  for (const entry of linePatterns) {
+    if (entry.ruleId !== ruleId && entry.ruleId !== '*') continue
+    try {
+      // eslint-disable-next-line security/detect-non-literal-regexp
+      const re = new RegExp(entry.pattern)
+      if (re.test(lineContent)) {
+        return { allowed: true, reason: entry.reason ?? null, source: 'linePattern' }
+      }
+    } catch (_err) {
+      // Bad pattern in config; skip this entry
+    }
+  }
+
+  return { allowed: false, reason: null, source: null }
+}
+
+/**
  * Check if a match is allowed by inline comment
  *
  * @param {number} matchLineNumber - Line number of the audit match
@@ -709,10 +839,11 @@ export function checkInlineException(matchLineNumber, ruleId, inlineExceptions) 
  * @param {string} ruleId - The rule ID that matched
  * @param {number} lineNumber - Line number of the match
  * @param {Array<{lineNumber: number, ruleId: string, reason: string}>} inlineExceptions - Parsed inline exceptions
- * @param {{patterns: Array, specific: Array} | null} configAllowlist - Loaded config allowlist
- * @returns {{allowed: boolean, reason: string | null, source: 'inline' | 'pattern' | 'specific' | null}}
+ * @param {{patterns: Array, specific: Array, linePatterns?: Array} | null} configAllowlist - Loaded config allowlist
+ * @param {string} [lineContent] - Optional source line text for line-pattern allowlist
+ * @returns {{allowed: boolean, reason: string | null, source: 'inline' | 'pattern' | 'specific' | 'linePattern' | null}}
  */
-export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, configAllowlist) {
+export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, configAllowlist, lineContent) {
   const inlineResult = checkInlineException(lineNumber, ruleId, inlineExceptions)
   if (inlineResult.allowed) {
     return { ...inlineResult, source: 'inline' }
@@ -721,6 +852,13 @@ export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, c
   const configResult = checkConfigAllowlist(repoPath, ruleId, lineNumber, configAllowlist)
   if (configResult.allowed) {
     return configResult
+  }
+
+  if (lineContent != null && configAllowlist?.linePatterns?.length > 0) {
+    const linePatternResult = checkLinePatternAllowlist(lineContent, ruleId, configAllowlist.linePatterns)
+    if (linePatternResult.allowed) {
+      return linePatternResult
+    }
   }
 
   return { allowed: false, reason: null, source: null }
@@ -751,7 +889,8 @@ export function categorizeMatches(matches, repoPath, fileContent, auditType, con
       match.ruleId,
       match.lineNumber,
       inlineExceptions,
-      configAllowlist
+      configAllowlist,
+      match.line
     )
 
     if (result.allowed) {
@@ -810,12 +949,12 @@ export function renderAllowedExceptionsSection(filesWithAllowed) {
  * Generate summary stats for exceptions
  *
  * @param {Array<{allowed: Array, requiresReview: Array}>} allFiles
- * @returns {{totalAllowed: number, totalRequiresReview: number, bySource: {inline: number, pattern: number, specific: number}}}
+ * @returns {{totalAllowed: number, totalRequiresReview: number, bySource: {inline: number, pattern: number, specific: number, linePattern: number}}}
  */
 export function summarizeExceptions(allFiles) {
   let totalAllowed = 0
   let totalRequiresReview = 0
-  const bySource = { inline: 0, pattern: 0, specific: 0 }
+  const bySource = { inline: 0, pattern: 0, specific: 0, linePattern: 0 }
 
   for (const file of allFiles) {
     totalAllowed += file.allowed.length

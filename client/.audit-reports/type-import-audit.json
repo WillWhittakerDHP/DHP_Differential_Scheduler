@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-20T16:43:37.479Z",
-  "totalScanned": 778,
+  "generatedAt": "2026-02-20T17:32:56.353Z",
+  "totalScanned": 787,
   "valueImportFromTypeOnlyFile": [],
   "typeUsedAsValue": [
     {
@@ -13,6 +13,11 @@
       "file": "client/src/types/component.ts",
       "lineNumber": 32,
       "symbol": "CreateRelationshipPayloadBase"
+    },
+    {
+      "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+      "lineNumber": 17,
+      "symbol": "ParsedProperty"
     }
   ],
   "files": [
@@ -22,6 +27,10 @@
     },
     {
       "file": "client/src/types/component.ts",
+      "score": 2
+    },
+    {
+      "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
       "score": 2
     }
   ]
