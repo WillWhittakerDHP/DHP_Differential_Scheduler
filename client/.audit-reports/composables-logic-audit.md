@@ -525,20 +525,20 @@ computed@261: busyPeriods: computed(() => []),
 - counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@89: const fieldKey = computed(() => String(fieldContext.fieldKey))
-computed@220: const isAttendeeSelect = computed(() => {
-computed@247: const filteredEntities = computed(() => {
-map@257: ? currentFormValue.map(v => String(v))
-filter@266: const availableComponentsFiltered = availableComponents.filter(
-map@271: const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))
-filter@280: ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))
-reduce@284: const uniqueComponents = allComponents.reduce((map, component) => {
-filter@335: const filtered = allEntities.value.filter((candidate) => {
-filter@400: const filtered = allEntities.value.filter((candidate) => {
-filter@429: .filter((bs: GlobalEntity<'blockShape'>) => {
-map@433: .map((bs: GlobalEntity<'blockShape'>) => bs.id)
-filter@439: const filtered = allEntities.value.filter((candidate) => {
-filter@450: return allEntities.value.filter((candidate) =>
+computed@94: const fieldKey = computed(() => String(fieldContext.fieldKey))
+computed@223: const isAttendeeSelect = computed(() => {
+computed@250: const filteredEntities = computed(() => {
+map@260: ? currentFormValue.map(v => String(v))
+filter@269: const availableComponentsFiltered = availableComponents.filter(
+map@274: const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))
+filter@283: ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))
+reduce@287: const uniqueComponents = allComponents.reduce((map, component) => {
+filter@338: const filtered = allEntities.value.filter((candidate) => {
+filter@403: const filtered = allEntities.value.filter((candidate) => {
+filter@432: .filter((bs: GlobalEntity<'blockShape'>) => {
+map@436: .map((bs: GlobalEntity<'blockShape'>) => bs.id)
+filter@442: const filtered = allEntities.value.filter((candidate) => {
+filter@453: return allEntities.value.filter((candidate) =>
 ```
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts`

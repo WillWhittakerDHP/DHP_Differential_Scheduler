@@ -46,15 +46,14 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **52**
-- **Requiring review: 90**
-- Allowed (with justification): 511 (inline: 2, pattern: 485, specific: 24)
+- Total files scanned: **51**
+- **Requiring review: 82**
+- Allowed (with justification): 512 (inline: 3, pattern: 485, specific: 24)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/routes/internal/properties/propertyValidators.ts` | 28 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | 15 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/importCalendarData.ts` | 13 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 2 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -84,6 +83,7 @@ When extracting literals to constants, prefer these constant files (from constan
 | `client/src/services/mapsApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/services/propertyEnrichmentApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -197,22 +197,6 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `server/src/routes/internal/properties/propertyValidators.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=7, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 8, allowed: 0
-
-```
-switchTypeLike@207: switch (key) {
-caseString@208: case 'mlsNumber':
-caseString@211: case 'squareFootage':
-caseString@212: case 'bedrooms':
-caseString@213: case 'additionalUnits': {
-caseString@222: case 'bathrooms': {
-caseString@231: case 'foundationAccess':
-caseString@244: case 'source':
-```
 
 ### `client/src/composables/booking/useAppointmentDataCollection.ts`
 
@@ -528,7 +512,7 @@ fieldMapping@59: logger.debug('filterByCascade: activeBlockIds missing on parent
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@264: return { label: block.name, amount, isFree: amount === 0 }
+fieldMapping@266: return { label: block.name, amount, isFree: amount === 0 }
 ```
 
 ### `client/src/utils/booking/partFinalizer.ts`
@@ -686,13 +670,13 @@ switchTypeLike@76: switch (newType) {
 switchTypeLike@134: switch (rule.ruleType) {
 ```
 
-### `client/src/utils/forms/fieldLocationDispatcher.ts`
+### `server/src/routes/internal/properties/propertyValidators.ts`
 
 - total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
-switchTypeLike@197: switch (location.type) {
+switchTypeLike@208: switch (key) {
 ```
 
 ### `server/src/services/capacityComputer.ts`

@@ -20,6 +20,7 @@ Generated from `client/.audit-reports/file-cohesion-audit.json`.
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | utils | P1 | 6 | 0 | 0 | oversized |
 | `server/src/services/slotComputationService.ts` | services | P1 | 6 | 0 | 0 | oversized |
 | `client/src/constants/apiStatus.ts` | general | P1 | 4 | 0 | 0 | high-exports |
+| `client/src/constants/fieldMetadata.ts` | general | P1 | 4 | 0 | 0 | high-exports |
 | `client/src/composables/admin/useSelectConfig.ts` | composables | P2 | 3 | 0 | 0 | oversized |
 | `client/src/composables/admin/useSelectFiltering.ts` | composables | P2 | 3 | 0 | 0 | oversized |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | composables | P2 | 3 | 0 | 0 | oversized |
@@ -42,6 +43,5 @@ Generated from `client/.audit-reports/file-cohesion-audit.json`.
 | `client/src/composables/booking/useSelectionCardState.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
 | `client/src/composables/booking/useSelectionCardStyles.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
 | `client/src/composables/useFormFields.ts` | composables | P2 | 2 | 0 | 0 | no-exports, pureHelperInComposables |
-| `client/src/configs/availabilitySettings.ts` | general | P2 | 2 | 0 | 0 | high-exports |
 
 *...and 129 more. See full report.*

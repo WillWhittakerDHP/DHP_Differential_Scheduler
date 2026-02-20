@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-20T15:39:49.003Z",
+  "generatedAt": "2026-02-20T15:41:44.026Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -114,8 +114,8 @@
     },
     {
       "auditId": "dep-freshness",
-      "filesWithFindings": 2,
-      "totalFindings": 2
+      "filesWithFindings": 5,
+      "totalFindings": 5
     },
     {
       "auditId": "type-escape",
@@ -636,7 +636,7 @@
     }
   ],
   "totalExceptions": 1226,
-  "previousExceptions": 1819,
+  "previousExceptions": 1226,
   "exceptionAnalysis": {
     "totals": {
       "structural": 1167,
@@ -715,11 +715,11 @@
     "configPatternCount": 88
   },
   "exceptionDiff": {
-    "totalDelta": -593,
-    "structuralDelta": -593,
+    "totalDelta": 0,
+    "structuralDelta": 0,
     "specificDelta": 0,
     "configsChanged": [],
-    "verdict": "improving"
+    "verdict": "stable"
   },
   "trend": [
     {
@@ -743,8 +743,8 @@
     {
       "auditId": "loop-mutation",
       "current": 0,
-      "previous": 631,
-      "delta": -631
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "hardcoding",
@@ -856,9 +856,9 @@
     },
     {
       "auditId": "dep-freshness",
-      "current": 2,
+      "current": 5,
       "previous": 2,
-      "delta": 0
+      "delta": 3
     },
     {
       "auditId": "type-escape",

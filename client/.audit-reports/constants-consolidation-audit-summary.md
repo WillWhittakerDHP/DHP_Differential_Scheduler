@@ -8,14 +8,21 @@
 Generated from `client/.audit-reports/constants-consolidation-audit.json`.
 
 - Constants files: **24**
-- Exports scanned: **67**
-- Consolidation groups: **0**
-- Requiring review: **0** | Allowed: **0**
+- Exports scanned: **71**
+- Consolidation groups: **7**
+- Requiring review: **17** | Allowed: **0**
 
-## Top 0 Consolidation Groups
+## Top 7 Consolidation Groups
 
 | Classification | Priority | Score | Description | Locations |
 | --- | --- | ---: | --- | ---: |
+| HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
+| HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
+| HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
+| HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
+| HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
+| HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
+| HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
 
 ## Notes
 

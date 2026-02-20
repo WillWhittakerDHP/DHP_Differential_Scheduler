@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T15:57:56.510Z",
+  "generatedAt": "2026-02-20T16:44:10.953Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 750,
+  "totalScanned": 751,
   "exceptionSummary": {
-    "totalAllowed": 511,
-    "totalRequiresReview": 90,
+    "totalAllowed": 512,
+    "totalRequiresReview": 82,
     "bySource": {
-      "inline": 2,
+      "inline": 3,
       "pattern": 485,
       "specific": 24
     }
@@ -51,127 +51,6 @@
     "server/src/services/google/maps/mapsConstants.ts"
   ],
   "files": [
-    {
-      "id": "server__src__routes__internal__properties__propertyValidators.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyValidators.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 1,
-        "caseString": 7,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 1,
-        "caseString": 7,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 196,
-          "line": "details: { reason: 'Body must be a plain object' }"
-        },
-        {
-          "ruleId": "switchTypeLike",
-          "lineNumber": 207,
-          "line": "switch (key) {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 208,
-          "line": "case 'mlsNumber':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 211,
-          "line": "case 'squareFootage':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 212,
-          "line": "case 'bedrooms':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 213,
-          "line": "case 'additionalUnits': {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 222,
-          "line": "case 'bathrooms': {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 231,
-          "line": "case 'foundationAccess':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 244,
-          "line": "case 'source':"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "switchTypeLike",
-          "lineNumber": 207,
-          "line": "switch (key) {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 208,
-          "line": "case 'mlsNumber':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 211,
-          "line": "case 'squareFootage':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 212,
-          "line": "case 'bedrooms':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 213,
-          "line": "case 'additionalUnits': {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 222,
-          "line": "case 'bathrooms': {"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 231,
-          "line": "case 'foundationAccess':"
-        },
-        {
-          "ruleId": "caseString",
-          "lineNumber": 244,
-          "line": "case 'source':"
-        }
-      ],
-      "score": 28,
-      "priority": "P0",
-      "suggestions": []
-    },
     {
       "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
       "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
@@ -2359,22 +2238,22 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 125,
+          "lineNumber": 126,
           "line": "serviceNames.length > 0 ? (serviceNames.length === 1 ? serviceNames[0] : `${serviceNames.length} Services`) : 'No service selected'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 129,
+          "lineNumber": 130,
           "line": "propertyNames.length > 0 ? (propertyNames.length === 1 ? propertyNames[0] : propertyNames.join(', ')) : 'No property type selected'"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 141,
+          "lineNumber": 142,
           "line": "const address = addressParts.length > 0 ? addressParts.join(', ') : 'No address provided'"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 264,
+          "lineNumber": 266,
           "line": "return { label: block.name, amount, isFree: amount === 0 }"
         }
       ],
@@ -2382,7 +2261,7 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 264,
+          "lineNumber": 266,
           "line": "return { label: block.name, amount, isFree: amount === 0 }"
         }
       ],
@@ -3293,9 +3172,9 @@
       "suggestions": []
     },
     {
-      "id": "client__src__utils__forms__fieldLocationDispatcher.ts",
-      "repoPath": "client/src/utils/forms/fieldLocationDispatcher.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/forms/fieldLocationDispatcher.ts",
+      "id": "server__src__routes__internal__properties__propertyValidators.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/properties/propertyValidators.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 1,
@@ -3305,7 +3184,7 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 0
+        "magicLabel": 1
       },
       "reviewCounts": {
         "switchEntityKey": 0,
@@ -3321,17 +3200,22 @@
       },
       "matches": [
         {
-          "ruleId": "switchTypeLike",
+          "ruleId": "magicLabel",
           "lineNumber": 197,
-          "line": "switch (location.type) {"
+          "line": "details: { reason: 'Body must be a plain object' }"
+        },
+        {
+          "ruleId": "switchTypeLike",
+          "lineNumber": 208,
+          "line": "switch (key) {"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 197,
-          "line": "switch (location.type) {"
+          "lineNumber": 208,
+          "line": "switch (key) {"
         }
       ],
       "score": 0,

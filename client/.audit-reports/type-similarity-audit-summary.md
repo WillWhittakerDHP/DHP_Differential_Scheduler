@@ -9,8 +9,8 @@ Generated from `client/.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- File count: **800**
-- Total definitions: **650**
+- File count: **801**
+- Total definitions: **651**
 - Groups: **19**
 
 ## Action table

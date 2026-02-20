@@ -194,6 +194,7 @@ export function groupFieldsByLocation<GE extends GlobalEntityKey>(
       const metadata = fieldMetadata[String(fieldKey)]
       const location = getFieldLocation(fieldKey, metadata, context)
 
+      // @audit-allow:hardcoding:switchTypeLike - exhaustive dispatch on discriminated union (FieldLocation.type)
       switch (location.type) {
         case FIELD_LOCATION_TYPE.TITLE_ROW:
           return { ...acc, titleRow: [...acc.titleRow, fieldKey] }

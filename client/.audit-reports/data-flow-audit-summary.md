@@ -7,7 +7,7 @@
 
 Generated from `client/.audit-reports/data-flow-audit.json`.
 
-- Requiring review: **11**
+- Requiring review: **10**
 - Allowed: **0**
 
 ## Top 25 files
@@ -21,5 +21,4 @@ Generated from `client/.audit-reports/data-flow-audit.json`.
 | `server/src/routes/external/mapsRoutes.ts` | 1 | P2 |
 | `server/src/routes/external/oauthCallbackRouter.ts` | 1 | P2 |
 | `server/src/routes/external/propertyEnrichmentRoutes.ts` | 1 | P2 |
-| `server/src/routes/internal/properties/propertyCrudRouter.ts` | 1 | P0 |
 | `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts` | 1 | P2 |

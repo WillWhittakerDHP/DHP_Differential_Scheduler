@@ -8,17 +8,17 @@
 Generated from `client/.audit-reports/deprecation-audit.json`.
 
 - Files with findings: **55**
-- Requiring review: **137**
-- Allowed exceptions: **46**
+- Requiring review: **135**
+- Allowed exceptions: **48**
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **137**
+- Runtime legacy accommodation: **135**
 
 ## Top 30 files (ranked by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/booking/confirmationStepData.ts` | P0 | 15 | 0 | 8 |
+| `client/src/utils/booking/confirmationStepData.ts` | P0 | 12 | 0 | 6 |
 | `client/src/types/admin/adminEntity.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useDependentInstances.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |

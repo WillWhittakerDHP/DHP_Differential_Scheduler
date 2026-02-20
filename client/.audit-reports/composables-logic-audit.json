@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T15:41:25.157Z",
+  "generatedAt": "2026-02-20T16:44:01.095Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -2035,72 +2035,72 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 94,
           "line": "const fieldKey = computed(() => String(fieldContext.fieldKey))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 220,
+          "lineNumber": 223,
           "line": "const isAttendeeSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 247,
+          "lineNumber": 250,
           "line": "const filteredEntities = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 257,
+          "lineNumber": 260,
           "line": "? currentFormValue.map(v => String(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 266,
+          "lineNumber": 269,
           "line": "const availableComponentsFiltered = availableComponents.filter("
         },
         {
           "ruleId": "map",
-          "lineNumber": 271,
+          "lineNumber": 274,
           "line": "const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 280,
+          "lineNumber": 283,
           "line": "? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 284,
+          "lineNumber": 287,
           "line": "const uniqueComponents = allComponents.reduce((map, component) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 335,
+          "lineNumber": 338,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 400,
+          "lineNumber": 403,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 429,
+          "lineNumber": 432,
           "line": ".filter((bs: GlobalEntity<'blockShape'>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 433,
+          "lineNumber": 436,
           "line": ".map((bs: GlobalEntity<'blockShape'>) => bs.id)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 439,
+          "lineNumber": 442,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 450,
+          "lineNumber": 453,
           "line": "return allEntities.value.filter((candidate) =>"
         }
       ],

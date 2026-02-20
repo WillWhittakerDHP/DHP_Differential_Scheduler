@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-20T15:40:50.913Z**
-- Files scanned: **800**
-- Type definitions found: **650**
+- Generated at: **2026-02-20T16:43:33.357Z**
+- Files scanned: **801**
+- Type definitions found: **651**
 - Similarity groups: **19**
 - UNIFY candidates: **0**
 - BRAND candidates: **3**
@@ -232,7 +232,7 @@ Overlap: **18%** shared properties
 | --- | --- | --- | ---: | --- |
 | `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
 | `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 37 | yes |
-| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 23 | no |
+| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 32 | no |
 
 ### sim-subset-ef42cc8ae7b0
 

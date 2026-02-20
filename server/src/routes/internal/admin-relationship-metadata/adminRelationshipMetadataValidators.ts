@@ -6,7 +6,10 @@
  * PATTERN: Pure validation functions that return validation results
  */
 
-import type { ValidationResult } from '../../helpers/routerValidators.js'
+import {
+  validateRequiredFields as validateRequiredFieldsShared,
+  type ValidationResult,
+} from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_ENTITY_TYPES, RENDER_AS_REQUIRING_INPUT_CONFIG } from './adminRelationshipMetadataConstants.js'
 
 /**
@@ -51,26 +54,11 @@ export function validateRequiredFields(data: {
   layout?: unknown
   displayOrder?: unknown
 }): ValidationResult {
-  const missingFields: string[] = []
-  
-  for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {
-    if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {
-      missingFields.push(field)
-    }
-  }
-  
-  if (missingFields.length > 0) {
-    return {
-      valid: false,
-      error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,
-      details: {
-        required: REQUIRED_FIELDS.CREATE_UPDATE,
-        missing: missingFields,
-      }
-    }
-  }
-  
-  return { valid: true }
+  return validateRequiredFieldsShared(
+    data as Record<string, unknown>,
+    REQUIRED_FIELDS.CREATE_UPDATE,
+    ERROR_MESSAGES.MISSING_REQUIRED_FIELDS
+  )
 }
 
 /**

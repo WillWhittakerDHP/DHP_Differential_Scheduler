@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-20T15:41:26.439Z",
-  "totalScanned": 721,
+  "generatedAt": "2026-02-20T16:44:01.719Z",
+  "totalScanned": 722,
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,
@@ -460,8 +460,8 @@
       "functions": [
         {
           "name": "determinePanelFromFieldKey",
-          "startLine": 42,
-          "endLine": 61,
+          "startLine": 43,
+          "endLine": 62,
           "length": 20,
           "maxNesting": 8,
           "branches": 6,
@@ -482,8 +482,8 @@
         },
         {
           "name": "that",
-          "startLine": 89,
-          "endLine": 170,
+          "startLine": 90,
+          "endLine": 171,
           "length": 82,
           "maxNesting": 15,
           "branches": 21,
@@ -514,8 +514,8 @@
         },
         {
           "name": "switch",
-          "startLine": 196,
-          "endLine": 215,
+          "startLine": 198,
+          "endLine": 217,
           "length": 20,
           "maxNesting": 1,
           "branches": 6,
@@ -888,6 +888,62 @@
               "rule": "nesting",
               "value": 5,
               "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 16,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
+      "functions": [
+        {
+          "name": "validateBlockInstancesForPropertyTypes",
+          "startLine": 113,
+          "endLine": 149,
+          "length": 37,
+          "maxNesting": 6,
+          "branches": 5,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "validatePropertyDetailsPatchBody",
+          "startLine": 192,
+          "endLine": 262,
+          "length": 71,
+          "maxNesting": 12,
+          "branches": 24,
+          "params": 1,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 12,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 24,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50
             }
           ]
         }
@@ -2839,9 +2895,9 @@
       "functions": [
         {
           "name": "useSelectFiltering",
-          "startLine": 75,
-          "endLine": 468,
-          "length": 394,
+          "startLine": 80,
+          "endLine": 471,
+          "length": 392,
           "maxNesting": 55,
           "branches": 57,
           "params": 0,
@@ -2859,7 +2915,7 @@
             },
             {
               "rule": "length",
-              "value": 394,
+              "value": 392,
               "threshold": 50
             },
             {
@@ -4153,6 +4209,69 @@
               "rule": "returns",
               "value": 6,
               "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 11,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
+      "functions": [
+        {
+          "name": "calculateBlockInstanceFee",
+          "startLine": 68,
+          "endLine": 118,
+          "length": 51,
+          "maxNesting": 5,
+          "branches": 6,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "length",
+              "value": 51,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "that",
+          "startLine": 160,
+          "endLine": 228,
+          "length": 69,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 69,
+              "threshold": 50
+            }
+          ]
+        },
+        {
+          "name": "buildConfirmationPriceData",
+          "startLine": 241,
+          "endLine": 294,
+          "length": 54,
+          "maxNesting": 0,
+          "branches": 2,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 54,
+              "threshold": 50
             }
           ]
         }
@@ -6741,11 +6860,11 @@
       "functions": [
         {
           "name": "getAdminPrimitiveMetadata",
-          "startLine": 16,
-          "endLine": 123,
-          "length": 108,
+          "startLine": 17,
+          "endLine": 75,
+          "length": 59,
           "maxNesting": 6,
-          "branches": 4,
+          "branches": 5,
           "params": 0,
           "returns": 5,
           "violations": [
@@ -6756,7 +6875,7 @@
             },
             {
               "rule": "length",
-              "value": 108,
+              "value": 59,
               "threshold": 50
             },
             {
@@ -6775,11 +6894,11 @@
       "functions": [
         {
           "name": "getAdminRelationshipMetadata",
-          "startLine": 20,
-          "endLine": 127,
-          "length": 108,
+          "startLine": 21,
+          "endLine": 79,
+          "length": 59,
           "maxNesting": 6,
-          "branches": 4,
+          "branches": 5,
           "params": 0,
           "returns": 5,
           "violations": [
@@ -6790,7 +6909,7 @@
             },
             {
               "rule": "length",
-              "value": 108,
+              "value": 59,
               "threshold": 50
             },
             {
@@ -7945,8 +8064,8 @@
       "functions": [
         {
           "name": "computeRenderAs",
-          "startLine": 22,
-          "endLine": 59,
+          "startLine": 23,
+          "endLine": 60,
           "length": 38,
           "maxNesting": 9,
           "branches": 8,
@@ -7961,35 +8080,6 @@
             {
               "rule": "returns",
               "value": 9,
-              "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/routes/internal/properties/propertyValidators.ts",
-      "functions": [
-        {
-          "name": "validateBlockInstancesForPropertyTypes",
-          "startLine": 105,
-          "endLine": 141,
-          "length": 37,
-          "maxNesting": 6,
-          "branches": 5,
-          "params": 0,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 4
-            },
-            {
-              "rule": "returns",
-              "value": 5,
               "threshold": 4
             }
           ]
@@ -8968,8 +9058,8 @@
       "functions": [
         {
           "name": "validateRenderAs",
-          "startLine": 85,
-          "endLine": 97,
+          "startLine": 73,
+          "endLine": 85,
           "length": 13,
           "maxNesting": 6,
           "branches": 2,
@@ -8992,8 +9082,8 @@
       "functions": [
         {
           "name": "validateRenderAs",
-          "startLine": 85,
-          "endLine": 97,
+          "startLine": 73,
+          "endLine": 85,
           "length": 13,
           "maxNesting": 6,
           "branches": 2,
@@ -9154,47 +9244,6 @@
       ],
       "score": 5,
       "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/utils/booking/confirmationStepData.ts",
-      "functions": [
-        {
-          "name": "that",
-          "startLine": 150,
-          "endLine": 218,
-          "length": 69,
-          "maxNesting": 4,
-          "branches": 6,
-          "params": 0,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "length",
-              "value": 69,
-              "threshold": 50
-            }
-          ]
-        },
-        {
-          "name": "buildConfirmationPriceData",
-          "startLine": 231,
-          "endLine": 283,
-          "length": 53,
-          "maxNesting": 0,
-          "branches": 2,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "length",
-              "value": 53,
-              "threshold": 50
-            }
-          ]
-        }
-      ],
-      "score": 4,
-      "priority": "P2"
     },
     {
       "repoPath": "client/src/components/admin/BlockInstanceCreateModal.vue",

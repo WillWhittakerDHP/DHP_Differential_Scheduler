@@ -1,47 +1,16 @@
 {
-  "generatedAt": "2026-02-20T15:57:57.400Z",
-  "totalScanned": 777,
+  "generatedAt": "2026-02-20T16:44:11.437Z",
+  "totalScanned": 778,
   "totals": {
-    "totalScanned": 777,
-    "totalMarkers": 14,
+    "totalScanned": 778,
+    "totalMarkers": 11,
     "fresh": 2,
     "aging": 0,
     "stale": 0,
-    "ancient": 12,
-    "orphaned": 14
+    "ancient": 9,
+    "orphaned": 11
   },
   "files": [
-    {
-      "repoPath": "client/src/utils/booking/PartFinal.ts",
-      "markers": [
-        {
-          "lineNumber": 66,
-          "marker": "TODO",
-          "line": "major: 'false' as const, // TODO: Compute from eventAssignments relationships",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 67,
-          "marker": "TODO",
-          "line": "minor: 'false' as const, // TODO: Compute from eventAssignments relationships",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        },
-        {
-          "lineNumber": 68,
-          "marker": "TODO",
-          "line": "moveable: false, // TODO: Compute from eventAssignments relationships",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 21,
-      "priority": "P0"
-    },
     {
       "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
       "markers": [

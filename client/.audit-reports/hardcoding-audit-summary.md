@@ -15,7 +15,6 @@ Generated from `client/.audit-reports/hardcoding-audit.json`.
 
 | File | Priority | score | switch(entityKey) | entityKey strings | case | field===string | omitFields | headers | label maps |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 20 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | P1 | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/importCalendarData.ts` | P1 | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 2 |
 | `client/src/utils/booking/durationRounding.ts` | P1 | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
@@ -45,6 +44,7 @@ Generated from `client/.audit-reports/hardcoding-audit.json`.
 | `client/src/services/mapsApiService.ts` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/services/propertyEnrichmentApiService.ts` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | P2 | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 *...and 21 more files. See full report for details.*
 

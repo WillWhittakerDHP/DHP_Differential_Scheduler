@@ -26,6 +26,7 @@ Generated from `client/.audit-reports/function-complexity-audit.json`.
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | P0 | 16 | 2 | 15 | 164 |
 | `client/src/utils/booking/constraintColors.ts` | P0 | 16 | 2 | 10 | 61 |
 | `server/src/routes/internal/appointments/appointmentHelpers.ts` | P0 | 16 | 2 | 8 | 55 |
+| `server/src/routes/internal/properties/propertyValidators.ts` | P0 | 16 | 2 | 12 | 71 |
 | `server/src/routes/internal/relationships/relationshipCrudRouter.ts` | P0 | 16 | 2 | 13 | 76 |
 | `server/src/services/brightMls/brightMlsApiClient.ts` | P0 | 16 | 2 | 14 | 82 |
 | `server/src/services/appointmentCalendarService.ts` | P0 | 15 | 2 | 11 | 86 |
@@ -42,6 +43,5 @@ Generated from `client/.audit-reports/function-complexity-audit.json`.
 | `server/src/services/computedAvailabilityService.ts` | P0 | 12 | 3 | 9 | 105 |
 | `client/src/components/booking/plugins/wizardStatePlugin.ts` | P1 | 11 | 1 | 18 | 92 |
 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | P1 | 11 | 1 | 9 | 111 |
-| `client/src/composables/admin/useAttendeeQuickSelect.ts` | P1 | 11 | 1 | 10 | 116 |
 
 *...and 292 more. See full report.*

@@ -17,10 +17,10 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ## Summary
 
 - Files with findings: **55**
-- Requiring review: **137**
-- Allowed (with justification): 46
+- Requiring review: **135**
+- Allowed (with justification): 48
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **137**
+- Runtime legacy accommodation: **135**
 
 ## Rules
 
@@ -76,7 +76,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/utils/booking/confirmationStepData.ts` | P0 | 15 | 0 | 8 |
+| `client/src/utils/booking/confirmationStepData.ts` | P0 | 12 | 0 | 6 |
 | `client/src/types/admin/adminEntity.ts` | P0 | 10 | 0 | 5 |
 | `client/src/composables/booking/useDependentInstances.ts` | P1 | 8 | 0 | 4 |
 | `client/src/composables/dataCollections/useDataCollectionActions.ts` | P1 | 8 | 0 | 4 |
@@ -111,27 +111,25 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Per-file findings
 
-### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 15)
+### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 12)
 
 ```
-[LEGACY] unhelpful-default-nullish@65: const rawParts = blockInstance.partInstances ?? []
-[LEGACY] unhelpful-default-nullish@168: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@169: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@170: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@171: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@187: ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
-[LEGACY] unhelpful-default-nullish@239: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
-[LEGACY] chaining-fallback@254: const amount = entry?.totalFee ?? 0
+[LEGACY] unhelpful-default-nullish@178: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@179: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@180: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@181: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@197: ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
+[LEGACY] unhelpful-default-nullish@249: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
 ```
 
 ### `client/src/types/admin/adminEntity.ts` [P0] (score: 10)
 
 ```
-[LEGACY] unhelpful-default-nullish@76: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
-[LEGACY] unhelpful-default-nullish@77: const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})
-[LEGACY] unhelpful-default-nullish@175: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
-[LEGACY] unhelpful-default-nullish@178: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
-[LEGACY] unhelpful-default-nullish@197: return Object.keys(this.displayConfig?.relationships ?? {})
+[LEGACY] unhelpful-default-nullish@78: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@79: const relationshipNames = Object.keys(this.displayConfig?.relationships ?? {})
+[LEGACY] unhelpful-default-nullish@177: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@180: const primitiveNames = Object.keys(this.displayConfig?.primitives ?? {})
+[LEGACY] unhelpful-default-nullish@199: return Object.keys(this.displayConfig?.relationships ?? {})
 ```
 
 ### `client/src/composables/booking/useDependentInstances.ts` [P1] (score: 8)

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T15:41:28.309Z",
+  "generatedAt": "2026-02-20T16:44:03.528Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 777,
+  "fileCount": 778,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -1794,7 +1794,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFiltering.ts",
-            "line": 30
+            "line": 35
           }
         ]
       },
@@ -1804,7 +1804,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFiltering.ts",
-            "line": 52
+            "line": 57
           }
         ]
       },
@@ -3808,7 +3808,7 @@
           },
           {
             "file": "server/src/routes/internal/properties/propertyValidators.ts",
-            "line": 18
+            "line": 26
           }
         ]
       },
@@ -4238,7 +4238,7 @@
         "locations": [
           {
             "file": "client/src/types/admin/adminEntity.ts",
-            "line": 203
+            "line": 205
           }
         ]
       },
@@ -5338,7 +5338,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 68
+            "line": 69
           }
         ]
       },
@@ -5348,7 +5348,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 80
+            "line": 81
           }
         ]
       },
@@ -5712,6 +5712,16 @@
           }
         ]
       },
+      "PatchPropertyDetailsResult": {
+        "definition": "export type PatchPropertyDetailsResult =",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyValidators.ts",
+            "line": 179
+          }
+        ]
+      },
       "RelationshipKind": {
         "definition": "export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' |",
         "isInterface": false,
@@ -5922,13 +5932,43 @@
           }
         ]
       },
+      "AdminMetadataPanel": {
+        "definition": "export type AdminMetadataPanel =",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/utils/adminMetadataPayload.ts",
+            "line": 12
+          }
+        ]
+      },
+      "MetaDisplayFields": {
+        "definition": "export interface MetaDisplayFields {",
+        "isInterface": true,
+        "locations": [
+          {
+            "file": "server/src/utils/adminMetadataPayload.ts",
+            "line": 19
+          }
+        ]
+      },
+      "MetaPayload": {
+        "definition": "export type MetaPayload = Omit<MetaDisplayFields, 'inputConfig' | 'panel'> & {",
+        "isInterface": false,
+        "locations": [
+          {
+            "file": "server/src/utils/adminMetadataPayload.ts",
+            "line": 33
+          }
+        ]
+      },
       "RelationshipMetadataEntry": {
         "definition": "export interface RelationshipMetadataEntry extends MetadataEntryBase {",
         "isInterface": true,
         "locations": [
           {
             "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-            "line": 15
+            "line": 16
           }
         ]
       }
@@ -6020,6 +6060,34 @@
           {
             "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
             "line": 53
+          }
+        ]
+      },
+      "FOUNDATION_ACCESS_VALUES": {
+        "values": [
+          "basement",
+          "crawlspace",
+          "slab"
+        ],
+        "definition": "export const FOUNDATION_ACCESS_VALUES = ['basement', 'crawlspace', 'slab'] as const",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyConstants.ts",
+            "line": 100
+          }
+        ]
+      },
+      "PROPERTY_SOURCE_VALUES": {
+        "values": [
+          "api",
+          "manual",
+          "DEFAULT_PROPERTY_SOURCE"
+        ],
+        "definition": "export const PROPERTY_SOURCE_VALUES = ['api', 'manual', DEFAULT_PROPERTY_SOURCE] as const",
+        "locations": [
+          {
+            "file": "server/src/routes/internal/properties/propertyConstants.ts",
+            "line": 105
           }
         ]
       },
@@ -7136,7 +7204,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFiltering.ts",
-            "line": 75,
+            "line": 80,
             "name": "SelectFiltering"
           }
         ]
@@ -9086,7 +9154,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/PartFinal.ts",
-            "line": 52,
+            "line": 57,
             "name": "PartFinal"
           }
         ]
@@ -9396,7 +9464,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 96,
+            "line": 97,
             "name": "FieldLocation"
           }
         ]
@@ -9956,7 +10024,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-            "line": 16,
+            "line": 17,
             "name": "AdminPrimitiveMetadata"
           }
         ]
@@ -9966,7 +10034,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-            "line": 20,
+            "line": 21,
             "name": "AdminRelationshipMetadata"
           }
         ]

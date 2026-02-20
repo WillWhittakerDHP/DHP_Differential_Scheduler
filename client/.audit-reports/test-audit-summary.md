@@ -10,7 +10,7 @@ Generated from `client/.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - Coverage: **0%**
-- Untested source files: **777**
+- Untested source files: **778**
 - Orphaned test files: **0**
 
 ## Top 20 untested files (with exports)

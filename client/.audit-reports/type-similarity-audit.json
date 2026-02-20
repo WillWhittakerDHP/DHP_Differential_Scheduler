@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T15:40:50.913Z",
+  "generatedAt": "2026-02-20T16:43:33.357Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 800,
-  "totalDefinitions": 650,
+  "fileCount": 801,
+  "totalDefinitions": 651,
   "groups": [
     {
       "groupId": "sim-subset-d547718a19b9",
@@ -764,7 +764,7 @@
           "name": "PropertyDetailsStepData",
           "kind": "type-alias-object",
           "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 23,
+          "line": 32,
           "exported": false,
           "propertyCount": 7,
           "signature": "{ address: string, city: string, propertySize: number | null, squareFootage: number | null, state: string, unit: string, zipCode: string }"
@@ -2773,7 +2773,7 @@
       "name": "UseSelectFilteringOptions",
       "kind": "interface",
       "file": "client/src/composables/admin/useSelectFiltering.ts",
-      "line": 29,
+      "line": 34,
       "exported": true,
       "fingerprint": "1d4b80fdd5a3",
       "propertyCount": 8,
@@ -2783,7 +2783,7 @@
       "name": "UseSelectFilteringReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useSelectFiltering.ts",
-      "line": 51,
+      "line": 56,
       "exported": true,
       "fingerprint": "5dc525a2ad37",
       "propertyCount": 7,
@@ -5153,7 +5153,7 @@
       "name": "AdminEntityMap",
       "kind": "type-alias-object",
       "file": "client/src/types/admin/adminEntity.ts",
-      "line": 200,
+      "line": 202,
       "exported": true,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -5913,7 +5913,7 @@
       "name": "WizardSelectionState",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 16,
+      "line": 25,
       "exported": false,
       "fingerprint": "4c5d84ec88b3",
       "propertyCount": 4,
@@ -5923,7 +5923,7 @@
       "name": "PropertyDetailsStepData",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 23,
+      "line": 32,
       "exported": false,
       "fingerprint": "25dc3bed168a",
       "propertyCount": 7,
@@ -6063,7 +6063,7 @@
       "name": "FieldLocationContext",
       "kind": "interface",
       "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-      "line": 80,
+      "line": 81,
       "exported": true,
       "fingerprint": "abae3ff8cf6c",
       "propertyCount": 1,
@@ -6900,10 +6900,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "MetaDisplayFields",
+      "kind": "interface",
+      "file": "server/src/utils/adminMetadataPayload.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "4abcefcaacbf",
+      "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
       "name": "RelationshipMetadataEntry",
       "kind": "interface",
       "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-      "line": 15,
+      "line": 16,
       "exported": true,
       "fingerprint": "fe601da2a8ab",
       "propertyCount": 2,

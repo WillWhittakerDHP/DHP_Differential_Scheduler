@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-20T15:41:26.662Z",
-  "totalScanned": 777,
+  "generatedAt": "2026-02-20T16:44:01.941Z",
+  "totalScanned": 778,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -144,6 +144,24 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/constants/fieldMetadata.ts",
+      "category": "general",
+      "lineCount": 120,
+      "exportCount": 12,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 12,
+          "threshold": 10,
+          "detail": "12 exports (max: 10)"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useSelectConfig.ts",
       "category": "composables",
       "lineCount": 443,
@@ -164,16 +182,16 @@
     {
       "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
       "category": "composables",
-      "lineCount": 472,
+      "lineCount": 475,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 472,
+          "value": 475,
           "threshold": 400,
-          "detail": "472 lines (composables max: 400)"
+          "detail": "475 lines (composables max: 400)"
         }
       ],
       "score": 3,
@@ -615,24 +633,6 @@
       "repoPath": "client/src/constants/entities.ts",
       "category": "general",
       "lineCount": 30,
-      "exportCount": 11,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 11,
-          "threshold": 10,
-          "detail": "11 exports (max: 10)"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/constants/fieldMetadata.ts",
-      "category": "general",
-      "lineCount": 107,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -2720,7 +2720,7 @@
     {
       "repoPath": "server/src/routes/internal/properties/propertyCrudRouter.ts",
       "category": "routes",
-      "lineCount": 281,
+      "lineCount": 288,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

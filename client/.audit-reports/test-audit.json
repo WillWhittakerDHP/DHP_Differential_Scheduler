@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-20T15:41:37.681Z",
+  "generatedAt": "2026-02-20T16:44:12.362Z",
   "summary": {
-    "totalSourceFiles": 777,
+    "totalSourceFiles": 778,
     "totalTestFiles": 0,
-    "untestedSourceFiles": 777,
+    "untestedSourceFiles": 778,
     "orphanedTestFiles": 0,
     "coveragePercentage": 0
   },
@@ -7441,10 +7441,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -10933,16 +10933,18 @@
     },
     {
       "repoPath": "server/src/routes/helpers/routerValidators.ts",
-      "functions": [],
+      "functions": [
+        "validateRequiredFields"
+      ],
       "classes": [],
       "composables": [],
-      "exportCount": 0,
+      "exportCount": 1,
       "priority": {
-        "reliability": 0,
+        "reliability": 1,
         "independence": 10,
-        "roi": 0,
+        "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -12072,18 +12074,19 @@
         "validateAddressFields",
         "validateBlockInstancesForPropertyTypes",
         "validateBlockShape",
+        "validatePropertyDetailsPatchBody",
         "validateRequiredField"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 1,
         "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -13057,6 +13060,23 @@
       }
     },
     {
+      "repoPath": "server/src/utils/adminMetadataPayload.ts",
+      "functions": [
+        "mapMetaFieldsToPayload"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
       "functions": [
         "getAdminPrimitiveMetadata"
@@ -13905,9 +13925,9 @@
     },
     {
       "directory": "server/src/utils",
-      "sourceCount": 8,
+      "sourceCount": 9,
       "testCount": 0,
-      "untestedCount": 8
+      "untestedCount": 9
     },
     {
       "directory": "server/src/utils/availabilities",
@@ -23136,10 +23156,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -27680,19 +27700,21 @@
     {
       "repoPath": "server/src/routes/helpers/routerValidators.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/routerValidators.ts",
-      "functions": [],
+      "functions": [
+        "validateRequiredFields"
+      ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 0,
+      "exportCount": 1,
       "priority": {
-        "reliability": 0,
+        "reliability": 1,
         "independence": 10,
-        "roi": 0,
+        "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -29095,6 +29117,7 @@
         "validateAddressFields",
         "validateBlockInstancesForPropertyTypes",
         "validateBlockShape",
+        "validatePropertyDetailsPatchBody",
         "validateRequiredField"
       ],
       "classes": [],
@@ -29102,14 +29125,14 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
         "reliability": 1,
         "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "roi": 5,
+        "cognitiveLoad": 2,
+        "overall": 4.1,
+        "bucket": "P1"
       }
     },
     {
@@ -30319,6 +30342,27 @@
         "cognitiveLoad": 0,
         "overall": 3,
         "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/utils/adminMetadataPayload.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/adminMetadataPayload.ts",
+      "functions": [
+        "mapMetaFieldsToPayload"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T15:41:27.021Z",
+  "generatedAt": "2026-02-20T16:44:02.270Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 594,
+  "fileCount": 595,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -361,203 +361,6 @@
   ],
   "groups": [
     {
-      "groupId": "dup-132c63251d30",
-      "hash": "132c63251d30",
-      "uniqueFiles": 4,
-      "occurrences": 10,
-      "lineCount": 10,
-      "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 74,
-          "endLine": 83,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
-          "startLine": 24,
-          "endLine": 33,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 33,
-          "endLine": 42,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 50,
-          "endLine": 59,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 79,
-          "endLine": 88,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 95,
-          "endLine": 104,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 37,
-          "endLine": 46,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 54,
-          "endLine": 63,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 83,
-          "endLine": 92,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 99,
-          "endLine": 108,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 50,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-3000bf634a1d",
-      "hash": "3000bf634a1d",
-      "uniqueFiles": 4,
-      "occurrences": 10,
-      "lineCount": 10,
-      "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 75,
-          "endLine": 84,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
-          "startLine": 25,
-          "endLine": 34,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 34,
-          "endLine": 43,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 51,
-          "endLine": 60,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 80,
-          "endLine": 89,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 96,
-          "endLine": 105,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 38,
-          "endLine": 47,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 55,
-          "endLine": 64,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 84,
-          "endLine": 93,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 100,
-          "endLine": 109,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 50,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-00c9105755d8",
-      "hash": "00c9105755d8",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 53,
-          "endLine": 73,
-          "windowText": "}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 53,
-          "endLine": 73,
-          "windowText": "}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
-          "startLine": 53,
-          "endLine": 73,
-          "windowText": "}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-0d3194f54d5e",
       "hash": "0d3194f54d5e",
       "uniqueFiles": 3,
@@ -585,105 +388,6 @@
           "endLine": 79,
           "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
           "target": "client/src/composables/booking/useWizardDevMode.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-0df82f50465a",
-      "hash": "0df82f50465a",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 135,
-          "endLine": 144,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 112,
-          "endLine": 121,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 116,
-          "endLine": 125,
-          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-433b7c717ff1",
-      "hash": "433b7c717ff1",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "displayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 52,
-          "endLine": 68,
-          "windowText": "displayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 52,
-          "endLine": 68,
-          "windowText": "displayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
-          "startLine": 52,
-          "endLine": 68,
-          "windowText": "displayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-4e4d3c29d4fd",
-      "hash": "4e4d3c29d4fd",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 134,
-          "endLine": 143,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 111,
-          "endLine": 120,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 115,
-          "endLine": 124,
-          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 33,
@@ -723,72 +427,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-69c0d3151348",
-      "hash": "69c0d3151348",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 50,
-          "endLine": 67,
-          "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 50,
-          "endLine": 67,
-          "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
-          "startLine": 50,
-          "endLine": 67,
-          "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-b91a6eb83ee2",
-      "hash": "b91a6eb83ee2",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 48,
-          "endLine": 65,
-          "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 48,
-          "endLine": 65,
-          "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
-          "startLine": 48,
-          "endLine": 65,
-          "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-faf7bc22dbba",
       "hash": "faf7bc22dbba",
       "uniqueFiles": 3,
@@ -822,46 +460,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-af67935eba71",
-      "hash": "af67935eba71",
-      "uniqueFiles": 2,
-      "occurrences": 4,
-      "lineCount": 10,
-      "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 81,
-          "endLine": 93,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 97,
-          "endLine": 109,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 85,
-          "endLine": 97,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 101,
-          "endLine": 113,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 24,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-012f8e607c7e",
       "hash": "012f8e607c7e",
       "uniqueFiles": 2,
@@ -888,6 +486,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-01c6dc6fecc6",
+      "hash": "01c6dc6fecc6",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "validateRequiredFields as validateRequiredFieldsShared,\n} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 10,
+          "endLine": 50,
+          "windowText": "validateRequiredFields as validateRequiredFieldsShared,\n} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 10,
+          "endLine": 50,
+          "windowText": "validateRequiredFields as validateRequiredFieldsShared,\n} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-02e09562fbee",
       "hash": "02e09562fbee",
       "uniqueFiles": 2,
@@ -904,8 +528,8 @@
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 36,
-          "endLine": 55,
+          "startLine": 37,
+          "endLine": 56,
           "windowText": "const selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {\nreturn 'reference'",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
         }
@@ -930,88 +554,10 @@
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 32,
-          "endLine": 49,
+          "startLine": 33,
+          "endLine": 50,
           "windowText": "const selectType = inputConfig.selectType as string | undefined\nif (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-054b5d13687d",
-      "hash": "054b5d13687d",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 65,
-          "endLine": 109,
-          "windowText": "error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 65,
-          "endLine": 109,
-          "windowText": "error: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-0650894690ad",
-      "hash": "0650894690ad",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 73,
-          "endLine": 114,
-          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 73,
-          "endLine": 114,
-          "windowText": "return { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-067a7f23cd4b",
-      "hash": "067a7f23cd4b",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 46,
-          "endLine": 58,
-          "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 46,
-          "endLine": 58,
-          "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -1122,32 +668,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-09b54b2c0516",
-      "hash": "09b54b2c0516",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 47,
-          "endLine": 62,
-          "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 47,
-          "endLine": 62,
-          "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-0b9d7afa76c5",
       "hash": "0b9d7afa76c5",
       "uniqueFiles": 2,
@@ -1183,15 +703,15 @@
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 86,
-          "endLine": 122,
+          "startLine": 74,
+          "endLine": 110,
           "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 86,
-          "endLine": 122,
+          "startLine": 74,
+          "endLine": 110,
           "windowText": "if (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nreturn { valid: true }",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
@@ -1246,32 +766,6 @@
           "endLine": 86,
           "windowText": "type: DataTypes.VIRTUAL,\nreturn 'partInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
           "target": "server/src/db/models/booking/part_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-0fa97a246cb3",
-      "hash": "0fa97a246cb3",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 57,
-          "endLine": 89,
-          "windowText": "if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 57,
-          "endLine": 89,
-          "windowText": "if ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -1443,15 +937,15 @@
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 25,
-          "endLine": 53,
+          "startLine": 28,
+          "endLine": 56,
           "windowText": "error: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 25,
-          "endLine": 53,
+          "startLine": 28,
+          "endLine": 56,
           "windowText": "error: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
@@ -1512,26 +1006,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-180c0392849d",
-      "hash": "180c0392849d",
+      "groupId": "dup-19862ce3c011",
+      "hash": "19862ce3c011",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
+      "windowText": "return validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
       "locations": [
         {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 54,
-          "endLine": 66,
-          "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 57,
+          "endLine": 97,
+          "windowText": "return validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 58,
-          "endLine": 70,
-          "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 57,
+          "endLine": 97,
+          "windowText": "return validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -1632,8 +1126,8 @@
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 34,
-          "endLine": 54,
+          "startLine": 35,
+          "endLine": 55,
           "windowText": "return 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
         }
@@ -1781,15 +1275,15 @@
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 85,
-          "endLine": 116,
+          "startLine": 73,
+          "endLine": 104,
           "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 85,
-          "endLine": 116,
+          "startLine": 73,
+          "endLine": 104,
           "windowText": "export function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,\nmessage: `inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
@@ -2032,6 +1526,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-3c3feb615be5",
+      "hash": "3c3feb615be5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 37,
+          "endLine": 59,
+          "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 37,
+          "endLine": 59,
+          "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-3cd31b02359f",
       "hash": "3cd31b02359f",
       "uniqueFiles": 2,
@@ -2052,6 +1572,32 @@
           "endLine": 55,
           "windowText": "handleSequelizeValidationError as sharedHandleSequelizeValidationError,\nhandleGeneralError as sharedHandleGeneralError,\nhandleRouteError as sharedHandleRouteError,\n} from '../../helpers/routerErrorHandler.js'\nexport function handleSequelizeValidationError(\nreturn sharedHandleSequelizeValidationError(\nVALIDATION_FAILED_MESSAGE\nexport function handleGeneralError(\nerrorMessage: string,\nsharedHandleGeneralError(error, res, errorMessage, context)",
           "target": "server/src/routes/internal/businessSettings/businessSettingsErrorHandler.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-3d5e90d04e43",
+      "hash": "3d5e90d04e43",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 31,
+          "endLine": 57,
+          "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 31,
+          "endLine": 57,
+          "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -2256,8 +1802,8 @@
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 33,
-          "endLine": 51,
+          "startLine": 34,
+          "endLine": 52,
           "windowText": "if (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
         }
@@ -2578,32 +2124,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-55b5877b8e57",
-      "hash": "55b5877b8e57",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 36,
-          "endLine": 48,
-          "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 40,
-          "endLine": 52,
-          "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-571e47173927",
       "hash": "571e47173927",
       "uniqueFiles": 2,
@@ -2676,6 +2196,32 @@
           "endLine": 89,
           "windowText": "return 'partInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'part_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\ntype: DataTypes.DATE,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-585b6e1518f6",
+      "hash": "585b6e1518f6",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "REQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 59,
+          "endLine": 99,
+          "windowText": "REQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 59,
+          "endLine": 99,
+          "windowText": "REQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -2890,6 +2436,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-6715a6f0ce6e",
+      "hash": "6715a6f0ce6e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 12,
+          "endLine": 51,
+          "windowText": "} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 12,
+          "endLine": 51,
+          "windowText": "} from '../../helpers/routerValidators.js'\nexport function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-67a28d0e7cc3",
       "hash": "67a28d0e7cc3",
       "uniqueFiles": 2,
@@ -2942,32 +2514,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-6c77005d3647",
-      "hash": "6c77005d3647",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 52,
-          "endLine": 64,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 56,
-          "endLine": 68,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-6cf9d1c1b711",
       "hash": "6cf9d1c1b711",
       "uniqueFiles": 2,
@@ -2988,6 +2534,32 @@
           "endLine": 46,
           "windowText": "declare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(\ntype: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.VIRTUAL,",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-6d750f7d4ddf",
+      "hash": "6d750f7d4ddf",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 32,
+          "endLine": 58,
+          "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 32,
+          "endLine": 58,
+          "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3092,6 +2664,32 @@
           "endLine": 108,
           "windowText": "type: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: true,\nmodelName: 'event_assignment',\ntableName: 'event_assignments',",
           "target": "server/src/db/models/booking/event_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-71a2d7890e8c",
+      "hash": "71a2d7890e8c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 50,
+          "endLine": 73,
+          "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 50,
+          "endLine": 73,
+          "windowText": "fieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3306,6 +2904,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-789fe0547a08",
+      "hash": "789fe0547a08",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 51,
+          "endLine": 74,
+          "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 51,
+          "endLine": 74,
+          "windowText": "dataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-7905ed6bf9e3",
       "hash": "7905ed6bf9e3",
       "uniqueFiles": 2,
@@ -3378,32 +3002,6 @@
           "endLine": 90,
           "windowText": "return 'blockInstance';\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.UUID,\nmodel: 'block_instances',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\ntype: DataTypes.DATE,",
           "target": "server/src/db/models/booking/dependent_instance.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-7c202ef97610",
-      "hash": "7c202ef97610",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 29,
-          "endLine": 56,
-          "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 29,
-          "endLine": 56,
-          "windowText": "message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3618,32 +3216,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-858445fb9a60",
-      "hash": "858445fb9a60",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 35,
-          "endLine": 47,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 39,
-          "endLine": 51,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-87a24bca5330",
       "hash": "87a24bca5330",
       "uniqueFiles": 2,
@@ -3722,26 +3294,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-8947a6ba4d82",
-      "hash": "8947a6ba4d82",
+      "groupId": "dup-897f5b967c01",
+      "hash": "897f5b967c01",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
+      "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
       "locations": [
         {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
           "startLine": 53,
-          "endLine": 65,
-          "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+          "endLine": 77,
+          "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 57,
-          "endLine": 69,
-          "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 53,
+          "endLine": 77,
+          "windowText": "visibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -3991,15 +3563,15 @@
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 21,
-          "endLine": 50,
+          "startLine": 24,
+          "endLine": 53,
           "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 21,
-          "endLine": 50,
+          "startLine": 24,
+          "endLine": 53,
           "windowText": "export function validateEntityType(entityType: unknown): ValidationResult {\nif (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
@@ -4054,58 +3626,6 @@
           "endLine": 54,
           "windowText": "declare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\nexport function PartAssignmentFactory(sequelize: Sequelize) {\nPartAssignment.init(\ntype: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.VIRTUAL,\nreturn \"partAssignments\";\ntype: DataTypes.VIRTUAL,\nreturn 'blockInstance';",
           "target": "server/src/db/models/booking/part_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-9646ef22a0ba",
-      "hash": "9646ef22a0ba",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 62,
-          "endLine": 96,
-          "windowText": "if (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 62,
-          "endLine": 96,
-          "windowText": "if (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-96b4794c0ffb",
-      "hash": "96b4794c0ffb",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 28,
-          "endLine": 54,
-          "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 28,
-          "endLine": 54,
-          "windowText": "validEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -4320,32 +3840,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-9e216e560354",
-      "hash": "9e216e560354",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 68,
-          "endLine": 111,
-          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 68,
-          "endLine": 111,
-          "windowText": "missing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-9e2d676f7757",
       "hash": "9e2d676f7757",
       "uniqueFiles": 2,
@@ -4366,32 +3860,6 @@
           "endLine": 35,
           "windowText": "PartInstanceVersion,\nValidPricingCascade,\nDependentInstance,\nInstanceComponent,\nAnnotationInstance,\nAnnotationAssignment,\nEventShapeAttendee,\nPropertyVersionType,\nAppointmentAttendee,\nAppointmentFeeSummary,",
           "target": "server/src/config/models.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-9f579fadeb7d",
-      "hash": "9f579fadeb7d",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 34,
-          "endLine": 57,
-          "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 34,
-          "endLine": 57,
-          "windowText": "return { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nconst missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -4450,6 +3918,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-a14638a4599e",
+      "hash": "a14638a4599e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 56,
+          "endLine": 84,
+          "windowText": "}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 56,
+          "endLine": 84,
+          "windowText": "}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-a1cf315461f9",
       "hash": "a1cf315461f9",
       "uniqueFiles": 2,
@@ -4496,58 +3990,6 @@
           "endLine": 55,
           "windowText": "declare userTypeBlockInstanceId: ForeignKey<string> | null;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;\ndeclare blockInstance?: BlockInstance;\ndeclare annotation?: AnnotationInstance;\ndeclare userTypeBlockInstance?: BlockInstance;\nexport function AnnotationAssignmentFactory(sequelize: Sequelize) {\nAnnotationAssignment.init(\ntype: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,",
           "target": "server/src/db/models/booking/annotation_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-a34a3f8b2931",
-      "hash": "a34a3f8b2931",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 67,
-          "endLine": 110,
-          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 67,
-          "endLine": 110,
-          "windowText": "required: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-a5ed8811e8e3",
-      "hash": "a5ed8811e8e3",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "missingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 58,
-          "endLine": 91,
-          "windowText": "missingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 58,
-          "endLine": 91,
-          "windowText": "missingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -4814,32 +4256,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-c27098ef8302",
-      "hash": "c27098ef8302",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn metadataRecord",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 76,
-          "endLine": 87,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn metadataRecord",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts",
-          "startLine": 26,
-          "endLine": 37,
-          "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn metadataRecord",
-          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-c2ccd09b612f",
       "hash": "c2ccd09b612f",
       "uniqueFiles": 2,
@@ -4996,26 +4412,26 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-ce13cf1a9cb0",
-      "hash": "ce13cf1a9cb0",
+      "groupId": "dup-cba50e578559",
+      "hash": "cba50e578559",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
+      "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS",
       "locations": [
         {
-          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 55,
-          "endLine": 67,
-          "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
-          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 49,
+          "endLine": 60,
+          "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 59,
-          "endLine": 71,
-          "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 49,
+          "endLine": 60,
+          "windowText": "export function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -5031,15 +4447,15 @@
       "locations": [
         {
           "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 22,
-          "endLine": 52,
+          "startLine": 25,
+          "endLine": 55,
           "windowText": "if (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
           "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
           "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 22,
-          "endLine": 52,
+          "startLine": 25,
+          "endLine": 55,
           "windowText": "if (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {\nerror: ERROR_MESSAGES.INVALID_ENTITY_TYPE,\nvalidEntityTypes: VALID_ENTITY_TYPES,\nmessage: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,\nreturn { valid: true }\nexport function validateRequiredFields(data: {\nfieldKey?: unknown\ndataType?: unknown\nvisibility?: unknown\ndisplayOrder?: unknown",
           "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
@@ -5152,6 +4568,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-d53b50a09cd3",
+      "hash": "d53b50a09cd3",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "displayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 55,
+          "endLine": 79,
+          "windowText": "displayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 55,
+          "endLine": 79,
+          "windowText": "displayOrder?: unknown\n}): ValidationResult {\nreturn validateRequiredFieldsShared(\ndata as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-d84d408e941d",
       "hash": "d84d408e941d",
       "uniqueFiles": 2,
@@ -5198,32 +4640,6 @@
           "endLine": 30,
           "windowText": "} from 'sequelize';\nexport class PartAssignment extends Model<\nInferAttributes<PartAssignment>,\nInferCreationAttributes<PartAssignment>\ndeclare id: CreationOptional<string>;\ndeclare kind: CreationOptional<string>;\ndeclare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;",
           "target": "server/src/db/models/booking/part_assignment.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-da1c0ab7c1c2",
-      "hash": "da1c0ab7c1c2",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "const missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 54,
-          "endLine": 85,
-          "windowText": "const missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 54,
-          "endLine": 85,
-          "windowText": "const missingFields: string[] = []\nfor (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
@@ -5672,6 +5088,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-f8795e4e519a",
+      "hash": "f8795e4e519a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "ERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 60,
+          "endLine": 102,
+          "windowText": "ERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 60,
+          "endLine": 102,
+          "windowText": "ERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {\nif (!inputConfig || typeof inputConfig !== 'object') {\nerror: ERROR_MESSAGES.MISSING_INPUT_CONFIG,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-f9a3992c8e03",
       "hash": "f9a3992c8e03",
       "uniqueFiles": 2,
@@ -5776,32 +5218,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-fc6ae43d12ec",
-      "hash": "fc6ae43d12ec",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 56,
-          "endLine": 86,
-          "windowText": "for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 56,
-          "endLine": 86,
-          "windowText": "for (const field of REQUIRED_FIELDS.CREATE_UPDATE) {\nif ((data as Record<string, unknown>)[field] === undefined || (data as Record<string, unknown>)[field] === null) {\nmissingFields.push(field)\nif (missingFields.length > 0) {\nerror: ERROR_MESSAGES.MISSING_REQUIRED_FIELDS,\nrequired: REQUIRED_FIELDS.CREATE_UPDATE,\nmissing: missingFields,\nreturn { valid: true }\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-fc98913933df",
       "hash": "fc98913933df",
       "uniqueFiles": 2,
@@ -5822,6 +5238,32 @@
           "endLine": 63,
           "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-fc9e038f8773",
+      "hash": "fc9e038f8773",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "data as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 58,
+          "endLine": 98,
+          "windowText": "data as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 58,
+          "endLine": 98,
+          "windowText": "data as Record<string, unknown>,\nREQUIRED_FIELDS.CREATE_UPDATE,\nERROR_MESSAGES.MISSING_REQUIRED_FIELDS\nexport function validateRenderAs(renderAs: unknown): ValidationResult {\nif (renderAs === 'toggle') {\nerror: ERROR_MESSAGES.INVALID_RENDER_AS,\nmessage: 'renderAs \"toggle\" is not supported. Use \"statusButton\" for boolean toggle fields or \"text\" for regular boolean inputs.',\nreturn { valid: true }\nexport function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {\nif (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,

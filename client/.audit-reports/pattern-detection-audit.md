@@ -14,10 +14,10 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **777**
+- Files scanned: **778**
 - String literals found: **5** (showing those with 3+ occurrences)
-- Type definitions found: **544**
-- Enum patterns found: **7**
+- Type definitions found: **548**
+- Enum patterns found: **9**
 - Config locations found: **37**
 - Function patterns found: **376**
 - Common patterns found: **24**
@@ -33,7 +33,8 @@ _No frequent string literals found._
 | Type Name | Kind | Definition Location |
 | --- | --- | --- |
 | `AdminConfig` | interface | `client/src/configs/adminConfig.ts:159` |
-| `AdminEntityMap` | type | `client/src/types/admin/adminEntity.ts:203` |
+| `AdminEntityMap` | type | `client/src/types/admin/adminEntity.ts:205` |
+| `AdminMetadataPanel` | type | `server/src/utils/adminMetadataPayload.ts:12` |
 | `AdminObjectMap` | type | `client/src/utils/transformers/globalToAdminTransformer.ts:37` |
 | `AnnotationAssignmentResponse` | interface | `client/src/types/annotations.ts:79` |
 | `AnnotationInstance` | type | `client/src/types/annotations.ts:28` |
@@ -131,8 +132,7 @@ _No frequent string literals found._
 | `DevPanelVisibleProps` | interface | `client/src/components/admin/dev/devPanelTypes.ts:6` |
 | `DifferentialTimeBlocks` | interface | `client/src/composables/booking/useTimeSlotCalculations.ts:34` |
 | `DisplayedMonth` | interface | `client/src/composables/booking/useDateRangeDecider.ts:14` |
-| `DisplayFieldConfigMap` | type | `client/src/configs/field/display/displayFieldTypes.ts:36` |
-| ... | ... | (+444 more) |
+| ... | ... | (+448 more) |
 
 ## Enum-like Patterns (const X = [...] as const)
 
@@ -140,7 +140,9 @@ _No frequent string literals found._
 | --- | --- | --- |
 | `BOOKING_MODES` | `DEFAULT_VALUES.BOOKING_MODE`, `addOn`, `both` | `client/src/constants/bookingMode.ts:3` |
 | `BUSINESS_DATA_QUERY_KEY` | `businessData` | `client/src/composables/useBusiness.ts:18` |
+| `FOUNDATION_ACCESS_VALUES` | `basement`, `crawlspace`, `slab` | `server/src/routes/internal/properties/propertyConstants.ts:100` |
 | `METADATA_REQUIRED_FIELDS_CREATE_UPDATE` | `fieldKey`, `dataType`, `label`, `visibility`, `layout` (+1 more) | `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts:58` |
+| `PROPERTY_SOURCE_VALUES` | `api`, `manual`, `DEFAULT_PROPERTY_SOURCE` | `server/src/routes/internal/properties/propertyConstants.ts:105` |
 | `RATE_LIMIT_KEYWORDS` | `rate`, `quota`, `limit` | `server/src/services/google/calendar/calendarConstants.ts:92` |
 | `RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE` | `relationshipKey`, `dataType`, `label`, `visibility`, `layout` (+1 more) | `server/src/routes/internal/admin-metadata/adminMetadataConstants.ts:64` |
 | `STATUSES_REQUIRING_CALENDAR_EVENT` | `submitted`, `confirmed` | `server/src/routes/internal/appointments/appointmentConstants.ts:53` |
