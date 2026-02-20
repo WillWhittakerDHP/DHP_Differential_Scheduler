@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-02-20
 **Status:** Active Planning Document
 
 ---
@@ -172,8 +172,19 @@ Structural migration complete. All major systems in place and functional:
 - `client/src/composables/booking/useMapsSessionToken.ts` — Maps session tokens
 
 ### Remaining Work
-- **MLS credentials:** External dependency — Bright MLS issues credentials after beta launch. Infrastructure is ready.
 - **Production token storage:** OAuth tokens currently file-based. Consider database storage for production deployment.
+
+### Pre-Beta MLS Activation (before beta tester access)
+
+All MLS infrastructure is built and returns 503 until credentials are configured. This work must happen after deployment but before beta testers receive access:
+
+1. **Procure Bright MLS API credentials** — contact contentlicensing@brightmls.com with GCAAR affiliate credentials
+2. **Configure credentials** in Render env vars (`BRIGHT_MLS_CLIENT_ID`, `BRIGHT_MLS_CLIENT_SECRET`)
+3. **Validate field mappings against live API** — run property lookups with real RESO responses, verify transformer output matches expected `PropertyDetails` shape
+4. **Pre-test enrichment pipeline end-to-end** — search by address → transform → auto-populate form → feature suggestions
+5. **Verify error handling** with real API edge cases (property not found, partial data, rate limit responses)
+
+See also: Feature 15 (Beta Launch) Phase 15.2 item 1.8b
 
 ### Related Documents
 - **Feature Plan:** `features/feature-2-google-apis-integration/feature-plan.md`

@@ -83,6 +83,13 @@ Get the codebase merged and the app running in a hosted environment (Render) so 
 - [ ] **1.8** Update Google OAuth redirect URI in Google Cloud Console
   - Add Render API URL to authorized redirect URIs (e.g., `https://your-api.onrender.com/oauth/callback`)
   - Keep `http://localhost:3001/oauth/callback` for local development
+- [ ] **1.8b** Procure and configure Bright MLS API credentials
+  - Contact contentlicensing@brightmls.com with GCAAR affiliate credentials
+  - Add `BRIGHT_MLS_CLIENT_ID` and `BRIGHT_MLS_CLIENT_SECRET` to Render env vars
+  - Validate field mappings against live RESO API responses (transformer output → `PropertyDetails`)
+  - Pre-test enrichment pipeline end-to-end: search → transform → auto-populate → feature suggestions
+  - Verify error handling with real edge cases (not found, partial data, rate limits)
+  - Infrastructure is already built (Feature 2 Phase 2.3 / Feature 7) — currently returns 503 until credentials are set
 - [ ] **1.9** Verify end-to-end: static site loads, API responds, database connected, calendar integration works
 - [ ] **1.10** Create `render.yaml` Blueprint (see Phase 15.3)
 - [ ] **1.11** Configure custom domain (optional — can use Render's default URLs for alpha)
@@ -117,8 +124,10 @@ Full `render.yaml` template and environment variables reference are in **BETA_LA
 | `CLIENT_URL` | API | Full URL to client static site (magic link redirects) |
 | `AUTH_STRATEGY` | API | `magic_link` (beta) or `password` (production) |
 | `RESEND_API_KEY` | API | Resend email provider (magic link emails) |
+| `BRIGHT_MLS_CLIENT_ID` | API | Bright MLS OAuth client ID (property enrichment) |
+| `BRIGHT_MLS_CLIENT_SECRET` | API | Bright MLS OAuth client secret (property enrichment) |
 | `VITE_API_BASE_URL` | Client | Full URL to the API service |
 
 ---
 
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-02-20
