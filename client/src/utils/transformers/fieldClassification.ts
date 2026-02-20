@@ -8,7 +8,7 @@
 
 import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { safeArray } from './transformerPrimitives'
 
 export type DehydrateFieldSets = {

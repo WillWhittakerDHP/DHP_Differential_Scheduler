@@ -16,7 +16,7 @@ import { computed, type ComputedRef } from 'vue'
 import { getUserByIdEndpoint, getUserEndpoint } from '@/utils/api'
 import type { UserRequest, UserResponse } from '@/types/user'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
-import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollections'
+import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollections/useBusinessDataCollectionCrud'
 import { useBusiness } from './useBusiness'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 

@@ -70,11 +70,12 @@
  * COMPARISON: React uses similar pattern with GenericInstance component
  */
 
-import { computed, ref, watch, type Ref } from 'vue'
-import { useForm, type FormContext } from 'vee-validate'
+import { computed, ref, watch } from 'vue'
+import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { VForm } from 'vuetify/components'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/useAdmin'
@@ -84,14 +85,14 @@ import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { getFieldKeys } from '@/utils/forms/getFieldKeys'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 
-import { FieldRenderer } from './fields'
+import FieldRenderer from './fields/FieldRenderer.vue'
 
 const autocompleteOff = AUTCOMPLETE_OFF
 
 interface Props {
   entityKey: GlobalEntityKey
   entityId?: GlobalEntityId
-  form?: ReturnType<typeof useForm>
+  form: FormContext
   /**
    * LEARNING: Modal mode flag - when true, includes titleField in visible fields
    * WHY: In modal dialogs, the name field should be editable even though it's the titleField
@@ -115,14 +116,11 @@ const adminConfig = useAdminConfig()
 const adminComp = useAdmin()
 
 /**
- * LEARNING: Vee-Validate form instance (declared outside try-catch for defineExpose)
- * WHY: Fields need form instance for validation
- * PATTERN: Use provided form or create new one, declare outside try-catch so defineExpose can access it
- *          Single form instance shared across all fields in this component
- *          Form instance is passed to each field context via useFieldContext options
- *          This ensures all fields belong to the same form for validation coordination
+ * LEARNING: Form is always provided by parent (EntityCard via useEntityCardForm)
+ * WHY: Form ownership lives in composables; DynamicForm only consumes
+ * PATTERN: Parent passes form ref/instance; no useForm() in .vue files
  */
-const formInstance = props.form || useForm()
+const formRefForComposable = computed<FormContext>(() => props.form)
 
 /**
  * LEARNING: Current entity ID for composable
@@ -177,8 +175,6 @@ const stackedFieldsConfig = computed(() => {
  * WHY: Moves all field categorization, context management, and layout logic to composable
  * PATTERN: Call composable with required parameters, use returned computed properties and methods
  */
-const formRefForComposable = ref<FormContext | undefined>(formInstance as unknown as FormContext | undefined) as Ref<FormContext | undefined>
-
 const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: currentEntityId,
@@ -219,7 +215,7 @@ tryPatchFormImmediately()
  * PATTERN: defineExpose must be at top level of script setup, not inside try-catch
  */
 defineExpose({
-  form: formInstance,
+  form: props.form,
   getFieldContext: formFields.getFieldContext
 })
 </script>

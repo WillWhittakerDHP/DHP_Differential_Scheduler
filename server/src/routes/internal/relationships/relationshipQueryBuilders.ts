@@ -61,7 +61,7 @@ function annotationAssignmentsInclude(): Includeable[] {
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-export interface BuildWhereClauseParams {
+interface BuildWhereClauseParams {
   relationshipType: string
   relationshipConfig: RelationshipConfig
   query: Record<string, unknown>
@@ -99,7 +99,7 @@ export function buildRelationshipWhereClause(params: BuildWhereClauseParams): Re
   return whereWithParentId
 }
 
-export interface BuildQueryOptionsParams {
+interface BuildQueryOptionsParams {
   relationshipType: string
   relationshipConfig: RelationshipConfig
   whereClause: Record<string, unknown>

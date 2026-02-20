@@ -9,7 +9,7 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 
 /**
  * Props for field input components that render from field context

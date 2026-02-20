@@ -7,6 +7,7 @@
  */
 
 import { Op } from 'sequelize'
+import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { isRelationshipKey } from '../../../constants/relationships.js'
 import { GLOBAL_CONFIG_IDS, VALID_ENTITY_TYPES } from './adminMetadataConstants.js'
 
@@ -125,7 +126,7 @@ export function buildMetadataWhereClause(
  * @param allMetadata - Array of all metadata records
  * @returns Structured batch metadata result
  */
-export function buildBatchMetadataResult(allMetadata: any[]): {
+export function buildBatchMetadataResult(allMetadata: InstanceType<typeof AdminMetadata>[]): {
   global: {
     blockShape: Record<string, unknown>
     partShape: Record<string, unknown>

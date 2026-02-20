@@ -14,7 +14,7 @@
 
 import { ref, computed, onMounted, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useEntityCrud } from '../useEntity'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useGlobal } from '../useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
@@ -28,7 +28,7 @@ export interface PartInstanceFormData {
   active: boolean
 }
 
-import type { UseEntityFormRedirectOptions } from './entityFormRedirectOptions'
+import type { UseEntityFormRedirectOptions } from './useEntityFormRedirectOptions'
 
 export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions
 

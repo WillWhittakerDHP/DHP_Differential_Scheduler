@@ -2,10 +2,8 @@
 import { describe, it, expect } from 'vitest'
 import {
   hasDuplicateUserTypeBlock,
-  getAvailableUserTypeBlocksForAnnotation,
   formatAnnotationForDisplay,
   getAnnotationsForUserTypeBlock,
-  validateAnnotationMetadata,
   getUserTypeBlockOptionsFromGlobalData,
 } from '../annotationUtils'
 import type { AnnotationWithMetadata, AnnotationMetadata } from '@/types/annotations'
@@ -94,123 +92,6 @@ describe('annotationUtils', () => {
       }
       
       expect(hasDuplicateUserTypeBlock(annotation, [])).toBe(false)
-    })
-  })
-
-  describe('getAvailableUserTypeBlocksForAnnotation', () => {
-    it('should mark used user types as disabled', () => {
-      const currentAnnotation: AnnotationWithMetadata = {
-        id: 'ann-1',
-        text: 'Test annotation',
-        type: 'type-1',
-        userTypeBlock: null,
-        orderIndex: 0,
-        isDefault: false,
-      }
-      
-      const allAnnotations: AnnotationWithMetadata[] = [
-        currentAnnotation,
-        { ...currentAnnotation, id: 'ann-2', userTypeBlock: 'user-type-1' },
-      ]
-      
-      const userTypeBlockOptions: Array<{ title: string; value: UserTypeBlock }> = [
-        { title: 'Generic', value: null },
-        { title: 'User Type 1', value: 'user-type-1' },
-        { title: 'User Type 2', value: 'user-type-2' },
-      ]
-      
-      const available = getAvailableUserTypeBlocksForAnnotation(
-        currentAnnotation,
-        allAnnotations,
-        userTypeBlockOptions
-      )
-      
-      expect(available.find(o => o.value === 'user-type-1')?.disabled).toBe(true)
-      expect(available.find(o => o.value === 'user-type-2')?.disabled).toBe(false)
-      expect(available.find(o => o.value === null)?.disabled).toBe(false)
-    })
-
-    it('should not disable current annotation userTypeBlock', () => {
-      const currentAnnotation: AnnotationWithMetadata = {
-        id: 'ann-1',
-        text: 'Test annotation',
-        type: 'type-1',
-        userTypeBlock: 'user-type-1',
-        orderIndex: 0,
-        isDefault: false,
-      }
-      
-      const allAnnotations: AnnotationWithMetadata[] = [
-        currentAnnotation,
-        { ...currentAnnotation, id: 'ann-2', userTypeBlock: 'user-type-1' },
-      ]
-      
-      const userTypeBlockOptions: Array<{ title: string; value: UserTypeBlock }> = [
-        { title: 'User Type 1', value: 'user-type-1' },
-      ]
-      
-      const available = getAvailableUserTypeBlocksForAnnotation(
-        currentAnnotation,
-        allAnnotations,
-        userTypeBlockOptions
-      )
-      
-      expect(available.find(o => o.value === 'user-type-1')?.disabled).toBe(false)
-    })
-
-    it('should preserve option properties', () => {
-      const currentAnnotation: AnnotationWithMetadata = {
-        id: 'ann-1',
-        text: 'Test annotation',
-        type: 'type-1',
-        userTypeBlock: null,
-        orderIndex: 0,
-        isDefault: false,
-      }
-      
-      const userTypeBlockOptions: Array<{ title: string; value: UserTypeBlock }> = [
-        { title: 'Generic', value: null },
-        { title: 'User Type 1', value: 'user-type-1' },
-      ]
-      
-      const available = getAvailableUserTypeBlocksForAnnotation(
-        currentAnnotation,
-        [],
-        userTypeBlockOptions
-      )
-      
-      expect(available[0].title).toBe('Generic')
-      expect(available[0].value).toBe(null)
-      expect(available[1].title).toBe('User Type 1')
-      expect(available[1].value).toBe('user-type-1')
-    })
-
-    it('should handle null userTypeBlock in used types', () => {
-      const currentAnnotation: AnnotationWithMetadata = {
-        id: 'ann-1',
-        text: 'Test annotation',
-        type: 'type-1',
-        userTypeBlock: null,
-        orderIndex: 0,
-        isDefault: false,
-      }
-      
-      const allAnnotations: AnnotationWithMetadata[] = [
-        currentAnnotation,
-        { ...currentAnnotation, id: 'ann-2', userTypeBlock: null },
-      ]
-      
-      const userTypeBlockOptions: Array<{ title: string; value: UserTypeBlock }> = [
-        { title: 'Generic', value: null },
-      ]
-      
-      const available = getAvailableUserTypeBlocksForAnnotation(
-        currentAnnotation,
-        allAnnotations,
-        userTypeBlockOptions
-      )
-      
-      expect(available.find(o => o.value === null)?.disabled).toBe(false)
     })
   })
 
@@ -339,88 +220,6 @@ describe('annotationUtils', () => {
       const filtered = getAnnotationsForUserTypeBlock([], 'user-type-1')
       
       expect(filtered).toEqual([])
-    })
-  })
-
-  describe('validateAnnotationMetadata', () => {
-    it('should return true for valid metadata', () => {
-      const metadata: AnnotationMetadata = {
-        orderIndex: 0,
-        isDefault: false,
-        userTypeBlock: null,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(true)
-    })
-
-    it('should return true for valid metadata with userTypeBlock', () => {
-      const metadata: AnnotationMetadata = {
-        orderIndex: 5,
-        isDefault: true,
-        userTypeBlock: 'user-type-1',
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(true)
-    })
-
-    it('should return false for negative orderIndex', () => {
-      const metadata: AnnotationMetadata = {
-        orderIndex: -1,
-        isDefault: false,
-        userTypeBlock: null,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(false)
-    })
-
-    it('should return false for non-number orderIndex', () => {
-      const metadata = {
-        orderIndex: '0' as any,
-        isDefault: false,
-        userTypeBlock: null,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(false)
-    })
-
-    it('should return false for non-boolean isDefault', () => {
-      const metadata = {
-        orderIndex: 0,
-        isDefault: 'false' as any,
-        userTypeBlock: null,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(false)
-    })
-
-    it('should return false for invalid userTypeBlock type', () => {
-      const metadata = {
-        orderIndex: 0,
-        isDefault: false,
-        userTypeBlock: 123 as any,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(false)
-    })
-
-    it('should accept null userTypeBlock', () => {
-      const metadata: AnnotationMetadata = {
-        orderIndex: 0,
-        isDefault: false,
-        userTypeBlock: null,
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(true)
-    })
-
-    it('should accept string userTypeBlock', () => {
-      const metadata: AnnotationMetadata = {
-        orderIndex: 0,
-        isDefault: false,
-        userTypeBlock: 'user-type-1',
-      }
-      
-      expect(validateAnnotationMetadata(metadata)).toBe(true)
     })
   })
 

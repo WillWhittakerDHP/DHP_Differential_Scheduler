@@ -27,20 +27,27 @@ export interface AppointmentFeeSummary {
 }
 
 /**
+ * Minimal fee shape (base, overage, total).
+ * WHY: BlockInstanceFeeResult, AppointmentFeeEntry extend or align (TYPE_SIMILARITY_PROPOSAL § 1.9).
+ */
+export interface FeeEntryBase {
+  baseFee: number
+  overageFee: number
+  totalFee: number
+}
+
+/**
  * Per-block fee entry (maps to appointment_fee_entries row)
  * LEARNING: One row per block instance per appointment
  * WHY: Enables per-block revenue analytics, invoicing, dispute resolution
  * PATTERN: Many:1 with fee summary, like part_instance_versions to block_instance_versions
  */
-export interface AppointmentFeeEntry {
+export interface AppointmentFeeEntry extends FeeEntryBase {
   id: string
   feeSummaryId: string
   blockInstanceId: string // Soft ref (no FK) — allows instance deletion
   blockName: string // Denormalized for display
   blockShapeRef: string // For grouping by block type (service, property, option, lineItem)
-  baseFee: number
-  overageFee: number
-  totalFee: number
   quantity: number // 1 for normal blocks, aduCount for allowMultiple
 }
 

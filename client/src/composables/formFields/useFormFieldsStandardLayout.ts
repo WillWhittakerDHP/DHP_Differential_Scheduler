@@ -1,7 +1,8 @@
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed, type Ref } from 'vue'
 import { filterFieldsInConfigOrder } from '@/utils/forms/layoutFieldCategorization'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { UseFormFieldsStandardLayoutReturn } from './types'
 
 type UseFormFieldsStandardLayoutOptions = {
   fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]>
@@ -10,12 +11,7 @@ type UseFormFieldsStandardLayoutOptions = {
   getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[]
 }
 
-export type UseFormFieldsStandardLayoutReturn = {
-  inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyStackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
+export type { UseFormFieldsStandardLayoutReturn }
 
 /**
  * Query/state module: unified layout breakdown for ALL entity types.
@@ -28,15 +24,15 @@ export function useFormFieldsStandardLayout(
   options: UseFormFieldsStandardLayoutOptions
 ): UseFormFieldsStandardLayoutReturn {
   const inlineFields = computed(() => {
-    const fields = options.fieldKeys.value || []
-    const config = options.inlineFieldsConfig.value || []
-    return filterFieldsInConfigOrder(fields, config)
+    const fields = (options.fieldKeys.value || []).map(String)
+    const config = (options.inlineFieldsConfig.value || []).map(String)
+    return filterFieldsInConfigOrder(fields, config) as GlobalFieldKey<GlobalEntityKey>[]
   })
 
   const stackedFields = computed(() => {
-    const fields = options.fieldKeys.value || []
-    const config = options.stackedFieldsConfig.value || []
-    return filterFieldsInConfigOrder(fields, config)
+    const fields = (options.fieldKeys.value || []).map(String)
+    const config = (options.stackedFieldsConfig.value || []).map(String)
+    return filterFieldsInConfigOrder(fields, config) as GlobalFieldKey<GlobalEntityKey>[]
   })
 
   const readyInlineFields = computed(() => options.getReadyFields(inlineFields.value))

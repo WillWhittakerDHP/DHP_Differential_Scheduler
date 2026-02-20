@@ -1,5 +1,6 @@
 import type { ComputedRef } from 'vue'
-import type { GlobalEntityId, GlobalEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import type { InstanceComponent, DistributionStrategy, DistributionPreview } from '@/types/component'
 import { getComposedEntityFromRelationships, getComponentsRecursive } from '@/utils/transformers/relationshipTransformers'
 import { findById } from '@/utils/collections/findById'

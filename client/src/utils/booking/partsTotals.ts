@@ -11,7 +11,7 @@
  * WHY: Allows shared utility to work with different part instance types
  * PATTERN: Define minimal interface with optional properties
  */
-export interface PartWithTotals {
+interface PartWithTotals {
   baseFee?: number | null
   baseTime?: number | null
   rateOverBaseFee?: number | null
@@ -24,7 +24,7 @@ export interface PartWithTotals {
  * WHY: Provides structured return type for parts totals
  * PATTERN: Object with all four total properties
  */
-export interface PartsTotalsResult {
+interface PartsTotalsResult {
   totalBaseFee: number
   totalBaseTime: number
   totalRateOverBaseFee: number

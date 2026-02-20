@@ -9,21 +9,13 @@
 import { AdminMetadata } from '../db/models/admin/adminMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
+import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { Op } from 'sequelize';
 
-export interface FieldMetadataEntry {
+/** Extends shared MetadataEntryBase; server includes fieldKey (TYPE_SIMILARITY 1.11). */
+export interface FieldMetadataEntry extends MetadataEntryBase {
   fieldKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-  label: string;
-  isRequired: boolean;
-  visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-  layout: 'inline' | 'stacked';
-  displayOrder: number;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-  statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
-  bulkEdit: boolean;
-  inputConfig?: Record<string, unknown> | null;
 }
 
 export async function getAdminMetadata(

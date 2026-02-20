@@ -15,8 +15,7 @@ import type {
   CollectionByIdQueryResult,
   CollectionEndpoints,
   UpdateByIdPayload
-} from '@/composables/collectionTypes'
-
+} from '@/composables/useCollectionTypes'
 export type BusinessDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
 export type BusinessDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
 

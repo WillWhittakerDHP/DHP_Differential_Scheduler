@@ -17,12 +17,10 @@
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getFilteredServiceDescription, mapServicesWithFilteredDescriptions } from '@/utils/booking/serviceDescriptions'
+import type { UseInstanceDisplayOptions } from '@/composables/booking/useInstanceDisplay'
 
-export interface UseInstanceDescriptionsOptions {
-  instances: ComputedRef<BookingBlockInstance[]>
-  
-  selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-}
+/** Same shape as UseInstanceDisplayOptions; use shared type for single source. */
+export type UseInstanceDescriptionsOptions = UseInstanceDisplayOptions
 
 export interface UseInstanceDescriptionsReturn {
   getFilteredDescription: (instance: BookingBlockInstance, userTypeBlockName: string | null) => string
@@ -65,7 +63,7 @@ export function useInstanceDescriptions(
    * PATTERN: Computed property that maps instances and applies filtered descriptions
    */
   const instancesWithDescriptions = computed(() => {
-    const selectedUserTypeBlockName = selectedUserTypeBlock.value?.name.toLowerCase() || null
+    const selectedUserTypeBlockName = selectedUserTypeBlock?.value?.name.toLowerCase() ?? null
 
     return mapServicesWithFilteredDescriptions(instances.value, selectedUserTypeBlockName)
   })

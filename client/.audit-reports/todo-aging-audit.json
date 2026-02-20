@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-19T19:01:45.411Z",
-  "totalScanned": 798,
+  "generatedAt": "2026-02-19T23:20:19.274Z",
+  "totalScanned": 802,
   "totals": {
-    "totalScanned": 798,
+    "totalScanned": 802,
     "totalMarkers": 28,
     "fresh": 2,
     "aging": 0,
@@ -109,7 +109,7 @@
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "markers": [
         {
-          "lineNumber": 267,
+          "lineNumber": 259,
           "marker": "TODO",
           "line": "const couponDiscount = 0 // TODO: Remove hardcoded value when coupon system is implemented",
           "category": "ancient",
@@ -117,7 +117,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 269,
+          "lineNumber": 261,
           "marker": "TODO",
           "line": "const deliveryCharges = 5.0 // TODO: Remove hardcoded value when business settings integration is implemented",
           "category": "ancient",
@@ -125,7 +125,7 @@
           "orphaned": true
         },
         {
-          "lineNumber": 270,
+          "lineNumber": 262,
           "marker": "TODO",
           "line": "const deliveryFree = true // TODO: Remove hardcoded value when business settings integration is implemented",
           "category": "ancient",
@@ -171,7 +171,7 @@
       "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
       "markers": [
         {
-          "lineNumber": 130,
+          "lineNumber": 127,
           "marker": "TEMP",
           "line": "* PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID",
           "category": "ancient",
@@ -291,7 +291,7 @@
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "markers": [
         {
-          "lineNumber": 179,
+          "lineNumber": 174,
           "marker": "XXX",
           "line": "* @returns Formatted phone number (XXX-XXX-XXXX) or null",
           "category": "ancient",
@@ -306,7 +306,7 @@
       "repoPath": "server/src/services/appointmentCalendarService.ts",
       "markers": [
         {
-          "lineNumber": 362,
+          "lineNumber": 363,
           "marker": "TODO",
           "line": "// TODO: Implement status sync from Google Calendar",
           "category": "ancient",
@@ -325,7 +325,7 @@
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
           "category": "fresh",
-          "days": 18,
+          "days": 19,
           "orphaned": true
         }
       ],
@@ -340,7 +340,7 @@
           "marker": "TODO",
           "line": "// TODO: handle relationshipCollection renderAs when needed",
           "category": "fresh",
-          "days": 8,
+          "days": 9,
           "orphaned": true
         }
       ],

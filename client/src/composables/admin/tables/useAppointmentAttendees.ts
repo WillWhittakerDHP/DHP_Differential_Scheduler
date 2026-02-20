@@ -4,7 +4,8 @@
  */
 
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
-import type { AppointmentResponse, AttendeeResponse, AttendeeRequest } from '@/types/appointment'
+import type { AppointmentResponse, AttendeeResponse } from '@/types/appointment'
+import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
 function isClientAttendee(a: AttendeeResponse): boolean {
   return a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT

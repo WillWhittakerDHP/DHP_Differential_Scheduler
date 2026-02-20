@@ -11,6 +11,7 @@ import type { UseComputedAvailabilityReturn } from '@/composables/booking/useCom
 import type { TimeSlot } from '@/types/appointment'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { toISO8601Date } from '@/types/datetime'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useAvailabilityLogic } from '@/composables/booking/useAvailabilityLogic'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
@@ -182,7 +183,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       firstAvailableNotice.value = null
       return
     }
-    selectedDate.value = { start: firstDate, end: null }
+    selectedDate.value = { start: toISO8601Date(firstDate), end: null }
     const dateObj = new Date(firstDate + 'T00:00:00')
     firstAvailableNotice.value = `Today is fully booked. Showing ${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} — the earliest date with available slots.`
   }, { immediate: true })

@@ -7,13 +7,13 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import { buildSelectionComponentProps, getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
+import type { UseSelectionCardStylesParamsBase } from './useSelectionCardStyles'
 
-export interface UseSelectionCardComponentParams {
+/** Extends shared styles params base (P2 type-similarity). */
+export interface UseSelectionCardComponentParams extends UseSelectionCardStylesParamsBase {
   item: ComputedRef<SelectionCardItem>
-  configWithDefaults: ComputedRef<SelectionCardConfig>
-  isSelected: ComputedRef<boolean>
   controlClasses: ComputedRef<Record<string, boolean>>
 }
 

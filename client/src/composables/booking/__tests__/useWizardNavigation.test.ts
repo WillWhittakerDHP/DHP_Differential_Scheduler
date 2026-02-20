@@ -1,9 +1,9 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useWizardNavigation, type StepDefinition } from '../useWizardNavigation'
+import { useWizardNavigation, type WizardStepConfig } from '../useWizardNavigation'
 
 describe('useWizardNavigation', () => {
-  const mockSteps: StepDefinition[] = [
+  const mockSteps: WizardStepConfig[] = [
     { icon: 'mdi-home', title: 'Step 1', subtitle: 'First step' },
     { icon: 'mdi-account', title: 'Step 2', subtitle: 'Second step' },
     { icon: 'mdi-check', title: 'Step 3', subtitle: 'Third step' },

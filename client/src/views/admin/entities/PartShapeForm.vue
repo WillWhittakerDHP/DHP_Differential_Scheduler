@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'

@@ -19,33 +19,36 @@ import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsCon
  * @param data - Data to validate
  * @returns true if data is valid AvailabilitySettingsData, false otherwise
  */
-export function validateAvailabilitySettings(data: any): data is AvailabilitySettingsData {
+export function validateAvailabilitySettings(data: unknown): data is AvailabilitySettingsData {
   if (!data || typeof data !== 'object') {
     return false
   }
+  const d = data as Record<string, unknown>
 
   // Reject old structure - check for deprecated fields
-  if (data.workHoursPerDay !== undefined || data.calendarWeekLimit !== undefined || data.rollingWeekLimit !== undefined) {
+  if (d.workHoursPerDay !== undefined || d.calendarWeekLimit !== undefined || d.rollingWeekLimit !== undefined) {
     return false // Old structure not allowed
   }
 
   // Reject old buffer structure - check for deprecated fields
-  if (data.leadTime !== undefined || data.bufferMinutes !== undefined || data.bufferMode !== undefined) {
+  if (d.leadTime !== undefined || d.bufferMinutes !== undefined || d.bufferMode !== undefined) {
     return false // Old buffer structure not allowed - must use rangeConstraints.leadTime and buffers.appointment
   }
 
   // Reject old buffers.leadTime structure - leadTime moved to rangeConstraints.leadTime
-  if (data.buffers?.leadTime !== undefined) {
+  const buffers = d.buffers as Record<string, unknown> | undefined
+  if (buffers?.leadTime !== undefined) {
     return false // buffers.leadTime deprecated - must use rangeConstraints.leadTime
   }
 
-  if (!data.businessHours || typeof data.businessHours !== 'object') {
+  if (!d.businessHours || typeof d.businessHours !== 'object') {
     return false
   }
 
   // Validate each day (0-6)
+  const businessHours = d.businessHours as Record<number, { start?: string; end?: string }>
   for (let day = 0; day <= 6; day++) {
-    const dayHours = data.businessHours[day]
+    const dayHours = businessHours[day]
     if (!dayHours || typeof dayHours !== 'object') {
       return false
     }
@@ -60,41 +63,45 @@ export function validateAvailabilitySettings(data: any): data is AvailabilitySet
   }
 
   // Validate minuteIncrement
-  if (typeof data.minuteIncrement !== 'number' || data.minuteIncrement <= 0) {
+  if (typeof d.minuteIncrement !== 'number' || d.minuteIncrement <= 0) {
     return false
   }
 
   // Validate rangeConstraints structure if present
-  if (data.rangeConstraints !== undefined) {
-    if (typeof data.rangeConstraints !== 'object') {
+  if (d.rangeConstraints !== undefined) {
+    if (typeof d.rangeConstraints !== 'object') {
       return false
     }
-    
+    const rangeConstraints = d.rangeConstraints as Record<string, unknown>
     // Validate businessHours constraint if present
-    if (data.rangeConstraints.businessHours !== undefined) {
-      const constraint = data.rangeConstraints.businessHours
+    if (rangeConstraints.businessHours !== undefined) {
+      const constraint = rangeConstraints.businessHours as Record<string, unknown>
+      const enforcement = constraint.enforcement
       if (typeof constraint !== 'object' ||
           constraint.type !== 'businessHours' ||
-          !['off', 'flexible', 'hard'].includes(constraint.enforcement) ||
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement) ||
           !constraint.config ||
-          typeof constraint.config !== 'object' ||
-          !constraint.config.hours) {
+          typeof constraint.config !== 'object') {
         return false
       }
-      // Validate businessHours.config.hours format (RFC3339)
-      const hours = constraint.config.hours
+      const config = constraint.config as Record<string, unknown>
+      const hours = config.hours
       if (typeof hours !== 'object') {
         return false
       }
       const rfc3339Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/
+      const hoursByDay = hours as Record<number, { start?: unknown; end?: unknown } | undefined>
       for (let day = 0; day <= 6; day++) {
-        const dayHours = hours[day]
+        const dayHours = hoursByDay[day]
         if (dayHours) {
+          const start = dayHours.start
+          const end = dayHours.end
           if (typeof dayHours !== 'object' ||
-              typeof dayHours.start !== 'string' ||
-              typeof dayHours.end !== 'string' ||
-              !rfc3339Regex.test(dayHours.start) ||
-              !rfc3339Regex.test(dayHours.end)) {
+              typeof start !== 'string' ||
+              typeof end !== 'string' ||
+              !rfc3339Regex.test(start) ||
+              !rfc3339Regex.test(end)) {
             return false
           }
         }
@@ -102,179 +109,208 @@ export function validateAvailabilitySettings(data: any): data is AvailabilitySet
     }
     
     // Validate leadTime constraint if present
-    if (data.rangeConstraints.leadTime !== undefined) {
-      const constraint = data.rangeConstraints.leadTime
+    if (rangeConstraints.leadTime !== undefined) {
+      const constraint = rangeConstraints.leadTime as Record<string, unknown>
+      const enforcement = constraint.enforcement
+      const config = constraint.config
       if (typeof constraint !== 'object' ||
           constraint.type !== 'leadTime' ||
-          !['off', 'flexible', 'hard'].includes(constraint.enforcement) ||
-          !constraint.config ||
-          typeof constraint.config !== 'object' ||
-          typeof constraint.config.minutes !== 'number' ||
-          constraint.config.minutes < 0) {
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement) ||
+          !config ||
+          typeof config !== 'object') {
+        return false
+      }
+      const configObj = config as Record<string, unknown>
+      if (typeof configObj.minutes !== 'number' || configObj.minutes < 0) {
         return false
       }
     }
     
     // Validate dateRange constraint if present
-    if (data.rangeConstraints.dateRange !== undefined) {
-      const constraint = data.rangeConstraints.dateRange
+    if (rangeConstraints.dateRange !== undefined) {
+      const constraint = rangeConstraints.dateRange as Record<string, unknown>
+      const enforcement = constraint.enforcement
+      const config = constraint.config
       if (typeof constraint !== 'object' ||
           constraint.type !== 'dateRange' ||
-          !['off', 'flexible', 'hard'].includes(constraint.enforcement) ||
-          !constraint.config ||
-          typeof constraint.config !== 'object' ||
-          typeof constraint.config.start !== 'string' ||
-          typeof constraint.config.end !== 'string') {
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement) ||
+          !config ||
+          typeof config !== 'object') {
+        return false
+      }
+      const configObj = config as Record<string, unknown>
+      if (typeof configObj.start !== 'string' || typeof configObj.end !== 'string') {
         return false
       }
     }
   }
 
   // Validate buffers structure if present (leadTime moved to rangeConstraints)
-  if (data.buffers !== undefined) {
-    if (typeof data.buffers !== 'object') {
+  if (d.buffers !== undefined) {
+    if (typeof d.buffers !== 'object') {
       return false
     }
-    
+    const buffersObj = d.buffers as Record<string, unknown>
     // Validate appointment buffer if present
-    if (data.buffers.appointment !== undefined) {
-      const appointmentBuffer = data.buffers.appointment
+    if (buffersObj.appointment !== undefined) {
+      const appointmentBuffer = buffersObj.appointment as Record<string, unknown>
+      const placement = appointmentBuffer.placement
+      const enforcement = appointmentBuffer.enforcement
       if (typeof appointmentBuffer !== 'object' ||
           appointmentBuffer.type !== 'appointment' ||
           typeof appointmentBuffer.minutes !== 'number' ||
           appointmentBuffer.minutes < 0 ||
-          !['off', 'before', 'after', 'both'].includes(appointmentBuffer.placement) ||
-          !['off', 'flexible', 'hard'].includes(appointmentBuffer.enforcement)) {
+          typeof placement !== 'string' ||
+          !['off', 'before', 'after', 'both'].includes(placement) ||
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement)) {
         return false
       }
     }
     
     // Validate driveTime buffer if present
-    if (data.buffers.driveTime !== undefined) {
-      const driveTimeBuffer = data.buffers.driveTime
+    if (buffersObj.driveTime !== undefined) {
+      const driveTimeBuffer = buffersObj.driveTime as Record<string, unknown>
+      const placement = driveTimeBuffer.placement
+      const enforcement = driveTimeBuffer.enforcement
       if (typeof driveTimeBuffer !== 'object' ||
           driveTimeBuffer.type !== 'driveTime' ||
           typeof driveTimeBuffer.minutes !== 'number' ||
           driveTimeBuffer.minutes < 0 ||
-          !['off', 'before', 'after', 'both'].includes(driveTimeBuffer.placement) ||
-          !['off', 'flexible', 'hard'].includes(driveTimeBuffer.enforcement)) {
+          typeof placement !== 'string' ||
+          !['off', 'before', 'after', 'both'].includes(placement) ||
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement)) {
         return false
       }
     }
     
     // Validate lunch buffer if present
-    if (data.buffers.lunch !== undefined) {
-      const lunchBuffer = data.buffers.lunch
+    if (buffersObj.lunch !== undefined) {
+      const lunchBuffer = buffersObj.lunch as Record<string, unknown>
+      const placement = lunchBuffer.placement
+      const enforcement = lunchBuffer.enforcement
       if (typeof lunchBuffer !== 'object' ||
           lunchBuffer.type !== 'lunch' ||
           typeof lunchBuffer.minutes !== 'number' ||
           lunchBuffer.minutes < 0 ||
-          !['off', 'before', 'after', 'both'].includes(lunchBuffer.placement) ||
-          !['off', 'flexible', 'hard'].includes(lunchBuffer.enforcement)) {
+          typeof placement !== 'string' ||
+          !['off', 'before', 'after', 'both'].includes(placement) ||
+          typeof enforcement !== 'string' ||
+          !['off', 'flexible', 'hard'].includes(enforcement)) {
         return false
       }
     }
   }
 
   // Validate maxWorkHours structure if present
-  if (data.maxWorkHours !== undefined) {
-    if (typeof data.maxWorkHours !== 'object') {
+  const maxWorkHours = d.maxWorkHours as Record<string, unknown> | undefined
+  if (maxWorkHours !== undefined) {
+    if (typeof maxWorkHours !== 'object') {
       return false
     }
-    // Validate day filter if present
-    if (data.maxWorkHours.day !== undefined) {
-      if (typeof data.maxWorkHours.day !== 'object' ||
-          typeof data.maxWorkHours.day.maxHours !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxWorkHours.day.enforcement)) {
+    const dayFilter = maxWorkHours.day as Record<string, unknown> | undefined
+    if (dayFilter !== undefined) {
+      if (typeof dayFilter !== 'object' ||
+          typeof (dayFilter as Record<string, unknown>).maxHours !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((dayFilter as Record<string, unknown>).enforcement as string)) {
         return false
       }
     }
-    // Validate calendarWeek filter if present
-    if (data.maxWorkHours.calendarWeek !== undefined) {
-      if (typeof data.maxWorkHours.calendarWeek !== 'object' ||
-          typeof data.maxWorkHours.calendarWeek.maxHours !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxWorkHours.calendarWeek.enforcement)) {
+    const calendarWeekFilter = maxWorkHours.calendarWeek as Record<string, unknown> | undefined
+    if (calendarWeekFilter !== undefined) {
+      if (typeof calendarWeekFilter !== 'object' ||
+          typeof (calendarWeekFilter as Record<string, unknown>).maxHours !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((calendarWeekFilter as Record<string, unknown>).enforcement as string)) {
         return false
       }
     }
-    // Validate rollingWeek filter if present
-    if (data.maxWorkHours.rollingWeek !== undefined) {
-      if (typeof data.maxWorkHours.rollingWeek !== 'object' ||
-          typeof data.maxWorkHours.rollingWeek.maxHours !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxWorkHours.rollingWeek.enforcement) ||
-          !['past', 'centered', 'future'].includes(data.maxWorkHours.rollingWeek.direction)) {
+    const rollingWeekFilter = maxWorkHours.rollingWeek as Record<string, unknown> | undefined
+    if (rollingWeekFilter !== undefined) {
+      if (typeof rollingWeekFilter !== 'object' ||
+          typeof (rollingWeekFilter as Record<string, unknown>).maxHours !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((rollingWeekFilter as Record<string, unknown>).enforcement as string) ||
+          !['past', 'centered', 'future'].includes((rollingWeekFilter as Record<string, unknown>).direction as string)) {
         return false
       }
     }
   }
 
   // Validate maxIncome structure if present (same shape as maxWorkHours but maxIncome field)
-  if (data.maxIncome !== undefined) {
-    if (typeof data.maxIncome !== 'object') {
+  const maxIncome = d.maxIncome as Record<string, unknown> | undefined
+  if (maxIncome !== undefined) {
+    if (typeof maxIncome !== 'object') {
       return false
     }
-    if (data.maxIncome.day !== undefined) {
-      if (typeof data.maxIncome.day !== 'object' ||
-          typeof data.maxIncome.day.maxIncome !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxIncome.day.enforcement)) {
+    const maxIncomeDay = maxIncome.day as Record<string, unknown> | undefined
+    if (maxIncomeDay !== undefined) {
+      if (typeof maxIncomeDay !== 'object' ||
+          typeof (maxIncomeDay as Record<string, unknown>).maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((maxIncomeDay as Record<string, unknown>).enforcement as string)) {
         return false
       }
     }
-    if (data.maxIncome.calendarWeek !== undefined) {
-      if (typeof data.maxIncome.calendarWeek !== 'object' ||
-          typeof data.maxIncome.calendarWeek.maxIncome !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxIncome.calendarWeek.enforcement)) {
+    const maxIncomeCalendarWeek = maxIncome.calendarWeek as Record<string, unknown> | undefined
+    if (maxIncomeCalendarWeek !== undefined) {
+      if (typeof maxIncomeCalendarWeek !== 'object' ||
+          typeof (maxIncomeCalendarWeek as Record<string, unknown>).maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((maxIncomeCalendarWeek as Record<string, unknown>).enforcement as string)) {
         return false
       }
     }
-    if (data.maxIncome.rollingWeek !== undefined) {
-      if (typeof data.maxIncome.rollingWeek !== 'object' ||
-          typeof data.maxIncome.rollingWeek.maxIncome !== 'number' ||
-          !['off', 'flexible', 'hard'].includes(data.maxIncome.rollingWeek.enforcement) ||
-          !['past', 'centered', 'future'].includes(data.maxIncome.rollingWeek.direction)) {
+    const maxIncomeRollingWeek = maxIncome.rollingWeek as Record<string, unknown> | undefined
+    if (maxIncomeRollingWeek !== undefined) {
+      if (typeof maxIncomeRollingWeek !== 'object' ||
+          typeof (maxIncomeRollingWeek as Record<string, unknown>).maxIncome !== 'number' ||
+          !['off', 'flexible', 'hard'].includes((maxIncomeRollingWeek as Record<string, unknown>).enforcement as string) ||
+          !['past', 'centered', 'future'].includes((maxIncomeRollingWeek as Record<string, unknown>).direction as string)) {
         return false
       }
     }
   }
 
   // Validate durationRounding structure if present
-  if (data.durationRounding !== undefined) {
-    if (typeof data.durationRounding !== 'object') {
+  const durationRounding = d.durationRounding as Record<string, unknown> | undefined
+  if (durationRounding !== undefined) {
+    if (typeof durationRounding !== 'object') {
       return false
     }
-    if (typeof data.durationRounding.enabled !== 'boolean') {
+    if (typeof durationRounding.enabled !== 'boolean') {
       return false
     }
-    if (data.durationRounding.increment !== undefined) {
-      if (typeof data.durationRounding.increment !== 'number' || data.durationRounding.increment <= 0) {
+    if (durationRounding.increment !== undefined) {
+      if (typeof durationRounding.increment !== 'number' || (durationRounding.increment as number) <= 0) {
         return false
       }
     }
-    if (data.durationRounding.method !== undefined) {
-      if (!['roundUp', 'roundDown', 'roundNearest'].includes(data.durationRounding.method)) {
+    if (durationRounding.method !== undefined) {
+      if (!['roundUp', 'roundDown', 'roundNearest'].includes(durationRounding.method as string)) {
         return false
       }
     }
   }
 
   // Validate calendarConfig structure if present
-  if (data.calendarConfig !== undefined) {
-    if (typeof data.calendarConfig !== 'object') {
+  const calendarConfig = d.calendarConfig as Record<string, unknown> | undefined
+  if (calendarConfig !== undefined) {
+    if (typeof calendarConfig !== 'object') {
       return false
     }
-    if (typeof data.calendarConfig.enabled !== 'boolean') {
+    if (typeof calendarConfig.enabled !== 'boolean') {
       return false
     }
-    if (!['google', 'outlook', 'none'].includes(data.calendarConfig.provider)) {
+    if (!['google', 'outlook', 'none'].includes(calendarConfig.provider as string)) {
       return false
     }
     // Validate calendars array (required, must be array)
-    if (data.calendarConfig.calendars !== undefined) {
-      if (!Array.isArray(data.calendarConfig.calendars)) {
+    if (calendarConfig.calendars !== undefined) {
+      if (!Array.isArray(calendarConfig.calendars)) {
         return false // Must be array format
       }
       // Validate array entries
-      for (const entry of data.calendarConfig.calendars) {
+      for (const entry of calendarConfig.calendars as Array<Record<string, unknown>>) {
         if (typeof entry !== 'object' ||
             typeof entry.email !== 'string' ||
             typeof entry.readFrom !== 'boolean' ||

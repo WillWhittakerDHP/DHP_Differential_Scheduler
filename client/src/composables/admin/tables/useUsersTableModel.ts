@@ -1,17 +1,16 @@
+import { computed } from 'vue'
 import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
 import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
-import { formatNullValue, createItemsSource } from './useTableModelHelpers'
+import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
 
 export interface UsersTableModel extends CrudDataTableModel<
   UserResponse,
   UserRequest,
   Partial<UserRequest>
-> {
-  formatNullValue: (value: unknown) => string
-}
+>, TableModelFormatHelpers {}
 
 export function useUsersTableModel(): UsersTableModel {
   const { success, error } = useNotification()

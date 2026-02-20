@@ -164,18 +164,9 @@ export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> 
   }
 }
 
-/**
- * Type for attendee data in request body
- * LEARNING: Flexible attendee structure for calendar invitations
- * WHY: Enables N attendees per appointment with proper role tracking
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
-export interface AttendeeRequest {
-  userId: string
-  userTypeBlockInstanceId?: string | null
-  shouldReceiveInvitation?: boolean
-  role?: string // If provided, server will look up the UserTypeBlock
-}
+/** Re-export from shared for single source of truth. */
+import type { AttendeeRequest } from '@shared/types/appointmentTypes'
+export type { AttendeeRequest }
 
 /**
  * Create attendee records for an appointment

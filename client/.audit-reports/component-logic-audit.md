@@ -23,8 +23,8 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | 6 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | 6 | 0 | 0 | 2 | 2 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | 6 | 0 | 4 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | 7 | 1 | 4 | 1 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | 8 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | 6 | 1 | 4 | 1 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | 7 | 0 | 0 | 1 | 0 | 0 | 0 |
 | `src/components/beta/BetaFeedbackModal.vue` | 0 | 1 | 3 | 0 | 4 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | 0 | 1 | 7 | 0 | 0 | 0 | 0 |
@@ -116,18 +116,18 @@ computed@121: const showStateLabel = computed(() => {
 
 ```
 provideInject@7: import { computed, inject, type Ref } from 'vue'
-provideInject@30: const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
-computed@31: const isTabActive = computed(() => adminCurrentTab?.value === 'business')
-computed@50: const businessHoursForUI = computed(() => {
-computed@85: const maxBusinessHours = computed(() => {
-computed@95: const calendarEnabled = computed({
-computed@107: const calendarProvider = computed({
-computed@136: const saveButtonProps = computed(() => ({
-computed@150: const durationRoundingEnabled = computed({
-computed@156: const durationRoundingIncrement = computed({
-computed@162: const durationRoundingMethod = computed({
-computed@169: const timezone = computed({
-computed@176: const minuteIncrement = computed({
+provideInject@35: const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
+computed@36: const isTabActive = computed(() => adminCurrentTab?.value === 'business')
+computed@55: const businessHoursForUI = computed(() => {
+computed@90: const maxBusinessHours = computed(() => {
+computed@100: const calendarEnabled = computed({
+computed@112: const calendarProvider = computed({
+computed@141: const saveButtonProps = computed(() => ({
+computed@155: const durationRoundingEnabled = computed({
+computed@161: const durationRoundingIncrement = computed({
+computed@167: const durationRoundingMethod = computed({
+computed@174: const timezone = computed({
+computed@181: const minuteIncrement = computed({
 ```
 
 ### `src/components/admin/generic/collections/RelationshipCollection.vue`
@@ -208,6 +208,30 @@ computed@425: const eventShapesTabLabel = computed(() => `📅 Events (${safeEve
 filter@448: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
 ```
 
+### `src/components/admin/generic/EntityCard.vue`
+
+- counts: computed=7, ref=0, watch=1, async=2, await=2, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@9: import { computed, provide, watch, nextTick } from 'vue'
+provideInject@73: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
+computed@125: expanded: computed(() => props.expanded ?? true)
+computed@198: entity: computed(() => props.entity)
+computed@220: entityId: computed(() => props.entity.id),
+computed@226: const formForTemplate = computed(() => form.value!)
+computed@268: entityId: computed(() => props.entity.id),
+watch@277: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
+map@282: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
+computed@287: const isFormReady = computed(() => formFields.isFormReady.value)
+computed@327: entity: computed(() => props.entity),
+async@388: const handleSave = async (): Promise<void> => {
+await@395: await _handleSave()
+await@396: await nextTick()
+async@418: const handleDuplicate = async (): Promise<void> => {
+provideInject@428: provide(ENTITY_CARD_SAVE_KEY, {
+provideInject@434: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
+```
+
 ### `src/components/admin/generic/fields/FieldRenderer.vue`
 
 - counts: computed=8, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
@@ -222,29 +246,6 @@ computed@172: const fieldMetadataRef = computed(() => {
 computed@186: const collectionType = computed(() => {
 computed@213: hasFieldContext: computed(() => !!effectiveFieldContext.value)
 watch@216: watch(
-```
-
-### `src/components/admin/generic/EntityCard.vue`
-
-- counts: computed=6, ref=0, watch=1, async=2, await=2, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@9: import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
-provideInject@73: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
-computed@125: expanded: computed(() => props.expanded ?? true)
-computed@198: entity: computed(() => props.entity)
-computed@256: entityId: computed(() => props.entity.id),
-computed@305: entityId: computed(() => props.entity.id),
-watch@314: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
-map@319: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
-computed@324: const isFormReady = computed(() => formFields.isFormReady.value)
-computed@364: entity: computed(() => props.entity),
-async@425: const handleSave = async (): Promise<void> => {
-await@432: await _handleSave()
-await@433: await nextTick()
-async@455: const handleDuplicate = async (): Promise<void> => {
-provideInject@465: provide(ENTITY_CARD_SAVE_KEY, {
-provideInject@471: provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 ```
 
 ### `src/components/admin/generic/fields/SelectInputs.vue`
@@ -307,14 +308,14 @@ await@334: await getToken()
 - counts: computed=5, ref=0, watch=1, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@52: const blockShapeName = computed((): string => {
-map@91: .map(id => {
-filter@95: .filter((name): name is string => name !== null)
-computed@103: const partsSummary = computed((): string => {
-computed@145: const partsBulkEditMode = computed(() => {
-watch@173: watch(partsBulkEditMode, (isEnabled) => {
-computed@184: const relationshipsSummary = computed((): string => {
-computed@227: const hasAnySubPanelFields = computed(() =>
+computed@51: const blockShapeName = computed((): string => {
+map@90: .map(id => {
+filter@94: .filter((name): name is string => name !== null)
+computed@102: const partsSummary = computed((): string => {
+computed@144: const partsBulkEditMode = computed(() => {
+watch@172: watch(partsBulkEditMode, (isEnabled) => {
+computed@183: const relationshipsSummary = computed((): string => {
+computed@226: const hasAnySubPanelFields = computed(() =>
 ```
 
 ### `src/components/admin/generic/fields/BooleanInput.vue`
@@ -338,22 +339,22 @@ await@196: await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, ev
 - counts: computed=2, ref=5, watch=1, async=2, await=2, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=1
 
 ```
-ref@189: const createModalOpen = ref(false)
-ref@222: const isCreatingEventInstance = ref(false)
-ref@223: const eventInstanceMetadataModalOpen = ref(false)
-computed@235: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
-ref@236: const isCreatingEventInstanceLoading = ref(false)
-computed@244: const filteredEventInstances = computed(() => {
-sort@245: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-async@257: patchOrderIndex: async (updates) => {
-await@258: await patchEventInstanceOrderIndex(updates)
-watch@262: watch(filteredEventInstances, () => {
-alert@304: alert('Please create an event shape first')
-async@318: const handleEventInstanceCreate = async () => {
-await@323: await createEventInstance({
-filter@336: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-filter@347: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-ref@493: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
+ref@209: const createModalOpen = ref(false)
+ref@242: const isCreatingEventInstance = ref(false)
+ref@243: const eventInstanceMetadataModalOpen = ref(false)
+computed@255: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
+ref@256: const isCreatingEventInstanceLoading = ref(false)
+computed@264: const filteredEventInstances = computed(() => {
+sort@265: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+async@277: patchOrderIndex: async (updates) => {
+await@278: await patchEventInstanceOrderIndex(updates)
+watch@282: watch(filteredEventInstances, () => {
+alert@324: alert('Please create an event shape first')
+async@338: const handleEventInstanceCreate = async () => {
+await@343: await createEventInstance({
+filter@356: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+filter@367: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+ref@513: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
 ```
 
 ### `src/components/admin/generic/DynamicForm.vue`
@@ -361,12 +362,12 @@ ref@493: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstan
 - counts: computed=5, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@135: watch(() => props.entityId, (newId) => {
-computed@141: const entityForMetadata = computed(() => {
-computed@152: const fieldKeys = computed(() => {
-computed@160: const instanceConfig = computed(() => {
-computed@164: const inlineFieldsConfig = computed(() => {
-computed@169: const stackedFieldsConfig = computed(() => {
+watch@132: watch(() => props.entityId, (newId) => {
+computed@138: const entityForMetadata = computed(() => {
+computed@149: const fieldKeys = computed(() => {
+computed@157: const instanceConfig = computed(() => {
+computed@161: const inlineFieldsConfig = computed(() => {
+computed@166: const stackedFieldsConfig = computed(() => {
 ```
 
 ### `src/components/admin/generic/EntityFormContent.vue`
@@ -413,13 +414,13 @@ await@173: await entityCardRef.value.handleSave()
 - counts: computed=3, ref=1, watch=1, async=0, await=0, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@98: const showPreview = computed(
-ref@102: const sqftInput = ref(2000)
-watch@104: watch(sqftInput, (val) => {
-computed@111: const computedCost = computed(() => {
-computed@118: const svgLine = computed(() => {
-map@124: const values = SQFT_RANGE.map(sqft => base + rate * sqft)
-map@131: .map((val, i) => `${xScale(i)},${yScale(val)}`)
+computed@97: const showPreview = computed(
+ref@101: const sqftInput = ref(2000)
+watch@103: watch(sqftInput, (val) => {
+computed@110: const computedCost = computed(() => {
+computed@117: const svgLine = computed(() => {
+map@123: const values = SQFT_RANGE.map(sqft => base + rate * sqft)
+map@130: .map((val, i) => `${xScale(i)},${yScale(val)}`)
 ```
 
 ### `src/views/admin/entities/BlockShapeForm.vue`
@@ -511,12 +512,12 @@ await@225: const [list, statsData] = await Promise.all([
 
 ```
 vueQuery@148: import { useQueryClient } from '@tanstack/vue-query'
-vueQuery@206: const queryClient = useQueryClient()
-computed@217: const entityTypeLabel = computed(() => {
-async@273: async function handleSave() {
-await@310: await saveFieldMetadata({
-await@321: // PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state
-await@323: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
+vueQuery@202: const queryClient = useQueryClient()
+computed@213: const entityTypeLabel = computed(() => {
+async@269: async function handleSave() {
+await@306: await saveFieldMetadata({
+await@317: // PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state
+await@319: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 ```
 
 ### `src/views/admin/tabs/PropertyMappingsTab.vue`
@@ -624,9 +625,9 @@ computed@212: const canConfirm = computed(() => {
 - counts: computed=1, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@91: const modalTitle = computed(() => {
-async@108: async function handleSave(): Promise<void> {
-await@115: await editorRef.value.save()
+computed@88: const modalTitle = computed(() => {
+async@105: async function handleSave(): Promise<void> {
+await@112: await editorRef.value.save()
 ```
 
 ### `src/components/beta/BetaFeedbackDetailModal.vue`
@@ -647,12 +648,12 @@ await@141: await updateFeedback(props.feedback.id, {
 - counts: computed=0, ref=3, watch=1, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-ref@35: const isAppSearchBarVisible = ref(false)
-ref@36: const isLoading = ref(false)
-ref@96: const searchQuery = ref('')
-async@101: const fetchResults = async () => {
-await@104: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
-watch@113: watch(searchQuery, fetchResults)
+ref@36: const isAppSearchBarVisible = ref(false)
+ref@37: const isLoading = ref(false)
+ref@97: const searchQuery = ref('')
+async@102: const fetchResults = async () => {
+await@105: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
+watch@114: watch(searchQuery, fetchResults)
 ```
 
 ### `src/components/booking/SelectionCardGroup.vue`
@@ -697,9 +698,9 @@ filter@134: v-for="(event, idx) in computedAvailability.calendarEvents.value.fil
 - counts: computed=2, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-filter@44: const matchingPartInstances = existingChildren.filter((child) => {
-computed@78: existingPartInstances: computed(() => {
-computed@97: const bulkEditMode = computed(() => relationshipCollectionRef.value?.bulkEditMode)
+filter@45: const matchingPartInstances = existingChildren.filter((child) => {
+computed@79: existingPartInstances: computed(() => {
+computed@98: const bulkEditMode = computed(() => relationshipCollectionRef.value?.bulkEditMode)
 ```
 
 ### `src/components/admin/generic/fields/BaseInput.vue`
@@ -734,17 +735,17 @@ ref@146: const showPicker = ref(false)
 provideInject@11: import { computed, provide, ref } from 'vue'
 provideInject@38: provide('wizard', wizard)
 provideInject@42: // WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-vueQuery@117: // PATTERN: useMutation from useAppointment composable
-computed@210: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
-provideInject@227: provide('loadedWizardState', loadedWizardState)
-provideInject@231: // PATTERN: Defaults to current month, Step 3 can update via inject
-provideInject@238: // Allow Step 3 to update displayedMonth via provide/inject
-provideInject@239: provide('displayedMonth', displayedMonth)
-provideInject@240: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
-provideInject@250: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
-provideInject@252: provide('appointmentDuration', appointmentDurationRef)
-computed@255: const selectedDateForSlots = computed(() => {
-provideInject@271: provide('computedAvailability', computedAvailability)
+vueQuery@103: // PATTERN: useMutation from useAppointment composable
+computed@184: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+provideInject@201: provide('loadedWizardState', loadedWizardState)
+provideInject@205: // PATTERN: Defaults to current month, Step 3 can update via inject
+provideInject@212: // Allow Step 3 to update displayedMonth via provide/inject
+provideInject@213: provide('displayedMonth', displayedMonth)
+provideInject@214: provide('updateDisplayedMonth', (month: DisplayedMonth) => {
+provideInject@224: // PATTERN: Provide/inject pattern allows child to update parent ref reactively
+provideInject@226: provide('appointmentDuration', appointmentDurationRef)
+computed@229: const selectedDateForSlots = computed(() => {
+provideInject@245: provide('computedAvailability', computedAvailability)
 ```
 
 ### `src/components/booking/IndependentSelectCard.vue`
@@ -811,17 +812,6 @@ map@102: const slots = props.appointmentSlots.map(appointmentSlot => {
 ```
 map@33: {{ selectedPropertyTypes.map(pt => pt.name).join(', ') }}
 computed@138: const fullAddress = computed(() => {
-```
-
-### `src/components/admin/dev/ApiDevPanel.vue`
-
-- counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@12: import { ref, watch, inject } from 'vue'
-provideInject@40: const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
-watch@73: watch(() => props.visible, (isVisible) => {
-dom@200: :deep(.v-window-item) {
 ```
 
 ### `src/components/booking/dev/DevPanelToggle.vue`
@@ -922,6 +912,16 @@ computed@179: hasPropertyTypeBlock: computed(() => wizard.selectedPropertyTypeBl
 ref@197: const showPropertyConfirmationModal = ref(false)
 ```
 
+### `src/components/admin/dev/ApiDevPanel.vue`
+
+- counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@12: import { ref, watch, inject } from 'vue'
+provideInject@40: const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+watch@73: watch(() => props.visible, (isVisible) => {
+```
+
 ### `src/components/admin/generic/fields/DateInput.vue`
 
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=1, console=0, alert=0
@@ -948,7 +948,7 @@ reduce@190: const bulkEditData: Record<string, number | null | undefined> = Obje
 inlineConfig@48: :config="{
 ```
 
-### `src/layouts/Blank.vue`
+### `src/layouts/blank.vue`
 
 - counts: computed=0, ref=1, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 

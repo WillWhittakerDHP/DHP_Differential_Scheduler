@@ -1,10 +1,10 @@
 import type { Ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoint } from '@/utils/api'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { createRefetchGlobalDataHandler } from '@/composables/entityCrud'
+import { createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { createMultipleRelationships, createRelationshipWithConflictHandling } from '@/utils/api'
 
 export type UseComponentEntityActionsReturn = {

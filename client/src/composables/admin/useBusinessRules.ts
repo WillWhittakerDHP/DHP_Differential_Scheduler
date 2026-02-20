@@ -9,11 +9,12 @@
 
 import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 import {
   BUSINESS_RULES_API_BASE,
   BUSINESS_RULES_MESSAGES,
+  RULE_TYPE_VALUES,
 } from '@/constants/businessRulesConstants.js'
 import type {
   ConditionalValidationRuleConfig,
@@ -42,15 +43,10 @@ function buildBusinessRulesQueryString(filters?: {
 
 /**
  * Rule Type Enumeration
- * LEARNING: TypeScript union type matching server-side RuleType
- * WHY: Type safety for rule_type field
- * PATTERN: Discriminated union based on rule_type
+ * LEARNING: Derived from shared RULE_TYPE_VALUES for single source of truth
+ * WHY: Type safety for rule_type field; no inline literals
  */
-export type RuleType = 
-  | 'required_fields'        // Additional required fields based on block selection
-  | 'requires_agent'         // Service requires agent/client contact information
-  | 'conditional_validation' // Field validation depends on other field values
-  | 'validation_message'     // Custom validation messages for fields/blocks
+export type RuleType = (typeof RULE_TYPE_VALUES)[keyof typeof RULE_TYPE_VALUES]
 
 // Re-export shared rule config types (Phase 1.2 type-similarity)
 export type {
@@ -67,13 +63,17 @@ export type {
  * WHY: Type safety for business rule objects
  * PATTERN: Matches Sequelize model attributes
  */
-export interface BusinessRule {
-  id: GlobalEntityId
+/** Shared core shape (P2 type-similarity); form data and API entity extend. */
+export interface BusinessRuleCore {
   blockInstanceId: GlobalEntityId
   ruleType: RuleType
   ruleConfig: RuleConfig
   validationMessageAnnotationId: GlobalEntityId | null
   active: boolean
+}
+
+export interface BusinessRule extends BusinessRuleCore {
+  id: GlobalEntityId
   createdAt: string
   updatedAt: string
 }
@@ -84,13 +84,7 @@ export interface BusinessRule {
  * WHY: Separates form state from API response data
  * PATTERN: Omit id/timestamps for create, include for update
  */
-export interface BusinessRuleFormData {
-  blockInstanceId: GlobalEntityId
-  ruleType: RuleType
-  ruleConfig: RuleConfig
-  validationMessageAnnotationId: GlobalEntityId | null
-  active: boolean
-}
+export type BusinessRuleFormData = BusinessRuleCore
 
 /**
  * Use Business Rules Composable

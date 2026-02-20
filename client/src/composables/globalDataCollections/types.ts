@@ -5,8 +5,7 @@ import type {
   CollectionByIdQueryResult,
   CollectionEndpoints,
   UpdateByIdPayload
-} from '@/composables/collectionTypes'
-
+} from '@/composables/useCollectionTypes'
 export type GlobalDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
 export type GlobalDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
 

@@ -1,15 +1,16 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  isCompiledJsFile,
-  isGloballyExcluded,
   loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
   getAuditReportHeaderLines,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Type-Import Audit Script
@@ -18,57 +19,14 @@ import {
  *   - value-import-from-type-only-file: value import from a file that exports only types
  *   - type-used-as-value: symbol imported as "import type" but used in value position
  *
- * Scope: client/src and server/src (.ts, .tsx, .vue, .mjs). For .vue, scan <script> only.
+ * Scope: client/src and server/src (.ts, .tsx, .vue). For .vue, scan <script> only.
  *
  * Output: .audit-reports/type-import-audit.json, .audit-reports/type-import-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
+const EXTENSIONS = ['.ts', '.tsx', '.vue', '.js']
 
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'type-import-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'type-import-audit.md')
-// Allowlist is centralized in audit-global-config.json (allowlists.type-import)
-
-const EXTENSIONS = ['.ts', '.tsx', '.vue', '.mjs', '.js']
-
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.tsx') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 function extractScriptContent(content, absPath) {
   if (!absPath.endsWith('.vue')) return content
@@ -77,7 +35,7 @@ function extractScriptContent(content, absPath) {
 }
 
 /** Resolve specifier to absolute path of source file, or null if not under client/src or server/src */
-function resolveSpecifierToAbs(specifier, importerAbs) {
+function resolveSpecifierToAbs(specifier, importerAbs, importerClientSrc) {
   if (specifier.startsWith('.')) {
     const base = path.resolve(path.dirname(importerAbs), specifier)
     for (const ext of EXTENSIONS) {
@@ -92,7 +50,7 @@ function resolveSpecifierToAbs(specifier, importerAbs) {
     return null
   }
   if (specifier.startsWith('@/')) {
-    const base = path.join(CLIENT_SRC, specifier.substring(2).replace(/\.(ts|tsx|vue|mjs|js)$/, ''))
+    const base = path.join(importerClientSrc, specifier.substring(2).replace(/\.(ts|tsx|vue|mjs|js)$/, ''))
     for (const ext of EXTENSIONS) {
       const candidate = base + ext
       if (fs.existsSync(candidate)) return candidate
@@ -169,14 +127,12 @@ function escapeRegex(s) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths('type-import')
 
   const configAllowlist = loadCentralAllowlist('type-import')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('type-import', [paths.clientSrc, paths.serverSrc])
 
   const valueImportFromTypeOnlyFile = []
   const typeUsedAsValue = []
@@ -184,8 +140,7 @@ function main() {
   let scannedCount = 0
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     scannedCount++
@@ -195,9 +150,9 @@ function main() {
     const valueImports = extractValueImports(content)
     for (const imp of valueImports) {
       if (!imp.specifier.startsWith('.') && !imp.specifier.startsWith('@/')) continue
-      const targetAbs = resolveSpecifierToAbs(imp.specifier, abs)
+      const targetAbs = resolveSpecifierToAbs(imp.specifier, abs, paths.clientSrc)
       if (!targetAbs) continue
-      const targetRepo = toRepoPath(targetAbs)
+      const targetRepo = toRepoPath(targetAbs, paths.projectRoot)
       if (!targetRepo.startsWith('client/src') && !targetRepo.startsWith('server/src')) continue
       if (targetRepo.endsWith('.d.ts')) continue
       if (!isTypeOnlyFile(targetAbs)) continue
@@ -249,10 +204,9 @@ function main() {
     files,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(result))
+  const { outJson, outMd } = writeAuditReports('type-import', result, renderMarkdownReport(result))
 
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(
     `value-import-from-type-only-file: ${valueImportFromTypeOnlyFile.length}, type-used-as-value: ${typeUsedAsValue.length}`
   )

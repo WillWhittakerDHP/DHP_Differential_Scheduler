@@ -9,9 +9,8 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlot, AppointmentShape } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
-import type { ISO8601Date } from '@/types/datetime'
 
 /**
  * Shared dev panel data state

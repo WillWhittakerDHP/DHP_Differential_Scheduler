@@ -1,34 +1,13 @@
-
-import { onMounted, onBeforeUnmount, type Ref } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import {
   patchFormFromVFormRef,
   setupFormMutationObserver,
   tryPatchFormImmediatelyBySelector,
-  type VFormInstance,
+  type FormElementPatchingOptionsBase
 } from '@/utils/forms/formElementPatching'
 
-export interface UseFormElementPatchingOptions {
-  /**
-   * LEARNING: Form element reference
-   * WHY: VForm component ref for accessing underlying form element
-   * PATTERN: Template ref to VForm component
-   */
-  formRef?: Ref<VFormInstance | null>
-  
-  /**
-   * LEARNING: CSS class selector for form element
-   * WHY: Used to find form element in DOM when formRef is not available
-   * PATTERN: CSS class selector string (e.g., '.dynamic-form-fields')
-   */
-  formSelector?: string
-  
-  /**
-   * LEARNING: Whether to set up MutationObserver
-   * WHY: MutationObserver watches for dynamically added form elements
-   * PATTERN: Boolean flag, defaults to true
-   */
-  useMutationObserver?: boolean
-}
+/** Same shape as shared base (P2 type-similarity). */
+export type UseFormElementPatchingOptions = FormElementPatchingOptionsBase
 
 export interface UseFormElementPatchingReturn {
   /**

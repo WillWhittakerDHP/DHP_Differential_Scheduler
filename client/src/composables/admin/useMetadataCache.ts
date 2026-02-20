@@ -15,7 +15,7 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export interface MetadataCache {
   global: {

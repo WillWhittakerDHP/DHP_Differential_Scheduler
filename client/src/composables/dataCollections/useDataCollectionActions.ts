@@ -12,8 +12,8 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 import { appendIfMissingById } from '@/utils/collections/appendIfMissingById'
-import type { UpdateByIdPayload } from '@/composables/businessDataCollections'
-import { createRefetchQueriesHandler } from '@/composables/entityCrud'
+import type { UpdateByIdPayload } from '@/composables/businessDataCollections/types'
+import { createRefetchQueriesHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 
 export interface DataCollectionCrudConfig<
   CollectionItem extends { id: string },

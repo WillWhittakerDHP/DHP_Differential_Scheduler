@@ -31,7 +31,7 @@ defineEmits<{ (e: 'click'): void }>();
   width: 48px !important;
   height: 48px !important;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(var(--v-theme-on-surface), 0.15);
 }
 
 @media (max-width: 960px) {

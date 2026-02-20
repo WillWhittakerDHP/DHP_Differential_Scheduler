@@ -11,12 +11,11 @@
 
 import { ref, computed, type ComputedRef } from 'vue'
 import type { FormContext } from 'vee-validate'
-import type { GlobalEntityKey } from '@/constants/entities'
+import type { EntityCardSharedProps } from '@/components/admin/generic/entityCardConstants'
 
-export interface UseEntityCardSaveStateOptions {
+/** Extends EntityCardSharedProps for single source of truth (TYPE_SIMILARITY 1.10). */
+export interface UseEntityCardSaveStateOptions extends EntityCardSharedProps {
   form: FormContext
-  entityKey: GlobalEntityKey
-  entityId: string
   /**
    * Function to get current entity values for reset
    * WHY: After save, we need to reset form to the saved entity values

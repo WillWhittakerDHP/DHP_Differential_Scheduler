@@ -6,7 +6,7 @@
  * PATTERN: Pure helper functions with proper types
  */
 
-import { Op, ModelStatic, Model } from 'sequelize'
+import { Op, ModelStatic, Model, Order, Includeable } from 'sequelize'
 import { BlockInstance, PartInstance, PartAssignment } from '../../../config/app.js'
 import { createBlockInstanceVersionIfReferenced } from '../../../services/instanceVersioning.js'
 import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelizeHelpers.js'
@@ -47,7 +47,7 @@ export async function ensureBlockInstanceVersionsBeforeBulkUpdate(
 export async function handleBlockInstanceVersioning(
   blockInstanceId: string,
   includeParts: boolean = true
-): Promise<any | null> {
+): Promise<InstanceType<typeof BlockInstance> | null> {
   const includeOptions = includeParts ? [
     {
       model: PartInstance,
@@ -140,12 +140,12 @@ export async function handlePartInstanceCleanup(
  */
 export function buildFetchOptions(model: ModelStatic<Model>): {
   attributes?: string[]
-  order?: any[]
-  include?: any[]
+  order?: Order
+  include?: Includeable[]
 } {
   const rawAttrs = model.rawAttributes
   const modelAttributes = Object.keys(rawAttrs !== undefined && rawAttrs !== null ? rawAttrs : {})
-  const baseOptions: { attributes?: string[]; order?: any[]; include?: any[] } = {}
+  const baseOptions: { attributes?: string[]; order?: Order; include?: Includeable[] } = {}
   
   const optionsWithAttributes = isModelUnderscored(model)
     ? { ...baseOptions, attributes: getModelAttributes(model) }
@@ -153,11 +153,11 @@ export function buildFetchOptions(model: ModelStatic<Model>): {
   
   const options = (() => {
     if (modelAttributes.includes(FIELD_NAMES.ORDER_INDEX)) {
-      return { ...optionsWithAttributes, order: [[FIELD_NAMES.ORDER_INDEX, SORT_ORDERS.ASC]] }
+      return { ...optionsWithAttributes, order: [[FIELD_NAMES.ORDER_INDEX, SORT_ORDERS.ASC]] as Order }
     } else if (modelAttributes.includes(FIELD_NAMES.CREATED_AT)) {
-      return { ...optionsWithAttributes, order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.ASC]] }
+      return { ...optionsWithAttributes, order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.ASC]] as Order }
     } else {
-      return { ...optionsWithAttributes, order: [[FIELD_NAMES.ID, SORT_ORDERS.ASC]] }
+      return { ...optionsWithAttributes, order: [[FIELD_NAMES.ID, SORT_ORDERS.ASC]] as Order }
     }
   })()
   

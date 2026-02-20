@@ -9,7 +9,6 @@
 
 import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
-import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
 import type { FieldMetadataEntry } from './adminMetadataComposer.js';
 
 export type { FieldMetadataEntry };

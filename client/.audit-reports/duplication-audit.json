@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T19:00:14.707Z",
+  "generatedAt": "2026-02-19T23:19:04.047Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 609,
+  "fileCount": 611,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -159,6 +159,7 @@
           "client/src/composables/admin/useEntityCardComputed.ts",
           "client/src/composables/admin/useEntityCardExpansion.ts",
           "client/src/composables/admin/useEntityCardFieldConfiguration.ts",
+          "client/src/composables/admin/useEntityCardForm.ts",
           "client/src/composables/admin/useEntityCardLayout.ts",
           "client/src/composables/admin/useEntityCardMetadata.ts",
           "client/src/composables/admin/useEntityCardSaveState.ts",
@@ -350,7 +351,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 219
+        "patternCount": 220
       }
     ],
     "repeatedStringFiles": []
@@ -380,57 +381,57 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 34,
-          "endLine": 43,
+          "startLine": 33,
+          "endLine": 42,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 51,
-          "endLine": 60,
+          "startLine": 50,
+          "endLine": 59,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 80,
-          "endLine": 89,
+          "startLine": 79,
+          "endLine": 88,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 96,
-          "endLine": 105,
+          "startLine": 95,
+          "endLine": 104,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 45,
-          "endLine": 54,
+          "startLine": 37,
+          "endLine": 46,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 62,
-          "endLine": 71,
+          "startLine": 54,
+          "endLine": 63,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 91,
-          "endLine": 100,
+          "startLine": 83,
+          "endLine": 92,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 107,
-          "endLine": 116,
+          "startLine": 99,
+          "endLine": 108,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -462,57 +463,57 @@
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 35,
-          "endLine": 44,
+          "startLine": 34,
+          "endLine": 43,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 52,
-          "endLine": 61,
+          "startLine": 51,
+          "endLine": 60,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 81,
-          "endLine": 90,
+          "startLine": 80,
+          "endLine": 89,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 97,
-          "endLine": 106,
+          "startLine": 96,
+          "endLine": 105,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 46,
-          "endLine": 55,
+          "startLine": 38,
+          "endLine": 47,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 63,
-          "endLine": 72,
+          "startLine": 55,
+          "endLine": 64,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 92,
-          "endLine": 101,
+          "startLine": 84,
+          "endLine": 93,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 108,
-          "endLine": 117,
+          "startLine": 100,
+          "endLine": 109,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -577,8 +578,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
-          "startLine": 71,
-          "endLine": 80,
+          "startLine": 70,
+          "endLine": 79,
           "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
           "target": "client/src/composables/booking/useWizardDevMode.ts"
         }
@@ -596,22 +597,22 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 143,
-          "endLine": 152,
+          "startLine": 135,
+          "endLine": 144,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 113,
-          "endLine": 122,
+          "startLine": 112,
+          "endLine": 121,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 124,
-          "endLine": 133,
+          "startLine": 116,
+          "endLine": 125,
           "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -728,22 +729,22 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 142,
-          "endLine": 151,
+          "startLine": 134,
+          "endLine": 143,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 112,
-          "endLine": 121,
+          "startLine": 111,
+          "endLine": 120,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 123,
-          "endLine": 132,
+          "startLine": 115,
+          "endLine": 124,
           "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor || null,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -1039,8 +1040,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/useWizardDevMode.ts",
-          "startLine": 72,
-          "endLine": 81,
+          "startLine": 71,
+          "endLine": 80,
           "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
           "target": "client/src/composables/booking/useWizardDevMode.ts"
         }
@@ -1058,166 +1059,34 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 82,
-          "endLine": 94,
+          "startLine": 81,
+          "endLine": 93,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 98,
-          "endLine": 110,
+          "startLine": 97,
+          "endLine": 109,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 93,
-          "endLine": 105,
+          "startLine": 85,
+          "endLine": 97,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 109,
-          "endLine": 121,
+          "startLine": 101,
+          "endLine": 113,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 24,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-01452b96803f",
-      "hash": "01452b96803f",
-      "uniqueFiles": 2,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 48,
-          "endLine": 57,
-          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 176,
-          "endLine": 185,
-          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
-          "startLine": 50,
-          "endLine": 59,
-          "windowText": "confirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,\nconfirmationStepValidate,",
-          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
-        }
-      ],
-      "score": 23,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-639d6f3d1bfe",
-      "hash": "639d6f3d1bfe",
-      "uniqueFiles": 2,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 47,
-          "endLine": 56,
-          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 175,
-          "endLine": 184,
-          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
-          "startLine": 49,
-          "endLine": 58,
-          "windowText": "availabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,\nconfirmationStepValid,",
-          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
-        }
-      ],
-      "score": 23,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-72bfca850e56",
-      "hash": "72bfca850e56",
-      "uniqueFiles": 2,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-      "locations": [
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 16,
-          "endLine": 26,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminMetadataComposer.ts",
-          "startLine": 125,
-          "endLine": 135,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminMetadataComposer.ts"
-        },
-        {
-          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 15,
-          "endLine": 25,
-          "windowText": "dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';\nisRequired: boolean;\nvisibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';\nlayout: 'inline' | 'stacked';\ndisplayOrder: number;\nrenderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';\nstatusButtonColor?: string | null;\npanel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;\nbulkEdit: boolean;\ninputConfig?: Record<string, unknown> | null;",
-          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
-        }
-      ],
-      "score": 23,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-c83d80935f34",
-      "hash": "c83d80935f34",
-      "uniqueFiles": 2,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
-      "locations": [
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 45,
-          "endLine": 55,
-          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/booking/BookingWizard.vue",
-          "startLine": 173,
-          "endLine": 183,
-          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
-          "target": "client/src/components/booking/BookingWizard.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/composables/booking/useWizardStepDataRefs.ts",
-          "startLine": 47,
-          "endLine": 57,
-          "windowText": "propertyDetailsStepData,\navailabilityStepData,\nconfirmationStepData,\npropertyDetailsStepValid,\npropertyDetailsStepValidate,\npropertyDetailsFieldErrors,\ncontactsStepValid,\ncontactsStepValidate,\navailabilityStepValid,\navailabilityStepValidate,",
-          "target": "client/src/composables/booking/useWizardStepDataRefs.ts"
-        }
-      ],
-      "score": 23,
       "priority": "P0"
     },
     {
@@ -1854,15 +1723,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 55,
-          "endLine": 67,
+          "startLine": 54,
+          "endLine": 66,
           "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 66,
-          "endLine": 78,
+          "startLine": 58,
+          "endLine": 70,
           "windowText": "layout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -2244,8 +2113,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 156,
-          "endLine": 170,
+          "startLine": 153,
+          "endLine": 167,
           "windowText": "fieldMetadata: fieldMetadata.value,\nentityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -2946,15 +2815,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 37,
-          "endLine": 49,
+          "startLine": 36,
+          "endLine": 48,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 48,
-          "endLine": 60,
+          "startLine": 40,
+          "endLine": 52,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {\nreturn entityMetadata.map(meta => ({",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -3310,15 +3179,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 53,
-          "endLine": 65,
+          "startLine": 52,
+          "endLine": 64,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 64,
-          "endLine": 76,
+          "startLine": 56,
+          "endLine": 68,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -3544,8 +3413,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 162,
-          "endLine": 173,
+          "startLine": 159,
+          "endLine": 170,
           "windowText": "const v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -3960,15 +3829,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 36,
-          "endLine": 48,
+          "startLine": 35,
+          "endLine": 47,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 47,
-          "endLine": 59,
+          "startLine": 39,
+          "endLine": 51,
           "windowText": "isRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -4064,15 +3933,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 54,
-          "endLine": 66,
+          "startLine": 53,
+          "endLine": 65,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 65,
-          "endLine": 77,
+          "startLine": 57,
+          "endLine": 69,
           "windowText": "visibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
@@ -4558,8 +4427,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 157,
-          "endLine": 171,
+          "startLine": 154,
+          "endLine": 168,
           "windowText": "entityKey: props.entityKey\nconst instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -4948,8 +4817,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-          "startLine": 161,
-          "endLine": 172,
+          "startLine": 158,
+          "endLine": 169,
           "windowText": "const instanceConfig = computed(() => {\nconst v = adminConfig.getInstanceConfig(props.entityKey).value\nreturn v !== undefined && v !== null ? v : {}\nconst inlineFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.inlineFields\nreturn (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]\nconst stackedFieldsConfig = computed(() => {\nconst config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined\nconst raw = config?.stackedFields",
           "target": "client/src/components/admin/generic/DynamicForm.vue::<script>"
         },
@@ -5338,15 +5207,15 @@
       "locations": [
         {
           "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-          "startLine": 56,
-          "endLine": 68,
+          "startLine": 55,
+          "endLine": 67,
           "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
           "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
         },
         {
           "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "startLine": 67,
-          "endLine": 79,
+          "startLine": 59,
+          "endLine": 71,
           "windowText": "displayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: meta.inputConfig || null,\nif (entityMetadata.length === 0) {\nconst fallbackEntityId = entityType === 'blockInstance'\n? GLOBAL_CONFIG_IDS.BLOCK_INSTANCE\n: GLOBAL_CONFIG_IDS.PART_INSTANCE;",
           "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }

@@ -5,7 +5,8 @@
 
 import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/types/entities'
 import { RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {

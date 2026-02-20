@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { loadCentralAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
 
 /**
  * Type Similarity Audit Script (Structural Type Governance)
@@ -79,42 +79,6 @@ function toRepoPath(absPath) {
 
 function shortHash(text) {
   return crypto.createHash('sha1').update(text).digest('hex').slice(0, 12)
-}
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-function shouldExcludeDir(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-/**
- * Recursively list scannable files
- * @param {string} dir
- * @returns {string[]}
- */
-function listFilesRecursive(dir) {
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const entry of entries) {
-    const abs = path.join(dir, entry.name)
-    const repoPath = toRepoPath(abs)
-    if (shouldExcludeDir(repoPath)) continue
-    if (entry.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (entry.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
 }
 
 /**
@@ -333,13 +297,10 @@ function generateSignature(properties) {
  * Scan a file for type/interface definitions.
  *
  * @param {string} filePath - Absolute path to the file
- * @param {object | null} configAllowlist
  * @returns {ParsedTypeDefinition[]}
  */
-function scanFileForTypes(filePath, configAllowlist) {
+function scanFileForTypes(filePath) {
   const repoPath = toRepoPath(filePath)
-  if (isExcluded(repoPath, configAllowlist)) return []
-
   let content
   try {
     content = fs.readFileSync(filePath, 'utf8')
@@ -1009,19 +970,12 @@ function main() {
   }
 
   // Collect files from all three source directories
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const sharedFiles = listFilesRecursive(SHARED_ROOT)
-  const allFiles = [...clientFiles, ...serverFiles, ...sharedFiles]
+  const allFiles = listAuditFiles('type-similarity', [CLIENT_SRC, SERVER_SRC, SHARED_ROOT])
 
   // Scan all files for type definitions
   const allDefinitions = []
   for (const absFile of allFiles) {
-    const repoPath = toRepoPath(absFile)
-    if (isExcluded(repoPath, configAllowlist)) continue
-    if (shouldExcludeDir(repoPath)) continue
-
-    const definitions = scanFileForTypes(absFile, configAllowlist)
+    const definitions = scanFileForTypes(absFile)
     allDefinitions.push(...definitions)
   }
 
@@ -1061,7 +1015,10 @@ function main() {
   }
 
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
-  console.log(`Files scanned: ${allFiles.length} (${clientFiles.length} client, ${serverFiles.length} server, ${sharedFiles.length} shared)`)
+  const clientCount = allFiles.filter(f => f.startsWith(CLIENT_SRC)).length
+  const serverCount = allFiles.filter(f => f.startsWith(SERVER_SRC)).length
+  const sharedCount = allFiles.filter(f => f.startsWith(SHARED_ROOT)).length
+  console.log(`Files scanned: ${allFiles.length} (${clientCount} client, ${serverCount} server, ${sharedCount} shared)`)
   console.log(`Type definitions: ${allDefinitions.length}, Similarity groups: ${groups.length}`)
   console.log(`Actions: UNIFY=${actionCounts.UNIFY}, BRAND=${actionCounts.BRAND}, EXTEND=${actionCounts.EXTEND}, REVIEW=${actionCounts.REVIEW}`)
   process.exitCode = 0

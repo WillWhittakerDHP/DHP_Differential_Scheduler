@@ -14,6 +14,7 @@
 import { ref, watch, computed, type Ref } from 'vue'
 import { createLogger } from '@/utils/logger'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { ContactInfoBase } from '@shared/types/contactTypes'
 
 const logger = createLogger('useContactsStepData')
 
@@ -29,11 +30,8 @@ function contactField(value: string | null | undefined, context: string): string
   return value
 }
 
-export interface ContactInfo {
-  firstName: string
-  lastName: string
-  email: string
-}
+/** Contact form shape; extends shared base for single source of truth. */
+export type ContactInfo = ContactInfoBase
 
 export interface UseContactsStepDataOptions {
   loadedWizardState?: Ref<WizardStateData | null>

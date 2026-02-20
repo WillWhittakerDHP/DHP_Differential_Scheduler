@@ -3,13 +3,12 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
   renderAllowedExceptionsSection,
-  isGloballyExcluded,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Data Flow Validation Audit (Lightweight)
@@ -36,7 +35,6 @@ const OUT_DIR = IS_CLIENT_DIR
   : path.join(CWD, 'client', '.audit-reports')
 const OUT_JSON = path.join(OUT_DIR, 'data-flow-audit.json')
 const OUT_MD = path.join(OUT_DIR, 'data-flow-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'data-flow-audit-config.json')
 
 const AUDIT_TYPE = 'data-flow'
 
@@ -48,28 +46,6 @@ const REQ_PARAMS = /\breq\.params\b/
 const REQ_QUERY = /\breq\.query\b/
 const VALIDATION_HINT = /\b(Joi|Zod|validate|\.schema\b|sanitize|parse\(|validateSync|validateAsync)/
 const SEQUELIZE_CREATE_UPDATE = /\.(create|update|bulkCreate)\s*\(\s*req\.body/
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && full.endsWith('.ts')) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 function scanFile(absPath, repoPath, content) {
   const matches = []
@@ -135,13 +111,11 @@ function main() {
   ensureDir(OUT_DIR)
   const configAllowlist = loadCentralAllowlist('data-flow')
 
-  const routeFiles = listFilesRecursive(ROUTES_DIR)
+  const routeFiles = listAuditFiles(AUDIT_TYPE, [ROUTES_DIR])
   const scanned = []
 
   for (const abs of routeFiles) {
     const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
-
     const content = fs.readFileSync(abs, 'utf8')
     const matches = scanFile(abs, repoPath, content)
     if (matches.length === 0) continue

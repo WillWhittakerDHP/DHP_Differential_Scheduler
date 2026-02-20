@@ -66,8 +66,11 @@ export interface BetaFeedbackStats {
   bySeverity: Record<string, number>;
 }
 
-export interface BetaFeedbackFilters {
-  status?: FeedbackStatus;
-  category?: FeedbackCategory;
-  severity?: FeedbackSeverity;
+/** Base for filter fields (P2 type-similarity); BetaFeedback has same keys as required. */
+export interface BetaFeedbackFiltersBase {
+  status?: FeedbackStatus
+  category?: FeedbackCategory
+  severity?: FeedbackSeverity
 }
+
+export type BetaFeedbackFilters = BetaFeedbackFiltersBase

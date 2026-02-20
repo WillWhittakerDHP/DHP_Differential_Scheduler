@@ -7,7 +7,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useEntityFiltering } from '@/composables/admin/useEntityFiltering'
 import { useShapeDisplayNames } from '@/composables/admin/useShapeDisplayNames'
 import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'

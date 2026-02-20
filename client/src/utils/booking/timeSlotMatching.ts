@@ -11,8 +11,8 @@
  */
 
 import type { Ref } from 'vue'
-import type { AppointmentSlot, TimeSlot, TimeRange, AppointmentSlots } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { TimeSlot } from '@/types/appointment'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
 
 function extractTimeString(value: string | Date): string | null {
@@ -115,98 +115,4 @@ export function matchLoadedTimeSlots(
     }
   }
 }
-
-/**
- * Match loaded time slots and return results (non-mutating version)
- * 
- * LEARNING: Pure function version for cases where you don't want to mutate refs
- * WHY: Some use cases prefer immutable returns over ref mutation
- * PATTERN: Returns matched slots instead of mutating refs
- * 
- * @param loadedSlots - Array of loaded time slots from saved appointment
- * @param availableSlots - Array of currently available TimeSlot objects
- * @returns Object with matched major and minor slots (or null if no match)
- */
-export function matchLoadedTimeSlotsImmutable(
-  loadedSlots: LoadedTimeSlot[],
-  availableSlots: TimeSlot[]
-): { majorSlot: TimeSlot | null; minorSlot: TimeSlot | null } {
-  if (loadedSlots.length === 0 || availableSlots.length === 0) {
-    return { majorSlot: null, minorSlot: null }
-  }
-
-  const majorSlot = loadedSlots.length > 0
-    ? findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots) ?? null
-    : null
-
-  const minorSlot = loadedSlots.length > 1
-    ? findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots) ?? null
-    : null
-
-  return { majorSlot, minorSlot }
-}
-
-/**
- * Find AppointmentSlot by orderIndex
- * 
- * LEARNING: Locates AppointmentSlot at a specific normalized position
- * WHY: AppointmentSlots are normalized by orderIndex for consistent UI positioning
- * PATTERN: Find AppointmentSlot with matching orderIndex
- * 
- * LEARNING: Function used internally - not exported as it's not part of public API
- * WHY: This function is only used within this file by other functions
- * 
- * @param appointmentSlots - Array of AppointmentSlot objects
- * @param orderIndex - Normalized order index to find
- * @returns Matching AppointmentSlot or undefined if not found
- */
-function findAppointmentSlotByOrderIndex(
-  appointmentSlots: AppointmentSlots,
-  orderIndex: number
-): AppointmentSlot | undefined {
-  return appointmentSlots.find(slot => slot.orderIndex === orderIndex)
-}
-
-/**
- * Match loaded time slot to AppointmentSlot by orderIndex
- * 
- * LEARNING: Matches loaded time slot to AppointmentSlot based on normalized position
- * WHY: For AppointmentSlots, matching is by position (orderIndex) rather than exact time
- * PATTERN: Find AppointmentSlot at orderIndex, extract TimeSlot based on perspective
- * 
- * @param loadedSlot - Loaded time slot from saved appointment
- * @param appointmentSlots - Array of AppointmentSlot objects
- * @param orderIndex - Normalized order index to match
- * @param timeBasis - Time perspective ('major' | 'minor' | 'nonDifferential')
- * @returns Matching TimeSlot or undefined if no match found
- */
-export function findMatchingAppointmentSlot(
-  loadedSlot: LoadedTimeSlot,
-  appointmentSlots: AppointmentSlots,
-  orderIndex: number,
-  timeBasis: 'major' | 'minor' | 'nonDifferential'
-): TimeSlot | TimeRange | undefined {
-  const appointmentSlot = findAppointmentSlotByOrderIndex(appointmentSlots, orderIndex)
-  if (!appointmentSlot) return undefined
-
-  // PATTERN: Use eventTimeRanges lookup by event name (configured via availabilitySettings)
-  let slot: TimeRange | null = null
-  
-  if (timeBasis === 'minor') {
-    const minorEventName = 'Minor'
-    slot = appointmentSlot.eventTimeRanges?.[minorEventName] || appointmentSlot.totalTimeRange
-  } else {
-    const majorEventName = 'Major'
-    slot = appointmentSlot.eventTimeRanges?.[majorEventName] || appointmentSlot.totalTimeRange
-  }
-
-  if (!slot) return undefined
-
-  // PATTERN: Compare time strings
-  const loadedTimeString = extractTimeString(loadedSlot.startTime)
-  const slotTimeString = extractTimeString(slot.startTime)
-  
-  return loadedTimeString === slotTimeString ? slot : undefined
-}
-
 

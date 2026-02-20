@@ -6,7 +6,8 @@
  * PATTERN: Types derived from relationship constants
  */
 
-import type { GlobalEntity, GlobalEntityId } from './entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from './entities'
 import { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '../constants/relationships'
 
@@ -42,13 +43,19 @@ export type GlobalRelationship<
 }
 
 /**
+ * Base for relationship payload and instance component (P2 type-similarity).
+ * LEARNING: Shared parent/child IDs shape
+ */
+export interface CreateRelationshipPayloadBase {
+  parentId: GlobalEntityId
+  childId: GlobalEntityId
+}
+
+/**
  * Relationship creation payload
  * LEARNING: Payload for creating new relationships
  * WHY: Type-safe relationship creation
  * PATTERN: Simple object with parent and child IDs
  */
-export interface CreateRelationshipPayload {
-  parentId: GlobalEntityId
-  childId: GlobalEntityId
-}
+export type CreateRelationshipPayload = CreateRelationshipPayloadBase
 

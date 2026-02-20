@@ -8,17 +8,20 @@
  * P2-5: Created to consolidate slot generation validation from multiple locations
  */
 
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('slotGenerationValidation')
 
-export interface SlotGenerationParams {
+/** Base for slot generation; MinimalSlotParams extends and adds includeFlags (P2 type-similarity). */
+export interface SlotGenerationParamsBase {
   duration: number
   minuteIncrement: number
   startBoundary: RFC3339DateTime
   endBoundary: RFC3339DateTime
 }
+
+export type SlotGenerationParams = SlotGenerationParamsBase
 
 /**
  * Validate slot generation parameters

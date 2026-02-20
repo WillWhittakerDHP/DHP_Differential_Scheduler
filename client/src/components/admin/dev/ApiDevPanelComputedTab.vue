@@ -10,7 +10,7 @@
 import { computed } from 'vue'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { CalendarEvent as SharedCalendarEvent } from '@shared/types/availabilityTypes'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 interface Props {
   computedAvailability: UseComputedAvailabilityReturn | null
@@ -105,7 +105,7 @@ const slotsByDaySummary = computed(() => {
               >
                 <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
                 <div class="text-caption text-medium-emphasis">
-                  {{ formatDateTimeForDisplay(event.start as string) }} - {{ formatTimeForDisplay(event.end as string) }}
+                  {{ formatDateTimeForDisplay(event.start as RFC3339DateTime) }} - {{ formatTimeForDisplay(event.end as RFC3339DateTime) }}
                 </div>
                 <div v-if="event.placeId" class="text-caption text-medium-emphasis">
                   📍 Place ID: {{ event.placeId.substring(0, 20) }}...
@@ -138,7 +138,7 @@ const slotsByDaySummary = computed(() => {
             >
               <div class="text-caption font-weight-bold">{{ event.summary || '(No title)' }}</div>
               <div class="text-caption text-medium-emphasis">
-                {{ formatDateTimeForDisplay(event.start as string) }} - {{ formatTimeForDisplay(event.end as string) }}
+                {{ formatDateTimeForDisplay(event.start as RFC3339DateTime) }} - {{ formatTimeForDisplay(event.end as RFC3339DateTime) }}
               </div>
             </div>
           </VCard>

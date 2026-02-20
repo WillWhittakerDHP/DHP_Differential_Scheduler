@@ -4,12 +4,11 @@
  * PATTERN: Writable computeds that ensure defaultLocation exists on set
  * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
-import { computed, type Ref, type WritableComputedRef } from 'vue'
-import type { AvailabilitySettings, Coordinates } from '@/configs/availabilitySettings'
+import { computed, type WritableComputedRef } from 'vue'
+import type { Coordinates } from '@/configs/availabilitySettings'
+import type { UseDefaultLocationParams } from '@/types/availabilitySettingsParams'
 
-export interface UseDefaultLocationParams {
-  formData: Ref<AvailabilitySettings | null>
-}
+export type { UseDefaultLocationParams }
 
 export function useDefaultLocation(params: UseDefaultLocationParams): {
   defaultLocationAddress: WritableComputedRef<string>

@@ -32,7 +32,8 @@ export class PartInstanceVersion extends Model<
   declare rateOverBaseTime: number;
   declare createdAt: CreationOptional<Date>;
   
-  declare blockInstanceVersion?: any; // BlockInstanceVersion
+  /** Associated block instance version (typed as Model | null to avoid circular type reference with BlockInstanceVersion) */
+  declare blockInstanceVersion?: Model | null;
 }
 
 export function PartInstanceVersionFactory(sequelize: Sequelize) {

@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
 
 /**
  * Duplication Audit Script (DRY opportunities)
@@ -59,59 +59,6 @@ function toRepoPath(absPath) {
 
 function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
-}
-
-/**
- * Check if a file should be excluded from duplication scanning
- * Uses config-based allowlist for file-level exclusions
- */
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-/**
- * Check if a file should be excluded from scanning
- */
-function shouldExcludeDir(repoPath) {
-  if (isGloballyExcluded(repoPath)) return true
-  // Audit-specific: compiled .js in server/src/db/models/ (TypeScript-generated helpers, duplication expected)
-  if (repoPath.startsWith('server/src') && repoPath.endsWith('.js') && repoPath.includes('/db/models/')) {
-    return true
-  }
-  return false
-}
-
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip excluded directories/files
-    if (shouldExcludeDir(repoPath)) {
-      continue
-    }
-    
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
 }
 
 function splitLines(contents) {
@@ -447,10 +394,10 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  let absFiles = [...clientFiles, ...serverFiles]
-  
+  let absFiles = listAuditFiles('duplication', [CLIENT_SRC, SERVER_SRC])
+  const clientFiles = absFiles.filter((p) => p.startsWith(CLIENT_SRC))
+  const serverFiles = absFiles.filter((p) => p.startsWith(SERVER_SRC))
+
   // Load pattern-detection candidates and prioritize files
   const candidates = loadPatternDetectionCandidates()
   if (candidates) {
@@ -462,9 +409,6 @@ function main() {
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
-    // Double-check exclusion
-    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const targets = extractTargets(repoPath, contents)
     const allWindows = []

@@ -20,9 +20,13 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useSelectOptions')
 
-export interface SelectOption {
+/** Base shape for select options (P2 type-similarity); USStateOption matches, SelectOption adds children. */
+export interface SelectOptionBase {
   title: string
   value: string
+}
+
+export interface SelectOption extends SelectOptionBase {
   children?: SelectOption[]
 }
 
@@ -110,9 +114,10 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     }>()
     
     entities.forEach((entity) => {
+      const groupKeyStr = String(groupByKey)
       const groupKey =
-        getEntityFieldValue(entity, groupByKey) ??
-        getEntityFieldValue(entity, `${groupByKey}Ref`)
+        getEntityFieldValue(entity, groupKeyStr) ??
+        getEntityFieldValue(entity, `${groupKeyStr}Ref`)
       
       if (!groupKey) {
         return // Skip entities without group key
@@ -232,9 +237,10 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         let _addedCount = 0
         
         entities.forEach((entity) => {
+          const groupKeyStr = String(groupByKey)
           const groupKey =
-            getEntityFieldValue(entity, groupByKey) ??
-            getEntityFieldValue(entity, `${groupByKey}Ref`)
+            getEntityFieldValue(entity, groupKeyStr) ??
+            getEntityFieldValue(entity, `${groupKeyStr}Ref`)
           
           if (!groupKey) {
             _skippedCount++

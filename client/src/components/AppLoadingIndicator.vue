@@ -24,8 +24,7 @@ defineExpose({
   <!-- loading state via #fallback slot -->
   <div
     v-if="showProgress"
-    class="position-fixed"
-    style="z-index: 9999; inset-block-start: 0; inset-inline: 0 0;"
+    class="position-fixed app-loading-overlay"
   >
     <VProgressLinear
       v-model="progressValue"
@@ -36,3 +35,11 @@ defineExpose({
     />
   </div>
 </template>
+
+<style scoped>
+.app-loading-overlay {
+  z-index: 9999;
+  inset-block-start: 0;
+  inset-inline: 0 0;
+}
+</style>

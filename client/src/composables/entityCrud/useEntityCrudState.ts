@@ -1,11 +1,8 @@
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
+import type { UseEntityCrudStateReturnBase } from './useEntityCrudTypes'
 
-type UseEntityCrudStateReturn = {
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-  refetch: () => Promise<void>
-}
+export type UseEntityCrudStateReturn = UseEntityCrudStateReturnBase
 
 /**
  * State module: provides shared loading/error and refetch helpers.

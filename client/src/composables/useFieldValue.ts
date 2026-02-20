@@ -14,7 +14,7 @@ import { computed, type Ref } from 'vue'
 import type { ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from './useFieldContext'
+import type { FieldContextType } from './fieldContext/types'
 
 /**
  * Unified field value composable

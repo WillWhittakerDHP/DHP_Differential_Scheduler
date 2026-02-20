@@ -1,0 +1,102 @@
+.selection-card-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-card-content {
+  order: 0;
+}
+
+.selection-card-icon {
+  color: rgb(var(--v-theme-on-surface));
+}
+
+.selection-card-quantity-input {
+  max-width: 120px;
+}
+
+.selection-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  &.selection-card-bordered {
+    border: 1px solid rgb(var(--v-theme-on-surface-variant));
+    background-color: rgb(var(--v-theme-surface));
+    border-radius: 4px;
+
+    &:hover {
+      border-color: rgb(var(--v-theme-primary));
+      background-color: rgba(var(--v-theme-primary), 0.04);
+    }
+  }
+
+  .v-radio {
+    margin-block-end: -0.25rem;
+
+    :deep(.v-selection-control__wrapper) {
+      margin-inline-start: 0;
+    }
+
+    :deep(.v-selection-control__input) {
+      opacity: 1;
+    }
+
+    :deep(input:checked ~ .v-selection-control__wrapper) {
+      opacity: 1;
+
+      .v-radio__icon {
+        color: rgb(var(--v-theme-primary));
+      }
+    }
+  }
+
+  // LEARNING: Active state styling for selected card
+  &.active {
+    border-color: rgb(var(--v-theme-primary));
+    background-color: rgba(var(--v-theme-primary), 0.08);
+    box-shadow: 0 2px 8px rgba(var(--v-theme-primary), 0.2);
+
+    .v-radio {
+      :deep(.v-selection-control__input) {
+        opacity: 1;
+      }
+    }
+  }
+
+  .content-container {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: visible;
+    display: block;
+    line-height: 1.5;
+    flex: 0 1 auto;
+
+    h6 {
+      display: block !important;
+      white-space: normal !important;
+      word-break: normal !important;
+      width: 100%;
+    }
+  }
+}
+
+.selection-card-left-radio {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+
+  .content-container {
+    flex: 1;
+  }
+}

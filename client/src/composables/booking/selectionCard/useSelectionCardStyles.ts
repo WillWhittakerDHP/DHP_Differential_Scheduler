@@ -14,10 +14,13 @@ import {
   buildSelectionControlClasses,
 } from '@/utils/booking/selectionCardStyles'
 
-export interface UseSelectionCardStylesParams {
+/** Base shared with UseSelectionCardComponentParams (P2 type-similarity). */
+export interface UseSelectionCardStylesParamsBase {
   configWithDefaults: ComputedRef<SelectionCardConfig>
   isSelected: ComputedRef<boolean>
 }
+
+export type UseSelectionCardStylesParams = UseSelectionCardStylesParamsBase
 
 export interface UseSelectionCardStylesReturn {
   cardClasses: ComputedRef<string>

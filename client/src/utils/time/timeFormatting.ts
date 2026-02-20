@@ -1,5 +1,5 @@
 import type { TimeRange, TimeSlot } from '@/types/appointment'
-import type { ISO8601Date } from '@/types/datetime'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import { useLocalTime } from '@/composables/useLocalTime'
 
 type MaybeRef<Value> = Value | { value: Value }

@@ -75,10 +75,10 @@
  */
 
 import { useRouter } from 'vue-router'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 const logger = createLogger('BlockShapeList')
 const router = useRouter()

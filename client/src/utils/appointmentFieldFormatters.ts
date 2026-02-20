@@ -11,12 +11,12 @@ import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
-import type { RFC3339DateTime, ISO8601Date } from '@/types/datetime'
+import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
 import { useLocalTime } from '@/composables/useLocalTime'
 
 const { formatDateOnlyForDisplay, formatDateForDisplay } = useLocalTime()
 
-export type FieldFormatter = (
+type FieldFormatter = (
   appointment: AppointmentResponse,
   value: unknown,
   properties: PropertyResponse[],
@@ -117,7 +117,7 @@ function formatAgentField(
  * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
  * PATTERN: Map field names to formatter functions
  */
-export const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
+const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   // Extract from attendees array

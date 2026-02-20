@@ -68,9 +68,9 @@ function cleanOldTimestamps(apiName: ApiName): void {
 /**
  * Rate limit status
  */
-export type RateLimitStatus = 'available' | 'throttled' | 'exceeded';
+type RateLimitStatus = 'available' | 'throttled' | 'exceeded';
 
-export interface RateLimitResult {
+interface RateLimitResult {
   status: RateLimitStatus;
   remainingRequests: number;
   resetTime: number; // Milliseconds until window resets

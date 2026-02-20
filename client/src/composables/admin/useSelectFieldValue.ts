@@ -15,7 +15,7 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { UseSelectFilteringReturn } from './useSelectFiltering'

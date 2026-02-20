@@ -14,7 +14,7 @@
 
 import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '@/constants/errorMessages'
 
@@ -65,6 +65,7 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
       const fetchedSettings = await getAvailabilitySettings()
       settings.value = fetchedSettings
     } catch (err) {
+      logger.error(err)
       const errorMessage = err instanceof Error ? err.message : ERROR_FETCH_BUSINESS_SETTINGS
       error.value = errorMessage
       logger.error(ERROR_FETCH_BUSINESS_SETTINGS, { error: err })

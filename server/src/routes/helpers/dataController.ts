@@ -2,7 +2,6 @@ import { Model, ModelStatic, UpdateOptions, DestroyOptions, WhereOptions, Attrib
 import { MakeNullishOptional } from "sequelize/types/utils";
 import { getModelAttributes, isModelUnderscored } from "../../utils/sequelizeHelpers.js";
 import { createLogger } from "../../utils/logger.js";
-import { FIELD_NAMES } from "../internal/entities/entityConstants.js";
 
 const logger = createLogger('DataController');
 
@@ -197,32 +196,6 @@ const deleteRecord = async <T extends Model>(
 
   return deletedRows;
 };
-
-
-export type DependentDelete = {
-  Entity: ModelStatic<Model>;
-  where: WhereOptions<Record<string, unknown>>;
-};
-
-export interface SafeDeleteOptions {
-  parent: {
-    Entity: ModelStatic<Model>;
-    id: string;
-  };
-  dependents?: DependentDelete[];
-}
-
-export const safeDelete = async ({
-  parent,
-  dependents = [],
-}: SafeDeleteOptions): Promise<number> => {
-  for (const dep of dependents) {
-    await dep.Entity.destroy({ where: dep.where });
-  }
-
-  return deleteRecord(parent.Entity, parent.id);
-};
-
 
 
 export { fetchAll, fetchById, createRecord, patchRecord, updateRecord, bulkPatch, deleteRecord }

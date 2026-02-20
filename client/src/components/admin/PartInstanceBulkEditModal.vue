@@ -77,7 +77,7 @@ import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useGlobal } from '@/composables/useGlobal'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 
 const logger = createLogger('PartInstanceBulkEditModal')
 
@@ -179,7 +179,7 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   }
 })
 
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
 
 /**

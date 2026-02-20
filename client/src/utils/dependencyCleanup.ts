@@ -9,7 +9,8 @@
  * ARCHITECTURE: This runs after relationship saves to maintain data integrity
  */
 
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useAdmin } from '@/composables/useAdmin'

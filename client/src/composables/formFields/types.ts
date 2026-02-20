@@ -2,16 +2,17 @@ import type { Ref, ComputedRef } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
-export interface UseFormFieldsOptions {
+/** Base shared by UseFormFieldsOptions and UseFormFieldsContextOptions (P2 type-similarity). */
+export interface UseFormFieldsOptionsBase {
   entityKey: GlobalEntityKey
   entityId: Ref<GlobalEntityId>
-  form?: Ref<FormContext | undefined>
+  form: Ref<FormContext | undefined>
   fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   /**
    * LEARNING: Metadata is the source of truth for field rendering (labels/required/renderAs/inputConfig)
@@ -19,12 +20,25 @@ export interface UseFormFieldsOptions {
    * PATTERN: Pass the already-fetched metadata (EntityCard fetches it once) to avoid duplicate queries
    */
   fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
-  inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   adminConfig?: ReturnType<typeof useAdminConfig>
 }
 
-export interface UseFormFieldsReturn {
+export interface UseFormFieldsOptions extends UseFormFieldsOptionsBase {
+  inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+}
+
+export type UseFormFieldsContextOptions = UseFormFieldsOptionsBase
+
+/** Layout subset shared by UseFormFieldsReturn and UseFormFieldsStandardLayoutReturn (P2 type-similarity). */
+export interface UseFormFieldsStandardLayoutReturn {
+  inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  readyStackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+}
+
+export interface UseFormFieldsReturn extends UseFormFieldsStandardLayoutReturn {
   fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
   isFormReady: ComputedRef<boolean>
   fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
@@ -37,11 +51,6 @@ export interface UseFormFieldsReturn {
 
   categorizeFieldsByLayout: (fields: GlobalFieldKey<GlobalEntityKey>[]) => FieldsByLayout
   getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[]
-
-  inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyStackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
 }
 
 

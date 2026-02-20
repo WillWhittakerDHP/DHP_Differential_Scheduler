@@ -18,7 +18,7 @@
 import { computed, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '../useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 
 export interface FieldsByLayout {
   inline: Array<GlobalFieldKey<GlobalEntityKey>>

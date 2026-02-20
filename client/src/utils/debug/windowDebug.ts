@@ -11,17 +11,13 @@
 
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-interface WindowWithDebug extends Window {
-  [key: string]: unknown
-}
-
 /**
  * Attach a debug object to the window for debugging purposes
- * 
+ *
  * LEARNING: Isolates window DOM access behind a utility
  * WHY: Makes composables testable without direct DOM access
- * PATTERN: Check dev mode and SSR safety before accessing window
- * 
+ * PATTERN: Object.defineProperty avoids Window index-signature type assertion
+ *
  * @param key - The property key on window (e.g., '__useGlobalDebug')
  * @param debugObject - The debug object to attach
  */
@@ -29,16 +25,17 @@ export function attachDebugToWindow(
   key: string,
   debugObject: Record<string, unknown>
 ): void {
-  // PATTERN: Check dev mode flag before proceeding
   if (!isDevModeEnabled()) {
     return
   }
 
-  // PATTERN: Check typeof window before accessing it
   if (typeof window === 'undefined') {
     return
   }
 
-  // PATTERN: Use interface extension and type assertion via unknown
-  ;(window as WindowWithDebug)[key] = debugObject
+  Object.defineProperty(window, key, {
+    value: debugObject,
+    writable: true,
+    configurable: true
+  })
 }

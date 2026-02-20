@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, isGloballyExcluded, isCompiledJsFile } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.mjs'
 
 /**
  * Branded ID Audit Script
@@ -36,33 +36,6 @@ function ensureDir(dirPath) {
 
 function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
-}
-
-function isExcluded(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.vue')
-}
-
-function listFilesRecursive(dir) {
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath)) continue
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !abs.endsWith('.d.ts') && !isCompiledJsFile(abs)) {
-      out.push(abs)
-    }
-  }
-  return out
 }
 
 function splitLines(contents) {
@@ -149,7 +122,7 @@ function renderMarkdownReport(data) {
 
 function main() {
   ensureDir(OUT_DIR)
-  const absFiles = listFilesRecursive(CLIENT_SRC)
+  const absFiles = listAuditFiles('branded-id', [CLIENT_SRC])
   const files = []
   const summary = { total: 0, asGlobalentityid: 0, stringIdParam: 0, stringWrapId: 0 }
 

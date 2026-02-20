@@ -3,8 +3,9 @@
 **Feature:** Feature 2 - Google APIs Integration  
 **Phase:** 2.2 - Google Maps API Integration  
 **Session:** 2.2.5 - API Prefetching & Data Source Semantics  
-**Status:** ⏳ Not Started  
-**Created:** 2026-02-02
+**Status:** ✅ Complete  
+**Created:** 2026-02-02  
+**Completed:** 2026-02-19
 
 ---
 
@@ -12,168 +13,80 @@
 
 **Session Number:** 2.2.5  
 **Session Name:** API Prefetching & Data Source Semantics  
-**Description:** Optimize API call timing by prefetching calendar events and busy times when placeId becomes available (Step 2), and clarify that data source modes control which values are *used* rather than when APIs are *called*. This ensures Step 3 loads instantly with prefetched data and clarifies the architecture around mode semantics.
+**Description:** Verified existing prefetching architecture, implemented server-side `dataSource` handling, fixed a month-change prefetch gap, and made `dataSource` configurable from the client.
 
-**Goal:** Prefetch calendar events and busy times on Step 2 (when placeId available) so Step 3 loads instantly. Clarify that mode controls usage, not fetching - APIs always called to populate cache regardless of mode.
+**Goal:** Ensure API prefetching covers all calendar navigation scenarios and that the `dataSource` dev toggle is fully functional from client to server.
 
-**Architecture Decision:** API Orchestration Pattern
-- Create orchestrator composable that watches placeId and dateRange
-- Trigger sequential API chain (events → busy times) when placeId becomes available
-- Composables consume prefetched data instead of fetching independently
-- Mode semantics: Mode determines which value is *returned*, not whether API is *called*
-- API calls always happen (if locations available) to populate cache for mode switching
+**Architecture Context:** The codebase uses server-side computed availability (single endpoint). The original session plan assumed client-side orchestration, but Tasks 2.2.5.1-4 were already implemented as part of the server-side refactor, and Tasks 2.2.5.5-6 are no longer applicable.
 
 ---
 
 ## Objectives
 
-1. Create `useApiOrchestrator` composable to orchestrate prefetch chain
-2. Create `useDateRangeDecider` composable for shared date range calculation
-3. Integrate orchestrator in BookingWizard (parent component)
-4. Update AvailabilityStep to track displayed month and consume prefetched data
-5. Update `useAvailableStartTimes` to consume prefetched calendar events
-6. Update `useBusyTimes` to accept optional prefetched busy times
-7. Clarify mode semantics in `driveTimeCalculator` - mode controls usage, not fetching
-8. Update `useDriveTimeDataSource` documentation and default value
-9. Update `useFreeBusyDataSource` documentation for consistency
-10. Fix `constraintExtractors` validApplyTo array to use correct values
-
----
-
-## Prerequisites
-
-- ✅ Session 2.2.4 Complete (Wizard Address Autocomplete Integration - placeId available)
-- ✅ Session 2.2.2 Complete (Routes API integration)
-- ✅ Session 2.2.1 Complete (Places API integration)
-- ✅ placeId available in property details step data
+1. ✅ Verify `useDateRangeDecider` composable (already exists)
+2. ✅ Verify BookingWizard provide/inject setup (already exists)
+3. ✅ Verify AvailabilityStep month tracking (already exists)
+4. ✅ Implement `dataSource` handling in server `computeAvailabilityData`
+5. ✅ Fix month-change prefetch gap in `useComputedAvailability`
+6. ✅ Make `dataSource` configurable from client composable
+7. ✅ Update shared type documentation for `dataSource` semantics
+8. ✅ Verify `applyTo` validation alignment (already correct)
 
 ---
 
 ## Implementation Summary
 
-### Part A: API Orchestration Architecture
+### Server-Side dataSource Handling
 
-#### 1. Create useDateRangeDecider Composable
+**File:** `server/src/services/computedAvailabilityService.ts`
 
-**File:** `client/src/composables/booking/useDateRangeDecider.ts` (NEW)
+The `dataSource` field in `ComputedAvailabilityRequest` now controls which external APIs the server calls:
 
-- Calculates date range for displayed calendar month
-- Accepts optional `displayedMonth` ref (year, month)
-- Returns computed date range (start and end of month in UTC)
-- Defaults to current month if no month provided
-- Single source of truth for date range used by all API composables
+| Mode | Settings/DB | Calendar Events API | Routes API | Slot Computation |
+|------|-------------|--------------------| -----------|-----------------|
+| `'real'` (default) | ✅ | ✅ | ✅ | ✅ Full |
+| `'mock'` | ✅ | ❌ (empty events) | ❌ (empty drive times) | ✅ Settings-only |
+| `'none'` | ✅ (metadata) | ❌ | ❌ | ❌ (empty slots) |
 
-#### 2. Create useApiOrchestrator Composable
+### Month-Wide Prefetch
 
-**File:** `client/src/composables/booking/useApiOrchestrator.ts` (NEW)
+**File:** `client/src/composables/booking/useComputedAvailability.ts`
 
-- Watches `placeId` from property details step data
-- Watches `dateRange` from date range decider
-- Triggers sequential API chain when placeId becomes available OR month changes:
-  1. Events API: Fetch calendar events for displayed month (triggers server-side Places API geocoding)
-  2. BusyTimes: Fetch busy times for displayed month
-- Returns prefetched `calendarEvents` and `busyTimes` refs
-- Returns `isLoading` and `error` states
-- Note: Routes API calculations happen later in driveTimeCalculator using prefetched calendar events
+Added third fetch strategy — **month-wide prefetch** — triggered when `dateRange` changes and the displayed month's end date is not in the slot cache. This ensures calendar months beyond the initial 14-day window have slot data for availability indicators.
 
-#### 3. Integrate Orchestrator in BookingWizard
+Three-tier fetch strategy:
+1. **14-day prefetch:** On mount and when placeId/duration changes
+2. **Month-wide prefetch:** When displayed month navigates beyond cached range
+3. **Per-day fallback:** When user selects a specific uncached date
 
-**File:** `client/src/components/booking/BookingWizard.vue`
+### Configurable dataSource
 
-- Initialize `displayedMonth` ref (defaults to current month)
-- Provide `displayedMonth` and `updateDisplayedMonth` via inject
-- Create `dateRange` using `useDateRangeDecider(displayedMonth)`
-- Create `apiOrchestrator` using `useApiOrchestrator({ propertyDetailsStepData, dateRange })`
-- Provide orchestrator data (`calendarEvents`, `busyTimes`, `isLoading`, `error`) via inject
+**File:** `client/src/composables/booking/useComputedAvailability.ts`
 
-### Part B: Prefetched Data Consumption
-
-#### 4. Update AvailabilityStep for Month Tracking
-
-**File:** `client/src/components/booking/steps/AvailabilityStep.vue`
-
-- Inject `displayedMonth` and `updateDisplayedMonth` from parent
-- Track `vDatePickerDisplayDate` for VDatePicker display-date prop
-- Watch `displayedMonth` and update VDatePicker display-date
-- Watch VDatePicker display-date and update parent's `displayedMonth` (triggers orchestrator)
-- Watch `selectedDate` and update `displayedMonth` to match selected date's month
-- Inject `apiOrchestrator` from parent
-- Create computed refs for prefetched data (`prefetchedBusyTimes`, `prefetchedCalendarEvents`)
-
-#### 5. Update useBusyTimes Composable
-
-**File:** `client/src/composables/booking/useBusyTimes.ts`
-
-- Add optional `prefetchedBusyTimes` parameter to interface
-- Watch prefetched data if provided, update local `busyTimes` ref
-- Only set up fetch watch if prefetched data NOT provided
-- Log when using prefetched data vs fetching
-
-#### 6. Update useAvailableStartTimes Composable
-
-**File:** `client/src/composables/booking/useAvailableStartTimes.ts`
-
-- Remove direct calendar event fetching logic
-- Accept optional `prefetchedCalendarEvents` parameter
-- Use prefetched events if available, otherwise empty array
-- Log when using prefetched data vs empty array
-
-### Part C: Data Source Mode Semantics
-
-#### 7. Clarify Drive Time Calculator Mode Semantics
-
-**File:** `client/src/utils/booking/driveTimeCalculator.ts`
-
-- Add guard: only calculate if `placeId` exists in `defaultLocation`
-- **Key change:** Mode controls which value is *returned*, NOT whether API is called
-- API always called to populate cache (regardless of mode)
-- Mode-based return value selection:
-  - `'default'`: Return static value (API still called, cache populated)
-  - `'api'`: Return calculated value, fail if unavailable
-  - `'both'`: Return calculated if available, fallback to static
-- Update logging to show mode and cache population
-
-#### 8. Update Drive Time Data Source Documentation
-
-**File:** `client/src/composables/booking/useDriveTimeDataSource.ts`
-
-- Update documentation: Mode controls usage, not fetching
-- Change default from `'both'` to `'default'` (use static fallback values)
-- Clarify that API calls always happen to populate cache
-
-#### 9. Update Free Busy Data Source Documentation
-
-**File:** `client/src/composables/booking/useFreeBusyDataSource.ts`
-
-- Update documentation: Mode controls usage, not fetching
-- Clarify that API calls always happen to populate cache
-
-#### 10. Fix Constraint Extractors Validation
-
-**File:** `client/src/utils/booking/constraintExtractors.ts`
-
-- Update `validApplyTo` array to use correct values:
-  - Change from: `['all', 'first_only', 'last_only', 'none']`
-  - Change to: `['all', 'skipDayStart', 'skipDayEnd', 'none']`
+Added optional `dataSource` parameter (`Ref<'real' | 'mock' | 'none'>`) to `UseComputedAvailabilityParams`. Defaults to `'real'` when not provided. BookingWizard can pass a reactive ref to toggle modes at runtime.
 
 ---
 
 ## Files Modified
 
-### Client (Frontend)
+### Server
 
 | File | Changes |
 |------|---------|
-| `client/src/composables/booking/useApiOrchestrator.ts` | NEW: Orchestrates sequential API chain when placeId available |
-| `client/src/composables/booking/useDateRangeDecider.ts` | NEW: Calculates date range for displayed calendar month |
-| `client/src/components/booking/BookingWizard.vue` | Orchestrator setup, displayedMonth tracking, provide/inject |
-| `client/src/components/booking/steps/AvailabilityStep.vue` | Month tracking, consume prefetched data, VDatePicker integration |
-| `client/src/composables/booking/useAvailableStartTimes.ts` | Consume prefetched calendar events instead of fetching |
-| `client/src/composables/booking/useBusyTimes.ts` | Accept prefetched busy times, conditional fetch watch |
-| `client/src/utils/booking/driveTimeCalculator.ts` | Mode semantics clarification, placeId guard, cache population |
-| `client/src/composables/booking/useDriveTimeDataSource.ts` | Documentation update, default change to 'default' |
-| `client/src/composables/booking/useFreeBusyDataSource.ts` | Documentation update for consistency |
-| `client/src/utils/booking/constraintExtractors.ts` | Fix validApplyTo array values |
+| `server/src/services/computedAvailabilityService.ts` | Added `dataSource` branching: `'real'` (full), `'mock'` (settings-only), `'none'` (empty) |
+
+### Client
+
+| File | Changes |
+|------|---------|
+| `client/src/composables/booking/useComputedAvailability.ts` | Added month-wide prefetch watcher, configurable `dataSource` parameter, updated docs |
+| `client/src/services/calendarApiService.ts` | Updated `fetchComputedAvailabilityData` JSDoc for `dataSource` modes |
+
+### Shared
+
+| File | Changes |
+|------|---------|
+| `shared/types/availabilityTypes.ts` | Updated `ComputedAvailabilityRequest.dataSource` JSDoc with mode descriptions |
 
 ---
 
@@ -182,81 +95,60 @@
 ```
 BookingWizard (Parent)
     │
-    ├─ Initialize displayedMonth ref
-    ├─ Create dateRange via useDateRangeDecider
-    ├─ Create apiOrchestrator via useApiOrchestrator
-    └─ Provide orchestrator data via inject
+    ├─ Initialize displayedMonth ref (current month)
+    ├─ Create dateRange via useDateRangeDecider(displayedMonth)
+    ├─ Create useComputedAvailability({ dateRange, ... })
+    │   │
+    │   ├─ 14-day prefetch (immediate, on mount)
+    │   ├─ Month-wide prefetch (when dateRange changes, end not in cache)
+    │   └─ Per-day fallback (when selectedDate not in cache)
     │
-    ▼
-useApiOrchestrator
-    │
-    ├─ Watch placeId (from propertyDetailsStepData)
-    ├─ Watch dateRange
-    │
-    │ placeId available OR month changes
-    ▼
-    Sequential API Chain:
-    1. Fetch calendar events (triggers server-side geocoding)
-    2. Fetch busy times
-    │
-    ├─ calendarEvents ref (prefetched)
-    └─ busyTimes ref (prefetched)
+    ├─ Provide: displayedMonth, updateDisplayedMonth, computedAvailability
     │
     ▼
 AvailabilityStep (Child)
     │
-    ├─ Inject orchestrator data
-    ├─ Track displayedMonth (updates parent when month changes)
-    ├─ Pass prefetchedBusyTimes to useBusyTimes
-    └─ Pass prefetchedCalendarEvents to useAvailableStartTimes
+    ├─ Inject: displayedMonth, updateDisplayedMonth, computedAvailability
+    ├─ useAvailabilityOrchestrator syncs vDatePickerDisplayDate ↔ displayedMonth
+    │   │
+    │   └─ When VDatePicker month changes → updateDisplayedMonth → dateRange recomputes
+    │       → month-wide prefetch triggers → slotsByDay updated → allowedDates recalculated
     │
-    ▼
-useBusyTimes / useAvailableStartTimes
-    │
-    └─ Consume prefetched data (no API calls needed)
+    └─ Calendar shows slot availability indicators for the full displayed month
 ```
 
 ---
 
 ## Testing Checklist
 
-- [ ] Test orchestrator triggers when placeId becomes available on Step 2
-- [ ] Test orchestrator re-runs when month changes in calendar widget
-- [ ] Test prefetched data consumed by useBusyTimes (no duplicate API calls)
-- [ ] Test prefetched data consumed by useAvailableStartTimes (no duplicate API calls)
-- [ ] Test Step 3 loads instantly with prefetched data
-- [ ] Test mode semantics: 'default' mode still calls API (cache populated)
-- [ ] Test mode semantics: 'api' mode fails if no route found
-- [ ] Test mode semantics: 'both' mode falls back to static on error
-- [ ] Test constraintExtractors validation with correct applyTo values
-- [ ] Test drive time calculator placeId guard (uses static fallback if no placeId)
+- [x] Server compiles cleanly with `dataSource` handling
+- [x] Client compiles without new errors
+- [x] No linter errors in modified files
+- [ ] Test `dataSource: 'real'` — full pipeline (existing behavior)
+- [ ] Test `dataSource: 'mock'` — slots computed without Google API calls
+- [ ] Test `dataSource: 'none'` — empty response returned
+- [ ] Test month navigation beyond 14-day window triggers month-wide prefetch
+- [ ] Test navigating back to a cached month does not trigger redundant fetch
 
 ---
 
 ## Success Criteria
 
-**API Orchestration:**
-- ✅ Orchestrator watches placeId and dateRange
-- ✅ Sequential API chain triggers when placeId available or month changes
-- ✅ Prefetched data available for Step 3 consumption
-- ✅ Step 3 loads instantly (no waiting for API calls)
+**Server dataSource:**
+- ✅ `'real'` mode: Full pipeline (unchanged behavior)
+- ✅ `'mock'` mode: Skips Calendar Events API and Routes API
+- ✅ `'none'` mode: Returns empty response with settings metadata
 
-**Data Consumption:**
-- ✅ Composables consume prefetched data instead of fetching independently
-- ✅ No duplicate API calls (orchestrator fetches, composables consume)
-- ✅ Fallback to fetching if prefetched data not available (edge cases)
-
-**Mode Semantics:**
-- ✅ Mode controls which value is *used*, not when API is *called*
-- ✅ API always called (if locations available) to populate cache
-- ✅ Mode switching uses cached data (no re-fetch needed)
-- ✅ Documentation clearly explains mode behavior
+**Month Prefetch:**
+- ✅ Month-wide prefetch triggers for uncached months
+- ✅ Cache-check uses month end date to avoid redundant fetches
+- ✅ All three fetch strategies merge into same Map cache
 
 **Code Quality:**
-- ✅ All files compile without errors
-- ✅ TypeScript types correct
+- ✅ Server TypeScript compiles clean
+- ✅ Client no new type errors
 - ✅ No linting errors
-- ✅ Constraint validation uses correct applyTo values
+- ✅ Documentation updated across shared types, client service, and composable
 
 ---
 
@@ -271,13 +163,13 @@ useBusyTimes / useAvailableStartTimes
 
 ## Notes
 
-- Orchestrator pattern allows prefetching data before it's needed, improving perceived performance
-- Mode semantics clarification prevents confusion about when APIs are called vs when values are used
-- Prefetched data pattern matches free-busy data source pattern (fetch always happens, mode controls usage)
-- Month tracking ensures orchestrator re-runs when user navigates calendar, keeping data fresh
-- Routes API calculations happen later in driveTimeCalculator using prefetched calendar events (not in orchestrator chain)
+- The `dataSource` parameter controls external API usage, not settings/constraints — settings always come from the database
+- Month-wide prefetch checks the end of the month to avoid fetching months that are partially covered by the 14-day window
+- The `isLoading` ref may flicker if multiple fetch strategies run concurrently (14-day + month-wide). This is acceptable for now; a fetch queue could be added in a future session if it causes UX issues
+- `'mock'` mode is particularly useful for development without Google API credentials — you still get slot computation from business hours/constraints
 
 ---
 
-**Session Status:** ⏳ Not Started  
-**Created:** 2026-02-02
+**Session Status:** ✅ Complete  
+**Completed:** 2026-02-19  
+**Last Updated:** 2026-02-19

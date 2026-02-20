@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T19:01:15.591Z",
+  "generatedAt": "2026-02-19T23:20:11.874Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,216 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 798,
+  "totalScanned": 802,
   "exceptionSummary": {
     "totalAllowed": 45,
-    "totalRequiresReview": 18,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 45,
       "specific": 0
     }
   },
-  "files": [
-    {
-      "id": "server__src__utils__availabilities__availabiltiesDbUtils.ts",
-      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 108,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 154,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 314,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 342,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 356,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 370,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "id": "server__src__services__google__maps__placesApiService.ts",
-      "repoPath": "server/src/services/google/maps/placesApiService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 68,
-          "line": "} catch (error) {"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 107,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useAttendeeQuickSelect.ts",
-      "repoPath": "client/src/composables/admin/useAttendeeQuickSelect.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 67,
-          "line": "} catch (err) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__booking__useComputedAvailability.ts",
-      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 123,
-          "line": "} catch (err) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__types__datetime.ts",
-      "repoPath": "client/src/types/datetime.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 114,
-          "line": "* } catch (error) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__appointmentCalendarService.ts",
-      "repoPath": "server/src/services/appointmentCalendarService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 155,
-          "line": "} catch (createError) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__brightMls__brightMlsApiClient.ts",
-      "repoPath": "server/src/services/brightMls/brightMlsApiClient.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 204,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__calendarErrorHandler.ts",
-      "repoPath": "server/src/services/calendarErrorHandler.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 191,
-          "line": "} catch (e) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__google__calendar__eventCreationService.ts",
-      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 156,
-          "line": "} catch (error: any) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__google__maps__mapsHelpers.ts",
-      "repoPath": "server/src/services/google/maps/mapsHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 223,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__google__maps__routesApiService.ts",
-      "repoPath": "server/src/services/google/maps/routesApiService.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 148,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__test__setup__testDb.ts",
-      "repoPath": "server/src/test/setup/testDb.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 69,
-          "line": "} catch (error) {"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "empty-catch",

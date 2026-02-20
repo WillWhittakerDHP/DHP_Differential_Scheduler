@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { ref } from 'vue'
 import { useFieldValue } from '../useFieldValue'
-import type { FieldContextType } from '../useFieldContext'
+import type { FieldContextType } from '../fieldContext/types'
 import type { ValidAdminValue } from '@/constants/primitives'
 
 describe('useFieldValue', () => {

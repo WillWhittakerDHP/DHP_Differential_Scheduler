@@ -71,7 +71,7 @@
  * WHY: Extracts list management logic from component to composable
  * PATTERN: Composable provides navigation and delete operations
  */
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useEntityList } from '@/composables/admin/useEntityList'
 
 const { entities, isLoading, error } = useEntityCrud('blockInstance')

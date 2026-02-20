@@ -1,5 +1,6 @@
 import { Model } from 'sequelize';
 import { BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
+import type { BlockInstanceSnapshot } from '../db/models/booking/appointment.js';
 import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('SnapshotLoader');
@@ -12,46 +13,44 @@ const logger = createLogger('SnapshotLoader');
  * PATTERN: Transform versions to BookingBlockInstance format
  */
 
-type PartInstanceVersionType = InstanceType<typeof PartInstanceVersion>;
-
 /**
  * Transform block instance version to BookingBlockInstance format
  * WHY: Versions are complete - no merge needed, just transform format
  */
 function transformBlockVersionToBookingInstance(
-  blockVersion: InstanceType<typeof BlockInstanceVersion> & { partInstanceVersions?: InstanceType<typeof PartInstanceVersion>[] }
-): any {
-  const versionData = blockVersion instanceof Model ? blockVersion.toJSON() : blockVersion;
-  const rawPartVersions = versionData.partInstanceVersions;
+  blockVersion: InstanceType<typeof BlockInstanceVersion>
+): BlockInstanceSnapshot {
+  const versionData = blockVersion instanceof Model ? blockVersion.toJSON() : blockVersion as Record<string, unknown>;
+  const rawPartVersions = blockVersion.partInstanceVersions;
   if (rawPartVersions === undefined || rawPartVersions === null) {
     logger.debug('transformBlockVersionToBookingInstance: partInstanceVersions missing, using []');
   }
   const partVersions = rawPartVersions !== undefined && rawPartVersions !== null ? rawPartVersions : [];
 
   return {
-    id: versionData.blockInstanceId, // Use original instance ID
-    name: versionData.name,
-    icon: versionData.icon,
-    baseSqFt: versionData.baseSqFt,
-    allowMultiple: versionData.allowMultiple,
-    differential: versionData.differential,
-    partInstances: partVersions.map((partVersion: InstanceType<typeof PartInstanceVersion> | PartInstanceVersionType) => {
-      const partData = partVersion instanceof Model ? partVersion.toJSON() : partVersion;
+    id: versionData.blockInstanceId as string,
+    name: versionData.name as string,
+    icon: (versionData.icon as string | null) ?? '',
+    baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
+    allowMultiple: Boolean(versionData.allowMultiple),
+    differential: versionData.differential === 'true',
+    partInstances: partVersions.map((partVersion: Model) => {
+      const partData = partVersion.toJSON() as Record<string, unknown>;
       return {
-        id: partData.partInstanceId, // Use original instance ID
-        name: partData.name,
-        baseFee: partData.baseFee,
-        baseTime: partData.baseTime,
-        rateOverBaseFee: partData.rateOverBaseFee,
-        rateOverBaseTime: partData.rateOverBaseTime,
+        id: partData.partInstanceId as string,
+        name: (partData.name as string | null) ?? '',
+        baseFee: partData.baseFee as number,
+        baseTime: partData.baseTime as number,
+        rateOverBaseFee: partData.rateOverBaseFee as number,
+        rateOverBaseTime: partData.rateOverBaseTime as number,
       };
     }),
   };
 }
 
-export async function loadBlockInstanceFromVersion(
+async function loadBlockInstanceFromVersion(
   versionId: string
-): Promise<any | null> {
+): Promise<BlockInstanceSnapshot | null> {
   const blockVersion = await BlockInstanceVersion.findByPk(versionId, {
     include: [{ 
       model: PartInstanceVersion, 
@@ -67,9 +66,9 @@ export async function loadBlockInstanceFromVersion(
   return transformBlockVersionToBookingInstance(blockVersion);
 }
 
-export async function loadAppointmentVersions(
+async function loadAppointmentVersions(
   snapshotIds: string[]
-): Promise<any[]> {
+): Promise<BlockInstanceSnapshot[]> {
   if (!snapshotIds || snapshotIds.length === 0) {
     return [];
   }
@@ -106,9 +105,9 @@ export async function loadAllAppointmentVersions(appointment: {
   propertySnapshotIds?: string[] | null;
   optionSnapshotIds?: string[] | null;
 }): Promise<{
-  services: any[];
-  properties: any[];
-  options: any[];
+  services: BlockInstanceSnapshot[];
+  properties: BlockInstanceSnapshot[];
+  options: BlockInstanceSnapshot[];
 }> {
   const [services, properties, options] = await Promise.all([
     loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'serviceSnapshotIds')),

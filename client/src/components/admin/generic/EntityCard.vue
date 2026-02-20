@@ -6,8 +6,9 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { ref, computed, provide, watch, nextTick, type Ref } from 'vue'
-import { useForm, type FormContext } from 'vee-validate'
+import { computed, provide, watch, nextTick } from 'vue'
+import type { FormContext } from 'vee-validate'
+import { useEntityCardForm } from '@/composables/admin/useEntityCardForm'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
 import { useEntityStatus } from '@/composables/admin/useEntityStatus'
@@ -18,19 +19,18 @@ import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { FieldRenderer } from './fields'
+import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
-import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useConditionalFieldVisibility } from '@/composables/admin/useConditionalFieldVisibility'
 import { useFieldContextManager } from '@/composables/admin/useFieldContextManager'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, KEY_ENTER } from './entityCardConstants'
-import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
+import { createLogger } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
@@ -73,7 +73,7 @@ interface Props<GE extends GlobalEntityKey> {
    * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
    * PATTERN: Optional prop - if not provided, EntityCard creates its own form instance
    */
-  form?: ReturnType<typeof useForm>
+  form?: FormContext
   /**
    * LEARNING: New entity mode flag
    * WHY: When true, this card is for creating a new entity (not editing existing)
@@ -210,57 +210,20 @@ const admin = useAdmin()
 const logger = createLogger('EntityCard')
 
 /**
- * LEARNING: Vee-Validate form instance
- * WHY: DynamicFormFields needs form instance for field validation and management
- *      Title field also needs form instance for editing
- * PATTERN: Use provided form instance or create new one, initialize with entity values BEFORE fields are created
- * FIX: Initialize form with entity from store (has relationships) instead of props.entity
- * NOTE: Must be defined before titleFieldContext watch that uses it
+ * LEARNING: Form owned by composable only
+ * WHY: EntityCard does not create form; useEntityCardForm creates or uses provided form and runs store sync
+ * PATTERN: Single form owner in composable; component only consumes and passes form ref down
  */
-const form = props.form || useForm({
-  // WHY: Store sync composable will handle updating form when store entity loads
-  // PATTERN: Initialize with props.entity, store sync will update when store entity is available
-  initialValues: {
-    ...props.entity,
-  }
+const { form } = useEntityCardForm({
+  entityKey: props.entityKey,
+  entity: props.entity,
+  entityId: computed(() => props.entity.id),
+  isNew: props.isNew,
+  form: props.form
 })
 
-if (!props.form) {
-  form.setValues({
-    ...props.entity,
-  })
-  // PATTERN: Use isScopeExplicitlyEnabled to require explicit enabling
-  if (isScopeExplicitlyEnabled('EntityCard')) {
-    logger.debug('Form initialized', { 
-      entityKey: props.entityKey, 
-      entityId: props.entity.id, 
-      isNew: props.isNew,
-      initialValues: Object.keys(props.entity)
-    })
-  }
-}
-
-/**
- * LEARNING: Use store sync composable to handle form synchronization
- * WHY: Extracts complex store entity sync logic into dedicated composable
- * PATTERN: Composable handles all sync scenarios (ID change, initial load, field updates)
- * NOTE: Only sync if form wasn't provided by parent (parent handles sync in that case)
- */
-function getStoreEntityForSync(): GlobalEntity<GlobalEntityKey> | undefined {
-  if (props.isNew) return undefined
-  return admin.getEntity(props.entityKey, props.entity.id) || undefined
-}
-if (!props.form && !props.isNew) {
-  useEntityCardStoreSync({
-    entityKey: props.entityKey,
-    entityId: computed(() => props.entity.id),
-    form,
-    isNew: props.isNew,
-    getStoreEntity: getStoreEntityForSync,
-    initialEntity: props.entity
-  })
-}
-
+/** Form instance for template binding; children require FormContext, not Ref. */
+const formForTemplate = computed(() => form.value!)
 
 // LEARNING: Use metadata composable to extract metadata-related computed properties
 // WHY: Reduces component complexity by moving metadata logic to composable
@@ -303,7 +266,7 @@ const {
 const formFields = useFormFields({
   entityKey: props.entityKey,
   entityId: computed(() => props.entity.id),
-  form: ref<FormContext | undefined>(form as unknown as FormContext | undefined) as Ref<FormContext | undefined>,
+  form,
   fieldKeys: finalFieldKeys,
   fieldMetadata: composedFieldMetadata,
   inlineFieldsConfig,
@@ -348,7 +311,7 @@ const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   fieldsByLocation: fieldLocation.fieldsByLocation,
   entityKey: props.entityKey,
   isComposable,
-  form,
+  form: form.value!,
 })
 
 // LEARNING: entityName is now provided by useEntityCardComputed composable
@@ -394,7 +357,7 @@ const {
  * PATTERN: Composable that combines form dirty state with status button change tracking
  */
 const unifiedSaveState = useEntityCardSaveState({
-  form,
+  form: form.value!,
   entityKey: props.entityKey,
   entityId: props.entity.id,
   getEntityValues: () => {
@@ -411,8 +374,8 @@ function resetFormWithSavedEntity(): void {
     logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
     throw new Error(`Saved entity not found after save: ${props.entityKey} ${props.entity.id}`)
   }
-  form.resetForm({ values: { ...savedEntity } })
-  form.setValues({ ...savedEntity })
+  form.value!.resetForm({ values: { ...savedEntity } })
+  form.value!.setValues({ ...savedEntity })
   logger.debug('Form reset after save', { entityId: props.entity.id })
 }
 
@@ -426,8 +389,8 @@ const handleSave = async (): Promise<void> => {
   logger.debug('Save triggered', { 
     entityKey: props.entityKey, 
     entityId: props.entity.id,
-    isDirty: form.meta.value.dirty,
-    formValues: Object.keys(form.values !== undefined && form.values !== null ? form.values : {})
+    isDirty: form.value!.meta.value.dirty,
+    formValues: Object.keys(form.value!.values !== undefined && form.value!.values !== null ? form.value!.values : {})
   })
   await _handleSave()
   await nextTick()
@@ -585,7 +548,7 @@ defineExpose({
           :entity-key="entityKey"
           :entity-id="entity.id"
           :entity="entity"
-          :form="form"
+          :form="formForTemplate"
           :get-field-context="getFieldContext"
           :composed-field-metadata="composedFieldMetadata"
           :fields-by-location="filteredFieldsByLocation"
@@ -663,7 +626,7 @@ defineExpose({
       :entity-key="entityKey"
       :entity-id="entity.id"
       :entity="entity"
-      :form="form"
+      :form="formForTemplate"
       :get-field-context="getFieldContext"
       :composed-field-metadata="composedFieldMetadata"
       :fields-by-location="filteredFieldsByLocation"

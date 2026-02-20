@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import { DISTRIBUTION_STRATEGIES } from '@/constants/component'
 import { useComponentDistribution } from '@/composables/useComponentDistribution'

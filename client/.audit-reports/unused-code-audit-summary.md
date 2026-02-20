@@ -41,6 +41,7 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/booking/wizardValidation.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/utils/datetime.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/utils/forms/fieldSectionCategorization.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
+| `client/src/utils/forms/formElementPatching.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/config/brightMlsFoundationMapping.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
 | `server/src/db/models/admin/valid_component.ts` | P1 | 6 | 2 | 0 | 0 | 0 |
@@ -68,8 +69,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/configs/field/form/appliedForm/annotationShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/configs/field/form/appliedForm/eventInstanceFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/configs/field/form/appliedForm/eventShapeFields.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/usStates.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/configs/wizardSteps.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/1.router/guards.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/plugins/5.vuetify/theme.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/admin/buildMetadataEntry.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -77,10 +76,8 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/api/availabilityApi.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/autocomplete.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/appointmentTimeCalculations.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/bookingWizardStepValidators.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/constraintColors.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/booking/minimalSlotGenerator.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/partFinalizer.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/perspectiveResolver.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/booking/pricingCascadeResolver.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -93,7 +90,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/utils/entities/entityFieldPatch.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/entities/entityTypeMapping.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/entityDefaults.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `client/src/utils/forms/formElementPatching.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/forms/getFieldKeys.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/iconMapper.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `client/src/utils/ternary/ternaryUtils.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -107,7 +103,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `server/src/config/googleOAuthTokenPersistence.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminPrimitiveMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/admin/adminRelationshipMetadata.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
-| `server/src/db/models/booking/appointment.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/booking/relationships.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/db/models/mappings/property_feature_mapping.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
 | `server/src/routes/helpers/crudRouterTypes.ts` | P2 | 3 | 1 | 0 | 0 | 0 |
@@ -136,7 +131,6 @@ Generated from `.audit-reports/unused-code-audit.json`.
 | `client/src/composables/useLocalTime.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `client/src/composables/useNotification.ts` | P2 | 2 | 0 | 0 | 2 | 0 |
 | `server/src/routes/internal/participantRoutes/login-routes.ts` | P2 | 2 | 0 | 1 | 0 | 0 |
-| `client/src/components/admin/generic/EntityCard.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/fields/IconPicker.vue` | P2 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/composables/admin/useEntityCardExpansion.ts` | P2 | 1 | 0 | 0 | 1 | 0 |

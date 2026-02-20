@@ -23,20 +23,8 @@ const { recordApiCall } = useApiCallStatus()
 // Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
-/**
- * Options for calendar API calls
- * LEARNING: Allows bypassing server cache for force refresh
- */
-export interface CalendarApiOptions {
-  skipCache?: boolean
-}
-
-/**
- * Error types for calendar API operations
- * LEARNING: Explicit error types for proper error handling
- * WHY: Different errors need different user messages
- */
-export type CalendarApiErrorType = 
+/** Error types for calendar API operations (internal use). */
+type CalendarApiErrorType =
   | 'not_authenticated'
   | 'rate_limit'
   | 'network_error'
@@ -137,9 +125,13 @@ export interface CalendarEvent {
 /**
  * Fetch computed slot availability from server
  *
- * LEARNING: Single endpoint returns pre-computed slots per day (slotsByDay) and metadata
- * WHY: Slot generation and constraint checks run server-side; client only applies shape and renders
- * PATTERN: POST returns ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
+ * Single endpoint returns pre-computed slots per day (slotsByDay) and metadata.
+ * Slot generation and constraint checks run server-side; client only applies shape and renders.
+ *
+ * dataSource controls which external APIs the server calls:
+ * - 'real': Full pipeline (Calendar Events API, Routes API, capacity)
+ * - 'mock': Settings/constraints only — no Google API calls
+ * - 'none': Empty response with settings metadata only
  *
  * @param request - ComputedAvailabilityRequest with date range, placeId, duration, and dataSource
  * @returns ComputedSlotAvailabilityData with slotsByDay and metadata

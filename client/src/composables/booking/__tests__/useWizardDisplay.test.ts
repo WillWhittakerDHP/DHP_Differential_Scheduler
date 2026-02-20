@@ -27,11 +27,11 @@
 
 import { describe, it, expect } from 'vitest'
 import { ref, nextTick } from 'vue'
-import { useWizardDisplay, type StepDefinition } from '../useWizardDisplay'
+import { useWizardDisplay, type WizardStepConfig } from '../useWizardDisplay'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
-const mockSteps: StepDefinition[] = [
+const mockSteps: WizardStepConfig[] = [
   { icon: 'wrench', title: 'Services', subtitle: 'Identifying your needs' },
   { icon: 'home', title: 'Property', subtitle: 'About your property' },
   { icon: 'calendar', title: 'Availability', subtitle: 'Pick a time' },

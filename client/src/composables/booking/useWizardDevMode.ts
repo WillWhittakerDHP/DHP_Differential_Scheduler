@@ -10,17 +10,16 @@
 import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/useBookingWizard'
+import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
 
-export interface UseWizardDevModeOptions {
+/** Extends shared base; adds dev mode state and handlers (TYPE_SIMILARITY 1.14). */
+export interface UseWizardDevModeOptions extends WizardDevOptionsBase {
   isDevMode: boolean
   selectedAppointmentId: Ref<string | null>
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
   loadedAppointmentId: Ref<string | null>
   isLoadingAppointment: Ref<boolean>
-  fetchAll: {
-    isLoading: Ref<boolean>
-    data: Ref<AppointmentResponse[]>
-  }
+  fetchAll: WizardDevOptionsBase['fetchAll'] & { isLoading: Ref<boolean> }
   handleLoadAppointment: (id: string | null) => Promise<void>
   handleUpdateAppointment: () => Promise<void>
   handleResetWizard: () => void

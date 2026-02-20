@@ -23,7 +23,7 @@ import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/for
 import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { useAdmin } from '../useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
-import type { FieldContextType } from '../useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
@@ -165,7 +165,7 @@ export function useSelectFiltering(
     let typeRefKey: string
     
     if (config && 'candidateParentPath' in config && config.candidateParentPath && config.candidateParentPath.length > 0) {
-      typeRefKey = config.candidateParentPath[0]
+      typeRefKey = String(config.candidateParentPath[0])
     } else {
       // Fallback to hardcoded logic (backward compatibility)
       typeRefKey = fieldContext.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
@@ -364,7 +364,7 @@ export function useSelectFiltering(
       let currentEntityValue: string | null = null
       
       if (currentEntity.value) {
-        const refValue = getEntityFieldValue(currentEntity.value, parentPathKey)
+        const refValue = getEntityFieldValue(currentEntity.value, String(parentPathKey))
         if (refValue) {
           currentEntityValue = String(refValue)
         }
@@ -380,7 +380,7 @@ export function useSelectFiltering(
             const form = useForm()
             if (form && form.values && typeof form.values === 'object') {
               const formValues = form.values as Record<string, unknown>
-              const formValue = formValues[parentPathKey]
+              const formValue = formValues[String(parentPathKey)]
               if (formValue) {
                 currentEntityValue = String(formValue)
               }
@@ -404,7 +404,7 @@ export function useSelectFiltering(
           return false
         }
         
-        const candidateValue = getEntityFieldValue(candidate, childPathKey)
+        const candidateValue = getEntityFieldValue(candidate, String(childPathKey))
         
         return candidateValue && String(candidateValue) === currentEntityValue
       })

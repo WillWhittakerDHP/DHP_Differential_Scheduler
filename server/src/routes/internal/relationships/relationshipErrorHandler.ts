@@ -29,7 +29,7 @@ import { VALIDATION_FAILED_MESSAGE } from '../../../constants/router.js'
  * @param childId - Child ID
  * @returns true if error was handled, false otherwise
  */
-export function handleUniqueConstraintError(
+function handleUniqueConstraintError(
   error: unknown,
   res: Response,
   displayName: string,
@@ -69,7 +69,7 @@ export function handleUniqueConstraintError(
  * @param childId - Child ID
  * @returns true if error was handled, false otherwise
  */
-export function handleForeignKeyConstraintError(
+function handleForeignKeyConstraintError(
   error: unknown,
   res: Response,
   relationshipType: string,

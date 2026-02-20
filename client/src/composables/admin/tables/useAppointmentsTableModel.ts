@@ -45,9 +45,12 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return Array.isArray(data) ? data : []
   })
 
-  // FIX: Use config-driven field formatters instead of repeated field checks
-  const getDisplayValue = (appointment: AppointmentResponse & Record<string, unknown>, field: string): string => {
-    const value = appointment[field]
+  /** Type guard: narrows string to keyof AppointmentResponse so we can index without cast. */
+  const isAppointmentResponseKey = (obj: AppointmentResponse, field: string): field is keyof AppointmentResponse =>
+    field in obj
+
+  const getDisplayValue = (appointment: AppointmentResponse, field: string): string => {
+    const value = isAppointmentResponseKey(appointment, field) ? appointment[field] : undefined
     const formatter = getAppointmentFieldFormatter(field)
     return formatter(appointment, value, properties.value, users.value)
   }

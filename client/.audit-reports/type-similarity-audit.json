@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T18:59:43.422Z",
+  "generatedAt": "2026-02-19T23:18:22.732Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,175 +14,11 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 812,
-  "totalDefinitions": 664,
+  "fileCount": 825,
+  "totalDefinitions": 658,
   "groups": [
     {
-      "groupId": "sim-subset-225e518d80ec",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "ContactInfo",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useContactsStepData.ts",
-          "line": 31,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ email: string, firstName: string, lastName: string }"
-        },
-        {
-          "name": "UserResponse",
-          "kind": "interface",
-          "file": "client/src/types/appointmentApi.ts",
-          "line": 28,
-          "exported": true,
-          "propertyCount": 9,
-          "signature": "{ createdAt: string, email: string, firstName: string, id: string, lastName: string, loginId?: string | null, phone?: string | null, updatedAt: string, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
-        },
-        {
-          "name": "UserRequest",
-          "kind": "interface",
-          "file": "client/src/types/user.ts",
-          "line": 10,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ email: string, firstName: string, lastName: string, loginId?: number | null, phone?: string | null, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
-        },
-        {
-          "name": "UserResponse",
-          "kind": "interface",
-          "file": "client/src/types/user.ts",
-          "line": 18,
-          "exported": true,
-          "propertyCount": 9,
-          "signature": "{ createdAt: string, email: string, firstName: string, id: string, lastName: string, loginId?: number | null, phone?: string | null, updatedAt: string, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
-        },
-        {
-          "name": "WizardStateData",
-          "kind": "interface",
-          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-          "line": 37,
-          "exported": true,
-          "propertyCount": 42,
-          "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }"
-        },
-        {
-          "name": "ParsedClient",
-          "kind": "interface",
-          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-          "line": 67,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ email: string, firstName: string, lastName: string, phone: string | null }"
-        },
-        {
-          "name": "AppointmentWithDetails",
-          "kind": "interface",
-          "file": "server/src/services/appointmentCalendarService.ts",
-          "line": 51,
-          "exported": false,
-          "propertyCount": 19,
-          "signature": "{ address?: {, attendees?: Array<{, city: string, email: string, firstName?: string, id: string, id: string, id: string, lastName?: string, propertyVersion?: {, selectedDate: Date | string | null, selectedTimeSlots: ServerTimeSlot[] | null, shouldReceiveInvitation: boolean, state: string, status: string, streetAddress: string, user?: {, userId: string, zipCode: string }"
-        },
-        {
-          "name": "PropertyFormData",
-          "kind": "interface",
-          "file": "client/src/composables/booking/usePropertyValidation.ts",
-          "line": 13,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ address: string, city: string, numberOfUnits: number | null, propertySize: number | null, state: string, zipCode: string }"
-        },
-        {
-          "name": "PropertyDetails",
-          "kind": "interface",
-          "file": "client/src/types/availability.ts",
-          "line": 17,
-          "exported": true,
-          "propertyCount": 5,
-          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, squareFootage?: number | null }"
-        },
-        {
-          "name": "PropertyDetailsStepData",
-          "kind": "type-alias-object",
-          "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 22,
-          "exported": false,
-          "propertyCount": 7,
-          "signature": "{ address: string, city: string, propertySize: number | null, squareFootage: number | null, state: string, unit: string, zipCode: string }"
-        },
-        {
-          "name": "PropertyDetailsData",
-          "kind": "interface",
-          "file": "client/src/types/propertyForm.ts",
-          "line": 27,
-          "exported": true,
-          "propertyCount": 18,
-          "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidatePlaceId?: string, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, lng: number }, mlsNumber: string, numberOfUnits: number | null, propertySize: number | null, source?: PropertySource, squareFootage: number | null, state: string, suggestedBlockInstanceIds?: string[], unit: string, zipCode: string }"
-        },
-        {
-          "name": "PropertyResponse",
-          "kind": "interface",
-          "file": "client/src/types/appointmentApi.ts",
-          "line": 11,
-          "exported": true,
-          "propertyCount": 14,
-          "signature": "{ additionalUnits?: number | null, address: string, bathrooms?: number | null, bedrooms?: number | null, city: string, createdAt: string, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, id: string, mlsNumber?: string | null, squareFootage?: number | null, state: string, unit?: string | null, updatedAt: string, zipCode: string }"
-        },
-        {
-          "name": "PropertyRequest",
-          "kind": "interface",
-          "file": "client/src/types/property.ts",
-          "line": 10,
-          "exported": true,
-          "propertyCount": 15,
-          "signature": "{ additionalUnits?: number | null, address: string, bathrooms?: number | null, bedrooms?: number | null, city: string, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, latitude?: number | null, longitude?: number | null, mlsNumber?: string | null, placeId?: string | null, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, squareFootage?: number | null, state: string, unit?: string | null, zipCode: string }"
-        },
-        {
-          "name": "PropertyResponse",
-          "kind": "interface",
-          "file": "client/src/types/property.ts",
-          "line": 27,
-          "exported": true,
-          "propertyCount": 21,
-          "signature": "{ additionalUnits?: number | null, address: string, addressId: string, bathrooms?: number | null, bedrooms?: number | null, city: string, createdAt: string, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, id: string, latitude?: number | null, longitude?: number | null, mlsNumber?: string | null, placeId?: string | null, propertyTypes?: PropertyVersionType[], propertyVersionId: string, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, squareFootage?: number | null, state: string, unit?: string | null, updatedAt: string, zipCode: string }"
-        },
-        {
-          "name": "ParsedProperty",
-          "kind": "interface",
-          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-          "line": 79,
-          "exported": true,
-          "propertyCount": 11,
-          "signature": "{ additionalUnits: number | null, address: string, bathrooms: number | null, bedrooms: number | null, city: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, state: string, unit: string | null, zipCode: string }"
-        },
-        {
-          "name": "PartialPropertyDetails",
-          "kind": "interface",
-          "file": "server/src/services/propertyFieldMapper.ts",
-          "line": 12,
-          "exported": true,
-          "propertyCount": 6,
-          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber?: string | null, squareFootage?: number | null }"
-        },
-        {
-          "name": "PropertyEnrichmentResponse",
-          "kind": "interface",
-          "file": "shared/types/propertyEnrichmentTypes.ts",
-          "line": 15,
-          "exported": true,
-          "propertyCount": 7,
-          "signature": "{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, suggestedBlockInstanceIds: string[] }"
-        }
-      ],
-      "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }",
-      "propertyCount": 42,
-      "score": 71,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-0780f77cc3a9",
+      "groupId": "sim-subset-9cd455d0244b",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -214,15 +50,6 @@
           "signature": "{ id: string, name: string }"
         },
         {
-          "name": "BookingBlockInstance",
-          "kind": "type-alias-object",
-          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 52,
-          "exported": true,
-          "propertyCount": 18,
-          "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }"
-        },
-        {
           "name": "SelectionCardItem",
           "kind": "interface",
           "file": "client/src/components/booking/types/selectionCardTypes.ts",
@@ -235,7 +62,7 @@
           "name": "AttendeeResponse",
           "kind": "interface",
           "file": "client/src/types/appointmentApi.ts",
-          "line": 61,
+          "line": 37,
           "exported": true,
           "propertyCount": 13,
           "signature": "{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | 'sent' | 'accepted' | 'declined' | 'failed', name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }"
@@ -244,7 +71,7 @@
           "name": "PropertyVersionType",
           "kind": "interface",
           "file": "client/src/types/property.ts",
-          "line": 58,
+          "line": 43,
           "exported": true,
           "propertyCount": 11,
           "signature": "{ blockInstance?: {, blockInstanceId: string, blockShapeRef: string, createdAt: string, icon?: string, id: string, id: string, name: string, orderIndex: number, propertyVersionId: string, updatedAt: string }"
@@ -262,7 +89,7 @@
           "name": "BookingPartInstance",
           "kind": "type-alias-object",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 27,
+          "line": 28,
           "exported": true,
           "propertyCount": 12,
           "signature": "{ active: boolean, activePartIds: string[], baseFee: number, baseTime: number, entityKey: 'partInstance', id: string, name: string, orderIndex: number, partShape: string, rateOverBaseFee: number, rateOverBaseTime: number, zeroOutPart: boolean }"
@@ -271,7 +98,7 @@
           "name": "BookingBlockShape",
           "kind": "type-alias-object",
           "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-          "line": 43,
+          "line": 44,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ canHaveParts: boolean, composable: boolean, id: string, isStateControl: boolean, name: string, type: BlockShapeType }"
@@ -286,22 +113,148 @@
           "signature": "{ allowMultiple: boolean, baseFee: number, baseSqFt: number, baseTime: number, differential: boolean, icon: string, id: string, id: string, name: string, name: string, partInstances: Array<{, rateOverBaseFee: number, rateOverBaseTime: number }"
         },
         {
-          "name": "BlockInstanceFormData",
+          "name": "BlockInstanceLike",
           "kind": "interface",
-          "file": "client/src/composables/admin/useBlockInstanceForm.ts",
-          "line": 23,
+          "file": "shared/types/blockInstanceTypes.ts",
+          "line": 13,
           "exported": true,
           "propertyCount": 4,
-          "signature": "{ active: boolean, blockShapeRef: string, name: string, orderIndex: number }"
+          "signature": "{ active: boolean, entityKey: string, id: string, name: string }"
+        },
+        {
+          "name": "PropertyResponse",
+          "kind": "interface",
+          "file": "client/src/types/appointmentApi.ts",
+          "line": 13,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ createdAt: string, id: string, updatedAt: string }"
+        },
+        {
+          "name": "UserResponse",
+          "kind": "interface",
+          "file": "client/src/types/appointmentApi.ts",
+          "line": 19,
+          "exported": true,
+          "propertyCount": 5,
+          "signature": "{ createdAt: string, id: string, loginId?: string | null, updatedAt: string, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
+        },
+        {
+          "name": "AppointmentResponse",
+          "kind": "interface",
+          "file": "client/src/types/appointmentApi.ts",
+          "line": 91,
+          "exported": true,
+          "propertyCount": 30,
+          "signature": "{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], createdAt: string, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, updatedAt: string, userTypeId?: string | null }"
+        },
+        {
+          "name": "BetaFeedback",
+          "kind": "interface",
+          "file": "client/src/types/betaFeedback.ts",
+          "line": 24,
+          "exported": true,
+          "propertyCount": 18,
+          "signature": "{ actualBehavior: string | null, browserInfo: string | null, category: FeedbackCategory, createdAt: string, description: string, expectedBehavior: string | null, id: string, pageUrl: string | null, reporterEmail: string | null, reporterName: string, resolutionNotes: string | null, screenSize: string | null, severity: FeedbackSeverity, status: FeedbackStatus, stepsToReproduce: string | null, tags: string[], title: string, updatedAt: string }"
+        },
+        {
+          "name": "FetchedInstanceComponent",
+          "kind": "interface",
+          "file": "client/src/types/component.ts",
+          "line": 15,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ childId: string, createdAt: string, disabled: boolean, id: string, orderIndex: number, parentId: string, updatedAt: string }"
+        },
+        {
+          "name": "PropertyResponse",
+          "kind": "interface",
+          "file": "client/src/types/property.ts",
+          "line": 23,
+          "exported": true,
+          "propertyCount": 10,
+          "signature": "{ addressId: string, createdAt: string, id: string, latitude?: number | null, longitude?: number | null, placeId?: string | null, propertyTypes?: PropertyVersionType[], propertyVersionId: string, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, updatedAt: string }"
+        },
+        {
+          "name": "ShapeFieldMetadata",
+          "kind": "interface",
+          "file": "client/src/types/shapeFieldMetadata.ts",
+          "line": 8,
+          "exported": true,
+          "propertyCount": 13,
+          "signature": "{ controlType: 'text' | 'number' | 'toggle' | 'select' | 'multiselect' | 'reference', createdAt: string, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', defaultValue: unknown | null, displayOrder: number, entityType: 'block' | 'part' | 'blockShape' | 'partShape', fieldKey: string, helpText: string | null, id: string, isRequired: boolean, label: string, updatedAt: string, validationRules: Record<string, unknown> | null }"
+        },
+        {
+          "name": "ShapeLayoutConfig",
+          "kind": "interface",
+          "file": "client/src/types/shapeFieldMetadata.ts",
+          "line": 24,
+          "exported": true,
+          "propertyCount": 14,
+          "signature": "{ bulkEdit: boolean, createdAt: string, entityId: string, entityType: 'block' | 'part' | 'blockShape' | 'partShape', fieldKey: string, id: string, layout: 'inline' | 'stacked', order: number, panel: 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'none', renderAs: 'field' | 'statusButton', section: string | null, statusButtonColor: string | null, updatedAt: string, visibility: 'titleRow' | 'expandedDirect' | 'expandedPanel' | 'hidden' }"
+        },
+        {
+          "name": "UserResponse",
+          "kind": "interface",
+          "file": "client/src/types/user.ts",
+          "line": 18,
+          "exported": true,
+          "propertyCount": 9,
+          "signature": "{ createdAt: string, email: string, firstName: string, id: string, lastName: string, loginId?: number | null, phone?: string | null, updatedAt: string, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
+        },
+        {
+          "name": "PropertyFieldMappingRow",
+          "kind": "interface",
+          "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+          "line": 13,
+          "exported": true,
+          "propertyCount": 10,
+          "signature": "{ active: boolean, createdAt: string, dataSource: string, fallbackValue: string | null, id: string, notes: string | null, sourceField: string, targetField: string, updatedAt: string, valueMapping: Record<string, unknown> | null }"
+        },
+        {
+          "name": "PropertyFeatureMappingRow",
+          "kind": "interface",
+          "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+          "line": 26,
+          "exported": true,
+          "propertyCount": 13,
+          "signature": "{ active: boolean, blockInstance?: { id: string, blockInstanceId: string, createdAt: string, dataSource: string, id: string, matchType: string, matchValue: string | null, name: string }, notes: string | null, priority: number, sourceField: string, updatedAt: string }"
+        },
+        {
+          "name": "BetaFeedbackFilters",
+          "kind": "interface",
+          "file": "client/src/types/betaFeedback.ts",
+          "line": 68,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ category?: FeedbackCategory, severity?: FeedbackSeverity, status?: FeedbackStatus }"
+        },
+        {
+          "name": "UserRequest",
+          "kind": "interface",
+          "file": "client/src/types/user.ts",
+          "line": 10,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ email: string, firstName: string, lastName: string, loginId?: number | null, phone?: string | null, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }"
+        },
+        {
+          "name": "ContactInfoBase",
+          "kind": "interface",
+          "file": "shared/types/contactTypes.ts",
+          "line": 13,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ email: string, firstName: string, lastName: string, phone?: string | null }"
         }
       ],
-      "signature": "{ active: boolean, activeBlockIds: string[], allowMultiple: boolean, baseSqFt: number, blockShape: string, blockShapeRef: string, bookingMode: BookingMode, differential: TernaryBoolean, entityKey: 'blockInstance', icon: string, id: string, isMultiFamily: boolean, name: string, number?: number | null, orderIndex: number, partInstances: BookingPartInstance[], requiresAgent: boolean, requiresUnitNumber: boolean | null }",
-      "propertyCount": 18,
-      "score": 53,
+      "signature": "{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], createdAt: string, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, updatedAt: string, userTypeId?: string | null }",
+      "propertyCount": 30,
+      "score": 105,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-b55365215dd1",
+      "groupId": "sim-subset-d752ecd31682",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -315,37 +268,10 @@
           "signature": "{ end: string, id: string, placeId?: string, start: string, summary: string | null }"
         },
         {
-          "name": "GoogleCalendarBusyPeriod",
-          "kind": "interface",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 17,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DayBusinessHours",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotTypes.ts",
-          "line": 37,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DayHours",
+          "name": "TimeRangeBounds",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 73,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ end: string, start: string }"
-        },
-        {
-          "name": "DateRangeConfig",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 113,
+          "line": 71,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ end: string, start: string }"
@@ -354,7 +280,7 @@
           "name": "CalendarEvent",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 338,
+          "line": 343,
           "exported": true,
           "propertyCount": 7,
           "signature": "{ end: string, eventType?: string, id: string, placeId?: string, start: string, summary: string | null, transparency?: string }"
@@ -363,7 +289,7 @@
           "name": "BusyTimeRange",
           "kind": "interface",
           "file": "client/src/utils/booking/timeSlotTypes.ts",
-          "line": 68,
+          "line": 63,
           "exported": true,
           "propertyCount": 4,
           "signature": "{ end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
@@ -381,7 +307,7 @@
           "name": "BusyTimeRange",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 323,
+          "line": 328,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ driveFromCandidate?: number, driveToCandidate?: number, end: string, placeId?: string, source?: BusyPeriodSource, start: string }"
@@ -390,7 +316,7 @@
           "name": "ComputedAvailabilityRequest",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 354,
+          "line": 360,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ candidatePlaceId?: string, dataSource?: 'real' | 'mock' | 'none', dateRange: {, duration: number, end: string, start: string }"
@@ -398,32 +324,14 @@
       ],
       "signature": "{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }",
       "propertyCount": 9,
-      "score": 47,
+      "score": 35,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-128ea73d05e4",
+      "groupId": "sim-subset-0ec8a14d2ed9",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
-        {
-          "name": "TimeRange",
-          "kind": "interface",
-          "file": "client/src/types/appointment.ts",
-          "line": 16,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ duration: number, endTime: string, startTime: string }"
-        },
-        {
-          "name": "MoveableSlot",
-          "kind": "interface",
-          "file": "client/src/types/moveableScheduling.ts",
-          "line": 24,
-          "exported": true,
-          "propertyCount": 5,
-          "signature": "{ dayLabel: string, duration: number, endTime: string, startTime: string, timeLabel: string }"
-        },
         {
           "name": "SelectedTimeSlot",
           "kind": "interface",
@@ -452,173 +360,101 @@
           "signature": "{ __brand?: 'ServerTimeSlot', duration?: number, endTime: string, startTime: string }"
         },
         {
-          "name": "ComputedSlot",
+          "name": "SlotTimeBounds",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 399,
+          "line": 411,
           "exported": true,
-          "propertyCount": 5,
-          "signature": "{ duration: number, endTime: string, isAvailable: boolean, startTime: string, violations: string[] }"
+          "propertyCount": 3,
+          "signature": "{ duration: number, endTime: string, startTime: string }"
         }
       ],
-      "signature": "{ dayLabel: string, duration: number, endTime: string, startTime: string, timeLabel: string }",
-      "propertyCount": 5,
-      "score": 31,
+      "signature": "{ __brand?: 'ServerTimeSlot', duration?: number, endTime: string, startTime: string }",
+      "propertyCount": 4,
+      "score": 23,
       "priority": "P0"
     },
     {
-      "groupId": "sim-exact-72e74436e8c8",
+      "groupId": "sim-subset-fd6fa333fede",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "PropertyRequest",
+          "kind": "interface",
+          "file": "client/src/types/property.ts",
+          "line": 11,
+          "exported": true,
+          "propertyCount": 10,
+          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, latitude?: number | null, longitude?: number | null, mlsNumber?: string | null, placeId?: string | null, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, squareFootage?: number | null }"
+        },
+        {
+          "name": "PartialPropertyDetails",
+          "kind": "interface",
+          "file": "server/src/services/propertyFieldMapper.ts",
+          "line": 12,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber?: string | null, squareFootage?: number | null }"
+        },
+        {
+          "name": "PropertyDetailsBase",
+          "kind": "interface",
+          "file": "shared/types/propertyTypes.ts",
+          "line": 25,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber?: string | null, squareFootage?: number | null }"
+        },
+        {
+          "name": "ParsedProperty",
+          "kind": "interface",
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "line": 78,
+          "exported": true,
+          "propertyCount": 7,
+          "signature": "{ additionalUnits: number | null, bathrooms: number | null, bedrooms: number | null, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber: string | null, squareFootage: number | null, unit: string | null }"
+        }
+      ],
+      "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, latitude?: number | null, longitude?: number | null, mlsNumber?: string | null, placeId?: string | null, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, squareFootage?: number | null }",
+      "propertyCount": 10,
+      "score": 23,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-exact-5d9218a826cf",
       "relationship": "EXACT",
       "action": "BRAND",
       "members": [
         {
-          "name": "BusinessDataCollectionCrudConfig",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/businessDataCollections/types.ts",
-          "line": 33,
+          "name": "PartialPropertyDetails",
+          "kind": "interface",
+          "file": "server/src/services/propertyFieldMapper.ts",
+          "line": 12,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
         },
         {
-          "name": "BusinessDataCollectionCrudComposableReturn",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/businessDataCollections/types.ts",
-          "line": 43,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "BusinessDataCollectionQueryOptions",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts",
-          "line": 19,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "GlobalDataCollectionCrudConfig",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/globalDataCollections/types.ts",
-          "line": 23,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "GlobalDataCollectionCrudComposableReturn",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/globalDataCollections/types.ts",
-          "line": 32,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "GlobalDataCollectionQueryOptions",
-          "kind": "type-alias-object",
-          "file": "client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts",
-          "line": 9,
-          "exported": false,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "IdentifiableById",
-          "kind": "type-alias-object",
-          "file": "client/src/utils/collections/appendIfMissingById.ts",
-          "line": 1,
+          "name": "PropertyDetailsBase",
+          "kind": "interface",
+          "file": "shared/types/propertyTypes.ts",
+          "line": 25,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
         }
       ],
-      "signature": "{ id: string }",
-      "propertyCount": 1,
-      "score": 28,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-c62c5ebd4d3e",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "GoogleCalendarBusyPeriod",
-          "kind": "interface",
-          "file": "client/src/types/googleCalendar.ts",
-          "line": 17,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "DayBusinessHours",
-          "kind": "interface",
-          "file": "client/src/utils/booking/timeSlotTypes.ts",
-          "line": 37,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "DayHours",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 73,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "DateRangeConfig",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 113,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ end: string, start: string }",
-      "propertyCount": 2,
-      "score": 25,
+      "signature": "{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, mlsNumber?: string | null, squareFootage?: number | null }",
+      "propertyCount": 6,
+      "score": 17,
       "priority": "P0"
     },
     {
       "groupId": "sim-exact-primitive:string",
       "relationship": "EXACT",
-      "action": "REVIEW",
+      "action": "BRAND",
       "members": [
-        {
-          "name": "ISO8601Date",
-          "kind": "type-alias-primitive",
-          "file": "client/src/types/datetime.ts",
-          "line": 46,
-          "exported": true,
-          "primitiveAlias": "string",
-          "unionMembers": null
-        },
-        {
-          "name": "RFC3339DateTime",
-          "kind": "type-alias-primitive",
-          "file": "client/src/types/datetime.ts",
-          "line": 76,
-          "exported": true,
-          "primitiveAlias": "string",
-          "unionMembers": null
-        },
-        {
-          "name": "GlobalEntityId",
-          "kind": "type-alias-primitive",
-          "file": "client/src/types/entities.ts",
-          "line": 6,
-          "exported": true,
-          "primitiveAlias": "string",
-          "unionMembers": null
-        },
         {
           "name": "RFC3339DateTime",
           "kind": "type-alias-primitive",
@@ -627,62 +463,33 @@
           "exported": true,
           "primitiveAlias": "string",
           "unionMembers": null
+        },
+        {
+          "name": "ISO8601Date",
+          "kind": "type-alias-primitive",
+          "file": "shared/types/primitiveBrands.ts",
+          "line": 8,
+          "exported": true,
+          "primitiveAlias": "string",
+          "unionMembers": null
+        },
+        {
+          "name": "GlobalEntityId",
+          "kind": "type-alias-primitive",
+          "file": "shared/types/primitiveBrands.ts",
+          "line": 11,
+          "exported": true,
+          "primitiveAlias": "string",
+          "unionMembers": null
         }
       ],
       "signature": "= string",
       "propertyCount": 0,
-      "score": 25,
+      "score": 16,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-656740d0282b",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "AvailabilitySettings",
-          "kind": "interface",
-          "file": "client/src/configs/availabilitySettings.ts",
-          "line": 69,
-          "exported": true,
-          "propertyCount": 45,
-          "signature": "{ 0: DayHours, 1: DayHours, 2: DayHours, 3: DayHours, 4: DayHours, 5: DayHours, 6: DayHours, appointment?: BufferConfig, buffers?: {, businessHours: {, businessHours?: RangeConstraint, calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, calendarWeek?: IncomeCapacityFilter, dateRange?: RangeConstraint, day?: WorkCapacityFilter, day?: IncomeCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveFromCandidate?: DriveTimeConfig, driveToCandidate?: DriveTimeConfig, durationRounding?: {, enabled: boolean, enforcement: ConstraintEnforcement, increment?: number, leadTime?: RangeConstraint, lunch?: BufferConfig, majorAttendees?: GlobalEntityId[], majorLabel?: string, majorStateLabel?: string, maxIncome?: {, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: GlobalEntityId[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, outOfOffice?: {, overlapSources?: {, rangeConstraints?: {, rollingWeek?: RollingWeekCapacityFilter, rollingWeek?: RollingWeekIncomeCapacityFilter, selectTimeSlotLabel?: string, timezone?: string }"
-        },
-        {
-          "name": "DurationRoundingConfig",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 311,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ enabled: boolean, increment?: number, method?: 'roundUp' | 'roundDown' | 'roundNearest' }"
-        },
-        {
-          "name": "RawAvailabilitySettings",
-          "kind": "interface",
-          "file": "client/src/configs/availabilitySettings.ts",
-          "line": 219,
-          "exported": true,
-          "propertyCount": 37,
-          "signature": "{ appointment?: BufferConfig, buffers?: {, businessHours: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' }), calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, calendarWeek?: IncomeCapacityFilter, dateRange?: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' }), day?: WorkCapacityFilter, day?: IncomeCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveFromCandidate?: DriveTimeConfig, driveToCandidate?: DriveTimeConfig, durationRounding?: {, enabled: boolean, enforcement: ConstraintEnforcement, increment?: number, leadTime?: RangeConstraint | (Omit<RangeConstraint, 'category'> & { category?: 'range' }), lunch?: BufferConfig, majorAttendees?: string[], majorLabel?: string, majorStateLabel?: string, maxIncome?: {, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: string[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, outOfOffice?: {, overlapSources?: {, rangeConstraints: {, rollingWeek?: RollingWeekCapacityFilter, rollingWeek?: RollingWeekIncomeCapacityFilter, selectTimeSlotLabel?: string, timezone?: string }"
-        },
-        {
-          "name": "AvailabilitySettingsData",
-          "kind": "interface",
-          "file": "server/src/db/models/admin/business_settings.ts",
-          "line": 41,
-          "exported": true,
-          "propertyCount": 51,
-          "signature": "{ 0: { start: string, 1: { start: string, 2: { start: string, 3: { start: string, 4: { start: string, 5: { start: string, 6: { start: string, appointment?: BufferConfig, buffers?: {, businessHours: {, businessHours?: RangeConstraint, calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, calendarWeek?: IncomeCapacityFilter, dateRange?: RangeConstraint, day?: WorkCapacityFilter, day?: IncomeCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveFromCandidate?: DriveTimeConfig, driveToCandidate?: DriveTimeConfig, durationRounding?: {, enabled: boolean, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, enforcement: ConstraintEnforcement, increment?: number, leadTime?: RangeConstraint, lunch?: BufferConfig, majorAttendees?: string[], majorLabel?: string, majorStateLabel?: string, maxIncome?: {, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: string[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, outOfOffice?: {, overlapSources?: {, rangeConstraints?: {, rollingWeek?: RollingWeekCapacityFilter, rollingWeek?: RollingWeekIncomeCapacityFilter, timezone?: string }"
-        }
-      ],
-      "signature": "{ 0: { start: string, 1: { start: string, 2: { start: string, 3: { start: string, 4: { start: string, 5: { start: string, 6: { start: string, appointment?: BufferConfig, buffers?: {, businessHours: {, businessHours?: RangeConstraint, calendarConfig?: CalendarConfig, calendarWeek?: WorkCapacityFilter, calendarWeek?: IncomeCapacityFilter, dateRange?: RangeConstraint, day?: WorkCapacityFilter, day?: IncomeCapacityFilter, defaultLocation?: DefaultLocation, differentialGraphDefaultLabel?: string, differentialPerspectives?: {, driveFromCandidate?: DriveTimeConfig, driveToCandidate?: DriveTimeConfig, durationRounding?: {, enabled: boolean, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, end: string }, enforcement: ConstraintEnforcement, increment?: number, leadTime?: RangeConstraint, lunch?: BufferConfig, majorAttendees?: string[], majorLabel?: string, majorStateLabel?: string, maxIncome?: {, maxWorkHours?: {, method?: 'roundUp' | 'roundDown' | 'roundNearest', minorAttendees?: string[], minorLabel?: string, minorStateLabel?: string, minuteIncrement: number, outOfOffice?: {, overlapSources?: {, rangeConstraints?: {, rollingWeek?: RollingWeekCapacityFilter, rollingWeek?: RollingWeekIncomeCapacityFilter, timezone?: string }",
-      "propertyCount": 51,
-      "score": 23,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-d7195a05d5cc",
+      "groupId": "sim-subset-2e38529bb213",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -696,201 +503,160 @@
           "signature": "{ amount: number, bagTotal: number, baseFee: number, baseFeeTotal?: number, couponDiscount: number, currency: string, deliveryCharges: number, deliveryFree: boolean, finalTotal: number, isFree: boolean, label: string, lineItemFees?: {, lineItems?: Array<{, orderTotal: number, overageFee: number, overageFeeTotal?: number, totalFee: number, totalFee: number }"
         },
         {
-          "name": "BlockInstanceFeeResult",
+          "name": "FeeEntryBase",
           "kind": "interface",
-          "file": "client/src/utils/booking/confirmationStepData.ts",
-          "line": 39,
+          "file": "shared/types/appointmentFeeTypes.ts",
+          "line": 33,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ baseFee: number, overageFee: number, totalFee: number }"
-        },
-        {
-          "name": "AppointmentFeeEntry",
-          "kind": "interface",
-          "file": "shared/types/appointmentFeeTypes.ts",
-          "line": 35,
-          "exported": true,
-          "propertyCount": 9,
-          "signature": "{ baseFee: number, blockInstanceId: string, blockName: string, blockShapeRef: string, feeSummaryId: string, id: string, overageFee: number, quantity: number, totalFee: number }"
         }
       ],
       "signature": "{ amount: number, bagTotal: number, baseFee: number, baseFeeTotal?: number, couponDiscount: number, currency: string, deliveryCharges: number, deliveryFree: boolean, finalTotal: number, isFree: boolean, label: string, lineItemFees?: {, lineItems?: Array<{, orderTotal: number, overageFee: number, overageFeeTotal?: number, totalFee: number, totalFee: number }",
       "propertyCount": 18,
-      "score": 19,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-high_overlap-564e9cb62a83",
-      "relationship": "HIGH_OVERLAP",
-      "action": "REVIEW",
-      "members": [
-        {
-          "name": "FieldMetadataEntry",
-          "kind": "interface",
-          "file": "client/src/constants/fieldMetadata.ts",
-          "line": 41,
-          "exported": true,
-          "propertyCount": 11,
-          "signature": "{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', displayOrder: number, inputConfig?: Record<string, unknown> | null, isRequired: boolean, label: string, layout: 'inline' | 'stacked', panel: 'none' | SubPanelKey, renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection', statusButtonColor?: string, visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured' }"
-        },
-        {
-          "name": "FieldMetadataEntry",
-          "kind": "interface",
-          "file": "server/src/utils/adminMetadataComposer.ts",
-          "line": 13,
-          "exported": true,
-          "propertyCount": 12,
-          "signature": "{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', displayOrder: number, fieldKey: string, inputConfig?: Record<string, unknown> | null, isRequired: boolean, label: string, layout: 'inline' | 'stacked', panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS, renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection', statusButtonColor?: string | null, visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured' }"
-        },
-        {
-          "name": "RelationshipMetadataEntry",
-          "kind": "interface",
-          "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-          "line": 12,
-          "exported": true,
-          "propertyCount": 12,
-          "signature": "{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', displayOrder: number, inputConfig?: Record<string, unknown> | null, isRequired: boolean, label: string, layout: 'inline' | 'stacked', panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS, relationshipKey: string, renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection', statusButtonColor?: string | null, visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured' }"
-        }
+      "overlapPercent": 18,
+      "sharedProperties": [
+        "baseFee",
+        "overageFee",
+        "totalFee"
       ],
-      "signature": "{ bulkEdit: boolean, dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference', displayOrder: number, fieldKey: string, inputConfig?: Record<string, unknown> | null, isRequired: boolean, label: string, layout: 'inline' | 'stacked', panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS, renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection', statusButtonColor?: string | null, visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured' }",
-      "propertyCount": 12,
-      "score": 18,
+      "uniqueToFirst": [
+        "amount",
+        "bagTotal",
+        "baseFeeTotal",
+        "couponDiscount",
+        "currency",
+        "deliveryCharges",
+        "deliveryFree",
+        "finalTotal",
+        "isFree",
+        "label",
+        "lineItemFees",
+        "lineItems",
+        "orderTotal",
+        "overageFeeTotal"
+      ],
+      "uniqueToSecond": [],
+      "score": 15,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-c5af4999a440",
+      "groupId": "sim-subset-73571281c541",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
         {
-          "name": "Props",
+          "name": "CapacityConstraint",
           "kind": "interface",
-          "file": "client/src/components/admin/generic/EntityCardContent.vue",
-          "line": 18,
-          "exported": false,
-          "propertyCount": 17,
-          "signature": "{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, unifiedSaveState: { }"
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 199,
+          "exported": true,
+          "propertyCount": 8,
+          "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, maxIncome?: number, scheduledHours?: Record<string, number>, scheduledIncome?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }"
         },
         {
-          "name": "EntityCardSharedProps",
+          "name": "IncomeCapacityFilter",
           "kind": "interface",
-          "file": "client/src/components/admin/generic/entityCardConstants.ts",
-          "line": 12,
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 216,
           "exported": true,
           "propertyCount": 2,
-          "signature": "{ entityId: string, entityKey: GlobalEntityKey }"
+          "signature": "{ enforcement: ConstraintEnforcement, maxIncome: number }"
         },
         {
-          "name": "Props",
+          "name": "WorkCapacityFilter",
           "kind": "interface",
-          "file": "client/src/components/admin/generic/EntityCardSubPanels.vue",
-          "line": 23,
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 276,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ enforcement: ConstraintEnforcement, maxHours: number }"
+        }
+      ],
+      "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, maxIncome?: number, scheduledHours?: Record<string, number>, scheduledIncome?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }",
+      "propertyCount": 8,
+      "score": 14,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-9e9273396fa4",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "SlotDisplayData",
+          "kind": "interface",
+          "file": "client/src/components/booking/AppointmentSlotGrid.vue",
+          "line": 82,
           "exported": false,
-          "propertyCount": 8,
-          "signature": "{ entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldKey: GlobalFieldKey<GlobalEntityKey>, fieldMetadata?: Record<string, FieldMetadataEntry>, form: FormContext, getFieldContext: (, subPanelFields: SubPanelFields }"
+          "propertyCount": 4,
+          "signature": "{ buttonIndex: number, displayTime: TimeRange | null, isAvailable: boolean, violations?: string[] }"
         },
         {
-          "name": "UseEntityCardSaveStateOptions",
+          "name": "ComputedSlot",
           "kind": "interface",
-          "file": "client/src/composables/admin/useEntityCardSaveState.ts",
-          "line": 15,
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 422,
           "exported": true,
-          "propertyCount": 4,
-          "signature": "{ entityId: string, entityKey: GlobalEntityKey, form: FormContext, getEntityValues: () => Record<string, unknown> }"
-        },
-        {
-          "name": "UseEntityFormOptions",
-          "kind": "interface",
-          "file": "client/src/composables/useEntityForm.ts",
-          "line": 16,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, form: FormContext }"
+          "propertyCount": 2,
+          "signature": "{ isAvailable: boolean, violations: string[] }"
         }
       ],
-      "signature": "{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, entityId: string, entityKey: GlobalEntityKey, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, unifiedSaveState: { }",
-      "propertyCount": 17,
-      "score": 18,
+      "signature": "{ buttonIndex: number, displayTime: TimeRange | null, isAvailable: boolean, violations?: string[] }",
+      "propertyCount": 4,
+      "overlapPercent": 50,
+      "sharedProperties": [
+        "isAvailable",
+        "violations"
+      ],
+      "uniqueToFirst": [
+        "buttonIndex",
+        "displayTime"
+      ],
+      "uniqueToSecond": [],
+      "score": 13,
       "priority": "P0"
     },
     {
-      "groupId": "sim-exact-979c2288fa49",
-      "relationship": "EXACT",
-      "action": "REVIEW",
+      "groupId": "sim-subset-b2d0f4be007d",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
       "members": [
         {
-          "name": "StepDefinition",
+          "name": "PropertyFormData",
           "kind": "interface",
-          "file": "client/src/composables/booking/useWizardDisplay.ts",
-          "line": 12,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "StepDefinition",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useWizardNavigation.ts",
-          "line": 10,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "WizardStepConfig",
-          "kind": "interface",
-          "file": "client/src/configs/wizardSteps.ts",
-          "line": 19,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ icon: string, subtitle: string, title: string }",
-      "propertyCount": 3,
-      "score": 16,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-e900d197d2bf",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "UseBufferSettingsParams",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useBufferSettings.ts",
-          "line": 19,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "UseDefaultLocationParams",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useDefaultLocation.ts",
-          "line": 9,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "UseDifferentialPerspectivesParams",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
+          "file": "client/src/composables/booking/usePropertyValidation.ts",
           "line": 13,
           "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
+          "propertyCount": 6,
+          "signature": "{ address: string, city: string, numberOfUnits: number | null, propertySize: number | null, state: string, zipCode: string }"
+        },
+        {
+          "name": "WizardStateData",
+          "kind": "interface",
+          "file": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
+          "line": 37,
+          "exported": true,
+          "propertyCount": 42,
+          "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }"
+        },
+        {
+          "name": "PropertyDetailsStepData",
+          "kind": "type-alias-object",
+          "file": "client/src/utils/booking/confirmationStepData.ts",
+          "line": 23,
+          "exported": false,
+          "propertyCount": 7,
+          "signature": "{ address: string, city: string, propertySize: number | null, squareFootage: number | null, state: string, unit: string, zipCode: string }"
         }
       ],
-      "signature": "{ formData: Ref<AvailabilitySettings | null> }",
-      "propertyCount": 1,
-      "score": 16,
+      "signature": "{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }",
+      "propertyCount": 42,
+      "score": 12,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-26677bed3970",
+      "groupId": "sim-subset-ef42cc8ae7b0",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -907,7 +673,7 @@
           "name": "UseAppointmentDropdownReturn",
           "kind": "interface",
           "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-          "line": 18,
+          "line": 15,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, value: string }>> }"
@@ -916,391 +682,16 @@
           "name": "UseWizardDevModeOptions",
           "kind": "interface",
           "file": "client/src/composables/booking/useWizardDevMode.ts",
-          "line": 13,
-          "exported": true,
-          "propertyCount": 15,
-          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }"
-        },
-        {
-          "name": "UseAppointmentDropdownOptions",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-          "line": 12,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ data: Ref<AppointmentResponse[]>, fetchAll: { }"
-        }
-      ],
-      "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]>, fetchAll: {, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoading: Ref<boolean>, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }",
-      "propertyCount": 15,
-      "score": 16,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-high_overlap-d895908e7ce0",
-      "relationship": "HIGH_OVERLAP",
-      "action": "REVIEW",
-      "members": [
-        {
-          "name": "AttendeeRequest",
-          "kind": "interface",
-          "file": "client/src/types/appointmentApi.ts",
-          "line": 47,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ role?: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
-        },
-        {
-          "name": "AttendeeRequest",
-          "kind": "interface",
-          "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "line": 173,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ role?: string, shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }"
-        }
-      ],
-      "signature": "{ role?: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector', shouldReceiveInvitation?: boolean, userId: string, userTypeBlockInstanceId?: string | null }",
-      "propertyCount": 4,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "shouldReceiveInvitation",
-        "userId",
-        "userTypeBlockInstanceId"
-      ],
-      "uniqueToFirst": [
-        "role(typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector')"
-      ],
-      "uniqueToSecond": [
-        "role(string)"
-      ],
-      "score": 14,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-3c6e1b42082d",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "UsePropertyDetailsLogicParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-          "line": 49,
-          "exported": true,
-          "propertyCount": 11,
-          "signature": "{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }"
-        },
-        {
-          "name": "UsePropertyFormStateReturn",
-          "kind": "interface",
-          "file": "client/src/composables/booking/usePropertyFormState.ts",
           "line": 16,
           "exported": true,
-          "propertyCount": 2,
-          "signature": "{ formData: PropertyFormData, isAddressExpanded: Ref<boolean> }"
-        },
-        {
-          "name": "UsePropertyFormWatchersParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
-          "line": 14,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null }"
+          "propertyCount": 13,
+          "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, fetchAll: WizardDevOptionsBase['fetchAll'] & { isLoading: Ref<boolean> }, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isDevMode: boolean, isLoadingAppointment: Ref<boolean>, isPending: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: {, value: string }>>, wizard: ReturnType<typeof useBookingWizard> }"
         }
       ],
-      "signature": "{ availableLineItemBlocks: Ref<BookingBlockInstance[]>, availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>, batchUpdate: (fn: () => void) => void, formData: PropertyFormData, isAddressExpanded: Ref<boolean>, loadedWizardState: Ref<WizardStateData | null> | null, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<{ id: string } | null>, toggleLineItemBlock: (block: BookingBlockInstance) => void, togglePropertyTypeBlock: (block: BookingBlockInstance) => void, wizard: { }",
-      "propertyCount": 11,
-      "score": 14,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-73571281c541",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "CapacityConstraint",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 191,
-          "exported": true,
-          "propertyCount": 8,
-          "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, maxIncome?: number, scheduledHours?: Record<string, number>, scheduledIncome?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }"
-        },
-        {
-          "name": "IncomeCapacityFilter",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 208,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ enforcement: ConstraintEnforcement, maxIncome: number }"
-        },
-        {
-          "name": "WorkCapacityFilter",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 267,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ enforcement: ConstraintEnforcement, maxHours: number }"
-        }
-      ],
-      "signature": "{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, maxIncome?: number, scheduledHours?: Record<string, number>, scheduledIncome?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }",
-      "propertyCount": 8,
-      "score": 14,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-3a93a1acff5b",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "UseSelectionCardConfigParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/selectionCard/useSelectionCardConfig.ts",
-          "line": 13,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "UseSelectionCardGroupConfigParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useSelectionCardGroupConfig.ts",
-          "line": 18,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ config: ReadonlyVueRef<SelectionCardConfig | undefined> }",
-      "propertyCount": 1,
+      "signature": "{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]> }, fetchAll: { isLoading: Ref<boolean>, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetMocks: () => void, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isLoadingAppointment: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: { isPending: Ref<boolean> }, value: string }>>, wizard: ReturnType<typeof useBookingWizard> | null }",
+      "propertyCount": 13,
       "score": 12,
       "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-64d1df786044",
-      "relationship": "EXACT",
-      "action": "BRAND",
-      "members": [
-        {
-          "name": "PropertiesTableModel",
-          "kind": "interface",
-          "file": "client/src/composables/admin/tables/usePropertiesTableModel.ts",
-          "line": 6,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "UsersTableModel",
-          "kind": "interface",
-          "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
-          "line": 7,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ formatNullValue: (value: unknown) => string }",
-      "propertyCount": 1,
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-c1b027d82f51",
-      "relationship": "EXACT",
-      "action": "REVIEW",
-      "members": [
-        {
-          "name": "RollingWeekIncomeCapacityFilter",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 219,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "RollingWeekCapacityFilter",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 278,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ direction: RollingWeekDirection }",
-      "propertyCount": 1,
-      "score": 12,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-subset-175fa6fb145e",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "UseAvailabilityStepDataParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useAvailabilityStepData.ts",
-          "line": 24,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ end: string | null }>, moveableScheduling?: Ref<MoveableSchedulingOptions | null>, selectedDate: Ref<{ start: string | null, selectedSlot: Ref<AppointmentSlot | null> }"
-        },
-        {
-          "name": "UseAvailabilityValidationParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useAvailabilityValidation.ts",
-          "line": 14,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ end: string | null }>, selectedDate: Ref<{ start: string | null, selectedSlot: Ref<AppointmentSlot | null> }"
-        }
-      ],
-      "signature": "{ end: string | null }>, moveableScheduling?: Ref<MoveableSchedulingOptions | null>, selectedDate: Ref<{ start: string | null, selectedSlot: Ref<AppointmentSlot | null> }",
-      "propertyCount": 4,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "end",
-        "selectedDate",
-        "selectedSlot"
-      ],
-      "uniqueToFirst": [
-        "moveableScheduling"
-      ],
-      "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-3514ef8e4aa5",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "MinimalSlotParams",
-          "kind": "interface",
-          "file": "client/src/utils/booking/minimalSlotGenerator.ts",
-          "line": 12,
-          "exported": true,
-          "propertyCount": 7,
-          "signature": "{ duration: number, endBoundary: string, includeFlags: { major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean }, startBoundary: string }"
-        },
-        {
-          "name": "SlotGenerationParams",
-          "kind": "interface",
-          "file": "client/src/utils/booking/slotGenerationValidation.ts",
-          "line": 15,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ duration: number, endBoundary: string, minuteIncrement: number, startBoundary: string }"
-        }
-      ],
-      "signature": "{ duration: number, endBoundary: string, includeFlags: { major: boolean, minor: boolean, minuteIncrement: number, moveable: boolean }, startBoundary: string }",
-      "propertyCount": 7,
-      "overlapPercent": 57,
-      "sharedProperties": [
-        "duration",
-        "endBoundary",
-        "minuteIncrement",
-        "startBoundary"
-      ],
-      "uniqueToFirst": [
-        "includeFlags",
-        "minor",
-        "moveable"
-      ],
-      "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-3afc08560a95",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "BusinessRule",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 70,
-          "exported": true,
-          "propertyCount": 8,
-          "signature": "{ active: boolean, blockInstanceId: GlobalEntityId, createdAt: string, id: GlobalEntityId, ruleConfig: RuleConfig, ruleType: RuleType, updatedAt: string, validationMessageAnnotationId: GlobalEntityId | null }"
-        },
-        {
-          "name": "BusinessRuleFormData",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "line": 87,
-          "exported": true,
-          "propertyCount": 5,
-          "signature": "{ active: boolean, blockInstanceId: GlobalEntityId, ruleConfig: RuleConfig, ruleType: RuleType, validationMessageAnnotationId: GlobalEntityId | null }"
-        }
-      ],
-      "signature": "{ active: boolean, blockInstanceId: GlobalEntityId, createdAt: string, id: GlobalEntityId, ruleConfig: RuleConfig, ruleType: RuleType, updatedAt: string, validationMessageAnnotationId: GlobalEntityId | null }",
-      "propertyCount": 8,
-      "overlapPercent": 63,
-      "sharedProperties": [
-        "active",
-        "blockInstanceId",
-        "ruleConfig",
-        "ruleType",
-        "validationMessageAnnotationId"
-      ],
-      "uniqueToFirst": [
-        "createdAt",
-        "id",
-        "updatedAt"
-      ],
-      "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-5a10cd3ef8e7",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "SelectOption",
-          "kind": "interface",
-          "file": "client/src/composables/useSelectOptions.ts",
-          "line": 22,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ children?: SelectOption[], title: string, value: string }"
-        },
-        {
-          "name": "USStateOption",
-          "kind": "interface",
-          "file": "client/src/configs/usStates.ts",
-          "line": 6,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ title: string, value: string }"
-        }
-      ],
-      "signature": "{ children?: SelectOption[], title: string, value: string }",
-      "propertyCount": 3,
-      "overlapPercent": 67,
-      "sharedProperties": [
-        "title",
-        "value"
-      ],
-      "uniqueToFirst": [
-        "children"
-      ],
-      "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
     },
     {
       "groupId": "sim-subset-5a6994ec75f1",
@@ -1399,45 +790,6 @@
       "priority": "P1"
     },
     {
-      "groupId": "sim-subset-5f5fc5e24a2f",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "UseFormElementPatchingOptions",
-          "kind": "interface",
-          "file": "client/src/composables/admin/useFormElementPatching.ts",
-          "line": 9,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ formRef?: Ref<VFormInstance | null>, formSelector?: string, useMutationObserver?: boolean }"
-        },
-        {
-          "name": "FormElementPatchingOptions",
-          "kind": "type-alias-object",
-          "file": "client/src/utils/forms/formElementPatching.ts",
-          "line": 9,
-          "exported": true,
-          "propertyCount": 4,
-          "signature": "{ formRef?: Ref<VFormInstance | null>, formSelector: string, observerTimeoutMs?: number, useMutationObserver: boolean }"
-        }
-      ],
-      "signature": "{ formRef?: Ref<VFormInstance | null>, formSelector: string, observerTimeoutMs?: number, useMutationObserver: boolean }",
-      "propertyCount": 4,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "formRef",
-        "formSelector",
-        "useMutationObserver"
-      ],
-      "uniqueToFirst": [],
-      "uniqueToSecond": [
-        "observerTimeoutMs"
-      ],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
       "groupId": "sim-subset-7905376bfe05",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -1446,7 +798,7 @@
           "name": "DefaultLocation",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 298,
+          "line": 303,
           "exported": true,
           "propertyCount": 4,
           "signature": "{ address?: string, coordinates?: Coordinates, label?: string, placeId: string }"
@@ -1471,59 +823,6 @@
       ],
       "uniqueToFirst": [
         "label"
-      ],
-      "uniqueToSecond": [],
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-7ed09c97c191",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "BetaFeedback",
-          "kind": "interface",
-          "file": "client/src/types/betaFeedback.ts",
-          "line": 24,
-          "exported": true,
-          "propertyCount": 18,
-          "signature": "{ actualBehavior: string | null, browserInfo: string | null, category: FeedbackCategory, createdAt: string, description: string, expectedBehavior: string | null, id: string, pageUrl: string | null, reporterEmail: string | null, reporterName: string, resolutionNotes: string | null, screenSize: string | null, severity: FeedbackSeverity, status: FeedbackStatus, stepsToReproduce: string | null, tags: string[], title: string, updatedAt: string }"
-        },
-        {
-          "name": "BetaFeedbackFilters",
-          "kind": "interface",
-          "file": "client/src/types/betaFeedback.ts",
-          "line": 68,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ category?: FeedbackCategory, severity?: FeedbackSeverity, status?: FeedbackStatus }"
-        }
-      ],
-      "signature": "{ actualBehavior: string | null, browserInfo: string | null, category: FeedbackCategory, createdAt: string, description: string, expectedBehavior: string | null, id: string, pageUrl: string | null, reporterEmail: string | null, reporterName: string, resolutionNotes: string | null, screenSize: string | null, severity: FeedbackSeverity, status: FeedbackStatus, stepsToReproduce: string | null, tags: string[], title: string, updatedAt: string }",
-      "propertyCount": 18,
-      "overlapPercent": 17,
-      "sharedProperties": [
-        "category",
-        "severity",
-        "status"
-      ],
-      "uniqueToFirst": [
-        "actualBehavior",
-        "browserInfo",
-        "createdAt",
-        "description",
-        "expectedBehavior",
-        "id",
-        "pageUrl",
-        "reporterEmail",
-        "reporterName",
-        "resolutionNotes",
-        "screenSize",
-        "stepsToReproduce",
-        "tags",
-        "title",
-        "updatedAt"
       ],
       "uniqueToSecond": [],
       "score": 10,
@@ -1576,7 +875,7 @@
           "name": "DriveTimeConfig",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 161,
+          "line": 160,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ applyTo: DriveTimeApplyTo, enforcement: ConstraintEnforcement, minutes: number }"
@@ -1585,7 +884,7 @@
           "name": "OverlapConstraint",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 176,
+          "line": 175,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ applyTo?: DriveTimeApplyTo, category: 'overlap', enforcement: ConstraintEnforcement, minutes: number, placement: 'off' | 'before' | 'after' | 'both', type: 'appointment' | 'driveToCandidate' | 'driveFromCandidate' | 'lunch' }"
@@ -1659,7 +958,7 @@
           "name": "UseFormFieldsReturn",
           "kind": "interface",
           "file": "client/src/composables/formFields/types.ts",
-          "line": 26,
+          "line": 32,
           "exported": true,
           "propertyCount": 14,
           "signature": "{ canHaveParts: boolean }, categorizeFieldsByLayout: (fields: GlobalFieldKey<GlobalEntityKey>[]) => FieldsByLayout, fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>, fieldKey: FieldKey, fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, getBlockShapeProperties: () => { composable: boolean, getFieldContext: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(, getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[], inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, isFormReady: ComputedRef<boolean>, readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, readyStackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, shouldShowPartInstances: Ref<boolean>, stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]> }"
@@ -1783,81 +1082,31 @@
       "priority": "P1"
     },
     {
-      "groupId": "sim-high_overlap-e118d97f3650",
-      "relationship": "HIGH_OVERLAP",
-      "action": "REVIEW",
+      "groupId": "sim-exact-72e74436e8c8",
+      "relationship": "EXACT",
+      "action": "BRAND",
       "members": [
         {
-          "name": "UseInstanceDescriptionsOptions",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useInstanceDescriptions.ts",
-          "line": 20,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ instances: ComputedRef<BookingBlockInstance[]>, selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null> }"
-        },
-        {
-          "name": "UseInstanceDisplayOptions",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useInstanceDisplay.ts",
-          "line": 20,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ instances: ComputedRef<BookingBlockInstance[]>, selectedUserTypeBlock?: ComputedRef<BookingBlockInstance | null> }"
-        }
-      ],
-      "signature": "{ instances: ComputedRef<BookingBlockInstance[]>, selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null> }",
-      "propertyCount": 2,
-      "overlapPercent": 100,
-      "sharedProperties": [
-        "instances",
-        "selectedUserTypeBlock"
-      ],
-      "uniqueToFirst": [],
-      "uniqueToSecond": [],
-      "score": 9,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-0b93054dedab",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "UseFormFieldsOptions",
-          "kind": "interface",
-          "file": "client/src/composables/formFields/types.ts",
-          "line": 10,
-          "exported": true,
-          "propertyCount": 8,
-          "signature": "{ adminConfig?: ReturnType<typeof useAdminConfig>, entityId: Ref<GlobalEntityId>, entityKey: GlobalEntityKey, fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>, form?: Ref<FormContext | undefined>, inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]> }"
-        },
-        {
-          "name": "UseFormFieldsContextOptions",
+          "name": "BusinessDataCollectionQueryOptions",
           "kind": "type-alias-object",
-          "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-          "line": 14,
+          "file": "client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts",
+          "line": 19,
           "exported": false,
-          "propertyCount": 6,
-          "signature": "{ adminConfig?: ReturnType<typeof useAdminConfig>, entityId: Ref<GlobalEntityId>, entityKey: GlobalEntityKey, fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>, form?: Ref<FormContext | undefined> }"
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "GlobalDataCollectionQueryOptions",
+          "kind": "type-alias-object",
+          "file": "client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts",
+          "line": 9,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
         }
       ],
-      "signature": "{ adminConfig?: ReturnType<typeof useAdminConfig>, entityId: Ref<GlobalEntityId>, entityKey: GlobalEntityKey, fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>, form?: Ref<FormContext | undefined>, inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>, stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]> }",
-      "propertyCount": 8,
-      "overlapPercent": 75,
-      "sharedProperties": [
-        "adminConfig",
-        "entityId",
-        "entityKey",
-        "fieldKeys",
-        "fieldMetadata",
-        "form"
-      ],
-      "uniqueToFirst": [
-        "inlineFieldsConfig",
-        "stackedFieldsConfig"
-      ],
-      "uniqueToSecond": [],
+      "signature": "{ id: string }",
+      "propertyCount": 1,
       "score": 8,
       "priority": "P1"
     },
@@ -1879,7 +1128,7 @@
           "name": "ContingencyPeriod",
           "kind": "interface",
           "file": "client/src/types/moveableScheduling.ts",
-          "line": 9,
+          "line": 11,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ endDate: string | null, endTime: string | null, hasContingency: boolean }"
@@ -2077,7 +1326,7 @@
           "name": "FieldsByLocation",
           "kind": "interface",
           "file": "client/src/components/admin/generic/EntityCardContent.vue",
-          "line": 12,
+          "line": 13,
           "exported": false,
           "propertyCount": 3,
           "signature": "{ directInline: GlobalFieldKey<GlobalEntityKey>[], directStacked: GlobalFieldKey<GlobalEntityKey>[], subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]> }"
@@ -2444,7 +1693,7 @@
       "file": "client/src/components/admin/generic/DynamicForm.vue",
       "line": 38,
       "exported": false,
-      "fingerprint": "b2be5598689a",
+      "fingerprint": "306e312d89ae",
       "propertyCount": 4,
       "primitiveAlias": null
     },
@@ -2472,7 +1721,7 @@
       "name": "FieldsByLocation",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCardContent.vue",
-      "line": 12,
+      "line": 13,
       "exported": false,
       "fingerprint": "64f4306ee2b2",
       "propertyCount": 3,
@@ -2482,20 +1731,20 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCardContent.vue",
-      "line": 18,
+      "line": 19,
       "exported": false,
-      "fingerprint": "5dac71315474",
-      "propertyCount": 17,
+      "fingerprint": "40a18a473aea",
+      "propertyCount": 15,
       "primitiveAlias": null
     },
     {
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCardSubPanels.vue",
-      "line": 23,
+      "line": 24,
       "exported": false,
-      "fingerprint": "af83e03075ee",
-      "propertyCount": 8,
+      "fingerprint": "5bd396ffe49d",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
@@ -2969,26 +2218,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseEntityFormRedirectOptions",
-      "kind": "interface",
-      "file": "client/src/composables/admin/entityFormRedirectOptions.ts",
-      "line": 5,
-      "exported": true,
-      "fingerprint": "05a6537b45a7",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseInstanceBlockInstancesByShapeOptions",
-      "kind": "interface",
-      "file": "client/src/composables/admin/instanceComposableOptions.ts",
-      "line": 8,
-      "exported": true,
-      "fingerprint": "a0c2208e5495",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
       "name": "AppointmentsTableModel",
       "kind": "interface",
       "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
@@ -3002,7 +2231,17 @@
       "name": "PropertiesTableModel",
       "kind": "interface",
       "file": "client/src/composables/admin/tables/usePropertiesTableModel.ts",
-      "line": 6,
+      "line": 7,
+      "exported": true,
+      "fingerprint": "empty",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "TableModelFormatHelpers",
+      "kind": "interface",
+      "file": "client/src/composables/admin/tables/useTableModelHelpers.ts",
+      "line": 14,
       "exported": true,
       "fingerprint": "64d1df786044",
       "propertyCount": 1,
@@ -3012,10 +2251,10 @@
       "name": "UsersTableModel",
       "kind": "interface",
       "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
-      "line": 7,
+      "line": 8,
       "exported": true,
-      "fingerprint": "64d1df786044",
-      "propertyCount": 1,
+      "fingerprint": "empty",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -3069,33 +2308,23 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseBufferSettingsParams",
+      "name": "BusinessRuleCore",
       "kind": "interface",
-      "file": "client/src/composables/admin/useBufferSettings.ts",
-      "line": 19,
+      "file": "client/src/composables/admin/useBusinessRules.ts",
+      "line": 67,
       "exported": true,
-      "fingerprint": "e900d197d2bf",
-      "propertyCount": 1,
+      "fingerprint": "257a3cbd6de7",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "BusinessRule",
       "kind": "interface",
       "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 70,
+      "line": 74,
       "exported": true,
-      "fingerprint": "f141baf79a4b",
-      "propertyCount": 8,
-      "primitiveAlias": null
-    },
-    {
-      "name": "BusinessRuleFormData",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useBusinessRules.ts",
-      "line": 87,
-      "exported": true,
-      "fingerprint": "257a3cbd6de7",
-      "propertyCount": 5,
+      "fingerprint": "0a30f399d4a9",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -3122,7 +2351,7 @@
       "name": "UseCapacitySettingsParams",
       "kind": "interface",
       "file": "client/src/composables/admin/useCapacitySettings.ts",
-      "line": 17,
+      "line": 21,
       "exported": true,
       "fingerprint": "cf11260694aa",
       "propertyCount": 2,
@@ -3169,26 +2398,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseDefaultLocationParams",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useDefaultLocation.ts",
-      "line": 9,
-      "exported": true,
-      "fingerprint": "e900d197d2bf",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseDifferentialPerspectivesParams",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
-      "line": 13,
-      "exported": true,
-      "fingerprint": "e900d197d2bf",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseDragAndDropParams",
       "kind": "interface",
       "file": "client/src/composables/admin/useDragAndDrop.ts",
@@ -3214,7 +2423,7 @@
       "file": "client/src/composables/admin/useEntityCardActions.ts",
       "line": 28,
       "exported": true,
-      "fingerprint": "d017d2d4502a",
+      "fingerprint": "70dcbaa79e97",
       "propertyCount": 7,
       "primitiveAlias": null
     },
@@ -3279,6 +2488,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseEntityCardFormReturn",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useEntityCardForm.ts",
+      "line": 30,
+      "exported": true,
+      "fingerprint": "5625e91c9450",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "FieldsByLayout",
       "kind": "interface",
       "file": "client/src/composables/admin/useEntityCardLayout.ts",
@@ -3322,17 +2541,17 @@
       "name": "UseEntityCardSaveStateOptions",
       "kind": "interface",
       "file": "client/src/composables/admin/useEntityCardSaveState.ts",
-      "line": 15,
+      "line": 17,
       "exported": true,
-      "fingerprint": "4c9c22bb5542",
-      "propertyCount": 4,
+      "fingerprint": "db6da9b382e5",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "UseEntityCardSaveStateReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useEntityCardSaveState.ts",
-      "line": 27,
+      "line": 26,
       "exported": true,
       "fingerprint": "3d897bed1843",
       "propertyCount": 5,
@@ -3356,6 +2575,16 @@
       "exported": true,
       "fingerprint": "07327cd43823",
       "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseEntityFormRedirectOptions",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useEntityFormRedirectOptions.ts",
+      "line": 5,
+      "exported": true,
+      "fingerprint": "05a6537b45a7",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
@@ -3519,20 +2748,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseFormElementPatchingOptions",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useFormElementPatching.ts",
-      "line": 9,
-      "exported": true,
-      "fingerprint": "e266e0c6b21c",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseFormElementPatchingReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useFormElementPatching.ts",
-      "line": 32,
+      "line": 11,
       "exported": true,
       "fingerprint": "406443202eae",
       "propertyCount": 2,
@@ -3599,6 +2818,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseInstanceBlockInstancesByShapeOptions",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useInstanceComposableOptions.ts",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "a0c2208e5495",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseInstanceDeletionReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useInstanceDeletion.ts",
@@ -3632,7 +2861,7 @@
       "name": "UseInstanceFilteringReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useInstanceFiltering.ts",
-      "line": 28,
+      "line": 27,
       "exported": true,
       "fingerprint": "f4806aeafd91",
       "propertyCount": 3,
@@ -4382,7 +3611,7 @@
       "name": "AttendeeCollectionItem",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 30,
+      "line": 31,
       "exported": false,
       "fingerprint": "57c7d22614f4",
       "propertyCount": 3,
@@ -4392,7 +3621,7 @@
       "name": "UseAppointmentDataCollectionParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 41,
+      "line": 42,
       "exported": true,
       "fingerprint": "2727815dfca0",
       "propertyCount": 16,
@@ -4402,7 +3631,7 @@
       "name": "AttendeeSpec",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 64,
+      "line": 65,
       "exported": false,
       "fingerprint": "127be454b394",
       "propertyCount": 5,
@@ -4412,27 +3641,17 @@
       "name": "UseAppointmentDataCollectionReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "line": 92,
+      "line": 93,
       "exported": true,
       "fingerprint": "eb85b286448f",
       "propertyCount": 1,
       "primitiveAlias": null
     },
     {
-      "name": "UseAppointmentDropdownOptions",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "96ac283a2407",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseAppointmentDropdownReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAppointmentDropdown.ts",
-      "line": 18,
+      "line": 15,
       "exported": true,
       "fingerprint": "63bdb7e55f85",
       "propertyCount": 2,
@@ -4632,7 +3851,7 @@
       "name": "UseAvailabilityOrchestratorParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "734a8ff475d9",
       "propertyCount": 11,
@@ -4672,17 +3891,17 @@
       "name": "UseAvailabilityStepDataParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepData.ts",
-      "line": 24,
+      "line": 25,
       "exported": true,
-      "fingerprint": "16e03bf4318f",
-      "propertyCount": 4,
+      "fingerprint": "24b74f116be5",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityStepDataReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepData.ts",
-      "line": 30,
+      "line": 28,
       "exported": true,
       "fingerprint": "90235c23fcdc",
       "propertyCount": 2,
@@ -4729,16 +3948,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseAvailabilityValidationParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityValidation.ts",
-      "line": 14,
-      "exported": true,
-      "fingerprint": "185cb7e6b208",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseBlockInstanceSelectionParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
@@ -4782,7 +3991,7 @@
       "name": "BookingWizardStepValidators",
       "kind": "interface",
       "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-      "line": 5,
+      "line": 8,
       "exported": true,
       "fingerprint": "76433f283970",
       "propertyCount": 1,
@@ -4792,7 +4001,7 @@
       "name": "UseBookingWizardStepValidatorsOptions",
       "kind": "interface",
       "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
-      "line": 13,
+      "line": 16,
       "exported": true,
       "fingerprint": "505db2740b54",
       "propertyCount": 10,
@@ -4822,17 +4031,17 @@
       "name": "UseComputedAvailabilityParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useComputedAvailability.ts",
-      "line": 42,
+      "line": 41,
       "exported": true,
-      "fingerprint": "17dbc9f2637e",
-      "propertyCount": 6,
+      "fingerprint": "e0b52723844a",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
       "name": "UseComputedAvailabilityReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useComputedAvailability.ts",
-      "line": 51,
+      "line": 57,
       "exported": true,
       "fingerprint": "6dcd5a518a97",
       "propertyCount": 6,
@@ -4859,20 +4068,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "ContactInfo",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useContactsStepData.ts",
-      "line": 31,
-      "exported": true,
-      "fingerprint": "a6563057d9b8",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseContactsStepDataOptions",
       "kind": "interface",
       "file": "client/src/composables/booking/useContactsStepData.ts",
-      "line": 37,
+      "line": 35,
       "exported": true,
       "fingerprint": "408a5f4fe82c",
       "propertyCount": 1,
@@ -4882,7 +4081,7 @@
       "name": "UseContactsStepDataReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useContactsStepData.ts",
-      "line": 41,
+      "line": 39,
       "exported": true,
       "fingerprint": "db7d81019dae",
       "propertyCount": 18,
@@ -5059,20 +4258,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseInstanceDescriptionsOptions",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useInstanceDescriptions.ts",
-      "line": 20,
-      "exported": true,
-      "fingerprint": "98501c307caf",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseInstanceDescriptionsReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useInstanceDescriptions.ts",
-      "line": 26,
+      "line": 24,
       "exported": true,
       "fingerprint": "0a5d2724906a",
       "propertyCount": 2,
@@ -5249,33 +4438,33 @@
       "primitiveAlias": null
     },
     {
+      "name": "PropertyFormStateCore",
+      "kind": "interface",
+      "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
+      "line": 51,
+      "exported": true,
+      "fingerprint": "7a18f602a08f",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "UsePropertyDetailsLogicParams",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 49,
+      "line": 55,
       "exported": true,
-      "fingerprint": "cce38abda7a2",
-      "propertyCount": 11,
+      "fingerprint": "5cf5a695c4dc",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
       "name": "UsePropertyDetailsLogicReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/usePropertyDetailsLogic.ts",
-      "line": 64,
+      "line": 68,
       "exported": true,
       "fingerprint": "0d0aa6dfeab0",
       "propertyCount": 9,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UsePropertyFormStateReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/usePropertyFormState.ts",
-      "line": 16,
-      "exported": true,
-      "fingerprint": "7a18f602a08f",
-      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -5284,8 +4473,8 @@
       "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
       "line": 14,
       "exported": true,
-      "fingerprint": "c10b1db629f3",
-      "propertyCount": 3,
+      "fingerprint": "92f1a3f2a016",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
@@ -5379,20 +4568,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "UseSelectionCardGroupConfigParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useSelectionCardGroupConfig.ts",
-      "line": 18,
-      "exported": true,
-      "fingerprint": "3a93a1acff5b",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseSelectionCardGroupConfigReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useSelectionCardGroupConfig.ts",
-      "line": 22,
+      "line": 20,
       "exported": true,
       "fingerprint": "ebb5c6103a2f",
       "propertyCount": 4,
@@ -5502,39 +4681,29 @@
       "name": "UseWizardDevModeOptions",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardDevMode.ts",
-      "line": 13,
+      "line": 16,
       "exported": true,
-      "fingerprint": "cefd3bc4580e",
-      "propertyCount": 15,
+      "fingerprint": "b5e0c271dd1e",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
       "name": "UseWizardDevModeReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardDevMode.ts",
-      "line": 32,
+      "line": 31,
       "exported": true,
       "fingerprint": "c5d50d491237",
       "propertyCount": 2,
       "primitiveAlias": null
     },
     {
-      "name": "StepDefinition",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useWizardDisplay.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "979c2288fa49",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseWizardDisplayParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardDisplay.ts",
-      "line": 18,
+      "line": 15,
       "exported": true,
-      "fingerprint": "28b9410d8914",
+      "fingerprint": "62c697d9e392",
       "propertyCount": 3,
       "primitiveAlias": null
     },
@@ -5542,7 +4711,7 @@
       "name": "UseWizardDisplayReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardDisplay.ts",
-      "line": 24,
+      "line": 21,
       "exported": true,
       "fingerprint": "edd7176c42f2",
       "propertyCount": 3,
@@ -5559,22 +4728,12 @@
       "primitiveAlias": null
     },
     {
-      "name": "StepDefinition",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useWizardNavigation.ts",
-      "line": 10,
-      "exported": true,
-      "fingerprint": "979c2288fa49",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseWizardNavigationParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardNavigation.ts",
-      "line": 16,
+      "line": 13,
       "exported": true,
-      "fingerprint": "46a9df953039",
+      "fingerprint": "4989cd8fbd98",
       "propertyCount": 3,
       "primitiveAlias": null
     },
@@ -5582,7 +4741,7 @@
       "name": "UseWizardNavigationReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useWizardNavigation.ts",
-      "line": 22,
+      "line": 19,
       "exported": true,
       "fingerprint": "a0aafeec5b6c",
       "propertyCount": 10,
@@ -5662,20 +4821,20 @@
       "name": "BusinessDataCollectionCrudConfig",
       "kind": "type-alias-object",
       "file": "client/src/composables/businessDataCollections/types.ts",
-      "line": 33,
+      "line": 34,
       "exported": true,
-      "fingerprint": "72e74436e8c8",
-      "propertyCount": 1,
+      "fingerprint": "ec5083d23c32",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "BusinessDataCollectionCrudComposableReturn",
       "kind": "type-alias-object",
       "file": "client/src/composables/businessDataCollections/types.ts",
-      "line": 43,
+      "line": 44,
       "exported": true,
-      "fingerprint": "72e74436e8c8",
-      "propertyCount": 1,
+      "fingerprint": "214b1c1e9a7c",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -5686,46 +4845,6 @@
       "exported": false,
       "fingerprint": "72e74436e8c8",
       "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UpdateByIdPayload",
-      "kind": "type-alias-object",
-      "file": "client/src/composables/collectionTypes.ts",
-      "line": 7,
-      "exported": true,
-      "fingerprint": "8e80e096a229",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CollectionQueryResult",
-      "kind": "type-alias-object",
-      "file": "client/src/composables/collectionTypes.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "50694c1ae3e6",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CollectionByIdQueryResult",
-      "kind": "type-alias-object",
-      "file": "client/src/composables/collectionTypes.ts",
-      "line": 18,
-      "exported": true,
-      "fingerprint": "70ede59eaf71",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CollectionEndpoints",
-      "kind": "type-alias-object",
-      "file": "client/src/composables/collectionTypes.ts",
-      "line": 24,
-      "exported": true,
-      "fingerprint": "2b5e21b79daf",
-      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -5899,42 +5018,42 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseFormFieldsOptionsBase",
+      "kind": "interface",
+      "file": "client/src/composables/formFields/types.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "6aac72d89609",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseFormFieldsOptions",
       "kind": "interface",
       "file": "client/src/composables/formFields/types.ts",
-      "line": 10,
+      "line": 24,
       "exported": true,
-      "fingerprint": "569f50bee0d3",
-      "propertyCount": 8,
+      "fingerprint": "ba4eaa4fbf67",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
       "name": "UseFormFieldsReturn",
       "kind": "interface",
       "file": "client/src/composables/formFields/types.ts",
-      "line": 26,
+      "line": 32,
       "exported": true,
       "fingerprint": "e03d07e764b6",
       "propertyCount": 14,
       "primitiveAlias": null
     },
     {
-      "name": "UseFormFieldsContextOptions",
-      "kind": "type-alias-object",
-      "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "line": 14,
-      "exported": false,
-      "fingerprint": "ce15711971e1",
-      "propertyCount": 6,
-      "primitiveAlias": null
-    },
-    {
       "name": "UseFormFieldsContextReturn",
       "kind": "type-alias-object",
       "file": "client/src/composables/formFields/useFormFieldsContext.ts",
-      "line": 28,
+      "line": 13,
       "exported": true,
-      "fingerprint": "64e829b7cc34",
+      "fingerprint": "99b1ec4d848c",
       "propertyCount": 8,
       "primitiveAlias": null
     },
@@ -5962,20 +5081,20 @@
       "name": "GlobalDataCollectionCrudConfig",
       "kind": "type-alias-object",
       "file": "client/src/composables/globalDataCollections/types.ts",
-      "line": 23,
+      "line": 24,
       "exported": true,
-      "fingerprint": "72e74436e8c8",
-      "propertyCount": 1,
+      "fingerprint": "67d0bd987cd0",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "GlobalDataCollectionCrudComposableReturn",
       "kind": "type-alias-object",
       "file": "client/src/composables/globalDataCollections/types.ts",
-      "line": 32,
+      "line": 33,
       "exported": true,
-      "fingerprint": "72e74436e8c8",
-      "propertyCount": 1,
+      "fingerprint": "d36cbc669999",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -6009,6 +5128,46 @@
       "primitiveAlias": null
     },
     {
+      "name": "UpdateByIdPayload",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/useCollectionTypes.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "8e80e096a229",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "CollectionQueryResult",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/useCollectionTypes.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "50694c1ae3e6",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "CollectionByIdQueryResult",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/useCollectionTypes.ts",
+      "line": 18,
+      "exported": true,
+      "fingerprint": "70ede59eaf71",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "CollectionEndpoints",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/useCollectionTypes.ts",
+      "line": 24,
+      "exported": true,
+      "fingerprint": "2b5e21b79daf",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseComponentDistributionOptions",
       "kind": "interface",
       "file": "client/src/composables/useComponentDistribution.ts",
@@ -6032,10 +5191,10 @@
       "name": "UseEntityFormOptions",
       "kind": "interface",
       "file": "client/src/composables/useEntityForm.ts",
-      "line": 16,
+      "line": 19,
       "exported": true,
-      "fingerprint": "11de9828e763",
-      "propertyCount": 4,
+      "fingerprint": "8dec953b7952",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -6149,20 +5308,30 @@
       "primitiveAlias": null
     },
     {
+      "name": "SelectOptionBase",
+      "kind": "interface",
+      "file": "client/src/composables/useSelectOptions.ts",
+      "line": 24,
+      "exported": true,
+      "fingerprint": "fbee4b3e4137",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "SelectOption",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 22,
+      "line": 28,
       "exported": true,
-      "fingerprint": "7715e56373de",
-      "propertyCount": 3,
+      "fingerprint": "48cd07de0ad9",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
       "name": "GroupedEntities",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 30,
+      "line": 34,
       "exported": true,
       "fingerprint": "cc1e63e0db8f",
       "propertyCount": 1,
@@ -6172,7 +5341,7 @@
       "name": "UseSelectOptionsOptions",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 33,
+      "line": 37,
       "exported": true,
       "fingerprint": "e94cdfae9b06",
       "propertyCount": 7,
@@ -6182,7 +5351,7 @@
       "name": "UseSelectOptionsReturn",
       "kind": "interface",
       "file": "client/src/composables/useSelectOptions.ts",
-      "line": 43,
+      "line": 47,
       "exported": true,
       "fingerprint": "686c75148e24",
       "propertyCount": 6,
@@ -6282,27 +5451,27 @@
       "name": "AvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 69,
+      "line": 70,
       "exported": true,
-      "fingerprint": "8dfb8b118b84",
-      "propertyCount": 45,
+      "fingerprint": "9079e911a2a8",
+      "propertyCount": 42,
       "primitiveAlias": null
     },
     {
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 219,
+      "line": 213,
       "exported": true,
-      "fingerprint": "af7a59aee6c0",
-      "propertyCount": 37,
+      "fingerprint": "5c8ab0b15f45",
+      "propertyCount": 34,
       "primitiveAlias": null
     },
     {
       "name": "CacheEntry",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 273,
+      "line": 263,
       "exported": false,
       "fingerprint": "43644754b3f5",
       "propertyCount": 2,
@@ -6379,16 +5548,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "USStateOption",
-      "kind": "interface",
-      "file": "client/src/configs/usStates.ts",
-      "line": 6,
-      "exported": true,
-      "fingerprint": "fbee4b3e4137",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "WizardStepConfig",
       "kind": "interface",
       "file": "client/src/configs/wizardSteps.ts",
@@ -6402,10 +5561,10 @@
       "name": "FieldMetadataEntry",
       "kind": "interface",
       "file": "client/src/constants/fieldMetadata.ts",
-      "line": 41,
+      "line": 39,
       "exported": true,
-      "fingerprint": "6e3d918e8580",
-      "propertyCount": 11,
+      "fingerprint": "e123ee467c45",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
@@ -6539,20 +5698,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "TimeRange",
-      "kind": "interface",
-      "file": "client/src/types/appointment.ts",
-      "line": 16,
-      "exported": true,
-      "fingerprint": "feedd2f3e18c",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "TimeSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 22,
+      "line": 19,
       "exported": true,
       "fingerprint": "7923b0c2ee4d",
       "propertyCount": 6,
@@ -6562,7 +5711,7 @@
       "name": "EventFinal",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 48,
+      "line": 45,
       "exported": true,
       "fingerprint": "571292729b7c",
       "propertyCount": 3,
@@ -6572,7 +5721,7 @@
       "name": "SlotShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 73,
+      "line": 70,
       "exported": true,
       "fingerprint": "533db6e7ffee",
       "propertyCount": 5,
@@ -6582,7 +5731,7 @@
       "name": "AppointmentShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 100,
+      "line": 97,
       "exported": true,
       "fingerprint": "f0637d5f79b2",
       "propertyCount": 4,
@@ -6592,7 +5741,7 @@
       "name": "AppointmentSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 121,
+      "line": 118,
       "exported": true,
       "fingerprint": "289ce0187128",
       "propertyCount": 8,
@@ -6602,7 +5751,7 @@
       "name": "PerspectiveKey",
       "kind": "type-alias-union",
       "file": "client/src/types/appointment.ts",
-      "line": 31,
+      "line": 28,
       "exported": true,
       "fingerprint": "6a9e94092161",
       "propertyCount": 0,
@@ -6612,37 +5761,27 @@
       "name": "PropertyResponse",
       "kind": "interface",
       "file": "client/src/types/appointmentApi.ts",
-      "line": 11,
+      "line": 13,
       "exported": true,
-      "fingerprint": "b705fa0f97e8",
-      "propertyCount": 14,
+      "fingerprint": "232a498e97fa",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
       "name": "UserResponse",
       "kind": "interface",
       "file": "client/src/types/appointmentApi.ts",
-      "line": 28,
+      "line": 19,
       "exported": true,
-      "fingerprint": "a9e0f0e2cc77",
-      "propertyCount": 9,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AttendeeRequest",
-      "kind": "interface",
-      "file": "client/src/types/appointmentApi.ts",
-      "line": 47,
-      "exported": true,
-      "fingerprint": "7bdce639696e",
-      "propertyCount": 4,
+      "fingerprint": "2a430b46cf8f",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "AttendeeResponse",
       "kind": "interface",
       "file": "client/src/types/appointmentApi.ts",
-      "line": 61,
+      "line": 37,
       "exported": true,
       "fingerprint": "091d3435cb63",
       "propertyCount": 13,
@@ -6652,7 +5791,7 @@
       "name": "AppointmentRequest",
       "kind": "interface",
       "file": "client/src/types/appointmentApi.ts",
-      "line": 84,
+      "line": 60,
       "exported": true,
       "fingerprint": "873649497e15",
       "propertyCount": 24,
@@ -6662,20 +5801,30 @@
       "name": "AppointmentResponse",
       "kind": "interface",
       "file": "client/src/types/appointmentApi.ts",
-      "line": 115,
+      "line": 91,
       "exported": true,
       "fingerprint": "876630377f33",
       "propertyCount": 30,
       "primitiveAlias": null
     },
     {
-      "name": "PropertyDetails",
+      "name": "AvailabilitySettingsFormParams",
       "kind": "interface",
-      "file": "client/src/types/availability.ts",
-      "line": 17,
+      "file": "client/src/types/availabilitySettingsParams.ts",
+      "line": 7,
       "exported": true,
-      "fingerprint": "c9ba659724b1",
-      "propertyCount": 5,
+      "fingerprint": "e900d197d2bf",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilityStepParamsBase",
+      "kind": "interface",
+      "file": "client/src/types/availabilityStepParams.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "185cb7e6b208",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -6759,36 +5908,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "ISO8601Date",
-      "kind": "type-alias-primitive",
-      "file": "client/src/types/datetime.ts",
-      "line": 46,
-      "exported": true,
-      "fingerprint": "primitive:string",
-      "propertyCount": 0,
-      "primitiveAlias": "string"
-    },
-    {
-      "name": "RFC3339DateTime",
-      "kind": "type-alias-primitive",
-      "file": "client/src/types/datetime.ts",
-      "line": 76,
-      "exported": true,
-      "fingerprint": "primitive:string",
-      "propertyCount": 0,
-      "primitiveAlias": "string"
-    },
-    {
-      "name": "GlobalEntityId",
-      "kind": "type-alias-primitive",
-      "file": "client/src/types/entities.ts",
-      "line": 6,
-      "exported": true,
-      "fingerprint": "primitive:string",
-      "propertyCount": 0,
-      "primitiveAlias": "string"
-    },
-    {
       "name": "ValidationRule",
       "kind": "interface",
       "file": "client/src/types/entity/formFields.ts",
@@ -6849,20 +5968,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "GoogleCalendarBusyPeriod",
-      "kind": "interface",
-      "file": "client/src/types/googleCalendar.ts",
-      "line": 17,
-      "exported": true,
-      "fingerprint": "c62c5ebd4d3e",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "GoogleCalendarError",
       "kind": "interface",
       "file": "client/src/types/googleCalendar.ts",
-      "line": 21,
+      "line": 12,
       "exported": false,
       "fingerprint": "89527b4709b7",
       "propertyCount": 2,
@@ -6872,7 +5981,7 @@
       "name": "GoogleCalendarFreeBusy",
       "kind": "interface",
       "file": "client/src/types/googleCalendar.ts",
-      "line": 33,
+      "line": 24,
       "exported": false,
       "fingerprint": "8c1f2053f7f4",
       "propertyCount": 2,
@@ -6882,7 +5991,7 @@
       "name": "GoogleCalendarGroup",
       "kind": "interface",
       "file": "client/src/types/googleCalendar.ts",
-      "line": 37,
+      "line": 28,
       "exported": false,
       "fingerprint": "b12d227cd0e0",
       "propertyCount": 2,
@@ -6892,7 +6001,7 @@
       "name": "GoogleFreeBusyResponse",
       "kind": "interface",
       "file": "client/src/types/googleCalendar.ts",
-      "line": 63,
+      "line": 54,
       "exported": true,
       "fingerprint": "bd1aa7a07ac5",
       "propertyCount": 5,
@@ -6902,7 +6011,7 @@
       "name": "ContingencyPeriod",
       "kind": "interface",
       "file": "client/src/types/moveableScheduling.ts",
-      "line": 9,
+      "line": 11,
       "exported": true,
       "fingerprint": "c9fcd95fa204",
       "propertyCount": 3,
@@ -6912,7 +6021,7 @@
       "name": "MoveableSchedulingOptions",
       "kind": "interface",
       "file": "client/src/types/moveableScheduling.ts",
-      "line": 15,
+      "line": 17,
       "exported": true,
       "fingerprint": "ff7773638976",
       "propertyCount": 6,
@@ -6922,37 +6031,37 @@
       "name": "MoveableSlot",
       "kind": "interface",
       "file": "client/src/types/moveableScheduling.ts",
-      "line": 24,
+      "line": 26,
       "exported": true,
-      "fingerprint": "f18dabe59555",
-      "propertyCount": 5,
+      "fingerprint": "15e2ac1d49d9",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "PropertyRequest",
       "kind": "interface",
       "file": "client/src/types/property.ts",
-      "line": 10,
+      "line": 11,
       "exported": true,
-      "fingerprint": "dc53dcfc32d3",
-      "propertyCount": 15,
+      "fingerprint": "125429c16cf9",
+      "propertyCount": 10,
       "primitiveAlias": null
     },
     {
       "name": "PropertyResponse",
       "kind": "interface",
       "file": "client/src/types/property.ts",
-      "line": 27,
+      "line": 23,
       "exported": true,
-      "fingerprint": "234a48ea7a53",
-      "propertyCount": 21,
+      "fingerprint": "bc20c11030bd",
+      "propertyCount": 10,
       "primitiveAlias": null
     },
     {
       "name": "PropertyVersionType",
       "kind": "interface",
       "file": "client/src/types/property.ts",
-      "line": 58,
+      "line": 43,
       "exported": true,
       "fingerprint": "c5b34a5a01f2",
       "propertyCount": 11,
@@ -6962,7 +6071,7 @@
       "name": "PropertyTypesRequest",
       "kind": "interface",
       "file": "client/src/types/property.ts",
-      "line": 72,
+      "line": 57,
       "exported": true,
       "fingerprint": "45f1a3acbfd7",
       "propertyCount": 1,
@@ -6972,17 +6081,17 @@
       "name": "PropertyDetailsData",
       "kind": "interface",
       "file": "client/src/types/propertyForm.ts",
-      "line": 27,
+      "line": 29,
       "exported": true,
-      "fingerprint": "76743bcdc8e5",
-      "propertyCount": 18,
+      "fingerprint": "e68cd8420532",
+      "propertyCount": 14,
       "primitiveAlias": null
     },
     {
       "name": "PropertyFormData",
       "kind": "interface",
       "file": "client/src/types/propertyForm.ts",
-      "line": 53,
+      "line": 50,
       "exported": true,
       "fingerprint": "6b1844a37a5e",
       "propertyCount": 18,
@@ -7139,6 +6248,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "WizardDevOptionsBase",
+      "kind": "interface",
+      "file": "client/src/types/wizardDevOptions.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "619001529087",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "SummaryData",
       "kind": "interface",
       "file": "client/src/types/wizardStepData.ts",
@@ -7269,20 +6388,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "BlockInstanceFeeResult",
-      "kind": "interface",
-      "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 39,
-      "exported": true,
-      "fingerprint": "edb21a12c838",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
       "name": "WizardSelectionState",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 15,
+      "line": 16,
       "exported": false,
       "fingerprint": "4c5d84ec88b3",
       "propertyCount": 4,
@@ -7292,7 +6401,7 @@
       "name": "PropertyDetailsStepData",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 22,
+      "line": 23,
       "exported": false,
       "fingerprint": "25dc3bed168a",
       "propertyCount": 7,
@@ -7332,10 +6441,10 @@
       "name": "MinimalSlotParams",
       "kind": "interface",
       "file": "client/src/utils/booking/minimalSlotGenerator.ts",
-      "line": 12,
+      "line": 14,
       "exported": true,
-      "fingerprint": "69ad0c5636d6",
-      "propertyCount": 7,
+      "fingerprint": "19f7b80bc7be",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -7389,10 +6498,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "SlotGenerationParams",
+      "name": "SlotGenerationParamsBase",
       "kind": "interface",
       "file": "client/src/utils/booking/slotGenerationValidation.ts",
-      "line": 15,
+      "line": 17,
       "exported": true,
       "fingerprint": "3a96bb105de1",
       "propertyCount": 4,
@@ -7419,20 +6528,10 @@
       "primitiveAlias": null
     },
     {
-      "name": "DayBusinessHours",
-      "kind": "interface",
-      "file": "client/src/utils/booking/timeSlotTypes.ts",
-      "line": 37,
-      "exported": true,
-      "fingerprint": "c62c5ebd4d3e",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "BusyTimeRange",
       "kind": "interface",
       "file": "client/src/utils/booking/timeSlotTypes.ts",
-      "line": 68,
+      "line": 63,
       "exported": true,
       "fingerprint": "03cefbcc8fb0",
       "propertyCount": 4,
@@ -7446,26 +6545,6 @@
       "exported": true,
       "fingerprint": "858569b247dc",
       "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "IdentifiableById",
-      "kind": "type-alias-object",
-      "file": "client/src/utils/collections/appendIfMissingById.ts",
-      "line": 1,
-      "exported": true,
-      "fingerprint": "72e74436e8c8",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "WindowWithDebug",
-      "kind": "interface",
-      "file": "client/src/utils/debug/windowDebug.ts",
-      "line": 13,
-      "exported": false,
-      "fingerprint": "empty",
-      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -7519,13 +6598,23 @@
       "primitiveAlias": null
     },
     {
-      "name": "FormElementPatchingOptions",
-      "kind": "type-alias-object",
+      "name": "FormElementPatchingOptionsBase",
+      "kind": "interface",
       "file": "client/src/utils/forms/formElementPatching.ts",
-      "line": 9,
+      "line": 10,
       "exported": true,
-      "fingerprint": "26592870749d",
-      "propertyCount": 4,
+      "fingerprint": "e266e0c6b21c",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "FormElementPatchingOptions",
+      "kind": "interface",
+      "file": "client/src/utils/forms/formElementPatching.ts",
+      "line": 15,
+      "exported": true,
+      "fingerprint": "146cfb207c13",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -7652,7 +6741,7 @@
       "name": "BookingPartInstance",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 27,
+      "line": 28,
       "exported": true,
       "fingerprint": "98440fda860f",
       "propertyCount": 12,
@@ -7662,20 +6751,10 @@
       "name": "BookingBlockShape",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 43,
+      "line": 44,
       "exported": true,
       "fingerprint": "1c889e079dd3",
       "propertyCount": 6,
-      "primitiveAlias": null
-    },
-    {
-      "name": "BookingBlockInstance",
-      "kind": "type-alias-object",
-      "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 52,
-      "exported": true,
-      "fingerprint": "3251106046dd",
-      "propertyCount": 18,
       "primitiveAlias": null
     },
     {
@@ -7802,10 +6881,10 @@
       "name": "AvailabilitySettingsData",
       "kind": "interface",
       "file": "server/src/db/models/admin/business_settings.ts",
-      "line": 41,
+      "line": 38,
       "exported": true,
-      "fingerprint": "a63f46b599cd",
-      "propertyCount": 51,
+      "fingerprint": "c1025acde590",
+      "propertyCount": 48,
       "primitiveAlias": null
     },
     {
@@ -7852,7 +6931,7 @@
       "name": "SafeDeleteOptions",
       "kind": "interface",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 206,
+      "line": 205,
       "exported": true,
       "fingerprint": "472686927593",
       "propertyCount": 4,
@@ -7862,7 +6941,7 @@
       "name": "WhereById",
       "kind": "type-alias-object",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 21,
+      "line": 20,
       "exported": false,
       "fingerprint": "87c46cd8bcd2",
       "propertyCount": 1,
@@ -7872,7 +6951,7 @@
       "name": "DependentDelete",
       "kind": "type-alias-object",
       "file": "server/src/routes/helpers/dataController.ts",
-      "line": 200,
+      "line": 199,
       "exported": true,
       "fingerprint": "da1eba67be76",
       "propertyCount": 2,
@@ -7896,16 +6975,6 @@
       "exported": false,
       "fingerprint": "bc8385219aee",
       "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AttendeeRequest",
-      "kind": "interface",
-      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 173,
-      "exported": true,
-      "fingerprint": "01b53342ea48",
-      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -7982,7 +7051,7 @@
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 38,
+      "line": 40,
       "exported": true,
       "fingerprint": "448718fdcd86",
       "propertyCount": 17,
@@ -7992,20 +7061,20 @@
       "name": "ParsedClient",
       "kind": "interface",
       "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 67,
+      "line": 69,
       "exported": true,
-      "fingerprint": "4284208aaefa",
-      "propertyCount": 4,
+      "fingerprint": "b00922fc123e",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
       "name": "ParsedProperty",
       "kind": "interface",
       "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "line": 79,
+      "line": 78,
       "exported": true,
-      "fingerprint": "d0be7b68530d",
-      "propertyCount": 11,
+      "fingerprint": "fba56ea15d18",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -8063,7 +7132,7 @@
       "kind": "interface",
       "file": "server/src/services/calendarEventsCache.ts",
       "line": 21,
-      "exported": false,
+      "exported": true,
       "fingerprint": "1ee238990521",
       "propertyCount": 3,
       "primitiveAlias": null
@@ -8219,6 +7288,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "BlockInstanceVersionComparison",
+      "kind": "interface",
+      "file": "server/src/services/instanceVersioning.ts",
+      "line": 19,
+      "exported": false,
+      "fingerprint": "1fc43e3c9d96",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
       "name": "PropertyEnrichmentCacheEntry",
       "kind": "interface",
       "file": "server/src/services/propertyEnrichmentCache.ts",
@@ -8322,20 +7401,20 @@
       "name": "FieldMetadataEntry",
       "kind": "interface",
       "file": "server/src/utils/adminMetadataComposer.ts",
-      "line": 13,
+      "line": 16,
       "exported": true,
-      "fingerprint": "1e7f973fbb2b",
-      "propertyCount": 12,
+      "fingerprint": "2001e18dc256",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "RelationshipMetadataEntry",
       "kind": "interface",
       "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-      "line": 12,
+      "line": 15,
       "exported": true,
-      "fingerprint": "859d9ac363c9",
-      "propertyCount": 12,
+      "fingerprint": "fe601da2a8ab",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -8349,30 +7428,50 @@
       "primitiveAlias": null
     },
     {
+      "name": "FeeEntryBase",
+      "kind": "interface",
+      "file": "shared/types/appointmentFeeTypes.ts",
+      "line": 33,
+      "exported": true,
+      "fingerprint": "edb21a12c838",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "AppointmentFeeEntry",
       "kind": "interface",
       "file": "shared/types/appointmentFeeTypes.ts",
-      "line": 35,
+      "line": 45,
       "exported": true,
-      "fingerprint": "79d336d5f4a5",
-      "propertyCount": 9,
+      "fingerprint": "c5fde6a190e8",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
       "name": "AppointmentFeeBreakdownPayload",
       "kind": "interface",
       "file": "shared/types/appointmentFeeTypes.ts",
-      "line": 72,
+      "line": 79,
       "exported": true,
       "fingerprint": "013b1abd3636",
       "propertyCount": 2,
       "primitiveAlias": null
     },
     {
-      "name": "DayHours",
+      "name": "AttendeeRequest",
+      "kind": "interface",
+      "file": "shared/types/appointmentTypes.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "7bdce639696e",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "TimeRangeBounds",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 73,
+      "line": 71,
       "exported": true,
       "fingerprint": "c62c5ebd4d3e",
       "propertyCount": 2,
@@ -8382,7 +7481,7 @@
       "name": "BusinessHoursConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 85,
+      "line": 89,
       "exported": true,
       "fingerprint": "e65e474599ea",
       "propertyCount": 8,
@@ -8392,27 +7491,17 @@
       "name": "LeadTimeConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 103,
+      "line": 107,
       "exported": true,
       "fingerprint": "4ca75d8af3e0",
       "propertyCount": 1,
       "primitiveAlias": null
     },
     {
-      "name": "DateRangeConfig",
-      "kind": "interface",
-      "file": "shared/types/availabilityTypes.ts",
-      "line": 113,
-      "exported": true,
-      "fingerprint": "c62c5ebd4d3e",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
       "name": "RangeConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 124,
+      "line": 123,
       "exported": true,
       "fingerprint": "f05e5df158f7",
       "propertyCount": 4,
@@ -8422,7 +7511,7 @@
       "name": "BufferConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 149,
+      "line": 148,
       "exported": true,
       "fingerprint": "294b380efae5",
       "propertyCount": 4,
@@ -8432,7 +7521,7 @@
       "name": "DriveTimeConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 161,
+      "line": 160,
       "exported": true,
       "fingerprint": "e80c45a9b95a",
       "propertyCount": 3,
@@ -8442,7 +7531,7 @@
       "name": "OverlapConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 176,
+      "line": 175,
       "exported": true,
       "fingerprint": "a007e5008190",
       "propertyCount": 6,
@@ -8452,7 +7541,7 @@
       "name": "CapacityConstraint",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 191,
+      "line": 199,
       "exported": true,
       "fingerprint": "487e374efd9d",
       "propertyCount": 8,
@@ -8462,27 +7551,37 @@
       "name": "IncomeCapacityFilter",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 208,
+      "line": 216,
       "exported": true,
       "fingerprint": "277ace450a87",
       "propertyCount": 2,
       "primitiveAlias": null
     },
     {
-      "name": "RollingWeekIncomeCapacityFilter",
+      "name": "RollingWeekFilterBase",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 219,
+      "line": 222,
       "exported": true,
       "fingerprint": "c1b027d82f51",
       "propertyCount": 1,
       "primitiveAlias": null
     },
     {
+      "name": "RollingWeekIncomeCapacityFilter",
+      "kind": "interface",
+      "file": "shared/types/availabilityTypes.ts",
+      "line": 230,
+      "exported": true,
+      "fingerprint": "empty",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
       "name": "ConstraintCheckResult",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 237,
+      "line": 246,
       "exported": true,
       "fingerprint": "f93e30ea7d67",
       "propertyCount": 2,
@@ -8492,7 +7591,7 @@
       "name": "WorkCapacityFilter",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 267,
+      "line": 276,
       "exported": true,
       "fingerprint": "b047f06e0c97",
       "propertyCount": 2,
@@ -8502,17 +7601,17 @@
       "name": "RollingWeekCapacityFilter",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 278,
+      "line": 285,
       "exported": true,
-      "fingerprint": "c1b027d82f51",
-      "propertyCount": 1,
+      "fingerprint": "empty",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
       "name": "DefaultLocation",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 298,
+      "line": 303,
       "exported": true,
       "fingerprint": "de5f9a5d9a01",
       "propertyCount": 4,
@@ -8522,7 +7621,7 @@
       "name": "DurationRoundingConfig",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 311,
+      "line": 316,
       "exported": true,
       "fingerprint": "efb40e0b432a",
       "propertyCount": 3,
@@ -8532,7 +7631,7 @@
       "name": "BusyTimeRange",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 323,
+      "line": 328,
       "exported": true,
       "fingerprint": "7baabfba3a0b",
       "propertyCount": 6,
@@ -8542,7 +7641,7 @@
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 338,
+      "line": 343,
       "exported": true,
       "fingerprint": "3cf76c390008",
       "propertyCount": 7,
@@ -8552,7 +7651,7 @@
       "name": "ComputedAvailabilityRequest",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 354,
+      "line": 360,
       "exported": true,
       "fingerprint": "b21f3cdfb9e8",
       "propertyCount": 6,
@@ -8562,27 +7661,37 @@
       "name": "ComputedAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 370,
+      "line": 383,
       "exported": true,
       "fingerprint": "64cff98bd68c",
       "propertyCount": 14,
       "primitiveAlias": null
     },
     {
+      "name": "SlotTimeBounds",
+      "kind": "interface",
+      "file": "shared/types/availabilityTypes.ts",
+      "line": 411,
+      "exported": true,
+      "fingerprint": "feedd2f3e18c",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "ComputedSlot",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 399,
+      "line": 422,
       "exported": true,
-      "fingerprint": "644b40e315fc",
-      "propertyCount": 5,
+      "fingerprint": "b36833a48c81",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "ComputedSlotAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 412,
+      "line": 432,
       "exported": true,
       "fingerprint": "2cb1732b8569",
       "propertyCount": 14,
@@ -8652,7 +7761,7 @@
       "name": "BufferType",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 136,
+      "line": 135,
       "exported": true,
       "fingerprint": "08985be76fa1",
       "propertyCount": 0,
@@ -8662,7 +7771,7 @@
       "name": "BufferPlacement",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 142,
+      "line": 141,
       "exported": true,
       "fingerprint": "e7bd96eb8908",
       "propertyCount": 0,
@@ -8672,10 +7781,20 @@
       "name": "BusyPeriodSource",
       "kind": "type-alias-union",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 259,
+      "line": 268,
       "exported": true,
       "fingerprint": "722ae6a5bd85",
       "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BlockInstanceLike",
+      "kind": "interface",
+      "file": "shared/types/blockInstanceTypes.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "2d8e80348d38",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -8769,6 +7888,26 @@
       "primitiveAlias": null
     },
     {
+      "name": "ContactInfoBase",
+      "kind": "interface",
+      "file": "shared/types/contactTypes.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "a02c1420de3b",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "IdentifiableById",
+      "kind": "interface",
+      "file": "shared/types/identifiable.ts",
+      "line": 5,
+      "exported": true,
+      "fingerprint": "5856ef90a7a8",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "AppLogger",
       "kind": "type-alias-object",
       "file": "shared/types/loggerTypes.ts",
@@ -8859,13 +7998,63 @@
       "primitiveAlias": null
     },
     {
+      "name": "MetadataEntryBase",
+      "kind": "interface",
+      "file": "shared/types/metadataEntryTypes.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "3ee949ba5b08",
+      "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ISO8601Date",
+      "kind": "type-alias-primitive",
+      "file": "shared/types/primitiveBrands.ts",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "primitive:string",
+      "propertyCount": 0,
+      "primitiveAlias": "string"
+    },
+    {
+      "name": "GlobalEntityId",
+      "kind": "type-alias-primitive",
+      "file": "shared/types/primitiveBrands.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "primitive:string",
+      "propertyCount": 0,
+      "primitiveAlias": "string"
+    },
+    {
       "name": "PropertyEnrichmentResponse",
       "kind": "interface",
       "file": "shared/types/propertyEnrichmentTypes.ts",
-      "line": 15,
+      "line": 17,
       "exported": true,
-      "fingerprint": "2a8aa740b48c",
-      "propertyCount": 7,
+      "fingerprint": "8f43c1be9947",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyAddressBase",
+      "kind": "interface",
+      "file": "shared/types/propertyTypes.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "63cfd365b244",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "PropertyDetailsBase",
+      "kind": "interface",
+      "file": "shared/types/propertyTypes.ts",
+      "line": 25,
+      "exported": true,
+      "fingerprint": "5d9218a826cf",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {

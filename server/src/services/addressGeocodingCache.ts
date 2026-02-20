@@ -12,7 +12,7 @@
  * Cached geocoding entry
  * LEARNING: Stores placeId result (or null if not found) with timestamp
  */
-export interface AddressGeocodingCacheEntry {
+interface AddressGeocodingCacheEntry {
   placeId: string | null;  // null means address was geocoded but no placeId found
   timestamp: number;
 }
@@ -135,54 +135,4 @@ export function cachePlaceId(address: string, placeId: string | null): void {
   if (cache.size % 10 === 0) {
     cleanExpiredEntries()
   }
-}
-
-/**
- * Clear all cache entries
- * LEARNING: Useful for testing or manual cache clearing
- * WHY: Allows complete cache reset
- */
-export function clearGeocodingCache(): void {
-  cache.clear()
-}
-
-/**
- * Get cache statistics
- * LEARNING: Useful for monitoring cache performance
- * @returns Cache statistics
- */
-export function getGeocodingCacheStats(): {
-  totalEntries: number
-  oldestEntryAge: number | null
-  memoryEstimateBytes: number
-} {
-  cleanExpiredEntries()
-  
-  let oldestTimestamp: number | null = null
-  for (const entry of cache.values()) {
-    if (oldestTimestamp === null || entry.timestamp < oldestTimestamp) {
-      oldestTimestamp = entry.timestamp
-    }
-  }
-  
-  const oldestEntryAge = oldestTimestamp !== null 
-    ? Math.round((Date.now() - oldestTimestamp) / 1000 / 60 / 60 / 24) // in days
-    : null
-  
-  return {
-    totalEntries: cache.size,
-    oldestEntryAge,
-    memoryEstimateBytes: cache.size * 150 // Rough estimate per entry
-  }
-}
-
-/**
- * Get all cached entries (for debugging)
- * LEARNING: Returns all cache entries for inspection
- * WHY: Useful for dev panel to display cache contents
- * @returns Map of cache keys to entries
- */
-export function getAllCachedGeocodings(): Map<string, AddressGeocodingCacheEntry> {
-  cleanExpiredEntries()
-  return new Map(cache)
 }

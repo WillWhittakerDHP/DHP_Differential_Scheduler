@@ -13,10 +13,10 @@
  */
 
 import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
-import { useEntityCrud } from '../useEntity'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
 import { createLogger } from '@/utils/logger'
-import type { UseInstanceBlockInstancesByShapeOptions } from './instanceComposableOptions'
+import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
 
 const logger = createLogger('useInstanceBulkEdit')
 

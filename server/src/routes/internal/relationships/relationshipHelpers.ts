@@ -48,7 +48,7 @@ export function mapAttendeeAssignmentsFields(
 /**
  * Map event assignment API fields; resolves parent kind (partInstance vs blockInstance)
  */
-export async function mapEventAssignmentsFields(
+async function mapEventAssignmentsFields(
   parentId: string,
   childId: string
 ): Promise<Record<string, string>> {
@@ -96,7 +96,7 @@ export async function mapRelationshipFields(
  * Get child instance IDs for a given parent in the component graph
  * LEARNING: Extracted for BFS; single place for InstanceComponent query
  */
-export async function getComponentChildIds(instanceId: string): Promise<string[]> {
+async function getComponentChildIds(instanceId: string): Promise<string[]> {
   const parents = await InstanceComponent.findAll({
     attributes: getModelAttributes(InstanceComponent),
     where: {
@@ -156,14 +156,16 @@ export async function hasCircularReference(
  * @returns Object with parent and child block instances and their shapes
  * @throws Error if entities don't exist or are missing block shapes
  */
+type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & { block_shape?: InstanceType<typeof BlockShape> }
+
 export async function validateBlockInstancesWithShapes(
   parentId: string,
   childId: string
 ): Promise<{
-  parentBlockInstance: any
-  childBlockInstance: any
-  parentBlockShape: any
-  childBlockShape: any
+  parentBlockInstance: BlockInstanceWithShape
+  childBlockInstance: BlockInstanceWithShape
+  parentBlockShape: InstanceType<typeof BlockShape>
+  childBlockShape: InstanceType<typeof BlockShape>
 }> {
   const parentBlockInstance = await BlockInstance.findByPk(parentId, {
     include: [{ model: BlockShape, as: 'block_shape' }],
@@ -176,7 +178,6 @@ export async function validateBlockInstancesWithShapes(
     throw new Error(ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND)
   }
   
-  type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & { block_shape?: InstanceType<typeof BlockShape> }
   const parentBlockShape = (parentBlockInstance as BlockInstanceWithShape).block_shape
   if (!parentBlockShape) {
     throw new Error(`BlockInstance parent missing BlockShape: ${parentId}`)
@@ -205,8 +206,8 @@ const NOT_COMPOSABLE_MSG = (name: string): string =>
  * PATTERN: Early returns with clear error messages
  */
 export function validateBlockShapesComposable(
-  parentBlockShape: any,
-  childBlockShape: any
+  parentBlockShape: InstanceType<typeof BlockShape>,
+  childBlockShape: InstanceType<typeof BlockShape>
 ): void {
   if (!parentBlockShape.composable) {
     throw new Error(NOT_COMPOSABLE_MSG(parentBlockShape.name))

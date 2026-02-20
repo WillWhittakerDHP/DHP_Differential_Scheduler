@@ -1,6 +1,6 @@
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventShapeEntity } from '@/types/entities'
 import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'

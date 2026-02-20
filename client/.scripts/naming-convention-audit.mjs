@@ -3,15 +3,16 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   categorizeMatches,
   summarizeExceptions,
   renderAllowedExceptionsSection,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Naming Convention Audit Script
@@ -26,56 +27,14 @@ import {
  *   - client/.audit-reports/naming-convention-audit.md
  */
 
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = IS_CLIENT_DIR
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'naming-convention-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'naming-convention-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'naming-convention-audit-config.json')
-
 const AUDIT_TYPE = 'naming-convention'
 
-function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
-function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
+function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
 const PASCAL = /^[A-Z][a-zA-Z0-9]*$/
 const CAMEL = /^[a-z][a-zA-Z0-9]*$/
 const UPPER_SNAKE = /^[A-Z][A-Z0-9_]*$/
 const USE_PREFIX = /^use[A-Z][a-zA-Z0-9]*$/
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 function checkFileName(repoPath, fileName) {
   const violations = []
@@ -195,19 +154,16 @@ function renderMarkdownReport(scanned, exceptionSummary) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths(AUDIT_TYPE)
   const configAllowlist = loadCentralAllowlist('naming-convention')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const scanned = []
 
   for (const abs of allFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
 
     const content = fs.readFileSync(abs, 'utf8')
     const fileName = path.basename(abs)
@@ -249,10 +205,9 @@ function main() {
     scanned: scanned.filter(f => f.requiresReview.length > 0 || f.allowed.length > 0),
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(scanned, exceptionSummary))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(scanned, exceptionSummary))
 
-  console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
+  console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
   console.log(`Naming violations: ${exceptionSummary.totalRequiresReview} (allowed: ${exceptionSummary.totalAllowed})`)
   process.exitCode = 0
 }

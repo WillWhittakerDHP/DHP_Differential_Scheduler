@@ -314,7 +314,7 @@ function handleSyntheticSelection(
  * Session 2.2.2: Also emits placeId for Routes API integration
  */
 const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
-  if (handleNullSelection(selection, emit, hasInitialAddressFromProps, props.modelValue, selectedAddress)) return
+  if (handleNullSelection(selection, emit as (e: string, ...args: unknown[]) => void, hasInitialAddressFromProps, props.modelValue, selectedAddress)) return
   const sel = selection as AutocompletePrediction
   logger.debug('[handleSelectionChange] Selected:', sel.description)
   if (handleSyntheticSelection(sel, hasInitialAddressFromProps)) return

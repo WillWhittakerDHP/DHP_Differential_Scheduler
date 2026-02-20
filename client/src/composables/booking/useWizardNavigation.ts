@@ -7,15 +7,12 @@
  */
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
+import type { WizardStepConfig } from '@/configs/wizardSteps'
 
-export interface StepDefinition {
-  icon: string
-  title: string
-  subtitle: string
-}
+export type { WizardStepConfig }
 
 export interface UseWizardNavigationParams {
-  steps: StepDefinition[]
+  steps: WizardStepConfig[]
   validateStep: (stepIndex: number) => boolean
   showError?: (message: string) => void
 }

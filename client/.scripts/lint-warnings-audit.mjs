@@ -12,7 +12,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
 
 const CWD = path.resolve(process.cwd())
 const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))

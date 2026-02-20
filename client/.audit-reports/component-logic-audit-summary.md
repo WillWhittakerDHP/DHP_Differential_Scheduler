@@ -13,8 +13,8 @@ Generated from `.audit-reports/component-logic-audit.json`.
 | `src/components/admin/generic/collections/RelationshipCollection.vue` | P1 | 11 | 6 | 0 | 0 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/booking/dev/DevPanelsContainer.vue` | P1 | 10 | 6 | 1 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 |
 | `src/views/admin/tabs/ShapesTab.vue` | P1 | 10 | 6 | 13 | 0 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `src/components/admin/generic/EntityCard.vue` | P1 | 13 | 7 | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/FieldRenderer.vue` | P1 | 9 | 8 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `src/components/admin/generic/EntityCard.vue` | P1 | 12 | 6 | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/admin/generic/fields/SelectInputs.vue` | P1 | 8 | 7 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `src/components/beta/BetaFeedbackModal.vue` | P1 | 8 | 0 | 2 | 1 | 1 | 2 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `src/components/common/AddressAutocomplete.vue` | P1 | 8 | 0 | 4 | 1 | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |

@@ -341,9 +341,11 @@ function buildComputedAvailabilityResponse(
 
 /**
  * Compute availability data for a date range
- * LEARNING: Main orchestrator function that coordinates all data fetching and processing
- * WHY: Single entry point for all availability computation
- * PATTERN: Sequential and parallel operations where possible
+ *
+ * dataSource controls which external APIs are called:
+ * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity computation
+ * - 'mock': Settings + constraints only — no Google API calls; useful for dev without credentials
+ * - 'none': Minimal response — settings metadata only, empty slots/events
  *
  * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
  * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
@@ -352,14 +354,32 @@ export async function computeAvailabilityData(
   request: ComputedAvailabilityRequest
 ): Promise<ComputedSlotAvailabilityData> {
   const startTime = Date.now()
+  const dataSource = request.dataSource ?? 'real'
 
   const settings = await fetchAvailabilitySettings()
+
+  if (dataSource === 'none') {
+    logger.info(`[dataSource=none] Returning empty response with settings metadata`)
+    return buildComputedAvailabilityResponse(
+      {},
+      [],
+      settings,
+      [],
+      [],
+      [],
+      request
+    )
+  }
+
   const constraints = extractConstraints(settings)
-  const { capacity } = groupConstraintsByCategory(constraints)
+
+  const useRealApis = dataSource === 'real'
 
   const calendarEmails = getReadFromCalendars(settings.calendarConfig)
-  const calendarEnabled =
-    calendarEmails.length > 0 && (settings.calendarConfig?.enabled ?? false)
+  const calendarEnabled = useRealApis
+    && calendarEmails.length > 0
+    && (settings.calendarConfig?.enabled ?? false)
+
   const { events: allCalendarEvents, responses: eventsResponses } =
     await fetchAndDedupeCalendarEvents(
       calendarEmails,
@@ -370,11 +390,15 @@ export async function computeAvailabilityData(
   const { regularEvents, outOfOfficeEvents } =
     partitionByEventType(allCalendarEvents)
 
-  const driveTimesByPlaceId = await calculateDriveTimesForPlaceIds(
-    regularEvents,
-    request.candidatePlaceId
-  )
+  const driveTimesByPlaceId = useRealApis
+    ? await calculateDriveTimesForPlaceIds(regularEvents, request.candidatePlaceId)
+    : {}
 
+  if (!useRealApis) {
+    logger.info(`[dataSource=${dataSource}] Skipping Google Calendar and Routes API calls`)
+  }
+
+  const { capacity } = groupConstraintsByCategory(constraints)
   const { scheduledHoursByKey, scheduledIncomeByKey } = await computeScheduledHoursForRange(
     request.dateRange,
     capacity
@@ -427,7 +451,7 @@ export async function computeAvailabilityData(
   )
 
   const duration = Date.now() - startTime
-  logger.info(`Computed slot availability in ${duration}ms`)
+  logger.info(`[dataSource=${dataSource}] Computed slot availability in ${duration}ms`)
 
   return computedData
 }

@@ -7,7 +7,7 @@
  * - AdminPrimitiveMetadataEditor.vue
  */
 
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'
 
 export interface UseMetadataFieldUpdatesOptions {

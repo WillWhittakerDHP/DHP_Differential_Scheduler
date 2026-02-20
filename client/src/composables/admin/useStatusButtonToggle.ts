@@ -12,7 +12,7 @@
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
-import { usePrimitiveMutation } from '@/composables/entityCrud'
+import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -57,13 +57,13 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
     return entityId.value
   })
   
-  const entityRef = computed(() => {
+  const entityRef = computed<GlobalEntity<GE> | undefined>(() => {
     // If entity is provided, use it (for backward compatibility)
     if (entity) {
       if ('value' in entity) {
-        return entity.value
+        return entity.value as GlobalEntity<GE>
       }
-      return entity
+      return entity as GlobalEntity<GE>
     }
     return getGlobalEntityById(entityKey, entityIdRef.value)
   })
@@ -132,7 +132,7 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
         }
         
         queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
-        onToggle?.(fieldKey)
+        onToggle?.(String(fieldKey))
         return
       }
       
@@ -157,20 +157,21 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       ]
       
       if (entityKey === 'blockShape' && newValue === true) {
+        const shapeEntity = currentEntity as GlobalEntity<'blockShape'>
         if (fieldKey === 'isStateControl') {
-          const currentCanHaveParts = 'canHaveParts' in currentEntity && currentEntity.canHaveParts === true
+          const currentCanHaveParts = 'canHaveParts' in shapeEntity && shapeEntity.canHaveParts === true
           if (currentCanHaveParts) {
             updatePayload.push({
               admin: { key: 'canHaveParts', value: false },
-              dynamicId: currentEntity.id
+              dynamicId: shapeEntity.id
             })
           }
         } else if (fieldKey === 'canHaveParts') {
-          const currentIsStateControl = 'isStateControl' in currentEntity && currentEntity.isStateControl === true
+          const currentIsStateControl = 'isStateControl' in shapeEntity && shapeEntity.isStateControl === true
           if (currentIsStateControl) {
             updatePayload.push({
               admin: { key: 'isStateControl', value: false },
-              dynamicId: currentEntity.id
+              dynamicId: shapeEntity.id
             })
           }
         }

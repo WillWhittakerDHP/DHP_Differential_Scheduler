@@ -4,16 +4,15 @@
  * PATTERN: Writable computeds that ensure differentialPerspectives exists on set
  * @audit-allow loop-mutation:assignProp - Vue reactive form pattern (writable computed setters)
  */
-import { computed, type ComputedRef, type Ref, type WritableComputedRef } from 'vue'
+import { computed, type ComputedRef, type WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { useGlobal } from '@/composables/useGlobal'
 import { getAllUserTypeBlockIds } from '@/utils/eventAttendeeUtils'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
+import type { UseDifferentialPerspectivesParams } from '@/types/availabilitySettingsParams'
 
-export interface UseDifferentialPerspectivesParams {
-  formData: Ref<AvailabilitySettings | null>
-}
+export type { UseDifferentialPerspectivesParams }
 
 const DEFAULTS = BUSINESS_CONTROLS_TAB_STRINGS.defaults
 

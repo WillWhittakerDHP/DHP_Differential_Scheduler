@@ -8,7 +8,7 @@
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { calculatePartsTotals } from '@/utils/booking/partsTotals'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'

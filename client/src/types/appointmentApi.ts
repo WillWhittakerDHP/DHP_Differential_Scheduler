@@ -4,53 +4,28 @@
  */
 
 import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
-import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import type { ContactInfoBase } from '@shared/types/contactTypes'
+import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { MoveableSchedulingOptions } from './moveableScheduling'
-import type { ISO8601Date } from './datetime'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { AppointmentStatus } from './appointmentStatus'
+import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
-export interface PropertyResponse {
+export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBase {
   id: string
-  address: string
-  unit?: string | null
-  city: string
-  state: string
-  zipCode: string
-  mlsNumber?: string | null
-  squareFootage?: number | null
-  bedrooms?: number | null
-  bathrooms?: number | null
-  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
-  additionalUnits?: number | null
   createdAt: string
   updatedAt: string
 }
 
-export interface UserResponse {
+export interface UserResponse extends ContactInfoBase {
   id: string
-  firstName: string
-  lastName: string
-  email: string
-  phone?: string | null
   userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector'
   loginId?: string | null
   createdAt: string
   updatedAt: string
 }
 
-/**
- * Attendee request for calendar invitations
- * LEARNING: Flexible attendee structure for appointment creation
- * WHY: Supports both new attendees array and legacy clientId/agentId
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
-export interface AttendeeRequest {
-  userId: string
-  userTypeBlockInstanceId?: string | null
-  shouldReceiveInvitation?: boolean
-  /** For legacy support - if role is provided, server will look up the UserTypeBlock */
-  role?: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector'
-}
+import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
 /**
  * Attendee response from API

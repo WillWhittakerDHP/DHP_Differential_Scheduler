@@ -8,7 +8,7 @@
  * All dates are generated in UTC and returned as RFC3339DateTime strings
  */
 
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 /**
  * Base date for test date generation (defaults to "today")

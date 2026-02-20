@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { VerticalNav } from '@layouts/components'
+import VerticalNav from '@layouts/components/VerticalNav.vue'
 import { useLayoutConfigStore } from '@layouts/stores/config'
 import type { VerticalNavItems } from '@layouts/types'
 

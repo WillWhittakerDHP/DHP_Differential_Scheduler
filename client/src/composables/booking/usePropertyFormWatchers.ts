@@ -8,14 +8,11 @@
 
 import { watch, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { PropertyFormData } from '@/types/propertyForm'
+import type { PropertyFormStateCore } from './usePropertyDetailsLogic'
 
-// FIX: Use shared PropertyFormData type from propertyForm.ts
-
-export interface UsePropertyFormWatchersParams {
-  formData: PropertyFormData
+/** Extends shared base (TYPE_SIMILARITY 1.15). */
+export interface UsePropertyFormWatchersParams extends PropertyFormStateCore {
   loadedWizardState: Ref<WizardStateData | null> | null
-  isAddressExpanded: Ref<boolean>
 }
 
 export type UsePropertyFormWatchersReturn = Record<string, never>

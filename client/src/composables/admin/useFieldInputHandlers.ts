@@ -11,7 +11,7 @@
  */
 
 import { computed } from 'vue'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'

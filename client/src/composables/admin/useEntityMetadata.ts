@@ -14,7 +14,7 @@ import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export function useEntityMetadata<GE extends GlobalEntityKey>(
   entityKey: GE,

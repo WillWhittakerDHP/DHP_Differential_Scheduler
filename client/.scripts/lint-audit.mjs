@@ -18,7 +18,7 @@ import {
   loadCentralAllowlist,
   parseInlineExceptions,
   isMatchAllowed,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 const AUDIT_TYPE = 'lint'
 

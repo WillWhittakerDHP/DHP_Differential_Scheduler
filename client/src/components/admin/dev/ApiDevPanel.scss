@@ -1,0 +1,82 @@
+.api-dev-panel {
+  position: fixed;
+  bottom: 80px; /* Above FAB button */
+  right: 24px;
+  width: 450px;
+  max-width: calc(100vw - 48px);
+  max-height: 60vh;
+  overflow: auto;
+  z-index: 1001; /* Higher than slot panel to appear on top */
+  box-shadow: 0 8px 24px rgba(var(--v-theme-on-surface), 0.2);
+  border: 2px dashed rgb(var(--v-theme-error));
+  background-color: rgb(var(--v-theme-surface)) !important;
+  opacity: 1 !important;
+
+  :deep(*) {
+    background-color: transparent;
+  }
+
+  :deep(.v-card-text),
+  :deep(.v-window-item) {
+    background-color: rgb(var(--v-theme-surface));
+  }
+
+  @media (max-width: 960px) {
+    right: 12px;
+    left: 12px;
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+  }
+}
+
+// Flexible and responsive tab spacing
+:deep(.flexible-tabs) {
+  .v-tab {
+    min-width: auto;
+    flex: 0 1 auto;
+    padding: 0 8px !important;
+    margin: 0 1px !important;
+    white-space: nowrap;
+  }
+
+  .v-tabs__wrapper {
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .v-tabs__container {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  // Responsive spacing - tighter on smaller screens
+  @media (max-width: 600px) {
+    .v-tab {
+      padding: 0 6px !important;
+      margin: 0 !important;
+      font-size: 0.75rem;
+
+      .v-icon {
+        margin-right: 4px !important;
+      }
+    }
+  }
+
+  // More space on larger screens
+  @media (min-width: 960px) {
+    .v-tab {
+      padding: 0 12px !important;
+      margin: 0 2px !important;
+    }
+  }
+}
+
+pre {
+  background-color: rgba(var(--v-theme-on-surface), 0.05);
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+}

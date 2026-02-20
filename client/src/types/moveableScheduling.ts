@@ -1,3 +1,5 @@
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+
 /**
  * Moveable Parts Scheduling Types
  * 
@@ -22,10 +24,7 @@ export interface MoveableSchedulingOptions {
   selectedSlotIndex: number | null
 }
 
-export interface MoveableSlot {
-  startTime: string         // ISO datetime
-  endTime: string           // ISO datetime
-  duration: number          // minutes
+export interface MoveableSlot extends SlotTimeBounds {
   dayLabel: string          // "Today", "Tomorrow", "Jan 16"
   timeLabel: string         // "2:00 PM - 3:30 PM"
 }

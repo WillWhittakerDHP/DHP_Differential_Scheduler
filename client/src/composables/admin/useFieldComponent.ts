@@ -15,7 +15,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useEntityMetadata } from './useEntityMetadata'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { getFieldComponent, type FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import { createLogger } from '@/utils/logger'
 

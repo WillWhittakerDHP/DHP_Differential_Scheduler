@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-19T19:01:46.270Z
+Generated at: 2026-02-19T23:20:20.149Z
 
 ## Summary
 
-- **Total source files**: 797
+- **Total source files**: 801
 - **Total test files**: 0
-- **Untested source files**: 797
+- **Untested source files**: 801
 - **Orphaned test files**: 0
 - **Coverage**: 0%
 
@@ -21,8 +21,8 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/transformers/fieldClassification.ts` | **8.7** | 10 | 10 | 8 | 1 | 2 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | **8.4** | 8 | 10 | 10 | 2 | 9 |
 | `client/src/utils/transformers/annotationTransformers.ts` | **8.2** | 8 | 10 | 10 | 0 | 5 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | **8.1** | 10 | 7 | 9 | 2 | 2 |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | **8.0** | 10 | 7 | 8 | 3 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | **8.0** | 10 | 8 | 8 | 0 | 4 |
 | `client/src/utils/transformers/composePropertyValue.ts` | **8.0** | 9 | 8 | 9 | 2 | 1 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | **8.0** | 10 | 10 | 4 | 2 | 5 |
@@ -42,12 +42,14 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useDevPanelsComputed.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | **7.5** | 10 | 7 | 6 | 2 | 2 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | **7.5** | 10 | 7 | 6 | 2 | 2 |
-| `client/src/composables/booking/useWizardNavigation.ts` | **7.5** | 9 | 7 | 8 | 2 | 2 |
+| `client/src/composables/booking/useWizardNavigation.ts` | **7.4** | 9 | 7 | 8 | 1 | 2 |
 | `client/src/utils/booking/minimalSlotGenerator.ts` | **7.4** | 9 | 6 | 10 | 0 | 1 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | **7.4** | 10 | 8 | 4 | 2 | 1 |
 | `client/src/composables/booking/useAppointmentDuration.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | **7.3** | 10 | 7 | 6 | 0 | 2 |
+| `client/src/composables/booking/useAvailabilityStepData.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityUI.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
+| `client/src/composables/booking/useAvailabilityValidation.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useBookingWizardStepValidators.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useDurationRounding.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useInstanceSelectionState.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
@@ -55,7 +57,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useAvailabilityLogic.ts` | **7.2** | 10 | 7 | 4 | 3 | 2 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | **7.2** | 10 | 7 | 4 | 3 | 2 |
 | `client/src/utils/transformers/transformerCollections.ts` | **7.2** | 7 | 8 | 10 | 0 | 1 |
-| `client/src/composables/booking/useAvailabilityStepData.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useDependentInstances.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | **7.0** | 8 | 6 | 8 | 4 | 8 |
 | `client/src/composables/admin/useAvailabilitySettings.ts` | **6.9** | 10 | 6 | 4 | 3 | 3 |
@@ -66,7 +67,6 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/usePropertyTypeBlockSelection.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardStepContent.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardSubmission.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
-| `client/src/utils/booking/appointmentTimeCalculations.ts` | **6.9** | 7 | 9 | 7 | 0 | 3 |
 
 ## Orphaned Test Files (Priority: Medium)
 

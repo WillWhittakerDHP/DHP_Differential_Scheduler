@@ -59,20 +59,17 @@
 import { computed, ref } from 'vue'
 import AdminPrimitiveMetadataEditor from './metadata/AdminPrimitiveMetadataEditor.vue'
 import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
-import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
 import { useNotification } from '@/composables/useNotification'
 import { getApiErrorMessage } from '@/composables/useApiErrorMessage'
 import { createLogger } from '@/utils/logger'
+import type { MetadataEditorPropsBase } from '@/types/metadataEditorProps'
 
 const logger = createLogger('MetadataEditModal')
 
-interface Props {
+/** Extends shared metadata editor base (P3 type-similarity). */
+interface Props extends MetadataEditorPropsBase {
   modelValue: boolean
-  entityKey: GlobalEntityKey  // Required - blockShape, partShape, blockInstance, or partInstance
-  entity: GlobalEntity<GlobalEntityKey>  // Required - entity object
-  entityName?: string  // Optional - for display in title
-  blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
+  entityName?: string
 }
 
 interface Emits {

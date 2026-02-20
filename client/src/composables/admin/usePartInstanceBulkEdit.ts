@@ -13,7 +13,7 @@
  */
 
 import { ref, computed, type ComputedRef } from 'vue'
-import { useEntityCrud } from '../useEntity'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityMetadata } from './useEntityMetadata'

@@ -192,7 +192,7 @@ const handleClose = () => {
 
 .icon-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(var(--v-theme-on-surface), 0.1);
 }
 
 .icon-card-selected {

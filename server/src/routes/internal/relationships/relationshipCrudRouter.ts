@@ -189,7 +189,6 @@ router.post(
 
     const parentId = req.body.parentId ?? req.body.parent_id
     const childId = req.body.childId ?? req.body.child_id
-    const orderIndex = req.body[FIELD_NAMES.ORDER_INDEX] ?? req.body.order_index
 
     const requiredFieldsValidation = validateRequiredFields({ parentId, childId })
     if (!requiredFieldsValidation.valid) {

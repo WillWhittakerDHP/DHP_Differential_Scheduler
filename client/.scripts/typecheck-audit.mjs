@@ -6,7 +6,7 @@ import {
   loadCentralAllowlist,
   parseInlineExceptions,
   isGloballyExcluded,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Typecheck Audit Script (vue-tsc + tsc)
@@ -61,7 +61,7 @@ function loadConfig() {
 }
 
 /**
- * Simple glob-like pattern matching (mirrors audit-exceptions.mjs)
+ * Simple glob-like pattern matching (mirrors shared-audit-utils.mjs)
  * Uses tokenization to avoid regex replacement conflicts
  */
 function simpleGlobMatch(filePath, pattern) {

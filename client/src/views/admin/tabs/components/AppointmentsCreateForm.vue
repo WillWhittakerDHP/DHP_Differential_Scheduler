@@ -8,6 +8,7 @@ import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
+import { toISO8601Date } from '@/types/datetime'
 
 /** Parent passes ref value so form can update fields (object is shared). */
 defineProps<{
@@ -133,7 +134,7 @@ const emit = defineEmits<{
             :model-value="newAppointment.selectedDate"
             type="date"
             :label="APPOINTMENTS_TABLE_UI.SELECTED_DATE_LABEL"
-            @update:model-value="(v: string) => emit('update:patch', { selectedDate: v ?? null })"
+            @update:model-value="(v: string) => emit('update:patch', { selectedDate: v != null && v !== '' ? toISO8601Date(v) : null })"
           />
         </VCol>
       </VRow>

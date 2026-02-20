@@ -6,6 +6,7 @@
  * PATTERN: Plain objects with embedded relationships
  */
 
+import type { BlockInstanceLike } from '@shared/types/blockInstanceTypes'
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
@@ -50,11 +51,9 @@ export type BookingBlockShape = {
   composable: boolean
 }
 
-export type BookingBlockInstance = {
-  id: string
+/** Index signature allows assignment to SelectionCardItem[] where items are blocks. */
+export type BookingBlockInstance = BlockInstanceLike & {
   entityKey: 'blockInstance'
-  name: string
-  active: boolean
   baseSqFt: number
   icon: string
   bookingMode: BookingMode // Controls where instance appears in booking flows
@@ -69,6 +68,7 @@ export type BookingBlockInstance = {
   number?: number | null // Optional quantity multiplier for allowMultiple instances
   isMultiFamily: boolean // If true, property type is multi-family (requires numberOfUnits field)
   requiresAgent: boolean // If true, service requires agent and client contact information
+  [key: string]: unknown
 }
 
 export type BookingData = {

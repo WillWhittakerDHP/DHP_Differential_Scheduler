@@ -169,7 +169,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { useLocalTime } from '@/composables/useLocalTime'
 
 const { formatDateTimeForDisplay } = useLocalTime()

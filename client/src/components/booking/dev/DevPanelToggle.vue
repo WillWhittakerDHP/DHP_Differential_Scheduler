@@ -55,7 +55,7 @@ onUnmounted(() => {
   top: 24px;
   right: 24px;
   z-index: 999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(var(--v-theme-on-surface), 0.15);
   min-width: 48px !important;
   width: 48px !important;
   height: 48px !important;

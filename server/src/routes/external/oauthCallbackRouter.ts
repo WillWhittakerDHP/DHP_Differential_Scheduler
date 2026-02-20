@@ -89,12 +89,14 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
       hasAccessToken: !!tokens.access_token,
       hasRefreshToken: !!tokens.refresh_token,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR;
+    const stack = error instanceof Error ? error.stack : undefined;
     logger.error('Error in callback:', error)
-    logger.error('Error stack:', error.stack)
+    logger.error('Error stack:', stack)
     res.status(500).json({
       error: OAUTH_ERROR_MESSAGES.AUTHENTICATION_FAILED,
-      message: error.message || OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR,
+      message: message || OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR,
     })
   }
 })

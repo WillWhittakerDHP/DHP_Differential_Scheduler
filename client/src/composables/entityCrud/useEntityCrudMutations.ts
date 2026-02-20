@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getEntityByIdEndpoint, getEntityEndpoint, getOrderIndexEndpoint, getBulkPatchEndpoint } from '@/utils/api'
 import type { AxiosError } from 'axios'
-import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
 import { globalTransformer, type GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { transformApiEntity } from '@/utils/transformers/entityTransformers'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { Logger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import type { BulkUpdate, OrderIndexUpdate } from './useEntityCrudTypes'
+import type { BulkUpdate, OrderIndexUpdate, UseEntityCrudMutationsReturnBase } from './useEntityCrudTypes'
 
 /** Extract user-facing message and details from an error (Axios or generic). */
 function extractAxiosErrorMessage(error: unknown): { message: string; details?: string } {
@@ -27,16 +28,8 @@ function extractAxiosErrorMessage(error: unknown): { message: string; details?: 
   return { message, details }
 }
 
-type UseEntityCrudMutationsReturn<GlobalEntityTypeKey extends GlobalEntityKey> = {
-  create: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => Promise<GlobalEntity<GlobalEntityTypeKey>>
-  update: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>, id: GlobalEntityId) => Promise<unknown>
-  remove: (id: GlobalEntityId) => Promise<{ deletedId: string }>
-  patchOrderIndex: (updates: OrderIndexUpdate) => Promise<void>
-  patchBulk: (updates: BulkUpdate<GlobalEntityTypeKey>) => Promise<void>
-  updateMutation: {
-    mutateAsync: (args: { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId }) => Promise<unknown>
-  }
-}
+type UseEntityCrudMutationsReturn<GlobalEntityTypeKey extends GlobalEntityKey> =
+  UseEntityCrudMutationsReturnBase<GlobalEntityTypeKey>
 
 /**
  * Mutations module for `useEntityCrud`.

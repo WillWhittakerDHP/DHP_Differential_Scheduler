@@ -8,8 +8,7 @@
  * SESSION: 2.1.3b - Updated to pass availabilitySettings for dynamic event name lookup
  */
 
-import { computed, type Ref } from 'vue'
-import type { AppointmentSlot } from '@/types/appointment'
+import { computed, type ComputedRef, type Ref } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import {
   buildAvailabilityStepData,
@@ -17,14 +16,13 @@ import {
   type AvailabilityStepData,
   type SelectedTimeSlot,
 } from '@/utils/booking/availabilityStepData'
-import type { ISO8601Date } from '@/types/datetime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
 export type { SelectedTimeSlot, AvailabilityStepData }
 
-export interface UseAvailabilityStepDataParams {
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  selectedSlot: Ref<AppointmentSlot | null>
+/** Extends shared base (P2 type-similarity). */
+export interface UseAvailabilityStepDataParams extends AvailabilityStepParamsBase {
   moveableScheduling?: Ref<MoveableSchedulingOptions | null>
 }
 

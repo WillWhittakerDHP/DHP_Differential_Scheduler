@@ -11,7 +11,7 @@ import { computed, type ComputedRef } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 
 export interface UseFieldContextManagerOptions {
   getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined

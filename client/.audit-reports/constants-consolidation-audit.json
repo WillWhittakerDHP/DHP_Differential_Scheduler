@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-19T19:01:44.532Z",
+  "generatedAt": "2026-02-19T23:20:18.352Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,12 +11,12 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 692,
+  "totalScanned": 696,
   "totalConstantsFiles": 24,
-  "totalExportsScanned": 68,
+  "totalExportsScanned": 67,
   "exceptionSummary": {
     "totalAllowed": 3,
-    "totalRequiresReview": 17,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -50,140 +50,6 @@
     "server/src/services/google/maps/mapsConstants.ts"
   ],
   "consolidationGroups": [
-    {
-      "id": "inline-orphan-required-fields",
-      "classification": "HOIST",
-      "description": "Value 'required_fields' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "client/src/constants/businessRulesConstants.ts",
-          "export": "RULE_TYPE_VALUES",
-          "line": 24,
-          "inline": false
-        },
-        {
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "export": null,
-          "line": 50,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/admin/business_rule.ts",
-          "export": null,
-          "line": 35,
-          "inline": true
-        }
-      ],
-      "score": 16,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from client/src/constants/businessRulesConstants.ts"
-    },
-    {
-      "id": "inline-orphan-requires-agent",
-      "classification": "HOIST",
-      "description": "Value 'requires_agent' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "client/src/constants/businessRulesConstants.ts",
-          "export": "RULE_TYPE_VALUES",
-          "line": 24,
-          "inline": false
-        },
-        {
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "export": null,
-          "line": 51,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/admin/business_rule.ts",
-          "export": null,
-          "line": 36,
-          "inline": true
-        }
-      ],
-      "score": 16,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from client/src/constants/businessRulesConstants.ts"
-    },
-    {
-      "id": "inline-orphan-conditional-validation",
-      "classification": "HOIST",
-      "description": "Value 'conditional_validation' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "client/src/constants/businessRulesConstants.ts",
-          "export": "RULE_TYPE_VALUES",
-          "line": 24,
-          "inline": false
-        },
-        {
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "export": null,
-          "line": 52,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/admin/business_rule.ts",
-          "export": null,
-          "line": 37,
-          "inline": true
-        }
-      ],
-      "score": 16,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from client/src/constants/businessRulesConstants.ts"
-    },
-    {
-      "id": "inline-orphan-validation-message",
-      "classification": "HOIST",
-      "description": "Value 'validation_message' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "client/src/constants/businessRulesConstants.ts",
-          "export": "RULE_TYPE_VALUES",
-          "line": 24,
-          "inline": false
-        },
-        {
-          "file": "client/src/composables/admin/useBusinessRules.ts",
-          "export": null,
-          "line": 53,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/admin/business_rule.ts",
-          "export": null,
-          "line": 38,
-          "inline": true
-        }
-      ],
-      "score": 16,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from client/src/constants/businessRulesConstants.ts"
-    },
-    {
-      "id": "inline-orphan-client",
-      "classification": "HOIST",
-      "description": "Value 'client' defined in constants but used inline in 1 locations",
-      "locations": [
-        {
-          "file": "server/src/routes/internal/properties/propertyConstants.ts",
-          "export": "DEFAULT_VALUES",
-          "line": 71,
-          "inline": false
-        },
-        {
-          "file": "client/src/types/propertyForm.ts",
-          "export": null,
-          "line": 19,
-          "inline": true
-        }
-      ],
-      "score": 12,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
-    },
     {
       "id": "inline-orphan-development",
       "classification": "HOIST",
@@ -253,93 +119,6 @@
   ],
   "files": [
     {
-      "id": "client__src__composables__admin__useBusinessRules.ts",
-      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
-      "score": 21.333333333333332,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 50,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 51,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 52,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 53,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "client__src__constants__businessRulesConstants.ts",
-      "repoPath": "client/src/constants/businessRulesConstants.ts",
-      "score": 21.333333333333332,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 24,
-          "line": "export: RULE_TYPE_VALUES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 24,
-          "line": "export: RULE_TYPE_VALUES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 24,
-          "line": "export: RULE_TYPE_VALUES"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 24,
-          "line": "export: RULE_TYPE_VALUES"
-        }
-      ]
-    },
-    {
-      "id": "server__src__db__models__admin__business_rule.ts",
-      "repoPath": "server/src/db/models/admin/business_rule.ts",
-      "score": 21.333333333333332,
-      "priority": "P0",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 35,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 36,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 37,
-          "line": "inline: value"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 38,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
       "id": "server__src__constants__appConstants.ts",
       "repoPath": "server/src/constants/appConstants.ts",
       "score": 18,
@@ -392,34 +171,6 @@
         }
       ],
       "requiresReview": []
-    },
-    {
-      "id": "client__src__types__propertyForm.ts",
-      "repoPath": "client/src/types/propertyForm.ts",
-      "score": 6,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 19,
-          "line": "inline: value"
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__properties__propertyConstants.ts",
-      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
-      "score": 6,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 71,
-          "line": "export: DEFAULT_VALUES"
-        }
-      ]
     }
   ]
 }

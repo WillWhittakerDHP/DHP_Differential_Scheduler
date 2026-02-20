@@ -34,13 +34,15 @@ export interface UseRelationshipCollectionDataOptions {
   shapeRefProperty: string // Property name on child entity that references shape (e.g., 'partShapeRef', 'annotationShapeRef', 'eventShapeRef')
 }
 
-export interface UseRelationshipCollectionDataReturn {
+/** Base shared with RelationshipCollectionModel (P2 type-similarity). */
+export interface UseRelationshipCollectionDataReturnBase {
   validShapes: Ref<GlobalEntity<GlobalEntityKey>[]>
   existingChildren: Ref<GlobalEntity<GlobalEntityKey>[]>
-  
   getChildForShape: (shapeId: string) => GlobalEntity<GlobalEntityKey> | undefined
   getShapeName: (shapeId: string) => string
 }
+
+export type UseRelationshipCollectionDataReturn = UseRelationshipCollectionDataReturnBase
 
 /**
  * Relationship Collection Data Composable

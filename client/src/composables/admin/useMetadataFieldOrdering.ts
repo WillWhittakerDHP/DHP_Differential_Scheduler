@@ -8,7 +8,7 @@
  */
 
 import { ref, computed, watch, type Ref } from 'vue'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -37,10 +37,10 @@ export function useMetadataFieldOrdering(
     return Object.keys(fieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
   })
 
-  // PATTERN: Sort by displayOrder, then alphabetically for fields without order
-  const availableFieldsSorted = computed(() => {
+  // PATTERN: Sort by displayOrder, then alphabetically for fields without order. Coerce to string for Map/API compatibility.
+  const availableFieldsSorted = computed<string[]>(() => {
     const metadataKeys = Object.keys(fieldMetadata.value || {})
-    const allKeys = new Set([...allPossibleFieldKeys.value, ...metadataKeys])
+    const allKeys = new Set([...allPossibleFieldKeys.value.map(String), ...metadataKeys])
     const fields = Array.from(allKeys)
     
     return fields.sort((a, b) => {
@@ -62,7 +62,7 @@ export function useMetadataFieldOrdering(
 
   // PATTERN: Watch computed and update ref array
   watch(availableFieldsSorted, (newFields) => {
-    draggableFieldKeys.value = [...newFields]
+    draggableFieldKeys.value = newFields.map(String)
   }, { immediate: true })
 
   // PATTERN: Normalize displayOrder to sequential values (0, 1, 2, ...)

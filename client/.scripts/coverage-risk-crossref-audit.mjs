@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getTestsDisabled } from './audit-exceptions.mjs'
+import { isTestingEnabled } from './shared-audit-utils.mjs'
 
 /**
  * Coverage-Risk Crossref Audit Script
@@ -8,9 +8,9 @@ import { getTestsDisabled } from './audit-exceptions.mjs'
  * Goal: Cross-reference import-graph (fan-in) with test-audit (coverage).
  * Flags high-risk files: heavily depended on (high fan-in) but untested.
  *
- * When testsDisabled is true in audit-global-config.json, writes an empty/no-op
- * report so the meta report is not cluttered with coverage-risk findings until
- * Phase 3.0 (BETA_LAUNCH_CHECKLIST). Re-enable via checklist item 3.0a.
+ * When TEST_ENABLED is not 'true' (root .env), writes an empty/no-op
+ * report so the meta report is not cluttered until Phase 3.0 (BETA_LAUNCH_CHECKLIST).
+ * Re-enable by setting TEST_ENABLED=true in project root .env.
  *
  * Reads: import-graph-audit.json, test-audit.json (unless tests disabled)
  * Output:
@@ -54,10 +54,10 @@ function assignPriority(riskScore) {
 function main() {
   ensureDir(OUT_DIR)
 
-  if (getTestsDisabled()) {
+  if (!isTestingEnabled()) {
     const out = {
       generatedAt: new Date().toISOString(),
-      testsDisabled: true,
+      testsEnabled: false,
       inputSources: { importGraph: 'import-graph-audit.json', testAudit: 'test-audit.json' },
       totalFiles: 0,
       riskFiles: [],
@@ -71,12 +71,12 @@ function main() {
       '',
       `Generated at: ${out.generatedAt}`,
       '',
-      '**Coverage-risk is suppressed while tests are disabled.** Set `testsDisabled` to `false` in `client/.audit-reports/audit-global-config.json` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
+      '**Coverage-risk is suppressed while testing is off.** Set `TEST_ENABLED=true` in project root `.env` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
       '',
     ]
     fs.writeFileSync(OUT_MD, mdLines.join('\n'))
     console.log('Wrote:', toRepoPath(OUT_JSON), toRepoPath(OUT_MD))
-    console.log('Tests disabled (audit-global-config.json): coverage-risk suppressed.')
+    console.log('Testing disabled (TEST_ENABLED not true): coverage-risk suppressed.')
     process.exitCode = 0
     return
   }

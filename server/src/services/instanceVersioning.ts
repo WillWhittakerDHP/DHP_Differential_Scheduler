@@ -17,12 +17,20 @@ type BlockInstanceVersionType = InstanceType<typeof BlockInstanceVersion>;
 /** Sequelize include adds part_assignment_instances; base type does not declare it. */
 type BlockInstanceWithPartAssignments = BlockInstanceType & { part_assignment_instances?: InstanceType<typeof PartInstance>[] };
 
+interface BlockInstanceVersionComparison {
+  name?: string;
+  icon?: string | null;
+  baseSqFt?: number | null;
+  allowMultiple?: boolean;
+  differential?: string;
+}
+
 function versionsMatch(
   version: BlockInstanceVersionType | InstanceType<typeof BlockInstanceVersion>,
   instance: BlockInstanceType | InstanceType<typeof BlockInstance>
 ): boolean {
-  const versionData: any = version instanceof Model ? version.toJSON() : version;
-  const instanceData: any = instance instanceof Model ? instance.toJSON() : instance;
+  const versionData: BlockInstanceVersionComparison = (version instanceof Model ? version.toJSON() : version) as BlockInstanceVersionComparison;
+  const instanceData: BlockInstanceVersionComparison = (instance instanceof Model ? instance.toJSON() : instance) as BlockInstanceVersionComparison;
   
   return versionData.name === instanceData.name &&
          versionData.icon === instanceData.icon &&

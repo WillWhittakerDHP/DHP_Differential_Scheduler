@@ -10,7 +10,8 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
 import type { DisplayFieldType } from '@/configs/field/display/fullFieldDisplayConfig'
 import type { FormFieldConfigMap } from '@/types/entity/formFields'
 

@@ -24,27 +24,27 @@ These candidates were identified by pattern-detection audit as high-probability 
 | --- | --- | ---: |
 | `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+23 more) | 38 |
 | `get*` | `client/src/composables/_archived/useFieldMetadata.ts`, `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts` (+70 more) | 138 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+212 more) | 219 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+213 more) | 220 |
 
 ## Summary
 
-- Files scanned: **609**
-- Groups (window=10 lines, minOccurrences=2): **215**
+- Files scanned: **611**
+- Groups (window=10 lines, minOccurrences=2): **211**
 - Candidate findings from pattern-detection: **3**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@74`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@24`, `server/src/utils/adminPrimitiveMetadataComposer.ts@34`, … |
-| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@75`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@25`, `server/src/utils/adminPrimitiveMetadataComposer.ts@35`, … |
+| `dup-132c63251d30` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@74`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@24`, `server/src/utils/adminPrimitiveMetadataComposer.ts@33`, … |
+| `dup-3000bf634a1d` | 4 | 10 | 10 | `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@75`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts@25`, `server/src/utils/adminPrimitiveMetadataComposer.ts@34`, … |
 | `dup-00c9105755d8` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@53`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@53`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@53` |
-| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@209`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@71` |
-| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@143`, `server/src/utils/adminPrimitiveMetadataComposer.ts@113`, `server/src/utils/adminRelationshipMetadataComposer.ts@124` |
+| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@209`, `client/src/components/dev/DevPanelButtons.vue@16`, `client/src/composables/booking/useWizardDevMode.ts@70` |
+| `dup-0df82f50465a` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@135`, `server/src/utils/adminPrimitiveMetadataComposer.ts@112`, `server/src/utils/adminRelationshipMetadataComposer.ts@116` |
 | `dup-11ee84441edb` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@71`, `server/src/db/models/booking/booking_cascade.ts@69`, `server/src/db/models/booking/dependent_instance.ts@73` |
 | `dup-255152a3acf3` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@64`, `server/src/db/models/booking/booking_cascade.ts@62`, `server/src/db/models/booking/dependent_instance.ts@66` |
 | `dup-433b7c717ff1` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@52`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@52`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@52` |
-| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@142`, `server/src/utils/adminPrimitiveMetadataComposer.ts@112`, `server/src/utils/adminRelationshipMetadataComposer.ts@123` |
+| `dup-4e4d3c29d4fd` | 3 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@134`, `server/src/utils/adminPrimitiveMetadataComposer.ts@111`, `server/src/utils/adminRelationshipMetadataComposer.ts@115` |
 | `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@72`, `server/src/db/models/booking/part_assignment.ts@72`, `server/src/db/models/booking/pricing_cascade.ts@72` |
 | `dup-69c0d3151348` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@50`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@50`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@50` |
 | `dup-7c1fb46c98e0` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@58`, `server/src/db/models/booking/booking_cascade.ts@56`, `server/src/db/models/booking/dependent_instance.ts@60` |
@@ -53,14 +53,14 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-b310fa6a5478` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@76`, `server/src/db/models/booking/booking_cascade.ts@74`, `server/src/db/models/booking/dependent_instance.ts@78` |
 | `dup-b91a6eb83ee2` | 3 | 3 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@48`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@48`, `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts@48` |
 | `dup-ef36d1842f4c` | 3 | 3 | 10 | `server/src/db/models/booking/additional_service_option.ts@68`, `server/src/db/models/booking/booking_cascade.ts@66`, `server/src/db/models/booking/dependent_instance.ts@70` |
-| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@210`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@72` |
-| `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@82`, `server/src/utils/adminPrimitiveMetadataComposer.ts@98`, `server/src/utils/adminRelationshipMetadataComposer.ts@93`, … |
-| `dup-01452b96803f` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@48`, `client/src/components/booking/BookingWizard.vue@176`, `client/src/composables/booking/useWizardStepDataRefs.ts@50` |
-| `dup-639d6f3d1bfe` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@47`, `client/src/components/booking/BookingWizard.vue@175`, `client/src/composables/booking/useWizardStepDataRefs.ts@49` |
-| `dup-72bfca850e56` | 2 | 3 | 10 | `server/src/utils/adminMetadataComposer.ts@16`, `server/src/utils/adminMetadataComposer.ts@125`, `server/src/utils/adminRelationshipMetadataComposer.ts@15` |
-| `dup-c83d80935f34` | 2 | 3 | 10 | `client/src/components/booking/BookingWizard.vue@45`, `client/src/components/booking/BookingWizard.vue@173`, `client/src/composables/booking/useWizardStepDataRefs.ts@47` |
+| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@210`, `client/src/components/dev/DevPanelButtons.vue@17`, `client/src/composables/booking/useWizardDevMode.ts@71` |
+| `dup-af67935eba71` | 2 | 4 | 10 | `server/src/utils/adminPrimitiveMetadataComposer.ts@81`, `server/src/utils/adminPrimitiveMetadataComposer.ts@97`, `server/src/utils/adminRelationshipMetadataComposer.ts@85`, … |
 | `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@32`, `server/src/utils/logger.ts@32` |
 | `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@51`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@36` |
+| `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@47`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@32` |
+| `dup-054b5d13687d` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@65`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@65` |
+| `dup-0650894690ad` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@73`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@73` |
+| `dup-067a7f23cd4b` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@46`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@46` |
 
 ## Per-group details (top)
 
@@ -73,14 +73,14 @@ LEARNING: When a group spans multiple files in the same domain, it’s often a g
 Locations:
 - `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 74-83
 - `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts` @ lines 24-33
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 34-43
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 51-60
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 80-89
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 96-105
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 45-54
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 62-71
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 91-100
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 107-116
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 33-42
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 50-59
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 79-88
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 95-104
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 37-46
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 54-63
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 83-92
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 99-108
 
 ```
 dataType: meta.dataType,
@@ -102,14 +102,14 @@ bulkEdit: meta.bulkEdit,
 Locations:
 - `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 75-84
 - `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataHelpers.ts` @ lines 25-34
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 35-44
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 52-61
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 81-90
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 97-106
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 46-55
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 63-72
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 92-101
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 108-117
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 34-43
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 51-60
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 80-89
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 96-105
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 38-47
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 55-64
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 84-93
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 100-109
 
 ```
 label: meta.label,
@@ -153,7 +153,7 @@ return { valid: true }
 Locations:
 - `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 209-218
 - `client/src/components/dev/DevPanelButtons.vue` @ lines 16-25
-- `client/src/composables/booking/useWizardDevMode.ts` @ lines 71-80
+- `client/src/composables/booking/useWizardDevMode.ts` @ lines 70-79
 
 ```
 selectedAppointmentId: Ref<string | null>
@@ -173,9 +173,9 @@ updateAppointment: { isPending: Ref<boolean> }
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 143-152
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 113-122
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 124-133
+- `server/src/utils/adminMetadataComposer.ts` @ lines 135-144
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 112-121
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 116-125
 
 ```
 label: meta.label,
@@ -261,9 +261,9 @@ missing: missingFields,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminMetadataComposer.ts` @ lines 142-151
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 112-121
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 123-132
+- `server/src/utils/adminMetadataComposer.ts` @ lines 134-143
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 111-120
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 115-124
 
 ```
 dataType: meta.dataType,
@@ -461,7 +461,7 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 Locations:
 - `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 210-219
 - `client/src/components/dev/DevPanelButtons.vue` @ lines 17-26
-- `client/src/composables/booking/useWizardDevMode.ts` @ lines 72-81
+- `client/src/composables/booking/useWizardDevMode.ts` @ lines 71-80
 
 ```
 appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
@@ -481,10 +481,10 @@ wizard: ReturnType<typeof useBookingWizard> | null
 - unique files: **2**, occurrences: **4**, lineCount: **10**
 
 Locations:
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 82-94
-- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 98-110
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 93-105
-- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 109-121
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 81-93
+- `server/src/utils/adminPrimitiveMetadataComposer.ts` @ lines 97-109
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 85-97
+- `server/src/utils/adminRelationshipMetadataComposer.ts` @ lines 101-113
 
 ```
 isRequired: meta.isRequired,
@@ -499,24 +499,23 @@ inputConfig: meta.inputConfig || null,
 return entityMetadata.map(meta => ({
 ```
 
-### Group `dup-01452b96803f`
+### Group `dup-012f8e607c7e`
 
-- unique files: **2**, occurrences: **3**, lineCount: **10**
+- unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/components/booking/BookingWizard.vue` @ lines 48-57
-- `client/src/components/booking/BookingWizard.vue` @ lines 176-185
-- `client/src/composables/booking/useWizardStepDataRefs.ts` @ lines 50-59
+- `client/src/utils/logger.ts` @ lines 32-64
+- `server/src/utils/logger.ts` @ lines 32-64
 
 ```
-confirmationStepData,
-propertyDetailsStepValid,
-propertyDetailsStepValidate,
-propertyDetailsFieldErrors,
-contactsStepValid,
-contactsStepValidate,
-availabilityStepValid,
-availabilityStepValidate,
-confirmationStepValid,
-confirmationStepValidate,
+normalized === 'silent'
+function levelToNumber(level: LogLevel): number {
+let cachedLogLevel: LogLevel | null = null
+let cachedDebugScopes: Set<string> | null | undefined = undefined
+function parseDebugScopesList(raw: string | undefined): Set<string> | null {
+if (!raw) return null
+const scopes = raw
+.map((s) => s.trim())
+.filter((s) => s.length > 0)
+.map((s) => s.toLowerCase())
 ```

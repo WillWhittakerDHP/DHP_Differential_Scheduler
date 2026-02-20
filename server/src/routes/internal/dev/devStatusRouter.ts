@@ -10,7 +10,7 @@
 
 import { Router, Request, Response } from 'express'
 import { getCredentials, hasCredentials } from '../../../config/googleOAuth.js'
-import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../../services/calendarEventsCache.js'
+import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries, type EventsCacheEntry } from '../../../services/calendarEventsCache.js'
 import { getRateLimitStats } from '../../../services/rateLimiter.js'
 import { getDriveTimeCacheStats, getAllCachedDriveTimes } from '../../../services/driveTimeCache.js'
 import { sendSuccess, sendError } from '../../helpers/routerResponseHelpers.js'
@@ -58,11 +58,12 @@ router.get('/status', (_req: Request, res: Response): void => {
         expiryDate: credentials?.expiry_date ?? null,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL
       }
-    } catch (credError: any) {
+    } catch (credError: unknown) {
+      const credMessage = credError instanceof Error ? credError.message : String(credError);
       oauthStatus = {
         authenticated: false,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
-        error: credError.message
+        error: credMessage
       }
     }
     
@@ -75,7 +76,7 @@ router.get('/status', (_req: Request, res: Response): void => {
     // Get events cache stats
     const eventsCacheStats = getEventsCacheStats()
     const eventsEntries = getAllEventsEntries()
-    const eventsEntriesArray = Array.from(eventsEntries.entries()).map((entryPair: [string, any]) => {
+    const eventsEntriesArray = Array.from(eventsEntries.entries()).map((entryPair: [string, EventsCacheEntry]) => {
       const [key, entry] = entryPair
       return {
         key,
@@ -141,9 +142,10 @@ router.get('/status', (_req: Request, res: Response): void => {
     }
     
     sendSuccess(res, devStatus)
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
     logger.error('Error in /status:', error)
-    sendError(res, 'Failed to fetch dev status', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, error.message)
+    sendError(res, 'Failed to fetch dev status', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, message)
   }
 })
 

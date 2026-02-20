@@ -3,12 +3,10 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Import Graph / Circular Dependency Audit Script
@@ -54,32 +52,6 @@ const DEFAULTS = { maxFanOut: 15, maxFanIn: 20 }
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
 function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 /**
  * Extract import specifiers from file content
@@ -294,9 +266,7 @@ function main() {
     maxFanIn: config.thresholds?.maxFanIn ?? DEFAULTS.maxFanIn,
   }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('import-graph', [CLIENT_SRC, SERVER_SRC])
 
   // Build adjacency list
   const adjacencyList = new Map()
@@ -306,7 +276,6 @@ function main() {
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
 
     const content = fs.readFileSync(abs, 'utf-8')
     const imports = extractImports(content, abs)

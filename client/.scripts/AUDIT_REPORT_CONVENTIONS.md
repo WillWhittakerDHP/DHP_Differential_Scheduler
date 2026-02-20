@@ -12,14 +12,14 @@ Audit scripts that emit Markdown (`.md`) and/or JSON reports should follow these
   - **Canonicity**: Treat findings as canonical; do not change audit scripts without explicit user approval.
   - **Fix + generalize**: When fixing a finding, search for the same rule/pattern elsewhere and fix all similar occurrences consistently.
 
-- **Import** from `./audit-exceptions.mjs`:
+- **Import** from `./shared-audit-utils.mjs`:
   ```js
-  import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+  import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
   ```
 
 - For audits that write a top-level `instructionsForAi` (or similar) in JSON, set it to **both** instructions:
   ```js
-  import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED } from './audit-exceptions.mjs'
+  import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED } from './shared-audit-utils.mjs'
   // ...
   instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED
   ```

@@ -1,14 +1,19 @@
-
 import type { Ref } from 'vue'
 import { nextTick } from 'vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import { patchFormElements } from '@/utils/patchFormElements'
 import { VForm } from 'vuetify/components'
 
-export type VFormInstance = InstanceType<typeof VForm>
+type VFormInstance = InstanceType<typeof VForm>
 
-export type FormElementPatchingOptions = {
+/** Base shared with UseFormElementPatchingOptions (P2 type-similarity). */
+export interface FormElementPatchingOptionsBase {
   formRef?: Ref<VFormInstance | null>
+  formSelector?: string
+  useMutationObserver?: boolean
+}
+
+export interface FormElementPatchingOptions extends FormElementPatchingOptionsBase {
   formSelector: string
   useMutationObserver: boolean
   observerTimeoutMs?: number

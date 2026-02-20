@@ -153,7 +153,8 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
   // WHY: User needs to know if their event wasn't created
   try {
     return await withRetry(createEventOperation, { maxRetries: 2 })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    logger.error(error)
     // Ensure we throw a CalendarApiError
     const calendarError = error instanceof CalendarApiError 
       ? error 

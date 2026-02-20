@@ -8,11 +8,9 @@
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
-import {
-  useComponentEntityQuery,
-  useComponentEntityDomain,
-  useComponentEntityActions,
-} from '@/composables/componentEntity'
+import { useComponentEntityQuery } from '@/composables/componentEntity/useComponentEntityQuery'
+import { useComponentEntityDomain } from '@/composables/componentEntity/useComponentEntityDomain'
+import { useComponentEntityActions } from '@/composables/componentEntity/useComponentEntityActions'
 
 /**
  * useComponentEntity Composable

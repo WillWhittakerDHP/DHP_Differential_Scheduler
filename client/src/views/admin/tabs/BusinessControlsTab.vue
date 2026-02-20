@@ -12,6 +12,11 @@ import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
 import { useBufferSettings } from '@/composables/admin/useBufferSettings'
 import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
 import { useDifferentialPerspectives } from '@/composables/admin/useDifferentialPerspectives'
+import type {
+  UseBufferSettingsParams,
+  UseDefaultLocationParams,
+  UseDifferentialPerspectivesParams
+} from '@/types/availabilitySettingsParams'
 import { DAY_NAMES, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { useLocalTime } from '@/composables/useLocalTime'
 import type { BusinessHoursConfig } from '@/configs/availabilitySettings'
@@ -88,9 +93,9 @@ const maxBusinessHours = computed(() => {
 })
 
 const capacity = useCapacitySettings({ formData, maxBusinessHours })
-const buffers = useBufferSettings({ formData })
-const location = useDefaultLocation({ formData })
-const differential = useDifferentialPerspectives({ formData })
+const buffers = useBufferSettings({ formData } as UseBufferSettingsParams)
+const location = useDefaultLocation({ formData } as UseDefaultLocationParams)
+const differential = useDifferentialPerspectives({ formData } as UseDifferentialPerspectivesParams)
 
 const calendarEnabled = computed({
   get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,

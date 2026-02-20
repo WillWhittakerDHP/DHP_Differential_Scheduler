@@ -19,7 +19,7 @@ const logger = createLogger('AppointmentCalendarService');
 /**
  * Result of calendar event creation
  */
-export interface CalendarEventResult {
+interface CalendarEventResult {
   success: boolean;
   eventId?: string;
   eventLink?: string;
@@ -37,7 +37,7 @@ export interface CalendarEventResult {
  * SESSION: 2.1.3b - Removed legacy format support
  */
 /** Server-side time slot shape; branded to distinguish from client SelectedTimeSlot. */
-export interface ServerTimeSlot {
+interface ServerTimeSlot {
   startTime: string;   // RFC3339 format, e.g., "2026-02-01T21:00:00.000Z"
   endTime: string;     // RFC3339 format
   duration?: number;   // Optional - in minutes (can be calculated from start/end)
@@ -153,6 +153,7 @@ export async function createCalendarEventForAppointment(
         attendeesUpdated,
       };
     } catch (createError) {
+      logger.error(createError)
       return {
         success: false,
         error: createError instanceof Error ? createError.message : 'Failed to create calendar event',
@@ -333,35 +334,4 @@ function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[
   }
   
   return attendees;
-}
-
-/**
- * Check if OAuth is configured for calendar operations
- * 
- * LEARNING: Pre-check before attempting calendar operations
- * WHY: Provides clear error messages when OAuth not set up
- */
-export async function isCalendarConfigured(): Promise<boolean> {
-  // Check if we have the required environment variables
-  const hasClientId = !!process.env.GOOGLE_CLIENT_ID;
-  const hasClientSecret = !!process.env.GOOGLE_CLIENT_SECRET;
-  
-  return hasClientId && hasClientSecret;
-}
-
-/**
- * Sync invitation status from Google Calendar
- * 
- * LEARNING: Updates local records based on Google Calendar response status
- * WHY: Attendees may accept/decline invitations outside our system
- * 
- * @param appointmentId - The appointment to sync
- * @returns Number of records updated
- */
-export async function syncInvitationStatus(appointmentId: string): Promise<number> {
-  // TODO: Implement status sync from Google Calendar
-  // This would query the calendar event and update invitation_status
-  // based on each attendee's responseStatus (needsAction, accepted, declined, tentative)
-  logger.debug(`Status sync not yet implemented for ${appointmentId}`);
-  return 0;
 }

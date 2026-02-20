@@ -6,13 +6,13 @@
  * PATTERN: Keyword-based mapping with fallback
  */
 
-export type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;
+type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;
 
 /**
  * RESO FoundationDetails keywords to app foundation types
  * Extend per MLS-specific terminology
  */
-export const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
+const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
   basement: 'basement',
   crawl: 'crawlspace',
   crawlspace: 'crawlspace',

@@ -183,8 +183,7 @@ const {
                   variant="text"
                   color="primary"
                   size="small"
-                  class="text-h6"
-                  style="text-decoration: none;"
+                  class="text-h6 summary-link"
                   @click.prevent
                 >
                   Apply Coupon
@@ -245,6 +244,10 @@ const {
 </template>
 
 <style scoped lang="scss">
+.summary-link {
+  text-decoration: none;
+}
+
 :deep(.summary-table) {
   tbody {
     tr {

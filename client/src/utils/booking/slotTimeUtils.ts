@@ -7,7 +7,7 @@
  */
 
 import type { TimeRange } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 export function createTimeRange(startTime: string, duration: number): TimeRange {
   const start = new Date(startTime)

@@ -1,20 +1,19 @@
 /**
  * useComputedAvailability Composable
  *
- * LEARNING: Fetches and caches server-computed slots (slotsByDay) with 14-day prefetch + per-day fallback
- * WHY: Single API returns pre-computed slots; client only applies AppointmentShape and renders
- * PATTERN: Map<string, ComputedSlot[]> cache; 14-day prefetch on mount/placeId/duration change; fetch day±1 when selected date missing
+ * Fetches and caches server-computed slots (slotsByDay) with three fetch strategies:
+ * 1. 14-day prefetch: On mount and when placeId/duration changes, fetches today+14 days
+ * 2. Month-wide prefetch: When displayed month changes to a month not in cache, fetches full month
+ * 3. Per-day fallback: When user selects a date not in cache, fetches that day ±1
+ *
+ * All strategies merge into the same Map<string, ComputedSlot[]> cache.
  *
  * Phase 4: Server-Side Slot Computation
- * - Fetches ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
- * - Merges slotsByDay into a reactive Map; exposes for useAppointmentSlots
- * - Re-fetch: candidatePlaceId or duration change (clear cache, re-fetch 14-day)
- * - Per-day fallback: when selectedDate is set and not in cache, fetch that day ±1 and merge
  */
 
 import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import type {
@@ -47,6 +46,13 @@ export interface UseComputedAvailabilityParams {
   duration?: Ref<number | null>
   /** When user picks a day; if not in cache, we fetch that day ±1 and merge */
   selectedDate?: Ref<string | null>
+  /**
+   * Controls which external APIs the server calls:
+   * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity
+   * - 'mock': Settings + constraints only — no Google API calls (dev without credentials)
+   * - 'none': Minimal response — settings metadata only, empty slots/events (pure UI dev)
+   */
+  dataSource?: Ref<'real' | 'mock' | 'none'>
 }
 
 export interface UseComputedAvailabilityReturn {
@@ -62,7 +68,7 @@ export interface UseComputedAvailabilityReturn {
 export function useComputedAvailability(
   params: UseComputedAvailabilityParams
 ): UseComputedAvailabilityReturn {
-  const { propertyDetailsStepData, dateRange, activeStep, duration, selectedDate } = params
+  const { propertyDetailsStepData, dateRange, activeStep, duration, selectedDate, dataSource } = params
 
   const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
 
@@ -109,7 +115,7 @@ export function useComputedAvailability(
         dateRange: { start: range.start, end: range.end },
         candidatePlaceId: currentPlaceId ?? undefined,
         duration: currentDuration,
-        dataSource: 'real',
+        dataSource: dataSource?.value ?? 'real',
       })
 
       mergeSlotsIntoMap(data.slotsByDay)
@@ -121,6 +127,7 @@ export function useComputedAvailability(
       outOfOfficeEvents.value = data.outOfOfficeEvents
       computedDataMeta.value = data._meta
     } catch (err) {
+      logger.error(err)
       const errorMessage = err instanceof Error ? err.message : UNKNOWN_ERROR_MESSAGE
       error.value = err instanceof Error ? err : new Error(errorMessage)
       logger.error('[useComputedAvailability] Failed to fetch computed availability', { error: err })
@@ -159,6 +166,23 @@ export function useComputedAvailability(
       fetchWithRange(getPrefetchDateRange(), 'prefetch')
     },
     { immediate: true }
+  )
+
+  /**
+   * Month-wide prefetch: when displayed month changes, fetch the full month if
+   * the end of that month is not already cached. This covers months beyond the
+   * initial 14-day window so the calendar can show slot availability indicators
+   * before the user clicks a specific date.
+   */
+  watch(
+    dateRange,
+    (newRange) => {
+      if (!canFetchAvailability.value) return
+      const monthEndDay = newRange.end.slice(0, 10)
+      if (slotsByDay.value.has(monthEndDay)) return
+      logger.debug('[useComputedAvailability] month-prefetch: displayed month not in cache, fetching', newRange.start, 'to', newRange.end)
+      fetchWithRange(newRange, 'month-prefetch')
+    }
   )
 
   /** Per-day fallback: when selectedDate is set and not in cache, fetch that day ±1 */

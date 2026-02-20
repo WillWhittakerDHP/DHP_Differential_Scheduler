@@ -5,7 +5,7 @@ import {
   createEmptySubPanelRecord,
   type SubPanelRecord
 } from '@/constants/fieldMetadata'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 /**
  * LEARNING: NO DEFAULTS - removed DEFAULT_PANEL_ASSIGNMENTS
@@ -25,7 +25,7 @@ export interface StatusButtonField {
   order: number
 }
 
-export interface CategorizedFields {
+interface CategorizedFields {
   /**
    * LEARNING: Fields with panel: 'none' - rendered directly in card content
    * WHY: Fields without a panel assignment render in the main card area
@@ -44,7 +44,7 @@ export interface CategorizedFields {
   statusButtonFields: StatusButtonField[]
 }
 
-export interface CategorizeFieldsOptions {
+interface CategorizeFieldsOptions {
   blockShapeProperties?: {
     canHaveParts?: boolean
     composable?: boolean

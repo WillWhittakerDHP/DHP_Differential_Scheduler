@@ -4,16 +4,17 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
-import { FieldRenderer } from './fields'
+import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
-import type { FieldContextType } from '@/composables/useFieldContext'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { ComputedRef } from 'vue'
+import type { EntityCardSharedProps } from './entityCardConstants'
 
 interface FieldsByLocation {
   directInline: GlobalFieldKey<GlobalEntityKey>[]
@@ -21,9 +22,7 @@ interface FieldsByLocation {
   subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
 }
 
-interface Props {
-  entityKey: GlobalEntityKey
-  entityId: string
+interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
   getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
@@ -127,7 +126,7 @@ defineProps<Props>()
     PATTERN: Buttons at bottom of form fields with proper spacing
     NOTE: Shows Cancel instead of Delete when in new entity mode
   -->
-  <div class="d-flex align-center justify-end mt-4 pt-4" style="border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));">
+  <div class="d-flex align-center justify-end mt-4 pt-4 form-actions-bar">
     <VBtn
       v-if="!isNew"
       variant="outlined"
@@ -177,3 +176,9 @@ defineProps<Props>()
     </VBtn>
   </div>
 </template>
+
+<style scoped>
+.form-actions-bar {
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+</style>

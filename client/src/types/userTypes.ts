@@ -6,7 +6,7 @@
  * PATTERN: GlobalEntityId | null matches the pattern used throughout the codebase
  */
 
-import type { GlobalEntityId } from './entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 /**
  * User type type

@@ -6,7 +6,7 @@
  */
 
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useTheme } from 'vuetify'
 import { calculatePartsTotals } from '@/utils/booking/partsTotals'
@@ -132,7 +132,7 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
   })
 
   const chartOptions = computed((): ChartOptions<'line'> => {
-    const themeColors = theme.current.value.colors as Parameters<typeof getLineChartConfig>[0]
+    const themeColors = theme.current.value
     const baseConfig = getLineChartConfig(themeColors)
     const rawDatasets = chartData.value.datasets
     const datasets = rawDatasets !== undefined && rawDatasets !== null && Array.isArray(rawDatasets) ? rawDatasets : []

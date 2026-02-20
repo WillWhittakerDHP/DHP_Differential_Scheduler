@@ -6,58 +6,10 @@
  * PATTERN: Pure utility functions and type definitions - no side effects
  */
 
-import type { RFC3339DateTime, DayOfWeek } from '@/types/datetime'
-import type { BusyPeriodSource } from '@shared/types/availabilityTypes'
+import type { BusyPeriodSource, RFC3339DateTime } from '@shared/types/availabilityTypes'
 
 // Re-export types for backward compatibility
 export type { BusyPeriodSource }
-
-/**
- * Parsed busy time range with Date objects
- * LEARNING: Internal representation of busy periods with parsed Date objects
- * WHY: Avoids repeated parsing of RFC3339 strings during overlap checks
- * PATTERN: Pre-parsed Date objects for efficient comparisons
- * Busy periods represent opaque event time (and out-of-office); transparent events do not block.
- */
-export interface ParsedBusyTimeRange {
-  start: Date
-  end: Date
-  source?: BusyPeriodSource
-  placeId?: string
-  driveToCandidate?: number    // minutes (event -> candidate), stamped by server
-  driveFromCandidate?: number  // minutes (candidate -> event), stamped by server
-}
-
-/**
- * Business hours configuration for a single day
- * LEARNING: Uses RFC3339 format internally (with reference date for time-of-day)
- * WHY: Consistent format throughout codebase, matches Google Calendar API
- * PATTERN: RFC3339 datetime using fixed reference date (2000-01-01)
- */
-export interface DayBusinessHours {
-  start: RFC3339DateTime  // RFC3339 format with reference date (e.g., "2000-01-01T08:00:00Z" for "08:00")
-  end: RFC3339DateTime    // RFC3339 format with reference date (e.g., "2000-01-01T17:00:00Z" for "17:00")
-}
-
-/**
- * Business hours by day of week (0 = Sunday, 6 = Saturday)
- * 
- * LEARNING: Days can be omitted to represent closed days
- * WHY: Not all businesses operate 7 days per week
- * PATTERN: Partial record - missing keys indicate closed days
- * 
- * @example
- * // Open Monday-Friday only
- * const businessHours: BusinessHoursMap = {
- *   1: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   2: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   3: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   4: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" },
- *   5: { start: "2000-01-01T09:00:00Z", end: "2000-01-01T17:00:00Z" }
- *   // Saturday (6) and Sunday (0) omitted = closed
- * }
- */
-export type BusinessHoursMap = Partial<Record<DayOfWeek, DayBusinessHours>>
 
 /**
  * Busy time range from calendar or user input

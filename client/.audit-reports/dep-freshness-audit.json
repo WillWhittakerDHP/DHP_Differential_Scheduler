@@ -1,288 +1,39 @@
 {
-  "generatedAt": "2026-02-19T18:59:45.595Z",
-  "totalScanned": 14,
+  "generatedAt": "2026-02-19T23:18:24.991Z",
+  "totalScanned": 1,
   "byBehind": {
-    "major-behind": 11,
-    "minor-behind": 2,
-    "patch-behind": 0,
-    "current": 1
+    "major-behind": 0,
+    "minor-behind": 0,
+    "patch-behind": 1,
+    "current": 0
   },
   "packages": [
     {
-      "package": "@tiptap/extension-placeholder",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@tiptap/extension-text-align",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@tiptap/extension-underline",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@tiptap/starter-kit",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@tiptap/vue-3",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/node",
-      "dependent": "client",
-      "current": "25.2.3",
-      "wanted": "25.3.0",
-      "latest": "25.3.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "eslint-plugin-security",
-      "dependent": "client",
-      "current": "3.0.1",
-      "wanted": "3.0.1",
-      "latest": "4.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "vitest",
-      "dependent": "client",
-      "current": "2.1.9",
-      "wanted": "2.1.9",
-      "latest": "3.2.4",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "vue-router",
-      "dependent": "client",
-      "current": "4.6.4",
-      "wanted": "4.6.4",
-      "latest": "5.0.2",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@sequelize/core",
+      "package": "nodemon",
       "dependent": "server",
-      "current": "7.0.0-alpha.43",
-      "wanted": "7.0.0-alpha.48",
-      "latest": "7.0.0-alpha.48",
-      "behind": "current",
-      "score": 0
-    },
-    {
-      "package": "@types/dotenv",
-      "dependent": "server",
-      "current": "8.2.3",
-      "wanted": "8.2.3",
-      "latest": "6.1.1",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/helmet",
-      "dependent": "server",
-      "current": "4.0.0",
-      "wanted": "4.0.0",
-      "latest": "0.0.48",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/node",
-      "dependent": "server",
-      "current": "25.2.3",
-      "wanted": "25.3.0",
-      "latest": "25.3.0",
-      "behind": "minor-behind",
-      "score": 2
-    },
-    {
-      "package": "express",
-      "dependent": "server",
-      "current": "4.21.2",
-      "wanted": "4.22.1",
-      "latest": "5.2.1",
-      "behind": "major-behind",
-      "score": 5
+      "current": "3.1.11",
+      "wanted": "3.1.13",
+      "latest": "3.1.13",
+      "behind": "patch-behind",
+      "score": 0.5
     }
   ],
   "files": [
     {
-      "repoPath": "client:@tiptap/extension-placeholder",
-      "score": 5,
-      "priority": "P0",
-      "package": "@tiptap/extension-placeholder",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@tiptap/extension-text-align",
-      "score": 5,
-      "priority": "P0",
-      "package": "@tiptap/extension-text-align",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@tiptap/extension-underline",
-      "score": 5,
-      "priority": "P0",
-      "package": "@tiptap/extension-underline",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@tiptap/starter-kit",
-      "score": 5,
-      "priority": "P0",
-      "package": "@tiptap/starter-kit",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@tiptap/vue-3",
-      "score": 5,
-      "priority": "P0",
-      "package": "@tiptap/vue-3",
-      "dependent": "client",
-      "current": "2.27.2",
-      "wanted": "2.27.2",
-      "latest": "3.20.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:@types/dotenv",
-      "score": 5,
-      "priority": "P0",
-      "package": "@types/dotenv",
+      "repoPath": "server:nodemon",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "nodemon",
       "dependent": "server",
-      "current": "8.2.3",
-      "wanted": "8.2.3",
-      "latest": "6.1.1",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:@types/helmet",
-      "score": 5,
-      "priority": "P0",
-      "package": "@types/helmet",
-      "dependent": "server",
-      "current": "4.0.0",
-      "wanted": "4.0.0",
-      "latest": "0.0.48",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:eslint-plugin-security",
-      "score": 5,
-      "priority": "P0",
-      "package": "eslint-plugin-security",
-      "dependent": "client",
-      "current": "3.0.1",
-      "wanted": "3.0.1",
-      "latest": "4.0.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:express",
-      "score": 5,
-      "priority": "P0",
-      "package": "express",
-      "dependent": "server",
-      "current": "4.21.2",
-      "wanted": "4.22.1",
-      "latest": "5.2.1",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:vitest",
-      "score": 5,
-      "priority": "P0",
-      "package": "vitest",
-      "dependent": "client",
-      "current": "2.1.9",
-      "wanted": "2.1.9",
-      "latest": "3.2.4",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:vue-router",
-      "score": 5,
-      "priority": "P0",
-      "package": "vue-router",
-      "dependent": "client",
-      "current": "4.6.4",
-      "wanted": "4.6.4",
-      "latest": "5.0.2",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:@types/node",
-      "score": 2,
-      "priority": "P1",
-      "package": "@types/node",
-      "dependent": "client",
-      "current": "25.2.3",
-      "wanted": "25.3.0",
-      "latest": "25.3.0",
-      "behind": "minor-behind"
-    },
-    {
-      "repoPath": "server:@types/node",
-      "score": 2,
-      "priority": "P1",
-      "package": "@types/node",
-      "dependent": "server",
-      "current": "25.2.3",
-      "wanted": "25.3.0",
-      "latest": "25.3.0",
-      "behind": "minor-behind"
+      "current": "3.1.11",
+      "wanted": "3.1.13",
+      "latest": "3.1.13",
+      "behind": "patch-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 13,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,

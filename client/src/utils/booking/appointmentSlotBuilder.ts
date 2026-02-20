@@ -17,7 +17,8 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import {
   calculateSlotShape

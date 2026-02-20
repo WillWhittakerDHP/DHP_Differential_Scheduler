@@ -6,56 +6,6 @@ import type { ComponentConfig, ComponentStrategy } from '../../../shared/types/c
 const logger = createLogger('EntityRegistry');
 
 /**
- * Helper function to check if a BlockInstance can be a component
- * 
- * LEARNING: Component relationships are now controlled by BlockShape's composable property
- * WHY: Only BlockInstances with composable BlockShapes can participate in component relationships
- * PATTERN: Runtime check based on BlockShape's composable property
- */
-export async function isBlockInstanceComposable(blockInstanceId: string): Promise<boolean> {
-  try {
-    const blockInstance = await BlockInstance.findByPk(blockInstanceId, {
-      include: [{ model: BlockShape, as: 'block_shape' }],
-    });
-    
-    if (!blockInstance) {
-      return false;
-    }
-    
-    // PATTERN: Cast to any to access association, then cast association to proper type
-    const blockInstanceWithShape = blockInstance as { block_shape?: InstanceType<typeof BlockShape> };
-    const blockShape = blockInstanceWithShape.block_shape;
-    
-    if (!blockShape) {
-      return false;
-    }
-    
-    return blockShape.composable === true;
-  } catch (error) {
-    logger.error('Error checking if BlockInstance is composable:', error);
-    return false;
-  }
-}
-
-export function getComponentConfig(entityType: EntityType): ComponentConfig | undefined {
-  const config = ENTITY_REGISTRY[entityType];
-  if (!config) return undefined;
-  if (entityType === 'blockInstance') {
-    return {
-      enabled: true, // Enabled at type level, but checked per-instance
-      componentRules: {
-        baseFee: 'sum',
-        baseTime: 'sum',
-        rateOverBaseFee: 'sum',
-        partAssignments: 'merge', // Merge all part instances from composed blocks
-        name: 'first', // Use first particle's name
-      },
-    };
-  }
-  return config.component;
-}
-
-/**
  * Supported entity types that map to frontend PROPERTY_KEYS
  * These strings MUST match the keys used in client/src/global/constants/propertyConstants.ts
  * 
@@ -99,7 +49,7 @@ if (!PartShape || !PartInstance || !BlockShape || !BlockInstance || !EventShape 
   logger.warn('This is normal during module loading - models will be available after app initialization');
 }
 
-export const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
+const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
   partInstance: {
     model: PartInstance,
     tableName: 'part_instances',

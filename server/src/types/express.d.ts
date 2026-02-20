@@ -1,14 +1,15 @@
+import type { ModelStatic, Model } from 'sequelize';
 import { EntityConfig } from '../config/entityRegistry';
 import { RelationshipConfig } from '../routes/internal/relationships/relationshipConstants';
 
 interface AnnotationConfig {
-  model: any;
+  model: ModelStatic<Model>;
   displayName: string;
   isInstance: boolean;
 }
 
 interface EventConfig {
-  model: any;
+  model: ModelStatic<Model>;
   displayName: string;
   isInstance: boolean;
 }

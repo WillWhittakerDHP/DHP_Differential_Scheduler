@@ -8,21 +8,13 @@
 
 import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
+import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
 
-export interface RelationshipMetadataEntry {
+/** Extends shared MetadataEntryBase; relationship entries use relationshipKey (TYPE_SIMILARITY 1.11). */
+export interface RelationshipMetadataEntry extends MetadataEntryBase {
   relationshipKey: string;
-  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-  label: string;
-  isRequired: boolean;
-  visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-  layout: 'inline' | 'stacked';
-  displayOrder: number;
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-  statusButtonColor?: string | null;
   panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
-  bulkEdit: boolean;
-  inputConfig?: Record<string, unknown> | null;
 }
 
 export async function getAdminRelationshipMetadata(

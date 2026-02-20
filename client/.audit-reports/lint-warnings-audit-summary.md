@@ -6,21 +6,14 @@ Generated from `lint-warnings-audit.json`. Warnings only.
 
 | Metric | Count |
 | --- | ---: |
-| Files with warnings | 1 |
-| Total warning findings | 1 |
-| Files in report | 1 |
+| Files with warnings | 0 |
+| Total warning findings | 0 |
+| Files in report | 0 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| @typescript-eslint/no-unused-vars | 1 |
-
-## Top 1 files (by score)
-
-| File | Priority | Score |
-| --- | --- | ---: |
-| `client/src/composables/admin/useInstanceFiltering.ts` | P2 | 1 |
 
 ## Notes
 

@@ -47,7 +47,13 @@ export interface SelectionCardItemWithComponents extends SelectionCardItem {
   partInstances?: BookingPartInstance[]
 }
 
-export interface UsePropertyDetailsLogicParams {
+/** Shared base for property form state (TYPE_SIMILARITY 1.15). */
+export interface PropertyFormStateCore {
+  formData: PropertyFormData
+  isAddressExpanded: Ref<boolean>
+}
+
+export interface UsePropertyDetailsLogicParams extends PropertyFormStateCore {
   wizard: {
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>
@@ -58,8 +64,6 @@ export interface UsePropertyDetailsLogicParams {
     batchUpdate: (fn: () => void) => void
   }
   loadedWizardState: Ref<WizardStateData | null> | null
-  formData: PropertyFormData
-  isAddressExpanded: Ref<boolean>
 }
 
 export interface UsePropertyDetailsLogicReturn {
@@ -277,11 +281,11 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
       }
 
       formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')
-      formData.squareFootage.value = enrichment.squareFootage
-      formData.bedrooms.value = enrichment.bedrooms
-      formData.bathrooms.value = enrichment.bathrooms
-      formData.foundationAccess.value = enrichment.foundationAccess
-      formData.additionalUnits.value = enrichment.additionalUnits
+      formData.squareFootage.value = enrichment.squareFootage ?? null
+      formData.bedrooms.value = enrichment.bedrooms ?? null
+      formData.bathrooms.value = enrichment.bathrooms ?? null
+      formData.foundationAccess.value = enrichment.foundationAccess ?? null
+      formData.additionalUnits.value = enrichment.additionalUnits ?? null
       if (formData.source) formData.source.value = 'api'
       const suggestedIds = safeArray(enrichment.suggestedBlockInstanceIds)
       if (formData.suggestedBlockInstanceIds) {

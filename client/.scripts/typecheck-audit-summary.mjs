@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
 
 // Detect if we're running from client/ or project root
 const CWD = path.resolve(process.cwd())

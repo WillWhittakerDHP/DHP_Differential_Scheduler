@@ -8,17 +8,15 @@
 
 import { computed, type ComputedRef } from 'vue'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
-import { useSelectionCardConfig } from './useSelectionCardConfig'
+import { useSelectionCardConfig, type UseSelectionCardConfigParams } from './useSelectionCardConfig'
 import {
   buildSelectionCardGridColumnProps,
   getSelectionGroupComponentName,
   shouldUseSelectionGroupWrapper,
 } from '@/utils/booking/selectionCardGroupConfig'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
-export interface UseSelectionCardGroupConfigParams {
-  config: ReadonlyVueRef<SelectionCardConfig | undefined>
-}
+/** Same shape as UseSelectionCardConfigParams; use for group context. */
+export type UseSelectionCardGroupConfigParams = UseSelectionCardConfigParams
 
 export interface UseSelectionCardGroupConfigReturn {
   configWithDefaults: ComputedRef<SelectionCardConfig>
@@ -35,9 +33,7 @@ export interface UseSelectionCardGroupConfigReturn {
  * PATTERN: Composable that returns reactive computed properties
  */
 export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigParams): UseSelectionCardGroupConfigReturn {
-  const { config } = params
-
-  const { configWithDefaults } = useSelectionCardConfig({ config: config as ReadonlyVueRef<SelectionCardConfig | undefined> })
+  const { configWithDefaults } = useSelectionCardConfig(params)
 
   /**
    * LEARNING: Whether to use group wrapper

@@ -66,6 +66,7 @@ export async function getAutocompleteSuggestions(
 
       return transformPredictions(data.predictions)
     } catch (error) {
+      logger.error(error)
       if (error instanceof MapsApiError) throw error
       logger.error('Autocomplete error', { error })
       throw new MapsApiError(
@@ -105,6 +106,7 @@ export async function getPlaceDetails(
 
       return transformPlaceResult(data.result, placeId)
     } catch (error) {
+      logger.error(error)
       if (error instanceof MapsApiError) throw error
       logger.error('Place details error', { error })
       throw new MapsApiError(

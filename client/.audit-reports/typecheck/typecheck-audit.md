@@ -12,43 +12,41 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-19T19:00:05.707Z**
+- Generated at: **2026-02-19T23:18:54.497Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 60**
+- **Errors requiring review: 53**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **34**
+- Pools: **23**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-createmaxincomecomputed` | 79 | 7 | 1 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-string-number-string` | 61 | 5 | 3 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-string-rfc3339datetime` | 46 | 4 | 1 | 0 | 0 |
-| P0 | `TS18046-ts18046-entity-value-is-of-type-unknown` | 38 | 4 | 1 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-globalfieldkey-readonly-string` | 37 | 3 | 2 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-globalfieldkey-string` | 37 | 3 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-id` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2698-ts2698-spread-types-may-only-be-created-from-object-types` | 25 | 3 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-id-record` | 24 | 2 | 1 | 0 | 0 |
-| P1 | `TS2638-ts2638-type-may-represent-a-primitive-value-which-is-not-permitted-as-the-right-operand-of-the-in-operator` | 16 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-computedref-ref` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-globalfieldkey-string` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-number-constraintenforcement-drivetimeapplyto-undefined-tvalue-undefined` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-number-off-both-flexible-hard-appointment-drivetime-lunch-before-after-undefined-tvalue-undefined` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-ref-18-more-setvalue-void-omit-map-ref-map` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-string-number-string` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-string-string` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-localecompare-globalfieldkey` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-fieldcontexttype` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-string-number-symbol-string` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-unknown-globalentity` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-void-void-void-void-void-void` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-fieldkey-globalentitytype-globalpropertykey-to-type-partial-globalentitytype-may-be-a-mistake-` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-fieldkey-globalfieldkey-blockinstance-blockshape-partinstance-partshape-eventshape-eventinstan` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-id-globalentityid-blockshaperef-globalentityid-to-type-blockinstanceentity-may-be-a-mistake-be` | 13 | 1 | 1 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-globalentityid` | 79 | 7 | 1 | 0 | 0 |
+| P0 | `TS2344-ts2344-type-collectionitem-does-not-satisfy-the-constraint-identifiablebyid` | 74 | 6 | 4 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-rfc3339datetime` | 46 | 4 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-number-null-undefined-number-null` | 46 | 4 | 1 | 0 | 0 |
+| P0 | `TS2552-ts2552-cannot-find-name-globalentityid-did-you-mean-globalentitykey` | 44 | 6 | 1 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-bookingblockinstance-readonly-identifiablebyid` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-formcontext` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-identifiablebyid-null-bookingblockinstance-null` | 26 | 2 | 2 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-iso8601date` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-googlecalendarbusyperiod` | 24 | 2 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-writablecomputedref-writablecomputedref` | 24 | 2 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-attendeerequest` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-fieldmetadataentry` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-identifiablebyid` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-basement-crawlspace-slab-null-undefined-basement-crawlspace-slab-null` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-identifiablebyid-bookingblockinstance` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-ref-void-submitform-promise-name-string-meta-formmeta-25-more-resetfield-void-undefined-formcontext-ref-un` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-adminconfig-useformfieldsoptionsbase` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-direction-enforcement-maxhours` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-direction-enforcement-maxincome` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-adminconfig-does-not-exist-in-type-useformfieldsoptionsbase` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2769-ts2769-no-overload-matches-this-call` | 12 | 1 | 1 | 0 | 0 |
+| P1 | `TS18048-ts18048-selectedusertypeblock-is-possibly-undefined` | 11 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -60,185 +58,143 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/composables/admin/useStatusButtonToggle.ts`
+### `src/types/entities.ts`
 
-- errors: 9, unsafeCasts: 0, suppressions: 0
-
-```
-TS2339@87:40 Property 'id' does not exist on type '{}'.
-TS2536@104:26 Type 'GlobalFieldKey<GE>' cannot be used to index type '{}'.
-TS2339@126:38 Property 'id' does not exist on type '{}'.
-TS2345@135:20 Argument of type 'string | number' is not assignable to parameter of type 'string'.
-TS2339@155:36 Property 'id' does not exist on type '{}'.
-TS2638@161:57 Type '{}' may represent a primitive value, which is not permitted as the right operand of the 'in' operator.
-TS2339@165:40 Property 'id' does not exist on type 'Record<"canHaveParts", unknown>'.
-TS2638@169:61 Type '{}' may represent a primitive value, which is not permitted as the right operand of the 'in' operator.
-TS2339@173:40 Property 'id' does not exist on type 'Record<"isStateControl", unknown>'.
-```
-
-### `src/composables/admin/useCapacitySettings.ts`
-
-- errors: 8, unsafeCasts: 0, suppressions: 0
+- errors: 13, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2352@34:15 Conversion of type 'WorkCapacityFilter | RollingWeekCapacityFilter' to type 'Record<string, TValue>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-TS2304@195:33 Cannot find name 'createMaxIncomeComputed'.
-TS2304@202:35 Cannot find name 'createMaxIncomeComputed'.
-TS2304@209:42 Cannot find name 'createMaxIncomeComputed'.
-TS2304@216:44 Cannot find name 'createMaxIncomeComputed'.
-TS2304@223:41 Cannot find name 'createMaxIncomeComputed'.
-TS2304@230:43 Cannot find name 'createMaxIncomeComputed'.
-TS2304@237:41 Cannot find name 'createMaxIncomeComputed'.
+TS2552@6:50 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2552@7:19 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2552@12:4 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2552@13:36 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2552@23:7 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2552@29:24 Cannot find name 'GlobalEntityId'. Did you mean 'GlobalEntityKey'?
+TS2304@54:19 Cannot find name 'GlobalEntityId'.
+TS2304@55:16 Cannot find name 'GlobalEntityId'.
+TS2304@56:22 Cannot find name 'GlobalEntityId'.
+TS2304@67:22 Cannot find name 'GlobalEntityId'.
+TS2304@71:17 Cannot find name 'GlobalEntityId'.
+TS2304@77:15 Cannot find name 'GlobalEntityId'.
+TS2304@95:18 Cannot find name 'GlobalEntityId'.
 ```
 
-### `src/composables/admin/useEntityCardActions.ts`
+### `src/types/datetime.ts`
 
-- errors: 7, unsafeCasts: 0, suppressions: 0
+- errors: 6, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2698@91:7 Spread types may only be created from object types.
-TS18046@105:15 'entity.value' is of type 'unknown'.
-TS2698@136:9 Spread types may only be created from object types.
-TS18046@145:40 'entity.value' is of type 'unknown'.
-TS2345@147:19 Argument of type 'unknown' is not assignable to parameter of type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
-TS18046@181:20 'entity.value' is of type 'unknown'.
-TS18046@184:18 'entity.value' is of type 'unknown'.
+TS2304@15:47 Cannot find name 'ISO8601Date'.
+TS2304@16:19 Cannot find name 'ISO8601Date'.
+TS2304@36:60 Cannot find name 'RFC3339DateTime'.
+TS2304@63:57 Cannot find name 'RFC3339DateTime'.
+TS2304@85:48 Cannot find name 'RFC3339DateTime'.
+TS2304@86:32 Cannot find name 'RFC3339DateTime'.
 ```
 
-### `src/composables/admin/useMetadataFieldOrdering.ts`
+### `src/composables/booking/usePropertyDetailsLogic.ts`
 
 - errors: 5, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@47:38 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">' is not assignable to parameter of type 'string'.
-TS2345@48:38 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">' is not assignable to parameter of type 'string'.
-TS2339@56:16 Property 'localeCompare' does not exist on type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
-TS2322@65:5 Type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]' is not assignable to type 'string[]'.
-TS2322@81:5 Type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>' is not assignable to type 'Ref<string[], string[]>'.
-```
-
-### `src/components/admin/dev/ApiDevPanelComputedTab.vue`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2345@108:47 Argument of type 'string' is not assignable to parameter of type 'RFC3339DateTime'.
-TS2345@108:99 Argument of type 'string' is not assignable to parameter of type 'RFC3339DateTime'.
-TS2345@141:45 Argument of type 'string' is not assignable to parameter of type 'RFC3339DateTime'.
-TS2345@141:97 Argument of type 'string' is not assignable to parameter of type 'RFC3339DateTime'.
+TS2322@284:7 Type 'number | null | undefined' is not assignable to type 'number | null'.
+TS2322@285:7 Type 'number | null | undefined' is not assignable to type 'number | null'.
+TS2322@286:7 Type 'number | null | undefined' is not assignable to type 'number | null'.
+TS2322@287:7 Type '"basement" | "crawlspace" | "slab" | null | undefined' is not assignable to type '"basement" | "crawlspace" | "slab" | null'.
+TS2322@288:7 Type 'number | null | undefined' is not assignable to type 'number | null'.
 ```
 
 ### `src/composables/formFields/useFormFieldsContext.ts`
 
+- errors: 5, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@16:29 Cannot find name 'FormContext'.
+TS2339@27:101 Property 'adminConfig' does not exist on type 'UseFormFieldsOptionsBase'.
+TS2304@34:33 Cannot find name 'FormContext'.
+TS2304@108:43 Cannot find name 'FieldMetadataEntry'.
+TS2304@244:42 Cannot find name 'FormContext'.
+```
+
+### `src/composables/admin/useCapacitySettings.ts`
+
 - errors: 4, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@265:50 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">' is not assignable to parameter of type 'string'.
-TS2345@269:47 Argument of type 'FieldContextType<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", GlobalFieldKey<"blockInstance" | "blockShape" | ... 5 more ... | "annotationInstance">>' is not assignable to parameter of type '{ fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 18 more ...; setValue: (value: ValidAdminValue) => void; }'.
-TS2352@331:12 Conversion of type '{ fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 18 more ...; setValue: (value: ValidAdminValue) => void; }' to type 'FieldContextType<GE, FieldKey>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-TS2322@340:5 Type 'Ref<Map<string, { fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 18 more ...; setValue: (value: ValidAdminValue) => void; }> & Omit<...>, Map<...> | (Map<...> & Omit<...>)>' is not assignable to type 'Ref<Map<string, FieldContextType<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", GlobalFieldKey<"blockInstance" | ... 6 more ... | "annotationInstance">>>, Map<...>>'.
+TS2345@199:5 Argument of type '"direction"' is not assignable to parameter of type '"enforcement" | "maxHours"'.
+TS2345@279:5 Argument of type '"direction"' is not assignable to parameter of type '"enforcement" | "maxIncome"'.
+TS2322@291:5 Type 'WritableComputedRef<number | ConstraintEnforcement, number | ConstraintEnforcement>' is not assignable to type 'WritableComputedRef<"past" | "centered" | "future", "past" | "centered" | "future">'.
+TS2322@298:5 Type 'WritableComputedRef<number | ConstraintEnforcement, number | ConstraintEnforcement>' is not assignable to type 'WritableComputedRef<"past" | "centered" | "future", "past" | "centered" | "future">'.
 ```
 
-### `src/composables/admin/useSelectFiltering.ts`
+### `src/utils/transformers/appointmentToWizardHelpers.ts`
 
-- errors: 3, unsafeCasts: 0, suppressions: 0
+- errors: 4, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@168:7 Type 'string | number' is not assignable to type 'string'.
-TS2345@367:67 Argument of type 'string | number' is not assignable to parameter of type 'string'.
-TS2345@407:63 Argument of type 'string | number' is not assignable to parameter of type 'string'.
+TS2322@63:3 Type 'IdentifiableById | null' is not assignable to type 'BookingBlockInstance | null'.
+TS2345@63:19 Argument of type 'BookingBlockInstance[]' is not assignable to parameter of type 'readonly IdentifiableById[]'.
+TS2322@77:3 Type 'IdentifiableById[]' is not assignable to type 'BookingBlockInstance[]'.
+TS2345@77:20 Argument of type 'BookingBlockInstance[]' is not assignable to parameter of type 'readonly IdentifiableById[]'.
 ```
 
-### `src/composables/admin/useBufferSettings.ts`
+### `src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@32:5 Type '() => number | "off" | "both" | "flexible" | "hard" | "appointment" | "driveTime" | "lunch" | "before" | "after" | undefined' is not assignable to type '() => TValue | undefined'.
-TS2322@61:5 Type '() => number | ConstraintEnforcement | DriveTimeApplyTo | undefined' is not assignable to type '() => TValue | undefined'.
+TS2344@27:44 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
+TS2344@28:52 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
 ```
 
-### `src/composables/booking/useBlockInstanceSelection.ts`
+### `src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2352@68:12 Conversion of type '{ selectedBlockId: globalThis.WritableComputedRef<string | null, string | null>; }' to type 'UseBlockInstanceSelectionReturn<Mode>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-TS2352@86:12 Conversion of type '{ selectedBlockIds: globalThis.WritableComputedRef<string[], string[]>; }' to type 'UseBlockInstanceSelectionReturn<Mode>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+TS2344@17:42 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
+TS2344@18:50 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
 ```
 
-### `src/composables/formFields/useFormFieldsStandardLayout.ts`
+### `src/utils/booking/mockGoogleCalendar.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@33:38 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]' is not assignable to parameter of type 'readonly string[]'.
-TS2345@39:38 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]' is not assignable to parameter of type 'readonly string[]'.
+TS2322@97:3 Type '{ start: RFC3339DateTime; end: RFC3339DateTime; }' is not assignable to type 'GoogleCalendarBusyPeriod'.
+TS2322@219:24 Type '{ start: RFC3339DateTime; end: RFC3339DateTime; }' is not assignable to type 'GoogleCalendarBusyPeriod'.
 ```
 
-### `src/composables/useSelectOptions.ts`
+### `src/utils/transformers/appointmentToWizardTransformer.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@114:37 Argument of type 'string | number' is not assignable to parameter of type 'string'.
-TS2345@236:41 Argument of type 'string | number' is not assignable to parameter of type 'string'.
+TS2345@280:34 Argument of type 'BookingBlockInstance[]' is not assignable to parameter of type 'readonly IdentifiableById[]'.
+TS2322@309:5 Type 'IdentifiableById | null' is not assignable to type 'BookingBlockInstance | null'.
 ```
 
-### `src/components/admin/generic/collections/PartsCollection.vue`
+### `src/composables/admin/useEntityCardForm.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2724@29:29 '"@/types/entities"' has no exported member named 'GlobalEntityKey'. Did you mean 'GlobalEntity'?
+TS2322@83:5 Type 'Ref<{ values: GenericObject; handleReset: () => void; submitForm: (e?: unknown) => Promise<void>; name: string; meta: FormMeta<GenericObject>; ... 25 more ...; resetField: (field: string, state?: Partial<...> | undefined) => void; } | undefined, FormContext<...> | ... 1 more ... | undefined>' is not assignable to type 'Ref<FormContext<GenericObject, GenericObject> | undefined, FormContext<GenericObject, GenericObject> | undefined>'.
 ```
 
-### `src/components/common/AddressAutocomplete.vue`
+### `src/composables/booking/useInstanceDescriptions.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@317:38 Argument of type '((evt: "error", error: MapsApiError) => void) & ((evt: "update:modelValue", value: string) => void) & ((evt: "update:coordinates", value: Coordinates | undefined) => void) & ((evt: "update:placeId", value: string | undefined) => void) & ((evt: "place-selected", details: PlaceDetails) => void)' is not assignable to parameter of type '(e: string, ...args: unknown[]) => void'.
+TS18048@66:39 'selectedUserTypeBlock' is possibly 'undefined'.
 ```
 
-### `src/composables/admin/tables/useAppointmentsTableModel.ts`
+### `src/composables/businessDataCollections/useBusinessDataCollectionActions.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@134:5 Type '(appointment: AppointmentResponse & Record<string, unknown>, field: string) => string' is not assignable to type '(appointment: AppointmentResponse, field: string) => string'.
-```
-
-### `src/composables/admin/useCalibrationChart.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2352@135:25 Conversion of type '{ readonly [x: string]: string; readonly background: string; readonly surface: string; readonly primary: string; readonly secondary: string; readonly success: string; readonly warning: string; readonly error: string; ... 8 more ...; readonly 'on-info': string; }' to type 'InternalThemeDefinition' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-```
-
-### `src/composables/admin/useEntityCardStoreSync.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2345@114:39 Argument of type 'string | number | symbol' is not assignable to parameter of type 'string'.
-```
-
-### `src/composables/admin/useInstanceFiltering.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:1 'BookingMode' is declared but its value is never read.
-```
-
-### `src/composables/booking/useDependentInstances.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS5076@127:23 '||' and '??' operations cannot be mixed without parentheses.
+TS2344@33:44 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
 ```
 
 ### `src/composables/formFields/useFormFields.ts`
@@ -246,37 +202,37 @@ TS5076@127:23 '||' and '??' operations cannot be mixed without parentheses.
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@48:7 Argument of type 'GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]' is not assignable to parameter of type 'readonly string[]'.
+TS2353@29:5 Object literal may only specify known properties, and 'adminConfig' does not exist in type 'UseFormFieldsOptionsBase'.
 ```
 
-### `src/composables/useEntityForm.ts`
+### `src/composables/globalDataCollections/useGlobalDataCollectionActions.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2698@96:9 Spread types may only be created from object types.
+TS2344@18:42 Type 'CollectionItem' does not satisfy the constraint 'IdentifiableById'.
 ```
 
-### `src/utils/debug/windowDebug.ts`
+### `src/types/appointmentApi.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2352@43:5 Conversion of type 'Window & typeof globalThis' to type 'WindowWithDebug' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+TS2304@82:15 Cannot find name 'AttendeeRequest'.
 ```
 
-### `src/utils/entities/entityFieldPatch.ts`
+### `src/utils/collections/appendIfMissingById.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2352@14:10 Conversion of type '{ [fieldKey]: GlobalEntityType[GlobalPropertyKey]; }' to type 'Partial<GlobalEntityType>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+TS2304@9:60 Cannot find name 'IdentifiableById'.
 ```
 
-### `src/views/admin/tabs/InstancesTab.vue`
+### `src/views/admin/tabs/components/AppointmentsCreateForm.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2352@773:18 Conversion of type '{ id: GlobalEntityId; blockShapeRef: GlobalEntityId; }' to type 'BlockInstanceEntity' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+TS2769@136:49 No overload matches this call.
 ```

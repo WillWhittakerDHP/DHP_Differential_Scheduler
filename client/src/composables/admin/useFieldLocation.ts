@@ -15,7 +15,7 @@ import { computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { SubPanelRecord } from '@/constants/fieldMetadata'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import {
   getFieldLocation,
   groupFieldsByLocation,

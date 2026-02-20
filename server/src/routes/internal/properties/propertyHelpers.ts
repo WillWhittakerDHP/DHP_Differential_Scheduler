@@ -11,7 +11,7 @@ import { Address, PropertyVersion, PropertyDetails, PropertyVersionType, BlockIn
 import { FIELD_NAMES } from '../entities/entityConstants.js'
 
 /** PropertyVersion with associations loaded (propertyDetails, address). */
-export type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {
+type PropertyVersionWithAssociations = InstanceType<typeof PropertyVersion> & {
   propertyDetails?: InstanceType<typeof PropertyDetails> | InstanceType<typeof PropertyDetails>[] | null
   address?: InstanceType<typeof Address> | null
 }
@@ -30,7 +30,7 @@ export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
  * @param propertyVersion - PropertyVersion instance
  * @returns true if propertyVersion has propertyDetails association
  */
-export function isPropertyVersionWithAssociations(
+function isPropertyVersionWithAssociations(
   propertyVersion: unknown
 ): propertyVersion is PropertyVersionWithAssociations {
   return (

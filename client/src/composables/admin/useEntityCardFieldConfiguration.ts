@@ -9,7 +9,7 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useFieldLocation } from './useFieldLocation'
 
 export interface UseEntityCardFieldConfigurationParams {

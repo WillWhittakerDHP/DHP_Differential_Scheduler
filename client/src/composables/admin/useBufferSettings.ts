@@ -13,13 +13,12 @@ import type {
   DriveTimeApplyTo
 } from '@/configs/availabilitySettings'
 import { createNestedComputed, createEnsureNested } from '@/composables/admin/utils/nestedComputedFactory'
+import type { UseBufferSettingsParams } from '@/types/availabilitySettingsParams'
+
+export type { UseBufferSettingsParams }
 
 type Buffers = NonNullable<AvailabilitySettings['buffers']>
 type RangeConstraints = NonNullable<AvailabilitySettings['rangeConstraints']>
-
-export interface UseBufferSettingsParams {
-  formData: Ref<AvailabilitySettings | null>
-}
 
 function createBuffersComputed<TValue>(
   formData: Ref<AvailabilitySettings | null>,
@@ -29,10 +28,10 @@ function createBuffersComputed<TValue>(
   ensureFunction: (current: Buffers | undefined) => Buffers
 ): WritableComputedRef<TValue> {
   return createNestedComputed<TValue, Buffers>({
-    getValue: () => {
+    getValue: (): TValue | undefined => {
       const bufferValue = formData.value?.buffers?.[bufferType]
       if (!bufferValue) return undefined
-      return (bufferValue as BufferConfig)[property]
+      return (bufferValue as BufferConfig)[property] as TValue
     },
     getDefault,
     getCurrentParent: () => formData.value?.buffers ?? undefined,
@@ -58,10 +57,10 @@ function createDriveTimeComputed<TValue>(
   ensureFunction: (current: Buffers | undefined) => Buffers
 ): WritableComputedRef<TValue> {
   return createNestedComputed<TValue, Buffers>({
-    getValue: () => {
+    getValue: (): TValue | undefined => {
       const bufferValue = formData.value?.buffers?.[bufferType]
       if (!bufferValue) return undefined
-      return (bufferValue as DriveTimeConfig)[property]
+      return (bufferValue as DriveTimeConfig)[property] as TValue
     },
     getDefault,
     getCurrentParent: () => formData.value?.buffers ?? undefined,

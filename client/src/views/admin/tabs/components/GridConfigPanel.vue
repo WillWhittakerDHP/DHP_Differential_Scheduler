@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 defineProps<{
   minuteIncrement: number

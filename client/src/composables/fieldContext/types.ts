@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 export interface FieldDisplayConfig<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
   label: string

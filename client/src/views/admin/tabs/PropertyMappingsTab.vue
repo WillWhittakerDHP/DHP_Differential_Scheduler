@@ -16,7 +16,7 @@ const isTabActive = computed(() => adminCurrentTab?.value === 'property-mappings
 
 const currentSubTab = ref<'field' | 'block'>('field')
 
-export interface PropertyFieldMappingRow {
+interface PropertyFieldMappingRow {
   id: string
   dataSource: string
   sourceField: string
@@ -29,7 +29,7 @@ export interface PropertyFieldMappingRow {
   updatedAt: string
 }
 
-export interface PropertyFeatureMappingRow {
+interface PropertyFeatureMappingRow {
   id: string
   dataSource: string
   sourceField: string

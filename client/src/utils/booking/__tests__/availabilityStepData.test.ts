@@ -32,7 +32,7 @@ import {
   buildAvailabilityStepData,
 } from '../availabilityStepData'
 import type { AppointmentSlot, AppointmentShape, EventFinal, TimeRange } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventShapeEntity } from '@/types/entities'
 

@@ -1,4 +1,4 @@
-import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 
 /**
  * WHY: User Type Definitions

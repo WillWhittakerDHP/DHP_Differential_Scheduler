@@ -6,7 +6,6 @@
 
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
-import type { BookingMode } from '@/constants/bookingMode'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
 
@@ -22,7 +21,7 @@ function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChil
 }
 
 
-import type { UseInstanceBlockInstancesByShapeOptions } from './instanceComposableOptions'
+import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
 
 export type UseInstanceFilteringOptions = UseInstanceBlockInstancesByShapeOptions
 

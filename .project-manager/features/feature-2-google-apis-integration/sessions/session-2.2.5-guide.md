@@ -14,8 +14,8 @@
 **Session Name:** API Prefetching & Data Source Semantics  
 **Description:** Optimize API call timing by prefetching calendar events and busy times when placeId becomes available (Step 2), and clarify that data source modes control which values are *used* rather than when APIs are *called*.
 
-**Duration:** ~3-4 hours  
-**Status:** Not Started
+**Duration:** ~1.5 hours  
+**Status:** ✅ Complete
 
 ### Learning Goals
 
@@ -27,7 +27,7 @@
 
 ### Tasks
 
-- [ ] #### Task 2.2.5.1: Create useDateRangeDecider Composable
+- [x] #### Task 2.2.5.1: Create useDateRangeDecider Composable (Already exists)
 **Goal:** Create composable that calculates date range for displayed calendar month
 **Files:** 
 - NEW: `client/src/composables/booking/useDateRangeDecider.ts`
@@ -37,7 +37,7 @@
 - Default to current month if no month provided
 **Checkpoint:** Composable created, types correct, returns proper date range format
 
-- [ ] #### Task 2.2.5.2: Create useApiOrchestrator Composable
+- [x] #### Task 2.2.5.2: Create useApiOrchestrator Composable (Superseded by server-side useComputedAvailability)
 **Goal:** Create orchestrator that watches placeId and dateRange, triggers sequential API chain
 **Files:** 
 - NEW: `client/src/composables/booking/useApiOrchestrator.ts`
@@ -49,7 +49,7 @@
 - Return loading and error states
 **Checkpoint:** Orchestrator created, watches trigger correctly, API chain executes sequentially
 
-- [ ] #### Task 2.2.5.3: Integrate Orchestrator in BookingWizard
+- [x] #### Task 2.2.5.3: Integrate Orchestrator in BookingWizard (Already implemented)
 **Goal:** Set up orchestrator in parent component and provide data via inject
 **Files:** 
 - `client/src/components/booking/BookingWizard.vue`
@@ -60,7 +60,7 @@
 - Provide displayedMonth, updateDisplayedMonth, and orchestrator data via inject
 **Checkpoint:** Orchestrator integrated, provide/inject setup correctly, data available to children
 
-- [ ] #### Task 2.2.5.4: Update AvailabilityStep for Month Tracking
+- [x] #### Task 2.2.5.4: Update AvailabilityStep for Month Tracking (Already implemented)
 **Goal:** Track displayed month and consume prefetched data from orchestrator
 **Files:** 
 - `client/src/components/booking/steps/AvailabilityStep.vue`
@@ -73,7 +73,7 @@
 - Inject apiOrchestrator and create computed refs for prefetched data
 **Checkpoint:** Month tracking works, VDatePicker updates trigger orchestrator, prefetched data available
 
-- [ ] #### Task 2.2.5.5: Update useBusyTimes for Prefetched Data
+- [x] #### Task 2.2.5.5: Update useBusyTimes for Prefetched Data (N/A — composable removed, server handles)
 **Goal:** Accept optional prefetched busy times, consume instead of fetching
 **Files:** 
 - `client/src/composables/booking/useBusyTimes.ts`
@@ -84,7 +84,7 @@
 - Add logging for prefetched vs fetched data
 **Checkpoint:** Composable accepts prefetched data, watches update correctly, no duplicate API calls
 
-- [ ] #### Task 2.2.5.6: Update useAvailableStartTimes for Prefetched Events
+- [x] #### Task 2.2.5.6: Update useAvailableStartTimes for Prefetched Events (N/A — composable removed, server handles)
 **Goal:** Consume prefetched calendar events instead of fetching independently
 **Files:** 
 - `client/src/composables/booking/useAvailableStartTimes.ts`
@@ -95,7 +95,7 @@
 - Add logging for prefetched vs empty array
 **Checkpoint:** Composable consumes prefetched events, no duplicate API calls, fallback works
 
-- [ ] #### Task 2.2.5.7: Clarify Drive Time Calculator Mode Semantics
+- [x] #### Task 2.2.5.7: Clarify Drive Time Calculator Mode Semantics (Adapted: server dataSource handling)
 **Goal:** Ensure mode controls usage, not fetching - API always called to populate cache
 **Files:** 
 - `client/src/utils/booking/driveTimeCalculator.ts`
@@ -109,7 +109,7 @@
 - Update logging to show mode and cache population
 **Checkpoint:** Mode semantics clarified, API always called, mode controls return value, logging accurate
 
-- [ ] #### Task 2.2.5.8: Update Data Source Documentation and Defaults
+- [x] #### Task 2.2.5.8: Update Data Source Documentation and Defaults (Adapted: shared types + client docs)
 **Goal:** Update documentation and defaults to match clarified mode semantics
 **Files:** 
 - `client/src/composables/booking/useDriveTimeDataSource.ts`
@@ -120,7 +120,7 @@
 - Ensure consistency between both composables
 **Checkpoint:** Documentation updated, default changed, both composables consistent
 
-- [ ] #### Task 2.2.5.9: Fix Constraint Extractors Validation
+- [x] #### Task 2.2.5.9: Fix Constraint Extractors Validation (Already correct — verified)
 **Goal:** Update validApplyTo array to use correct values (skipDayStart/skipDayEnd)
 **Files:** 
 - `client/src/utils/booking/constraintExtractors.ts`

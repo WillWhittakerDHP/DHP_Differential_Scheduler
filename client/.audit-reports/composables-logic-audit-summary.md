@@ -37,7 +37,7 @@ Generated from `.audit-reports/composables-logic-audit.json`.
 | `src/composables/booking/useAppointmentLoader.ts` | P2 | 9 | 1 | 2 | 0 | 0 | 1 | 2 | 4 | 0 | 0 |
 | `src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 146 more files. See full report for details.*
+*...and 147 more files. See full report for details.*
 
 ## Notes
 

@@ -7,23 +7,22 @@
  * Panel Title Format: "Parts: PartName1, PartName2 +X more" or "Parts" if empty
  */
 import { computed, ref, watch, nextTick } from 'vue'
-import { FieldRenderer } from './fields'
+import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
-import { useEntityCrud } from '@/composables/useEntity'
-import type { FieldContextType } from '@/composables/useFieldContext'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
 import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
+import type { EntityCardSharedProps } from './entityCardConstants'
 
 type SubPanelFields = SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
 
-interface Props {
-  entityKey: GlobalEntityKey
-  entityId: string
+interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
   subPanelFields: SubPanelFields

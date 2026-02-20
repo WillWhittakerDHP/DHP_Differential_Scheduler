@@ -1,34 +1,23 @@
 import { computed, getCurrentInstance, ref, triggerRef, watchEffect, nextTick, type Ref, type ComputedRef } from 'vue'
-import { useForm, type FormContext } from 'vee-validate'
+import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
-import { useFieldContext, type FieldContextType } from '@/composables/useFieldContext'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/types/entities'
+import { useFieldContext } from '@/composables/fieldContext/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useNotification } from '@/composables/useNotification'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { createLogger } from '@/utils/logger'
+import type { UseFormFieldsContextOptions } from './types'
 
 const logger = createLogger('useFormFieldsContext')
 
-type UseFormFieldsContextOptions = {
-  entityKey: GlobalEntityKey
-  entityId: Ref<GlobalEntityId>
-  fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  /**
-   * LEARNING: Metadata record for the current entity context
-   * WHY: FieldContext displayConfig should be derived from `/admin-input-metadata`, not legacy formFieldConfig
-   * PATTERN: Pass down the metadata fetched once by EntityCard
-   */
-  fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
-  form?: Ref<FormContext | undefined>
-  adminConfig?: ReturnType<typeof useAdminConfig>
-}
-
 export type UseFormFieldsContextReturn = {
   adminConfig: ReturnType<typeof useAdminConfig>
-  formInstance: FormContext
+  formInstance: ComputedRef<FormContext | undefined>
   currentEntityId: ComputedRef<GlobalEntityId>
   isFormReady: ComputedRef<boolean>
   fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
@@ -45,16 +34,11 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   const { warning: showWarning } = useNotification()
   const appInstance = getCurrentInstance()?.appContext.app
 
-  // PATTERN: Use computed to reactively access provided form, create new form only if none provided
-  const fallbackForm = providedForm ? undefined : useForm()
-  const formInstance = computed<FormContext | undefined>(() => {
-    if (providedForm) {
-      return providedForm.value || undefined
-    }
-    return fallbackForm
-  })
+  // PATTERN: Form is always provided by caller (EntityCard via useEntityCardForm, DynamicForm from props)
+  const formInstance = computed<FormContext | undefined>(() => providedForm.value ?? undefined)
 
-  const fieldContextCache = ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map())
+  // Store field contexts. Values are useFieldContext return; retrieval typed via getFieldContext (vee-validate FormContext typing differs from our FieldContextType at inference).
+  const fieldContextCache = ref<Map<string, unknown>>(new Map())
 
   // PATTERN: Set to track warned fields
   const warnedFields = ref<Set<string>>(new Set())
@@ -261,11 +245,10 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
           entityKey,
           entityIdValue,
           {
-            form: currentFormInstance,
-            displayConfig: getFieldDisplayConfig(fieldKey),
+            form: currentFormInstance as FormContext,
+            displayConfig: getFieldDisplayConfig(String(fieldKey)),
           }
-        ) as FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-
+        )
         fieldContextCache.value.set(cacheKey, fieldContext)
         // PATTERN: triggerRef forces recompute for dependent computed values
         triggerRef(fieldContextCache)
@@ -324,20 +307,19 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     const cacheKey = String(fieldKey)
     const context = fieldContextCache.value.get(cacheKey)
 
-    if (!context) {
+    if (context === undefined) {
       return undefined
     }
 
-    return context as FieldContextType<GE, FieldKey>
+    return context as FieldContextType<GE, FieldKey> // single assertion: cache value is the requested field context
   }
 
-  // PATTERN: Return the form instance (provided when ready, or fallback if none provided)
   return {
     adminConfig,
-    formInstance: (formInstance.value || fallbackForm)!,
+    formInstance,
     currentEntityId,
     isFormReady,
-    fieldContextCache,
+    fieldContextCache: fieldContextCache as Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>,
     fieldsNeedingContexts,
     getFieldContext,
   }

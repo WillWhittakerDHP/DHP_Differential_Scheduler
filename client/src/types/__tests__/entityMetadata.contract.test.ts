@@ -1,5 +1,5 @@
 /**
- * Contract tests for types/entityMetadata.ts.
+ * Contract tests for entity metadata types (from @/constants/fieldMetadata).
  * Covers: EntityMetadataType, FieldMetadataEntry, FieldMetadata.
  * Validates: no accidental breaking changes to entity metadata types.
  * Dependencies: vitest.
@@ -10,7 +10,7 @@ import type {
   EntityMetadataType,
   FieldMetadataEntry,
   FieldMetadata,
-} from '@/types/entityMetadata'
+} from '@/constants/fieldMetadata'
 
 const EXPECTED_ENTITY_METADATA_TYPES: EntityMetadataType[] = [
   'blockShape',

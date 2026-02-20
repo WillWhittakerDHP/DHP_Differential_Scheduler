@@ -11,21 +11,14 @@ Generated from `lint-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 570 |
-| Total findings | 1 |
-| Files with findings | 1 |
+| Files scanned | 574 |
+| Total findings | 0 |
+| Files with findings | 0 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| @typescript-eslint/no-unused-vars | 1 |
-
-## Top 1 files (by score)
-
-| File | Priority | Score |
-| --- | --- | ---: |
-| `client/src/composables/admin/useInstanceFiltering.ts` | P2 | 2 |
 
 ## Notes
 

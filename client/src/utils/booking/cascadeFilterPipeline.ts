@@ -13,16 +13,19 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('cascadeFilterPipeline')
 
 /** Result of the cascade step: instances allowed by parent activeBlockIds */
-export type CascadeStepResult =
+type CascadeStepResult =
   | { success: true; instances: BookingBlockInstance[] }
   | { success: false; error: string; instances: BookingBlockInstance[] }
 
-export interface CascadeFilterParams {
+/** Base shared with PipelineParams (P2 type-similarity). */
+export interface CascadeFilterParamsBase {
   bookingData: BookingData | null
   parentInstances: BookingBlockInstance | BookingBlockInstance[] | null
   currentSelection: BookingBlockInstance[]
   relationshipName: string
 }
+
+type CascadeFilterParams = CascadeFilterParamsBase
 
 /**
  * Step 1: Cascade filter — returns instances allowed by parent activeBlockIds.
@@ -84,7 +87,7 @@ export function filterByCascade(params: CascadeFilterParams): CascadeStepResult 
 /**
  * Step 2: Shape filter — narrows to instances matching the given block shape type.
  */
-export function filterByShape(
+function filterByShape(
   instances: BookingBlockInstance[],
   bookingData: BookingData,
   shapeType: BlockShapeType
@@ -94,7 +97,7 @@ export function filterByShape(
   return instances.filter(instance => instance.blockShapeRef === shapeId)
 }
 
-export interface FallbackParams {
+interface FallbackParams {
   bookingData: BookingData
   cascadeInstances: BookingBlockInstance[]
   shapeType: BlockShapeType
@@ -105,7 +108,7 @@ export interface FallbackParams {
 /**
  * Step 3: Fallback — if cascade returned empty but parent is selected, return all instances of shape type.
  */
-export function applyFallback(params: FallbackParams): BookingBlockInstance[] {
+function applyFallback(params: FallbackParams): BookingBlockInstance[] {
   const { bookingData, cascadeInstances, shapeType, hasParentSelection, relationshipName } = params
   if (cascadeInstances.length > 0) return cascadeInstances
   if (!hasParentSelection) return []
@@ -118,15 +121,10 @@ export function applyFallback(params: FallbackParams): BookingBlockInstance[] {
   )
 }
 
-export interface PipelineParams {
-  bookingData: BookingData | null
-  parentInstances: BookingBlockInstance | BookingBlockInstance[] | null
-  currentSelection: BookingBlockInstance[]
-  relationshipName: string
+/** Extends cascade base (P2 type-similarity). */
+interface PipelineParams extends CascadeFilterParamsBase {
   shapeType: BlockShapeType
-  /** When true, apply fallback to all shape instances when cascade returns empty */
   allowFallbackToAllOfShape: boolean
-  /** When true, log when cascade results are filtered out by shape (no blocks of that type in cascade) */
   logShapeMismatch?: boolean
 }
 

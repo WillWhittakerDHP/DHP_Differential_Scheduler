@@ -8,7 +8,8 @@
 
 import type { Ref } from 'vue'
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
-import type { AppointmentRequest, AppointmentStatus, AttendeeRequest } from '@/types/appointment'
+import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
+import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -16,6 +17,7 @@ import { buildAppointmentFeeBreakdown } from '@/utils/booking/confirmationStepDa
 
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { ContactsStepData } from '@/types/wizard'
+import { toISO8601Date } from '@/types/datetime'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAppointmentDataCollection')
@@ -265,8 +267,8 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
           ? wizard.selectedOptionTypeBlocks.value.map(opt => opt.id)
           : null,
         optionQuantities: Object.keys(optionTypeBlockQuantities).length > 0 ? optionTypeBlockQuantities : null,
-        selectedDate,
-        selectedDateRangeEnd,
+        selectedDate: selectedDate != null ? toISO8601Date(selectedDate) : null,
+        selectedDateRangeEnd: selectedDateRangeEnd != null ? toISO8601Date(selectedDateRangeEnd) : null,
         selectedTimeSlots,
         isQuoteMode,
         // LEARNING: 'submitted' triggers calendar invitation, 'quoted' is for quote-only mode

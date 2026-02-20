@@ -152,8 +152,7 @@ const contentClasses = computed(() => {
       :icon="item.icon"
       width="32"
       height="32"
-      class="flex-shrink-0 ms-2"
-      :style="{ color: 'rgb(var(--v-theme-on-surface))' }"
+      class="flex-shrink-0 ms-2 independent-select-card-icon"
     />
     
     <!-- Content -->
@@ -202,6 +201,10 @@ const contentClasses = computed(() => {
   &.disabled {
     cursor: not-allowed;
   }
+}
+
+.independent-select-card-icon {
+  color: rgb(var(--v-theme-on-surface));
 }
 
 .v-checkbox {

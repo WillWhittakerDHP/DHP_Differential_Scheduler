@@ -16,7 +16,7 @@
  * - NEVER use in business logic (use UTC RFC3339 directly)
  */
 
-import type { RFC3339DateTime, ISO8601Date } from '@/types/datetime'
+import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
 import type { TimeRange, TimeSlot } from '@/types/appointment'
 
 /**

@@ -28,21 +28,22 @@ interface UseBlockInstanceSelectionReturnMultiple {
   selectedBlockIds: ComputedRef<string[]>
 }
 
-type UseBlockInstanceSelectionReturn<Mode extends SelectionMode> = 
-  Mode extends 'single' 
-    ? UseBlockInstanceSelectionReturnSingle 
-    : UseBlockInstanceSelectionReturnMultiple
-
 /**
  * Generic block instance selection composable
- * 
+ *
  * LEARNING: Handles both single and multi-select for any block type
  * WHY: Eliminates duplication between option/property/service selection
- * PATTERN: Mode-based typing with discriminated unions
+ * PATTERN: Function overloads give exact return type from selectionMode
  */
-export function useBlockInstanceSelection<Mode extends SelectionMode>(
-  params: UseBlockInstanceSelectionParams & { selectionMode: Mode }
-): UseBlockInstanceSelectionReturn<Mode> {
+export function useBlockInstanceSelection(
+  params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }
+): UseBlockInstanceSelectionReturnSingle
+export function useBlockInstanceSelection(
+  params: UseBlockInstanceSelectionParams & { selectionMode: 'multiple' }
+): UseBlockInstanceSelectionReturnMultiple
+export function useBlockInstanceSelection(
+  params: UseBlockInstanceSelectionParams
+): UseBlockInstanceSelectionReturnSingle | UseBlockInstanceSelectionReturnMultiple {
   const {
     selectedBlocks,
     availableBlocks,
@@ -52,8 +53,8 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
 
   if (selectionMode === 'single') {
     const selectedBlockId = computed({
-      get: () => selectedBlocks.value.length > 0 
-        ? selectedBlocks.value[0].id 
+      get: () => selectedBlocks.value.length > 0
+        ? selectedBlocks.value[0].id
         : null,
       set: (id: string | null) => {
         if (id) {
@@ -65,13 +66,13 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
       }
     })
 
-    return { selectedBlockId } as UseBlockInstanceSelectionReturn<Mode>
+    return { selectedBlockId }
   } else {
     const selectedBlockIds = computed({
       get: () => selectedBlocks.value.map(b => b.id),
       set: (ids: string[]) => {
         const { resolved: blocks } = resolveByIds(availableBlocks.value, ids)
-        
+
         if (toggleBlock) {
           selectedBlocks.value = []
           for (const block of blocks) {
@@ -83,7 +84,7 @@ export function useBlockInstanceSelection<Mode extends SelectionMode>(
       }
     })
 
-    return { selectedBlockIds } as UseBlockInstanceSelectionReturn<Mode>
+    return { selectedBlockIds }
   }
 }
 

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T19:00:14.357Z",
-  "totalScanned": 798,
+  "generatedAt": "2026-02-19T23:19:03.672Z",
+  "totalScanned": 802,
   "thresholds": {
     "components": 500,
     "composables": 400,
@@ -54,27 +54,9 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/components/booking/BookingWizard.vue",
-      "category": "components",
-      "lineCount": 644,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 644,
-          "threshold": 500,
-          "detail": "644 lines (components max: 500)"
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/configs/availabilitySettings.ts",
       "category": "general",
-      "lineCount": 506,
+      "lineCount": 496,
       "exportCount": 13,
       "mixedConcerns": false,
       "hasExports": true,
@@ -182,7 +164,7 @@
     {
       "repoPath": "client/src/types/entities.ts",
       "category": "general",
-      "lineCount": 113,
+      "lineCount": 111,
       "exportCount": 12,
       "mixedConcerns": false,
       "hasExports": true,
@@ -200,7 +182,7 @@
     {
       "repoPath": "server/src/routes/internal/relationships/relationshipHelpers.ts",
       "category": "routes",
-      "lineCount": 341,
+      "lineCount": 342,
       "exportCount": 12,
       "mixedConcerns": false,
       "hasExports": true,
@@ -416,16 +398,16 @@
     {
       "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
       "category": "utils",
-      "lineCount": 308,
+      "lineCount": 303,
       "exportCount": 7,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 308,
+          "value": 303,
           "threshold": 300,
-          "detail": "308 lines (utils max: 300)"
+          "detail": "303 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -434,16 +416,16 @@
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "category": "services",
-      "lineCount": 434,
+      "lineCount": 458,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 434,
+          "value": 458,
           "threshold": 400,
-          "detail": "434 lines (services max: 400)"
+          "detail": "458 lines (services max: 400)"
         }
       ],
       "score": 3,
@@ -452,16 +434,16 @@
     {
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "category": "utils",
-      "lineCount": 377,
+      "lineCount": 381,
       "exportCount": 8,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 377,
+          "value": 381,
           "threshold": 300,
-          "detail": "377 lines (utils max: 300)"
+          "detail": "381 lines (utils max: 300)"
         }
       ],
       "score": 3,
@@ -488,7 +470,7 @@
     {
       "repoPath": "client/src/constants/fieldMetadata.ts",
       "category": "general",
-      "lineCount": 122,
+      "lineCount": 107,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -902,7 +884,7 @@
     {
       "repoPath": "server/src/routes/external/googleOauthRoutes.ts",
       "category": "routes",
-      "lineCount": 177,
+      "lineCount": 183,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -974,7 +956,7 @@
     {
       "repoPath": "server/src/routes/external/oauthCallbackRouter.ts",
       "category": "routes",
-      "lineCount": 103,
+      "lineCount": 105,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1298,7 +1280,7 @@
     {
       "repoPath": "server/src/routes/internal/dev/devStatusRouter.ts",
       "category": "routes",
-      "lineCount": 151,
+      "lineCount": 153,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
@@ -1640,7 +1622,7 @@
     {
       "repoPath": "server/src/types/express.d.ts",
       "category": "general",
-      "lineCount": 27,
+      "lineCount": 28,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,

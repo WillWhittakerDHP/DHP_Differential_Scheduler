@@ -1,16 +1,15 @@
+import { computed } from 'vue'
 import { useProperty } from '@/composables/useProperty'
 import { useNotification } from '@/composables/useNotification'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
-import { formatNullValue, createItemsSource } from './useTableModelHelpers'
+import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
 
 export interface PropertiesTableModel extends CrudDataTableModel<
   PropertyResponse,
   PropertyRequest,
   Partial<PropertyRequest>
-> {
-  formatNullValue: (value: unknown) => string
-}
+>, TableModelFormatHelpers {}
 
 export function usePropertiesTableModel(): PropertiesTableModel {
   const { success, error } = useNotification()

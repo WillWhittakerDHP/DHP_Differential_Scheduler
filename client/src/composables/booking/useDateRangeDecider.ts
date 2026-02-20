@@ -9,7 +9,7 @@
  */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 export interface DisplayedMonth {
   year: number

@@ -1,79 +1,19 @@
 /**
  * DateTime Type Definitions
- * 
- * LEARNING: Type definitions for datetime handling throughout the application
- * WHY: Ensures consistency and matches international standards (ISO 8601, RFC3339)
- * PATTERN: Type aliases and conversion utilities for standardized formats
- * 
- * Standards:
- * - ISO 8601: International standard for date and time representation
- * - RFC3339: Profile of ISO 8601 used by Google Calendar API and many web APIs
- * 
- * Reference: 
- * - ISO 8601: https://en.wikipedia.org/wiki/ISO_8601
- * - RFC3339: https://datatracker.ietf.org/doc/html/rfc3339
- * - Google Calendar API: https://developers.google.com/calendar/api/v3/reference/freebusy/query
+ *
+ * LEARNING: Re-exports canonical branded types from shared; conversion/validation helpers live here.
+ * WHY: Single source of truth for ISO8601Date, RFC3339DateTime in shared/types/primitiveBrands.ts
+ * PATTERN: Type re-exports from @shared; runtime helpers at API boundaries.
  */
+import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 /**
- * ISO 8601 Date Type
- * LEARNING: Type alias for ISO 8601 date-only strings (YYYY-MM-DD format)
- * WHY: Documents intent for date-only values, ensures consistency, aligns with RFC3339/UTC approach
- * PATTERN: Type alias provides documentation without runtime overhead
- * 
- * Format: YYYY-MM-DD (date-only, no time)
- * @audit-allow:hardcoding:magicLabel - Format description is the constant; no extraction needed.
- * Characteristics:
- * - Date-only (no time component)
- * - Lexicographically sortable (chronological order matches string order)
- * - Unambiguous (no timezone confusion for date-only values)
- * - Compatible with RFC3339 date-time strings (can extract date portion)
- * 
- * Usage: Use for date-only values (e.g., selected dates, date ranges, calendar dates)
- * Conversion: Use dateOnlyToRfc3339() to convert to RFC3339 datetime when needed
- * 
- * @example
- * ```typescript
- * const selectedDate: ISO8601Date = "2026-01-15"
- * const dateRange: { start: ISO8601Date; end: ISO8601Date } = {
- *   start: "2026-01-15",
- *   end: "2026-01-20"
- * }
- * ```
- * 
- * Reference: ISO 8601 Date format (https://en.wikipedia.org/wiki/ISO_8601#Dates)
+ * Convert string to ISO8601Date at API boundaries.
+ * WHY: Apply branding in one place so callers do not cast.
  */
-export type ISO8601Date = string
-
-/**
- * RFC3339 DateTime Type (Branded)
- * LEARNING: Branded type provides compile-time type safety for RFC3339 datetime strings
- * WHY: Prevents passing plain strings where RFC3339 datetime is expected
- * PATTERN: Branded type with __brand property + runtime validation functions
- * 
- * Format: "2026-01-15T10:00:00.000Z" or "2026-01-15T10:00:00-05:00"
- * Characteristics:
- * - Date-time (includes time component)
- * - Always includes timezone (Z for UTC or offset like -05:00)
- * - Profile of ISO 8601 standard
- * - Compile-time type safety (can't pass plain string without validation)
- * 
- * Examples: 
- * - UTC: "2026-01-15T14:30:00Z"
- * - With offset: "2026-01-15T14:30:00-05:00"
- * 
- * Usage: 
- * - Use for date-time values (e.g., time slots, busy periods, API timestamps)
- * - Convert Date to RFC3339DateTime using toRFC3339DateTime(date)
- * - Validate strings using isRFC3339DateTime(value) or validateRFC3339DateTime(value)
- * 
- * Reference: 
- * - RFC3339: https://datatracker.ietf.org/doc/html/rfc3339
- * - Google Calendar API: https://developers.google.com/calendar/api/v3/reference/freebusy/query
- * - Branded Types: https://www.typescriptlang.org/docs/handbook/advanced-types.html#index-types
- * @audit-allow:hardcoding:magicLabel - Brand discriminant literal; required for branded type.
- */
-export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
+export function toISO8601Date(value: string): ISO8601Date {
+  return value as ISO8601Date
+}
 
 /**
  * Type guard for RFC3339 datetime strings
@@ -112,7 +52,8 @@ export function isRFC3339DateTime(value: string): value is RFC3339DateTime {
  * try {
  *   const dateTime = validateRFC3339DateTime(apiResponse.timestamp)
  * } catch (error) {
- *   // Handle invalid datetime from API (e.g. log via logger, show user message)
+ *   logger.error(error)
+ *   // Handle invalid datetime from API (e.g. show user message)
  * }
  * ```
  * @audit-allow:error-handling:console-in-catch - Example only; real code should use logger.

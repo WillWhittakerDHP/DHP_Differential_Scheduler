@@ -116,7 +116,7 @@ Differential_Scheduler/
 - `test-logic-generator.mjs` - Test logic generation (if used)
 
 #### Shared:
-- `audit-exceptions.mjs` - Exception handling for audit scripts
+- `shared-audit-utils.mjs` - Shared audit infrastructure (exclusions, allowlists, file listing)
 
 **Output:** `client/.audit-reports/`
 

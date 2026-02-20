@@ -1,9 +1,9 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'
-import { useFieldContext } from '../useFieldContext'
+import { useFieldContext } from '../fieldContext/useFieldContext'
 import { useAdmin } from '../useAdmin'
-import { usePrimitiveMutation } from '../useEntity'
+import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
 import { useQueryClient } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 

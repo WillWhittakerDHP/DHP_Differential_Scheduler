@@ -65,15 +65,19 @@ export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
 export type DriveTimeApplyTo = 'all' | 'skipDayStart' | 'skipDayEnd' | 'none'
 
 /**
- * Business hours for a single day
- * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
- * WHY: Consistent format throughout codebase, matches Google Calendar API
- * PATTERN: Use fixed reference date (2000-01-01) to store time-of-day as RFC3339
+ * Base type for any start/end time range (RFC3339).
+ * WHY: Single source of truth; branded aliases prevent mixing calendar vs business-hours vs date-range.
  */
-export interface DayHours {
-  start: RFC3339DateTime // RFC3339 format with reference date (e.g., "2000-01-01T09:00:00Z" for "09:00")
-  end: RFC3339DateTime   // RFC3339 format with reference date (e.g., "2000-01-01T19:00:00Z" for "19:00")
+export interface TimeRangeBounds {
+  start: RFC3339DateTime
+  end: RFC3339DateTime
 }
+
+/**
+ * Business hours for a single day (branded so not assignable to DateRangeConfig etc.).
+ * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
+ */
+export type DayHours = TimeRangeBounds & { readonly __brand: 'DayHours' }
 
 /**
  * Range constraint configuration for business hours
@@ -105,15 +109,10 @@ export interface LeadTimeConfig {
 }
 
 /**
- * Range constraint configuration for date range
- * LEARNING: Configuration for date range constraint
- * WHY: Encapsulates absolute start and end boundaries
- * PATTERN: Interface with start and end RFC3339 datetime strings
+ * Range constraint configuration for date range (branded so not assignable to DayHours etc.).
+ * LEARNING: Absolute start and end boundaries
  */
-export interface DateRangeConfig {
-  start: string  // RFC3339 datetime
-  end: string    // RFC3339 datetime
-}
+export type DateRangeConfig = TimeRangeBounds & { readonly __brand: 'DateRangeConfig' }
 
 /**
  * Range constraint
@@ -154,13 +153,21 @@ export interface BufferConfig {
 }
 
 /**
+ * Base shared by DriveTimeConfig and OverlapConstraint (P2 type-similarity).
+ * LEARNING: Common minutes/enforcement/applyTo shape for buffer and overlap constraints
+ */
+export interface OverlapMinutesBase {
+  minutes: number
+  enforcement: ConstraintEnforcement
+  applyTo?: DriveTimeApplyTo
+}
+
+/**
  * Drive time buffer configuration (storage/API shape)
  * LEARNING: Semantic buffer for travel time with application rules
  * PATTERN: Interface with minutes, enforcement, and applyTo
  */
-export interface DriveTimeConfig {
-  minutes: number
-  enforcement: ConstraintEnforcement
+export interface DriveTimeConfig extends OverlapMinutesBase {
   applyTo: DriveTimeApplyTo
 }
 
@@ -169,18 +176,24 @@ export interface DriveTimeConfig {
  * LEARNING: Unified structure for all buffer types (appointment, driveToCandidate, driveFromCandidate, lunch)
  * WHY: Consolidates buffer checking into single pathway
  * PATTERN: Interface with type, placement, enforcement, minutes, and optional applyTo
- * 
+ *
  * Note: driveToCandidate always has placement='before', driveFromCandidate always has placement='after'
  * The applyTo field controls WHEN the constraint is applied (first/last/all appointments)
  */
-export interface OverlapConstraint {
+export interface OverlapConstraint extends OverlapMinutesBase {
   category: 'overlap'
   type: 'appointment' | 'driveToCandidate' | 'driveFromCandidate' | 'lunch'
   placement: 'off' | 'before' | 'after' | 'both'
-  enforcement: ConstraintEnforcement
-  minutes: number
-  applyTo?: DriveTimeApplyTo  // Only for drive time constraints (driveToCandidate, driveFromCandidate)
 }
+
+/**
+ * CAPACITY FILTER HIERARCHY (TYPE_SIMILARITY 1.16)
+ * - WorkCapacityFilter: base for hours-based filters (maxHours, enforcement).
+ * - IncomeCapacityFilter: base for income-based filters (maxIncome, enforcement).
+ * - RollingWeekCapacityFilter extends WorkCapacityFilter + RollingWeekFilterBase (adds direction).
+ * - RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter + RollingWeekFilterBase (adds direction).
+ * - CapacityConstraint: unified runtime shape for all capacity constraints (category: 'capacity'; type daily|calendarWeek|rollingWeek).
+ */
 
 /**
  * Capacity constraint interface
@@ -210,15 +223,16 @@ export interface IncomeCapacityFilter {
   enforcement: ConstraintEnforcement
 }
 
+/** Shared shape for rolling-week filters; single source for direction. */
+export interface RollingWeekFilterBase {
+  direction: RollingWeekDirection
+}
+
 /**
  * Rolling week income capacity filter configuration
  * LEARNING: Extends IncomeCapacityFilter with direction for rolling window
- * WHY: Rolling week income cap needs direction like rolling week hours
- * PATTERN: Extends base interface with direction
  */
-export interface RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter {
-  direction: RollingWeekDirection
-}
+export interface RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter, RollingWeekFilterBase {}
 
 /**
  * Unified constraint type
@@ -271,35 +285,24 @@ export interface WorkCapacityFilter {
 
 /**
  * Rolling week capacity filter configuration
- * LEARNING: Extends WorkCapacityFilter with direction setting
- * WHY: Rolling week needs direction to determine date range calculation
- * PATTERN: Extends base interface with additional field
+ * LEARNING: Extends WorkCapacityFilter with RollingWeekFilterBase (direction)
  */
-export interface RollingWeekCapacityFilter extends WorkCapacityFilter {
-  direction: RollingWeekDirection
-}
+export interface RollingWeekCapacityFilter extends WorkCapacityFilter, RollingWeekFilterBase {}
 
 /**
  * Coordinates: from mapsTypes (canonical for geo types; Phase 1.1/3 type-similarity)
  */
-import type { Coordinates } from './mapsTypes'
-export type { Coordinates }
+import type { Coordinates, LocationBase } from './mapsTypes'
+export type { Coordinates, LocationBase }
 
 /**
  * Default location for drive time calculations
  * LEARNING: Starting/ending point for first/last appointment drive times
- * WHY: Needed to calculate travel time from home/office to first appointment
- * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
- * 
- * This is used as:
- * - Starting point for travel to first appointment of the day
- * - Ending point for travel from last appointment of the day
+ * PATTERN: Extends LocationBase (shared with RouteLocation) with required placeId and optional label
  */
-export interface DefaultLocation {
-  placeId: string           // Google Place ID (primary location identifier)
-  address?: string          // Address string for UI display only (optional, from autocomplete)
-  label?: string            // Optional label like "Home Office", "Shop", etc.
-  coordinates?: Coordinates // Optional - populated by Google Places API
+export interface DefaultLocation extends LocationBase {
+  placeId: string
+  label?: string
 }
 
 /**
@@ -347,9 +350,10 @@ export interface CalendarEvent {
 
 /**
  * Computed Availability Request
- * LEARNING: Request payload for the computed availability endpoint
- * WHY: Single request contains all parameters needed to compute availability
- * PATTERN: Interface with date range, optional candidatePlaceId, duration, and data source toggle
+ *
+ * Single request containing all parameters needed to compute availability.
+ * The dataSource field controls which external APIs the server calls — it does NOT
+ * affect settings/constraints extraction (those always come from the database).
  */
 export interface ComputedAvailabilityRequest {
   dateRange: {
@@ -357,8 +361,15 @@ export interface ComputedAvailabilityRequest {
     end: string      // RFC3339
   }
   candidatePlaceId?: string           // Candidate property placeId for drive time (from wizard, not yet saved)
-  duration: number           // appointment duration in minutes (for capacity keys)
-  dataSource?: 'real' | 'mock' | 'none'  // dev toggle (default: 'real')
+  duration: number                    // appointment duration in minutes (for capacity keys)
+  /**
+   * Controls which external APIs the server calls:
+   * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity computation
+   * - 'mock': Settings + constraints only — skips Google Calendar and Routes API calls;
+   *           slots are computed purely from business hours and constraints (useful for dev without credentials)
+   * - 'none': Minimal response — returns settings metadata only with empty slots/events (pure UI dev)
+   */
+  dataSource?: 'real' | 'mock' | 'none'
 }
 
 /**
@@ -392,14 +403,21 @@ export interface ComputedAvailabilityData {
 }
 
 /**
+ * Minimal slot time shape (start, end, duration).
+ * WHY: TimeRange, MoveableSlot, SelectedTimeSlot, LoadedTimeSlot, ServerTimeSlot, ComputedSlot extend or align (TYPE_SIMILARITY_PROPOSAL § 1.7).
+ */
+export interface SlotTimeBounds {
+  startTime: RFC3339DateTime
+  endTime: RFC3339DateTime
+  duration: number
+}
+
+/**
  * A single time slot with pre-computed availability from the server
  * LEARNING: Server computes slot boundaries and constraint violations; client applies shape for display
  * WHY: Eliminates client-side constraint logic; drive-time anchoring uses event-level context on server
  */
-export interface ComputedSlot {
-  startTime: RFC3339DateTime
-  endTime: RFC3339DateTime
-  duration: number
+export interface ComputedSlot extends SlotTimeBounds {
   isAvailable: boolean
   violations: string[]  // e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
 }

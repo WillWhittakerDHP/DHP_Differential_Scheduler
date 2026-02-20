@@ -3,12 +3,10 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * File Size / Module Cohesion Audit Script
@@ -59,32 +57,6 @@ const DEFAULT_THRESHOLDS = {
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
 function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 function categorizeFile(repoPath) {
   if (repoPath.includes('/components/') || repoPath.includes('/views/') || repoPath.includes('/layouts/')) return 'components'
@@ -246,15 +218,12 @@ function main() {
 
   const thresholds = { ...DEFAULT_THRESHOLDS, ...(config.thresholds || {}) }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('file-cohesion', [CLIENT_SRC, SERVER_SRC])
   const scanned = []
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
 
     const result = analyzeFile(abs, thresholds)
     // Filter out violations that are allowed by config (e.g. specific file + ruleId)

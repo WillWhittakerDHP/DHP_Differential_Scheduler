@@ -18,11 +18,3 @@ export function getRelationshipByParentChildEndpoint(
 export function getRelationshipsBatchEndpoint(): string {
   return '/relationships/batch'
 }
-
-export function getBlockInstanceAnnotationsEndpoint(blockInstanceId: string): string {
-  return `/relationships/annotationAssignments?blockInstanceId=${blockInstanceId}`
-}
-
-export function getBlockInstanceAnnotationEndpoint(blockInstanceId: string, annotationId: string): string {
-  return `/relationships/annotationAssignments/${blockInstanceId}/${annotationId}`
-}

@@ -10,7 +10,7 @@ import { type Ref, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
-import type { OrderIndexUpdate } from '@/composables/entityCrud'
+import type { OrderIndexUpdate } from '@/composables/entityCrud/useEntityCrudTypes'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useEntityDragHandlers')

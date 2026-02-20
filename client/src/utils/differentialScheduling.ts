@@ -17,7 +17,8 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity, GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { EventShapeEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventFinal, AppointmentSlot } from '@/types/appointment'
 
@@ -102,7 +103,7 @@ function resolveMajorMinorEventFinals(
  * @param majorTotal - Total minutes major needs before minor arrives
  * @returns Major start time as ISO date string
  */
-export function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {
+function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {
   const minorStart = new Date(minorStartTime)
   const majorStart = new Date(minorStart)
   
@@ -122,24 +123,6 @@ export function calculateMajorStartTime(minorStartTime: string, majorTotal: numb
 }
 
 /**
- * Calculate minor start time (for non-differential services, same as selected slot)
- * LEARNING: For differential services, minor arrives at selected slot time
- * WHY: Minor start time is the selected time slot
- * PATTERN: Return selected slot time directly
- * 
- * @param selectedSlotTime - Selected time slot as ISO date string
- * @returns Minor start time as ISO date string (same as selected slot for now)
- */
-export function calculateMinorStartTime(selectedSlotTime: string): string {
-  // PATTERN: Return selected slot time directly
-  return selectedSlotTime
-}
-
-export function calculatePropertyAdjustments(_propertyDetails?: Record<string, unknown> | null): number {
-  return 0
-}
-
-/**
  * Calculate minor start time from major start time
  * LEARNING: Minor arrives later: minorStart = majorStart + majorTotal
  * WHY: For differential scheduling, minor arrives after major has prepared
@@ -149,7 +132,7 @@ export function calculatePropertyAdjustments(_propertyDetails?: Record<string, u
  * @param majorTotal - Total minutes major needs before minor arrives
  * @returns Minor start time as ISO date string
  */
-export function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {
+function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {
   const majorStart = new Date(majorStartTime)
   const minorStart = new Date(majorStart)
   

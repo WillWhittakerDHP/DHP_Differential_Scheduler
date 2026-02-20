@@ -144,7 +144,7 @@
 
 <script setup lang="ts">
 import { computed, ref, reactive, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useAdminMetadataMutations } from '@/composables/admin/useAdminMetadataMutations'
@@ -156,20 +156,16 @@ import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { animations } from '@formkit/drag-and-drop'
 import { getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
-import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { EntityMetadataType } from '@/types/entityMetadata'
+import type { EntityMetadataType } from '@/constants/fieldMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
 import { FIELD_RENDER_AS, FIELD_LAYOUT } from '@/constants/fieldMetadata'
+import type { MetadataEditorPropsBase } from '@/types/metadataEditorProps'
 
 const logger = createLogger('AdminPrimitiveMetadataEditor')
 
-interface Props {
-  entityKey: GlobalEntityKey
-  entity: GlobalEntity<GlobalEntityKey>
-  blockShapeRef?: string  // Optional - BlockShape ID for BlockShape-specific instance metadata
-}
+/** Same shape as shared base (P3 type-similarity). */
+type Props = MetadataEditorPropsBase
 
 interface Emits {
   (e: 'saved'): void

@@ -4,7 +4,7 @@
  * PATTERN: Generic function that handles both fieldKey and relationshipKey cases
  */
 
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export interface BuildMetadataEntryOptions {
   key: string

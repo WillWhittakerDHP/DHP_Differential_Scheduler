@@ -10,7 +10,7 @@
  */
 
 import { computed, watch, type Ref, type ComputedRef } from 'vue'
-import { useForm, type FormContext } from 'vee-validate'
+import type { FormContext } from 'vee-validate'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -111,7 +111,7 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
         const formFieldKeys = form.values ? Object.keys(form.values) : []
         const entityKeys = Object.keys(newStoreEntity) as (keyof GlobalEntity<GE>)[]
         const changedFields = entityKeys.filter((key): key is keyof GlobalEntity<GE> => {
-          if (!formFieldKeys.includes(key)) {
+          if (!formFieldKeys.includes(String(key))) {
             return false
           }
           const oldValue = oldStoreEntity[key]
@@ -120,11 +120,9 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
         })
         
         if (changedFields.length > 0 && form) {
-          //      This is the correct Vee-Validate method for programmatic field updates
           // PATTERN: Use form-level API instead of field-level watches, filter to form fields only
-          const formInstance = form as ReturnType<typeof useForm>
           changedFields.forEach(fieldKey => {
-            formInstance.setFieldValue(String(fieldKey), newStoreEntity[fieldKey])
+            form.setFieldValue(String(fieldKey), newStoreEntity[fieldKey])
           })
         }
       }

@@ -14,9 +14,9 @@ import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { findById } from '@/utils/collections/findById'
 
-export type ComposablePropertyValue = string | number | boolean | unknown[]
+type ComposablePropertyValue = string | number | boolean | unknown[]
 
-export function isComposablePropertyValue(value: unknown): value is ComposablePropertyValue {
+function isComposablePropertyValue(value: unknown): value is ComposablePropertyValue {
   return (
     typeof value === 'string' ||
     typeof value === 'number' ||
@@ -36,7 +36,7 @@ export function isComposablePropertyValue(value: unknown): value is ComposablePr
  * @param strategy - Component strategy to use
  * @returns Composed value
  */
-export function composeProperty<T extends string | number | boolean | unknown[]>(
+function composeProperty<T extends string | number | boolean | unknown[]>(
   values: T[],
   strategy: ComponentStrategy
 ): T | T[] | number | boolean | undefined {

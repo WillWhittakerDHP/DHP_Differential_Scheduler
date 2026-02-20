@@ -12,10 +12,10 @@
  */
 
 import { useRouter } from 'vue-router'
-import { useEntityCrud } from '../useEntity'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useEntityList')

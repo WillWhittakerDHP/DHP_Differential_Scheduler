@@ -3,14 +3,13 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   renderAllowedExceptionsSection,
-  isCompiledJsFile,
-  isGloballyExcluded,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Constants Consolidation Audit Script
@@ -63,16 +62,6 @@ function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
 }
 
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.mjs')
-}
-
 function isConstantsFile(repoPath) {
   // Match: *Constants.ts, *constants.ts, files in */constants/ directories
   const fileName = path.basename(repoPath)
@@ -84,32 +73,6 @@ function isConstantsFile(repoPath) {
     dirName.includes('/constants/') ||
     dirName.includes('\\constants\\')
   )
-}
-
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    if (isExcluded(repoPath, null)) {
-      continue
-    }
-    
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
 }
 
 function splitLines(contents) {
@@ -383,10 +346,7 @@ function inventoryConstantsFiles(files) {
   /** @type {Array<{name: string, value: any, type: string, shape: string, file: string, line: number}>} */
   const catalog = []
   
-  const constantsFiles = files.filter(abs => {
-    const repoPath = toRepoPath(abs)
-    return isConstantsFile(repoPath) && !isExcluded(repoPath, null)
-  })
+  const constantsFiles = files.filter(abs => isConstantsFile(toRepoPath(abs)))
   
   for (const abs of constantsFiles) {
     const repoPath = toRepoPath(abs)
@@ -588,10 +548,7 @@ function findInlineOrphans(catalog, allFiles) {
   }
   
   // Scan non-constant files for inline occurrences
-  const nonConstantsFiles = allFiles.filter(abs => {
-    const repoPath = toRepoPath(abs)
-    return !isConstantsFile(repoPath) && !isExcluded(repoPath, null) && isScannable(abs)
-  })
+  const nonConstantsFiles = allFiles.filter(abs => !isConstantsFile(toRepoPath(abs)))
   
   /** @type {Map<string, Array<{file: string, line: number}>>} */
   const inlineOccurrences = new Map()
@@ -782,9 +739,7 @@ function main() {
   }
   
   // Get all files
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('constants-consolidation', [CLIENT_SRC, SERVER_SRC])
   
   // Phase 1: Inventory
   const { catalog, constantsFiles } = inventoryConstantsFiles(allFiles)

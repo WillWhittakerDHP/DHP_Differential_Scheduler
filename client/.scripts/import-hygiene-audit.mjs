@@ -1,14 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  isCompiledJsFile,
-  isGloballyExcluded,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   getAuditReportHeaderLines,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Import Hygiene Audit Script
@@ -62,32 +60,6 @@ const CONFIG_PATH = path.join(OUT_DIR, 'import-hygiene-audit-config.json')
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
 function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 // ─── Barrel Detection ─────────────────────────────────────────────────────────
 
@@ -181,7 +153,7 @@ function resolveSpecifierFile(specifier, importerAbs) {
   return null
 }
 
-const SOURCE_EXTENSIONS = ['.ts', '.tsx', '.vue', '.mjs', '.js']
+const SOURCE_EXTENSIONS = ['.ts', '.tsx', '.vue', '.js']
 
 /** Resolve repo-relative path (no extension) to absolute path of first existing file. */
 function resolveRepoPathToAbs(repoPathNoExt) {
@@ -613,9 +585,7 @@ function main() {
   let config = {}
   try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('import-hygiene', [CLIENT_SRC, SERVER_SRC])
 
   const barrelDirs = findBarrelDirs(allFiles)
 
@@ -628,7 +598,6 @@ function main() {
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     scannedCount++

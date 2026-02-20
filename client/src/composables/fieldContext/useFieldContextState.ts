@@ -1,11 +1,12 @@
 import { computed, ref, toRaw, type Ref, type ComputedRef } from 'vue'
-import { useField, useForm, type FieldOptions } from 'vee-validate'
+import { useField, useForm, type FormContext, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
-import { usePrimitiveMutation } from '@/composables/useEntity'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
+import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useAdmin } from '@/composables/useAdmin'
 import { createLogger } from '@/utils/logger'
 
@@ -15,7 +16,7 @@ import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
 
 export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-  form?: ReturnType<typeof useForm>
+  form?: FormContext
   displayConfig?: Partial<FieldDisplayConfig<GE, FieldKey>>
   validationRules?: FieldValidationRules
   initialValue?: ValidAdminValue
@@ -33,7 +34,7 @@ export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey exte
   composedEntityComposable: ReturnType<typeof useComponentEntity> | null
 
   // Vee-Validate field state
-  formInstance: ReturnType<typeof useForm>
+  formInstance: FormContext
   value: Ref<ValidAdminValue>
   error: ComputedRef<string | undefined>
   isValid: ComputedRef<boolean>

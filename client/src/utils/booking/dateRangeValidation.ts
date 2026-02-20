@@ -8,7 +8,7 @@
  * P2-3: Created to consolidate date range validation from multiple locations
  */
 
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('dateRangeValidation')

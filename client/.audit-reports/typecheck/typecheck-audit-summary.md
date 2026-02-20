@@ -10,68 +10,52 @@ Generated from `.audit-reports/typecheck/typecheck-audit.json`.
 
 | Priority | Pool | score | errors | files | severity | blast | repetition | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-createmaxincomecomputed` | 79 | 7 | 1 | 70 | 2 | 7 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-string-number-string` | 61 | 5 | 3 | 50 | 6 | 5 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-string-rfc3339datetime` | 46 | 4 | 1 | 40 | 2 | 4 | 0 | 0 |
-| P0 | `TS18046-ts18046-entity-value-is-of-type-unknown` | 38 | 4 | 1 | 32 | 2 | 4 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-globalfieldkey-readonly-string` | 37 | 3 | 2 | 30 | 4 | 3 | 0 | 0 |
-| P0 | `TS2345-ts2345-arg-globalfieldkey-string` | 37 | 3 | 2 | 30 | 4 | 3 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-id` | 35 | 3 | 1 | 30 | 2 | 3 | 0 | 0 |
-| P0 | `TS2698-ts2698-spread-types-may-only-be-created-from-object-types` | 25 | 3 | 2 | 18 | 4 | 3 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-id-record` | 24 | 2 | 1 | 20 | 2 | 2 | 0 | 0 |
-| P1 | `TS2638-ts2638-type-may-represent-a-primitive-value-which-is-not-permitted-as-the-right-operand-of-the-in-operator` | 16 | 2 | 1 | 12 | 2 | 2 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-computedref-ref` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-globalfieldkey-string` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-number-constraintenforcement-drivetimeapplyto-undefined-tvalue-undefined` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-number-off-both-flexible-hard-appointment-drivetime-lunch-before-after-undefined-tvalue-undefined` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-ref-18-more-setvalue-void-omit-map-ref-map` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-string-number-string` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-string-string` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2339-ts2339-prop-localecompare-globalfieldkey` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-fieldcontexttype` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-string-number-symbol-string` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-unknown-globalentity` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-void-void-void-void-void-void` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-fieldkey-globalentitytype-globalpropertykey-to-type-partial-globalentitytype-may-be-a-mistake-` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-fieldkey-globalfieldkey-blockinstance-blockshape-partinstance-partshape-eventshape-eventinstan` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-id-globalentityid-blockshaperef-globalentityid-to-type-blockinstanceentity-may-be-a-mistake-be` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-readonly-x-string-string-readonly-background-string-readonly-surface-string-readonly-primary-s` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-selectedblockid-globalthis-writablecomputedref-string-null-string-null-to-type-useblockinstanc` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-selectedblockids-globalthis-writablecomputedref-string-string-to-type-useblockinstanceselectio` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-window-typeof-globalthis-to-type-windowwithdebug-may-be-a-mistake-because-neither-type-suffici` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2352-ts2352-conversion-of-type-workcapacityfilter-rollingweekcapacityfilter-to-type-record-string-tvalue-may-be-a-mistake-bec` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
-| P1 | `TS2724-ts2724-types-entities-has-no-exported-member-named-globalentitykey-did-you-mean-globalentity` | 12 | 1 | 1 | 9 | 2 | 1 | 0 | 0 |
-| P2 | `TS2536-ts2536-type-globalfieldkey-ge-cannot-be-used-to-index-type` | 9 | 1 | 1 | 6 | 2 | 1 | 0 | 0 |
-| P2 | `TS5076-ts5076-and-operations-cannot-be-mixed-without-parentheses` | 9 | 1 | 1 | 6 | 2 | 1 | 0 | 0 |
-| P2 | `TS6133-ts6133-bookingmode-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 3 | 2 | 1 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-globalentityid` | 79 | 7 | 1 | 70 | 2 | 7 | 0 | 0 |
+| P0 | `TS2344-ts2344-type-collectionitem-does-not-satisfy-the-constraint-identifiablebyid` | 74 | 6 | 4 | 60 | 8 | 6 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-rfc3339datetime` | 46 | 4 | 1 | 40 | 2 | 4 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-number-null-undefined-number-null` | 46 | 4 | 1 | 40 | 2 | 4 | 0 | 0 |
+| P0 | `TS2552-ts2552-cannot-find-name-globalentityid-did-you-mean-globalentitykey` | 44 | 6 | 1 | 36 | 2 | 6 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-bookingblockinstance-readonly-identifiablebyid` | 37 | 3 | 2 | 30 | 4 | 3 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-formcontext` | 35 | 3 | 1 | 30 | 2 | 3 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-identifiablebyid-null-bookingblockinstance-null` | 26 | 2 | 2 | 20 | 4 | 2 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-iso8601date` | 24 | 2 | 1 | 20 | 2 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-googlecalendarbusyperiod` | 24 | 2 | 1 | 20 | 2 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-writablecomputedref-writablecomputedref` | 24 | 2 | 1 | 20 | 2 | 2 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-attendeerequest` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-fieldmetadataentry` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2304-ts2304-cannot-find-name-identifiablebyid` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-basement-crawlspace-slab-null-undefined-basement-crawlspace-slab-null` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-identifiablebyid-bookingblockinstance` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-ref-void-submitform-promise-name-string-meta-formmeta-25-more-resetfield-void-undefined-formcontext-ref-un` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-adminconfig-useformfieldsoptionsbase` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-direction-enforcement-maxhours` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2345-ts2345-arg-direction-enforcement-maxincome` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-adminconfig-does-not-exist-in-type-useformfieldsoptionsbase` | 13 | 1 | 1 | 10 | 2 | 1 | 0 | 0 |
+| P1 | `TS2769-ts2769-no-overload-matches-this-call` | 12 | 1 | 1 | 9 | 2 | 1 | 0 | 0 |
+| P1 | `TS18048-ts18048-selectedusertypeblock-is-possibly-undefined` | 11 | 1 | 1 | 8 | 2 | 1 | 0 | 0 |
 
 ## File index (ranked)
 
 | File | errors | unsafeCasts | suppressions |
 | --- | ---: | ---: | ---: |
-| `src/composables/admin/useStatusButtonToggle.ts` | 9 | 0 | 0 |
-| `src/composables/admin/useCapacitySettings.ts` | 8 | 0 | 0 |
-| `src/composables/admin/useEntityCardActions.ts` | 7 | 0 | 0 |
-| `src/composables/admin/useMetadataFieldOrdering.ts` | 5 | 0 | 0 |
-| `src/components/admin/dev/ApiDevPanelComputedTab.vue` | 4 | 0 | 0 |
-| `src/composables/formFields/useFormFieldsContext.ts` | 4 | 0 | 0 |
-| `src/composables/admin/useSelectFiltering.ts` | 3 | 0 | 0 |
-| `src/composables/admin/useBufferSettings.ts` | 2 | 0 | 0 |
-| `src/composables/booking/useBlockInstanceSelection.ts` | 2 | 0 | 0 |
-| `src/composables/formFields/useFormFieldsStandardLayout.ts` | 2 | 0 | 0 |
-| `src/composables/useSelectOptions.ts` | 2 | 0 | 0 |
-| `src/components/admin/generic/collections/PartsCollection.vue` | 1 | 0 | 0 |
-| `src/components/common/AddressAutocomplete.vue` | 1 | 0 | 0 |
-| `src/composables/admin/tables/useAppointmentsTableModel.ts` | 1 | 0 | 0 |
-| `src/composables/admin/useCalibrationChart.ts` | 1 | 0 | 0 |
-| `src/composables/admin/useEntityCardStoreSync.ts` | 1 | 0 | 0 |
-| `src/composables/admin/useInstanceFiltering.ts` | 1 | 0 | 0 |
-| `src/composables/booking/useDependentInstances.ts` | 1 | 0 | 0 |
+| `src/types/entities.ts` | 13 | 0 | 0 |
+| `src/types/datetime.ts` | 6 | 0 | 0 |
+| `src/composables/booking/usePropertyDetailsLogic.ts` | 5 | 0 | 0 |
+| `src/composables/formFields/useFormFieldsContext.ts` | 5 | 0 | 0 |
+| `src/composables/admin/useCapacitySettings.ts` | 4 | 0 | 0 |
+| `src/utils/transformers/appointmentToWizardHelpers.ts` | 4 | 0 | 0 |
+| `src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts` | 2 | 0 | 0 |
+| `src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts` | 2 | 0 | 0 |
+| `src/utils/booking/mockGoogleCalendar.ts` | 2 | 0 | 0 |
+| `src/utils/transformers/appointmentToWizardTransformer.ts` | 2 | 0 | 0 |
+| `src/composables/admin/useEntityCardForm.ts` | 1 | 0 | 0 |
+| `src/composables/booking/useInstanceDescriptions.ts` | 1 | 0 | 0 |
+| `src/composables/businessDataCollections/useBusinessDataCollectionActions.ts` | 1 | 0 | 0 |
 | `src/composables/formFields/useFormFields.ts` | 1 | 0 | 0 |
-| `src/composables/useEntityForm.ts` | 1 | 0 | 0 |
-| `src/utils/debug/windowDebug.ts` | 1 | 0 | 0 |
-| `src/utils/entities/entityFieldPatch.ts` | 1 | 0 | 0 |
-| `src/views/admin/tabs/InstancesTab.vue` | 1 | 0 | 0 |
+| `src/composables/globalDataCollections/useGlobalDataCollectionActions.ts` | 1 | 0 | 0 |
+| `src/types/appointmentApi.ts` | 1 | 0 | 0 |
+| `src/utils/collections/appendIfMissingById.ts` | 1 | 0 | 0 |
+| `src/views/admin/tabs/components/AppointmentsCreateForm.vue` | 1 | 0 | 0 |
 
 ## Notes
 

@@ -1,11 +1,11 @@
 {
-  "$comment": "Central audit configuration — global exclusions and all audit allowlists. Single source of truth for allowlists (allowlists.<auditType>). Per-audit configs hold only non-allowlist options (e.g. priorities). loadGlobalExclusions() and loadCentralAllowlist(auditType) in audit-exceptions.mjs.",
-  "$docs": "To re-enable test files: set testsDisabled to false and remove or relax test-file exclusions. See BETA_LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
-  "testsDisabled": true,
+  "$comment": "Central audit configuration — global exclusions and all audit allowlists. Single source of truth for allowlists (allowlists.<auditType>). Per-audit configs hold only non-allowlist options (e.g. priorities). loadGlobalExclusions() and loadCentralAllowlist(auditType) in shared-audit-utils.mjs.",
+  "$docs": "To enable testing: set TEST_ENABLED=true in project root .env. See BETA_LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
   "globalExclusions": [
     { "pattern": "**/__tests__/**", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
     { "pattern": "**/*.test.*", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
     { "pattern": "**/*.spec.*", "reason": "Spec files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
+    { "pattern": "**/*.mjs", "reason": "ESM scripts — not application TypeScript source" },
     { "pattern": "**/@core/**", "reason": "Core library files — third-party/framework code" },
     { "pattern": "**/@layouts/**", "reason": "Layout library files — third-party/framework code" },
     { "pattern": "**/node_modules/**", "reason": "Dependencies — not project source code" },
@@ -17,6 +17,37 @@
     { "pattern": "**/migrations/**", "reason": "One-time migration scripts — intentionally permissive patterns" },
     { "pattern": "**/*seed*", "reason": "Seed scripts — intentionally hardcoded test data" }
   ],
+  "scanExtensions": {
+    "default": [".ts", ".js", ".vue"],
+    "overrides": {
+      "type-import": [".ts", ".js", ".tsx", ".vue"],
+      "type-escape": [".ts", ".js", ".tsx", ".vue"],
+      "composables-logic": [".ts", ".js"],
+      "constants-consolidation": [".ts", ".js"],
+      "data-flow": [".ts"],
+      "security": [".ts", ".js"],
+      "branded-id": [".ts", ".vue"],
+      "component-logic": [".vue"],
+      "css": [".vue", ".ts"],
+      "test": [".ts", ".tsx", ".js", ".jsx", ".vue"],
+      "api-contract": [".ts", ".js"]
+    }
+  },
+  "auditExclusions": {
+    "unused-code": [
+      { "pattern": "**/types/**", "reason": "Type definition files — not checked for unused exports" },
+      { "pattern": "**/*.d.ts", "reason": "Declaration files — ambient types, not application code" }
+    ],
+    "error-handling": [
+      { "pattern": "**/logger.*", "reason": "Logger implementation excluded from error-handling audit" }
+    ],
+    "duplication": [
+      { "pattern": "server/src/db/models/**/*.js", "reason": "TypeScript-generated helpers — duplication expected" }
+    ],
+    "branded-id": [
+      { "pattern": "**/*.d.ts", "reason": "Declaration files — ambient types, not application code" }
+    ]
+  },
   "allowlists": {
     "type-escape": {
       "patterns": [],
@@ -29,7 +60,16 @@
           "file": "client/src/views/admin/AdminPanel.vue",
           "ruleId": "value-import-from-type-only-file",
           "reason": "Vue SFC default export (component) from PropertyMappingsTab.vue; script-setup has no literal export default"
-        }
+        },
+        { "file": "client/src/composables/admin/usePartsCollectionField.ts", "ruleId": "type-used-as-value", "reason": "RelationshipFieldType used in type assertion only; type import correct" },
+        { "file": "client/src/composables/booking/usePerspectiveMapping.ts", "ruleId": "type-used-as-value", "reason": "PerspectiveKey used in type position only; audit heuristic false positive" },
+        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleId": "type-used-as-value", "reason": "GlobalEntity used in type assertion only; type import correct" },
+        { "file": "client/src/composables/useLocalTime.ts", "ruleId": "type-used-as-value", "reason": "RFC3339DateTime branded type in type position only; no runtime value" },
+        { "file": "client/src/utils/booking/partFinalizer.ts", "ruleId": "type-used-as-value", "reason": "PartFinal in return type only; type import correct" },
+        { "file": "client/src/utils/booking/slotShapeLookups.ts", "ruleId": "type-used-as-value", "reason": "SlotShape in parameter type only; type import correct" },
+        { "file": "client/src/utils/datetime.ts", "ruleId": "type-used-as-value", "reason": "RFC3339DateTime branded type in return type only; no runtime value" },
+        { "file": "client/src/utils/transformers/annotationTransformers.ts", "ruleId": "type-used-as-value", "reason": "AnnotationInstance in return type only; type import correct" },
+        { "file": "client/src/utils/transformers/transformerPrimitives.ts", "ruleId": "type-used-as-value", "reason": "TernaryBoolean in parameter/return type only; type import correct" }
       ]
     },
     "error-handling": {
@@ -140,7 +180,9 @@
         { "glob": "client/src/composables/**/types.ts", "ruleIds": ["composableFileName"], "reason": "Barrel/composable package; types file is conventional" },
         { "glob": "client/src/composables/**/nestedComputedFactory.ts", "ruleIds": ["composableFileName"], "reason": "Composable utility; factory name is intentional" }
       ],
-      "specific": []
+      "specific": [
+        { "file": "server/src/types/express.d.ts", "ruleId": "typesFileName", "reason": "Express type augmentation; standard filename for declaration merging" }
+      ]
     },
     "function-complexity": {
       "patterns": [
@@ -246,6 +288,44 @@
       "specific": []
     },
     "pattern-detection": { "patterns": [], "specific": [] },
+    "css": {
+      "patterns": [
+        { "glob": "**/dev/**", "ruleIds": ["inline-style-static", "inline-style-dynamic"], "reason": "Dev panels use inline styles for quick debugging layouts" },
+        { "glob": "**/TheCustomizer.vue", "ruleIds": ["inline-style-static", "inline-style-dynamic"], "reason": "Template/theme customizer component; inline styles are part of its purpose" }
+      ],
+      "specific": [
+        { "file": "client/src/utils/booking/constraintColors.ts", "ruleId": "css-in-ts", "reason": "Semantic color config for constraint/calendar visualization; hex map is data, not style." },
+        { "file": "client/src/composables/useSelectOptions.ts", "ruleId": "css-in-ts", "reason": "Entity key to entityKey mapping config; not style/CSS." },
+        { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "inline-style-dynamic", "reason": "Legend swatch color from chart dataset; dynamic per service." },
+        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "inline-style-dynamic", "reason": "Config-driven minHeight from selection config." },
+        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "inline-style-dynamic", "reason": "Dynamic grid columns (useResponsiveGrid) and constraint violation colors (constraintColors map)." },
+        { "file": "client/src/utils/colors/complementaryColors.ts", "ruleId": "css-in-ts", "reason": "Semantic Vuetify color-name mapping for status override; not style/CSS." },
+        { "file": "client/src/App.vue", "ruleId": "unscoped-style", "reason": "App root and wizard dev panel require global selectors." },
+        { "file": "client/src/App.vue", "ruleId": "inline-style-static", "reason": "Runtime theme primary injection for VApp." },
+        { "file": "client/src/App.vue", "ruleId": "inline-style-dynamic", "reason": "Runtime theme primary injection for VApp." },
+        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "inline-style-dynamic", "reason": "Computed chip style for disabled state (cursor, z-index, opacity)." },
+        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "inline-style-static", "reason": "Computed chip style for disabled state (cursor, z-index, opacity)." },
+        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/admin/dev/ApiDevPanel.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/booking/DifferentialGraph.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/booking/modals/PropertyConfirmationModal.vue", "ruleId": "empty-style-block", "reason": "Empty block kept for future styles or sidecar; no content." },
+        { "file": "client/src/components/booking/steps/PropertyDetailsStep.vue", "ruleId": "empty-style-block", "reason": "Empty block kept for future styles or sidecar; no content." },
+        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/components/booking/steps/AvailabilityCalendarSection.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
+        { "file": "client/src/layouts/Default.vue", "ruleId": "unscoped-style", "reason": "Imports global layout stylesheet; scoping would break @layouts styles." },
+        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "inline-style-static", "reason": "Step accessibility state (cursor, opacity) from computed per step." },
+        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "inline-style-dynamic", "reason": "Step accessibility state (cursor, opacity) from computed per step." },
+        { "file": "client/src/components/admin/generic/CardButton.vue", "ruleId": "inline-style-static", "reason": "Dynamic z-index for overlay stacking." },
+        { "file": "client/src/components/admin/generic/CardButton.vue", "ruleId": "inline-style-dynamic", "reason": "Dynamic z-index for overlay stacking." },
+        { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "inline-style-static", "reason": "Config-driven minHeight from mergedConfig.appearance." },
+        { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "inline-style-dynamic", "reason": "Config-driven minHeight from mergedConfig.appearance." },
+        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "inline-style-static", "reason": "Dynamic grid columns and constraint violation colors (same as inline-dynamic)." },
+        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "inline-style-static", "reason": "Config-driven minHeight from selection config (same as inline-dynamic)." },
+        { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "inline-style-static", "reason": "Legend swatch color from chart dataset (same as inline-dynamic)." }
+      ]
+    },
     "hardcoding": {
       "patterns": [
         { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are the canonical source for hardcoded values - this is by design" },

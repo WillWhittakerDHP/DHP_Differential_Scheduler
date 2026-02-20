@@ -14,7 +14,8 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import { useGlobal } from '@/composables/useGlobal'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity, GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { createLogger } from '@/utils/logger'
 

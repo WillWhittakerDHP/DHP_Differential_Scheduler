@@ -1,3 +1,4 @@
+import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
 import type {
@@ -30,17 +31,8 @@ type PropertyDetailsStepData = {
   squareFootage: number | null
 }
 
-/**
- * Block instance fee calculation result
- * LEARNING: Represents base fee, overage fee, and total fee for a block instance
- * WHY: Separates base fees from square footage-based overage fees
- * PATTERN: Object with baseFee, overageFee, and totalFee properties
- */
-export interface BlockInstanceFeeResult {
-  baseFee: number
-  overageFee: number
-  totalFee: number
-}
+/** Extends shared FeeEntryBase for single source of truth. */
+type BlockInstanceFeeResult = FeeEntryBase
 
 /**
  * Calculate base fee and overage fee from all partInstances in a blockInstance.
@@ -64,7 +56,7 @@ export interface BlockInstanceFeeResult {
  * @param allPartInstances - Optional; when provided, pricing cascade is applied (service parts can pull in cascaded property parts)
  * @returns Object with baseFee, overageFee, and totalFee
  */
-export function calculateBlockInstanceFee(
+function calculateBlockInstanceFee(
   blockInstance: BookingBlockInstance,
   squareFootage: number | null,
   aduCount?: number | null,

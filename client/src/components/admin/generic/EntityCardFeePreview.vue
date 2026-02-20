@@ -56,8 +56,7 @@
               density="compact"
               hide-details
               variant="outlined"
-              class="fee-preview-sqft-input"
-              style="max-width: 100px"
+              class="fee-preview-sqft-input fee-preview-sqft-max-width"
               aria-label="Square footage for cost preview"
             />
           </div>
@@ -156,6 +155,10 @@ function formatCurrency(amount: number): string {
   max-width: 280px;
   height: auto;
   display: block;
+}
+
+.fee-preview-sqft-max-width {
+  max-width: 100px;
 }
 
 .fee-preview-sqft-input :deep(input[type="number"]) {

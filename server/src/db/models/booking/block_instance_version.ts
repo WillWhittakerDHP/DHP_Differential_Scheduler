@@ -30,7 +30,8 @@ export class BlockInstanceVersion extends Model<
   declare differential: 'true' | 'false' | 'override';
   declare createdAt: CreationOptional<Date>;
   
-  declare partInstanceVersions?: any[]; // PartInstanceVersion[]
+  /** Associated part instance versions (typed as Model[] to avoid circular type reference with PartInstanceVersion) */
+  declare partInstanceVersions?: Model[];
 }
 
 export function BlockInstanceVersionFactory(sequelize: Sequelize) {

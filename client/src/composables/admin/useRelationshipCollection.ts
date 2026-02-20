@@ -17,11 +17,14 @@ import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
-import { useRelationshipCollectionData } from './useRelationshipCollectionData'
+import {
+  useRelationshipCollectionData,
+  type UseRelationshipCollectionDataReturnBase,
+} from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
@@ -41,25 +44,17 @@ export type NameGenerator = (
   existingChildren: GlobalEntity<GlobalEntityKey>[]
 ) => string
 
-export interface RelationshipCollectionModel {
-  validShapes: Ref<GlobalEntity<GlobalEntityKey>[]>
-  existingChildren: Ref<GlobalEntity<GlobalEntityKey>[]>
-  getChildForShape: (shapeId: string) => GlobalEntity<GlobalEntityKey> | undefined
-  getShapeName: (shapeId: string) => string
-  
+/** Extends shared data return base (P2 type-similarity). */
+export interface RelationshipCollectionModel extends UseRelationshipCollectionDataReturnBase {
   parentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
   shouldShow: ComputedRef<boolean>
-  
   optionsFieldKey: ComputedRef<string>
-  
   expandedPlaceholders: Ref<string[]>
   getNewChildEntity: (shapeId: string) => GlobalEntity<GlobalEntityKey>
   handleNewChildSaved: (shapeId: string, createdEntity: GlobalEntity<GlobalEntityKey>) => Promise<void>
   handleNewChildCancelled: (shapeId: string) => void
-  
   expandedChildren: Ref<string[]>
   isPanelExpanded: (childId: string) => boolean
-  
   bulkEditMode?: Ref<boolean>
   bulkEditData?: Ref<Record<string, unknown>>
   toggleBulkEditMode?: () => void

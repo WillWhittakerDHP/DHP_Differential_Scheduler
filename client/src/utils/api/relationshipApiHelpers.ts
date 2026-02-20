@@ -9,7 +9,7 @@
 import type { AxiosError } from 'axios'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 const logger = createLogger('relationshipApiHelpers')
 

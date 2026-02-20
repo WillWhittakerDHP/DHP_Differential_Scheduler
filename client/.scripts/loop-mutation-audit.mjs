@@ -3,13 +3,15 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Loop Mutation Audit Script
@@ -34,23 +36,6 @@ import {
  * - Intentionally line-based and heuristic (fast + deterministic).
  * - This audit should never fail CI; it reports signals for manual cleanup.
  */
-
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC) 
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'loop-mutation-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'loop-mutation-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'loop-mutation-audit-config.json')
 
 const AUDIT_TYPE = 'loop-mutation'
 
@@ -86,60 +71,8 @@ const RULES = [
   { id: 'delete', label: 'delete x', test: (l) => /\bdelete\s+\w/.test(l) },
 ]
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-/**
- * Check if a file should be excluded from mutation scanning
- * Uses config-based allowlist for file-level exclusions
- */
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue')
-}
-
-/**
- * Check if a file should be excluded from scanning
- */
-function shouldExcludeDir(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip excluded directories/files
-    if (shouldExcludeDir(repoPath)) {
-      continue
-    }
-    
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) {
@@ -412,32 +345,29 @@ function renderMarkdownReport(files, exceptionSummary) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
-  
+  const paths = resolveAuditPaths(AUDIT_TYPE)
+
   // Load exception config
   const configAllowlist = loadCentralAllowlist('loop-mutation')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
-  
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
+
   // Load priority config
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const absFiles = [...clientFiles, ...serverFiles]
+  const absFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
+  const clientFiles = absFiles.filter((p) => p.startsWith(paths.clientSrc))
+  const serverFiles = absFiles.filter((p) => p.startsWith(paths.serverSrc))
   const scanned = []
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
-    // Double-check exclusion
-    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)

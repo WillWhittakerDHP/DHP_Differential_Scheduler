@@ -221,6 +221,8 @@ export async function executeGeocodeApiCall(address: string): Promise<string | n
     const candidate = data.candidates?.[0]
     return candidate?.place_id ?? null
   } catch (error) {
+    const logger = geocodeLogger
+    logger.error(error)
     geocodeLogger.warn('Geocoding failed', {
       error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE,
       addressPreview: address.substring(0, 50)

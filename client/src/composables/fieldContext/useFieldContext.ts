@@ -1,6 +1,6 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { FieldContextType } from './types'
 import { useFieldContextState, type UseFieldContextStateOptions } from './useFieldContextState'
 import { useFieldContextActions } from './useFieldContextActions'

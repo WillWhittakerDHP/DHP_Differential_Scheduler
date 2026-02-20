@@ -11,7 +11,7 @@ Generated from `.audit-reports/import-hygiene-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 771 |
+| Files scanned | 775 |
 | Barrel directories | 22 |
 | Barrel bypass violations | 0 |
 | Inconsistent import paths | 0 |

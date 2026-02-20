@@ -81,7 +81,7 @@ const emit = defineEmits<{
             {{ UI_STRINGS.help.leadTimeDescription }} {{ rangeConstraintsLeadTimeMinutes }} {{ UI_STRINGS.help.leadTimeMinutes }}
             ({{ Math.round(rangeConstraintsLeadTimeMinutes / 60 * 10) / 10 }} {{ UI_STRINGS.help.leadTimeHours }})
           </div>
-          <div class="text-caption mt-1" style="color: rgba(0,0,0,0.6);">
+          <div class="text-caption mt-1 hint-text">
             {{ UI_STRINGS.help.leadTimeFilter }}
           </div>
         </VExpansionPanelText>
@@ -100,7 +100,7 @@ const emit = defineEmits<{
       </VExpansionPanel>
     </VExpansionPanels>
 
-    <div class="text-caption mt-2 pa-2" style="background-color: rgba(0,0,0,0.05); border-radius: 4px; font-size: 0.75rem;">
+    <div class="text-caption mt-2 pa-2 hint-box">
       {{ UI_STRINGS.help.rangeConstraints }}
     </div>
 
@@ -111,3 +111,15 @@ const emit = defineEmits<{
     </div>
   </div>
 </template>
+
+<style scoped>
+.hint-text {
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.hint-box {
+  background-color: rgba(var(--v-theme-on-surface), 0.05);
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+</style>

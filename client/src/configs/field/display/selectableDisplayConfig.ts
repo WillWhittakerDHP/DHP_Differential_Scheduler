@@ -24,7 +24,7 @@ type ValidRelationshipKeys<GE extends GlobalEntityKey> =
 
 type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE>;
 
-export type RelationshipDisplayType<
+type RelationshipDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
   R extends GlobalRelationshipKey = GlobalRelationshipKey
 > = {
@@ -71,7 +71,7 @@ export type RelationshipDisplayType<
   };
 };
 
-export type VirtualDisplayType<
+type VirtualDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
   targetMode: "property";
@@ -121,7 +121,7 @@ export type SelectableDisplayType<
   | RelationshipDisplayType<GE, GlobalRelationshipKey>
   | VirtualDisplayType<GE>;
   
-export type SelectableDisplayTypeSuite = {
+type SelectableDisplayTypeSuite = {
   [GE in GlobalEntityKey]: Partial<Record<SelectableFieldKey<GE>, SelectableDisplayType<GE>>>;
 };
 

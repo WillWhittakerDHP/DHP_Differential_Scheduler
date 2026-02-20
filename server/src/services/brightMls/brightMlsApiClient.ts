@@ -202,6 +202,7 @@ export async function searchPropertyByAddress(
 
     return value[0] as BrightMlsPropertyResponse;
   } catch (error) {
+    logger.error(error)
     if (error instanceof Error && error.message.includes('rate limit')) {
       throw error;
     }

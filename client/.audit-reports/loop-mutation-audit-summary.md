@@ -37,7 +37,7 @@ Generated from `.audit-reports/loop-mutation-audit.json`.
 | `client/src/components/admin/dev/ApiDevPanelComputedTab.vue` | P1 | 10 | 0 | 6 | 1 | 8 | 0 |
 | `client/src/components/booking/IndependentSelectCard.vue` | P1 | 10 | 0 | 0 | 5 | 2 | 0 |
 
-*...and 177 more files. See full report for details.*
+*...and 178 more files. See full report for details.*
 
 ## Notes
 

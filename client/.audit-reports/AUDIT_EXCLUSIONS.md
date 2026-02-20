@@ -28,12 +28,12 @@ All audit scripts now use a **unified exception handling system** with:
 
 The following audits have been migrated from hardcoded `EXCLUDED_PATHS` arrays to config-based exceptions:
 
-- ✅ `hardcoding-audit.mjs` - Uses `audit-exceptions.mjs` + config file
-- ✅ `loop-mutation-audit.mjs` - Uses `audit-exceptions.mjs` + config file (removed duplicate `EXCLUDED_PATHS`)
+- ✅ `hardcoding-audit.mjs` - Uses `shared-audit-utils.mjs` + config file
+- ✅ `loop-mutation-audit.mjs` - Uses `shared-audit-utils.mjs` + config file (removed duplicate `EXCLUDED_PATHS`)
 - ✅ `duplication-audit.mjs` - Migrated from hardcoded `EXCLUDED_PATHS` to config file
 - ✅ `component-logic-audit.mjs` - Migrated from hardcoded exclusions to config file
 - ✅ `composables-logic-audit.mjs` - Migrated from hardcoded exclusions to config file
-- ✅ `typecheck-audit.mjs` - Uses `audit-exceptions.mjs` + config file
+- ✅ `typecheck-audit.mjs` - Uses `shared-audit-utils.mjs` + config file
 
 ## Legacy Exclusion Patterns (Historical Reference)
 

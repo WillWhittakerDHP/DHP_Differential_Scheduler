@@ -61,7 +61,7 @@ const svgChart = computed(() => {
         <template v-if="hasData">
           <div class="mb-4">
             <div class="d-flex align-center flex-wrap gap-4">
-              <div class="d-flex align-center gap-2" style="min-width: 140px">
+              <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
                 <span class="text-caption">Min sqft</span>
                 <VSlider
                   v-model="sqftMin"
@@ -70,12 +70,11 @@ const svgChart = computed(() => {
                   :step="100"
                   hide-details
                   density="compact"
-                  class="flex-grow-1"
-                  style="max-width: 120px"
+                  class="flex-grow-1 fee-cal-slider-input"
                 />
                 <span class="text-caption">{{ sqftMin }}</span>
               </div>
-              <div class="d-flex align-center gap-2" style="min-width: 140px">
+              <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
                 <span class="text-caption">Max sqft</span>
                 <VSlider
                   v-model="sqftMax"
@@ -84,12 +83,11 @@ const svgChart = computed(() => {
                   :step="100"
                   hide-details
                   density="compact"
-                  class="flex-grow-1"
-                  style="max-width: 120px"
+                  class="flex-grow-1 fee-cal-slider-input"
                 />
                 <span class="text-caption">{{ sqftMax }}</span>
               </div>
-              <div class="d-flex align-center gap-2" style="min-width: 140px">
+              <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
                 <span class="text-caption">Step</span>
                 <VSlider
                   v-model="sqftStep"
@@ -98,8 +96,7 @@ const svgChart = computed(() => {
                   :step="50"
                   hide-details
                   density="compact"
-                  class="flex-grow-1"
-                  style="max-width: 120px"
+                  class="flex-grow-1 fee-cal-slider-input"
                 />
                 <span class="text-caption">{{ sqftStep }}</span>
               </div>
@@ -198,6 +195,14 @@ const svgChart = computed(() => {
 <style scoped>
 .fee-calibration-panel {
   padding: 0.5rem 0;
+}
+
+.fee-cal-slider-wrap {
+  min-width: 140px;
+}
+
+.fee-cal-slider-input {
+  max-width: 120px;
 }
 
 .chart-container {

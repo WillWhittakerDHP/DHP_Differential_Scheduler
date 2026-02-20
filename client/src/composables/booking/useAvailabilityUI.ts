@@ -12,7 +12,8 @@
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ISO8601Date } from '@/types/datetime'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
+import { toISO8601Date } from '@/types/datetime'
 
 export interface UseAvailabilityUIParams {
   selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
@@ -74,27 +75,32 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
    * PATTERN: Function that validates and updates error state
    * NOTE: VDatePicker may return Date object, string, or array - handle all cases
    */
-  const handleDateChange = (value: ISO8601Date | Date | ISO8601Date[] | Date[] | null): void => {
+  const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
     // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
     // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
     // PATTERN: Convert Date to ISO 8601 string, handle array (take first), handle null
     let dateString: ISO8601Date | null = null
-    
+
     if (value) {
       if (Array.isArray(value)) {
         const firstValue = value[0]
         if (firstValue instanceof Date) {
-          dateString = firstValue.toISOString().split('T')[0] as ISO8601Date
+          dateString = toISO8601Date(firstValue.toISOString().split('T')[0])
         } else if (typeof firstValue === 'string') {
-          dateString = (firstValue.includes('T') ? firstValue.split('T')[0] : firstValue) as ISO8601Date
+          dateString = toISO8601Date(firstValue.includes('T') ? firstValue.split('T')[0] : firstValue)
         }
       } else if (value instanceof Date) {
-        dateString = value.toISOString().split('T')[0] as ISO8601Date
+        dateString = toISO8601Date(value.toISOString().split('T')[0])
       } else if (typeof value === 'string') {
-        dateString = (value.includes('T') ? value.split('T')[0] : value) as ISO8601Date
+        dateString = toISO8601Date(value.includes('T') ? value.split('T')[0] : value)
       }
     }
-    
+
+    // PATTERN: Parent binds @update:model-value to this handler only — we must update selectedDate
+    // so the calendar and downstream (slots, API) stay in sync. Without this, clicks do not persist.
+    const { selectedDate } = params
+    selectedDate.value = { start: dateString, end: null }
+
     // Validate date if selected
     if (dateString) {
       const dateResult = dateNotInPast()(dateString)

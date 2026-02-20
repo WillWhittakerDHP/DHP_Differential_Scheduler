@@ -545,8 +545,8 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
-  export type { UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/collectionTypes'
-  import('./src/composables/collectionTypes')
+  export type { UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
+  import('./src/composables/useCollectionTypes')
   // @ts-ignore
   export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'
   import('./src/composables/useComponentDistribution')
@@ -554,10 +554,7 @@ declare global {
   export type { UseEntityFormOptions, UseEntityFormReturn } from './src/composables/useEntityForm'
   import('./src/composables/useEntityForm')
   // @ts-ignore
-  export type { FieldDisplayConfig, FieldValidationRules, FieldContextType } from './src/composables/fieldContext/types'
-  import('./src/composables/fieldContext/types')
-  // @ts-ignore
-  export type { UseFormFieldsOptions, UseFormFieldsReturn } from './src/composables/formFields/types'
+  export type { UseFormFieldsOptionsBase, UseFormFieldsOptions, UseFormFieldsContextOptions, UseFormFieldsStandardLayoutReturn, UseFormFieldsReturn } from './src/composables/formFields/types'
   import('./src/composables/formFields/types')
   // @ts-ignore
   export type { ValidationRule, ValidationResult } from './src/composables/useFormValidation'
@@ -575,7 +572,7 @@ declare global {
   export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from './src/composables/usePartInstanceData'
   import('./src/composables/usePartInstanceData')
   // @ts-ignore
-  export type { SelectOption, GroupedEntities, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
+  export type { SelectOptionBase, SelectOption, GroupedEntities, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
   // @ts-ignore
   export type { UseSelectionCardOptions, UseSelectionCardReturn, UseSelectionCardGroupOptions, UseSelectionCardGroupReturn } from './src/composables/useSelectionCard'
@@ -583,9 +580,6 @@ declare global {
   // @ts-ignore
   export type { UseTimeFormattingReturn, TimeRange, TimeSlot } from './src/composables/useTimeFormatting'
   import('./src/composables/useTimeFormatting')
-  // @ts-ignore
-  export type { FieldFormatter } from './src/utils/appointmentFieldFormatters'
-  import('./src/utils/appointmentFieldFormatters')
   // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')
@@ -602,7 +596,6 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
-    readonly APPOINTMENT_FIELD_FORMATTERS: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['APPOINTMENT_FIELD_FORMATTERS']>
     readonly AUTCOMPLETE_OFF: UnwrapRef<typeof import('./src/utils/autocomplete')['AUTCOMPLETE_OFF']>
     readonly BUSINESS_DATA_QUERY_KEY: UnwrapRef<typeof import('./src/composables/useBusiness')['BUSINESS_DATA_QUERY_KEY']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
@@ -615,10 +608,6 @@ declare module 'vue' {
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly avatarText: UnwrapRef<typeof import('./src/@core/utils/formatters')['avatarText']>
     readonly betweenValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['betweenValidator']>
-    readonly calculateMajorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMajorStartTime']>
-    readonly calculateMinorStartTime: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTime']>
-    readonly calculateMinorStartTimeFromMajor: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculateMinorStartTimeFromMajor']>
-    readonly calculatePropertyAdjustments: UnwrapRef<typeof import('./src/utils/differentialScheduling')['calculatePropertyAdjustments']>
     readonly cleanupInvalidActiveRelationships: UnwrapRef<typeof import('./src/utils/dependencyCleanup')['cleanupInvalidActiveRelationships']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -642,7 +631,6 @@ declare module 'vue' {
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly createUrl: UnwrapRef<typeof import('./src/@core/composable/createUrl')['createUrl']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly dateOnlyToRfc3339: UnwrapRef<typeof import('./src/utils/datetime')['dateOnlyToRfc3339']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -654,18 +642,13 @@ declare module 'vue' {
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly extractBusinessHoursMinutes: UnwrapRef<typeof import('./src/composables/useLocalTime')['extractBusinessHoursMinutes']>
     readonly extractInstanceComponents: UnwrapRef<typeof import('./src/utils/instanceComponentUtils')['extractInstanceComponents']>
-    readonly findBlockInstanceByIdAndShapeId: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['findBlockInstanceByIdAndShapeId']>
-    readonly findUserTypeBlockIdsByName: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['findUserTypeBlockIdsByName']>
     readonly formatDate: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDate']>
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
     readonly generateIncrementedName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['generateIncrementedName']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
-    readonly getAgentEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAgentEventShape']>
     readonly getAllUserTypeBlockIds: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAllUserTypeBlockIds']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentFieldFormatter: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['getAppointmentFieldFormatter']>
-    readonly getAvailableUserTypeBlocksForAnnotation: UnwrapRef<typeof import('./src/utils/annotationUtils')['getAvailableUserTypeBlocksForAnnotation']>
-    readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -675,10 +658,8 @@ declare module 'vue' {
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
-    readonly getStateControlBlockInstanceOptions: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstanceOptions']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly hasAttendee: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasAttendee']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -709,7 +690,6 @@ declare module 'vue' {
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly mergeEntityDefaults: UnwrapRef<typeof import('./src/utils/entityDefaults')['mergeEntityDefaults']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
-    readonly normalizeOrderIndices: UnwrapRef<typeof import('./src/utils/orderIndexUtils')['normalizeOrderIndices']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
@@ -755,7 +735,6 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveVuetifyTheme: UnwrapRef<typeof import('./src/@core/utils/vuetify')['resolveVuetifyTheme']>
-    readonly rfc3339ToDateOnly: UnwrapRef<typeof import('./src/utils/datetime')['rfc3339ToDateOnly']>
     readonly rfc3339ToLocalHHmm: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalHHmm']>
     readonly rfc3339ToLocalMinutesFromMidnight: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalMinutesFromMidnight']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
@@ -764,7 +743,6 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
-    readonly sortByOrderIndex: UnwrapRef<typeof import('./src/utils/orderIndexUtils')['sortByOrderIndex']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
@@ -788,7 +766,6 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
-    readonly updateOrderAfterDragDrop: UnwrapRef<typeof import('./src/utils/orderIndexUtils')['updateOrderAfterDragDrop']>
     readonly urlValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['urlValidator']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAdmin: UnwrapRef<typeof import('./src/composables/useAdmin')['useAdmin']>
@@ -856,7 +833,6 @@ declare module 'vue' {
     readonly useElementHover: UnwrapRef<typeof import('@vueuse/core')['useElementHover']>
     readonly useElementSize: UnwrapRef<typeof import('@vueuse/core')['useElementSize']>
     readonly useElementVisibility: UnwrapRef<typeof import('@vueuse/core')['useElementVisibility']>
-    readonly useEntityCrud: UnwrapRef<typeof import('./src/composables/entityCrud/useEntityCrud')['useEntityCrud']>
     readonly useEntityForm: UnwrapRef<typeof import('./src/composables/useEntityForm')['useEntityForm']>
     readonly useEventBus: UnwrapRef<typeof import('@vueuse/core')['useEventBus']>
     readonly useEventListener: UnwrapRef<typeof import('@vueuse/core')['useEventListener']>
@@ -864,7 +840,6 @@ declare module 'vue' {
     readonly useEyeDropper: UnwrapRef<typeof import('@vueuse/core')['useEyeDropper']>
     readonly useFavicon: UnwrapRef<typeof import('@vueuse/core')['useFavicon']>
     readonly useFetch: UnwrapRef<typeof import('@vueuse/core')['useFetch']>
-    readonly useFieldContext: UnwrapRef<typeof import('./src/composables/fieldContext/useFieldContext')['useFieldContext']>
     readonly useFieldValue: UnwrapRef<typeof import('./src/composables/useFieldValue')['useFieldValue']>
     readonly useFileDialog: UnwrapRef<typeof import('@vueuse/core')['useFileDialog']>
     readonly useFileSystemAccess: UnwrapRef<typeof import('@vueuse/core')['useFileSystemAccess']>
@@ -927,7 +902,6 @@ declare module 'vue' {
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
     readonly usePreferredReducedTransparency: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedTransparency']>
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
-    readonly usePrimitiveMutation: UnwrapRef<typeof import('./src/composables/entityCrud/usePrimitiveMutation')['usePrimitiveMutation']>
     readonly useProperties: UnwrapRef<typeof import('./src/composables/useBusiness')['useProperties']>
     readonly useProperty: UnwrapRef<typeof import('./src/composables/useProperty')['useProperty']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
@@ -994,7 +968,6 @@ declare module 'vue' {
     readonly useWindowFocus: UnwrapRef<typeof import('@vueuse/core')['useWindowFocus']>
     readonly useWindowScroll: UnwrapRef<typeof import('@vueuse/core')['useWindowScroll']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
-    readonly validateAnnotationMetadata: UnwrapRef<typeof import('./src/utils/annotationUtils')['validateAnnotationMetadata']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchArray: UnwrapRef<typeof import('@vueuse/core')['watchArray']>
     readonly watchAtMost: UnwrapRef<typeof import('@vueuse/core')['watchAtMost']>

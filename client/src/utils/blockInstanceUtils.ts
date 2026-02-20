@@ -6,11 +6,9 @@
  * PATTERN: Generic functions that accept block shape IDs or filter by properties
  */
 
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
-import { findById } from '@/utils/collections/findById'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('blockInstanceUtils')
@@ -31,25 +29,6 @@ function getBlockInstances(bookingData: BookingData, context: string): BookingBl
     return []
   }
   return raw
-}
-
-export function findBlockInstanceByIdAndShapeId(
-  bookingData: BookingData,
-  id: string | null | undefined,
-  blockShapeId: string | null | undefined
-): BookingBlockInstance | null {
-  if (!id || !bookingData || !blockShapeId) return null
-  
-  const blockInstance = findById(bookingData.blockInstances, id)
-  if (!blockInstance) {
-    return null
-  }
-  
-  if (blockInstance.blockShapeRef !== blockShapeId) {
-    return null
-  }
-  
-  return blockInstance
 }
 
 function getStateControlBlockShapes(
@@ -88,17 +67,6 @@ export function getStateControlBlockInstances(
   return filtered
 }
 
-export function getBlockShapeIdByName(
-  bookingData: BookingData,
-  name: string
-): string | null {
-  const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByName')
-  const blockShape = blockShapes.find((bs) => bs.name === name)
-  if (blockShape === undefined) return null
-  return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
-}
-
-
 export function getBlockShapeIdByType(
   bookingData: BookingData,
   type: BlockShapeType
@@ -107,41 +75,6 @@ export function getBlockShapeIdByType(
   const blockShape = blockShapes.find((bs) => bs.type === type)
   if (blockShape === undefined) return null
   return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
-}
-
-
-function getGlobalEntitiesForKey<K extends 'blockShape' | 'blockInstance'>(
-  globalData: GlobalData,
-  entityKey: K,
-  context: string
-): GlobalEntity<K>[] {
-  const entities = globalData.entities?.[entityKey]
-  if (entities === undefined || entities === null) {
-    logger.debug(`${context}: entities.${entityKey} missing, using []`)
-    return []
-  }
-  return entities as GlobalEntity<K>[]
-}
-
-export function getStateControlBlockInstanceOptions(
-  globalData: GlobalData
-): Array<{ title: string; value: string | null }> {
-  const blockShapes = getGlobalEntitiesForKey(globalData, 'blockShape', 'getStateControlBlockInstanceOptions') as GlobalEntity<'blockShape'>[]
-  const stateControlBlockShapes = blockShapes.filter((bs) => bs.isStateControl === true)
-  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map((bs) => bs.id))
-
-  const blockInstances = getGlobalEntitiesForKey(globalData, 'blockInstance', 'getStateControlBlockInstanceOptions') as GlobalEntity<'blockInstance'>[]
-  const stateControlBlockInstances = blockInstances.filter(
-    instance => stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
-  )
-  
-  return [
-    { title: 'Generic', value: null },
-    ...stateControlBlockInstances.map(blockInstance => ({
-      title: blockInstance.name.charAt(0).toUpperCase() + blockInstance.name.slice(1), // Capitalize first letter
-      value: blockInstance.id
-    }))
-  ]
 }
 
 /**

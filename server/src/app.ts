@@ -49,6 +49,10 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use((req, _res, next) => {
+  if (req.body === undefined) req.body = {}
+  next()
+})
 
 /* Routes */
 app.use(ROUTE_PATHS.API, routes)

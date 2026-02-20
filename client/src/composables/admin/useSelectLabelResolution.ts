@@ -11,7 +11,7 @@ import { useAdmin } from '@/composables/useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 
 export interface UseSelectLabelResolutionOptions {

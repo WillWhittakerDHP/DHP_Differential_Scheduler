@@ -19,7 +19,7 @@ import type { CalendarEvent } from '../../../shared/types/availabilityTypes.js'
  */
 export type CachedCalendarEvent = CalendarEvent & { readonly __brand: 'Cached' }
 
-interface EventsCacheEntry {
+export interface EventsCacheEntry {
   data: CachedCalendarEvent[];
   timestamp: number;
   ttl: number; // Time to live in milliseconds

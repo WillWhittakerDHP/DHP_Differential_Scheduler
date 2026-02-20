@@ -189,6 +189,7 @@ export async function withRetry<T>(
       retryConfig
     )
   } catch (e) {
+    logger.error(e)
     const classified = e instanceof CalendarApiError ? e : classifyError(e)
     throw classified
   }

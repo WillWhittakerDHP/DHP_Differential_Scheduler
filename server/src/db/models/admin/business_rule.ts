@@ -15,6 +15,7 @@ import type {
   RuleConfig,
   ValidationMessageRuleConfig,
 } from '../../../../../shared/types/businessRulesTypes.js'
+import { RULE_TYPE_VALUES } from '../../../../../shared/constants/businessRulesConstants.js'
 
 /**
  * Business Rule Model
@@ -27,15 +28,10 @@ import type {
 
 /**
  * Rule type enumeration
- * LEARNING: String enum for rule_type column
- * WHY: Flexible for future rule types, easy to query, TypeScript type safety
- * PATTERN: Union type for string literal types
+ * LEARNING: Derived from shared RULE_TYPE_VALUES for single source of truth
+ * WHY: No inline literals; aligns with client and constants consolidation audit
  */
-export type RuleType = 
-  | 'required_fields'        // Additional required fields based on block selection
-  | 'requires_agent'         // Service requires agent/client contact information
-  | 'conditional_validation' // Field validation depends on other field values
-  | 'validation_message';    // Custom validation messages for fields/blocks
+export type RuleType = (typeof RULE_TYPE_VALUES)[keyof typeof RULE_TYPE_VALUES]
 
 export type {
   ConditionalValidationRuleConfig,

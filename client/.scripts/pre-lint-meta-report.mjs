@@ -11,7 +11,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
 
 const CWD = path.resolve(process.cwd())
 const CLIENT_AUDIT = path.join(CWD, '.audit-reports')

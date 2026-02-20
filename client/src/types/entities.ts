@@ -1,18 +1,16 @@
 /**
- * Branded type for global entity IDs.
- * WHY: Prevents passing arbitrary strings where an entity ID is expected.
- * PATTERN: Same as RFC3339DateTime in client/src/types/datetime.ts
+ * Canonical GlobalEntityId from shared; conversion helpers at boundaries.
  */
-export type GlobalEntityId = string & { readonly __brand: "GlobalEntityId" };
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 export function toGlobalEntityId(value: string): GlobalEntityId {
-  return value as GlobalEntityId;
+  return value as GlobalEntityId
 }
 
 export function toGlobalEntityIdOrNull(
   value: string | null | undefined
 ): GlobalEntityId | null {
-  return value != null ? (value as GlobalEntityId) : null;
+  return value != null ? (value as GlobalEntityId) : null
 }
 
 import type { GlobalEntityKey } from "@/constants/entities";

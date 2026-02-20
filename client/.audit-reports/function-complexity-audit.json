@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-19T19:00:14.136Z",
-  "totalScanned": 798,
+  "generatedAt": "2026-02-19T23:19:03.438Z",
+  "totalScanned": 802,
   "thresholds": {
     "maxNesting": 4,
     "maxBranches": 8,
@@ -269,8 +269,8 @@
         {
           "name": "getAutocompleteSuggestions",
           "startLine": 37,
-          "endLine": 78,
-          "length": 42,
+          "endLine": 79,
+          "length": 43,
           "maxNesting": 8,
           "branches": 10,
           "params": 0,
@@ -290,9 +290,9 @@
         },
         {
           "name": "getPlaceDetails",
-          "startLine": 83,
-          "endLine": 117,
-          "length": 35,
+          "startLine": 84,
+          "endLine": 119,
+          "length": 36,
           "maxNesting": 7,
           "branches": 8,
           "params": 0,
@@ -307,8 +307,8 @@
         },
         {
           "name": "geocodeAddressToPlaceId",
-          "startLine": 122,
-          "endLine": 158,
+          "startLine": 124,
+          "endLine": 160,
           "length": 37,
           "maxNesting": 6,
           "branches": 6,
@@ -337,8 +337,8 @@
         {
           "name": "calculateRouteMatrix",
           "startLine": 67,
-          "endLine": 162,
-          "length": 96,
+          "endLine": 163,
+          "length": 97,
           "maxNesting": 12,
           "branches": 12,
           "params": 0,
@@ -356,15 +356,15 @@
             },
             {
               "rule": "length",
-              "value": 96,
+              "value": 97,
               "threshold": 50
             }
           ]
         },
         {
           "name": "calculateDriveTime",
-          "startLine": 179,
-          "endLine": 225,
+          "startLine": 180,
+          "endLine": 226,
           "length": 47,
           "maxNesting": 12,
           "branches": 13,
@@ -737,8 +737,8 @@
       "functions": [
         {
           "name": "togglePartsBulkEditMode",
-          "startLine": 154,
-          "endLine": 171,
+          "startLine": 153,
+          "endLine": 170,
           "length": 18,
           "maxNesting": 7,
           "branches": 6,
@@ -754,8 +754,8 @@
         },
         {
           "name": "if",
-          "startLine": 188,
-          "endLine": 202,
+          "startLine": 187,
+          "endLine": 201,
           "length": 15,
           "maxNesting": 6,
           "branches": 9,
@@ -777,8 +777,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 231,
-          "length": 231,
+          "endLine": 230,
+          "length": 230,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -786,7 +786,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 231,
+              "value": 230,
               "threshold": 100
             }
           ]
@@ -944,8 +944,8 @@
         },
         {
           "name": "createAttendeeRecords",
-          "startLine": 190,
-          "endLine": 218,
+          "startLine": 181,
+          "endLine": 209,
           "length": 29,
           "maxNesting": 5,
           "branches": 5,
@@ -1000,8 +1000,8 @@
         },
         {
           "name": "if",
-          "startLine": 215,
-          "endLine": 241,
+          "startLine": 214,
+          "endLine": 240,
           "length": 27,
           "maxNesting": 8,
           "branches": 7,
@@ -1042,8 +1042,8 @@
         {
           "name": "searchPropertyByAddress",
           "startLine": 131,
-          "endLine": 211,
-          "length": 81,
+          "endLine": 212,
+          "length": 82,
           "maxNesting": 14,
           "branches": 13,
           "params": 0,
@@ -1061,7 +1061,7 @@
             },
             {
               "rule": "length",
-              "value": 81,
+              "value": 82,
               "threshold": 50
             },
             {
@@ -1081,8 +1081,8 @@
         {
           "name": "createCalendarEventForAppointment",
           "startLine": 87,
-          "endLine": 171,
-          "length": 85,
+          "endLine": 172,
+          "length": 86,
           "maxNesting": 11,
           "branches": 10,
           "params": 0,
@@ -1100,15 +1100,15 @@
             },
             {
               "rule": "length",
-              "value": 85,
+              "value": 86,
               "threshold": 50
             }
           ]
         },
         {
           "name": "buildAttendeesList",
-          "startLine": 306,
-          "endLine": 336,
+          "startLine": 307,
+          "endLine": 337,
           "length": 31,
           "maxNesting": 8,
           "branches": 6,
@@ -1153,8 +1153,8 @@
         },
         {
           "name": "directly",
-          "startLine": 466,
-          "endLine": 490,
+          "startLine": 429,
+          "endLine": 453,
           "length": 25,
           "maxNesting": 5,
           "branches": 4,
@@ -1171,8 +1171,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 491,
-          "length": 491,
+          "endLine": 454,
+          "length": 454,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -1180,7 +1180,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 491,
+              "value": 454,
               "threshold": 100
             }
           ]
@@ -1524,8 +1524,8 @@
       "functions": [
         {
           "name": "toggleSection",
-          "startLine": 122,
-          "endLine": 142,
+          "startLine": 120,
+          "endLine": 140,
           "length": 21,
           "maxNesting": 8,
           "branches": 8,
@@ -1541,8 +1541,8 @@
         },
         {
           "name": "if",
-          "startLine": 149,
-          "endLine": 205,
+          "startLine": 147,
+          "endLine": 203,
           "length": 57,
           "maxNesting": 12,
           "branches": 8,
@@ -1705,18 +1705,18 @@
           ]
         },
         {
-          "name": "that",
-          "startLine": 344,
-          "endLine": 433,
-          "length": 90,
-          "maxNesting": 1,
-          "branches": 4,
+          "name": "computeAvailabilityData",
+          "startLine": 353,
+          "endLine": 457,
+          "length": 105,
+          "maxNesting": 3,
+          "branches": 5,
           "params": 0,
-          "returns": 1,
+          "returns": 2,
           "violations": [
             {
               "rule": "length",
-              "value": 90,
+              "value": 105,
               "threshold": 50
             }
           ]
@@ -1809,10 +1809,10 @@
         {
           "name": "useAppointmentsTableModel",
           "startLine": 32,
-          "endLine": 139,
-          "length": 108,
+          "endLine": 142,
+          "length": 111,
           "maxNesting": 9,
-          "branches": 13,
+          "branches": 14,
           "params": 0,
           "returns": 14,
           "violations": [
@@ -1823,12 +1823,12 @@
             },
             {
               "rule": "branches",
-              "value": 13,
+              "value": 14,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 108,
+              "value": 111,
               "threshold": 50
             },
             {
@@ -1848,8 +1848,8 @@
         {
           "name": "useAttendeeQuickSelect",
           "startLine": 46,
-          "endLine": 160,
-          "length": 115,
+          "endLine": 161,
+          "length": 116,
           "maxNesting": 10,
           "branches": 10,
           "params": 0,
@@ -1867,7 +1867,7 @@
             },
             {
               "rule": "length",
-              "value": 115,
+              "value": 116,
               "threshold": 50
             },
             {
@@ -1964,8 +1964,8 @@
       "functions": [
         {
           "name": "useBusinessRules",
-          "startLine": 101,
-          "endLine": 282,
+          "startLine": 95,
+          "endLine": 276,
           "length": 182,
           "maxNesting": 14,
           "branches": 24,
@@ -2128,26 +2128,26 @@
         {
           "name": "useEntityCardStoreSync",
           "startLine": 45,
-          "endLine": 137,
-          "length": 93,
-          "maxNesting": 20,
-          "branches": 18,
+          "endLine": 135,
+          "length": 91,
+          "maxNesting": 18,
+          "branches": 17,
           "params": 0,
           "returns": 6,
           "violations": [
             {
               "rule": "nesting",
-              "value": 20,
+              "value": 18,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 18,
+              "value": 17,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 93,
+              "value": 91,
               "threshold": 50
             },
             {
@@ -3025,8 +3025,8 @@
         {
           "name": "useStatusButtonToggle",
           "startLine": 46,
-          "endLine": 202,
-          "length": 157,
+          "endLine": 203,
+          "length": 158,
           "maxNesting": 29,
           "branches": 30,
           "params": 0,
@@ -3044,7 +3044,7 @@
             },
             {
               "rule": "length",
-              "value": 157,
+              "value": 158,
               "threshold": 50
             },
             {
@@ -3180,11 +3180,11 @@
       "functions": [
         {
           "name": "from",
-          "startLine": 101,
-          "endLine": 295,
+          "startLine": 102,
+          "endLine": 296,
           "length": 195,
           "maxNesting": 15,
-          "branches": 26,
+          "branches": 28,
           "params": 0,
           "returns": 10,
           "violations": [
@@ -3195,7 +3195,7 @@
             },
             {
               "rule": "branches",
-              "value": 26,
+              "value": 28,
               "threshold": 8
             },
             {
@@ -3375,8 +3375,8 @@
       "functions": [
         {
           "name": "useAvailabilityOrchestrator",
-          "startLine": 42,
-          "endLine": 307,
+          "startLine": 43,
+          "endLine": 308,
           "length": 266,
           "maxNesting": 14,
           "branches": 14,
@@ -3453,32 +3453,32 @@
       "functions": [
         {
           "name": "useComputedAvailability",
-          "startLine": 62,
-          "endLine": 213,
-          "length": 152,
-          "maxNesting": 11,
-          "branches": 14,
+          "startLine": 68,
+          "endLine": 237,
+          "length": 170,
+          "maxNesting": 14,
+          "branches": 18,
           "params": 0,
-          "returns": 6,
+          "returns": 8,
           "violations": [
             {
               "rule": "nesting",
-              "value": 11,
+              "value": 14,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 14,
+              "value": 18,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 152,
+              "value": 170,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 6,
+              "value": 8,
               "threshold": 4
             }
           ]
@@ -3570,8 +3570,8 @@
       "functions": [
         {
           "name": "usePropertyDetailsLogic",
-          "startLine": 85,
-          "endLine": 327,
+          "startLine": 89,
+          "endLine": 331,
           "length": 243,
           "maxNesting": 31,
           "branches": 30,
@@ -3687,8 +3687,8 @@
       "functions": [
         {
           "name": "useWizardDisplay",
-          "startLine": 38,
-          "endLine": 112,
+          "startLine": 35,
+          "endLine": 109,
           "length": 75,
           "maxNesting": 17,
           "branches": 16,
@@ -3726,8 +3726,8 @@
       "functions": [
         {
           "name": "useWizardNavigation",
-          "startLine": 43,
-          "endLine": 198,
+          "startLine": 40,
+          "endLine": 195,
           "length": 156,
           "maxNesting": 30,
           "branches": 28,
@@ -3921,32 +3921,32 @@
       "functions": [
         {
           "name": "useFormFieldsContext",
-          "startLine": 41,
-          "endLine": 344,
-          "length": 304,
-          "maxNesting": 45,
-          "branches": 55,
+          "startLine": 26,
+          "endLine": 322,
+          "length": 297,
+          "maxNesting": 43,
+          "branches": 51,
           "params": 1,
-          "returns": 24,
+          "returns": 23,
           "violations": [
             {
               "rule": "nesting",
-              "value": 45,
+              "value": 43,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 55,
+              "value": 51,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 304,
+              "value": 297,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 24,
+              "value": 23,
               "threshold": 4
             }
           ]
@@ -4194,9 +4194,9 @@
       "functions": [
         {
           "name": "useSelectOptions",
-          "startLine": 62,
-          "endLine": 337,
-          "length": 276,
+          "startLine": 66,
+          "endLine": 343,
+          "length": 278,
           "maxNesting": 28,
           "branches": 38,
           "params": 1,
@@ -4214,7 +4214,7 @@
             },
             {
               "rule": "length",
-              "value": 276,
+              "value": 278,
               "threshold": 50
             },
             {
@@ -4428,8 +4428,8 @@
       "functions": [
         {
           "name": "patchFormFromVFormRef",
-          "startLine": 31,
-          "endLine": 61,
+          "startLine": 36,
+          "endLine": 66,
           "length": 31,
           "maxNesting": 6,
           "branches": 7,
@@ -4445,8 +4445,8 @@
         },
         {
           "name": "setupFormMutationObserver",
-          "startLine": 74,
-          "endLine": 114,
+          "startLine": 79,
+          "endLine": 119,
           "length": 41,
           "maxNesting": 12,
           "branches": 8,
@@ -4565,31 +4565,31 @@
         {
           "name": "for",
           "startLine": 15,
-          "endLine": 292,
-          "length": 278,
-          "maxNesting": 85,
-          "branches": 83,
+          "endLine": 328,
+          "length": 314,
+          "maxNesting": 84,
+          "branches": 84,
           "params": 0,
-          "returns": 38,
+          "returns": 40,
           "violations": [
             {
               "rule": "nesting",
-              "value": 85,
+              "value": 84,
               "threshold": 4
             },
             {
               "rule": "branches",
-              "value": 83,
+              "value": 84,
               "threshold": 8
             },
             {
               "rule": "length",
-              "value": 278,
+              "value": 314,
               "threshold": 50
             },
             {
               "rule": "returns",
-              "value": 38,
+              "value": 40,
               "threshold": 4
             }
           ]
@@ -4642,8 +4642,8 @@
       "functions": [
         {
           "name": "that",
-          "startLine": 35,
-          "endLine": 44,
+          "startLine": 36,
+          "endLine": 45,
           "length": 10,
           "maxNesting": 6,
           "branches": 4,
@@ -4659,8 +4659,8 @@
         },
         {
           "name": "extractCapacityConstraints",
-          "startLine": 192,
-          "endLine": 234,
+          "startLine": 193,
+          "endLine": 235,
           "length": 43,
           "maxNesting": 5,
           "branches": 6,
@@ -4688,8 +4688,8 @@
       "functions": [
         {
           "name": "getAdminMetadata",
-          "startLine": 29,
-          "endLine": 113,
+          "startLine": 21,
+          "endLine": 105,
           "length": 85,
           "maxNesting": 15,
           "branches": 13,
@@ -4819,8 +4819,8 @@
       "functions": [
         {
           "name": "createBuffersComputed",
-          "startLine": 24,
-          "endLine": 51,
+          "startLine": 23,
+          "endLine": 50,
           "length": 28,
           "maxNesting": 5,
           "branches": 3,
@@ -4836,8 +4836,8 @@
         },
         {
           "name": "createDriveTimeComputed",
-          "startLine": 53,
-          "endLine": 80,
+          "startLine": 52,
+          "endLine": 79,
           "length": 28,
           "maxNesting": 5,
           "branches": 3,
@@ -4848,6 +4848,81 @@
               "rule": "nesting",
               "value": 5,
               "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
+      "functions": [
+        {
+          "name": "createMaxWorkHoursComputed",
+          "startLine": 27,
+          "endLine": 57,
+          "length": 31,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        },
+        {
+          "name": "createMaxIncomeComputed",
+          "startLine": 59,
+          "endLine": 89,
+          "length": 31,
+          "maxNesting": 6,
+          "branches": 4,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardActions.ts",
+      "functions": [
+        {
+          "name": "useEntityCardActions",
+          "startLine": 74,
+          "endLine": 224,
+          "length": 151,
+          "maxNesting": 8,
+          "branches": 9,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 8,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8
+            },
+            {
+              "rule": "length",
+              "value": 151,
+              "threshold": 50
             }
           ]
         }
@@ -5064,8 +5139,8 @@
       "functions": [
         {
           "name": "usePropertyFormWatchers",
-          "startLine": 30,
-          "endLine": 103,
+          "startLine": 27,
+          "endLine": 100,
           "length": 74,
           "maxNesting": 11,
           "branches": 20,
@@ -5542,8 +5617,8 @@
         },
         {
           "name": "validateAttendeeAssignmentEntities",
-          "startLine": 268,
-          "endLine": 293,
+          "startLine": 269,
+          "endLine": 294,
           "length": 26,
           "maxNesting": 8,
           "branches": 6,
@@ -5566,8 +5641,8 @@
       "functions": [
         {
           "name": "parseAddress",
-          "startLine": 198,
-          "endLine": 227,
+          "startLine": 193,
+          "endLine": 222,
           "length": 30,
           "maxNesting": 5,
           "branches": 4,
@@ -5583,8 +5658,8 @@
         },
         {
           "name": "extractClients",
-          "startLine": 238,
-          "endLine": 280,
+          "startLine": 233,
+          "endLine": 275,
           "length": 43,
           "maxNesting": 8,
           "branches": 8,
@@ -5608,8 +5683,8 @@
         {
           "name": "createEvent",
           "startLine": 31,
-          "endLine": 171,
-          "length": 141,
+          "endLine": 172,
+          "length": 142,
           "maxNesting": 12,
           "branches": 21,
           "params": 1,
@@ -5627,7 +5702,7 @@
             },
             {
               "rule": "length",
-              "value": 141,
+              "value": 142,
               "threshold": 50
             }
           ]
@@ -6187,6 +6262,35 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/composables/admin/useEntityCardForm.ts",
+      "functions": [
+        {
+          "name": "useEntityCardForm",
+          "startLine": 39,
+          "endLine": 87,
+          "length": 49,
+          "maxNesting": 5,
+          "branches": 10,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4
+            },
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8
+            }
+          ]
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useEntityMetadata.ts",
       "functions": [
         {
@@ -6556,10 +6660,10 @@
         {
           "name": "useEntityForm",
           "startLine": 40,
-          "endLine": 108,
-          "length": 69,
+          "endLine": 107,
+          "length": 68,
           "maxNesting": 8,
-          "branches": 7,
+          "branches": 8,
           "params": 1,
           "returns": 6,
           "violations": [
@@ -6570,7 +6674,7 @@
             },
             {
               "rule": "length",
-              "value": 69,
+              "value": 68,
               "threshold": 50
             },
             {
@@ -6652,8 +6756,8 @@
       "functions": [
         {
           "name": "validateSlotGenerationParams",
-          "startLine": 32,
-          "endLine": 81,
+          "startLine": 35,
+          "endLine": 84,
           "length": 50,
           "maxNesting": 11,
           "branches": 10,
@@ -6751,8 +6855,8 @@
       "functions": [
         {
           "name": "getAdminPrimitiveMetadata",
-          "startLine": 17,
-          "endLine": 124,
+          "startLine": 16,
+          "endLine": 123,
           "length": 108,
           "maxNesting": 6,
           "branches": 4,
@@ -6785,8 +6889,8 @@
       "functions": [
         {
           "name": "getAdminRelationshipMetadata",
-          "startLine": 28,
-          "endLine": 135,
+          "startLine": 20,
+          "endLine": 127,
           "length": 108,
           "maxNesting": 6,
           "branches": 4,
@@ -6844,41 +6948,12 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/composables/admin/useEntityCardActions.ts",
-      "functions": [
-        {
-          "name": "useEntityCardActions",
-          "startLine": 74,
-          "endLine": 222,
-          "length": 149,
-          "maxNesting": 7,
-          "branches": 8,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 7,
-              "threshold": 4
-            },
-            {
-              "rule": "length",
-              "value": 149,
-              "threshold": 50
-            }
-          ]
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/composables/admin/useEntityCardSaveState.ts",
       "functions": [
         {
           "name": "useEntityCardSaveState",
-          "startLine": 45,
-          "endLine": 110,
+          "startLine": 44,
+          "endLine": 109,
           "length": 66,
           "maxNesting": 9,
           "branches": 8,
@@ -7167,8 +7242,8 @@
       "functions": [
         {
           "name": "useWizardDevMode",
-          "startLine": 38,
-          "endLine": 105,
+          "startLine": 37,
+          "endLine": 104,
           "length": 68,
           "maxNesting": 5,
           "branches": 3,
@@ -7532,8 +7607,8 @@
       "functions": [
         {
           "name": "BusinessRuleFactory",
-          "startLine": 68,
-          "endLine": 154,
+          "startLine": 64,
+          "endLine": 150,
           "length": 87,
           "maxNesting": 5,
           "branches": 2,
@@ -8192,30 +8267,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/composables/admin/useCapacitySettings.ts",
-      "functions": [
-        {
-          "name": "createMaxWorkHoursComputed",
-          "startLine": 23,
-          "endLine": 50,
-          "length": 28,
-          "maxNesting": 5,
-          "branches": 3,
-          "params": 0,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/composables/admin/useEntityCardFieldConfiguration.ts",
       "functions": [
         {
@@ -8388,8 +8439,8 @@
       "functions": [
         {
           "name": "useAvailabilityStepData",
-          "startLine": 43,
-          "endLine": 85,
+          "startLine": 41,
+          "endLine": 83,
           "length": 43,
           "maxNesting": 5,
           "branches": 5,
@@ -8412,8 +8463,8 @@
       "functions": [
         {
           "name": "useAvailabilityValidation",
-          "startLine": 28,
-          "endLine": 61,
+          "startLine": 25,
+          "endLine": 58,
           "length": 34,
           "maxNesting": 5,
           "branches": 2,
@@ -8435,18 +8486,18 @@
       "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
       "functions": [
         {
-          "name": "if",
-          "startLine": 53,
-          "endLine": 69,
-          "length": 17,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 1,
-          "returns": 1,
+          "name": "useBlockInstanceSelection",
+          "startLine": 44,
+          "endLine": 89,
+          "length": 46,
+          "maxNesting": 9,
+          "branches": 8,
+          "params": 0,
+          "returns": 2,
           "violations": [
             {
               "rule": "nesting",
-              "value": 5,
+              "value": 9,
               "threshold": 4
             }
           ]
@@ -9012,8 +9063,8 @@
       "functions": [
         {
           "name": "to",
-          "startLine": 98,
-          "endLine": 122,
+          "startLine": 97,
+          "endLine": 121,
           "length": 25,
           "maxNesting": 5,
           "branches": 4,
@@ -9036,8 +9087,8 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 167,
-          "endLine": 197,
+          "startLine": 168,
+          "endLine": 198,
           "length": 31,
           "maxNesting": 6,
           "branches": 5,
@@ -9112,7 +9163,7 @@
           "endLine": 89,
           "length": 35,
           "maxNesting": 8,
-          "branches": 6,
+          "branches": 7,
           "params": 0,
           "returns": 3,
           "violations": [
@@ -9252,8 +9303,8 @@
       "functions": [
         {
           "name": "that",
-          "startLine": 158,
-          "endLine": 226,
+          "startLine": 150,
+          "endLine": 218,
           "length": 69,
           "maxNesting": 4,
           "branches": 6,
@@ -9269,8 +9320,8 @@
         },
         {
           "name": "buildConfirmationPriceData",
-          "startLine": 239,
-          "endLine": 291,
+          "startLine": 231,
+          "endLine": 283,
           "length": 53,
           "maxNesting": 0,
           "branches": 2,
@@ -9342,8 +9393,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 173,
-          "length": 173,
+          "endLine": 168,
+          "length": 168,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9351,7 +9402,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 173,
+              "value": 168,
               "threshold": 100
             }
           ]
@@ -9366,8 +9417,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 156,
-          "length": 156,
+          "endLine": 157,
+          "length": 157,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9375,7 +9426,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 156,
+              "value": 157,
               "threshold": 100
             }
           ]
@@ -9486,8 +9537,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 293,
-          "length": 293,
+          "endLine": 267,
+          "length": 267,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9495,7 +9546,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 293,
+              "value": 267,
               "threshold": 100
             }
           ]
@@ -9682,8 +9733,8 @@
       "functions": [
         {
           "name": "useInstanceFiltering",
-          "startLine": 40,
-          "endLine": 111,
+          "startLine": 39,
+          "endLine": 110,
           "length": 72,
           "maxNesting": 4,
           "branches": 2,
@@ -9789,8 +9840,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 187,
-          "length": 187,
+          "endLine": 192,
+          "length": 192,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9798,7 +9849,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 187,
+              "value": 192,
               "threshold": 100
             }
           ]
@@ -9837,8 +9888,8 @@
         {
           "name": "<script setup>",
           "startLine": 1,
-          "endLine": 346,
-          "length": 346,
+          "endLine": 366,
+          "length": 366,
           "maxNesting": 0,
           "branches": 0,
           "params": 0,
@@ -9846,7 +9897,7 @@
           "violations": [
             {
               "rule": "script-setup-length",
-              "value": 346,
+              "value": 366,
               "threshold": 100
             }
           ]
@@ -10057,9 +10108,9 @@
       "functions": [
         {
           "name": "useBookingWizardStepValidators",
-          "startLine": 31,
-          "endLine": 84,
-          "length": 54,
+          "startLine": 34,
+          "endLine": 88,
+          "length": 55,
           "maxNesting": 3,
           "branches": 6,
           "params": 0,
@@ -10067,7 +10118,7 @@
           "violations": [
             {
               "rule": "length",
-              "value": 54,
+              "value": 55,
               "threshold": 50
             }
           ]
@@ -10081,8 +10132,8 @@
       "functions": [
         {
           "name": "usePropertyFormState",
-          "startLine": 29,
-          "endLine": 90,
+          "startLine": 28,
+          "endLine": 89,
           "length": 62,
           "maxNesting": 2,
           "branches": 1,
@@ -10153,8 +10204,8 @@
       "functions": [
         {
           "name": "generateSlotsInRange",
-          "startLine": 114,
-          "endLine": 192,
+          "startLine": 111,
+          "endLine": 189,
           "length": 79,
           "maxNesting": 2,
           "branches": 3,
@@ -10561,8 +10612,8 @@
       "functions": [
         {
           "name": "BlockInstanceVersionFactory",
-          "startLine": 36,
-          "endLine": 105,
+          "startLine": 37,
+          "endLine": 106,
           "length": 70,
           "maxNesting": 0,
           "branches": 0,
@@ -10753,8 +10804,8 @@
       "functions": [
         {
           "name": "PartInstanceVersionFactory",
-          "startLine": 38,
-          "endLine": 117,
+          "startLine": 39,
+          "endLine": 118,
           "length": 80,
           "maxNesting": 0,
           "branches": 0,

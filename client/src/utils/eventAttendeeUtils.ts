@@ -9,82 +9,10 @@
  * They are referenced by BlockInstance ID in the event_shape_attendees relationship table
  */
 
-import type { EventShapeEntity } from '@/types/entities'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
-import type { BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-
-/**
- * Find UserTypeBlock BlockInstance IDs by name
- * LEARNING: Searches for BlockInstances that are state control blocks with matching name
- * WHY: Provides lookup by name (e.g. Major, Minor, or the agent role label) to get BlockInstance ID
- * PATTERN: Filter BlockInstances by blockShape.isStateControl and name match
- * 
- * @param globalData - GlobalData containing all entities
- * @param name - Name to search for (case-insensitive)
- * @returns Array of BlockInstance IDs matching the name, or empty array if not found
- */
-export function findUserTypeBlockIdsByName(
-  globalData: GlobalData,
-  name: string
-): GlobalEntityId[] {
-  const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]
-  const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
-  
-  const blockInstances = (globalData.entities.blockInstance || []) as BlockInstanceEntity[]
-  const stateControlBlockInstances = blockInstances.filter(
-    instance => 
-stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) &&
-      instance.active &&
-      instance.name.toLowerCase() === name.toLowerCase()
-  )
-  
-  return stateControlBlockInstances.map(instance => instance.id)
-}
-
-/**
- * Check if an event shape has a specific attendee (UserTypeBlock)
- * LEARNING: Checks if the event shape's attendees array includes the given UserTypeBlock ID
- * WHY: Provides type-safe way to check attendee presence
- * PATTERN: Array includes check with null/undefined safety
- * 
- * @param eventShape - EventShapeEntity to check
- * @param userTypeBlockId - UserTypeBlock BlockInstance ID to check for
- * @returns True if event shape has this attendee, false otherwise
- */
-export function hasAttendee(
-  eventShape: EventShapeEntity,
-  userTypeBlockId: GlobalEntityId
-): boolean {
-  if (!eventShape.attendees || !Array.isArray(eventShape.attendees)) {
-    return false
-  }
-  return eventShape.attendees.includes(userTypeBlockId)
-}
-
-/**
- * Find event shape with agent attendee
- * LEARNING: Finds the first event shape that has an agent UserTypeBlock in its attendees
- * WHY: Used to identify which event represents agent time (for future use)
- * PATTERN: Filter event shapes by attendee presence
- * 
- * @param eventShapes - Array of EventShapeEntity to search
- * @param agentUserTypeBlockIds - Array of agent UserTypeBlock BlockInstance IDs
- * @returns EventShapeEntity with agent attendee, or null if not found
- */
-export function getAgentEventShape(
-  eventShapes: EventShapeEntity[],
-  agentUserTypeBlockIds: GlobalEntityId[]
-): EventShapeEntity | null {
-  if (agentUserTypeBlockIds.length === 0) {
-    return null
-  }
-  
-  return eventShapes.find(eventShape => 
-    agentUserTypeBlockIds.some(id => hasAttendee(eventShape, id))
-  ) || null
-}
 
 export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[] {
   const blockShapes = (globalData.entities.blockShape || []) as BlockShapeEntity[]
@@ -98,6 +26,21 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
   )
   
   return stateControlBlockInstances.map(instance => instance.id)
+}
+
+/**
+ * Check if an event shape has a specific attendee (UserTypeBlock).
+ * LEARNING: Checks if the event shape's attendees array includes the given UserTypeBlock ID
+ * WHY: Used by getMajorEventShape and getMinorEventShape
+ */
+function hasAttendee(
+  eventShape: EventShapeEntity,
+  userTypeBlockId: GlobalEntityId
+): boolean {
+  if (!eventShape.attendees || !Array.isArray(eventShape.attendees)) {
+    return false
+  }
+  return eventShape.attendees.includes(userTypeBlockId)
 }
 
 /**

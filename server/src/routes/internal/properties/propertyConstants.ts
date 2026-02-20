@@ -62,14 +62,16 @@ export const REQUIRED_FIELDS = {
   PROPERTY_TYPE: ['blockInstanceId'] as const,
 } as const
 
+import { DEFAULT_PROPERTY_SOURCE } from '../../../../../shared/constants/propertyConstants.js'
+
 /**
  * Default values for property operations
  * LEARNING: Centralized default values for optional fields
- * WHY: Single source of truth for defaults, easier to maintain
+ * WHY: Single source of truth for defaults; SOURCE from shared constant
  * PATTERN: Const object with default values
  */
 export const DEFAULT_VALUES = {
-  SOURCE: 'client' as const,
+  SOURCE: DEFAULT_PROPERTY_SOURCE,
   ORDER_INDEX: 0 as const,
 } as const
 

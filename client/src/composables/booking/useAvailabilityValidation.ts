@@ -5,17 +5,14 @@
  * WHY: Provides step-specific validation rules using generic pattern
  */
 
-import { computed, type Ref } from 'vue'
-import type { AppointmentSlot } from '@/types/appointment'
+import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
 import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
-import type { ISO8601Date } from '@/types/datetime'
+import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
-export interface UseAvailabilityValidationParams {
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  selectedSlot: Ref<AppointmentSlot | null>
-}
+/** Same shape as shared base (P2 type-similarity). */
+export type UseAvailabilityValidationParams = AvailabilityStepParamsBase
 
 export type UseAvailabilityValidationReturn = UseStepValidationReturn
 
@@ -41,7 +38,7 @@ export function useAvailabilityValidation(
         return 'Please select a time slot'
       }
       // Validate that selectedSlot has valid totals
-      // PATTERN: Use eventTimeRanges or totalTimeRange instead of deprecated majorTimeRange
+      // PATTERN: Use eventTimeRanges or totalTimeRange for time range validation
       const hasValidTimeRange = selectedSlot.value.totalTimeRange || 
         (selectedSlot.value.eventTimeRanges && Object.values(selectedSlot.value.eventTimeRanges).some(tr => tr !== null))
       if (!hasValidTimeRange) {

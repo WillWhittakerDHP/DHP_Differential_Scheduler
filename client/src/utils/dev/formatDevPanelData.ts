@@ -11,7 +11,7 @@ import {
   API_STATUS_LABEL_MAP,
   type ApiStatusValue,
 } from '@/constants/apiStatus'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 /**
  * Format timestamp for display

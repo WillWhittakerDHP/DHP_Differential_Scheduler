@@ -124,7 +124,7 @@ export function useDependentInstances(
           bookingMode: entity.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE,
           differential: entity.differential === 'true' ? 'true' as const : 'false' as const,
           orderIndex: entity.orderIndex ?? 0,
-          blockShape: blockShape || blockShapeEntity?.name ?? '',
+          blockShape: (blockShape || blockShapeEntity?.name) ?? '',
           blockShapeRef,
           activeBlockIds,
           partInstances: [],

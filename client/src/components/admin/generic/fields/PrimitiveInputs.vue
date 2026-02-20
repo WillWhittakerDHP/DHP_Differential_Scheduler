@@ -59,7 +59,7 @@
  */
 
 import { computed } from 'vue'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import TextInput from './TextInput.vue'
@@ -104,11 +104,11 @@ const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
 <style scoped>
 .input-error {
   padding: 8px;
-  background-color: #fff2e8;
-  border: 1px dashed #ffbb96;
+  background-color: rgba(var(--v-theme-error), 0.08);
+  border: 1px dashed rgba(var(--v-theme-error), 0.4);
   border-radius: 4px;
   font-size: 12px;
-  color: #d4380d;
+  color: rgb(var(--v-theme-error));
 }
 </style>
 

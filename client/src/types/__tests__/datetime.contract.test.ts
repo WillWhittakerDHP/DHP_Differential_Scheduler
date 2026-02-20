@@ -6,7 +6,8 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import type { ISO8601Date, RFC3339DateTime, DayOfWeek } from '@/types/datetime'
+import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
+import type { DayOfWeek } from '@/types/datetime'
 import {
   isRFC3339DateTime,
   validateRFC3339DateTime,

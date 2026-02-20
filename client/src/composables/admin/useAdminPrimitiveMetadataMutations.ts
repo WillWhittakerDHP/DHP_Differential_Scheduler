@@ -12,7 +12,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminPrimitiveMetadataEndpoint } from '@/utils/api'
-import type { EntityMetadataType, FieldMetadataEntry } from '@/types/entityMetadata'
+import type { EntityMetadataType, FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { createLogger } from '@/utils/logger'

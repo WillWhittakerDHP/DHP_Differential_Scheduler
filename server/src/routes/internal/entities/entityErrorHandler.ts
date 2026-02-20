@@ -70,7 +70,7 @@ export function handleDatabaseConstraintError(
     // Check if it's the state control mutual exclusivity constraint
     if ('constraint' in error.parent && 
         error.parent.constraint === CONSTRAINT_NAMES.STATE_CONTROL_MUTUAL_EXCLUSIVITY) {
-      const response: any = {
+      const response: { error: string; message: string; details: string; id?: string } = {
         error: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_VIOLATION,
         message: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_MESSAGE,
         details: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_DETAILS,

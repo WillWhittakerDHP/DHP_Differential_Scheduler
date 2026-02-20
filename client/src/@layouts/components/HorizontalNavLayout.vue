@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { HorizontalNav } from '@layouts/components'
+import HorizontalNav from '@layouts/components/HorizontalNav.vue'
 import type { HorizontalNavItems } from '@layouts/types'
 
 import { useLayoutConfigStore } from '@layouts/stores/config'

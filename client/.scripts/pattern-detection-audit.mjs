@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist } from './shared-audit-utils.mjs'
 
 /**
  * Pattern Detection Audit Script
@@ -63,52 +63,6 @@ function _toStableId(repoPath) {
 }
 
 /**
- * Check if a file should be excluded from pattern detection scanning
- */
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-/**
- * Check if a file should be excluded from scanning
- */
-function shouldExcludeDir(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-/**
- * Recursively list all TypeScript/JavaScript/Vue/MJS files
- */
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip excluded directories/files
-    if (shouldExcludeDir(repoPath)) {
-      continue
-    }
-    
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
-}
-
-/**
  * Extract script blocks from Vue files
  */
 function extractVueScriptBlocks(vueContent) {
@@ -123,12 +77,8 @@ function extractVueScriptBlocks(vueContent) {
 /**
  * Scan file for patterns
  */
-function scanFile(filePath, allFiles, configAllowlist) {
+function scanFile(filePath, allFiles) {
   const repoPath = toRepoPath(filePath)
-  if (isExcluded(repoPath, configAllowlist)) {
-    return { repoPath, patterns: { stringLiterals: [], typeDefinitions: [], enumPatterns: [], configLocations: [], functionPatterns: [], commonPatterns: [] } }
-  }
-  
   const patterns = {
     stringLiterals: [], // String literals that appear multiple times
     typeDefinitions: [], // export type, export interface
@@ -583,18 +533,12 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const absFiles = [...clientFiles, ...serverFiles]
+  const absFiles = listAuditFiles(_AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
   
   const filePatterns = []
   
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
-    if (shouldExcludeDir(repoPath)) continue
-    
-    const patterns = scanFile(abs, absFiles, configAllowlist)
+    const patterns = scanFile(abs, absFiles)
     filePatterns.push(patterns)
   }
   
@@ -653,8 +597,8 @@ function main() {
   fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
   fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
   
-  const clientCount = clientFiles.length
-  const serverCount = serverFiles.length
+  const clientCount = absFiles.filter(f => f.startsWith(CLIENT_SRC)).length
+  const serverCount = absFiles.filter(f => f.startsWith(SERVER_SRC)).length
   console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
   console.log(`Files scanned: ${absFiles.length} (${clientCount} client, ${serverCount} server)`)
   console.log(`Patterns found: ${Object.keys(aggregated.stringLiterals || {}).length} string literals, ${Object.keys(aggregated.typeDefinitions || {}).length} types, ${Object.keys(aggregated.enumPatterns || {}).length} enums, ${aggregated.configLocations.length} config files, ${Object.keys(aggregated.functionPatterns || {}).length} function patterns`)

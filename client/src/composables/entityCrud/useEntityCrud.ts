@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/vue-query'
-import type { GlobalEntityId, GlobalEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useComponentEntity } from '@/composables/useComponentEntity'

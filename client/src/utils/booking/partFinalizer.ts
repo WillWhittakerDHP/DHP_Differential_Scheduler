@@ -17,7 +17,8 @@ import {
   getMajorEventShape, 
   getMinorEventShape 
 } from '@/utils/eventAttendeeUtils'
-import { toGlobalEntityId, type EventShapeEntity, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId, type EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'

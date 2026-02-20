@@ -254,6 +254,8 @@ export default tseslint.config(
       'src/**/*.test.tsx',
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
+      '.scripts/**',
+      '.audit-reports/**',
     ],
   },
 )

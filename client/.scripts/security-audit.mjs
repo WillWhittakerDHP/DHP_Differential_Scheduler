@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
-import { getAuditReportHeaderLines, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, listAuditFiles } from './shared-audit-utils.mjs'
 
 /**
  * Security Audit Script
@@ -54,39 +54,6 @@ function toRepoPath(absPath) {
 
 function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
-}
-
-function shouldExcludeDir(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const entry of entries) {
-      const fullPath = path.join(dirPath, entry.name)
-      const repoPath = toRepoPath(fullPath)
-      
-      if (shouldExcludeDir(repoPath)) continue
-      
-      if (entry.isDirectory()) {
-        files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
-        files.push(fullPath)
-      }
-    }
-  } catch (_error) {
-    // Skip directories we can't read
-  }
-  
-  return files
 }
 
 // Secret patterns (from check-secrets.ts)
@@ -251,8 +218,6 @@ function checkSecrets(files) {
   
   for (const absPath of files) {
     const repoPath = toRepoPath(absPath)
-    if (shouldExcludeDir(repoPath)) continue
-    
     try {
       const content = fs.readFileSync(absPath, 'utf-8')
       const lines = content.split('\n')
@@ -440,7 +405,6 @@ function checkCSRF(files) {
   // Scan route files
   for (const absPath of files) {
     const repoPath = toRepoPath(absPath)
-    if (shouldExcludeDir(repoPath)) continue
     if (!repoPath.includes('route') && !repoPath.includes('router')) continue
     
     try {
@@ -530,7 +494,6 @@ function checkAuth(files) {
   // Scan route files for protected routes without auth
   for (const absPath of files) {
     const repoPath = toRepoPath(absPath)
-    if (shouldExcludeDir(repoPath)) continue
     if (!repoPath.includes('route') && !repoPath.includes('router')) continue
     
     try {
@@ -593,7 +556,6 @@ function checkIDOR(files) {
   // Scan controller/route files
   for (const absPath of files) {
     const repoPath = toRepoPath(absPath)
-    if (shouldExcludeDir(repoPath)) continue
     if (!repoPath.includes('route') && !repoPath.includes('router') && !repoPath.includes('controller')) {
       continue
     }
@@ -757,7 +719,7 @@ function main() {
   }
   
   // Get server files
-  const serverFiles = listFilesRecursive(SERVER_SRC)
+  const serverFiles = listAuditFiles(_AUDIT_TYPE, [SERVER_SRC])
   
   // Run all security checks
   const allCategories = []

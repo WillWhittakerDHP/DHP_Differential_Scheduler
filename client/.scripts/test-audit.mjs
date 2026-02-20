@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { isTestFileFromCentralConfig, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
+import { listAuditFiles, listTestFiles, isTestFileFromCentralConfig } from './shared-audit-utils.mjs'
 
 /**
  * Test Audit Script
@@ -13,7 +13,7 @@ import { isTestFileFromCentralConfig, isGloballyExcluded, shouldPruneDirectory }
  *
  * Scope:
  * - Included: client/src and server/src (excluding tests)
- * - Test files: *.test.{ts,tsx,mjs}, *.spec.{ts,tsx,mjs}, __tests__ directories
+ * - Test files: *.test.{ts,tsx}, *.spec.{ts,tsx}, __tests__ directories
  *
  * Output:
  * - client/.audit/test-audit.json
@@ -46,39 +46,6 @@ function ensureDir(dirPath) {
 
 function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
-}
-
-/** Use central config (audit-global-config.json testFile patterns) so test-file classification is a single source of truth. */
-function isTestFile(repoPath) {
-  return isTestFileFromCentralConfig(repoPath)
-}
-
-function isSourceFile(repoPath) {
-  if (isTestFile(repoPath)) return false
-  if (isGloballyExcluded(repoPath)) return false
-  return /\.(ts|tsx|js|jsx|vue|mjs)$/.test(repoPath)
-}
-
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    if (e.isDirectory()) {
-      if (shouldPruneDirectory(e.name)) continue
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile()) {
-      const repoPath = toRepoPath(abs)
-      if (isSourceFile(repoPath) || isTestFile(repoPath)) {
-        out.push(abs)
-      }
-    }
-  }
-  return out
 }
 
 /**
@@ -438,16 +405,13 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
   
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
-  const sourceFiles = allFiles.filter(f => isSourceFile(toRepoPath(f)))
-  const testFiles = allFiles.filter(f => isTestFile(toRepoPath(f)))
+  const sourceFiles = listAuditFiles('test', [CLIENT_SRC, SERVER_SRC])
+  const testFiles = listTestFiles([CLIENT_SRC, SERVER_SRC])
   
-  const clientSourceCount = clientFiles.filter(f => isSourceFile(toRepoPath(f))).length
-  const serverSourceCount = serverFiles.filter(f => isSourceFile(toRepoPath(f))).length
-  const clientTestCount = clientFiles.filter(f => isTestFile(toRepoPath(f))).length
-  const serverTestCount = serverFiles.filter(f => isTestFile(toRepoPath(f))).length
+  const clientSourceCount = sourceFiles.filter(f => f.startsWith(CLIENT_SRC)).length
+  const serverSourceCount = sourceFiles.filter(f => f.startsWith(SERVER_SRC)).length
+  const clientTestCount = testFiles.filter(f => f.startsWith(CLIENT_SRC)).length
+  const serverTestCount = testFiles.filter(f => f.startsWith(SERVER_SRC)).length
   
   console.log(`Scanning ${sourceFiles.length} source files (${clientSourceCount} client, ${serverSourceCount} server) and ${testFiles.length} test files (${clientTestCount} client, ${serverTestCount} server)...`)
   
@@ -519,7 +483,7 @@ function main() {
     
     const sourceFile = possibleSourcePaths.find(p => {
       const abs = path.join(PROJECT_ROOT, p)
-      return fs.existsSync(abs) && isSourceFile(p)
+      return fs.existsSync(abs) && !isTestFileFromCentralConfig(p)
     })
     
     return {

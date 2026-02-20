@@ -31,14 +31,6 @@ const ROLE_TO_BLOCK_NAME: Record<string, string> = {
 };
 
 /**
- * Reverse mapping from block names to roles
- * LEARNING: Useful for determining role from UserTypeBlock
- */
-const BLOCK_NAME_TO_ROLE: Record<string, string> = Object.fromEntries(
-  Object.entries(ROLE_TO_BLOCK_NAME).map(([role, name]) => [name, role])
-);
-
-/**
  * Cache for UserTypeBlock lookups (avoids repeated DB queries)
  * LEARNING: Simple in-memory cache for frequently accessed data
  * WHY: UserTypeBlocks rarely change, no need to query every time
@@ -95,32 +87,6 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
 }
 
 /**
- * Get multiple UserTypeBlock IDs for multiple roles
- * LEARNING: Batch lookup for efficiency
- * @param roles - Array of roles
- * @returns Map of role -> UserTypeBlock ID
- */
-export async function getUserTypeBlockIdsForRoles(
-  roles: string[]
-): Promise<Map<string, string | null>> {
-  const results = new Map<string, string | null>();
-  
-  // Refresh cache if needed
-  await refreshCache();
-  
-  for (const role of roles) {
-    const blockName = ROLE_TO_BLOCK_NAME[role];
-    if (blockName && userTypeBlockCache) {
-      results.set(role, userTypeBlockCache.get(blockName) || null);
-    } else {
-      results.set(role, null);
-    }
-  }
-  
-  return results;
-}
-
-/**
  * Find UserTypeBlock by name
  * LEARNING: UserTypeBlocks are BlockInstances where blockShape.isStateControl === true
  * WHY: Distinguishes UserTypeBlocks from other BlockInstance types
@@ -156,79 +122,4 @@ async function findUserTypeBlockByName(name: string): Promise<{ id: string; name
     id: blockInstance.id,
     name: blockInstance.name
   };
-}
-
-/**
- * Refresh the UserTypeBlock cache
- * LEARNING: Loads all UserTypeBlocks into cache at once
- * WHY: More efficient than individual lookups
- */
-async function refreshCache(): Promise<void> {
-  // Only refresh if cache is stale
-  if (userTypeBlockCache && (Date.now() - cacheTimestamp < CACHE_TTL)) {
-    return;
-  }
-  
-  try {
-    // Find all state control BlockShapes
-    const stateControlShapes = await BlockShape.findAll({
-      where: { isStateControl: true },
-      attributes: ['id']
-    });
-    
-    if (stateControlShapes.length === 0) {
-      logger.warn('No state control BlockShapes found');
-      userTypeBlockCache = new Map();
-      cacheTimestamp = Date.now();
-      return;
-    }
-    
-    const stateControlShapeIds = stateControlShapes.map(s => s.id);
-    
-    // Find all UserTypeBlock instances
-    const userTypeBlocks = await BlockInstance.findAll({
-      where: {
-        blockShapeRef: { [Op.in]: stateControlShapeIds }
-      },
-      attributes: ['id', 'name']
-    });
-    
-    // Build cache
-    userTypeBlockCache = new Map();
-    for (const block of userTypeBlocks) {
-      userTypeBlockCache.set(block.name, block.id);
-    }
-    cacheTimestamp = Date.now();
-    
-    logger.info(`Cache refreshed with ${userTypeBlocks.length} UserTypeBlocks`);
-    
-  } catch (error) {
-    logger.error('Error refreshing cache:', error);
-    userTypeBlockCache = new Map();
-    cacheTimestamp = Date.now();
-  }
-}
-
-/**
- * Get role string from UserTypeBlock name
- * LEARNING: Reverse lookup for when we have UserTypeBlock but need role
- */
-export function getRoleForBlockName(blockName: string): string | null {
-  return BLOCK_NAME_TO_ROLE[blockName] || null;
-}
-
-/**
- * Get all available role mappings
- * LEARNING: Useful for validation and debugging
- */
-export function getAvailableRoleMappings(): Record<string, string> {
-  return { ...ROLE_TO_BLOCK_NAME };
-}
-
-/**
- * Clear the cache (useful for testing or after admin changes)
- */
-export function clearUserTypeBlockCache(): void {
-  userTypeBlockCache = null;
-  cacheTimestamp = 0;
 }

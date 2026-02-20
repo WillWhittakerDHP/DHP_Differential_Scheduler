@@ -18,7 +18,7 @@ import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/a
 import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { AppointmentSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
 import { useBookingWizard } from '@/composables/useBookingWizard'
@@ -656,7 +656,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   max-height: 60vh;
   overflow: auto;
   z-index: 1000;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(var(--v-theme-on-surface), 0.2);
   border: 2px dashed rgb(var(--v-theme-info));
   background-color: rgb(var(--v-theme-surface)) !important;
   opacity: 1 !important;

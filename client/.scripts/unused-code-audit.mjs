@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, parseInlineExceptions, checkInlineException, isCompiledJsFile, isGloballyExcluded } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist, parseInlineExceptions, checkInlineException } from './shared-audit-utils.mjs'
 
 /**
  * Unused Code Audit Script
@@ -47,48 +47,6 @@ function ensureDir(dirPath) {
 
 function toRepoPath(absPath) {
   return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-function isExcluded(repoPath) {
-  if (isGloballyExcluded(repoPath)) return true
-  if (repoPath.includes('/types/')) return true
-  if (repoPath.endsWith('.d.ts')) return true
-  return false
-}
-
-/**
- * Recursively list all TypeScript/JavaScript/Vue/MJS files
- */
-function listFilesRecursive(dir) {
-  const files = []
-  if (!fs.existsSync(dir)) return files
-  
-  try {
-    const entries = fs.readdirSync(dir, { withFileTypes: true })
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name)
-      const repoPath = toRepoPath(fullPath)
-      
-      // Skip excluded directories/files
-      if (isExcluded(repoPath)) {
-        continue
-      }
-      
-      if (entry.isDirectory()) {
-        files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
-        files.push(fullPath)
-      }
-    }
-  } catch (_error) {
-    // Directory might not exist or be inaccessible
-  }
-  
-  return files
 }
 
 /**
@@ -356,10 +314,6 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
   const issues = []
   const repoPath = toRepoPath(filePath)
   
-  if (isExcluded(repoPath)) {
-    return issues
-  }
-  
   try {
     const content = fs.readFileSync(filePath, 'utf-8')
     const lines = content.split('\n')
@@ -531,7 +485,7 @@ function detectDeadScripts(allFiles) {
     .join('\n')
 
   // List all script files (recursive, including helpers/)
-  const scriptFiles = listScriptFiles(scriptsDir)
+  const scriptFiles = listAuditFiles('unused-code', [scriptsDir])
   const findings = []
 
   for (const absPath of scriptFiles) {
@@ -551,7 +505,7 @@ function detectDeadScripts(allFiles) {
     // Check all script files AND all codebase files for imports referencing this basename.
     // Handles absolute paths (scripts/name), relative paths (./helpers/name), and
     // TypeScript ESM imports that use .js extension for .ts files
-    const allScriptFiles = listScriptFiles(scriptsDir)
+    const allScriptFiles = listAuditFiles('unused-code', [scriptsDir])
     const filesToCheck = [...new Set([...allFiles, ...allScriptFiles])]
     const isImported = filesToCheck.some(otherFile => {
       if (otherFile === absPath) return false
@@ -584,28 +538,6 @@ function detectDeadScripts(allFiles) {
   }
 
   return findings
-}
-
-/**
- * Recursively list script files in a directory
- */
-function listScriptFiles(dir) {
-  const files = []
-  if (!fs.existsSync(dir)) return files
-  try {
-    const entries = fs.readdirSync(dir, { withFileTypes: true })
-    for (const entry of entries) {
-      const full = path.join(dir, entry.name)
-      if (entry.isDirectory()) {
-        files.push(...listScriptFiles(full))
-      } else if (entry.isFile() && isScannable(full) && !isCompiledJsFile(full)) {
-        files.push(full)
-      }
-    }
-  } catch {
-    // Skip unreadable dirs
-  }
-  return files
 }
 
 function calculateScore(issues) {
@@ -717,12 +649,13 @@ function main() {
   const issues = []
   const recommendations = []
   const filesWithIssues = new Map()
+  let totalFiles = 0
+  let clientCount = 0
+  let serverCount = 0
   
   try {
     // List all files from both client and server
-    const clientFiles = listFilesRecursive(CLIENT_SRC)
-    const serverFiles = listFilesRecursive(SERVER_SRC)
-    const allFiles = [...clientFiles, ...serverFiles]
+    const allFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
     
     if (allFiles.length === 0) {
       issues.push({
@@ -736,11 +669,6 @@ function main() {
     // Scan each file
     for (const file of allFiles) {
       const repoPath = toRepoPath(file)
-      // Double-check exclusion (in case file listing missed it)
-      if (isExcluded(repoPath)) {
-        continue
-      }
-      
       const fileIssues = scanFile(file, allFiles, configAllowlist)
       issues.push(...fileIssues)
       
@@ -787,6 +715,9 @@ function main() {
       recommendations.push('No unused code patterns found')
     }
     
+    totalFiles = allFiles.length
+    clientCount = allFiles.filter(f => f.startsWith(CLIENT_SRC)).length
+    serverCount = allFiles.filter(f => f.startsWith(SERVER_SRC)).length
   } catch (_error) {
     issues.push({
       severity: 'error',
@@ -819,12 +750,8 @@ function main() {
     }
   })
   
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const totalFiles = clientFiles.length + serverFiles.length
-  
   const deadScripts = issues.filter(i => i.type === 'dead-script').length
-  const summaryText = `Scanned ${totalFiles} file(s) (${clientFiles.length} client, ${serverFiles.length} server). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers, ${deadScripts} dead scripts`
+  const summaryText = `Scanned ${totalFiles} file(s) (${clientCount} client, ${serverCount} server). Found ${issues.length} issue(s): ${issues.filter(i => i.type === 'unused-export').length} unused exports, ${issues.filter(i => i.type === 'commented-export').length} commented exports, ${issues.filter(i => i.type === 'unused-function').length} unused functions, ${issues.filter(i => i.type === 'todo-marker').length} TODO markers, ${deadScripts} dead scripts`
   
   const summary = {
     totalFiles,
@@ -857,7 +784,7 @@ function main() {
   
   const skippedMsg = skippedFilesCount > 0 ? `, Skipped: ${skippedFilesCount} (type errors)` : ''
   const pipelineMsg = (patternData || hardcodingData || typecheckErrorFiles) ? ', Using pipeline data' : ''
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${totalFiles} (${clientFiles.length} client, ${serverFiles.length} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
+  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}\nFiles scanned: ${totalFiles} (${clientCount} client, ${serverCount} server)${skippedMsg}${pipelineMsg}, Issues: ${issues.length}`)
 }
 
 main()

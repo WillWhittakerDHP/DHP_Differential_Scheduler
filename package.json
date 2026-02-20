@@ -7,8 +7,8 @@
   "license": "ISC",
   "scripts": {
     "start": "cross-env NODE_ENV=production npm run build:prod && cross-env NODE_ENV=production npm run client:build && cross-env NODE_ENV=production npm run server",
-    "start:dev": "cross-env NODE_ENV=development npm run build && cross-env NODE_ENV=development concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\" --names \"server,client\" --prefix-colors \"blue,green\"",
-    "start:dev:testing": "cross-env NODE_ENV=development npm run build && cross-env NODE_ENV=development concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\" \"wait-on tcp:3001 && npm run client:test:watch\" --names \"server,client,tests\" --prefix-colors \"blue,green,yellow\"",
+    "start:dev": "node scripts/start-dev.mjs",
+    "start:dev:testing": "cross-env TEST_ENABLED=true node scripts/start-dev.mjs",
     "typecheck:audit": "npm --prefix client run typecheck:audit",
     "typecheck:summary": "npm --prefix client run typecheck:summary",
     "typecheck:run": "npm --prefix client run typecheck:run",
@@ -22,6 +22,7 @@
     "comments:cleanup": "node scripts/comment-tools/cleanup-comments.mjs",
     "kill:ports": "kill-port 3000 3001 3002 3003 3004 3005 3006 3007 3008 3009 5173 || true",
     "restart:dev": "npm run kill:ports && sleep 1 && npm run start:dev",
+    "restart:dev:vue": "npm run kill:ports && sleep 1 && npm run start:dev",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
     "server:refresh": "npm --prefix server run dev",

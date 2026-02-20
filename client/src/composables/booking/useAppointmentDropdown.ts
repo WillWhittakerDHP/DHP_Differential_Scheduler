@@ -7,14 +7,11 @@
  * - BookingWizard.vue
  */
 
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { AppointmentResponse } from '@/types/appointment'
+import { computed, type ComputedRef } from 'vue'
+import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
 
-export interface UseAppointmentDropdownOptions {
-  fetchAll: {
-    data: Ref<AppointmentResponse[]>
-  }
-}
+/** Extends shared base for single source of truth (TYPE_SIMILARITY 1.14). */
+export type UseAppointmentDropdownOptions = WizardDevOptionsBase
 
 export interface UseAppointmentDropdownReturn {
   appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>

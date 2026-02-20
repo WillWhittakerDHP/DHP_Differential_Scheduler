@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
-import { getAuditReportHeaderLines } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines } from './shared-audit-utils.mjs'
 
 /**
  * Bundle Size Budget Audit Script

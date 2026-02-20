@@ -1,36 +1,18 @@
 {
-  "generatedAt": "2026-02-19T19:01:43.460Z",
-  "totalScanned": 798,
+  "generatedAt": "2026-02-19T23:20:17.274Z",
+  "totalScanned": 802,
   "exceptionSummary": {
-    "totalAllowed": 85,
-    "totalRequiresReview": 4,
+    "totalAllowed": 86,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 85,
-      "specific": 0
+      "specific": 1
     }
   },
   "files": [
     {
-      "repoPath": "client/src/composables/admin/entityFormRedirectOptions.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/admin/instanceComposableOptions.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "client/src/composables/collectionTypes.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/types/express.d.ts",
+      "repoPath": "client/src/layouts/blank.vue",
       "score": 2,
       "priority": "P2",
       "count": 1
@@ -49,28 +31,6 @@
         }
       ],
       "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/admin/entityFormRedirectOptions.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: entityFormRedirectOptions.ts"
-        }
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/instanceComposableOptions.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: instanceComposableOptions.ts"
-        }
-      ]
     },
     {
       "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
@@ -138,7 +98,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 12,
+          "lineNumber": 17,
           "line": "export function formatNullValue(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
@@ -277,17 +237,6 @@
         }
       ],
       "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/collectionTypes.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: collectionTypes.ts"
-        }
-      ]
     },
     {
       "repoPath": "client/src/composables/componentEntity/index.ts",
@@ -474,6 +423,17 @@
       "requiresReview": []
     },
     {
+      "repoPath": "client/src/layouts/blank.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "componentFileName",
+          "lineNumber": 1,
+          "line": "Component file should be PascalCase: blank.vue"
+        }
+      ]
+    },
+    {
       "repoPath": "server/src/db/models/admin/adminMetadata.ts",
       "allowed": [
         {
@@ -530,7 +490,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 67,
+          "lineNumber": 63,
           "line": "export function BusinessRuleFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -543,7 +503,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 115,
+          "lineNumber": 108,
           "line": "export function BusinessSettingsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -855,7 +815,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 36,
           "line": "export function BlockInstanceVersionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -985,7 +945,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 37,
+          "lineNumber": 38,
           "line": "export function PartInstanceVersionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -1099,14 +1059,16 @@
     },
     {
       "repoPath": "server/src/types/express.d.ts",
-      "allowed": [],
-      "requiresReview": [
+      "allowed": [
         {
           "ruleId": "typesFileName",
           "lineNumber": 1,
-          "line": "Types file should be camelCase: express.d.ts"
+          "line": "Types file should be camelCase: express.d.ts",
+          "reason": "Express type augmentation; standard filename for declaration merging",
+          "source": "specific"
         }
-      ]
+      ],
+      "requiresReview": []
     }
   ]
 }

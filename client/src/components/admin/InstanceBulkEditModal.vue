@@ -150,7 +150,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
 })
 
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: blockInstanceMetadata } = useEntityMetadata('blockInstance', templateEntity)
 
 /**

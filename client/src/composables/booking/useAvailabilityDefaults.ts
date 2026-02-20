@@ -17,7 +17,8 @@ import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ISO8601Date } from '@/types/datetime'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
+import { toISO8601Date } from '@/types/datetime'
 
 export interface UseAvailabilityDefaultsOptions {
   loadedWizardState: Ref<WizardStateData | null>
@@ -63,8 +64,8 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    * FIX: Initialize with today's date to break circular dependency (no date → no time slots → can't select date)
    *      Date is managed by user selection, not loaded from appointments
    */
-  const selectedDate = ref<{ start: string | null; end: string | null }>({ 
-    start: getTodayDate(), 
+  const selectedDate = ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>({ 
+    start: toISO8601Date(getTodayDate()), 
     end: null 
   })
 
@@ -118,7 +119,7 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
    */
   watch(loadedWizardState, () => {
     // PATTERN: Reset selectedDate to today whenever loadedWizardState changes
-    const today = getTodayDate()
+    const today = toISO8601Date(getTodayDate())
     if (selectedDate.value.start !== today) {
       selectedDate.value = {
         start: today,
@@ -176,12 +177,12 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
       
       if (firstDate && firstDateObj && firstDateObj >= todayDate) {
         selectedDate.value = {
-          start: firstDate,
+          start: toISO8601Date(firstDate),
           end: null
         }
       } else {
         selectedDate.value = {
-          start: today,
+          start: toISO8601Date(today),
           end: null
         }
       }

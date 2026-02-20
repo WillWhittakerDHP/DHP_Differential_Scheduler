@@ -61,12 +61,12 @@ import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldComponent } from '@/composables/admin/useFieldComponent'
 import { useFieldRendererComponent } from '@/composables/admin/useFieldRendererComponent'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntity } from '@/types/entities'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import { createLogger } from '@/utils/logger'
@@ -260,10 +260,10 @@ watch(
 <style scoped>
 .input-error {
   padding: 8px;
-  background-color: #fff2e8;
-  border: 1px dashed #ffbb96;
+  background-color: rgba(var(--v-theme-error), 0.08);
+  border: 1px dashed rgba(var(--v-theme-error), 0.4);
   border-radius: 4px;
   font-size: 12px;
-  color: #d4380d;
+  color: rgb(var(--v-theme-error));
 }
 </style>

@@ -7,7 +7,8 @@
 -->
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
-import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId, type BlockInstanceEntity, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
@@ -15,7 +16,7 @@ import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { useInstanceGrouping } from '@/composables/admin/useInstanceGrouping'
 import { useInstanceBulkEdit } from '@/composables/admin/useInstanceBulkEdit'
 import { useExpansionState } from '@/composables/admin/useExpansionState'
-import { useEntityCrud } from '@/composables/useEntity'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useGlobal } from '@/composables/useGlobal'
 import { useInstanceFiltering } from '@/composables/admin/useInstanceFiltering'
 import { useInstanceDeletion } from '@/composables/admin/useInstanceDeletion'
@@ -34,6 +35,26 @@ import { createLogger } from '@/utils/logger'
 import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 
 const logger = createLogger('InstancesTab')
+
+/**
+ * Sentinel entity for metadata edit modal (global block-instance config per BlockShape).
+ * Supplies all required BlockInstanceEntity fields so no type assertion is needed.
+ */
+function createBlockInstanceConfigSentinel(blockShapeId: string): BlockInstanceEntity {
+  return {
+    id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
+    entityKey: 'blockInstance',
+    name: 'Global Config',
+    orderIndex: 0,
+    active: true,
+    blockShapeRef: blockShapeId,
+    baseSqFt: 0,
+    icon: '',
+    allowMultiple: false,
+    isMultiFamily: false,
+    requiresAgent: false
+  }
+}
 
 /**
  * LEARNING: Reactive active tab state
@@ -770,10 +791,7 @@ function handleDeleteEventInstance(_id: string) {
       <MetadataEditModal
         :model-value="shapeEditModalOpen.get(blockShape.id) || false"
         entity-key="blockInstance"
-        :entity="{ 
-          id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
-          blockShapeRef: blockShape.id 
-        } as GlobalEntity<'blockInstance'>"
+        :entity="createBlockInstanceConfigSentinel(blockShape.id)"
         :block-shape-ref="blockShape.id"
         :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
         @update:model-value="(value) => shapeEditModalOpen.set(blockShape.id, value)"

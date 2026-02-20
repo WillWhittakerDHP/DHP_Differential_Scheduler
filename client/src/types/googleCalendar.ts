@@ -1,23 +1,14 @@
 /**
  * Google Calendar API Type Definitions
- * 
- * LEARNING: Type definitions matching Google Calendar API v3 freebusy response format
- * WHY: Type-safe representation of Google Calendar API responses for future integration
- * PATTERN: Matches official Google Calendar API documentation exactly
- * 
+ *
+ * LEARNING: Uses shared TimeRangeBounds; branded so not assignable to DayHours/DateRangeConfig.
  * Reference: https://developers.google.com/calendar/api/v3/reference/freebusy/query
  */
 
-/**
- * A busy period from Google Calendar free/busy API
- * LEARNING: RFC3339 format timestamps (ISO 8601 with timezone)
- * WHY: Google Calendar API returns timestamps in RFC3339 format
- * PATTERN: start and end are strings, not Date objects (as returned by API)
- */
-export interface GoogleCalendarBusyPeriod {
-  start: string  // RFC3339 format: "2026-01-15T14:30:00Z" or "2026-01-15T14:30:00-05:00"
-  end: string    // RFC3339 format
-}
+import type { TimeRangeBounds } from '@shared/types/availabilityTypes'
+
+/** Busy period from Google Calendar free/busy API (RFC3339 start/end). */
+export type GoogleCalendarBusyPeriod = TimeRangeBounds & { readonly __brand: 'GoogleCalendarBusyPeriod' }
 
 interface GoogleCalendarError {
   domain: string  // Error domain (e.g., "global")

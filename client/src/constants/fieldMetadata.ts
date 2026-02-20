@@ -30,29 +30,14 @@ export function createEmptySubPanelRecord<T>(factory: () => T): SubPanelRecord<T
   return Object.fromEntries(SUB_PANEL_KEYS.map(key => [key, factory()])) as SubPanelRecord<T>
 }
 
+import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes'
+
 /**
- * Unified field metadata entry
- * Combines canonical properties (dataType, label, isRequired) with layout/rendering properties
- * 
- * LEARNING: Single type replaces separate canonical + layout types
- * WHY: Simplifies code, eliminates need to merge separate configs
- * PATTERN: All properties in one place, clear separation via comments
+ * Unified field metadata entry; extends shared base (TYPE_SIMILARITY 1.11).
+ * Client narrows panel to SubPanelKey.
  */
-export interface FieldMetadataEntry {
-  // Canonical properties (from old field_metadata)
-  dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference'
-  label: string
-  isRequired: boolean
-  // Layout/rendering properties (merged from old entity_layout_config)
-  visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured'
-  layout: 'inline' | 'stacked'
-  displayOrder: number
-  renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection'
-  statusButtonColor?: string
+export interface FieldMetadataEntry extends MetadataEntryBase {
   panel: 'none' | SubPanelKey
-  bulkEdit: boolean
-  // PATTERN: Only populated for fields with renderAs: select|multiselect|reference, null otherwise
-  inputConfig?: Record<string, unknown> | null
 }
 
 /**

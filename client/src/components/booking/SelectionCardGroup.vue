@@ -123,8 +123,7 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
         v-if="useGroupWrapper"
         :is="groupComponentName"
         v-model="internalValue"
-        class="selection-group"
-        style="width: 100%;"
+        class="selection-group selection-group-full-width"
       >
         <VCol
           v-for="item in items"
@@ -310,7 +309,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
 </template>
 
 <style scoped lang="scss">
-.selection-card-group {
+.selection-card-group,
+.selection-group-full-width {
   width: 100%;
 }
 

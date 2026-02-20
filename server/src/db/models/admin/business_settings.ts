@@ -7,7 +7,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type {
   ConstraintEnforcement,
   RollingWeekDirection,
@@ -16,14 +15,12 @@ import type {
   IncomeCapacityFilter,
   RollingWeekIncomeCapacityFilter,
   RangeConstraintType,
-  BusinessHoursConfig,
-  LeadTimeConfig,
-  DateRangeConfig,
   RangeConstraint,
   BufferConfig,
   DriveTimeApplyTo,
   DriveTimeConfig,
   DefaultLocation,
+  DurationRoundingConfig,
 } from '../../../../../shared/types/availabilityTypes.js'
 import type { CalendarConfig, CalendarEntry, CalendarProvider } from '../../../../../shared/types/calendarTypes.js'
 
@@ -36,7 +33,7 @@ import type { CalendarConfig, CalendarEntry, CalendarProvider } from '../../../.
  * Type similarity UNIFY: availability and calendar types imported from shared (Phase 1.1/1.2).
  */
 
-export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation }
+export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation, DurationRoundingConfig }
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
 export interface AvailabilitySettingsData {
@@ -84,11 +81,7 @@ export interface AvailabilitySettingsData {
     };
   };
   timezone?: string; // IANA timezone (e.g., "America/New_York")
-  durationRounding?: {
-    enabled: boolean;
-    increment?: number; // Minutes (defaults to minuteIncrement if not specified)
-    method?: 'roundUp' | 'roundDown' | 'roundNearest';
-  };
+  durationRounding?: DurationRoundingConfig;
   differentialPerspectives?: {
     majorAttendees?: string[];  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
     minorAttendees?: string[];   // UserTypeBlock IDs that make an event "minor" (e.g., client)

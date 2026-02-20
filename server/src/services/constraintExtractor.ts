@@ -18,6 +18,7 @@ import type {
   RollingWeekDirection,
   BusinessHoursConfig,
   RFC3339DateTime,
+  DateRangeConfig,
 } from '../../../shared/types/availabilityTypes.js'
 import {
   RANGE_CONSTRAINT_TYPES,
@@ -72,7 +73,7 @@ function convertDateRangeConstraint(dbConstraint: DbRangeConstraint): RangeConst
     config: {
       start: config.start as RFC3339DateTime,
       end: config.end as RFC3339DateTime,
-    },
+    } as DateRangeConfig,
   }
 }
 

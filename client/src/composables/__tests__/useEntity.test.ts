@@ -1,6 +1,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { usePrimitiveMutation, useEntityCrud } from '../useEntity'
+import { usePrimitiveMutation } from '../entityCrud/usePrimitiveMutation'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import apiClient from '@/utils/api'
 import type { GlobalEntity } from '@/types/entities'
 

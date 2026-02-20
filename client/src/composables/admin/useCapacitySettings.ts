@@ -20,23 +20,26 @@ export interface UseCapacitySettingsParams {
   maxBusinessHours: ComputedRef<number>
 }
 
-function createMaxWorkHoursComputed<TValue>(
+function createMaxWorkHoursComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxWorkHours[F]>>(
   formData: Ref<AvailabilitySettings | null>,
-  filter: CapacityFilterKey,
-  property: string,
-  getDefault: () => TValue,
+  filter: F,
+  property: P,
+  getDefault: () => NonNullable<MaxWorkHours[F]>[P],
   ensureFunction: (current: MaxWorkHours | undefined) => MaxWorkHours
-) {
-  return createNestedComputed<TValue, MaxWorkHours>({
+): WritableComputedRef<NonNullable<MaxWorkHours[F]>[P]> {
+  return createNestedComputed<NonNullable<MaxWorkHours[F]>[P], MaxWorkHours>({
     getValue: () => {
       const filterValue = formData.value?.maxWorkHours?.[filter]
       if (!filterValue) return undefined
-      return (filterValue as Record<string, TValue>)[property]
+      if (property in filterValue) {
+        return (filterValue as NonNullable<MaxWorkHours[F]>)[property]
+      }
+      return undefined
     },
     getDefault,
     getCurrentParent: () => formData.value?.maxWorkHours ?? undefined,
     ensureParent: ensureFunction,
-    updateWithValue: (parent, value) => ({
+    updateWithValue: (parent, value: NonNullable<MaxWorkHours[F]>[P]) => ({
       ...parent,
       [filter]: {
         ...parent[filter]!,
@@ -45,6 +48,38 @@ function createMaxWorkHoursComputed<TValue>(
     } as MaxWorkHours),
     setParent: (parent) => {
       if (formData.value) formData.value.maxWorkHours = parent
+    }
+  })
+}
+
+function createMaxIncomeComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxIncome[F]>>(
+  formData: Ref<AvailabilitySettings | null>,
+  filter: F,
+  property: P,
+  getDefault: () => NonNullable<MaxIncome[F]>[P],
+  ensureFunction: (current: MaxIncome | undefined) => MaxIncome
+): WritableComputedRef<NonNullable<MaxIncome[F]>[P]> {
+  return createNestedComputed<NonNullable<MaxIncome[F]>[P], MaxIncome>({
+    getValue: () => {
+      const filterValue = formData.value?.maxIncome?.[filter]
+      if (!filterValue) return undefined
+      if (property in filterValue) {
+        return (filterValue as NonNullable<MaxIncome[F]>)[property]
+      }
+      return undefined
+    },
+    getDefault,
+    getCurrentParent: () => formData.value?.maxIncome ?? undefined,
+    ensureParent: ensureFunction,
+    updateWithValue: (parent, value: NonNullable<MaxIncome[F]>[P]) => ({
+      ...parent,
+      [filter]: {
+        ...parent[filter]!,
+        [property]: value
+      }
+    } as MaxIncome),
+    setParent: (parent) => {
+      if (formData.value) formData.value.maxIncome = parent
     }
   })
 }

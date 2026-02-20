@@ -8,7 +8,7 @@
  */
 
 import type { Ref } from 'vue'
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export interface FieldMetadataConfig {
   fieldMetadata?: Record<string, FieldMetadataEntry>

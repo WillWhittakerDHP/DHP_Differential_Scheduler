@@ -8,7 +8,8 @@ Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
 Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
  * Type similarity UNIFY: availability types imported from shared (single source of truth).
  */
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/types/entities'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 import type {
@@ -17,6 +18,7 @@ import type {
   DefaultLocation,
   DriveTimeApplyTo,
   DriveTimeConfig,
+  DurationRoundingConfig,
   RangeConstraintType,
   WorkCapacityFilter,
   RollingWeekCapacityFilter,
@@ -35,7 +37,7 @@ import type { CalendarConfig, CalendarEntry, CalendarProvider } from '@shared/ty
 const logger = createLogger('availabilitySettings')
 
 // Re-export shared types so existing imports from this file keep working
-export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
+export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, DurationRoundingConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
 export type { DayHours }
 
 /**
@@ -161,17 +163,10 @@ export interface AvailabilitySettings {
   timezone?: string
   
   /**
-   * Duration rounding configuration (optional)
-   * LEARNING: Controls how appointment durations are rounded
-   * WHY: Allows admin to enable/disable rounding and configure rounding method and increment
-   * PATTERN: Optional nested object with enabled flag, increment, and method
+   * Duration rounding configuration (optional); uses shared DurationRoundingConfig (TYPE_SIMILARITY 1.8).
    */
-  durationRounding?: {
-    enabled: boolean
-    increment?: number  // Minutes (defaults to minuteIncrement if not specified)
-    method?: 'roundUp' | 'roundDown' | 'roundNearest'
-  }
-  
+  durationRounding?: DurationRoundingConfig
+
   /**
    * Differential perspectives configuration (optional)
    * LEARNING: Configures which attendees make an event "major" vs "minor" for differential scheduling
@@ -240,11 +235,7 @@ export interface RawAvailabilitySettings {
     rollingWeek?: RollingWeekIncomeCapacityFilter
   }
   timezone?: string
-  durationRounding?: {
-    enabled: boolean
-    increment?: number
-    method?: 'roundUp' | 'roundDown' | 'roundNearest'
-  }
+  durationRounding?: DurationRoundingConfig
   differentialPerspectives?: {
     majorAttendees?: string[]
     minorAttendees?: string[]
@@ -476,30 +467,5 @@ export function getReadFromCalendars(config: CalendarConfig | undefined): string
  * }
  * getWriteToCalendar(config) // Returns 'c@d.com'
  */
-export function getWriteToCalendar(config: CalendarConfig | undefined): string | undefined {
-  if (!config || !config.enabled || !Array.isArray(config.calendars)) {
-    return undefined
-  }
-  
-  const writeToEntry = config.calendars.find(entry => entry.writeTo && entry.email && entry.email.trim() !== '')
-  return writeToEntry?.email.trim()
-}
-
-/**
- * Extract non-empty calendar emails as array
- * LEARNING: Converts CalendarConfig.calendars to string array (all calendars, regardless of permissions)
- * WHY: Some code may need all calendar emails without filtering by readFrom
- * PATTERN: Returns all non-empty emails from calendar entries
- * Session 2.0.1: Added for Google Calendar API integration
- * Session 2.X: Updated to use CalendarEntry[] array, delegates to getReadFromCalendars for consistency
- * 
- * @param config - CalendarConfig object (optional)
- * @returns Array of non-empty calendar email strings
- */
-export function getCalendarEmailsArray(config: CalendarConfig | undefined): string[] {
-  // Returns readFrom calendars (most common use case)
-  return getReadFromCalendars(config)
-}
-
 
 

@@ -9,7 +9,7 @@
 import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '../../../../../shared/constants/errorMessages.js'
-import type { RFC3339DateTime } from '../../../../../shared/types/availabilityTypes.js'
+import type { RFC3339DateTime, DayHours } from '../../../../../shared/types/availabilityTypes.js'
 
 export { AVAILABILITY_SETTINGS_KEY }
 
@@ -24,13 +24,13 @@ const DEFAULT_DAY_END = "2000-01-01T19:00:00Z" as RFC3339DateTime
 
 export const defaultAvailabilitySettings: AvailabilitySettingsData = {
   businessHours: {
-    0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Sunday
-    1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Monday
-    2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Tuesday
-    3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Wednesday
-    4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Thursday
-    5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Friday
-    6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Saturday
+    0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Sunday
+    1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Monday
+    2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Tuesday
+    3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Wednesday
+    4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Thursday
+    5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Friday
+    6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Saturday
   },
   minuteIncrement: 15, // 15-minute intervals
   rangeConstraints: {
@@ -40,13 +40,13 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
       enforcement: 'hard',
       config: {
         hours: {
-          0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Sunday
-          1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Monday
-          2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Tuesday
-          3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Wednesday
-          4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Thursday
-          5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Friday
-          6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END }, // Saturday
+          0: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Sunday
+          1: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Monday
+          2: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Tuesday
+          3: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Wednesday
+          4: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Thursday
+          5: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Friday
+          6: { start: DEFAULT_DAY_START, end: DEFAULT_DAY_END } as DayHours, // Saturday
         }
       }
     },

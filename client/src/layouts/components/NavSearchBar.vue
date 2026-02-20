@@ -6,19 +6,20 @@ import type { RouteLocationRaw } from 'vue-router'
 import { useConfigStore } from '@core/stores/config'
 import api from '@/utils/api'
 
-interface Suggestion {
+/** Base shape for a single suggestion item (P3 type-similarity); SearchResults.children use same shape. */
+interface SuggestionItemBase {
   icon: string
   title: string
   url: RouteLocationRaw
 }
 
+/** Single suggestion (e.g. noDataSuggestions item). */
+type Suggestion = SuggestionItemBase
+
+/** Grouped results: title + array of suggestion items. */
 interface SearchResults {
   title: string
-  children: Array<{
-    title: string
-    icon: string
-    url: RouteLocationRaw
-  }>
+  children: SuggestionItemBase[]
 }
 
 defineOptions({
@@ -127,9 +128,8 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
 
 <template>
   <div
-    class="d-flex align-center cursor-pointer"
+    class="d-flex align-center cursor-pointer nav-search-trigger"
     v-bind="$attrs"
-    style="user-select: none;"
     @click="isAppSearchBarVisible = !isAppSearchBarVisible"
   >
     <!-- 👉 Search Trigger button -->
@@ -166,8 +166,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
             sm="6"
           >
             <p
-              class="custom-letter-spacing text-disabled text-uppercase py-2 px-4 mb-0"
-              style="font-size: 0.75rem; line-height: 0.875rem;"
+              class="custom-letter-spacing text-disabled text-uppercase py-2 px-4 mb-0 suggestion-group-title"
             >
               {{ suggestion.title }}
             </p>
@@ -246,8 +245,17 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
   </LazyAppBarSearch>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "@styles/variables/vuetify.scss";
+
+.nav-search-trigger {
+  user-select: none;
+}
+
+.suggestion-group-title {
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+}
 
 .meta-key {
   border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));

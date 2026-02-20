@@ -2,12 +2,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {
   parseChangedOnlyFlag,
-  isCompiledJsFile,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   getAuditReportHeaderLines,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * API Contract Validation Audit Script
@@ -45,26 +44,9 @@ const OUT_DIR = IS_CLIENT_DIR
   : path.join(CWD, 'client', '.audit-reports')
 const OUT_JSON = path.join(OUT_DIR, 'api-contract-audit.json')
 const OUT_MD = path.join(OUT_DIR, 'api-contract-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'api-contract-audit-config.json')
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
 function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function listFilesRecursive(dirPath, extensions) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full, extensions))
-      } else if (e.isFile() && extensions.some(ext => full.endsWith(ext)) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 /**
  * Scan client service files for axios/fetch calls
@@ -72,7 +54,7 @@ function listFilesRecursive(dirPath, extensions) {
  */
 function scanClientServices(serviceDir) {
   const endpoints = []
-  const files = listFilesRecursive(serviceDir, ['.ts', '.js'])
+  const files = listAuditFiles('api-contract', [serviceDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')
@@ -114,7 +96,7 @@ function scanClientServices(serviceDir) {
  */
 function scanServerRoutes(routesDir) {
   const endpoints = []
-  const files = listFilesRecursive(routesDir, ['.ts', '.mjs', '.js'])
+  const files = listAuditFiles('api-contract', [routesDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')
@@ -160,7 +142,7 @@ function scanServerRoutes(routesDir) {
 function scanSharedTypes(sharedDir) {
   const types = []
   if (!fs.existsSync(sharedDir)) return types
-  const files = listFilesRecursive(sharedDir, ['.ts', '.js'])
+  const files = listAuditFiles('api-contract', [sharedDir])
 
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf-8')

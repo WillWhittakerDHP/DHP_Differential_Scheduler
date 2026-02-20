@@ -1,43 +1,19 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-19T18:59:46.607Z",
-  "totalScanned": 797,
+  "generatedAt": "2026-02-19T23:18:26.023Z",
+  "totalScanned": 801,
   "findings": [
     {
-      "file": "client/src/components/admin/generic/DynamicForm.vue",
-      "lineNumber": 128,
+      "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
+      "lineNumber": 66,
       "ruleId": "as-unknown-as",
-      "snippet": "const formRefForComposable = ref<FormContext | undefined>(formInstance as unk...",
-      "message": "Double assertion escape hatch"
-    },
-    {
-      "file": "client/src/components/admin/generic/EntityCard.vue",
-      "lineNumber": 299,
-      "ruleId": "as-unknown-as",
-      "snippet": "form: ref<FormContext | undefined>(form as unknown as FormContext | undefined...",
-      "message": "Double assertion escape hatch"
-    },
-    {
-      "file": "client/src/components/admin/generic/EntityFormContent.vue",
-      "lineNumber": 102,
-      "ruleId": "as-unknown-as",
-      "snippet": "const formRefForComposable = ref<FormContext | undefined>(props.form as unkno...",
+      "snippet": "const blockInstance = item as unknown as BookingBlockInstance",
       "message": "Double assertion escape hatch"
     }
   ],
   "files": [
     {
-      "file": "client/src/components/admin/generic/DynamicForm.vue",
-      "score": 4,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/components/admin/generic/EntityCard.vue",
-      "score": 4,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/components/admin/generic/EntityFormContent.vue",
+      "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
       "score": 4,
       "priority": "P2"
     }

@@ -3,6 +3,8 @@
  * WHY: Single source for API paths and user-facing messages; mirrors server message intent (client cannot import server).
  */
 
+import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'
+
 /** Base path for business rules API (relative to apiClient baseURL) */
 export const BUSINESS_RULES_API_BASE = '/internal/business-rules'
 
@@ -20,13 +22,8 @@ export const BUSINESS_RULES_MESSAGES = {
   DISABLED: 'Business rule disabled',
 } as const
 
-/** Rule type value constants (single source of truth for switch/case and form defaults) */
-export const RULE_TYPE_VALUES = {
-  REQUIRED_FIELDS: 'required_fields',
-  REQUIRES_AGENT: 'requires_agent',
-  CONDITIONAL_VALIDATION: 'conditional_validation',
-  VALIDATION_MESSAGE: 'validation_message',
-} as const
+/** Rule type value constants (re-exported from shared for switch/case and form defaults) */
+export const RULE_TYPE_VALUES = SHARED_RULE_TYPE_VALUES
 
 /** Rule type options for selects (title, value, description) */
 export const RULE_TYPE_OPTIONS = [

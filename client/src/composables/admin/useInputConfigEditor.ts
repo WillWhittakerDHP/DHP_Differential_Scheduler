@@ -7,7 +7,7 @@
  * - AdminPrimitiveMetadataEditor.vue
  */
 
-import type { FieldMetadataEntry } from '@/types/entityMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export interface InputConfigFormData {
   targetMode: string | null

@@ -9,15 +9,12 @@
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { WizardStepConfig } from '@/configs/wizardSteps'
 
-export interface StepDefinition {
-  icon: string
-  title: string
-  subtitle: string
-}
+export type { WizardStepConfig }
 
 export interface UseWizardDisplayParams {
-  steps: StepDefinition[]
+  steps: WizardStepConfig[]
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   loadedWizardState: Ref<WizardStateData | null> | null
 }

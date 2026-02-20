@@ -45,9 +45,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
 
   const categorizeFieldsByLayout = (fields: GlobalFieldKey<GlobalEntityKey>[]) => {
     return categorizeFieldsByLayoutPure(
-      fields,
-      inlineFieldsConfig.value || [],
-      stackedFieldsConfig.value || []
+      fields.map(String),
+      (inlineFieldsConfig.value || []).map(String),
+      (stackedFieldsConfig.value || []).map(String)
     )
   }
 

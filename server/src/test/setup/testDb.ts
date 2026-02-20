@@ -1,7 +1,8 @@
-
 import { Sequelize } from 'sequelize'
 import { initializeModels } from '../../db/models/index.js'
+import { createLogger } from '../../utils/logger.js'
 
+const logger = createLogger('TestDb')
 let testSequelize: Sequelize | null = null
 
 export async function setupTestDb(): Promise<Sequelize> {
@@ -54,21 +55,5 @@ export function getTestDb(): Sequelize {
   }
   
   return testSequelize
-}
-
-export async function withTransaction<T>(
-  callback: (transaction: any) => Promise<T>
-): Promise<T> {
-  const db = getTestDb()
-  const transaction = await db.transaction()
-  
-  try {
-    const result = await callback(transaction)
-    await transaction.commit()
-    return result
-  } catch (error) {
-    await transaction.rollback()
-    throw error
-  }
 }
 

@@ -56,7 +56,7 @@ export function csrfProtection(req: Request, res: Response, next: NextFunction):
  * @param res - Express response object
  * @param next - Express next function
  */
-export function requireAuth(req: Request, res: Response, next: NextFunction): void {
+function requireAuth(req: Request, res: Response, next: NextFunction): void {
   // TODO: Implement authentication verification when auth is added
   // For now, this is a no-op that allows all requests through
   // When implemented, this should:
@@ -103,21 +103,3 @@ export function checkOwnership(
   }
 }
 
-/**
- * Combined Security Middleware
- * 
- * LEARNING: Convenience middleware that applies all security checks
- * WHY: Simplifies router setup by combining CSRF + auth + ownership in one middleware
- * PATTERN: Composes multiple security middleware functions
- * 
- * @param modelName - Name of the model/resource (for ownership checks)
- * @param paramKey - Parameter key to extract ID from (defaults to 'id')
- * @returns Express middleware function
- */
-export function requireSecureAccess(modelName: string, paramKey: string = 'id') {
-  return [
-    csrfProtection,
-    requireAuth,
-    checkOwnership(modelName, paramKey)
-  ]
-}

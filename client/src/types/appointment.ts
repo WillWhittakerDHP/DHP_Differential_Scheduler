@@ -6,7 +6,7 @@
  * PATTERN: Match server-side model structure for consistency
  */
 
-import type { RFC3339DateTime } from './datetime'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { BlockFinal } from '@/utils/booking/bookingFinalTypes'
 import type { EventInstance, EventShape } from './events'
@@ -14,11 +14,8 @@ import type { EventInstance, EventShape } from './events'
 export type { AppointmentStatus } from './appointmentStatus'
 export { APPOINTMENT_STATUSES } from './appointmentStatus'
 
-export interface TimeRange {
-  startTime: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
-  endTime: RFC3339DateTime      // RFC3339 datetime string (ISO 8601 with timezone)
-  duration: number               // minutes
-}
+/** Extends shared SlotTimeBounds for single source of truth. */
+export type TimeRange = SlotTimeBounds
 
 export interface TimeSlot extends TimeRange {
   major: boolean
@@ -144,7 +141,6 @@ export interface AppointmentSlot {
 export type AppointmentSlots = AppointmentSlot[]
 
 export type {
-  AttendeeRequest,
   AttendeeResponse,
   UserResponse,
   PropertyResponse,

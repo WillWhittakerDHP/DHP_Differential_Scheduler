@@ -13,15 +13,15 @@
  */
 
 import { ref, type Ref } from 'vue'
-import { useForm, type FormContext } from 'vee-validate'
+import type { FormContext } from 'vee-validate'
 import { useEntityForm } from '../useEntityForm'
-import { useEntityCrud } from '../useEntity'
+import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
 import { useEntityDisplay } from './useEntityDisplay'
 import { getApiErrorMessage } from '../useApiErrorMessage'
 import { createLogger } from '@/utils/logger'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
 
 const logger = createLogger('useEntityCardActions')
@@ -31,7 +31,7 @@ export interface UseEntityCardActionsOptions {
   
   entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
   
-  form?: FormContext
+  form: Ref<FormContext | undefined>
   
   isNew?: boolean
   
@@ -77,20 +77,19 @@ export function useEntityCardActions(
   const {
     entityKey,
     entity: entityOption,
-    form: providedForm,
+    form: formRef,
     isNew = false,
     onDelete,
     onSaved,
     onCancelled
   } = options
+
+  const formInstance = formRef.value
+  if (!formInstance) {
+    throw new Error('useEntityCardActions requires form from useEntityCardForm')
+  }
   
   const entity = 'value' in entityOption ? entityOption : ref(entityOption)
-  
-  const form = providedForm || useForm({
-    initialValues: {
-      ...entity.value,
-    }
-  })
   
   const { create: createEntity, update: updateEntity, remove } = useEntityCrud(entityKey)
   
@@ -102,8 +101,8 @@ export function useEntityCardActions(
   
   const entityFormComposable = useEntityForm({
     entityKey,
-    entityId: entity.value.id,
-    form,
+    entityId: (entity.value as { id: string }).id,
+    form: formInstance,
     entity
   })
   
@@ -129,22 +128,23 @@ export function useEntityCardActions(
         return
       }
       
-      const formValues = form.values as Record<string, ValidAdminValue>
+      const formValues = formInstance.values as Record<string, ValidAdminValue>
       
       // PATTERN: Spread original entity first, then form values override (form values take precedence)
+      const entityVal = entity.value as Record<string, ValidAdminValue>
       const entityToSave = {
-        ...entity.value,
+        ...entityVal,
         ...formValues,
       } as Record<string, ValidAdminValue>
       
       if (isNew) {
         const createdEntity = await createEntity(entityToSave)
         success(getEntityCreateMessage(entityKey))
-        onSaved?.(createdEntity)
+        onSaved?.(createdEntity as GlobalEntity<typeof entityKey>)
       } else {
-      await updateEntity(entityToSave, entity.value.id)
+      await updateEntity(entityToSave, toGlobalEntityId((entityVal as { id: string }).id))
       success(getEntitySuccessMessage(entityKey))
-        onSaved?.(entity.value)
+        onSaved?.(entity.value as GlobalEntity<typeof entityKey>)
       }
     } catch (err) {
       logger.error('Entity save failed', { err, entityKey })
@@ -178,10 +178,12 @@ export function useEntityCardActions(
    */
   const handleDelete = async (): Promise<void> => {
     try {
-      await remove(entity.value.id)
+      const entityVal = entity.value as { id: string }
+      const entityId = toGlobalEntityId(entityVal.id)
+      await remove(entityId)
       showDeleteDialog.value = false
       success(`${getEntityDeleteTitle(entityKey)} deleted successfully`)
-      onDelete?.(entity.value.id)
+      onDelete?.(entityId)
     } catch (err) {
       logger.error('Entity delete failed', { err, entityKey })
       const errorMessage = err instanceof Error ? err.message : `Failed to delete ${entityKey}`

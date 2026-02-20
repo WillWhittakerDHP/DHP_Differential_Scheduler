@@ -6,12 +6,13 @@
   NOTE: All other fields rendered using unified layout mechanism - no type-specific logic
 -->
 <script setup lang="ts">
-import { ref, computed, watch, type Ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntity, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import DynamicForm from './DynamicForm.vue'
-import { FieldRenderer } from './fields'
+import FieldRenderer from './fields/FieldRenderer.vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFormFields } from '@/composables/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
@@ -105,8 +106,9 @@ const stackedFieldsConfig = computed(() => {
  * LEARNING: Use form fields composable for unified layout-based rendering
  * WHY: Provides readyInlineFields, readyStackedFields for ALL entity types
  * PATTERN: Use same composable for all entities - no special cases
+ * VeeValidate useForm return is compatible with FormContext at runtime.
  */
-const formRefForComposable = ref<FormContext | undefined>(props.form as unknown as FormContext | undefined) as Ref<FormContext | undefined>
+const formRefForComposable = computed<FormContext | undefined>(() => props.form)
 
 const formFields = useFormFields({
   entityKey: props.entityKey,
@@ -179,7 +181,7 @@ defineExpose({
             DynamicForm is hidden, so its rendered fields aren't visible
             We render fields manually using unified layout below
     -->
-    <div class="dynamic-form-fields-wrapper" style="display: none;">
+    <div class="dynamic-form-fields-wrapper d-none">
       <DynamicForm
         ref="_dynamicFormRef"
         :entity-key="entityKey"

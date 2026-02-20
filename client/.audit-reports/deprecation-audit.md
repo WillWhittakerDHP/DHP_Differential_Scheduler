@@ -16,11 +16,11 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ## Summary
 
-- Files with findings: **56**
-- Requiring review: **140**
+- Files with findings: **58**
+- Requiring review: **143**
 - Allowed (with justification): 47
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **140**
+- Runtime legacy accommodation: **143**
 
 ## Rules
 
@@ -107,21 +107,21 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P1 | 4 | 0 | 2 |
 
-*...and 26 more files. See JSON report for details.*
+*...and 28 more files. See JSON report for details.*
 
 ## Per-file findings
 
 ### `client/src/utils/booking/confirmationStepData.ts` [P0] (score: 15)
 
 ```
-[LEGACY] unhelpful-default-nullish@73: const rawParts = blockInstance.partInstances ?? []
-[LEGACY] unhelpful-default-nullish@176: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@177: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@178: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@179: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
-[LEGACY] unhelpful-default-nullish@195: ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
-[LEGACY] unhelpful-default-nullish@247: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
-[LEGACY] chaining-fallback@262: const amount = entry?.totalFee ?? 0
+[LEGACY] unhelpful-default-nullish@65: const rawParts = blockInstance.partInstances ?? []
+[LEGACY] unhelpful-default-nullish@168: ...(wizard.selectedServices ?? []).flatMap((s) => s.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@169: ...(wizard.selectedPropertyTypeBlocks ?? []).flatMap((p) => p.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@170: ...(wizard.selectedOptionTypeBlocks ?? []).flatMap((o) => o.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@171: ...(wizard.selectedLineItemBlocks ?? []).flatMap((l) => l.partInstances ?? []),
+[LEGACY] unhelpful-default-nullish@187: ...(wizard.selectedLineItemBlocks ?? []).map((block) => ({
+[LEGACY] unhelpful-default-nullish@239: const lineItemBlocks = wizard.selectedLineItemBlocks ?? []
+[LEGACY] chaining-fallback@254: const amount = entry?.totalFee ?? 0
 ```
 
 ### `client/src/types/admin/adminEntity.ts` [P0] (score: 10)
@@ -140,7 +140,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@110: const blockShapeRef = entity.blockShapeRef ?? ''
 [LEGACY] unhelpful-default-nullish@112: const blockShape = blockShapeEntity?.name?.trim() ?? ''
 [LEGACY] unhelpful-default-nullish@114: const icon = entity.icon?.trim() ?? ''
-[LEGACY] unhelpful-default-nullish@127: blockShape: blockShape || blockShapeEntity?.name ?? '',
+[LEGACY] unhelpful-default-nullish@127: blockShape: (blockShape || blockShapeEntity?.name) ?? '',
 ```
 
 ### `client/src/composables/dataCollections/useDataCollectionActions.ts` [P1] (score: 8)
@@ -155,10 +155,10 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/formFields/useFormFieldsStandardLayout.ts` [P1] (score: 8)
 
 ```
-[LEGACY] unhelpful-default-or@31: const fields = options.fieldKeys.value || []
-[LEGACY] unhelpful-default-or@32: const config = options.inlineFieldsConfig.value || []
-[LEGACY] unhelpful-default-or@37: const fields = options.fieldKeys.value || []
-[LEGACY] unhelpful-default-or@38: const config = options.stackedFieldsConfig.value || []
+[LEGACY] unhelpful-default-or@27: const fields = (options.fieldKeys.value || []).map(String)
+[LEGACY] unhelpful-default-or@28: const config = (options.inlineFieldsConfig.value || []).map(String)
+[LEGACY] unhelpful-default-or@33: const fields = (options.fieldKeys.value || []).map(String)
+[LEGACY] unhelpful-default-or@34: const config = (options.stackedFieldsConfig.value || []).map(String)
 ```
 
 ### `client/src/utils/eventAttendeeUtils.ts` [P1] (score: 8)
@@ -181,9 +181,9 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useDefaultLocation.ts` [P1] (score: 6)
 
 ```
-[LEGACY] unhelpful-default-nullish@23: get: () => formData.value?.defaultLocation?.address ?? '',
-[LEGACY] unhelpful-default-nullish@35: get: () => formData.value?.defaultLocation?.label ?? '',
-[LEGACY] unhelpful-default-nullish@59: get: () => formData.value?.defaultLocation?.placeId ?? '',
+[LEGACY] unhelpful-default-nullish@22: get: () => formData.value?.defaultLocation?.address ?? '',
+[LEGACY] unhelpful-default-nullish@34: get: () => formData.value?.defaultLocation?.label ?? '',
+[LEGACY] unhelpful-default-nullish@58: get: () => formData.value?.defaultLocation?.placeId ?? '',
 ```
 
 ### `client/src/composables/admin/useSelectConfig.ts` [P1] (score: 6)
@@ -255,9 +255,9 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useBufferSettings.ts` [P1] (score: 5)
 
 ```
-[LEGACY] unhelpful-default-nullish@97: const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
-[LEGACY] unhelpful-default-nullish@197: current ?? {}
-[LEGACY] chaining-fallback@242: return formData.value?.overlapSources?.outOfOffice?.enforcement ?? 'hard'
+[LEGACY] unhelpful-default-nullish@96: const ensureBuffers = (current: Buffers | undefined): Buffers => current ?? {}
+[LEGACY] unhelpful-default-nullish@196: current ?? {}
+[LEGACY] chaining-fallback@241: return formData.value?.overlapSources?.outOfOffice?.enforcement ?? 'hard'
 ```
 
 ### `client/src/composables/admin/useMetadataFieldOrdering.ts` [P1] (score: 5)
@@ -290,10 +290,10 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/views/admin/tabs/BusinessControlsTab.vue` [P1] (score: 5)
 
 ```
-[LEGACY] chaining-fallback@152: get: () => formData.value?.durationRounding?.increment ?? 15,
-[LEGACY] chaining-fallback@158: get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
-[LEGACY] unhelpful-default-nullish@165: get: () => formData.value?.timezone ?? '',
-[LEGACY] chaining-fallback@172: get: () => formData.value?.minuteIncrement ?? 15,
+[LEGACY] chaining-fallback@157: get: () => formData.value?.durationRounding?.increment ?? 15,
+[LEGACY] chaining-fallback@163: get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
+[LEGACY] unhelpful-default-nullish@170: get: () => formData.value?.timezone ?? '',
+[LEGACY] chaining-fallback@177: get: () => formData.value?.minuteIncrement ?? 15,
 ```
 
 ### `client/src/components/AppNotification.vue` [P1] (score: 4)
@@ -307,8 +307,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@119: const majorAttendees = settings.value?.differentialPerspectives?.majorAttendees || []
-[LEGACY] unhelpful-default-or@132: const minorAttendees = settings.value?.differentialPerspectives?.minorAttendees || []
+[LEGACY] unhelpful-default-or@120: const majorAttendees = settings.value?.differentialPerspectives?.majorAttendees || []
+[LEGACY] unhelpful-default-or@133: const minorAttendees = settings.value?.differentialPerspectives?.minorAttendees || []
 ```
 
 ### `client/src/composables/admin/useBlockInstanceForm.ts` [P1] (score: 4)
@@ -321,8 +321,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useBusinessRules.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-nullish@127: rules.value = response.data ?? []
-[LEGACY] unhelpful-default-nullish@149: return response.data ?? []
+[LEGACY] unhelpful-default-nullish@121: rules.value = response.data ?? []
+[LEGACY] unhelpful-default-nullish@143: return response.data ?? []
 ```
 
 ### `client/src/composables/admin/useEntityCardLayout.ts` [P1] (score: 4)
@@ -349,8 +349,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/booking/useAppointmentDropdown.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@29: const appointments = fetchAll.data.value || []
-[LEGACY] unhelpful-default-or@38: ? `${address.address || ''}${address.unit ? ` ${address.unit}` : ''}, ${address.city || ''}, ${address.state || ''}`.tri...
+[LEGACY] unhelpful-default-or@26: const appointments = fetchAll.data.value || []
+[LEGACY] unhelpful-default-or@35: ? `${address.address || ''}${address.unit ? ` ${address.unit}` : ''}, ${address.city || ''}, ${address.state || ''}`.tri...
 ```
 
 ### `client/src/composables/booking/useAppointmentSlots.ts` [P1] (score: 4)
@@ -378,8 +378,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/formFields/useFormFields.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-or@49: inlineFieldsConfig.value || [],
-[LEGACY] unhelpful-default-or@50: stackedFieldsConfig.value || []
+[LEGACY] unhelpful-default-or@49: (inlineFieldsConfig.value || []).map(String),
+[LEGACY] unhelpful-default-or@50: (stackedFieldsConfig.value || []).map(String)
 ```
 
 ### `client/src/composables/useAdmin.ts` [P1] (score: 4)
@@ -446,6 +446,13 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@97: const tags = json.tags?.map((t: { tag: string }) => t.tag) ?? [];
 ```
 
+### `server/src/services/appointmentSnapshotLoader.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-nullish@33: icon: (versionData.icon as string | null) ?? '',
+[LEGACY] unhelpful-default-nullish@41: name: (partData.name as string | null) ?? '',
+```
+
 ### `client/src/components/admin/PartInstanceBulkEditModal.vue` [P2] (score: 2)
 
 ```
@@ -468,7 +475,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/booking/useAppointmentDataCollection.ts` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@224: selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
+[LEGACY] unhelpful-default-nullish@225: selectedLineItemBlocks: wizard.selectedLineItemBlocks?.value ?? [],
 ```
 
 ### `client/src/utils/booking/pricingCascadeResolver.ts` [P2] (score: 2)
@@ -487,12 +494,6 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@195: id: toGlobalEntityId(idResolved ?? ''),
-```
-
-### `server/src/routes/helpers/requestHelpers.ts` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@17: return Array.isArray(raw) ? raw[0] ?? '' : (raw ?? '')
 ```
 
 ## Notes

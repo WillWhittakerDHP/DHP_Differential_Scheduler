@@ -7,14 +7,11 @@
  */
 
 import type { TimeSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@/types/datetime'
-import { validateSlotGenerationParams } from './slotGenerationValidation'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
+import { validateSlotGenerationParams, type SlotGenerationParamsBase } from './slotGenerationValidation'
 
-export interface MinimalSlotParams {
-  startBoundary: RFC3339DateTime
-  endBoundary: RFC3339DateTime
-  duration: number
-  minuteIncrement: number
+/** Extends shared base (P2 type-similarity). */
+export interface MinimalSlotParams extends SlotGenerationParamsBase {
   includeFlags: { major: boolean; minor: boolean; moveable: boolean }
 }
 

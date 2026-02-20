@@ -106,7 +106,7 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
     
     return totalHours;
   } catch (error) {
-    // PATTERN: Log error with context, return safe default
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum work hours for date ${date.toISOString()}:`, errorMessage);
     
@@ -130,7 +130,7 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
  * @param endDate - End date of range (inclusive)
  * @returns Total work hours in the date range
  */
-export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {
+async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
     const { Appointment } = await import('../../db/models/booking/appointment.js');
     const { Op } = await import('sequelize');
@@ -152,7 +152,7 @@ export async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): 
     
     return totalHours;
   } catch (error) {
-    // PATTERN: Log error with context, return safe default
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum work hours for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`, errorMessage);
     
@@ -307,11 +307,12 @@ export async function sumIncomeForDay(date: Date): Promise<number> {
       include: [{ model: AppointmentFeeSummary, as: 'feeSummary', required: false, attributes: ['totalFee'] }],
     });
     const total = appointments.reduce(
-      (sum, a) => sum + (Number((a as { feeSummary?: { totalFee: number } }).feeSummary?.totalFee) ?? 0),
+      (sum, a) => sum + (Number((a as { feeSummary?: { totalFee: number } }).feeSummary?.totalFee) || 0),
       0
     );
     return total;
   } catch (error) {
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum income for date ${date.toISOString()}:`, errorMessage);
     return 0;
@@ -322,7 +323,7 @@ export async function sumIncomeForDay(date: Date): Promise<number> {
  * Sum income for a date range (inclusive).
  * LEARNING: Same pattern as sumWorkHoursForDateRange; used for calendar/rolling week income
  */
-export async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {
+async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
     const { Op } = await import('sequelize');
     const startDateOnly = startDate.toISOString().split('T')[0];
@@ -335,11 +336,12 @@ export async function sumIncomeForDateRange(startDate: Date, endDate: Date): Pro
       include: [{ model: AppointmentFeeSummary, as: 'feeSummary', required: false, attributes: ['totalFee'] }],
     });
     const total = appointments.reduce(
-      (sum, a) => sum + (Number((a as { feeSummary?: { totalFee: number } }).feeSummary?.totalFee) ?? 0),
+      (sum, a) => sum + (Number((a as { feeSummary?: { totalFee: number } }).feeSummary?.totalFee) || 0),
       0
     );
     return total;
   } catch (error) {
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum income for date range ${startDate.toISOString()} to ${endDate.toISOString()}:`, errorMessage);
     return 0;
@@ -354,6 +356,7 @@ export async function sumIncomeForCalendarWeek(date: Date): Promise<number> {
     const { start, end } = getCalendarWeekRange(date);
     return await sumIncomeForDateRange(start, end);
   } catch (error) {
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum income for calendar week containing ${date.toISOString()}:`, errorMessage);
     return 0;
@@ -368,6 +371,7 @@ export async function sumIncomeForRollingWeek(date: Date, direction: RollingWeek
     const { start, end } = getRollingWeekRange(date, direction);
     return await sumIncomeForDateRange(start, end);
   } catch (error) {
+    logger.error(error)
     const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to sum income for rolling week (${direction}) containing ${date.toISOString()}:`, errorMessage);
     return 0;

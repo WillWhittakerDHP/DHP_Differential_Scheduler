@@ -3,14 +3,12 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
   categorizeMatches,
   summarizeExceptions,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Error Handling Audit Script (merged from fallback-audit + error-logging-audit)
@@ -262,35 +260,6 @@ function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
 }
 
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  if (repoPath.includes('logger') && (repoPath.endsWith('.ts') || repoPath.endsWith('.js'))) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const entry of entries) {
-      const fullPath = path.join(dirPath, entry.name)
-      if (entry.isDirectory()) {
-        if (shouldPruneDirectory(entry.name)) continue
-        files.push(...listFilesRecursive(fullPath))
-      } else if (entry.isFile() && isScannable(fullPath) && !isCompiledJsFile(fullPath)) {
-        files.push(fullPath)
-      }
-    }
-  } catch { /* directory inaccessible */ }
-  return files
-}
-
 function extractVueScriptBlocks(vueContent) {
   const blocks = []
   const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gi
@@ -525,15 +494,12 @@ function main() {
     priorityConfig = JSON.parse(configRaw)
   } catch { /* defaults */ }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const absFiles = [...clientFiles, ...serverFiles]
+  const absFiles = listAuditFiles(AUDIT_TYPE, [CLIENT_SRC, SERVER_SRC])
   const scanned = []
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
 
     const { matches, content } = scanFile(abs, configAllowlist)
     if (matches.length === 0) continue

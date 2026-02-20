@@ -7,6 +7,6 @@
 ## Allowlist config location
 
 - **Single source of truth:** `client/.audit-reports/audit-global-config.json` → `allowlists.<auditId>`
-- Error-handling, deprecation, and other audits use `loadCentralAllowlist(auditType)` from `audit-exceptions.mjs`.
+- Error-handling, deprecation, and other audits use `loadCentralAllowlist(auditType)` from `shared-audit-utils.mjs`.
 
 Reports are generated in this directory (`error-handling-audit.md`, `deprecation-audit.md`, and summaries).

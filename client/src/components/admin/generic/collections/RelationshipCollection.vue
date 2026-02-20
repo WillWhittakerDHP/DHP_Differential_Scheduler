@@ -118,7 +118,7 @@ import { computed, defineAsyncComponent } from 'vue'
 const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'

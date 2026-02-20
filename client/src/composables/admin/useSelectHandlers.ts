@@ -16,7 +16,7 @@
 import { ref, nextTick, computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '../useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'

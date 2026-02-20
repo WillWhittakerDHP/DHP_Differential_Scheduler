@@ -235,7 +235,7 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
       </VExpansionPanel>
     </VExpansionPanels>
 
-    <div class="text-caption mt-2 pa-2" style="background-color: rgba(0,0,0,0.05); border-radius: 4px; font-size: 0.75rem;">
+    <div class="text-caption mt-2 pa-2 hint-box">
       {{ UI_STRINGS.help.enforcement }}
     </div>
 
@@ -246,3 +246,11 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
     </div>
   </div>
 </template>
+
+<style scoped>
+.hint-box {
+  background-color: rgba(var(--v-theme-on-surface), 0.05);
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+</style>

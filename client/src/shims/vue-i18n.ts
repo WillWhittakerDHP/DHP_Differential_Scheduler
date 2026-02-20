@@ -14,7 +14,7 @@ import { ref, type Ref } from 'vue'
  * - If/when we add `vue-i18n`, remove the tsconfig/vite alias and this shim.
  */
 
-export type UseI18nOptions = {
+type UseI18nOptions = {
   useScope?: 'global' | 'local'
 }
 

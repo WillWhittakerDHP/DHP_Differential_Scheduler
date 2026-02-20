@@ -11,23 +11,21 @@ Generated from `.audit-reports/type-escape-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 797 |
-| Total findings | 3 |
-| Files with findings | 3 |
+| Files scanned | 801 |
+| Total findings | 1 |
+| Files with findings | 1 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| as-unknown-as | 3 |
+| as-unknown-as | 1 |
 
-## Top 3 files (by score)
+## Top 1 files (by score)
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `client/src/components/admin/generic/DynamicForm.vue` | P2 | 4 |
-| `client/src/components/admin/generic/EntityCard.vue` | P2 | 4 |
-| `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 4 |
+| `client/src/components/booking/plugins/wizardStatePlugin.ts` | P2 | 4 |
 
 ## Notes
 

@@ -11,27 +11,16 @@ Generated from `.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 797 |
+| Files scanned | 801 |
 | value-import-from-type-only-file | 0 |
-| type-used-as-value | 21 |
-| Files with findings | 12 |
+| type-used-as-value | 1 |
+| Files with findings | 1 |
 
-## Top 12 files (by score)
+## Top 1 files (by score)
 
 | File | Score |
 | --- | ---: |
-| `client/src/types/appointmentApi.ts` | 8 |
-| `client/src/types/user.ts` | 8 |
-| `client/src/composables/useLocalTime.ts` | 6 |
-| `client/src/types/property.ts` | 4 |
-| `client/src/composables/admin/usePartsCollectionField.ts` | 2 |
-| `client/src/composables/booking/usePerspectiveMapping.ts` | 2 |
-| `client/src/composables/fieldContext/useFieldContextState.ts` | 2 |
-| `client/src/utils/booking/partFinalizer.ts` | 2 |
-| `client/src/utils/booking/slotShapeLookups.ts` | 2 |
-| `client/src/utils/datetime.ts` | 2 |
-| `client/src/utils/transformers/annotationTransformers.ts` | 2 |
-| `client/src/utils/transformers/transformerPrimitives.ts` | 2 |
+| `client/src/configs/usStates.ts` | 2 |
 
 ## Notes
 

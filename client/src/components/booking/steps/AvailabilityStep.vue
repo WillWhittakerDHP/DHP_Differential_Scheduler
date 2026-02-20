@@ -75,7 +75,7 @@ function onOptionIdUpdate(id: string | null): void {
 <template>
   <div class="availability-step">
     <VRow class="calendar-grid-row">
-      <VCol cols="12" class="position-relative" style="overflow: visible;">
+      <VCol cols="12" class="position-relative overflow-visible">
         <div class="d-flex align-center justify-space-between flex-wrap mb-2">
           <div>
             <h4 class="text-h4 mb-2">Appointment Availability</h4>
@@ -168,6 +168,10 @@ function onOptionIdUpdate(id: string | null): void {
 <style scoped lang="scss">
 .availability-step {
   padding: 0;
+}
+
+.overflow-visible {
+  overflow: visible;
 }
 
 .first-available-notice {

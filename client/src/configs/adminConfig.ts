@@ -113,7 +113,7 @@ function buildInstanceConfig() {
  * WHY: All field configuration now comes from /admin-input-metadata, not hardcoded configs
  * PATTERN: Return empty object - any code accessing this should use metadata instead
  */
-export function buildFormFieldConfig(): FormFieldConfigMap {
+function buildFormFieldConfig(): FormFieldConfigMap {
   return {
     blockInstance: {},
     blockShape: {},
@@ -162,7 +162,7 @@ export interface AdminConfig {
   instanceConfig: InstanceConfig
 }
 
-export function buildAdminConfig(): AdminConfig {
+function buildAdminConfig(): AdminConfig {
   const formFieldConfig = buildFormFieldConfig()
   const displayFieldConfig = buildDisplayFieldConfig()
   const instanceConfig = buildInstanceConfig()

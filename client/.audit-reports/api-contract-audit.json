@@ -1,10 +1,14 @@
 {
-  "generatedAt": "2026-02-19T18:59:46.301Z",
+  "generatedAt": "2026-02-19T23:18:25.711Z",
   "clientEndpoints": 0,
   "serverEndpoints": 66,
   "sharedTypes": [
     {
       "name": "AppointmentFeeSummary",
+      "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "FeeEntryBase",
       "file": "shared/types/appointmentFeeTypes.ts"
     },
     {
@@ -22,6 +26,10 @@
     {
       "name": "AppointmentFeeBreakdownPayload",
       "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AttendeeRequest",
+      "file": "shared/types/appointmentTypes.ts"
     },
     {
       "name": "RFC3339DateTime",
@@ -45,6 +53,10 @@
     },
     {
       "name": "DriveTimeApplyTo",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "TimeRangeBounds",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
@@ -96,6 +108,10 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "RollingWeekFilterBase",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "RollingWeekIncomeCapacityFilter",
       "file": "shared/types/availabilityTypes.ts"
     },
@@ -144,12 +160,20 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "SlotTimeBounds",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "ComputedSlot",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
       "name": "ComputedSlotAvailabilityData",
       "file": "shared/types/availabilityTypes.ts"
+    },
+    {
+      "name": "BlockInstanceLike",
+      "file": "shared/types/blockInstanceTypes.ts"
     },
     {
       "name": "RequiredFieldsRuleConfig",
@@ -190,6 +214,14 @@
     {
       "name": "ComponentConfig",
       "file": "shared/types/componentTypes.ts"
+    },
+    {
+      "name": "ContactInfoBase",
+      "file": "shared/types/contactTypes.ts"
+    },
+    {
+      "name": "IdentifiableById",
+      "file": "shared/types/identifiable.ts"
     },
     {
       "name": "LogLevel",
@@ -236,8 +268,28 @@
       "file": "shared/types/mapsTypes.ts"
     },
     {
+      "name": "MetadataEntryBase",
+      "file": "shared/types/metadataEntryTypes.ts"
+    },
+    {
+      "name": "ISO8601Date",
+      "file": "shared/types/primitiveBrands.ts"
+    },
+    {
+      "name": "GlobalEntityId",
+      "file": "shared/types/primitiveBrands.ts"
+    },
+    {
       "name": "PropertyEnrichmentResponse",
       "file": "shared/types/propertyEnrichmentTypes.ts"
+    },
+    {
+      "name": "PropertyAddressBase",
+      "file": "shared/types/propertyTypes.ts"
+    },
+    {
+      "name": "PropertyDetailsBase",
+      "file": "shared/types/propertyTypes.ts"
     }
   ],
   "score": 0,

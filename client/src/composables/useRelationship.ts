@@ -13,11 +13,12 @@ import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoin
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FetchedRelationship, CreateRelationshipPayload, GlobalRelationship } from '@/types/relationships'
-import { toGlobalEntityId, type GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { useGlobal } from './useGlobal'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from '@/composables/entityCrud'
+import { cancelQueriesBeforeMutate, createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useRelationship')

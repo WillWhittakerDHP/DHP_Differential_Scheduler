@@ -1,15 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  isCompiledJsFile,
-  isGloballyExcluded,
   loadCentralAllowlist,
+  listAuditFiles,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
   AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
   getAuditReportHeaderLines,
-  shouldPruneDirectory,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Type-Escape Audit Script
@@ -20,7 +18,7 @@ import {
  * Rules: as-any, as-unknown, as-unknown-as, ts-ignore, ts-expect-error,
  *         as-keyof-typeof, as-typeof-index, as-keyof-named
  *
- * Scope: client/src and server/src (.ts, .tsx, .vue, .mjs). For .vue, scan <script> only.
+ * Scope: client/src and server/src (.ts, .tsx, .vue). For .vue, scan <script> only.
  * Excluded: global exclusions (audit-global-config.json) + central allowlist (audit-global-config.json allowlists.type-escape).
  *
  * Output: .audit-reports/type-escape-audit.json, .audit-reports/type-escape-audit.md
@@ -55,32 +53,6 @@ const RULE_WEIGHTS = {
 
 function ensureDir(d) { fs.mkdirSync(d, { recursive: true }) }
 function toRepoPath(p) { return path.relative(PROJECT_ROOT, p).replaceAll(path.sep, '/') }
-
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(p) {
-  return p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.tsx') || p.endsWith('.vue') || p.endsWith('.mjs')
-}
-
-function listFilesRecursive(dirPath) {
-  const files = []
-  if (!fs.existsSync(dirPath)) return files
-  try {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
-    for (const e of entries) {
-      const full = path.join(dirPath, e.name)
-      if (e.isDirectory()) {
-        if (shouldPruneDirectory(e.name)) continue
-        files.push(...listFilesRecursive(full))
-      } else if (e.isFile() && isScannable(full) && !isCompiledJsFile(full)) files.push(full)
-    }
-  } catch { /* inaccessible */ }
-  return files
-}
 
 const RULES = [
   { ruleId: 'as-any', pattern: /\bas\s+any\b/g, message: 'Type assertion to any' },
@@ -246,9 +218,7 @@ function main() {
   let config = {}
   try { config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8')) } catch { /* defaults */ }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const allFiles = [...clientFiles, ...serverFiles]
+  const allFiles = listAuditFiles('type-escape', [CLIENT_SRC, SERVER_SRC])
 
   const allFindings = []
   const fileScores = new Map()
@@ -256,7 +226,6 @@ function main() {
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs)
-    if (isExcluded(repoPath, configAllowlist)) continue
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
     scannedCount++

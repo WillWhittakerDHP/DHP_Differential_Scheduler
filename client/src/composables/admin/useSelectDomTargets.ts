@@ -9,7 +9,7 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
 
 export type { SelectDomTarget }

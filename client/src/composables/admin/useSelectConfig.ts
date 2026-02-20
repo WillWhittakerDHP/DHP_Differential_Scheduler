@@ -20,7 +20,7 @@ import { useAdmin } from '@/composables/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { createLogger } from '@/utils/logger'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import type { FieldContextType } from '@/composables/useFieldContext'
+import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
 

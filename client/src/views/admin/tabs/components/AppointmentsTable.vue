@@ -477,7 +477,7 @@ function setFormAgentId(v: string | null): void {
   font-weight: bold;
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.3);
 }
 
 .tooltip-content div {
@@ -503,7 +503,7 @@ function setFormAgentId(v: string | null): void {
   opacity: 0.85;
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.3);
 }
 
 .tooltip-details {

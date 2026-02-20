@@ -18,7 +18,7 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
  * @param data - Data object to sanitize
  * @returns Sanitized data object
  */
-export function sanitizeBookingModeFields(data: Record<string, any>): Record<string, any> {
+export function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
   
   if (sanitized[FIELD_NAMES.BOOKING_MODE] === '') {
@@ -43,9 +43,9 @@ export function sanitizeBookingModeFields(data: Record<string, any>): Record<str
  * @returns Sanitized data object
  */
 export function sanitizeEntityDataForCreate(
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   entityType: string
-): Record<string, any> {
+): Record<string, unknown> {
   const sanitized = { ...data }
   
   // Sanitize booking mode for block instances
@@ -67,9 +67,9 @@ export function sanitizeEntityDataForCreate(
  * @returns Sanitized data object
  */
 export function sanitizeEntityDataForUpdate(
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   entityType: string
-): Record<string, any> {
+): Record<string, unknown> {
   const sanitized = { ...data }
   
   // Sanitize booking mode for block instances

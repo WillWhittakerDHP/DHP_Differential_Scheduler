@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { getAuditReportHeaderLines, loadCentralAllowlist, checkConfigAllowlist, parseChangedOnlyFlag, isGloballyExcluded, shouldPruneDirectory } from './audit-exceptions.mjs'
+import { getAuditReportHeaderLines, loadCentralAllowlist, listAuditFiles, checkConfigAllowlist, parseChangedOnlyFlag } from './shared-audit-utils.mjs'
 
 /**
  * Component Logic Audit Script (Vue SFC)
@@ -74,32 +74,6 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true })
 }
 
-function isVueFile(p) {
-  return p.endsWith('.vue')
-}
-
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-function listVueFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    if (e.isDirectory()) {
-      if (shouldPruneDirectory(e.name)) continue
-      out.push(...listVueFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isVueFile(abs)) out.push(abs)
-  }
-  return out
-}
-
 /**
  * @param {string} absPath
  * @returns {string}
@@ -114,16 +88,6 @@ function toRepoPath(absPath) {
  */
 function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
-}
-
-/**
- * Check if a file should be excluded from component logic scanning
- * Uses config-based allowlist for file-level exclusions
- */
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
 }
 
 /**
@@ -300,13 +264,12 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
-  const vueFilesAbs = INCLUDE_DIRS.flatMap(d => listVueFilesRecursive(d))
+  const vueFilesAbs = listAuditFiles('component-logic', INCLUDE_DIRS)
   const scanned = []
 
   for (const abs of vueFilesAbs) {
     const repoPath = toRepoPath(abs)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
 
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)

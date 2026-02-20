@@ -2,12 +2,12 @@
 
 Generated from `.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **56**
-- Requiring review: **140**
+- Files with findings: **58**
+- Requiring review: **143**
 - Allowed exceptions: 47
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **140**
+- Runtime legacy accommodation: **143**
 
 ## Top 30 files (ranked by score)
 
@@ -44,7 +44,7 @@ Generated from `.audit-reports/deprecation-audit.json`.
 | `client/src/composables/booking/useAppointmentDropdown.ts` | P1 | 4 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | P1 | 4 | 0 | 2 |
 
-*...and 26 more files. See full report for details.*
+*...and 28 more files. See full report for details.*
 
 ## Notes
 

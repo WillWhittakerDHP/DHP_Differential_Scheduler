@@ -8,6 +8,8 @@
 
 import { createLogger } from '../../utils/logger.js'
 import { ATTENDEE_ROLE_CLIENT } from '../../constants/userRoles.js'
+import type { ContactInfoBase } from '@shared/types/contactTypes'
+import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
 const logger = createLogger('calendarParsingHelpers')
 
@@ -62,26 +64,19 @@ export interface CalendarEvent {
 /**
  * Parsed client data structure
  * LEARNING: Normalized client information extracted from calendar events
- * WHY: Type safety for client data processing
+ * WHY: Type safety for client data processing; extends shared ContactInfoBase
  */
-export interface ParsedClient {
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface ParsedClient extends ContactInfoBase {
   phone: string | null;
 }
 
 /**
  * Parsed property data structure
  * LEARNING: Normalized property information extracted from calendar events
- * WHY: Type safety for property data processing
+ * WHY: Type safety for property data processing; extends shared address + details bases
  */
-export interface ParsedProperty {
-  address: string;
+export interface ParsedProperty extends PropertyAddressBase, PropertyDetailsBase {
   unit: string | null;
-  city: string;
-  state: string;
-  zipCode: string;
   mlsNumber: string | null;
   squareFootage: number | null;
   bedrooms: number | null;

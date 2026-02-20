@@ -3,14 +3,16 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   loadCentralAllowlist,
+  listAuditFiles,
+  resolveAuditPaths,
+  writeAuditReports,
+  toRepoPath as toRepoPathUtil,
   categorizeMatches,
   renderAllowedExceptionsSection,
   summarizeExceptions,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
-  isCompiledJsFile,
-  isGloballyExcluded,
-} from './audit-exceptions.mjs'
+} from './shared-audit-utils.mjs'
 
 /**
  * Hardcoding Audit Script
@@ -35,84 +37,14 @@ import {
  * - The audit never fails CI; it reports.
  */
 
-// Detect if we're running from client/ or project root
-const CWD = path.resolve(process.cwd())
-const IS_CLIENT_DIR = fs.existsSync(path.join(CWD, 'src'))
-const PROJECT_ROOT = IS_CLIENT_DIR ? path.resolve(CWD, '..') : CWD
-
-const CLIENT_ROOT = IS_CLIENT_DIR ? CWD : path.join(PROJECT_ROOT, 'client')
-const CLIENT_SRC = path.join(CLIENT_ROOT, 'src')
-const SERVER_ROOT = path.join(PROJECT_ROOT, 'server')
-const SERVER_SRC = path.join(SERVER_ROOT, 'src')
-const ENTITIES_CONST = path.join(CLIENT_SRC, 'constants', 'entities.ts')
-
-const OUT_DIR = fs.existsSync(CLIENT_SRC) 
-  ? path.join(CWD, '.audit-reports')
-  : path.join(CWD, 'client', '.audit-reports')
-const OUT_JSON = path.join(OUT_DIR, 'hardcoding-audit.json')
-const OUT_MD = path.join(OUT_DIR, 'hardcoding-audit.md')
-const CONFIG_PATH = path.join(OUT_DIR, 'hardcoding-audit-config.json')
-
 const AUDIT_TYPE = 'hardcoding'
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true })
-}
-
-function toRepoPath(absPath) {
-  return path.relative(PROJECT_ROOT, absPath).replaceAll(path.sep, '/')
+function toRepoPath(absPath, projectRoot) {
+  return toRepoPathUtil(absPath, projectRoot)
 }
 
 function toStableId(repoPath) {
   return repoPath.replaceAll('/', '__')
-}
-
-/**
- * Check if a file should be excluded from hardcoding scanning
- * Uses config-based allowlist for file-level exclusions
- */
-function isExcluded(repoPath, configAllowlist) {
-  if (isGloballyExcluded(repoPath)) return true
-  const result = checkConfigAllowlist(repoPath, '*', 1, configAllowlist)
-  return result.allowed
-}
-
-function isScannable(absPath) {
-  return absPath.endsWith('.ts') || absPath.endsWith('.js') || absPath.endsWith('.vue') || absPath.endsWith('.mjs')
-}
-
-/**
- * Check if a file should be excluded from scanning
- */
-function shouldExcludeDir(repoPath) {
-  return isGloballyExcluded(repoPath)
-}
-
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-function listFilesRecursive(dir) {
-  /** @type {string[]} */
-  const out = []
-  if (!fs.existsSync(dir)) return out
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const e of entries) {
-    const abs = path.join(dir, e.name)
-    const repoPath = toRepoPath(abs)
-    
-    // Skip excluded directories/files
-    if (shouldExcludeDir(repoPath)) {
-      continue
-    }
-    
-    if (e.isDirectory()) {
-      out.push(...listFilesRecursive(abs))
-      continue
-    }
-    if (e.isFile() && isScannable(abs) && !isCompiledJsFile(abs)) out.push(abs)
-  }
-  return out
 }
 
 function splitLines(contents) {
@@ -123,9 +55,9 @@ function normalizeLine(line) {
   return line.trimEnd()
 }
 
-function extractEntityKeysBestEffort() {
-  if (!fs.existsSync(ENTITIES_CONST)) return []
-  const raw = fs.readFileSync(ENTITIES_CONST, 'utf8')
+function extractEntityKeysBestEffort(entitiesConstPath) {
+  if (!fs.existsSync(entitiesConstPath)) return []
+  const raw = fs.readFileSync(entitiesConstPath, 'utf8')
 
   // Best-effort: find ENTITY_KEYS = [ ... ] and extract string literals within the bracket block.
   const start = raw.indexOf('ENTITY_KEYS')
@@ -393,10 +325,11 @@ function renderMarkdownReport(data) {
 }
 
 function main() {
-  ensureDir(OUT_DIR)
+  const paths = resolveAuditPaths(AUDIT_TYPE)
+  const entitiesConstPath = path.join(paths.clientSrc, 'constants', 'entities.ts')
 
   // Optional: load constants-consolidation audit for canonical constant file guidance
-  const constantsConsolidationPath = path.join(OUT_DIR, 'constants-consolidation-audit.json')
+  const constantsConsolidationPath = path.join(paths.outDir, 'constants-consolidation-audit.json')
   /** @type {string[] | undefined} */
   let canonicalConstantsFiles
   try {
@@ -410,33 +343,28 @@ function main() {
     // Missing or invalid: skip
   }
 
-  const entityKeys = extractEntityKeysBestEffort()
+  const entityKeys = extractEntityKeysBestEffort(entitiesConstPath)
   const entityKeyRe = makeEntityKeyRegex(entityKeys)
   
   // Load exception config
-  const configAllowlist = loadCentralAllowlist('hardcoding')
-  const delta = parseChangedOnlyFlag(process.argv, PROJECT_ROOT)
+  const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
+  const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
   
   // Load priority config
   let priorityConfig = {}
   try {
-    const configRaw = fs.readFileSync(CONFIG_PATH, 'utf8')
+    const configRaw = fs.readFileSync(paths.configPath, 'utf8')
     priorityConfig = JSON.parse(configRaw)
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
 
-  const clientFiles = listFilesRecursive(CLIENT_SRC)
-  const serverFiles = listFilesRecursive(SERVER_SRC)
-  const absFiles = [...clientFiles, ...serverFiles]
+  const absFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const scanned = []
 
   for (const abs of absFiles) {
-    const repoPath = toRepoPath(abs)
+    const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
-    if (isExcluded(repoPath, configAllowlist)) continue
-    // Double-check exclusion
-    if (shouldExcludeDir(repoPath)) continue
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines, entityKeyRe)
@@ -491,12 +419,11 @@ function main() {
     files: filesWithFindings,
   }
 
-  fs.writeFileSync(OUT_JSON, JSON.stringify(out, null, 2))
-  fs.writeFileSync(OUT_MD, renderMarkdownReport(out))
+  const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(out))
 
-  const clientFilesCount = clientFiles.length
-  const serverFilesCount = serverFiles.length
-  console.log(`Wrote:\n- ${toRepoPath(OUT_JSON)}\n- ${toRepoPath(OUT_MD)}`)
+  const clientFilesCount = absFiles.filter(f => f.startsWith(paths.clientSrc)).length
+  const serverFilesCount = absFiles.filter(f => f.startsWith(paths.serverSrc)).length
+  console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${scanned.length} (${clientFilesCount} client, ${serverFilesCount} server)`)
   console.log(`Findings: ${exceptionSummary.totalRequiresReview} requiring review, ${exceptionSummary.totalAllowed} allowed`)
   process.exitCode = 0

@@ -11,8 +11,8 @@
 
 import { computed, isRef, ref, watch, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntityId } from '@/types/entities'
-import type { DistributionStrategy } from '@/types/component'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { DistributionPreview, DistributionStrategy } from '@/types/component'
 import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
@@ -28,13 +28,8 @@ export interface UseComponentDistributionOptions {
 }
 
 export interface UseComponentDistributionReturn {
-  preview: Ref<Array<{
-    componentId: GlobalEntityId
-    currentValue: number
-    newValue: number
-    change: number
-  }>>
-  
+  /** P2 type-similarity: uses shared DistributionPreview shape. */
+  preview: Ref<DistributionPreview[]>
   getCurrentValue: (componentId: GlobalEntityId) => number
   getComponentName: (componentId: GlobalEntityId) => string
   formatValue: (value: number) => string

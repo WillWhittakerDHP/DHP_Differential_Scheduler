@@ -36,7 +36,7 @@ watch([isFallbackStateActive, refLoadingIndicator], () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .layout-wrapper.layout-blank {
   flex-direction: column;
 }

@@ -146,6 +146,7 @@ export async function calculateRouteMatrix(
       return results
       
     } catch (error) {
+      logger.error(error)
       if (error instanceof MapsApiError) {
         throw error
       }

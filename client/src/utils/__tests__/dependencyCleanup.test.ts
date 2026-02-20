@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { cleanupInvalidActiveRelationships } from '../dependencyCleanup'
 import apiClient, { getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { QueryClient } from '@tanstack/vue-query'
-import type { GlobalEntityKey, GlobalEntityId } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 
 const mockAdminConfig = {

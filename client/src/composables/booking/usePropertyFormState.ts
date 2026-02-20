@@ -13,11 +13,10 @@
 
 import { ref } from 'vue'
 import type { PropertyFormData, PropertySource } from '@/types/propertyForm'
+import type { PropertyFormStateCore } from './usePropertyDetailsLogic'
 
-export interface UsePropertyFormStateReturn {
-  formData: PropertyFormData
-  isAddressExpanded: Ref<boolean>
-}
+/** Extends shared base (TYPE_SIMILARITY 1.15). */
+export type UsePropertyFormStateReturn = PropertyFormStateCore
 
 /**
  * usePropertyFormState composable

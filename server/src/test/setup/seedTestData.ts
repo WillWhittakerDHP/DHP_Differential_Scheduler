@@ -5,7 +5,17 @@
  * Provides realistic test fixtures for integration tests.
  */
 
+import type { Model } from 'sequelize'
 import { getTestDb } from './testDb.js'
+
+/** Get string id from a Sequelize model instance; throws if missing or not a string. */
+function getModelId(model: Model): string {
+  const id = model.get('id')
+  if (typeof id !== 'string') {
+    throw new Error('Expected model to have string id')
+  }
+  return id
+}
 
 export async function seedBasicTestData() {
   const sequelize = getTestDb()
@@ -44,21 +54,19 @@ export async function seedBasicTestData() {
     orderIndex: 2,
   })
   
-  // PATTERN: Use 'as any' cast to access model properties in test setup
   const blockInstance1 = await BlockInstance.create({
     id: 'block-1',
     name: 'Standard Inspection',
-    blockShapeRef: (blockShape1 as any).id,
+    blockShapeRef: getModelId(blockShape1),
     disabled: false,
     orderIndex: 1,
     baseSqFt: 2000,
   })
   
-  // PATTERN: Use 'as any' cast to access model properties in test setup
   const partInstance1 = await PartInstance.create({
     id: 'part-1',
     name: 'Interior Check',
-    partShapeRef: (partShape1 as any).id,
+    partShapeRef: getModelId(partShape1),
     disabled: false,
     orderIndex: 1,
     baseTime: 60,
@@ -70,7 +78,7 @@ export async function seedBasicTestData() {
   const partInstance2 = await PartInstance.create({
     id: 'part-2',
     name: 'Exterior Check',
-    partShapeRef: (partShape2 as any).id,
+    partShapeRef: getModelId(partShape2),
     disabled: false,
     orderIndex: 2,
     baseTime: 45,
@@ -79,20 +87,19 @@ export async function seedBasicTestData() {
     clientPresent: false,
   })
   
-  // PATTERN: Use 'as any' cast to access model properties in test setup
   await Relationship.create({
     relationshipKind: 'partAssignments',
-    parentId: (blockInstance1 as any).id,
+    parentId: getModelId(blockInstance1),
     parentEntityKey: 'blockInstance',
-    childId: (partInstance1 as any).id,
+    childId: getModelId(partInstance1),
     childEntityKey: 'partInstance',
   })
   
   await Relationship.create({
     relationshipKind: 'partAssignments',
-    parentId: (blockInstance1 as any).id,
+    parentId: getModelId(blockInstance1),
     parentEntityKey: 'blockInstance',
-    childId: (partInstance2 as any).id,
+    childId: getModelId(partInstance2),
     childEntityKey: 'partInstance',
   })
   
@@ -127,9 +134,8 @@ export async function seedAppointmentTestData() {
   const sequelize = getTestDb()
   const { Appointment, PropertyVersion } = sequelize.models
   
-  // PATTERN: Use 'as any' cast to access model properties in test setup
   const propertyVersions = await PropertyVersion.findAll({ limit: 1 })
-  const propertyVersionId = propertyVersions.length > 0 ? (propertyVersions[0] as any).id : null
+  const propertyVersionId = propertyVersions.length > 0 ? getModelId(propertyVersions[0]) : null
   
   if (!propertyVersionId) {
     console.warn('⚠️  No property versions found. Skipping appointment seeding.')

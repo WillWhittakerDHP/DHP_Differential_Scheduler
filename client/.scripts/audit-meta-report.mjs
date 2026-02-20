@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
-import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED, getAuditReportHeaderLines, isGloballyExcluded } from './audit-exceptions.mjs'
+import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED, getAuditReportHeaderLines, isGloballyExcluded } from './shared-audit-utils.mjs'
 
 /**
  * Audit Meta Report Script

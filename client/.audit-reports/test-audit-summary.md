@@ -5,7 +5,7 @@ Generated from `.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - **Coverage**: 0%
-- **Untested**: 797 files
+- **Untested**: 801 files
 - **Orphaned**: 0 tests
 
 ## Top Untested Files (by Priority Score)
@@ -18,8 +18,8 @@ Files sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Independ
 | `client/src/utils/transformers/fieldClassification.ts` | P0 | 8.7 | 10 | 10 | 2 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | P0 | 8.4 | 8 | 10 | 9 |
 | `client/src/utils/transformers/annotationTransformers.ts` | P0 | 8.2 | 8 | 10 | 5 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | P0 | 8.1 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityStepHandlers.ts` | P0 | 8.1 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAppointmentDataCollection.ts` | P0 | 8.0 | 10 | 7 | 2 |
 | `client/src/composables/booking/useAvailabilityDevPanel.ts` | P0 | 8.0 | 10 | 8 | 4 |
 | `client/src/utils/transformers/composePropertyValue.ts` | P0 | 8.0 | 9 | 8 | 1 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | P0 | 8.0 | 10 | 10 | 5 |

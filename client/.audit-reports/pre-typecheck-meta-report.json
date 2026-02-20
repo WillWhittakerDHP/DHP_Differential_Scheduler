@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-02-19T02:25:03.795Z",
+  "generatedAt": "2026-02-19T22:25:21.179Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
-      "totalFindings": 45,
-      "filesWithFindings": 45,
-      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 45"
+      "totalFindings": 46,
+      "filesWithFindings": 46,
+      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 46"
     },
     {
       "auditId": "dep-freshness",
-      "totalFindings": 13,
-      "filesWithFindings": 13,
-      "detail": "Outdated: 13 (major: 10, minor: 2, patch: 0)"
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Outdated: 0 (major: 0, minor: 0, patch: 0)"
     },
     {
       "auditId": "import-hygiene",
@@ -33,247 +33,30 @@
     },
     {
       "auditId": "type-escape",
-      "totalFindings": 3,
-      "filesWithFindings": 3,
-      "detail": "Type escape hatches (as any, ts-ignore, etc.): 3"
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Type escape hatches (as any, ts-ignore, etc.): 0"
     },
     {
       "auditId": "type-import",
-      "totalFindings": 21,
-      "filesWithFindings": 12,
-      "detail": "Value-from-type-only: 0, Type-used-as-value: 21"
+      "totalFindings": 0,
+      "filesWithFindings": 0,
+      "detail": "Value-from-type-only: 0, Type-used-as-value: 0"
     }
   ],
-  "hotspots": [
-    {
-      "repoPath": "client/src/types/appointmentApi.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/types/user.ts",
-      "totalScore": 8,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/useLocalTime.ts",
-      "totalScore": 6,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client:@tiptap/extension-placeholder",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@tiptap/extension-text-align",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@tiptap/extension-underline",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@tiptap/starter-kit",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:@tiptap/vue-3",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:@types/dotenv",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:@types/helmet",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:express",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:vitest",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client:vue-router",
-      "totalScore": 5,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-      "totalScore": 4,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "totalScore": 4,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-      "totalScore": 4,
-      "auditCount": 1,
-      "auditIds": [
-        "type-escape"
-      ]
-    },
-    {
-      "repoPath": "client/src/types/property.ts",
-      "totalScore": 4,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client:@types/node",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "server:@types/node",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "dep-freshness"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/usePerspectiveMapping.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/fieldContext/useFieldContextState.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/booking/partFinalizer.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/booking/slotShapeLookups.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/datetime.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/transformers/annotationTransformers.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/transformers/transformerPrimitives.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "type-import"
-      ]
-    }
-  ],
+  "hotspots": [],
   "trend": [
     {
       "auditId": "type-similarity",
-      "current": 45,
-      "previous": 99,
-      "delta": -54
+      "current": 46,
+      "previous": 46,
+      "delta": 0
     },
     {
       "auditId": "dep-freshness",
-      "current": 13,
-      "previous": 62,
-      "delta": -49
+      "current": 0,
+      "previous": 11,
+      "delta": -11
     },
     {
       "auditId": "import-hygiene",
@@ -295,15 +78,15 @@
     },
     {
       "auditId": "type-escape",
-      "current": 3,
-      "previous": 0,
-      "delta": 3
+      "current": 0,
+      "previous": 13,
+      "delta": -13
     },
     {
       "auditId": "type-import",
-      "current": 21,
+      "current": 0,
       "previous": 0,
-      "delta": 21
+      "delta": 0
     }
   ]
 }
