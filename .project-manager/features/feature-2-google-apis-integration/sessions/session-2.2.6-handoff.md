@@ -3,8 +3,23 @@
 **Feature:** Feature 2 - Google APIs Integration  
 **Phase:** 2.2 - Google Maps API Integration  
 **Session:** 2.2.6 - Constraint Attribution & Admin Performance  
-**Status:** ⏳ Not Started  
-**Created:** 2026-02-02
+**Status:** ✅ Complete  
+**Created:** 2026-02-02  
+**Completed:** 2026-02-19
+
+---
+
+## Current Status
+
+**Last Completed:** Session 2.2.6 (documentation alignment)
+**Next Session:** TBD (e.g. Error Handling & Fallbacks)
+**Last Updated:** 2026-02-19
+
+---
+
+## Next Action
+
+Start next session when ready (see Next Session below).
 
 ---
 
@@ -28,9 +43,9 @@
 
 1. Fix violation attribution in `timeAvailabilityManager` - direct conflicts = appointment, drive times = buffer only
 2. Update violation collection to include ALL violations with proper attribution
-3. Include buffer minutes in violation strings (e.g., `overlap.driveTimeTo.buffer:20`)
-4. Update `SlotConstraintOverlay` to handle buffer:minutes format in violations
-5. Display buffer minutes in tooltip text (e.g., "DriveTimeTo buffer (20 min)")
+3. Include buffer minutes in violation strings (e.g., `overlap.driveToCandidate.buffer:20`)
+4. Update constraint display (AppointmentSlotGrid / constraintColors) to handle buffer:minutes format in violations
+5. Display buffer minutes in tooltip text (e.g., "Drive To Appointment buffer (20 min)")
 6. Add conditional loading to `useAvailabilitySettings` composable
 7. Update `AdminPanel` to provide currentTab state via inject
 8. Update `BusinessControlsTab` to inject tab state and load settings only when active
@@ -41,7 +56,7 @@
 
 - ✅ Session 2.2.5 Complete (API Prefetching & Data Source Semantics)
 - ✅ Session 2.2.3 Complete (Drive Time ApplyTo Logic Refactor)
-- ✅ SlotConstraintOverlay component exists and displays violations
+- ✅ Constraint display in AppointmentSlotGrid with constraintColors displays violations
 
 ---
 
@@ -68,24 +83,19 @@
 **File:** `client/src/utils/booking/timeAvailabilityManager.ts`
 
 - Include buffer minutes in violation strings:
-  - Format: `overlap.driveTimeTo.buffer:20` (includes minutes)
-  - Format: `overlap.appointment.direct` (no minutes for direct)
+  - Format: `overlap.driveToCandidate.buffer:20` (includes minutes)
+  - Format: `overlap.event.direct` / `overlap.outOfOffice.direct` (no minutes for direct)
   - Format: `overlap.appointment.buffer:15` (includes minutes for buffer)
 
 ### Part B: Constraint Overlay Display
 
-#### 3. Update SlotConstraintOverlay for Buffer Minutes
+#### 3. Update Constraint Display for Buffer Minutes
 
-**File:** `client/src/components/booking/dev/SlotConstraintOverlay.vue`
+**File:** `client/src/utils/booking/constraintColors.ts` (used by AppointmentSlotGrid.vue)
 
-- Add `getColorForViolation` helper function:
-  - Try exact match first
-  - Strip minutes suffix if present (e.g., `buffer:20` → `buffer`)
-  - Default gray for unknown types
-- Update `formatConstraintTooltip` to:
-  - Parse buffer minutes from violation string (format: `buffer:20`)
-  - Display buffer value in tooltip: "DriveTimeTo buffer (20 min)"
-  - Handle both old format (no minutes) and new format (with minutes)
+- `getColorForViolation` strips minutes suffix (e.g., `buffer:20` → `buffer`)
+- `formatViolationTooltip` parses buffer minutes and displays e.g. "Drive To Appointment buffer (20 min)"
+- Handles both old format (no minutes) and new format (with minutes)
 
 ### Part C: Admin Performance Optimization
 
@@ -123,7 +133,7 @@
 | File | Changes |
 |------|---------|
 | `client/src/utils/booking/timeAvailabilityManager.ts` | Fix violation attribution, collect ALL violations, include buffer minutes |
-| `client/src/components/booking/dev/SlotConstraintOverlay.vue` | Handle buffer:minutes format, display buffer value in tooltips |
+| `client/src/utils/booking/constraintColors.ts` / `AppointmentSlotGrid.vue` | Handle buffer:minutes format, display buffer value in tooltips |
 | `client/src/composables/admin/useAvailabilitySettings.ts` | Add conditional loading based on enabled option |
 | `client/src/views/admin/AdminPanel.vue` | Provide currentTab via inject |
 | `client/src/views/admin/tabs/BusinessControlsTab.vue` | Inject tab state, load settings only when active |
@@ -133,10 +143,10 @@
 ## Violation Attribution Rules
 
 ```
-Direct Overlap (appointment conflict)
+Direct Overlap (event/out-of-office conflict)
     │
-    └─ Always attributed to: 'overlap.appointment.direct' (blue)
-    └─ Fundamental can't-double-book rule
+    ├─ Calendar event: 'overlap.event.direct' (blue)
+    └─ Out of office: 'overlap.outOfOffice.direct' (blue)
 
 Buffer-Only Overlap (due to buffer minutes)
     │
@@ -144,18 +154,18 @@ Buffer-Only Overlap (due to buffer minutes)
     │   └─ Attributed to: 'overlap.appointment.buffer:{minutes}' (blue)
     │
     └─ Drive time buffer (no direct overlap)
-        ├─ driveTimeTo: 'overlap.driveTimeTo.buffer:{minutes}' (orange)
-        └─ driveTimeFrom: 'overlap.driveTimeFrom.buffer:{minutes}' (red)
+        ├─ driveToCandidate: 'overlap.driveToCandidate.buffer:{minutes}' (orange)
+        └─ driveFromCandidate: 'overlap.driveFromCandidate.buffer:{minutes}' (red)
 ```
 
 ---
 
 ## Testing Checklist
 
-- [ ] Test violation attribution: direct conflicts show as appointment.direct (blue)
+- [ ] Test violation attribution: direct conflicts show as event.direct or outOfOffice.direct (blue)
 - [ ] Test violation attribution: drive times show as buffer violations only (orange/red)
 - [ ] Test violation collection: ALL violations collected (not just first)
-- [ ] Test buffer minutes display: tooltip shows "DriveTimeTo buffer (20 min)"
+- [ ] Test buffer minutes display: tooltip shows "Drive To Appointment buffer (20 min)"
 - [ ] Test constraint overlay: correct colors for each violation type
 - [ ] Test admin performance: settings NOT loaded on initial page load
 - [ ] Test admin performance: settings load when Business Controls tab becomes active
@@ -210,5 +220,6 @@ Buffer-Only Overlap (due to buffer minutes)
 
 ---
 
-**Session Status:** ⏳ Not Started  
-**Created:** 2026-02-02
+**Session Status:** ✅ Complete  
+**Created:** 2026-02-02  
+**Completed:** 2026-02-19

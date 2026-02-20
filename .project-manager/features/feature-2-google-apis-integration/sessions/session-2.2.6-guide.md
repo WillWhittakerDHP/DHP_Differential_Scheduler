@@ -15,7 +15,7 @@
 **Description:** Fix how violations are attributed and displayed in the constraint overlay, ensuring direct conflicts are always attributed to "appointment" (blue) and drive time constraints are always "buffer" violations. Also optimize admin panel performance by loading settings only when the Business Controls tab is active.
 
 **Duration:** ~2-3 hours  
-**Status:** Not Started
+**Status:** Completed (documentation alignment; Tasks 2.2.6.2–2.2.6.5 already implemented)
 
 ### Learning Goals
 
@@ -40,18 +40,18 @@
 - Include buffer minutes in violation string format
 **Checkpoint:** Violation attribution correct, all violations collected, buffer minutes included
 
-- [ ] #### Task 2.2.6.2: Update Constraint Overlay Display
+- [x] #### Task 2.2.6.2: Update Constraint Overlay Display ✅
 **Goal:** Handle buffer:minutes format and display buffer value in tooltips
 **Files:** 
-- `client/src/components/booking/dev/SlotConstraintOverlay.vue`
+- `client/src/utils/booking/constraintColors.ts` (used by AppointmentSlotGrid.vue)
 **Approach:** 
-- Add getColorForViolation helper (strip minutes suffix if present)
-- Update formatConstraintTooltip to parse buffer minutes
-- Display buffer value in tooltip: "DriveTimeTo buffer (20 min)"
-- Handle both old format (no minutes) and new format (with minutes)
+- getColorForViolation strips minutes suffix (e.g., buffer:20 → buffer)
+- formatViolationTooltip parses buffer minutes
+- Display buffer value in tooltip: "Drive To Appointment buffer (20 min)"
+- Handles both old format (no minutes) and new format (with minutes)
 **Checkpoint:** Overlay handles buffer:minutes format, tooltips show buffer values correctly
 
-- [ ] #### Task 2.2.6.3: Add Conditional Loading to useAvailabilitySettings
+- [x] #### Task 2.2.6.3: Add Conditional Loading to useAvailabilitySettings ✅
 **Goal:** Load settings only when enabled option is true
 **Files:** 
 - `client/src/composables/admin/useAvailabilitySettings.ts`
@@ -62,7 +62,7 @@
 - Update onMounted logic to conditional loading
 **Checkpoint:** Conditional loading works, backward compatibility maintained
 
-- [ ] #### Task 2.2.6.4: Provide CurrentTab in AdminPanel
+- [x] #### Task 2.2.6.4: Provide CurrentTab in AdminPanel ✅
 **Goal:** Provide currentTab state to child tabs via inject
 **Files:** 
 - `client/src/views/admin/AdminPanel.vue`

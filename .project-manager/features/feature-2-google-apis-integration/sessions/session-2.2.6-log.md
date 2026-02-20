@@ -2,28 +2,38 @@
 
 **Date:** 2026-02-02  
 **Session:** 2.2.6 - Constraint Attribution & Admin Performance  
-**Status:** ⏳ Not Started
+**Status:** ✅ Complete
 
 ---
 
 ## Session Status
 
 **Session:** 2.2.6  
-**Status:** ⏳ Not Started  
-**Started:** [Date]  
-**Completed:** [Date] (if complete)
+**Status:** ✅ Complete  
+**Started:** 2026-02-02  
+**Completed:** 2026-02-19
 
 ---
 
 ## Completed Tasks
 
-*Task entries will be added here as work progresses*
+### Session 2.2.6: Documentation alignment ✅
+**Completed:** 2026-02-19  
+**Goal:** Align session handoff and guide with current implementation (preserve event/outOfOffice.direct, driveToCandidate/driveFromCandidate; no code changes).
+
+**Summary:**
+- Updated session-2.2.6-handoff.md: violation format examples to use `overlap.driveToCandidate.buffer:20` / `overlap.driveFromCandidate.buffer:{minutes}`; Violation Attribution Rules diagram to use driveToCandidate/driveFromCandidate; constraint display references to constraintColors.ts and AppointmentSlotGrid.vue.
+- Updated session-2.2.6-guide.md: Task 2.2.6.2 tooltip example to "Drive To Appointment buffer (20 min)", Files to constraintColors.ts/AppointmentSlotGrid; marked Tasks 2.2.6.2–2.2.6.5 complete; session status to Completed.
+
+**Files Modified:**
+- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.6-handoff.md`
+- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.6-guide.md`
 
 ---
 
 ## In Progress Tasks
 
-*No tasks in progress yet*
+*None*
 
 ---
 
@@ -33,5 +43,5 @@
 
 ---
 
-**Session Status:** ⏳ Not Started  
-**Last Updated:** 2026-02-02
+**Session Status:** ✅ Complete  
+**Last Updated:** 2026-02-19
