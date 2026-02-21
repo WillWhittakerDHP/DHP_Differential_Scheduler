@@ -259,6 +259,52 @@ const newEventInstanceData = ref<{
   status: 'confirmed' | 'tentative'
 } | null>(null)
 
+// Template variable reference for the help panel and validation
+const templateVariables = [
+  { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
+  { name: 'city', description: 'Property city', example: 'Austin' },
+  { name: 'state', description: 'Property state abbreviation', example: 'TX' },
+  { name: 'zipCode', description: 'Property ZIP code', example: '78701' },
+  { name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },
+  { name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },
+  { name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },
+  { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
+  { name: 'status', description: 'Current appointment status', example: 'confirmed' },
+  { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
+]
+
+const knownVariableNames = new Set(templateVariables.map(v => v.name))
+
+function findUnknownVariables(template: string): string[] {
+  const varPattern = /\{(\w+)\}/g
+  const unknown: string[] = []
+  let match: RegExpExecArray | null
+  while ((match = varPattern.exec(template)) !== null) {
+    if (!knownVariableNames.has(match[1]) && !unknown.includes(match[1])) {
+      unknown.push(match[1])
+    }
+  }
+  return unknown
+}
+
+const templateWarnings = computed(() => {
+  const data = newEventInstanceData.value
+  if (!data) return { titleTemplate: [], descriptionTemplate: [], locationTemplate: [] }
+
+  const warn = (field: string): string[] => {
+    const unknown = findUnknownVariables(field)
+    return unknown.length > 0
+      ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]
+      : []
+  }
+
+  return {
+    titleTemplate: warn(data.titleTemplate),
+    descriptionTemplate: warn(data.descriptionTemplate),
+    locationTemplate: warn(data.locationTemplate),
+  }
+})
+
 // LEARNING: Events are now core entities, use entity CRUD composable
 const { entities: eventInstances, create: createEventInstance } = useEntityCrud('eventInstance')
 const { entities: eventShapes } = useEntityCrud('eventShape')
@@ -712,13 +758,44 @@ function handleDeleteEventInstance(_id: string) {
 
                   <!-- Content Templates -->
                   <div class="text-subtitle-2 text-medium-emphasis mt-2">Content Templates</div>
+
+                  <VExpansionPanels variant="accordion" class="mb-2">
+                    <VExpansionPanel>
+                      <VExpansionPanelTitle class="text-caption py-1" style="min-height: 36px">
+                        Available Template Variables
+                      </VExpansionPanelTitle>
+                      <VExpansionPanelText>
+                        <div class="text-caption text-medium-emphasis mb-1">
+                          Use <code>{'{variableName}'}</code> in templates. Variables are replaced at invite time.
+                        </div>
+                        <VTable density="compact" class="text-caption">
+                          <thead>
+                            <tr>
+                              <th>Variable</th>
+                              <th>Description</th>
+                              <th>Example</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="v in templateVariables" :key="v.name">
+                              <td><code>{{'{'}}{{ v.name }}{{'}'}}</code></td>
+                              <td>{{ v.description }}</td>
+                              <td class="text-medium-emphasis">{{ v.example }}</td>
+                            </tr>
+                          </tbody>
+                        </VTable>
+                      </VExpansionPanelText>
+                    </VExpansionPanel>
+                  </VExpansionPanels>
+
                   <VTextarea
                     v-model="newEventInstanceData.titleTemplate"
                     label="Title Template"
                     variant="outlined"
                     density="compact"
                     rows="2"
-                    hint="Template for event title (e.g., '{service} on {propertyType}')"
+                    hint="e.g. '{service} at {streetAddress}'"
+                    :error-messages="templateWarnings.titleTemplate"
                   />
                   <VTextarea
                     v-model="newEventInstanceData.descriptionTemplate"
@@ -726,7 +803,8 @@ function handleDeleteEventInstance(_id: string) {
                     variant="outlined"
                     density="compact"
                     rows="2"
-                    hint="Template for event description (e.g., '{clientName} - {propertyAddress}')"
+                    hint="e.g. 'Home inspection on {appointmentDate} at {appointmentTime}'"
+                    :error-messages="templateWarnings.descriptionTemplate"
                   />
                   <VTextarea
                     v-model="newEventInstanceData.locationTemplate"
@@ -734,7 +812,8 @@ function handleDeleteEventInstance(_id: string) {
                     variant="outlined"
                     density="compact"
                     rows="2"
-                    hint="Template for event location (e.g., '{propertyAddress}')"
+                    hint="e.g. '{fullAddress}'"
+                    :error-messages="templateWarnings.locationTemplate"
                   />
 
                   <!-- Display & Status -->

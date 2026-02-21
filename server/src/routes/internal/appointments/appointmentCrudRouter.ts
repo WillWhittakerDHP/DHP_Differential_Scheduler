@@ -7,7 +7,7 @@
  */
 
 import { Request, Response } from 'express'
-import { Appointment } from '../../../config/app.js'
+import { Appointment, AppointmentAttendee } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
@@ -179,6 +179,40 @@ const router = createCrudRouter({
     res.status(HTTP_STATUS_CODES.CREATED).json(appointmentWithRelations)
   },
   afterUpdate: async (record, req, res) => {
+    // Check if status transitioned to one that requires calendar invites
+    const newStatus = req.body?.status as string | undefined
+    if (newStatus && shouldCreateCalendarEvent(newStatus)) {
+      // Only create invites if no attendee already has a googleEventId (prevents duplicates)
+      const existingInvites = await AppointmentAttendee.count({
+        where: {
+          appointmentId: record.id,
+          invitationStatus: 'sent',
+        },
+      })
+
+      if (existingInvites === 0) {
+        try {
+          logger.debug(`Status changed to '${newStatus}' — creating calendar invites for appointment ${record.id}`)
+
+          const calendarId = await getCalendarIdForAppointment()
+          const inviteResult = await createInvitesForAppointment(record.id, calendarId)
+
+          if (inviteResult.totalEventsCreated > 0) {
+            logger.debug(
+              `Calendar invites created on status transition: ${inviteResult.totalEventsCreated} events, ` +
+              `${inviteResult.totalAttendeesUpdated} attendees updated`
+            )
+          } else {
+            logger.error(`Calendar invite creation failed on status transition`)
+          }
+        } catch (calendarError) {
+          logger.error('Calendar invite creation error on status transition:', calendarError)
+        }
+      } else {
+        logger.debug(`Skipping calendar invites on update — ${existingInvites} attendee(s) already have sent invitations`)
+      }
+    }
+
     // Fetch appointment with relationships for response
     const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,

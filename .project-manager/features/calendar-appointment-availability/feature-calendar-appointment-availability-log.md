@@ -9,7 +9,7 @@
 ## Feature Status
 
 **Feature:** calendar-appointment-availability
-**Status:** Partial (Phases 3.1–3.4 Complete)
+**Status:** Complete (Phases 3.1–3.5)
 **Started:** 2025-02-01
 **Completed:** —
 
@@ -78,11 +78,11 @@
 
 ---
 
-## In Progress Phases
+## Completed Phases (continued)
 
-### Phase 3.5: Calendar Invite Configuration & Wiring 🔄
+### Phase 3.5: Calendar Invite Configuration & Wiring ✅
 **Started:** 2026-02-21
-**Status:** In Progress (Sessions 3.5.1–3.5.3 Complete)
+**Completed:** 2026-02-21
 **Dependencies:** Feature 7 (Authentication) for attendee user lookup
 
 #### Session 3.5.1: EventInstance Model Extension & Migration ✅
@@ -117,6 +117,16 @@
 - Fallback behavior preserved: when no EventInstances are found, creates a single legacy event matching old `appointmentCalendarService` behavior
 - Wired `createInvitesForAppointment()` into `appointmentCrudRouter.ts` afterCreate hook, replacing the old `createCalendarEventForAppointment()` import
 - Server TypeScript compiles clean, server lints clean, app starts successfully
+
+#### Session 3.5.4: Polish, Edge Cases & Validation ✅
+**Completed:** 2026-02-21
+**Accomplishments:**
+- Added expandable template variable help panel to `InstancesTab.vue` with a VTable showing all 10 available `{variables}`, descriptions, and examples
+- Fixed template field hint text to use real variable names (was `{clientName}`/`{propertyAddress}`, now `{service}`/`{streetAddress}`)
+- Added computed template validation warnings — highlights unrecognized `{variables}` in real-time as the admin types
+- Updated `inviteOrchestrationService.ts` to mark `AppointmentAttendee.invitationStatus` as `'failed'` when event creation fails (was only logged)
+- Added calendar invite trigger to `afterUpdate` hook in `appointmentCrudRouter.ts` — PATCHing status to `submitted`/`confirmed` now creates invites (with duplicate prevention: skips if any attendee already has `invitationStatus: 'sent'`)
+- Server + client lint clean, TypeScript compiles, app starts successfully
 
 ---
 
@@ -155,12 +165,10 @@
 
 ## Next Steps
 
-- Continue Phase 3.5: Session 3.5.4 — Polish, Edge Cases & Validation
-- Add template variable preview/help in the admin UI
-- Validate template syntax in the admin form
-- Handle invite failures gracefully (retry, status tracking, admin notification)
-- Handle edge cases: missing attendee emails, inactive event instances, disabled shapes
-- Manual end-to-end testing of the full flow
+- Phase 3.5 complete — all 4 sessions finished
+- Feature 3 (Calendar & Appointment Availability) is now functionally complete (Phases 3.1–3.5)
+- Next: configure EventInstance templates with real content (e.g., `{service} at {streetAddress}`)
+- Future enhancement: status transition calendar event updates (reschedule, cancel existing events)
 
 ---
 

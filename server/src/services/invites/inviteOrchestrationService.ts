@@ -293,12 +293,20 @@ async function createEventForInstance(
     }
   } catch (error) {
     logger.error(`Failed to create event for "${instanceName}":`, error)
+
+    // Mark matching attendees as 'failed' so the failure is visible in the data
+    const failedCount = await markAttendeesAsFailed(
+      appointment,
+      eventInstance.eventShapeRef,
+      error instanceof Error ? error.message : 'Unknown error'
+    )
+
     return {
       eventInstanceId: eventInstance.id,
       eventInstanceName: instanceName,
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
-      attendeesUpdated: 0,
+      attendeesUpdated: failedCount,
     }
   }
 }
@@ -419,6 +427,56 @@ async function updateAttendeeRecords(
     } catch (error) {
       logger.error(`Failed to update attendee ${attendee.id}:`, error)
     }
+  }
+
+  return updated
+}
+
+/**
+ * When event creation fails, mark the matching attendees as 'failed'
+ * so the failure is trackable in the database rather than only in logs.
+ */
+async function markAttendeesAsFailed(
+  appointment: AppointmentType,
+  eventShapeId: string,
+  errorMessage: string
+): Promise<number> {
+  const shapeAttendees = await EventShapeAttendee.findAll({
+    where: { eventShapeId },
+    attributes: ['userTypeBlockInstanceId'],
+  })
+
+  const allowedUserTypes = new Set(
+    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
+  )
+
+  const appointmentAttendees = (appointment as unknown as { attendees?: AppointmentAttendeeWithUser[] }).attendees ?? []
+
+  const matchingAttendees = allowedUserTypes.size > 0
+    ? appointmentAttendees.filter(
+        att =>
+          att.shouldReceiveInvitation &&
+          att.userTypeBlockInstanceId &&
+          allowedUserTypes.has(att.userTypeBlockInstanceId)
+      )
+    : appointmentAttendees.filter(att => att.shouldReceiveInvitation)
+
+  let updated = 0
+
+  for (const attendee of matchingAttendees) {
+    try {
+      await AppointmentAttendee.update(
+        { invitationStatus: 'failed' },
+        { where: { id: attendee.id } }
+      )
+      updated++
+    } catch (updateError) {
+      logger.error(`Failed to mark attendee ${attendee.id} as failed:`, updateError)
+    }
+  }
+
+  if (updated > 0) {
+    logger.warn(`Marked ${updated} attendee(s) as 'failed' due to: ${errorMessage}`)
   }
 
   return updated

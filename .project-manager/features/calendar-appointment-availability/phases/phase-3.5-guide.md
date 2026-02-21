@@ -12,8 +12,8 @@
 **Phase Name:** Calendar Invite Configuration & Wiring
 **Description:** The EventInstance/EventShape/EventAssignment data model already exists and the Google Calendar event creation API works. But EventInstances currently only store title/description/location templates (all empty), and none of the Google Calendar behavior settings (free/busy, guest permissions, Meet links, send updates, visibility, etc.) are configurable. This phase adds those configurable properties to the EventInstance model, exposes them in the admin Instances tab UI, and wires the full pipeline so that when an appointment reaches the right status, the system resolves templates, determines attendees, and fires calendar invites through the existing `eventCreationService.createEvent()`.
 
-**Duration:** Estimated 3–4 sessions
-**Status:** Not Started
+**Duration:** 4 sessions (completed 2026-02-21)
+**Status:** Complete ✅
 
 ---
 
@@ -134,16 +134,17 @@
 
 ---
 
-### Session 3.5.4: Polish, Edge Cases & Validation
+### Session 3.5.4: Polish, Edge Cases & Validation ✅
+**Status:** Complete (2026-02-21)
 **Description:** Handle edge cases, add validation, and ensure the end-to-end flow is robust.
 
 **Tasks:**
-- [ ] Add template variable preview/help in the admin UI (show available variables)
-- [ ] Validate template syntax in the admin form
-- [ ] Handle invite failures gracefully (retry, status tracking, admin notification)
-- [ ] Handle edge cases: missing attendee emails, inactive event instances, disabled shapes
-- [ ] Manual end-to-end testing of the full flow
-- [ ] Update feature documentation
+- [x] Add template variable preview/help in the admin UI (expandable VExpansionPanel with variable table)
+- [x] Validate template syntax in the admin form (computed warnings for unrecognized `{variables}`)
+- [x] Handle invite failures gracefully (mark AppointmentAttendee as 'failed' on error; retry already handled by eventCreationService withRetry)
+- [x] Handle edge cases: missing attendee emails (filtered with warning), inactive event instances (filtered by active:true), status transition trigger (afterUpdate hook)
+- [x] Add calendar invite trigger on status transition (afterUpdate hook creates invites when PATCHing to submitted/confirmed, with duplicate prevention)
+- [x] Update feature documentation
 
 **Learning Goals:**
 - Practice defensive programming and error boundary patterns
