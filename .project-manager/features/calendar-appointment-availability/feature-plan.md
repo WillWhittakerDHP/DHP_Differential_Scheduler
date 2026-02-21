@@ -1,10 +1,10 @@
 # Feature 3: Calendar & Appointment Availability
 
 **Feature:** Calendar & Appointment Availability  
-**Status:** Partial (Core Complete)  
+**Status:** Complete ✅  
 **Created:** 2025-02-01  
 **Last Updated:** 2026-02-21  
-**Branch:** `feature/google-apis-integration` (built alongside Features 2, 4, 5)
+**Branch:** `feature/calendar-appointment-availability` (Phase 3.5); earlier work on `feature/google-apis-integration` (Phases 3.1–3.4)
 
 ---
 
@@ -192,26 +192,48 @@ Server-side slot computation, client-side calendar UI, time slot selection, and 
 
 ---
 
-## Phase 3.5: Calendar Event Creation/Editing UI
+## Phase 3.5: Calendar Invite Configuration & Wiring
 
-**Status:** Not Started  
-**Description:** Add UI for creating and editing calendar events from within the availability view. Currently the calendar is read-only from the event perspective.
+**Status:** ✅ Complete (2026-02-21, 4 sessions)  
+**Description:** Configurable calendar invite creation from EventInstance entities. Admin configures Google Calendar event properties (visibility, guest permissions, Meet links, free/busy, etc.) and content templates with `{variable}` placeholders. The invite pipeline resolves templates, determines per-shape attendees, and creates Google Calendar events when appointments reach submitted/confirmed status.
 
-### Objectives
-- Create calendar event creation UI (from availability or admin view)
-- Create calendar event editing UI
-- Integrate with existing Google Calendar event creation API (`server/src/services/google/calendar/`)
-- Handle event creation validation and error states
+### Key Files
 
-### Dependencies
-- Feature 7 (Authentication) — for `scheduled_by_id` on events
-- Existing Google Calendar event creation API (already built in Feature 2)
+**Invite Pipeline (new):**
+- `server/src/services/invites/inviteOrchestrationService.ts` — Central pipeline: appointment → EventInstances → templates → attendees → Google Calendar
+- `server/src/services/invites/templateResolver.ts` — `{variable}` placeholder resolution
+- `server/src/services/invites/inviteContextBuilder.ts` — Builds context from appointment/property/service data
 
-### Success Criteria
-- Users can create calendar events from the UI
-- Users can edit existing calendar events
-- Events sync with Google Calendar
-- Validation and error handling working
+**Model & Migration:**
+- `server/src/db/models/booking/event_instance.ts` — 10 new calendar property fields
+- `server/src/db/migrations/20260221_000001_add_event_instance_calendar_properties.mjs`
+- `server/src/db/migrations/20260221_000002_seed_event_instance_calendar_metadata.mjs`
+
+**Admin UI:**
+- `client/src/views/admin/tabs/InstancesTab.vue` — EventInstance creation form with all configurable fields, template variable help panel, and validation
+
+**Integration:**
+- `server/src/routes/internal/appointments/appointmentCrudRouter.ts` — afterCreate + afterUpdate hooks trigger invite creation
+- `server/src/services/google/calendar/eventCreationService.ts` — Passes all EventInstance properties to Google Calendar API
+
+### What Was Built
+- 10 Google Calendar event properties added to EventInstance model (visibility, transparency, guest permissions, conference link, send updates, color, status, reminders)
+- Admin UI with VSelect/VSwitch/VTextField controls organized into 4 sections
+- Template variable system: `{streetAddress}`, `{service}`, `{appointmentDate}`, etc. (10 variables)
+- Expandable template variable reference panel in admin form
+- Real-time validation warnings for unrecognized template variables
+- Invite orchestration pipeline traversing appointment → block instances → part assignments → event assignments → event instances
+- Per-shape attendee determination via EventShapeAttendee
+- Failed attendee tracking (invitationStatus: 'failed')
+- Status transition trigger (afterUpdate hook for submitted/confirmed, with duplicate prevention)
+- Fallback behavior when no EventInstances configured
+
+### Success Criteria — All Met
+- EventInstance calendar properties configurable from admin UI
+- Template variables resolved at invite time with appointment context
+- Calendar invites created automatically on appointment creation/status change
+- Per-shape attendee filtering working via EventShapeAttendee
+- Failure tracking and graceful degradation working
 
 ---
 
@@ -248,9 +270,9 @@ Server-side slot computation, client-side calendar UI, time slot selection, and 
 - ✅ Time slot selection working correctly with wizard state integration
 - ✅ Differential scheduling calculations working (major/minor perspectives)
 - ✅ Availability step integrated into booking wizard with validation
-- ⬜ Calendar event creation/editing UI (Phase 3.5 — remaining)
+- ✅ Calendar invite creation pipeline — configurable EventInstance properties, template resolution, per-shape attendees, automatic triggers on appointment status
 
 ---
 
 **Last Updated:** 2026-02-21  
-**Status:** Partial — Phases 3.1–3.4 Complete, Phase 3.5 Remaining
+**Status:** Complete — All Phases (3.1–3.5) Finished
