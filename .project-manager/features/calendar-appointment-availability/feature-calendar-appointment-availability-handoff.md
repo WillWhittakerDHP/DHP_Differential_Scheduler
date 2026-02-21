@@ -40,8 +40,8 @@ Phase 3.5 is complete. All EventInstance calendar properties are configurable fr
 
 ## Feature Summary
 
-**Phases Completed:** 3.1, 3.2, 3.3, 3.4
-**Remaining:** 3.5 (Calendar Invite Configuration & Wiring) — Session 3.5.4
+**Phases Completed:** 3.1, 3.2, 3.3, 3.4, 3.5
+**Remaining:** None — Feature complete
 
 **Key Accomplishments:**
 - Server-side slot computation with constraint-based filtering (range, overlap, capacity)
