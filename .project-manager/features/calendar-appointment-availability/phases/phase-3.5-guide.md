@@ -116,15 +116,16 @@
 
 ---
 
-### Session 3.5.3: Template Variable Resolution & Invite Pipeline Wiring
+### Session 3.5.3: Template Variable Resolution & Invite Pipeline Wiring ✅
+**Status:** Complete (2026-02-21)
 **Description:** Build the template resolution system and wire the full pipeline: appointment workflow → template resolution → attendee determination → `createEvent()` call → status tracking.
 
 **Tasks:**
-- [ ] Create template resolver utility that takes a template string (e.g., `"{service} at {propertyAddress}"`) and a context object, and returns the resolved string
-- [ ] Define the set of available template variables (from appointment, property, user, booking data) and document them
-- [ ] Create invite orchestration service that: looks up EventInstances for the appointment's active events, resolves templates, looks up attendees via EventShapeAttendee → actual Users, calls `createEvent()`, creates/updates `AppointmentAttendee` records
-- [ ] Wire the orchestration to the appointment status workflow (determine which status transition triggers invite creation)
-- [ ] Update `AppointmentAttendee.invitationStatus` and `googleEventId` after successful creation
+- [x] Create template resolver utility that takes a template string (e.g., `"{service} at {streetAddress}"`) and a context object, and returns the resolved string
+- [x] Define the set of available template variables (from appointment, property, user, booking data) and document them
+- [x] Create invite orchestration service that: looks up EventInstances for the appointment's active events, resolves templates, looks up attendees via EventShapeAttendee → actual Users, calls `createEvent()`, creates/updates `AppointmentAttendee` records
+- [x] Wire the orchestration to the appointment status workflow (replaced `appointmentCalendarService` call in afterCreate hook)
+- [x] Update `AppointmentAttendee.invitationStatus` and `googleEventId` after successful creation
 
 **Learning Goals:**
 - Understand template/interpolation patterns

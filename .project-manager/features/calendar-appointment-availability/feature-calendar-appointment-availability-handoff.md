@@ -6,41 +6,50 @@
 
 **Last Updated:** 2026-02-21
 **Feature Status:** Partial (Phases 3.1–3.4 Complete, Phase 3.5 In Progress)
-**Current Session:** 3.5.2 Complete → Next: 3.5.3
+**Current Session:** 3.5.3 Complete → Next: 3.5.4
 
 ---
 
 ## Current Status
 
 **Feature calendar-appointment-availability:** Partial — Phase 3.5 In Progress
-**Last Completed Session:** Session 3.5.2 (Admin UI — EventInstance Configuration Form)
-**Next Session:** Session 3.5.3 (Template Variable Resolution & Invite Pipeline Wiring)
+**Last Completed Session:** Session 3.5.3 (Template Variable Resolution & Invite Pipeline Wiring)
+**Next Session:** Session 3.5.4 (Polish, Edge Cases & Validation)
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-Session 3.5.2 updated the admin Instances tab with a full configuration form for EventInstance calendar properties. The inline creation form in `InstancesTab.vue` now includes Vuetify controls (VSelect for enums, VSwitch for booleans, VTextField for colorId) organized into logical sections. A second migration seeds `admin_metadata` records so EntityCards display the new properties.
+Session 3.5.3 built the full invite pipeline. Three new files in `server/src/services/invites/`:
+- `templateResolver.ts` — pure `{variable}` substitution utility
+- `inviteContextBuilder.ts` — collects appointment/property/service data into a flat context
+- `inviteOrchestrationService.ts` — the central pipeline: looks up EventInstances via block instances → part assignments → event assignments, resolves templates, determines per-shape attendees, calls `createEvent()` with all calendar properties, updates `AppointmentAttendee` records
 
-**What you need for Session 3.5.3:**
-- Build a template resolver utility that substitutes `{variable}` placeholders in title/description/location templates with runtime appointment/property/user data
-- Define the set of available template variables and document them
-- Wire the invite pipeline: appointment status change → resolve templates → determine attendees → call `eventCreationService.createEvent()` → track invitation status
-- Key files: `server/src/services/google/calendar/eventCreationService.ts`, `server/src/services/appointments/` (appointment status handlers), `server/src/db/models/booking/event_instance.ts`
+The `appointmentCrudRouter.ts` now imports `createInvitesForAppointment` from the orchestration service instead of the old `createCalendarEventForAppointment`. Fallback behavior is preserved when no EventInstances are found.
+
+**What you need for Session 3.5.4:**
+- Add template variable preview/help in the admin UI (show available `{variables}`)
+- Validate template syntax in the admin form
+- Handle invite failures gracefully (retry, status tracking, admin notification)
+- Handle edge cases: missing attendee emails, inactive event instances, disabled shapes
+- Manual end-to-end testing of the full flow
+- Key files: `server/src/services/invites/`, `client/src/views/admin/tabs/InstancesTab.vue`
+
+**What changed in Session 3.5.3:**
+- New: `server/src/services/invites/templateResolver.ts` — resolveTemplate(), resolveEventTemplates(), extractTemplateVariables()
+- New: `server/src/services/invites/inviteContextBuilder.ts` — buildInviteContext(), AVAILABLE_TEMPLATE_VARIABLES
+- New: `server/src/services/invites/inviteOrchestrationService.ts` — createInvitesForAppointment()
+- Modified: `server/src/routes/internal/appointments/appointmentCrudRouter.ts` — swapped old service import for new orchestration service
 
 **What changed in Session 3.5.2:**
 - UI: `client/src/views/admin/tabs/InstancesTab.vue` — inline creation form expanded with 10 new fields in 4 sections
 - Migration: `20260221_000002_seed_event_instance_calendar_metadata.mjs` — seeds admin_metadata for new fields
-- `newEventInstanceData` reactive ref and `handleEventInstanceCreate` updated for all new properties
 
 **What changed in Session 3.5.1:**
 - Migration: `20260221_000001_add_event_instance_calendar_properties.mjs`
 - Model: `server/src/db/models/booking/event_instance.ts` — 10 new fields
 - Types: `client/src/types/entities.ts` — `EventInstanceEntity` extended
-- Field configs: `client/src/configs/field/form/appliedForm/eventInstanceFields.ts`
-- Display configs: `client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts`
-- API types: `server/src/services/google/calendar/calendarTypes.ts` — `CreateEventParams` extended
 - Service: `server/src/services/google/calendar/eventCreationService.ts` — passes all new fields to Google API
 
 ---
@@ -48,7 +57,7 @@ Session 3.5.2 updated the admin Instances tab with a full configuration form for
 ## Feature Summary
 
 **Phases Completed:** 3.1, 3.2, 3.3, 3.4
-**Remaining:** 3.5 (Calendar Invite Configuration & Wiring) — Sessions 3.5.3, 3.5.4
+**Remaining:** 3.5 (Calendar Invite Configuration & Wiring) — Session 3.5.4
 
 **Key Accomplishments:**
 - Server-side slot computation with constraint-based filtering (range, overlap, capacity)

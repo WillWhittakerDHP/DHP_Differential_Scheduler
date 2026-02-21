@@ -11,7 +11,7 @@ import { Appointment } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
-import { createCalendarEventForAppointment } from '../../../services/appointmentCalendarService.js'
+import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
 import { ERROR_MESSAGES } from './appointmentConstants.js'
 import { handleRouteError } from './appointmentErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
@@ -138,29 +138,36 @@ const router = createCrudRouter({
     // Create fee summary + entries (from client buildAppointmentFeeBreakdown)
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
 
-    // Create calendar event if status requires it
+    // Create calendar invites if status requires it
     if (shouldCreateCalendarEvent(record.status)) {
       try {
-        logger.debug(`Creating calendar event for appointment ${record.id}`)
-        
+        logger.debug(`Creating calendar invites for appointment ${record.id}`)
+
         const calendarId = await getCalendarIdForAppointment()
-        
-        const calendarResult = await createCalendarEventForAppointment(
+
+        const inviteResult = await createInvitesForAppointment(
           record.id,
           calendarId
         )
-        
-        if (calendarResult.success) {
-          logger.debug(`Calendar event created: ${calendarResult.eventId}, ${calendarResult.attendeesUpdated} attendees updated`)
+
+        if (inviteResult.totalEventsCreated > 0) {
+          logger.debug(
+            `Calendar invites created: ${inviteResult.totalEventsCreated}/${inviteResult.totalEventsAttempted} events, ` +
+            `${inviteResult.totalAttendeesUpdated} attendees updated` +
+            (inviteResult.fallbackUsed ? ' (fallback)' : '')
+          )
         } else {
-          logger.error(`Calendar event creation failed: ${calendarResult.error}`)
+          const errors = inviteResult.events
+            .filter(e => !e.success)
+            .map(e => e.error)
+            .join('; ')
+          logger.error(`Calendar invite creation failed: ${errors || 'no events attempted'}`)
         }
       } catch (calendarError) {
-        // Don't fail the appointment creation if calendar fails
-        logger.error('Calendar event creation error:', calendarError)
+        logger.error('Calendar invite creation error:', calendarError)
       }
     } else {
-      logger.debug(`Skipping calendar event - status is '${record.status}' (not submitted/confirmed)`)
+      logger.debug(`Skipping calendar invites - status is '${record.status}' (not submitted/confirmed)`)
     }
     
     // Fetch appointment with relationships for response

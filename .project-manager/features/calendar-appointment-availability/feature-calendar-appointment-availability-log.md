@@ -82,7 +82,7 @@
 
 ### Phase 3.5: Calendar Invite Configuration & Wiring 🔄
 **Started:** 2026-02-21
-**Status:** In Progress (Sessions 3.5.1–3.5.2 Complete)
+**Status:** In Progress (Sessions 3.5.1–3.5.3 Complete)
 **Dependencies:** Feature 7 (Authentication) for attendee user lookup
 
 #### Session 3.5.1: EventInstance Model Extension & Migration ✅
@@ -107,6 +107,16 @@
 - Seeded 10 `admin_metadata` records via migration (`20260221_000002_seed_event_instance_calendar_metadata.mjs`) so EntityCards display new properties
 - Fixed migration data_type enum issue (database uses `string`/`boolean`, not `primitive`)
 - Client lints clean, server compiles clean, app starts successfully
+
+#### Session 3.5.3: Template Variable Resolution & Invite Pipeline Wiring ✅
+**Completed:** 2026-02-21
+**Accomplishments:**
+- Created `templateResolver.ts` — pure utility for `{variable}` placeholder substitution with `resolveTemplate()`, `resolveEventTemplates()`, and `extractTemplateVariables()` functions
+- Created `inviteContextBuilder.ts` — builds flat `Record<string, string>` context from appointment data (10 variables: streetAddress, city, state, zipCode, fullAddress, appointmentDate, appointmentTime, appointmentId, status, service) with documented `AVAILABLE_TEMPLATE_VARIABLES` export
+- Created `inviteOrchestrationService.ts` — central pipeline that: fetches appointment → collects block instance IDs → resolves EventInstances via `part_assignments` → `event_assignments` → for each active EventInstance resolves templates + determines per-shape attendees via `EventShapeAttendee` → calls `createEvent()` with all calendar properties → updates `AppointmentAttendee` records with `googleEventId` and `invitationStatus: 'sent'`
+- Fallback behavior preserved: when no EventInstances are found, creates a single legacy event matching old `appointmentCalendarService` behavior
+- Wired `createInvitesForAppointment()` into `appointmentCrudRouter.ts` afterCreate hook, replacing the old `createCalendarEventForAppointment()` import
+- Server TypeScript compiles clean, server lints clean, app starts successfully
 
 ---
 
@@ -145,10 +155,12 @@
 
 ## Next Steps
 
-- Continue Phase 3.5: Session 3.5.3 — Template Variable Resolution & Invite Pipeline Wiring
-- Build template resolver utility for `{variable}` substitution in title/description/location templates
-- Wire the full pipeline: appointment status change → template resolution → attendee determination → `createEvent()` → status tracking
-- Then Session 3.5.4 — Polish, edge cases, validation
+- Continue Phase 3.5: Session 3.5.4 — Polish, Edge Cases & Validation
+- Add template variable preview/help in the admin UI
+- Validate template syntax in the admin form
+- Handle invite failures gracefully (retry, status tracking, admin notification)
+- Handle edge cases: missing attendee emails, inactive event instances, disabled shapes
+- Manual end-to-end testing of the full flow
 
 ---
 
