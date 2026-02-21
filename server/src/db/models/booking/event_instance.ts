@@ -38,6 +38,16 @@ export class EventInstance extends Model<
   declare titleTemplate: string | null;
   declare descriptionTemplate: string | null;
   declare locationTemplate: string | null;
+  declare visibility: CreationOptional<'default' | 'public' | 'private' | 'confidential'>;
+  declare transparency: CreationOptional<'opaque' | 'transparent'>;
+  declare guestsCanModify: CreationOptional<boolean>;
+  declare guestsCanInviteOthers: CreationOptional<boolean>;
+  declare guestsCanSeeOtherGuests: CreationOptional<boolean>;
+  declare addConferenceLink: CreationOptional<boolean>;
+  declare sendUpdates: CreationOptional<'all' | 'externalOnly' | 'none'>;
+  declare colorId: string | null;
+  declare status: CreationOptional<'confirmed' | 'tentative'>;
+  declare reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
@@ -85,6 +95,73 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'location_template',
         comment: 'Template for event location (e.g., "{propertyAddress}")',
+      },
+      visibility: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: 'default',
+        comment: 'Event visibility: default, public, private, confidential',
+      },
+      transparency: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        defaultValue: 'opaque',
+        comment: 'Free/busy: opaque (busy) or transparent (free)',
+      },
+      guestsCanModify: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'guests_can_modify',
+        comment: 'Whether attendees can edit the event',
+      },
+      guestsCanInviteOthers: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'guests_can_invite_others',
+        comment: 'Whether attendees can invite other people',
+      },
+      guestsCanSeeOtherGuests: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'guests_can_see_other_guests',
+        comment: 'Whether attendees can see the guest list',
+      },
+      addConferenceLink: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'add_conference_link',
+        comment: 'Whether to auto-attach a Google Meet link',
+      },
+      sendUpdates: {
+        type: DataTypes.STRING(16),
+        allowNull: false,
+        defaultValue: 'all',
+        field: 'send_updates',
+        comment: 'Email invitation behavior: all, externalOnly, none',
+      },
+      colorId: {
+        type: DataTypes.STRING(4),
+        allowNull: true,
+        defaultValue: null,
+        field: 'color_id',
+        comment: 'Google Calendar event color ID (1-11), null for default',
+      },
+      status: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        defaultValue: 'confirmed',
+        comment: 'Event status: confirmed or tentative',
+      },
+      reminderOverrides: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        defaultValue: null,
+        field: 'reminder_overrides',
+        comment: 'JSON array of reminder overrides, e.g. [{"method":"popup","minutes":10}]',
       },
       orderIndex: {
         type: DataTypes.INTEGER,

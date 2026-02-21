@@ -37,43 +37,36 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
     start,
     end,
     attendees,
-    sendUpdates = DEFAULT_SEND_UPDATES
+    sendUpdates = DEFAULT_SEND_UPDATES,
+    visibility,
+    transparency,
+    guestsCanModify,
+    guestsCanInviteOthers,
+    guestsCanSeeOtherGuests,
+    addConferenceLink,
+    colorId,
+    status,
+    reminderOverrides
   } = params
   
-  // Normalize time inputs
   const startDate = typeof start === 'string' ? new Date(start) : start
   const endDate = typeof end === 'string' ? new Date(end) : end
   
-  // Validate times
   if (startDate >= endDate) {
     throw new CalendarApiError('invalid', 'Event start time must be before end time')
   }
   
-  // Define the API operation
   const createEventOperation = async (): Promise<CreatedEventResponse> => {
     return await withRateLimit('google-calendar', async () => {
-      // Create calendar client
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client })
       
-      // Prepare event resource
-      const eventResource: {
-        summary: string
-        description?: string
-        location?: string
-        start: { dateTime: string; timeZone?: string }
-        end: { dateTime: string; timeZone?: string }
-        attendees?: Array<{ email: string; displayName?: string; optional?: boolean }>
-      } = {
+      // Build event resource with all configurable properties
+      const eventResource: Record<string, unknown> = {
         summary,
-        start: {
-          dateTime: startDate.toISOString()
-        },
-        end: {
-          dateTime: endDate.toISOString()
-        }
+        start: { dateTime: startDate.toISOString() },
+        end: { dateTime: endDate.toISOString() }
       }
       
-      // Add optional fields
       if (description) {
         eventResource.description = description
       }
@@ -89,6 +82,53 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
           optional: attendee.optional
         }))
       }
+
+      if (visibility && visibility !== 'default') {
+        eventResource.visibility = visibility
+      }
+
+      if (transparency) {
+        eventResource.transparency = transparency
+      }
+
+      if (guestsCanModify !== undefined) {
+        eventResource.guestsCanModify = guestsCanModify
+      }
+
+      if (guestsCanInviteOthers !== undefined) {
+        eventResource.guestsCanInviteOthers = guestsCanInviteOthers
+      }
+
+      if (guestsCanSeeOtherGuests !== undefined) {
+        eventResource.guestsCanSeeOtherGuests = guestsCanSeeOtherGuests
+      }
+
+      if (colorId) {
+        eventResource.colorId = colorId
+      }
+
+      if (status && status !== 'confirmed') {
+        eventResource.status = status
+      }
+
+      if (reminderOverrides && reminderOverrides.length > 0) {
+        eventResource.reminders = {
+          useDefault: false,
+          overrides: reminderOverrides.map(r => ({
+            method: r.method,
+            minutes: r.minutes
+          }))
+        }
+      }
+
+      if (addConferenceLink) {
+        eventResource.conferenceData = {
+          createRequest: {
+            requestId: `${calendarId}-${Date.now()}`,
+            conferenceSolutionKey: { type: 'hangoutsMeet' }
+          }
+        }
+      }
       
       logger.debug('Creating event', {
         calendarId,
@@ -97,12 +137,18 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
         end: endDate.toISOString()
       })
       
-      // Make API call to create event
-      const response = await calendar.events.insert({
+      const insertParams: Record<string, unknown> = {
         calendarId,
         requestBody: eventResource,
-        sendUpdates  // 'all' sends email invitations to all attendees
-      })
+        sendUpdates
+      }
+
+      // conferenceDataVersion is required when creating Meet links
+      if (addConferenceLink) {
+        insertParams.conferenceDataVersion = 1
+      }
+
+      const response = await calendar.events.insert(insertParams)
       
       if (!response.data || !response.data.id) {
         throw new CalendarApiError('invalid', 'Invalid response from Google Calendar API - no event ID returned')
@@ -110,18 +156,12 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       
       const createdEvent = response.data
       
-      // CRITICAL: Invalidate caches after event creation
-      // This ensures subsequent availability checks get fresh data
       logger.debug('Invalidating caches after event creation', { calendarId })
-      
-      // Invalidate events cache for this calendar
       invalidateEventsCache(calendarId)
-      
       logger.debug('Successfully created event', { eventId: createdEvent.id })
       
-      // Build response
       const result: CreatedEventResponse = {
-        id: createdEvent.id!,  // Validated exists above
+        id: createdEvent.id!,
         htmlLink: (() => {
           const raw = createdEvent.htmlLink
           return raw !== undefined && raw !== null && raw !== '' ? raw : ''
@@ -148,14 +188,10 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
     })
   }
   
-  // Execute with retry (no fallback for write operations)
-  // LEARNING: Write operations should fail explicitly, not silently
-  // WHY: User needs to know if their event wasn't created
   try {
     return await withRetry(createEventOperation, { maxRetries: 2 })
   } catch (error: unknown) {
     logger.error(error)
-    // Ensure we throw a CalendarApiError
     const calendarError = error instanceof CalendarApiError 
       ? error 
       : classifyError(error)

@@ -37,6 +37,11 @@ export interface EventAttendee {
  * LEARNING: All required and optional fields for event creation
  * WHY: Type safety for event creation API
  */
+export interface ReminderOverride {
+  method: 'email' | 'popup'
+  minutes: number
+}
+
 export interface CreateEventParams {
   calendarId: string         // Calendar to create event on (usually primary calendar email)
   summary: string            // Event title
@@ -45,7 +50,16 @@ export interface CreateEventParams {
   start: Date | string       // Start time (Date or ISO string)
   end: Date | string         // End time (Date or ISO string)
   attendees?: EventAttendee[] // People to invite
-  sendUpdates?: 'all' | 'externalOnly' | 'none'  // Whether to send email invitations
+  sendUpdates?: 'all' | 'externalOnly' | 'none'
+  visibility?: 'default' | 'public' | 'private' | 'confidential'
+  transparency?: 'opaque' | 'transparent'
+  guestsCanModify?: boolean
+  guestsCanInviteOthers?: boolean
+  guestsCanSeeOtherGuests?: boolean
+  addConferenceLink?: boolean
+  colorId?: string | null
+  status?: 'confirmed' | 'tentative'
+  reminderOverrides?: ReminderOverride[] | null
 }
 
 /**

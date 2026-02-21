@@ -63,6 +63,86 @@ export const eventInstanceFields = {
     expandable: false,
   },
 
+  visibility: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event visibility",
+    globalField: "visibility" as const,
+    expandable: false,
+  },
+
+  transparency: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Free or busy",
+    globalField: "transparency" as const,
+    expandable: false,
+  },
+
+  guestsCanModify: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can modify",
+    globalField: "guestsCanModify" as const,
+    expandable: false,
+  },
+
+  guestsCanInviteOthers: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can invite others",
+    globalField: "guestsCanInviteOthers" as const,
+    expandable: false,
+  },
+
+  guestsCanSeeOtherGuests: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can see other guests",
+    globalField: "guestsCanSeeOtherGuests" as const,
+    expandable: false,
+  },
+
+  addConferenceLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Add Google Meet link",
+    globalField: "addConferenceLink" as const,
+    expandable: false,
+  },
+
+  sendUpdates: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Send email invitations",
+    globalField: "sendUpdates" as const,
+    expandable: false,
+  },
+
+  colorId: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event color",
+    globalField: "colorId" as const,
+    expandable: false,
+  },
+
+  status: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event status",
+    globalField: "status" as const,
+    expandable: false,
+  },
+
+  reminderOverrides: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Input,
+    placeholder: "Reminder overrides (JSON)",
+    globalField: "reminderOverrides" as const,
+    expandable: false,
+  },
+
   orderIndex: {
     primitiveType: PrimitiveTypeEnum.Number,
     primitiveMode: PrimitiveModeEnum.Hidden,

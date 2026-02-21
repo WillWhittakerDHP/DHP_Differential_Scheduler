@@ -228,8 +228,8 @@ client/.audit-reports/
 
 **Manual PR Creation:**
 ```bash
-# If automated creation fails:
-node .cursor/.scripts/create-pr.mjs "Session X.Y: Title" "Description"
+# If automated creation fails (from repo root):
+npx ts-node --esm .cursor/commands/scripts/create-pr.ts "Session X.Y: Title" "Description"
 
 # Or use gh CLI directly:
 gh pr create --title "Title" --body "Description" --assignee @me

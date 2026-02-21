@@ -201,6 +201,27 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 ---
 
+### 1.6 Admin Calendar View
+
+**Goal:** Let admins view a calendar overview of all appointments (moved from Feature 3 — Calendar & Appointment Availability).
+
+**Context:** Admins can configure calendars today but cannot see a calendar overview of all appointments. This item is tracked here as part of the Admin UI Overhaul.
+
+**Features:**
+- Calendar view showing all appointments (by calendar or aggregated)
+- Filter by date range, status, calendar
+- Navigate by week/month; drill into appointment details
+
+**Implementation:**
+- Reuse or extend availability/calendar components where applicable
+- Add admin route and view; wire to appointments API
+
+**Success Criteria:**
+- Admin can open a calendar and see all appointments
+- Admin can filter and navigate to understand schedule at a glance
+
+---
+
 ## Phase 2: Live Preview Panel
 
 ### 2.1 Booking Calculation Engine

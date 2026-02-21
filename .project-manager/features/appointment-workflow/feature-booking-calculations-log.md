@@ -150,6 +150,16 @@
 
 ---
 
+## Feature Checkpoints
+
+### Checkpoint 2026-02-20
+**Status:** [On track / Behind / Ahead]
+**Notes:** [Checkpoint notes]
+**Git Branch:** `feature/booking-calculations`
+**Git Commit:** [Commit hash]
+
+---
+
 ## Next Steps
 
 - [Next phase to start]

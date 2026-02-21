@@ -248,6 +248,15 @@ const newEventInstanceData = ref<{
   titleTemplate: string
   descriptionTemplate: string
   locationTemplate: string
+  visibility: 'default' | 'public' | 'private' | 'confidential'
+  transparency: 'opaque' | 'transparent'
+  guestsCanModify: boolean
+  guestsCanInviteOthers: boolean
+  guestsCanSeeOtherGuests: boolean
+  addConferenceLink: boolean
+  sendUpdates: 'all' | 'externalOnly' | 'none'
+  colorId: string | null
+  status: 'confirmed' | 'tentative'
 } | null>(null)
 
 // LEARNING: Events are now core entities, use entity CRUD composable
@@ -331,6 +340,15 @@ const openCreateEventInstanceForm = () => {
     titleTemplate: '',
     descriptionTemplate: '',
     locationTemplate: '',
+    visibility: 'default',
+    transparency: 'opaque',
+    guestsCanModify: false,
+    guestsCanInviteOthers: true,
+    guestsCanSeeOtherGuests: true,
+    addConferenceLink: false,
+    sendUpdates: 'all',
+    colorId: null,
+    status: 'confirmed',
   }
   isCreatingEventInstance.value = true
   expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
@@ -347,6 +365,16 @@ const handleEventInstanceCreate = async () => {
       titleTemplate: newEventInstanceData.value.titleTemplate.trim() || null,
       descriptionTemplate: newEventInstanceData.value.descriptionTemplate.trim() || null,
       locationTemplate: newEventInstanceData.value.locationTemplate.trim() || null,
+      visibility: newEventInstanceData.value.visibility,
+      transparency: newEventInstanceData.value.transparency,
+      guestsCanModify: newEventInstanceData.value.guestsCanModify,
+      guestsCanInviteOthers: newEventInstanceData.value.guestsCanInviteOthers,
+      guestsCanSeeOtherGuests: newEventInstanceData.value.guestsCanSeeOtherGuests,
+      addConferenceLink: newEventInstanceData.value.addConferenceLink,
+      sendUpdates: newEventInstanceData.value.sendUpdates,
+      colorId: newEventInstanceData.value.colorId,
+      status: newEventInstanceData.value.status,
+      reminderOverrides: null,
       orderIndex: 0,
       active: true,
       entityKey: 'eventInstance' as const
@@ -663,7 +691,8 @@ function handleDeleteEventInstance(_id: string) {
               </template>
               
               <template #text>
-                <div v-if="newEventInstanceData" class="d-flex flex-column gap-3">
+                <div v-if="newEventInstanceData" class="d-flex flex-column gap-4">
+                  <!-- Identity -->
                   <VSelect
                     v-model="newEventInstanceData.eventShapeRef"
                     :items="eventShapes"
@@ -680,6 +709,9 @@ function handleDeleteEventInstance(_id: string) {
                     density="compact"
                     @keyup.enter="handleEventInstanceCreate"
                   />
+
+                  <!-- Content Templates -->
+                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Content Templates</div>
                   <VTextarea
                     v-model="newEventInstanceData.titleTemplate"
                     label="Title Template"
@@ -704,7 +736,134 @@ function handleDeleteEventInstance(_id: string) {
                     rows="2"
                     hint="Template for event location (e.g., '{propertyAddress}')"
                   />
-                  <div class="d-flex gap-2 justify-end">
+
+                  <!-- Display & Status -->
+                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Display & Status</div>
+                  <VRow dense>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSelect
+                        v-model="newEventInstanceData.visibility"
+                        :items="[
+                          { title: 'Default', value: 'default' },
+                          { title: 'Public', value: 'public' },
+                          { title: 'Private', value: 'private' },
+                          { title: 'Confidential', value: 'confidential' },
+                        ]"
+                        label="Visibility"
+                        variant="outlined"
+                        density="compact"
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSelect
+                        v-model="newEventInstanceData.transparency"
+                        :items="[
+                          { title: 'Busy', value: 'opaque' },
+                          { title: 'Free', value: 'transparent' },
+                        ]"
+                        label="Show As"
+                        variant="outlined"
+                        density="compact"
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSelect
+                        v-model="newEventInstanceData.status"
+                        :items="[
+                          { title: 'Confirmed', value: 'confirmed' },
+                          { title: 'Tentative', value: 'tentative' },
+                        ]"
+                        label="Event Status"
+                        variant="outlined"
+                        density="compact"
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSelect
+                        v-model="newEventInstanceData.colorId"
+                        :items="[
+                          { title: 'Default', value: null },
+                          { title: '1 - Lavender', value: '1' },
+                          { title: '2 - Sage', value: '2' },
+                          { title: '3 - Grape', value: '3' },
+                          { title: '4 - Flamingo', value: '4' },
+                          { title: '5 - Banana', value: '5' },
+                          { title: '6 - Tangerine', value: '6' },
+                          { title: '7 - Peacock', value: '7' },
+                          { title: '8 - Graphite', value: '8' },
+                          { title: '9 - Blueberry', value: '9' },
+                          { title: '10 - Basil', value: '10' },
+                          { title: '11 - Tomato', value: '11' },
+                        ]"
+                        label="Event Color"
+                        variant="outlined"
+                        density="compact"
+                        clearable
+                      />
+                    </VCol>
+                  </VRow>
+
+                  <!-- Guest Permissions -->
+                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Guest Permissions</div>
+                  <VRow dense>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSwitch
+                        v-model="newEventInstanceData.guestsCanModify"
+                        label="Guests can modify event"
+                        density="compact"
+                        color="primary"
+                        hide-details
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSwitch
+                        v-model="newEventInstanceData.guestsCanInviteOthers"
+                        label="Guests can invite others"
+                        density="compact"
+                        color="primary"
+                        hide-details
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSwitch
+                        v-model="newEventInstanceData.guestsCanSeeOtherGuests"
+                        label="Guests can see guest list"
+                        density="compact"
+                        color="primary"
+                        hide-details
+                      />
+                    </VCol>
+                  </VRow>
+
+                  <!-- Notifications & Conferencing -->
+                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Notifications & Conferencing</div>
+                  <VRow dense>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSelect
+                        v-model="newEventInstanceData.sendUpdates"
+                        :items="[
+                          { title: 'All — send to everyone', value: 'all' },
+                          { title: 'External only', value: 'externalOnly' },
+                          { title: 'None — no emails', value: 'none' },
+                        ]"
+                        label="Send Invitations"
+                        variant="outlined"
+                        density="compact"
+                      />
+                    </VCol>
+                    <VCol cols="12" sm="6" md="4">
+                      <VSwitch
+                        v-model="newEventInstanceData.addConferenceLink"
+                        label="Add Google Meet link"
+                        density="compact"
+                        color="primary"
+                        hide-details
+                      />
+                    </VCol>
+                  </VRow>
+
+                  <!-- Actions -->
+                  <div class="d-flex gap-2 justify-end mt-2">
                     <VBtn
                       color="primary"
                       :loading="isCreatingEventInstanceLoading"

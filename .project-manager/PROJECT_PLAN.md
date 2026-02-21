@@ -21,27 +21,27 @@ This document serves as the master project plan for the DHP Differential Schedul
 
 ## Feature Summary
 
-| # | Feature | Status | Key Dates |
-|---|---------|--------|-----------|
-| 0 | Vue.js Migration | ✅ Complete | Completed ~2025-02 |
-| 1 | Data Flow Alignment | ✅ Complete | 2025-02-01 → 2026-01-31 |
-| 2 | Google APIs Integration | ✅ Complete | Started 2026-01-31 |
-| 3 | Calendar & Appointment Availability | ✅ Functionally Complete | — |
-| 4 | Pricing Cascades | ✅ Complete | Completed 2026-02-13 |
-| 5 | Property Enrichment & Mappings | ✅ Complete | Completed 2026-02-11 |
-| 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | Phase 1 complete Jan 2026 |
-| 7 | Authentication | 📋 Planning | — |
-| 8 | Security Hardening | 📋 Planning | — |
-| 9 | Testing & Quality Validation | 📋 Planning | — |
-| 10 | Production Readiness | 📋 Planning | — |
-| 11 | Pre-Launch Polish | 📋 Planning | — |
-| 12 | Alpha Launch & Deployment | 📋 Planning | — |
-| 13 | Beta Feedback System | ✅ Complete | Completed 2026-02-10 |
-| 14 | Guided Beta Testing | 📋 Planning | — |
-| 15 | Beta Feedback Response | 📋 Planning | — |
-| 16 | UI Polish | 🔮 Future | — |
-| 17 | Admin UI Overhaul | 🔮 Future | — |
-| 18 | Admin Assistance Wizard | 🔮 Future | — |
+| # | Feature | Status | Directory | Key Dates |
+|---|---------|--------|-----------|-----------|
+| 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
+| 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
+| 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
+| 3 | Calendar & Appointment Availability | ⏳ Partial | `features/calendar-appointment-availability/` | — |
+| 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
+| 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
+| 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
+| 7 | Authentication | 📋 Planning | `features/authentication/` | — |
+| 8 | Security Hardening | 📋 Planning | `features/security-hardening/` | — |
+| 9 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
+| 10 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
+| 11 | Pre-Launch Polish | 📋 Planning | `features/beta-launch/` | — |
+| 12 | Alpha Launch & Deployment | 📋 Planning | — | — |
+| 13 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
+| 14 | Guided Beta Testing | 📋 Planning | `features/guided-beta-testing/` | — |
+| 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
+| 16 | UI Polish | 🔮 Not Started | `features/feature-7-ui-polish/` | — |
+| 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
+| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
 
 ---
 
@@ -178,7 +178,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ✅ Functionally Complete
+**Status:** ⏳ Partial
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
 **Branch:** `feature/google-apis-integration` (built alongside other features)
 

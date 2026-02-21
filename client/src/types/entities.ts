@@ -82,6 +82,16 @@ export interface EventInstanceEntity extends BaseGlobalEntity<"eventInstance"> {
   titleTemplate: string | null;
   descriptionTemplate: string | null;
   locationTemplate: string | null;
+  visibility: 'default' | 'public' | 'private' | 'confidential';
+  transparency: 'opaque' | 'transparent';
+  guestsCanModify: boolean;
+  guestsCanInviteOthers: boolean;
+  guestsCanSeeOtherGuests: boolean;
+  addConferenceLink: boolean;
+  sendUpdates: 'all' | 'externalOnly' | 'none';
+  colorId: string | null;
+  status: 'confirmed' | 'tentative';
+  reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
 }
 
 export type AnnotationShapeEntity = BaseGlobalEntity<"annotationShape">

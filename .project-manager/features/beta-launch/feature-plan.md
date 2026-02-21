@@ -90,7 +90,9 @@ Get the codebase merged and the app running in a hosted environment (Render) so 
   - Pre-test enrichment pipeline end-to-end: search → transform → auto-populate → feature suggestions
   - Verify error handling with real edge cases (not found, partial data, rate limits)
   - Infrastructure is already built (Feature 2 Phase 2.3 / Feature 7) — currently returns 503 until credentials are set
+- [ ] **1.8c** Production OAuth token storage (optional for alpha): Google Calendar OAuth tokens are currently file-based (`.google-tokens.json`). For production, consider database-backed or other persistent storage so tokens survive deploys/restarts. See Feature 2 (Google APIs) and `server/src/config/googleOAuthTokenPersistence.ts`.
 - [ ] **1.9** Verify end-to-end: static site loads, API responds, database connected, calendar integration works
+- [ ] **1.9b** Real-time availability sync (optional): Calendar/availability currently relies on API calls; consider WebSocket or polling for live updates. See Feature 3 (Calendar & Appointment Availability).
 - [ ] **1.10** Create `render.yaml` Blueprint (see Phase 15.3)
 - [ ] **1.11** Configure custom domain (optional — can use Render's default URLs for alpha)
 

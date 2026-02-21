@@ -78,23 +78,19 @@ This feature implements a comprehensive appointment status workflow with 8 statu
 
 ## Future Implementation Phases (TODO)
 
-### Phase 2: Held Status & Booking Fee Logic
+### Phase 2: Held & Override Stubs
 
-**Goal:** Implement payment processing for booking fees to reserve time slots
+**Goal:** Prep **held** and **override** as stubs. Wire the paths (e.g. transition to `held`, admin override of blockages) without role enforcement; real enforcement (trusted agents/admins can hold, admins can override) is enacted in **Feature 7 (Authentication)** when auth is set up. No payment in scope.
 
-**Tasks:**
-- [ ] Create booking fee payment API endpoint
-- [ ] Integrate payment processor (Stripe/Square)
-- [ ] Auto-transition `started` → `held` when payment confirmed
-- [ ] Implement time slot reservation logic
-- [ ] Add timeout logic: `held` → `cancelled` if not confirmed within X hours
-- [ ] Release held time slots on cancellation/timeout
-- [ ] Add payment status tracking to appointment
+**Tasks (stub-only):**
+- [ ] Stub: transition started → held (e.g. API/UI path; no role check yet)
+- [ ] Stub: admin override of blockages (e.g. override flag or path; no role check yet)
+- [ ] Stub: slot reservation and held timeout (or document where they will plug in)
+- [ ] Note: Feature 7 will add auth/role checks and enact who can hold and who can override
 
 **Related Files:**
 - `server/src/routes/internal/appointments/appointmentRouter.ts`
-- `client/src/composables/booking/` (new payment composable)
-- `server/src/utils/availabilities/` (slot reservation)
+- `server/src/utils/availabilities/` (slot reservation — where stubs plug in)
 
 ---
 
