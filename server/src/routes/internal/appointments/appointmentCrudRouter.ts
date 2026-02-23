@@ -101,7 +101,6 @@ const router = createCrudRouter({
       const durationMinutes = fromRequest ?? (typeof defaultFromSettings === 'number' ? defaultFromSettings : 15)
 
       appointmentFields.heldUntil = new Date(Date.now() + durationMinutes * 60_000)
-      // TODO(Feature 7): Set heldBy from authenticated user (req.user.id)
       appointmentFields.heldBy = null
     }
 

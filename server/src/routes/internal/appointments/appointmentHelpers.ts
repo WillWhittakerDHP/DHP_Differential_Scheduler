@@ -28,7 +28,6 @@ const HOLD_DURATION_FALLBACK = 15
 
 /**
  * Default hold duration (minutes) from admin availability settings.
- * WHY: Server takes its cue from admin settings; no hardcoded fallback in router.
  */
 export async function getHoldDurationDefaultFromSettings(): Promise<number> {
   const setting = await BusinessSettings.findOne({

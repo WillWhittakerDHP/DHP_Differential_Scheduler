@@ -24,7 +24,6 @@ export function csrfProtection(req: Request, res: Response, next: NextFunction):
  * @see docs/SECURITY_STUBS.md
  */
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  // TODO(Feature 7): Implement real authentication check
   next()
 }
 
@@ -44,7 +43,6 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
  */
 export function requireRole(..._roles: string[]) {
   return (req: Request, res: Response, next: NextFunction): void => {
-    // TODO(Feature 7): Implement real role check against req.user.role
     next()
   }
 }
