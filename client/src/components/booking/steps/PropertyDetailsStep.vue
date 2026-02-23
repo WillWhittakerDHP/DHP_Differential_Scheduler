@@ -194,9 +194,7 @@ function handlePropertyEdit(): void {
 
 <template>
   <VForm ref="formRef" class="property-details-step">
-    /**
-     * <!-- WHY: Prominent selection at top matching Jose's design
-     */
+    <!-- WHY: Prominent selection at top matching Jose's design -->
     <div class="mb-6">
       <!-- Cascade configuration error -->
       <VAlert

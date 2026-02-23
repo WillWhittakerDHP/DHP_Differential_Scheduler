@@ -357,6 +357,7 @@ WHY: Composables can only be called during setup, not inside compute...
               }
             }
           } catch {
+            // no-op: Ignore form value read errors
           }
         }
       }

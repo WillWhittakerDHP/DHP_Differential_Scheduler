@@ -10,11 +10,8 @@
   <VForm 
     ref="formRef" 
     class="dynamic-form"
-    :autocomplete="autocompleteOff"
+        :autocomplete="autocompleteOff"
   >
-    /**
-     * <!-- WHY: Single rendering path for all entities using inline/stacked la...
-     */
     <VRow v-if="readyInlineFields && readyInlineFields.length > 0" class="mb-4">
       <VCol
         v-for="fieldKey in readyInlineFields"

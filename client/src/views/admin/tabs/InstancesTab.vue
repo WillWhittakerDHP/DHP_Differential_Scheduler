@@ -566,9 +566,6 @@ function handleDeleteEventInstance(_id: string) {
               v-model="expandedInstances"
               multiple
             >
-              /**
-               * <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own...
-               */
               <EntityCard
                 v-for="instance in (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || [])"
                 :key="instance.id"

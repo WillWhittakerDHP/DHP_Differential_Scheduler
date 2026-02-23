@@ -173,9 +173,6 @@ defineExpose({
       />
     </div>
     
-    /**
-     * <!-- WHY: Single rendering path for all entities using inline/stacked la...
-     */
     <template v-if="renderLayout">
       <VRow v-if="readyInlineFields && readyInlineFields.length > 0" class="mb-4">
         <VCol

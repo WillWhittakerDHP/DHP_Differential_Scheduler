@@ -147,9 +147,7 @@ const handleNumberUpdate = (value: string | number | null) => {
 </script>
 
 <template>
-  /**
-   * <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configur...
-   */
+  <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
   <div class="selection-card-wrapper">
     <!-- LEARNING: Parent Card with dynamic selection component -->
     <!-- WHY: Selection component is rendered dynamically based on config -->

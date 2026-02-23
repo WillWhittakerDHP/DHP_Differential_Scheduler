@@ -1,7 +1,5 @@
 /**
- * WHY: Component Transformer
-
-Composes properties from components to create com...
+ * Component Transformer — composes properties from components to create computed entities.
  */
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
@@ -16,9 +14,7 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 const logger = createLogger('componentAggregator')
 
 /**
- * WHY: Convert GlobalRelationship[] to InstanceComponent[] format
-
-LEARNING: Co...
+ * Convert GlobalRelationship[] to InstanceComponent[] format.
  */
 function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
   entityKind: GE,
@@ -146,9 +142,6 @@ export function composeProperties<GE extends GlobalEntityKey>(
     entityKind,
     globalData.entities.blockShape
   )
-  
-  if (entityKind === 'blockInstance') {
-  }
   
   return composed as Partial<GlobalEntity<GE>>
 }

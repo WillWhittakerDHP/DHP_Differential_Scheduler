@@ -528,9 +528,6 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
             multiple 
             v-if="isCreatingPartShape || partShapesList.length > 0"
           >
-          /**
-           * <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own...
-           */
           <EntityCard
             v-if="isCreatingPartShape"
             key="new-partShape"

@@ -1,8 +1,5 @@
 <template>
   <div>
-    /**
-     * <!-- WHY: renderAs is the source of truth for rendering - component disp...
-     */
     <TextInput
       v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"

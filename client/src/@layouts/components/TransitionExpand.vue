@@ -75,6 +75,7 @@ export default defineComponent({
 </style>
 
 <style scoped>
+* {
   backface-visibility: hidden;
   perspective: 1000px;
   transform: translateZ(0);

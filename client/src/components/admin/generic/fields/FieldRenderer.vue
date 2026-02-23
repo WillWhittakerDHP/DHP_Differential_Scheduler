@@ -1,8 +1,5 @@
 <template>
   <div v-if="effectiveFieldContext">
-    /**
-     * <!-- WHY: Single source of truth, easier to add new component types, mor...
-     */
     <component
       v-if="hasValidComponent"
       :is="componentToRender"

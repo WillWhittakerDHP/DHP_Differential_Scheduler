@@ -33,9 +33,7 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props, emit)
 </script>
 
 <template>
-  /**
-   * <!-- WHY: Allows switching between major and minor time views for differ...
-   */
+  <!-- WHY: Allows switching between major and minor time views for differential services -->
   <div v-if="isDifferentialService" class="d-flex flex-column flex-sm-row align-sm-center align-start mb-4 mb-sm-6 toggle-buttons">
     <div class="d-flex gap-2 flex-wrap">
       <VBtn

@@ -112,9 +112,7 @@ const isDevMode = isDevModeEnabled()
       </div>
     </div>
     
-    /**
-     * <!-- WHY: Prominent selection at top of step matching Jose's design
-     */
+    <!-- WHY: Prominent selection at top of step matching Jose's design -->
     <SelectionCardGroup
       v-else
       v-model="selectedUserTypeBlockId"
@@ -123,9 +121,7 @@ const isDevMode = isDevModeEnabled()
       class="mb-8 mb-sm-6"
     />
     
-    /**
-     * <!-- WHY: Better UX - quote mode is now a button in the stepper header
-     */
+    <!-- WHY: Better UX - quote mode is now a button in the stepper header -->
     <VRow v-if="wizard.selectedUserTypeBlock" class="service-type-section">
       <VCol cols="12">
         <h4 class="text-h4 mb-6 mb-sm-4">Service Type</h4>
@@ -140,16 +136,12 @@ const isDevMode = isDevModeEnabled()
           {{ wizard.servicesCascadeError.value }}
         </VAlert>
         
-        /**
-         * <!-- WHY: Provides feedback when no services match selected user type
-         */
+        <!-- WHY: Provides feedback when no services match selected user type -->
         <div v-else-if="wizard.availableServices.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
           No services available for selected user type.
         </div>
         
-        /**
-         * <!-- WHY: Card-based selection for better visual consistency
-         */
+        <!-- WHY: Card-based selection for better visual consistency -->
         <SelectionCardGroup
           v-else
           v-model="selectedServiceIds"

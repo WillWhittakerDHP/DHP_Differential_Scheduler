@@ -21,9 +21,6 @@
           Apply the same values to all BlockInstances for this BlockShape. Leave fields empty to skip them.
         </p>
 
-        /**
-         * <!-- WHY: Uses EntityCard for consistency, but filters metadata to show ...
-         */
         <div class="bulk-edit-entity-card">
           <!--
             LEARNING: EntityCard for bulk edit form

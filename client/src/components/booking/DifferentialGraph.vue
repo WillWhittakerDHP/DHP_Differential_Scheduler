@@ -123,9 +123,7 @@ const showStateLabel = computed(() => {
 </script>
 
 <template>
-  /**
-   * <!-- WHY: Visual bars showing major and minor time blocks for differenti...
-   */
+  <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
   <div v-if="isDifferentialService" class="differential-graph" :class="{ 'has-overlay': !hasSelectedSlot }">
     <!-- LEARNING: Overlay when no slot is selected -->
     <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
@@ -139,9 +137,7 @@ const showStateLabel = computed(() => {
       {{ stateLabel }}
     </div>
     
-    /**
-     * <!-- WHY: Shows major and minor time blocks separately for differential ...
-     */
+    <!-- WHY: Shows major and minor time blocks separately for differential services -->
     <div 
       class="time-bar major-bar clickable-bar" 
       :class="[majorBarState, { filled: hasSelectedSlot && !!graphBars.major }]"
@@ -155,9 +151,7 @@ const showStateLabel = computed(() => {
       <span v-if="majorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'major' }">{{ majorTimeDisplay }}</span>
     </div>
     
-    /**
-     * <!-- WHY: Shows minor time block with filled background, right-justified...
-     */
+    <!-- WHY: Shows minor time block with filled background, right-justified, half width -->
     <div 
       class="time-bar minor-bar clickable-bar" 
       :class="[minorBarState, { filled: hasSelectedSlot && !!graphBars.minor }]"
