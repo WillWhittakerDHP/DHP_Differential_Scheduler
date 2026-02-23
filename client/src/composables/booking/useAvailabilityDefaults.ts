@@ -21,7 +21,6 @@ export interface UseAvailabilityDefaultsOptions {
 
 export interface UseAvailabilityDefaultsReturn {
   /**
-   * WHY: /**
 Selected date state
 LEARNING: Uses ISO 8601 date format (YYYY-MM-DD)...
    */
@@ -41,7 +40,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   const { getFirstAvailabilityDate, getTodayDate } = useTimeFormatting()
 
   /**
-   * WHY: /**
 Selected date state
 WHY: Need reactive state for date selection
 FIX:...
@@ -58,7 +56,6 @@ FIX:...
   const startTimeType = ref<'major' | 'minor' | 'nonDifferential'>('major')
 
   /**
-   * WHY: /**
 Per-date slot selection storage
 LEARNING: Stores slot selections key...
    */
@@ -156,7 +153,6 @@ LEARNING: Stores slot selections key...
   }, { immediate: true })
 
   /**
-   * PATTERN: /**
 Watch isDifferentialService (now represents effective differential s...
    */
   watch(isDifferentialService, (isEffectivelyDifferential) => {

@@ -1,7 +1,3 @@
-/**
- * Admin Primitive Metadata CRUD Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { AdminPrimitiveMetadata } from '../../../db/models/admin/adminPrimitiveMetadata.js'
@@ -18,11 +14,6 @@ import { csrfProtection } from '../../../middlewares/security.js'
 
 const router = Router()
 
-/**
- * GET /admin-primitive-metadata/:entityType/:entityId
- * Get primitive metadata for a specific entity
- * 
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -47,11 +38,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 })
 
-/**
- * POST /admin-primitive-metadata/:entityType/:entityId
- * Create or update primitive metadata for an entity
- * 
- */
 router.post(
   '/:entityType/:entityId',
   csrfProtection, // Security middleware: CSRF protection
@@ -158,11 +144,6 @@ router.post(
   }
 )
 
-/**
- * DELETE /admin-primitive-metadata/:entityType/:entityId/:fieldKey
- * Delete primitive metadata for an entity
- * 
- */
 router.delete(
   '/:entityType/:entityId/:fieldKey',
   csrfProtection, // Security middleware: CSRF protection

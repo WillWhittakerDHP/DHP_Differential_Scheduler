@@ -5,23 +5,12 @@ import {
   loadTokensFromFile as loadTokensFromFileImpl
 } from './googleOAuthTokenPersistence.js'
 
-/**
- * Google OAuth Configuration
- * 
- * 
- * SESSION: 2.1.3b - Added file-based token persistence for development
- */
 
 const logger = createLogger('googleOAuth')
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
-/**
- * - calendar.readonly: Read calendar data (events, free-busy)
- * - calendar.freebusy: Read free-busy information
- * - calendar.events: Create, update, delete events (required for booking)
- */
 const GOOGLE_SCOPES = process.env.GOOGLE_SCOPES?.split(',') || [
   'https://www.googleapis.com/auth/calendar.readonly',
   'https://www.googleapis.com/auth/calendar.freebusy',
@@ -32,19 +21,12 @@ if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REDIRECT_URI) {
   throw new Error('Missing required Google OAuth environment variables: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI');
 }
 
-/**
- * OAuth2Client instance for Google Calendar API
- */
 export const oauth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   GOOGLE_REDIRECT_URI
 );
 
-/**
- * Generate authorization URL for OAuth flow
- * @returns Authorization URL string
- */
 export function getAuthUrl(): string {
   logger.debug('Client ID:', GOOGLE_CLIENT_ID)
   logger.debug('Redirect URI configured:', GOOGLE_REDIRECT_URI)
@@ -56,7 +38,6 @@ export function getAuthUrl(): string {
     prompt: 'consent' // Force consent screen to get refresh token
   })
   
-  // Debug: Parse and log the redirect_uri from the generated URL
   const urlObj = new URL(authUrl)
   const redirectUriParam = urlObj.searchParams.get('redirect_uri')
   logger.debug('Redirect URI in auth URL:', redirectUriParam)
@@ -76,10 +57,6 @@ export async function getTokens(code: string) {
   return tokens
 }
 
-/**
- * Set credentials on OAuth2Client
- * @param tokens Token object with access_token, refresh_token, etc.
- */
 export function setCredentials(tokens: {
   access_token?: string | null;
   refresh_token?: string | null;
@@ -88,10 +65,6 @@ export function setCredentials(tokens: {
   oauth2Client.setCredentials(tokens);
 }
 
-/**
- * Get current credentials from OAuth2Client
- * @returns Current credentials object
- */
 export function getCredentials() {
   return oauth2Client.credentials;
 }
@@ -101,9 +74,6 @@ export function getCredentials() {
  */
 export const saveTokensToFile = saveTokensToFileImpl
 
-/**
- * Load tokens from file and set on oauth2Client
- */
 export function loadTokensFromFile(): boolean {
   const tokens = loadTokensFromFileImpl()
   if (!tokens) return false

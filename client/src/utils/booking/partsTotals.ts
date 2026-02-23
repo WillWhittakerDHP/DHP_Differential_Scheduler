@@ -1,10 +1,4 @@
-/**
- * Shared utility for calculating parts totals
- */
 
-/**
- * Minimal interface for parts with totals properties
- */
 interface PartWithTotals {
   baseFee?: number | null
   baseTime?: number | null
@@ -12,9 +6,6 @@ interface PartWithTotals {
   rateOverBaseTime?: number | null
 }
 
-/**
- * Parts totals calculation result
- */
 interface PartsTotalsResult {
   totalBaseFee: number
   totalBaseTime: number
@@ -23,7 +14,6 @@ interface PartsTotalsResult {
 }
 
 /**
- * PATTERN: Calculate totals from an array of parts
 PATTERN: Reduce to sum each prop...
  */
 export function calculatePartsTotals(parts: PartWithTotals[]): PartsTotalsResult {

@@ -8,10 +8,6 @@ export interface ArrayDiffResult<T> {
   toRemove: T[]
 }
 
-/**
- * Compute which items to add (in newValues but not oldValues) and to remove (in oldValues but not newValues).
- * Uses optional identity for set membership (e.g. (x) => x.id for objects).
- */
 export function calculateArrayDiff<T>(
   oldValues: T[],
   newValues: T[],

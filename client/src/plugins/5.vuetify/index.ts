@@ -1,10 +1,3 @@
-/**
- * Vuetify Plugin - Load Order: 5
- * 
- * 
- * DEPENDENCY: Uses @layouts/stores/config (cookieRef) which requires Pinia
- * LOAD ORDER: Must load after Layouts (4.layouts) which initializes the layout store
- */
 
 import { deepMerge } from '@antfu/utils'
 import type { App } from 'vue'

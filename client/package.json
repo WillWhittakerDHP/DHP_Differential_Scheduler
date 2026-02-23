@@ -129,6 +129,7 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@ast-grep/cli": "^0.41.0",
     "@eslint/js": "^9.39.1",
     "@iconify-json/fa": "^1.2.2",
     "@iconify-json/mdi": "^1.2.3",

@@ -17,7 +17,6 @@ import { equals } from '@/utils/ternary/ternaryUtils'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 /**
- * WHY: Date range structure
 LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) fo...
  */
 interface DateRange {
@@ -269,7 +268,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * WHY: /**
 LEARNING: Effective differential state for UI rendering
 
 Logic:
@@ -286,7 +284,6 @@ Logic:
   })
 
   /**
-   * WHY: /**
 WHY: Transforms API response into component's expected format
 P2-2: ...
    */

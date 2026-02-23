@@ -1,10 +1,4 @@
 <script setup lang="ts">
-/**
- * API Dev Panel Component
- * 
- * 
- * REFACTORED: Extracted sub-components, composables, and utilities to reduce complexity
- */
 
 import { ref, watch, inject } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -35,12 +29,10 @@ void panelRef.value // ref used by template
 
 const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
 
-// API base URL for external routes
 // LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
 const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 
-// API status tracking from shared state
 const { apiStatus } = useApiCallStatus()
 
 const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()

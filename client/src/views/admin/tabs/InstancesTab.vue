@@ -36,10 +36,6 @@ import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 
 const logger = createLogger('InstancesTab')
 
-/**
- * Sentinel entity for metadata edit modal (global block-instance config per BlockShape).
- * Supplies all required BlockInstanceEntity fields so no type assertion is needed.
- */
 function createBlockInstanceConfigSentinel(blockShapeId: string): BlockInstanceEntity {
   return {
     id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),

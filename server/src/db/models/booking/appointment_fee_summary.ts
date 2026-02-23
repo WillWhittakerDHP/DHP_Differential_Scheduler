@@ -1,7 +1,3 @@
-/**
- * WHY: AppointmentFeeSummary Model
-LEARNING: 1:1 with appointment; persisted at...
- */
 import {
   Model,
   DataTypes,

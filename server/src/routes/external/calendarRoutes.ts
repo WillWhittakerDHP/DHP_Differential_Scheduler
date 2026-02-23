@@ -1,11 +1,5 @@
-/**
- * Calendar Routes
- *
- *
- * SESSION: 2.1.5 - Enhanced error handling with CalendarApiError
- */
-
 import { Router, Request, Response } from 'express';
+import Joi from 'joi';
 import { createEvent } from '../../services/google/calendar/eventCreationService.js';
 import { setCalendarCredentials } from '../../services/google/calendar/calendarCredentials.js';
 import type {
@@ -19,6 +13,17 @@ import { csrfProtection } from '../../middlewares/security.js';
 import { sendBadRequest, sendCreated } from '../helpers/routerResponseHelpers.js';
 import { CalendarDebugRouter } from './calendarDebugRoutes.js';
 import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js';
+
+const createEventBodySchema = Joi.object({
+  calendarId: Joi.string().required(),
+  summary: Joi.string().required(),
+  start: Joi.string().required(),
+  end: Joi.string().required(),
+  description: Joi.string().allow('').optional(),
+  location: Joi.string().allow('').optional(),
+  attendees: Joi.array().items(Joi.object({ email: Joi.string().email().required() })).optional(),
+  sendUpdates: Joi.string().valid('all', 'externalOnly', 'none').optional(),
+})
 
 const logger = createLogger('CalendarRoutes');
 
@@ -52,37 +57,16 @@ function withCalendarErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandle
   };
 }
 
-/**
- * POST /api/v1/external/calendar/events
- * Create a new calendar event with optional attendee invitations
- */
 router.post(
   '/events',
   csrfProtection,
   withCalendarErrorHandling(async (req: Request, res: Response): Promise<void> => {
-    const {
-      calendarId,
-      summary,
-      start,
-      end,
-      description,
-      location,
-      attendees,
-      sendUpdates,
-    } = req.body;
-
-    if (!calendarId || typeof calendarId !== 'string') {
-      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_CALENDAR_ID);
+    const validation = createEventBodySchema.validate(req.body, { abortEarly: false });
+    if (validation.error) {
+      sendBadRequest(res, validation.error.message);
       return;
     }
-    if (!summary || typeof summary !== 'string') {
-      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_SUMMARY);
-      return;
-    }
-    if (!start || !end) {
-      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.MISSING_TIMES);
-      return;
-    }
+    const { calendarId, summary, start, end, description, location, attendees, sendUpdates } = validation.value;
 
     const startDate = new Date(start);
     const endDate = new Date(end);
@@ -92,28 +76,6 @@ router.post(
     }
     if (startDate >= endDate) {
       sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.START_BEFORE_END);
-      return;
-    }
-
-    if (attendees) {
-      if (!Array.isArray(attendees)) {
-        sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_ATTENDEES);
-        return;
-      }
-      const invalidAttendee = attendees.find(
-        (a: { email?: unknown }) => !a?.email || typeof a.email !== 'string'
-      );
-      if (invalidAttendee) {
-        sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_ATTENDEE_EMAIL);
-        return;
-      }
-    }
-
-    if (
-      sendUpdates &&
-      !CALENDAR_ROUTE_MESSAGES.VALID_SEND_UPDATES.includes(sendUpdates)
-    ) {
-      sendBadRequest(res, CALENDAR_ROUTE_MESSAGES.INVALID_SEND_UPDATES);
       return;
     }
 

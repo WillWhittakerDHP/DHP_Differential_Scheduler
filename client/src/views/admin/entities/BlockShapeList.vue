@@ -66,10 +66,6 @@
 </template>
 
 <script setup lang="ts">
-/**
- * Block Type List Page
- * 
- */
 
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'

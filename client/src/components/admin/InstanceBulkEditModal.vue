@@ -147,8 +147,6 @@ import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: blockInstanceMetadata } = useEntityMetadata('blockInstance', templateEntity)
 
-/**
- */
 const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
   const metadata = blockInstanceMetadata.value
   if (!metadata || Object.keys(metadata).length === 0) {

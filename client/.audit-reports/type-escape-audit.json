@@ -1,8 +1,36 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-23T17:05:25.509Z",
-  "totalScanned": 795,
-  "findings": [],
+  "generatedAt": "2026-02-23T18:06:44.715Z",
+  "totalScanned": 4,
+  "findings": [
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "lineNumber": 3,
+      "ruleId": "as-any",
+      "snippet": "const y = x as any",
+      "message": "Type assertion to any",
+      "confidence": "high"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts",
+      "lineNumber": 3,
+      "ruleId": "as-any",
+      "snippet": "const y = x as any",
+      "message": "Type assertion to any",
+      "confidence": "high"
+    }
+  ],
   "functionTypeOffenders": [],
-  "files": []
+  "files": [
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts",
+      "score": 3,
+      "priority": "P2"
+    }
+  ]
 }

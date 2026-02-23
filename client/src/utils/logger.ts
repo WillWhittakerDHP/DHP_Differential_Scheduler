@@ -1,18 +1,3 @@
-/**
- * App Logger Utility
- *
- *
- * Controls:
- * - `VITE_LOG_LEVEL`: debug | info | warn | error | silent
- * - `VITE_DEBUG_SCOPES`: comma-separated scopes (or `*`) to allow debug logs in DEV
- *
- * Defaults:
- * - DEV: debug
- * - PROD: warn
- *
- * @audit-allow:duplication - Intentional parallel impl for client (Vite env) vs server (Node env); no shared package.
- * LogLevel and AppLogger from shared (Phase 1.3 type-similarity UNIFY).
- */
 import type { AppLogger as SharedAppLogger, LogLevel as SharedLogLevel, Logger as SharedLogger } from '@shared/types/loggerTypes'
 
 export type LogLevel = SharedLogLevel
@@ -77,9 +62,6 @@ function isDebugScopeEnabled(scope: string): boolean {
   return scopes.has('*') || scopes.has(normalized)
 }
 
-/**
- * Check if a scope is explicitly enabled in VITE_DEBUG_SCOPES
- */
 export function isScopeExplicitlyEnabled(scope: string): boolean {
   if (!import.meta.env.DEV) return false
   const scopes = getDebugScopes()

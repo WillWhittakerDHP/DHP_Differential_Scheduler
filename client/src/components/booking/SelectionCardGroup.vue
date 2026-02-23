@@ -1,9 +1,4 @@
 <script setup lang="ts">
-/**
- * WHY: SelectionCardGroup Component
-
-LEARNING: Simple wrapper that manages VRad...
- */
 import { computed } from 'vue'
 import SelectionCard from './SelectionCard.vue'
 import type { 

@@ -1,11 +1,4 @@
-/**
- * Entity Constants (Server-side)
- * 
- */
 
-/**
- * Entity key constants
- */
 export const ENTITY_KEYS = {
   BLOCK_INSTANCE: 'blockInstance',
   BLOCK_SHAPE: 'blockShape',
@@ -18,14 +11,10 @@ export const ENTITY_KEYS = {
 } as const
 
 /**
- * PATTERN: Entity key type
 PATTERN: typeof pattern for type extraction
  */
 export type EntityKey = typeof ENTITY_KEYS[keyof typeof ENTITY_KEYS]
 
-/**
- * Array of all entity keys
- */
 export const ENTITY_KEYS_ARRAY: EntityKey[] = [
   ENTITY_KEYS.BLOCK_INSTANCE,
   ENTITY_KEYS.BLOCK_SHAPE,

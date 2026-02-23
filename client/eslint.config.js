@@ -1,8 +1,3 @@
-/**
- * ESLint Configuration for Vue App
- *
- * ESLint 9 flat config format for Vue 3 + TypeScript.
- */
 import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
@@ -134,10 +129,6 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-empty-object-type': 'warn',
       
-      /**
-       * detect-object-injection flags legitimate TypeScript/Vue dynamic property access patterns;
-       * disabled as it doesn't provide value for our codebase patterns.
-       */
       'security/detect-object-injection': 'off',
       //      We keep this as 'warn' to catch potential issues, but will add disable comments
       'security/detect-non-literal-regexp': 'warn',
@@ -240,16 +231,8 @@ export default tseslint.config(
   
   {
     ignores: [
-      'node_modules/**',
-      'dist/**',
-      '**/*.d.ts',
       'src/**/__tests__/**',
       'src/**/*.test.ts',
       'src/**/*.test.tsx',
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
-      '.scripts/**',
-      '.audit-reports/**',
-    ],
-  },
-)

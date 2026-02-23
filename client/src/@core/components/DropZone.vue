@@ -10,7 +10,6 @@ interface FileData {
 const fileData = ref<FileData[]>([])
 const { open, onChange } = useFileDialog({ accept: 'image/*' })
 
-// Snackbar state for error messages
 const snackbar = ref(false)
 const snackbarMessage = ref('')
 

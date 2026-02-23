@@ -1,6 +1,3 @@
-/**
- * Appointment API endpoint builders
- */
 
 export function getAppointmentEndpoint(): string {
   return '/appointments'

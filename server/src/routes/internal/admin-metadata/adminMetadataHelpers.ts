@@ -1,7 +1,3 @@
-/**
- * Admin Metadata Router Helper Functions
- * 
- */
 
 import { Op } from 'sequelize'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
@@ -11,37 +7,20 @@ import { GLOBAL_CONFIG_IDS, VALID_ENTITY_TYPES } from './adminMetadataConstants.
 type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 
 /**
- * WHY: Determine metadata type from field key
 WHY: Matches entity pattern - bac...
  */
 export function determineMetadataType(fieldKey: string): 'relationship' | 'primitive' {
   return isRelationshipKey(fieldKey) ? 'relationship' : 'primitive'
 }
 
-/**
- * Get default renderAs based on metadata type
- * 
- * @param metadataType - Metadata type ('relationship' or 'primitive')
- * @returns Default renderAs value
- */
 export function getDefaultRenderAs(metadataType: 'relationship' | 'primitive'): string {
   return metadataType === 'relationship' ? 'reference' : 'text'
 }
 
-/**
- * Get default panel based on metadata type
- * 
- * @param metadataType - Metadata type ('relationship' or 'primitive')
- * @returns Default panel value
- */
 export function getDefaultPanel(metadataType: 'relationship' | 'primitive'): string {
   return metadataType === 'relationship' ? 'relationships' : 'none'
 }
 
-/**
- * WHY: Resolve entity ID and blockShapeRef for blockInstance metadata
-WHY: Bloc...
- */
 export function resolveBlockInstanceMetadata(
   entityType: string,
   entityId: string,
@@ -60,16 +39,6 @@ export function resolveBlockInstanceMetadata(
   }
 }
 
-/**
- * Build where clause for finding existing metadata
- * 
- * @param entityType - Entity type
- * @param entityId - Entity ID
- * @param metadataType - Metadata type ('relationship' or 'primitive')
- * @param fieldKey - Field key
- * @param blockShapeRef - BlockShape reference (optional)
- * @returns Sequelize where clause
- */
 export function buildMetadataWhereClause(
   entityType: string,
   entityId: string,
@@ -93,12 +62,6 @@ export function buildMetadataWhereClause(
   return where
 }
 
-/**
- * Build batch metadata result structure
- * 
- * @param allMetadata - Array of all metadata records
- * @returns Structured batch metadata result
- */
 export function buildBatchMetadataResult(allMetadata: InstanceType<typeof AdminMetadata>[]): {
   global: {
     blockShape: Record<string, unknown>

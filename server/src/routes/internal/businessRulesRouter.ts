@@ -1,7 +1,3 @@
-/**
- * Business Rules Router - Main Orchestrator
- * 
- */
 
 import { Router } from 'express'
 import { BusinessRulesCrudRouter } from './businessRulesCrudRouter.js'

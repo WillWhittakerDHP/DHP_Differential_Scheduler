@@ -28,26 +28,12 @@ export interface UseDependentInstancesReturn {
   hasDependentInstances: ComputedRef<boolean>
 }
 
-/**
- * useDependentInstances composable
- * 
- * 
- * @example
- * ```ts
- * // Get dependent instances for a service
- * const { dependentInstances } = useDependentInstances({
- *   parentInstance: computed(() => selectedService.value)
- * })
- * ```
- */
 export function useDependentInstances(
   options: UseDependentInstancesOptions
 ): UseDependentInstancesReturn {
   const { parentInstance, relationships: externalRelationships } = options
   const { getGlobalData, getGlobalEntityById } = useGlobal()
   
-  /**
-   */
   const dependentInstanceRelationships = computed((): GlobalRelationship[] => {
     if (externalRelationships?.value) {
       return externalRelationships.value.filter(
@@ -61,8 +47,6 @@ export function useDependentInstances(
     return globalData.relationships.dependentInstances
   })
   
-  /**
-   */
   const dependentInstanceIds = computed((): string[] => {
     const parent = parentInstance.value
     if (!parent) return []
@@ -75,8 +59,6 @@ export function useDependentInstances(
     return extractChildIds(parentRelationships)
   })
   
-  /**
-   */
   const dependentInstances = computed((): BookingBlockInstance[] => {
     const ids = dependentInstanceIds.value
     if (ids.length === 0) return []

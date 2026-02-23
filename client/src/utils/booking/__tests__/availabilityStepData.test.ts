@@ -265,7 +265,6 @@ describe('availabilityStepData', () => {
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
         selectedSlot: slot,
-        // No availabilitySettings - should fallback to totalTimeRange
       })
       
       expect(result).toEqual([
@@ -312,7 +311,6 @@ describe('availabilityStepData', () => {
         availabilitySettings: mockAvailabilitySettings,
       })
       
-      // Should fallback to totalTimeRange
       expect(result).toEqual([
         { 
           startTime: '2026-01-15T14:00:00.000Z' as RFC3339DateTime,

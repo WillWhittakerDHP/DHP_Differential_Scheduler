@@ -1,7 +1,3 @@
-/**
- * WHY: Compose Property Value Types and Utilities
-LEARNING: Our component-compo...
- */
 import type { ComponentStrategy } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -60,15 +56,6 @@ function composeProperty<T extends string | number | boolean | unknown[]>(
   }
 }
 
-/**
- * Compose properties from component entities
- * 
- * 
- * @param components - Array of component entities
- * @param entityKind - Entity type key
- * @param blockShapes - Array of blockShape entities (for baseSqFt filtering)
- * @returns Partial entity with composed properties
- */
 export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   components: GlobalEntity<GE>[],
   entityKind: GE,

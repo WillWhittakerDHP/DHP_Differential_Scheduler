@@ -18,10 +18,6 @@ export type UseWizardFilteredOptionsParams = {
 
 export type UseWizardFilteredOptionsReturn = WizardComputedProperties
 
-/**
- * Booking wizard selection flow filters.
- * Uses cascadeFilterPipeline for cascade + shape + fallback; single call per relationship for instances + error.
- */
 export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams): UseWizardFilteredOptionsReturn {
   const {
     bookingData,

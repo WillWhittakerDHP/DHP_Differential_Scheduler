@@ -38,8 +38,6 @@ export function useFieldRendererComponent(
     ? computed(() => hasFieldContext)
     : hasFieldContext
 
-  /**
-   */
   const componentToRender = computed(() => {
     if (!hasFieldContextRef.value) {
       return null
@@ -48,14 +46,10 @@ export function useFieldRendererComponent(
     return componentMap[type.type] || null
   })
 
-  /**
-   */
   const hasValidComponent = computed(() => {
     return !!componentToRender.value
   })
 
-  /**
-   */
   const shouldShowError = computed(() => {
     if (!hasFieldContextRef.value) {
       return false

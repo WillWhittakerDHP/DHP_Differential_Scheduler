@@ -184,7 +184,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   }
   
   /**
-   * WHY: /**
 LEARNING: Transform entities to select options format
 WHY: AppSelect...
    */

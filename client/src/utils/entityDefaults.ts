@@ -1,9 +1,3 @@
-/**
- * Entity Defaults Utility
- * 
- * 
- * This ensures all required fields are included with proper defaults when creating test entities
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -29,14 +23,6 @@ export function getEntityDisplayName(entityKey: GlobalEntityKey): string {
   return ENTITY_DISPLAY_NAMES[entityKey] ?? entityKey
 }
 
-/**
- * 
- * Get default values for an entity type based on admin metadata
- * Returns defaults for all fields based on their dataType and isRequired status
- * 
- * @param entityKey - The entity type key
- * @returns Record of default values based on metadata
- */
 function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, ValidAdminValue> {
   const entityType = getEntityTypeForMetadata(entityKey)
   if (!entityType) {
@@ -114,14 +100,6 @@ function getDynamicEntityDefaults(entityKey: GlobalEntityKey): Record<string, Va
 }
 
 
-/**
- * Merge provided entity data with required defaults
- * 
- * 
- * @param entityKey - The entity type key
- * @param providedData - Partial entity data provided by caller
- * @returns Entity data with all required fields included
- */
 export function mergeEntityDefaults<GE extends GlobalEntityKey>(
   entityKey: GE,
   providedData: Partial<GlobalEntity<GE>>

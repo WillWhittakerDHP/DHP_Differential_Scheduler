@@ -1,5 +1,4 @@
 /**
- * PATTERN: Client-side Calendar API Service
 
 PATTERN: Service layer between composa...
  */
@@ -26,9 +25,6 @@ type CalendarApiErrorType =
   | 'calendar_not_found'
   | 'unknown'
 
-/**
- * Calendar API error with type information
- */
 export class CalendarApiError extends Error {
   constructor(
     public type: CalendarApiErrorType,
@@ -41,10 +37,6 @@ export class CalendarApiError extends Error {
 }
 
 
-/**
- * Handle API errors and convert to CalendarApiError
- * 
- */
 function handleApiError(error: unknown): CalendarApiError {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<{ error?: string; authUrl?: string }>
@@ -71,7 +63,6 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Check for network error (no response)
     if (!axiosError.response) {
       return new CalendarApiError(
         'network_error',
@@ -79,7 +70,6 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Default to invalid response for other errors
     const rawMessage = axiosError.response?.data?.error
     const message = rawMessage !== undefined && rawMessage !== null && rawMessage !== '' ? rawMessage : 'Invalid response from server'
     return new CalendarApiError('invalid_response', message)

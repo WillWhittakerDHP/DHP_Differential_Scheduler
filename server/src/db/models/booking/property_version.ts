@@ -8,10 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * PropertyVersion Model
- * 
- */
 export class PropertyVersion extends Model<
   InferAttributes<PropertyVersion>,
   InferCreationAttributes<PropertyVersion>

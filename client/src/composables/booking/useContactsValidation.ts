@@ -1,7 +1,3 @@
-/**
- * useContactsValidation Composable
- * 
- */
 
 import { computed, type Ref } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
@@ -25,10 +21,6 @@ export interface UseContactsValidationParams {
 
 export type UseContactsValidationReturn = UseStepValidationReturn
 
-/**
- * useContactsValidation composable
- * 
- */
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
     clientInfo,
@@ -44,8 +36,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
 
   const { required, email } = useFormValidation()
 
-  /**
-   */
   const validationRules: Record<string, ValidationRule[]> = {
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
@@ -83,8 +73,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     sellerEmail: computed(() => sellerInfo.value.email)
   }
 
-  /**
-   */
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {
       clientFirstName: validationRules.clientFirstName,

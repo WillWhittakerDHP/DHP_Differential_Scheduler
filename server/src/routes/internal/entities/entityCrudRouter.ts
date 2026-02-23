@@ -1,8 +1,3 @@
-/**
- * WHY: Entity CRUD Router
-
-LEARNING: Refactored to use response helpers and sec...
- */
 import { Router, Request, Response } from 'express'
 import { 
   fetchAll, 
@@ -31,11 +26,6 @@ const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
 
-/**
- * GET /entities/:entityType
- * List all entities of a given type
- * 
- */
 router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -57,11 +47,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
   }
 })
 
-/**
- * GET /entities/:entityType/:id
- * Get single entity by ID
- * 
- */
 router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -86,11 +71,6 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
   }
 })
 
-/**
- * POST /entities/:entityType
- * Create a new entity
- * 
- */
 router.post(
   '/:entityType',
   csrfProtection, // Security middleware: CSRF protection
@@ -115,11 +95,6 @@ router.post(
   }
 )
 
-/**
- * PUT /entities/:entityType/:id
- * Update an entity (full update)
- * 
- */
 router.put(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -176,11 +151,6 @@ router.put(
   }
 )
 
-/**
- * PATCH /entities/:entityType/:id
- * Partial update an entity
- * 
- */
 router.patch(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -250,11 +220,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /entities/:entityType/:id
- * Delete an entity
- * 
- */
 router.delete(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection

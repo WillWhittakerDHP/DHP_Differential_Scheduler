@@ -1,9 +1,3 @@
-/**
- * useAppointmentSlots Composable
- *
- *
- * Phase 5: Server-Side Slot Computation — no client overlap/capacity re-check
- */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type {
@@ -43,10 +37,6 @@ export interface UseAppointmentSlotsReturn {
   }>
 }
 
-/**
- * useAppointmentSlots
- *
- */
 export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
   const {
     blockInstances,

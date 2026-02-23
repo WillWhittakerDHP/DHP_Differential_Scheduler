@@ -1,7 +1,3 @@
-/**
- * Property Router - Main Orchestrator
- * 
- */
 
 import { Router } from 'express'
 import { PropertyCrudRouter } from './propertyCrudRouter.js'

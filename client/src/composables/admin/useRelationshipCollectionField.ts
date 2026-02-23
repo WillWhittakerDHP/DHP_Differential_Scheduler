@@ -23,8 +23,6 @@ export function useRelationshipCollectionField<
 >(fieldContext: FieldContextType<GE, GF>) {
   const adminComp = useAdmin()
   
-  /**
-   */
   const entity = computed<GlobalEntity<GE> | null>(() => {
     try {
       const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
@@ -42,8 +40,6 @@ export function useRelationshipCollectionField<
     entity
   )
   
-  /**
-   */
   const fieldMetadataEntry = computed(() => {
     if (!fieldMetadata.value) {
       return undefined
@@ -87,11 +83,6 @@ export function useRelationshipCollectionField<
     return config
   })
 
-  /**
-   * WHY: /**
-Get child entity key from config - NO FALLBACKS
-LEARNING: Extract ca...
-   */
   const childEntityKey = computed<GlobalEntityKey>(() => {
     const config = selectConfig.value
     
@@ -106,11 +97,6 @@ LEARNING: Extract ca...
     return config.candidateChildKey as GlobalEntityKey
   })
 
-  /**
-   * WHY: /**
-Get relationship key from config - NO FALLBACKS
-LEARNING: Extract ta...
-   */
   const relationshipKey = computed<string>(() => {
     const config = selectConfig.value
     
@@ -125,11 +111,6 @@ LEARNING: Extract ta...
     return config.targetKey as string
   })
 
-  /**
-   * WHY: /**
-Get options field key from config - DERIVED FROM CONFIG
-LEARNING: Ex...
-   */
   const optionsFieldKey = computed<string>(() => {
     const config = selectConfig.value
     const relKey = relationshipKey.value
@@ -158,24 +139,10 @@ LEARNING: Ex...
     )
   })
 
-  /**
-   * WHY: /**
-Get parent entity from admin store
-LEARNING: Read parent entity usin...
-   */
   const parentEntity = computed<GlobalEntity<GE> | undefined>(() => {
     return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
   })
 
-  /**
-   * Determine parent type field based on entity key
-   * 
-   * Supports:
-   * - blockInstance → blockShapeRef
-   * - partInstance → partShapeRef
-   * - blockShape → null (shape is already the type)
-   * - partShape → null (shape is already the type)
-   */
   const parentTypeProperty = computed<string | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShapeRef'
     if (fieldContext.entityKey === 'partInstance') return 'partShapeRef'
@@ -183,9 +150,6 @@ LEARNING: Read parent entity usin...
     return null
   })
 
-  /**
-   * Get parent type entity key based on entity key
-   */
   const parentTypeEntityKey = computed<GlobalEntityKey | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
     if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
@@ -195,11 +159,6 @@ LEARNING: Read parent entity usin...
     return null
   })
 
-  /**
-   * Get parent type reference from parent entity
-   * 
-   * For shape-level entities, returns the entity ID directly
-   */
   const parentTypeRef = computed<string | null>(() => {
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') {
       return fieldContext.entityId
@@ -209,21 +168,11 @@ LEARNING: Read parent entity usin...
     return getEntityFieldValue(parentEntity.value, parentTypeProperty.value) as string | null
   })
 
-  /**
-   * WHY: /**
-Get parent type entity from admin store
-LEARNING: Read parent shape ...
-   */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | undefined>(() => {
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return undefined
     return adminComp.getEntity(parentTypeEntityKey.value, toGlobalEntityId(parentTypeRef.value))
   })
 
-  /**
-   * Determine if relationshipCollection field should be displayed
-   * 
-   * For shape-level entities, checks the entity itself for valid options
-   */
   const shouldDisplay = computed<boolean>(() => {
     if (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') {
       if (!parentEntity.value) return false
@@ -249,9 +198,6 @@ LEARNING: Read parent shape ...
     return hasValidOptions
   })
 
-  /**
-   * Default expanded state - NO DEFAULTS
-   */
   const defaultExpanded = computed<boolean | undefined>(() => {
     const meta = fieldMetadataEntry.value
     // LEARNING: NO DEFAULTS - expanded state should be explicitly configured
@@ -259,9 +205,6 @@ LEARNING: Read parent shape ...
     return (meta as { defaultExpanded?: boolean })?.defaultExpanded
   })
 
-  /**
-   * Function to get child's parent ID - NO DEFAULTS
-   */
   const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
     // PATTERN: Fail explicitly when required data is missing
     if (!parentEntity.value) {
@@ -287,9 +230,6 @@ LEARNING: Read parent shape ...
     return ''
   }
 
-  /**
-   * Function to get parent ID
-   */
   const getParentId = (parent: GlobalEntity<GlobalEntityKey>): string => {
     return parent.id
   }

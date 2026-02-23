@@ -39,7 +39,6 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
 
 
   /**
-   * WHY: /**
 LEARNING: Transform selected time slots to API format
 WHY: Converts ...
    */

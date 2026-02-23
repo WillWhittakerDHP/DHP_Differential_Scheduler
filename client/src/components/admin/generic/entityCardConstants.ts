@@ -1,7 +1,3 @@
-/**
- * EntityCard Constants
- * 
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -14,9 +10,6 @@ export interface EntityCardSharedProps {
 /** Keyboard key for Enter (used in title keydown handler to avoid hardcoding magic strings) */
 export const KEY_ENTER = 'Enter'
 
-/**
- * Symbol key for EntityCard save context injection
- */
 export const ENTITY_CARD_SAVE_KEY = Symbol('entityCardSave')
 
 export interface EntityCardSaveContext {
@@ -25,7 +18,4 @@ export interface EntityCardSaveContext {
   disableAutoSave?: boolean
 }
 
-/**
- * Symbol key for EntityCard auto-save disable flag
- */
 export const ENTITY_CARD_DISABLE_AUTOSAVE_KEY = Symbol('entityCardDisableAutoSave')

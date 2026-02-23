@@ -1,13 +1,4 @@
 <script setup lang="ts">
-/**
- * TimeBasisButtonGrid Component
- * 
- * 
- * Features:
- * - Two buttons styled like appointment slot grid buttons
- * - Major/Minor toggle for differential services
- * - Responsive grid layout matching AppointmentSlotGrid
- */
 
 import { computed } from 'vue'
 import { useTimeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/composables/booking/useTimeBasisHandler'

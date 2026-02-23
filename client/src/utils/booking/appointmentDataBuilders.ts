@@ -1,6 +1,3 @@
-/**
- * Builders for appointment request payload from wizard step data.
- */
 
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'

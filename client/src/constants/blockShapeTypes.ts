@@ -1,7 +1,3 @@
-/**
- * Block Shape Type Constants
- * 
- */
 
 export const BLOCK_SHAPE_TYPES = {
   USER: 'user',

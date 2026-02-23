@@ -2,7 +2,6 @@
 import { computed, type Ref } from 'vue'
 
 /**
- * WHY: Validation Rule Type
 WHY: Matches Vuetify's validation rule pattern
  */
 export type ValidationRule = (value: unknown) => string | boolean
@@ -35,7 +34,6 @@ export function useFormValidation() {
   }
 
   /**
-   * WHY: /**
 Email format validation rule
 LEARNING: Validates email format using ...
    */
@@ -49,7 +47,6 @@ LEARNING: Validates email format using ...
   }
 
   /**
-   * WHY: /**
 Phone number format validation rule
 LEARNING: Validates phone number...
    */
@@ -114,7 +111,6 @@ LEARNING: Validates phone number...
   }
 
   /**
-   * WHY: /**
 Zip code format validation rule (US format)
 LEARNING: Validates US z...
    */
@@ -218,7 +214,6 @@ LEARNING: Validates US z...
   }
 
   /**
-   * WHY: /**
 Check if form is valid (reactive)
 WHY: Enables reactive form validat...
    */

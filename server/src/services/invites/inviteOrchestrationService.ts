@@ -1,20 +1,3 @@
-/**
- * Invite Orchestration Service
- *
- * The central pipeline for creating Google Calendar invites from appointments.
- *
- * Flow:
- *   1. Fetch appointment with relations (property, attendees, users)
- *   2. Resolve which EventInstances apply (appointment block instances → part assignments → event assignments → event instances)
- *   3. For each active EventInstance:
- *      a. Resolve title/description/location templates with appointment context
- *      b. Determine per-event attendees via EventShapeAttendee (which user types attend this shape)
- *      c. Call createEvent() with resolved templates + EventInstance calendar properties
- *      d. Update AppointmentAttendee records with googleEventId and invitationStatus
- *   4. Return aggregate results
- *
- * Replaces the hardcoded appointmentCalendarService for richer, configurable invite behavior.
- */
 
 import { Op } from 'sequelize'
 import { createEvent } from '../google/calendar/eventCreationService.js'
@@ -60,12 +43,6 @@ export interface InviteOrchestrationResult {
 }
 
 
-/**
- * Create calendar invites for an appointment using configured EventInstances.
- *
- * If no EventInstances are found for the appointment's selected services,
- * falls back to the legacy single-event behavior.
- */
 export async function createInvitesForAppointment(
   appointmentId: string,
   calendarId: string = 'primary'
@@ -143,10 +120,6 @@ async function fetchAppointmentWithRelations(appointmentId: string): Promise<App
   })
 }
 
-/**
- * Normalize appointment from DB shape to InviteAppointmentData.
- * Model selectedTimeSlots is Array<Record<string, unknown>>; builder expects { startTime, endTime }[].
- */
 function toInviteAppointmentData(appointment: AppointmentWithRelations): InviteAppointmentData {
   const rawSlots = appointment.selectedTimeSlots
   const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots
@@ -168,10 +141,6 @@ function toInviteAppointmentData(appointment: AppointmentWithRelations): InviteA
   }
 }
 
-/**
- * Collect all block instance IDs referenced by the appointment
- * (services, properties, options).
- */
 function collectBlockInstanceIds(appointment: AppointmentType): string[] {
   return [
     ...(appointment.selectedServiceIds ?? []),
@@ -180,12 +149,6 @@ function collectBlockInstanceIds(appointment: AppointmentType): string[] {
   ]
 }
 
-/**
- * Find all active EventInstances linked to the given block instance IDs
- * through the chain: block instance → part assignments → event assignments → event instances.
- *
- * Also handles event assignments where parent_kind = 'blockInstance' (direct block → event links).
- */
 async function findEventInstancesForBlockInstances(
   blockInstanceIds: string[]
 ): Promise<EventInstanceType[]> {
@@ -222,10 +185,6 @@ async function findEventInstancesForBlockInstances(
   return uniqueInstances
 }
 
-/**
- * Resolve a human-readable service name from the selected block instance IDs.
- * Uses the first found block instance name as the primary service.
- */
 async function resolveServiceName(blockInstanceIds: string[]): Promise<string | undefined> {
   if (blockInstanceIds.length === 0) return undefined
 
@@ -236,9 +195,6 @@ async function resolveServiceName(blockInstanceIds: string[]): Promise<string | 
 }
 
 
-/**
- * Create a single Google Calendar event for one EventInstance.
- */
 async function createEventForInstance(
   eventInstance: EventInstanceType,
   appointment: AppointmentWithRelations,
@@ -324,19 +280,10 @@ async function createEventForInstance(
 }
 
 
-/**
- * Determine which AppointmentAttendees should be invited to an event of a given shape.
- *
- * Flow:
- *   1. Look up EventShapeAttendees for the event shape → get list of userTypeBlockInstanceIds
- *   2. Filter AppointmentAttendees whose userTypeBlockInstanceId matches AND shouldReceiveInvitation = true
- *   3. Map to EventAttendee objects with email/displayName
- */
 async function buildAttendeesForEventShape(
   eventShapeId: string,
   appointment: AppointmentWithRelations
 ): Promise<EventAttendee[]> {
-  // Which user types should attend this event shape?
   const shapeAttendees = await EventShapeAttendee.findAll({
     where: { eventShapeId },
     attributes: ['userTypeBlockInstanceId'],
@@ -366,9 +313,6 @@ async function buildAttendeesForEventShape(
     }))
 }
 
-/**
- * Fallback: invite all attendees who should receive invitations.
- */
 function buildAllAttendees(appointment: AppointmentWithRelations): EventAttendee[] {
   const attendees = appointment.attendees ?? []
 
@@ -401,10 +345,6 @@ interface AppointmentWithRelations extends AppointmentType {
 }
 
 
-/**
- * After creating a Google Calendar event, update the AppointmentAttendee records
- * that were invited to this particular event.
- */
 async function updateAttendeeRecords(
   appointment: AppointmentWithRelations,
   eventShapeId: string,
@@ -447,10 +387,6 @@ async function updateAttendeeRecords(
   return updated
 }
 
-/**
- * When event creation fails, mark the matching attendees as 'failed'
- * so the failure is trackable in the database rather than only in logs.
- */
 async function markAttendeesAsFailed(
   appointment: AppointmentWithRelations,
   eventShapeId: string,
@@ -541,11 +477,6 @@ function buildDefaultLocation(appointment: AppointmentWithRelations): string {
 
 // ─── Fallback: legacy single-event behavior ─────────────────────────────────
 
-/**
- * When no EventInstances are found, create a single event using hardcoded
- * defaults. This preserves backward compatibility with the original
- * appointmentCalendarService behavior.
- */
 async function createFallbackEvent(
   appointment: AppointmentWithRelations,
   calendarId: string
@@ -569,7 +500,6 @@ async function createFallbackEvent(
 
     const createdEvent = await createEvent(eventParams)
 
-    // Update all attendees who should receive invitations
     const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []
     let attendeesUpdated = 0
 

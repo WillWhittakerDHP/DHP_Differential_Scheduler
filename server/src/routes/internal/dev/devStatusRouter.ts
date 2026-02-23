@@ -20,18 +20,6 @@ const logger = createLogger('DevStatusRouter')
 
 const router = Router()
 
-/**
- * GET /api/v1/internal/dev/status
- * Get aggregated dev status (OAuth, rate limits, cache stats)
- * 
- * 
- * SECURITY: Only available in development mode
- * 
- * Response includes:
- * - oauth: OAuth authentication status
- * - rateLimits: Rate limit stats for calendar and maps APIs
- * - caches: Cache stats and entries for events and drive-time
- */
 router.get('/status', (_req: Request, res: Response): void => {
   if (isProduction()) {
     sendError(res, CALENDAR_ROUTE_MESSAGES.DEBUG_DISABLED, HTTP_STATUS_CODES.FORBIDDEN)

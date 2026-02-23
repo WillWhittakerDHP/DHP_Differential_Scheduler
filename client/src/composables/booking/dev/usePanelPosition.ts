@@ -117,7 +117,6 @@ export function usePanelPosition(
   })
 
   /**
-   * WHY: /**
 WHY: Calculates transform before state change to prevent visual hop
 ...
    */

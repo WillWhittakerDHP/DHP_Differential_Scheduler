@@ -1,16 +1,8 @@
-/**
- * Availability primitives
- *
- */
 
 import type { CalendarEvent } from '../../../../shared/types/availabilityTypes.js'
 
 const MS_PER_MINUTE = 60 * 1000
 
-/**
- * Get all unique date strings (YYYY-MM-DD) in a range (inclusive of start/end day).
- * Pure: builds array via iteration without mutating an accumulator in place.
- */
 export function getUniqueDatesInRange(
   startDate: string | Date,
   endDate: string | Date
@@ -31,9 +23,6 @@ export function getUniqueDatesInRange(
   return dates
 }
 
-/**
- * Format a date as YYYY-MM-DD (UTC).
- */
 export function formatDayKey(date: Date): string {
   const y = date.getUTCFullYear()
   const m = String(date.getUTCMonth() + 1).padStart(2, '0')
@@ -41,10 +30,6 @@ export function formatDayKey(date: Date): string {
   return `${y}-${m}-${d}`
 }
 
-/**
- * Generate slot time pairs for one day. Pure: no mutation; builds array via range then map/filter.
- * Only includes slots whose end is within dayEndUtc and within requestEndBoundary.
- */
 export function generateSlotTimes(
   dayStartUtc: Date,
   dayEndUtc: Date,
@@ -74,10 +59,6 @@ export function generateSlotTimes(
     )
 }
 
-/**
- * Partition calendar events by eventType into regular and out-of-office.
- * Pure: uses filter, no mutation.
- */
 export function partitionByEventType(events: CalendarEvent[]): {
   regularEvents: CalendarEvent[]
   outOfOfficeEvents: CalendarEvent[]

@@ -1,7 +1,3 @@
-/**
- * Calendar Import Helpers
- *
- */
 
 import type { Transaction } from 'sequelize';
 import { Address, PropertyVersion, PropertyDetails } from '../../config/app.js';
@@ -21,9 +17,6 @@ type PropertyDetailsUpdateShape = Partial<{
   additionalUnits: number | null;
 }>;
 
-/**
- * Build property details update object from parsed property (avoids inline fieldMapping).
- */
 export function buildPropertyDetailsUpdates(property: ParsedProperty): PropertyDetailsUpdateShape {
   const updates: PropertyDetailsUpdateShape = {};
   if (property.mlsNumber != null) updates.mlsNumber = property.mlsNumber;
@@ -35,9 +28,6 @@ export function buildPropertyDetailsUpdates(property: ParsedProperty): PropertyD
   return updates;
 }
 
-/**
- * Find or create Address (reused pattern from propertyRouter).
- */
 export async function findOrCreateAddress(addressData: {
   address: string;
   unit?: string | null;
@@ -71,9 +61,6 @@ export async function findOrCreateAddress(addressData: {
   });
 }
 
-/**
- * Find or create PropertyVersion for an Address (inside transaction).
- */
 export async function findOrCreatePropertyVersionForAddress(
   addressId: string,
   transaction: Transaction
@@ -91,9 +78,6 @@ export async function findOrCreatePropertyVersionForAddress(
   return propertyVersion;
 }
 
-/**
- * Find or create PropertyDetails for a PropertyVersion (inside transaction).
- */
 export async function findOrCreatePropertyDetailsForVersion(
   propertyVersionId: string,
   property: ParsedProperty,
@@ -119,9 +103,6 @@ export async function findOrCreatePropertyDetailsForVersion(
   return { propertyDetails, detailsCreated };
 }
 
-/**
- * Update existing PropertyDetails if updates are present (inside transaction).
- */
 export async function updatePropertyDetailsIfNeeded(
   propertyDetails: InstanceType<typeof PropertyDetails>,
   property: ParsedProperty,
@@ -143,9 +124,6 @@ export interface ImportStats {
   propertiesUpdated: number;
 }
 
-/**
- * Read calendar events from stdin (for CLI usage).
- */
 export async function readEventsFromStdin(): Promise<CalendarEvent[]> {
   const chunks: Buffer[] = [];
   for await (const chunk of process.stdin) {
@@ -164,9 +142,6 @@ export async function readEventsFromStdin(): Promise<CalendarEvent[]> {
   }
 }
 
-/**
- * Print import summary statistics to logger.
- */
 export function printImportSummary(stats: ImportStats, eventCount: number): void {
   logger.info('\n📊 Import Summary:');
   logger.info(`  ✅ Clients imported: ${stats.clientsImported}`);

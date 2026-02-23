@@ -5,10 +5,6 @@ import type { ComponentConfig as SharedComponentConfig, ComponentStrategy as Sha
 export type ComponentStrategy = SharedComponentStrategy
 export type ComponentConfig = SharedComponentConfig
 
-/**
- * Distribution strategy for parent changes
- *
- */
 export type DistributionStrategy = 'proportional' | 'equal' | 'manual'
 
 export interface FetchedInstanceComponent {

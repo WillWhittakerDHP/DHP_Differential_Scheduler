@@ -1,7 +1,3 @@
-/**
- * Property Field Mapping Model
- *
- */
 
 import {
   Model,

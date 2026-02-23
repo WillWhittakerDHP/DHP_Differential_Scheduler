@@ -30,12 +30,8 @@ export function useDialogFormState<T extends Record<string, unknown> = Record<st
     initialValues = {} as T
   } = options
   
-  /**
-   */
   const formValues = ref<T>({ ...initialValues } as T) as Ref<T>
   
-  /**
-   */
   const resetForm = (): void => {
     formValues.value = { ...initialValues } as T
   }

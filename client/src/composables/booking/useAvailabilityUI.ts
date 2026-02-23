@@ -50,7 +50,6 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
   })
 
   /**
-   * PATTERN: /**
 PATTERN: Function that validates and updates error state
 NOTE: VDate...
    */

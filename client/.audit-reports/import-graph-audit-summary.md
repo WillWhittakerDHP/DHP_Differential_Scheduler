@@ -12,10 +12,9 @@ Generated from `client/.audit-reports/import-graph-audit.json`.
 - Fan-in violations: **0**
 - Cross-boundary: **0**
 
-## Top 3 files by score
+## Top 2 files by score
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `undefined` | P2 | 5 |
 | `undefined` | P2 | 5 |
 | `undefined` | P2 | 5 |

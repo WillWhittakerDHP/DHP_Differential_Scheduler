@@ -22,20 +22,6 @@ export interface UseCascadeInstancesReturn {
   hasCascades: ComputedRef<boolean>
 }
 
-/**
- * useCascadeInstances composable
- * 
- * 
- * @example
- * ```ts
- * // Get services cascaded from selected user type
- * const { cascadeInstances } = useCascadeInstances({
- *   parentInstance: computed(() => selectedUserTypeBlock.value),
- *   bookingData: bookingData,
- *   targetBlockShapeName: 'Base Service'
- * })
- * ```
- */
 export function useCascadeInstances(
   options: UseCascadeInstancesOptions
 ): UseCascadeInstancesReturn {
@@ -52,8 +38,6 @@ export function useCascadeInstances(
     return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
   })
   
-  /**
-   */
   const cascadeInstances = computed((): BookingBlockInstance[] => {
     const data = bookingData.value
     if (!data) return []

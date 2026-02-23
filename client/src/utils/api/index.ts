@@ -1,6 +1,3 @@
-/**
- * API barrel: shared axios client and domain endpoint getters
- */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'
 

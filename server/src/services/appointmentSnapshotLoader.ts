@@ -9,7 +9,6 @@ const logger = createLogger('SnapshotLoader');
 /**
  * WHY: Transform block instance version to BookingBlockInstance format
 WHY: Ver...
- * PATTERN: Appointment Snapshot Loader Service
 
 PATTERN: Transform versions to Book...
  */

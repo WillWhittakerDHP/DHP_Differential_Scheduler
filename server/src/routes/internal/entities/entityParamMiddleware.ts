@@ -1,7 +1,3 @@
-/**
- * Entity Type Parameter Middleware
- * 
- */
 
 import { Request, Response, NextFunction } from 'express'
 import { getEntityConfig, isValidEntityType } from '../../../config/entityRegistry.js'
@@ -12,7 +8,6 @@ import { createLogger } from '../../../utils/logger.js'
 const logger = createLogger('EntityRouter')
 
 /**
- * PATTERN: Entity type parameter handler
 PATTERN: Express param middleware that val...
  */
 export function entityTypeParamHandler(

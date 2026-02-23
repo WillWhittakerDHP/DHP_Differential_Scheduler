@@ -37,7 +37,6 @@ export interface UseSelectConfigReturn {
   optionsSelectOptions: ComputedRef<SelectOption[]>
   
   /**
-   * WHY: /**
 Whether this is an AnnotationAssignmentSelect field
 LEARNING: Annota...
    */
@@ -293,7 +292,6 @@ export function useSelectConfig(
   )
 
   /**
-   * WHY: /**
 WHY: Most entities use 'name' as their display field - safe default ...
    */
   const optionLabelKey = computed(() => {

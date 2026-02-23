@@ -1,6 +1,3 @@
-/**
- * WHY: Maps database icon strings (Ant Design names) to Vuetify/Tabler icon nam...
- */
 const iconMap: Record<string, string> = {
   // User Type icons (from seeds/migration)
   'DollarOutlined': 'tabler-currency-dollar',
@@ -29,13 +26,11 @@ const DEFAULT_ICON = 'tabler-circle'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
- * PATTERN: Map database icon string to Vuetify/Tabler icon name
 PATTERN: Check mapp...
  */
 export function getIcon(iconString: string | null | undefined): string {
   if (!iconString || iconString.trim() === '') {
     if (isDevModeEnabled()) {
-      // no-op: Dev-only, could log missing icon here
     }
     return DEFAULT_ICON
   }

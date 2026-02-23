@@ -1,5 +1,4 @@
 /**
- * WHY: CRUD Router Factory
 LEARNING: Generic factory pattern for creating stand...
  */
 import { Router } from 'express'
@@ -53,15 +52,6 @@ function buildHandlerContext<T extends Model>(config: CrudRouterConfig<T>): Crud
   }
 }
 
-/**
- * Create a standardized CRUD router with optional lifecycle hooks
- *
- * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
- * PATTERN: Config-driven router generation with optional hooks for domain-specific behavior
- *
- * @param config - CRUD router configuration
- * @returns Express router with standard CRUD routes
- */
 export function createCrudRouter<T extends Model>(config: CrudRouterConfig<T>): Router {
   const router = Router()
   const context = buildHandlerContext(config)

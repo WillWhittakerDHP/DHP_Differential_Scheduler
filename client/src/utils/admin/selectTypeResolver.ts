@@ -33,9 +33,6 @@ export function unwrapInputConfig(
   return inputConfig
 }
 
-/**
- * Return relationship or property select config from unwrapped inputConfig; throws if invalid.
- */
 export function getSelectConfigFromUnwrapped(
   inputConfig: Record<string, unknown>,
   entityKey: string,
@@ -56,9 +53,6 @@ export function getSelectConfigFromUnwrapped(
   )
 }
 
-/**
- * Resolve whether select is multiple from config; throws if selectMode missing when config exists.
- */
 export function resolveSelectMultiple(
   isEnumSelect: boolean,
   optionsConfig: OptionsSelectConfigLike | undefined,
@@ -80,9 +74,6 @@ export function resolveSelectMultiple(
   return selectConfig.selectMode === RelationshipSelectModeEnum.Multiple
 }
 
-/**
- * Resolve option entity key from config; throws if required keys missing.
- */
 export function resolveOptionEntityKey(
   isEnumSelect: boolean,
   isOptionsSelect: boolean,

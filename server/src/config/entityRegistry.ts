@@ -5,17 +5,10 @@ import type { ComponentConfig, ComponentStrategy } from '../../../shared/types/c
 
 const logger = createLogger('EntityRegistry');
 
-/**
- * PATTERN: Supported entity types that map to frontend PROPERTY_KEYS
-These strings ...
- */
 export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
 
 export type { ComponentConfig, ComponentStrategy };
 
-/**
- * Entity configuration structure
- */
 export interface EntityConfig {
   model: ModelStatic<Model>;
   tableName: string;

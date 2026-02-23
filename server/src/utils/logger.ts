@@ -1,18 +1,3 @@
-/**
- * Server Logger Utility
- *
- *
- * Controls:
- * - `LOG_LEVEL`: debug | info | warn | error | silent
- * - `DEBUG_SCOPES`: comma-separated scopes (or `*`) to allow debug logs in DEV
- *
- * Defaults:
- * - DEV: debug
- * - PROD: warn
- *
- * @audit-allow:duplication - Intentional parallel impl for server (Node env) vs client (Vite env); no shared package.
- * LogLevel and AppLogger from shared (Phase 1.3 type-similarity UNIFY).
- */
 
 import { isProduction } from './envHelpers.js'
 import type { AppLogger, LogLevel, Logger } from '../../../shared/types/loggerTypes.js'
@@ -77,9 +62,6 @@ function isDebugScopeEnabled(scope: string): boolean {
   return scopes.has('*') || scopes.has(normalized)
 }
 
-/**
- * Check if a scope is explicitly enabled in DEBUG_SCOPES
- */
 export function isScopeExplicitlyEnabled(scope: string): boolean {
   if (isProduction()) return false
   const scopes = getDebugScopes()

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Time Slot Matching Utilities
 
 PATTERN: Pure functions that can be used b...
  */
@@ -38,12 +37,6 @@ function extractTimeString(value: string | Date): string | null {
   }
 }
 
-/**
- * WHY: Find a time slot that matches a given time string
-
-
-LEARNING: Function u...
- */
 function findMatchingTimeSlot(
   timeString: string,
   availableSlots: TimeSlot[]

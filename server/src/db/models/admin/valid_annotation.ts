@@ -8,13 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidAnnotation Model
- * 
- * Represents valid annotation relationships between block shapes and annotation shapes.
- * Annotation relationships are Block → Annotation relationships (similar to Block → Part).
- * 
- */
 export class ValidAnnotation extends Model<
   InferAttributes<ValidAnnotation>,
   InferCreationAttributes<ValidAnnotation>

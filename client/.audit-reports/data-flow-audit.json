@@ -1,22 +1,17 @@
 {
-  "generatedAt": "2026-02-20T17:33:38.564Z",
+  "generatedAt": "2026-02-23T18:12:58.786Z",
   "totalScanned": 106,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 10,
+    "totalRequiresReview": 9,
     "bySource": {
       "inline": 0,
       "pattern": 0,
-      "specific": 0
+      "specific": 0,
+      "linePattern": 0
     }
   },
   "files": [
-    {
-      "repoPath": "server/src/routes/helpers/requestHelpers.ts",
-      "score": 6,
-      "priority": "P2",
-      "count": 2
-    },
     {
       "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
       "score": 6,
@@ -49,6 +44,12 @@
     },
     {
       "repoPath": "server/src/routes/external/propertyEnrichmentRoutes.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/helpers/requestHelpers.ts",
       "score": 3,
       "priority": "P2",
       "count": 1
@@ -67,8 +68,9 @@
       "requiresReview": [
         {
           "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 75,
-          "line": "} = req.body;"
+          "lineNumber": 62,
+          "line": "} = req.body;",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -78,8 +80,9 @@
       "requiresReview": [
         {
           "ruleId": "reqQueryUnvalidated",
-          "lineNumber": 50,
-          "line": "const { code, error } = req.query;"
+          "lineNumber": 28,
+          "line": "const { code, error } = req.query;",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -89,8 +92,9 @@
       "requiresReview": [
         {
           "ruleId": "reqQueryUnvalidated",
-          "lineNumber": 65,
-          "line": "const { input, sessionToken } = req.query"
+          "lineNumber": 56,
+          "line": "const { input, sessionToken } = req.query",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -100,8 +104,9 @@
       "requiresReview": [
         {
           "ruleId": "reqQueryUnvalidated",
-          "lineNumber": 37,
-          "line": "logger.debug('Query params:', JSON.stringify(req.query))"
+          "lineNumber": 22,
+          "line": "logger.debug('Query params:', JSON.stringify(req.query))",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -111,8 +116,9 @@
       "requiresReview": [
         {
           "ruleId": "reqQueryUnvalidated",
-          "lineNumber": 61,
-          "line": "const addressParam = req.query.address;"
+          "lineNumber": 49,
+          "line": "const addressParam = req.query.address;",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -122,13 +128,9 @@
       "requiresReview": [
         {
           "ruleId": "reqParamsUnvalidated",
-          "lineNumber": 4,
-          "line": "* WHY: Express typings (and runtime) can give req.params[key] and req.query[key]"
-        },
-        {
-          "ruleId": "reqQueryUnvalidated",
-          "lineNumber": 4,
-          "line": "* WHY: Express typings (and runtime) can give req.params[key] and req.query[key]"
+          "lineNumber": 6,
+          "line": "const raw = req.params[key]",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -138,13 +140,15 @@
       "requiresReview": [
         {
           "ruleId": "reqParamsUnvalidated",
-          "lineNumber": 31,
-          "line": "const { blockInstanceId, annotationId } = req.params"
+          "lineNumber": 15,
+          "line": "const { blockInstanceId, annotationId } = req.params",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 32,
-          "line": "const { userTypeBlockInstanceId } = req.body"
+          "lineNumber": 16,
+          "line": "const { userTypeBlockInstanceId } = req.body",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -154,8 +158,9 @@
       "requiresReview": [
         {
           "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 33,
-          "line": "const orderIndex = req.body.orderIndex ?? req.body.order_index"
+          "lineNumber": 18,
+          "line": "const orderIndex = req.body.orderIndex ?? req.body.order_index",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     }

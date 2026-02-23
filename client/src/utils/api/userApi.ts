@@ -1,6 +1,3 @@
-/**
- * User API endpoint builders
- */
 
 export function getUserEndpoint(): string {
   return '/users'

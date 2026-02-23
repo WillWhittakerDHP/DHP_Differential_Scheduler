@@ -1,9 +1,3 @@
-/**
- * Cascade Filter Pipeline
- *
- * Pure utility for filtering block instances by parent cascades and block shape type.
- * Composable steps: cascade -> shape -> optional default path. Used by useWizardFilteredOptions.
- */
 
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
@@ -27,9 +21,6 @@ export interface CascadeFilterParamsBase {
 
 type CascadeFilterParams = CascadeFilterParamsBase
 
-/**
- * Step 1: Cascade filter — returns instances allowed by parent activeBlockIds.
- */
 export function filterByCascade(params: CascadeFilterParams): CascadeStepResult {
   const { bookingData, parentInstances, currentSelection, relationshipName } = params
 
@@ -84,9 +75,6 @@ export function filterByCascade(params: CascadeFilterParams): CascadeStepResult 
   }
 }
 
-/**
- * Step 2: Shape filter — narrows to instances matching the given block shape type.
- */
 function filterByShape(
   instances: BookingBlockInstance[],
   bookingData: BookingData,
@@ -105,9 +93,6 @@ interface FallbackParams {
   relationshipName: string
 }
 
-/**
- * Step 3: Fallback — if cascade returned empty but parent is selected, return all instances of shape type.
- */
 function applyFallback(params: FallbackParams): BookingBlockInstance[] {
   const { bookingData, cascadeInstances, shapeType, hasParentSelection, relationshipName } = params
   if (cascadeInstances.length > 0) return cascadeInstances
@@ -128,10 +113,6 @@ interface PipelineParams extends CascadeFilterParamsBase {
   logShapeMismatch?: boolean
 }
 
-/**
- * Composed pipeline: cascade -> shape -> optional default path. Returns { instances, error }.
- * Single call replaces separate cascade + error computeds to avoid double filtering.
- */
 export function cascadeShapePipeline(params: PipelineParams): {
   instances: BookingBlockInstance[]
   error: string | null
@@ -205,10 +186,6 @@ export function cascadeShapePipeline(params: PipelineParams): {
   return { instances, error }
 }
 
-/**
- * User type blocks: state control instances grouped by blockShapeRef (first group).
- * Used for availableUserTypeBlocks; no cascade involved.
- */
 export function getUserTypeBlocks(bookingData: BookingData | null): BookingBlockInstance[] {
   if (!bookingData) return []
   const stateControl = getStateControlBlockInstances(bookingData)

@@ -1,33 +1,4 @@
-/**
- * Invite Context Builder
- *
- * Builds a flat Record<string, string> context from appointment data
- * for use with the template resolver.
- *
- *
- * Available template variables:
- *
- *   Property:
- *     {streetAddress}  — e.g. "123 Main St"
- *     {city}           — e.g. "Austin"
- *     {state}          — e.g. "TX"
- *     {zipCode}        — e.g. "78701"
- *     {fullAddress}    — e.g. "123 Main St, Austin, TX 78701"
- *
- *   Appointment:
- *     {appointmentDate} — e.g. "February 21, 2026"
- *     {appointmentTime} — e.g. "2:30 PM"
- *     {appointmentId}   — UUID
- *     {status}          — e.g. "confirmed"
- *
- *   Service:
- *     {service}         — primary service name, e.g. "Buyer's Inspection"
- */
 
-/**
- * Shape of appointment data accepted by the context builder.
- * Mirrors what the orchestration service fetches via Sequelize includes.
- */
 export interface InviteAppointmentData {
   id: string
   selectedDate: Date | string | null
@@ -43,13 +14,6 @@ export interface InviteAppointmentData {
   } | null
 }
 
-/**
- * Build a template context from appointment data.
- *
- * @param appointment - Pre-loaded appointment with propertyVersion.address
- * @param serviceName - Optional primary service name (resolved by orchestration service)
- * @returns Flat context object suitable for resolveTemplate()
- */
 export function buildInviteContext(
   appointment: InviteAppointmentData,
   serviceName?: string
@@ -105,10 +69,6 @@ export function buildInviteContext(
   return context
 }
 
-/**
- * All template variables that can appear in templates.
- * Useful for admin UI help text and documentation.
- */
 export const AVAILABLE_TEMPLATE_VARIABLES = [
   { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
   { name: 'city', description: 'Property city', example: 'Austin' },

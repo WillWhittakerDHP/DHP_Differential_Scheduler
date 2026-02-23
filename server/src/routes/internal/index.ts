@@ -39,7 +39,6 @@ router.use('/admin-input-metadata', adminMetadataRouter);
 router.use('/admin-primitive-metadata', adminMetadataRouter);
 router.use('/admin-relationship-metadata', adminMetadataRouter);
 
-// Dev status endpoint (development only)
 router.use('/dev', DevStatusRouter);
 
 router.use('/beta-feedback', BetaFeedbackRouter);

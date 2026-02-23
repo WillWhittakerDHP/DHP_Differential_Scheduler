@@ -46,7 +46,6 @@ export function useInstanceComponents(
   }
 
   /**
-   * WHY: /**
 LEARNING: Only composable blocks can have option components (instanc...
    */
   const isComposable = computed(() => {

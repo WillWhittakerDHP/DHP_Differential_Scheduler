@@ -1,7 +1,3 @@
-/**
- * Maps Route Constants
- *
- */
 
 export const MAPS_ROUTE_MESSAGES = {
   MISSING_INPUT: 'Missing required parameter: input',

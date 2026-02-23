@@ -77,9 +77,6 @@ function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
   return blockInstance.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
 }
 
-/**
- * Shared filter, map, and sort for block instances (main blocks vs line items).
- */
 function filterAndSortBlockInstances(
   blockInstances: GlobalEntity<'blockInstance'>[],
   componentIds: Set<string>,
@@ -117,9 +114,6 @@ function filterAndSortBlockInstances(
   })
 }
 
-/**
- * Resolve part instance IDs from composite block's component relationships.
- */
 function resolveComponentPartIds(
   blockInstanceId: string,
   instanceComponentsRelationships: GlobalRelationship[],
@@ -142,9 +136,6 @@ function resolveComponentPartIds(
   })
 }
 
-/**
- * Resolve part instance IDs for a block (own parts + component parts if composite).
- */
 function resolvePartInstanceIds(
   blockInstance: GlobalEntity<'blockInstance'>,
   partAssignmentsRelationships: GlobalRelationship[],
@@ -239,9 +230,6 @@ function buildBookingBlockInstance(
   }
 }
 
-/**
- * Transform a single block instance with embedded part instances
- */
 function transformBlockInstance(
   blockInstance: GlobalEntity<'blockInstance'>,
   partAssignmentsRelationships: GlobalRelationship[],
@@ -337,9 +325,6 @@ function transformPartInstance(
   }
 }
 
-/**
- * Transform GlobalData to booking-optimized format.
- */
 export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const { entities, relationships } = globalData
   const blockShapes = safeArray(entities.blockShape) as GlobalEntity<'blockShape'>[]

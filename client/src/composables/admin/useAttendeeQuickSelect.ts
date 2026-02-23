@@ -64,22 +64,16 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
 
   loadSettings()
 
-  /**
-   */
   const hasMajorAttendees = computed(() => {
     const majorAttendees = settings.value?.differentialPerspectives?.majorAttendees
     return Array.isArray(majorAttendees) && majorAttendees.length > 0
   })
 
-  /**
-   */
   const hasMinorAttendees = computed(() => {
     const minorAttendees = settings.value?.differentialPerspectives?.minorAttendees
     return Array.isArray(minorAttendees) && minorAttendees.length > 0
   })
 
-  /**
-   */
   const filterToValidOptions = (attendeeIds: GlobalEntityId[], validOptionIds: string[]): string[] => {
     const validSet = new Set(validOptionIds.map(id => String(id)))
     return attendeeIds
@@ -109,8 +103,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
     return filterToValidOptions(minorAttendees, validOptionIds)
   }
 
-  /**
-   */
   const selectAll = (validOptionIds: string[]): string[] => {
     const majorIds = selectMajor(validOptionIds)
     const minorIds = selectMinor(validOptionIds)

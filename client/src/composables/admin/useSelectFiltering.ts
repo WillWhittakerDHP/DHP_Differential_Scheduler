@@ -31,7 +31,6 @@ export interface UseSelectFilteringOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
-   * WHY: /**
 Whether this is an AnnotationAssignmentSelect field
 LEARNING: Annota...
    */
@@ -78,7 +77,6 @@ export function useSelectFiltering(
   const fieldKey = computed(() => String(fieldContext.fieldKey))
 
   /**
-   * WHY: /**
 LEARNING: Detect active child select pattern from config
 WHY: Config...
    */
@@ -203,7 +201,6 @@ WHY: Config...
   })
 
   /**
-   * WHY: /**
 WHY: Composables can only be called during setup, not inside compute...
    */
   const composedEntityComposable = (String(fieldContext.fieldKey) === 'instanceComponents' && fieldContext.entityKey === 'blockInstance')
@@ -357,7 +354,6 @@ WHY: Composables can only be called during setup, not inside compute...
               }
             }
           } catch {
-            // no-op: Ignore form value read errors
           }
         }
       }

@@ -1,10 +1,5 @@
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 
-/**
- * Moveable Parts Scheduling Types
- * 
- * Session 1.4.15: Moveable Parts Scheduling Modal
- */
 
 export interface ContingencyPeriod {
   hasContingency: boolean

@@ -26,7 +26,6 @@ export interface FieldValidationRules {
 }
 
 /**
- * WHY: Field context type
 WHY: Single source of truth for field state
  */
 export interface FieldContextType<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {

@@ -5,7 +5,7 @@
 **When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.
 
 
-Generated at: 2026-02-20T17:33:45.388Z
+Generated at: 2026-02-23T18:13:14.015Z
 
 ## Audit Coverage
 
@@ -13,29 +13,29 @@ Generated at: 2026-02-20T17:33:45.388Z
 | --- | ---: | ---: |
 | type-similarity | 0 | 0 |
 | component-logic | 44 | 44 |
-| composables-logic | 181 | 9 |
+| composables-logic | 179 | 8 |
 | loop-mutation | 0 | 0 |
-| hardcoding | 52 | 82 |
-| function-complexity | 256 | 256 |
+| hardcoding | 38 | 64 |
+| function-complexity | 242 | 242 |
 | pattern-detection | 0 | 0 |
 | duplication | 0 | 0 |
 | unused-code | 0 | 0 |
-| error-handling | 0 | 0 |
-| deprecation | 47 | 104 |
+| error-handling | 2 | 2 |
+| deprecation | 1 | 10 |
 | security | 0 | 0 |
-| todo-aging | 11 | 11 |
-| import-graph | 3 | 3 |
-| file-cohesion | 23 | 23 |
+| todo-aging | 5 | 5 |
+| import-graph | 2 | 2 |
+| file-cohesion | 18 | 18 |
 | api-contract | 0 | 0 |
-| constants-consolidation | 4 | 17 |
-| bundle-size-budget | 22 | 22 |
+| constants-consolidation | 12 | 27 |
+| bundle-size-budget | 21 | 21 |
 | coverage-risk-crossref | 0 | 0 |
-| naming-convention | 1 | 1 |
+| naming-convention | 3 | 3 |
 | api-versioning | 47 | 47 |
-| data-flow | 8 | 10 |
+| data-flow | 8 | 9 |
 | dep-freshness | 5 | 5 |
-| type-escape | 1 | 1 |
-| type-import | 3 | 3 |
+| type-escape | 2 | 2 |
+| type-import | 0 | 0 |
 | lint | 0 | 0 |
 | lint-warnings | 0 | 0 |
 
@@ -47,75 +47,74 @@ Files appearing across the most audits with the highest combined weighted score.
 
 | File | Score | Audits | Which Audits |
 | --- | ---: | ---: | --- |
-| `server/src/routes/helpers/crudRouteHandlers.ts` | 45.0 | 1 | function-complexity |
+| `server/src/services/invites/inviteOrchestrationService.ts` | 109.8 | 5 | hardcoding, function-complexity, deprecation, file-cohesion, constants-consolidation |
+| `client/src/composables/admin/useBusinessRules.ts` | 49.0 | 2 | composables-logic, function-complexity |
 | `server/src/utils/propertyTransformers.ts` | 44.5 | 2 | function-complexity, constants-consolidation |
-| `client/src/composables/admin/useSelectConfig.ts` | 42.0 | 5 | composables-logic, hardcoding, function-complexity, deprecation, file-cohesion |
-| `client/src/composables/admin/useBusinessRules.ts` | 40.0 | 3 | composables-logic, function-complexity, deprecation |
+| `client/src/composables/useSelectOptions.ts` | 44.0 | 3 | composables-logic, function-complexity, import-graph |
+| `client/src/composables/useRelationship.ts` | 43.5 | 2 | composables-logic, function-complexity |
+| `server/src/routes/helpers/crudRouteHandlers.ts` | 40.5 | 1 | function-complexity |
+| `client/src/composables/usePartInstanceData.ts` | 40.0 | 3 | composables-logic, function-complexity, import-graph |
 | `server/src/routes/internal/properties/propertyConstants.ts` | 40.0 | 1 | constants-consolidation |
-| `server/src/services/propertyFeatureMatcher.ts` | 39.0 | 2 | hardcoding, function-complexity |
-| `client/src/composables/useRelationship.ts` | 37.5 | 3 | composables-logic, function-complexity, deprecation |
-| `client/src/composables/booking/useMoveablePartsScheduling.ts` | 37.5 | 3 | composables-logic, function-complexity, deprecation |
-| `client/src/composables/useAdmin.ts` | 37.0 | 4 | composables-logic, function-complexity, deprecation, import-graph |
-| `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` | 36.5 | 2 | composables-logic, function-complexity |
+| `client/src/composables/booking/useMoveablePartsScheduling.ts` | 37.5 | 2 | composables-logic, function-complexity |
+| `client/src/composables/fieldContext/useFieldContextSaveHelpers.ts` | 35.5 | 2 | composables-logic, function-complexity |
 
 ## Trend (vs previous run)
 
 - **type-similarity**: 0 → 0 (→ 0)
 - **component-logic**: 44 → 44 (→ 0)
-- **composables-logic**: 10 → 9 (↓ -1)
+- **composables-logic**: 10 → 8 (↓ -2)
 - **loop-mutation**: 0 → 0 (→ 0)
-- **hardcoding**: 82 → 82 (→ 0)
-- **function-complexity**: 254 → 256 (↑ +2)
+- **hardcoding**: 82 → 64 (↓ -18)
+- **function-complexity**: 254 → 242 (↓ -12)
 - **pattern-detection**: 0 → 0 (→ 0)
 - **duplication**: 0 → 0 (→ 0)
 - **unused-code**: 0 → 0 (→ 0)
-- **error-handling**: 0 → 0 (→ 0)
-- **deprecation**: 135 → 104 (↓ -31)
+- **error-handling**: 0 → 2 (↑ +2)
+- **deprecation**: 105 → 10 (↓ -95)
 - **security**: 0 → 0 (→ 0)
-- **todo-aging**: 11 → 11 (→ 0)
-- **import-graph**: 4 → 3 (↓ -1)
-- **file-cohesion**: 25 → 23 (↓ -2)
+- **todo-aging**: 11 → 5 (↓ -6)
+- **import-graph**: 4 → 2 (↓ -2)
+- **file-cohesion**: 25 → 18 (↓ -7)
 - **api-contract**: 0 → 0 (→ 0)
-- **constants-consolidation**: 17 → 17 (→ 0)
-- **bundle-size-budget**: 22 → 22 (→ 0)
+- **constants-consolidation**: 17 → 27 (↑ +10)
+- **bundle-size-budget**: 22 → 21 (↓ -1)
 - **coverage-risk-crossref**: 0 → 0 (→ 0)
-- **naming-convention**: 1 → 1 (→ 0)
+- **naming-convention**: 1 → 3 (↑ +2)
 - **api-versioning**: 47 → 47 (→ 0)
-- **data-flow**: 10 → 10 (→ 0)
+- **data-flow**: 10 → 9 (↓ -1)
 - **dep-freshness**: 5 → 5 (→ 0)
-- **type-escape**: 1 → 1 (→ 0)
-- **type-import**: 2 → 3 (↑ +1)
+- **type-escape**: 1 → 2 (↑ +1)
+- **type-import**: 2 → 0 (↓ -2)
 - **lint**: 0 → 0 (→ 0)
 - **lint-warnings**: 0 → 0 (→ 0)
 
 ## Exception Analysis
 
-**Verdict:** Improving — total exceptions decreased
+**Verdict:** Stable — no meaningful exception changes
 
 ### Totals
 
 | Category | Count | Description |
 | --- | ---: | --- |
-| Structural (patterns) | 1140 | Glob patterns in config files — architectural decisions |
-| Specific (suppressions) | 48 | Inline @audit-allow comments + specific config entries |
-| **Total allowed** | **1188** | |
-| Config pattern rules | 88 | Total glob/specific rules across all config files |
+| Structural (patterns) | 1125 | Glob patterns in config files — architectural decisions |
+| Specific (suppressions) | 43 | Inline @audit-allow comments + specific config entries |
+| **Total allowed** | **1205** | |
+| Config pattern rules | 86 | Total glob/specific rules across all config files |
 
 ### Changes (vs previous run)
 
-- **Total:** ↓ -41
-- **Structural:** ↓ -27 
-- **Specific:** ↓ -14 
+- **Total:** ↑ +17
+- **Structural:** ↓ -15 
+- **Specific:** ↓ -5 
+- **Configs changed:** loop-mutation, hardcoding, error-handling, deprecation, type-import
 
 ### Per-Audit Breakdown
 
 | Audit | Structural | Specific | Total | Scanned | Ratio |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| loop-mutation | 533 | 16 | 549 | 677 | 0.787 |
-| hardcoding | 485 | 27 | 512 | 760 | 0.638 |
-| error-handling | 45 | 0 | 45 | 785 | 0.057 |
-| deprecation | 3 | 4 | 7 | 787 | 0.004 |
-| naming-convention | 74 | 1 | 75 | 787 | 0.094 |
+| loop-mutation | 533 | 16 | 553 | 685 | 0.778 |
+| hardcoding | 517 | 26 | 576 | 768 | 0.673 |
+| naming-convention | 75 | 1 | 76 | 795 | 0.094 |
 
 > **Ratio** = structural exceptions / scanned files. A stable ratio across runs means the codebase grew but patterns did not change.
 
@@ -123,18 +122,14 @@ Files appearing across the most audits with the highest combined weighted score.
 
 Files that appear in 3+ different audits often have systemic issues:
 
-- `client/src/composables/admin/useSelectConfig.ts` (5 audits): composables-logic, hardcoding, function-complexity, deprecation, file-cohesion
-- `client/src/composables/admin/useBusinessRules.ts` (3 audits): composables-logic, function-complexity, deprecation
-- `client/src/composables/useRelationship.ts` (3 audits): composables-logic, function-complexity, deprecation
-- `client/src/composables/booking/useMoveablePartsScheduling.ts` (3 audits): composables-logic, function-complexity, deprecation
-- `client/src/composables/useAdmin.ts` (4 audits): composables-logic, function-complexity, deprecation, import-graph
-- `client/src/composables/booking/useAvailabilityOrchestrator.ts` (3 audits): composables-logic, hardcoding, function-complexity
-- `client/src/composables/fieldContext/useFieldContextState.ts` (3 audits): composables-logic, function-complexity, deprecation
+- `server/src/services/invites/inviteOrchestrationService.ts` (5 audits): hardcoding, function-complexity, deprecation, file-cohesion, constants-consolidation
+- `client/src/composables/useSelectOptions.ts` (3 audits): composables-logic, function-complexity, import-graph
+- `client/src/composables/usePartInstanceData.ts` (3 audits): composables-logic, function-complexity, import-graph
 - `server/src/services/slotComputationService.ts` (3 audits): hardcoding, function-complexity, file-cohesion
-- `client/src/components/booking/dev/DevPanelsContainer.vue` (5 audits): component-logic, hardcoding, function-complexity, todo-aging, file-cohesion
 - `client/src/composables/admin/useSelectFiltering.ts` (3 audits): composables-logic, function-complexity, file-cohesion
-- `client/src/composables/booking/useDependentInstances.ts` (3 audits): composables-logic, function-complexity, deprecation
-- `client/src/composables/useBookingWizard.ts` (3 audits): composables-logic, function-complexity, import-graph
-- `client/src/composables/componentEntity/useComponentEntityDomain.ts` (3 audits): composables-logic, function-complexity, deprecation
-- `client/src/composables/booking/useAvailabilityLogic.ts` (3 audits): composables-logic, function-complexity, file-cohesion
-- `client/src/composables/entityCrud/usePrimitiveMutation.ts` (3 audits): composables-logic, function-complexity, deprecation
+- `client/src/composables/booking/useTimeSlotCalculations.ts` (3 audits): composables-logic, hardcoding, function-complexity
+- `client/src/components/booking/dev/DevPanelsContainer.vue` (4 audits): component-logic, function-complexity, todo-aging, file-cohesion
+- `client/src/composables/booking/useComputedAvailability.ts` (3 audits): composables-logic, hardcoding, function-complexity
+- `client/src/utils/booking/appointmentDataBuilders.ts` (3 audits): hardcoding, function-complexity, file-cohesion
+- `client/src/composables/admin/useBusinessRuleForm.ts` (3 audits): composables-logic, hardcoding, function-complexity
+- `server/src/services/computedAvailabilityService.ts` (3 audits): hardcoding, function-complexity, file-cohesion

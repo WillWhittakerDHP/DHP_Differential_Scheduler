@@ -1,9 +1,3 @@
-/**
- * Client-side Maps API Service
- *
- *
- * Session 2.2.1: Created for Address Autocomplete
- */
 
 import axios, { AxiosError } from 'axios'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
@@ -28,9 +22,6 @@ const { recordApiCall } = useApiCallStatus()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
-/**
- * Maps API error class
- */
 export class MapsApiError extends Error {
   constructor(
     public type: MapsApiErrorType,
@@ -42,9 +33,6 @@ export class MapsApiError extends Error {
   }
 }
 
-/**
- * Get user-friendly error message based on error type
- */
 export function getErrorMessage(type: MapsApiErrorType): string {
   return MAPS_ERROR_MESSAGES[type] ?? MAPS_ERROR_MESSAGES.unknown
 }
@@ -67,16 +55,10 @@ export async function getSessionToken(): Promise<string> {
   }
 }
 
-/**
- * WHY: Fetch address autocomplete suggestions
-
-LEARNING: Main function for gett...
- */
 export async function fetchAutocompleteSuggestions(
   input: string,
   sessionToken?: string
 ): Promise<AutocompletePrediction[]> {
-  // Don't call API if input is too short
   if (!input || input.trim().length < 3) {
     logger.debug('[fetchAutocompleteSuggestions] Input too short, returning empty')
     return []
@@ -85,7 +67,6 @@ export async function fetchAutocompleteSuggestions(
   logger.debug('[fetchAutocompleteSuggestions] Fetching for:', input)
   
   try {
-    // Build URL with query params
     const params = new URLSearchParams({ input: input.trim() })
     if (sessionToken) {
       params.append('sessionToken', sessionToken)
@@ -97,7 +78,6 @@ export async function fetchAutocompleteSuggestions(
     
     logger.debug('[fetchAutocompleteSuggestions] Got', response.data.predictions.length, 'suggestions')
     
-    // Record successful Places API call
     recordApiCall('places', 'hit')
     
     return response.data.predictions
@@ -106,22 +86,12 @@ export async function fetchAutocompleteSuggestions(
     const apiError = handleApiError(error)
     logger.error('[fetchAutocompleteSuggestions] Error:', apiError.type, apiError.message)
     
-    // Record failed Places API call
     recordApiCall('places', 'error')
     
     throw apiError
   }
 }
 
-/**
- * Fetch place details including coordinates
- * 
- * 
- * @param placeId Google Place ID from autocomplete selection
- * @param sessionToken Optional session token (ends the session for billing)
- * @returns Place details with coordinates
- * @throws MapsApiError on failure
- */
 export async function fetchPlaceDetails(
   placeId: string,
   sessionToken?: string
@@ -133,7 +103,6 @@ export async function fetchPlaceDetails(
   logger.debug('[fetchPlaceDetails] Fetching details for:', placeId)
   
   try {
-    // Build URL with query params
     const params = new URLSearchParams({ placeId })
     if (sessionToken) {
       params.append('sessionToken', sessionToken)
@@ -145,7 +114,6 @@ export async function fetchPlaceDetails(
     
     logger.debug('[fetchPlaceDetails] Got details:', response.data.formattedAddress)
     
-    // Record successful Places API call
     recordApiCall('places', 'hit')
     
     return response.data
@@ -154,16 +122,12 @@ export async function fetchPlaceDetails(
     const apiError = handleApiError(error)
     logger.error('[fetchPlaceDetails] Error:', apiError.type, apiError.message)
     
-    // Record failed Places API call
     recordApiCall('places', 'error')
     
     throw apiError
   }
 }
 
-/**
- * Map Axios error to MapsApiError
- */
 function mapAxiosErrorToMapsError(
   axiosError: AxiosError<{ error?: string; type?: string; retryable?: boolean }>
 ): MapsApiError {
@@ -214,9 +178,6 @@ function handleApiError(error: unknown): MapsApiError {
   )
 }
 
-/**
- * ROUTES API - Session 2.2.2
- */
 export interface DriveTimeResult {
   durationMinutes: number
   durationSeconds: number

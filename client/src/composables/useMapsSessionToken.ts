@@ -18,9 +18,6 @@ const isFetching: Ref<boolean> = ref(false)
 PATTERN: Singleton pattern - shared toke...
  */
 export function useMapsSessionToken() {
-  /**
-   * Pre-fetch session token
-   */
   const prefetchToken = async (): Promise<void> => {
     if (sharedToken.value || isFetching.value) {
       return
@@ -37,9 +34,6 @@ export function useMapsSessionToken() {
     }
   }
 
-  /**
-   * Get session token (lazy fetch if not available)
-   */
   const getToken = async (): Promise<string> => {
     if (sharedToken.value) {
       return sharedToken.value
@@ -52,9 +46,6 @@ export function useMapsSessionToken() {
     return sharedToken.value || crypto.randomUUID()
   }
 
-  /**
-   * Reset token (for new autocomplete session)
-   */
   const resetToken = (): void => {
     sharedToken.value = ''
   }

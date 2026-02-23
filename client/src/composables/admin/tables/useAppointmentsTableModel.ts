@@ -23,7 +23,6 @@ export interface AppointmentsTableModel extends CrudDataTableModel<
 }
 
 /**
- * PATTERN: useAppointmentsTableModel
 PATTERN: Thin view uses this composable + a he...
  */
 export function useAppointmentsTableModel(): AppointmentsTableModel {
@@ -62,8 +61,6 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return users.value.find(u => u.id === userId)
   }
 
-  /**
-   */
   const getPropertyTypeNames = (propertyVersionId: string | null | undefined): string => {
     const property = getPropertyById(propertyVersionId)
     if (!property?.propertyTypes || property.propertyTypes.length === 0) return '—'

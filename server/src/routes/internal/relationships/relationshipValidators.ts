@@ -1,7 +1,3 @@
-/**
- * Relationship Router Validation Utilities
- * 
- */
 
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, RELATIONSHIP_REGISTRY, type RelationshipKind } from './relationshipConstants.js'
@@ -16,13 +12,6 @@ export function isValidRelationshipKind(value: string): value is RelationshipKin
   return value in RELATIONSHIP_REGISTRY
 }
 
-/**
- * Normalize relationship kind
- * 
- * @param value - Relationship kind value to normalize
- * @returns Normalized RelationshipKind
- * @throws Error if relationship kind is unknown
- */
 export function normalizeRelationshipKind(value: string): RelationshipKind {
   if (value in RELATIONSHIP_REGISTRY) {
     return value as RelationshipKind

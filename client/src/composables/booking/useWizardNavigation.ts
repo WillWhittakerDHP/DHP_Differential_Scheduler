@@ -40,12 +40,8 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
    */
   const activeStep = ref(0)
 
-  /**
-   */
   const completedSteps = ref<Set<number>>(new Set())
 
-  /**
-   */
   const isLastStep = computed(() => activeStep.value === steps.length - 1)
 
   /**
@@ -55,8 +51,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     completedSteps.value.add(stepIndex)
   }
 
-  /**
-   */
   const arePreviousStepsCompleted = (targetStep: number): boolean => {
     for (let i = 0; i < targetStep; i++) {
       if (!completedSteps.value.has(i)) {
@@ -66,8 +60,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     return true
   }
 
-  /**
-   */
   const handleNext = (): void => {
     // Validate current step before allowing navigation
     const isValid = validateStep(activeStep.value)
@@ -89,8 +81,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     }
   }
 
-  /**
-   */
   const handleStepClick = (index: number): void => {
     if (index < activeStep.value) {
       activeStep.value = index
@@ -137,8 +127,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     return 'step-pending'
   }
 
-  /**
-   */
   const isStepAccessible = (index: number): boolean => {
     if (index <= activeStep.value) {
       return true

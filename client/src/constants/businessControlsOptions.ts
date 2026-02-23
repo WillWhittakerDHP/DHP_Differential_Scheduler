@@ -1,6 +1,3 @@
-/**
- * Business Controls Tab option arrays for selects and dropdowns
- */
 import type {
   DriveTimeApplyTo,
   CalendarProvider,

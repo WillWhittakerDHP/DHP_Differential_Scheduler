@@ -1,7 +1,3 @@
-/**
- * Business Settings Router Constants
- * 
- */
 
 import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
@@ -10,9 +6,6 @@ import type { RFC3339DateTime, DayHours } from '../../../../../shared/types/avai
 
 export { AVAILABILITY_SETTINGS_KEY }
 
-/**
- * Default availability settings
- */
 const DEFAULT_DAY_START = "2000-01-01T09:00:00Z" as RFC3339DateTime
 const DEFAULT_DAY_END = "2000-01-01T19:00:00Z" as RFC3339DateTime
 
@@ -60,9 +53,6 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
   }
 }
 
-/**
- * Error messages for business settings operations
- */
 export const ERROR_MESSAGES = {
   FETCH_SETTINGS: ERROR_FETCH_BUSINESS_SETTINGS,
   FETCH_SETTING: 'Failed to fetch business setting',

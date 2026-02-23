@@ -7,21 +7,15 @@
 
 Generated from `client/.audit-reports/todo-aging-audit.json`.
 
-- Total markers: **11**
-- Ancient: **9** | Stale: **0** | Aging: **0** | Fresh: **2** | Orphaned: **11**
+- Total markers: **5**
+- Ancient: **4** | Stale: **0** | Aging: **0** | Fresh: **1** | Orphaned: **5**
 
-## Top 11 files
+## Top 5 files
 
 | File | Priority | Score | Total | Ancient | Stale | Orphaned |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `client/src/components/admin/generic/DynamicForm.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/components/admin/generic/EntityFormContent.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/components/admin/generic/fields/BooleanInput.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/composables/useFormValidation.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/views/admin/tabs/components/RangeConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `server/src/scripts/helpers/calendarParsingHelpers.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useInputConfigEditor.ts` | P2 | 2 | 1 | 0 | 0 | 1 |

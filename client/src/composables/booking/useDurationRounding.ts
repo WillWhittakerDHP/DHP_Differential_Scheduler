@@ -10,11 +10,6 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 export interface UseDurationRoundingReturn {
   roundDuration: (duration: number) => number
   
-  /**
-   * WHY: /**
-Whether rounding is currently enabled
-LEARNING: Reactive computed pr...
-   */
   isRoundingEnabled: ComputedRef<boolean>
   
   roundingConfig: ComputedRef<DurationRoundingConfig | null>
@@ -57,11 +52,6 @@ export function useDurationRounding(): UseDurationRoundingReturn {
     return roundingConfig.value?.enabled ?? false
   })
   
-  /**
-   * 
-   * @param duration - Duration in minutes to round
-   * @returns Rounded duration if rounding enabled, original duration if disabled
-   */
   const roundDuration = (duration: number): number => {
     return roundDurationUtil(duration, settings.value)
   }

@@ -1,7 +1,3 @@
-/**
- * Admin Relationship Metadata Router Helper Functions
- * 
- */
 
 import type { RelationshipMetadataEntry } from '../../../utils/adminRelationshipMetadataComposer.js';
 import { mapMetaFieldsToPayload } from '../../../utils/adminMetadataPayload.js';

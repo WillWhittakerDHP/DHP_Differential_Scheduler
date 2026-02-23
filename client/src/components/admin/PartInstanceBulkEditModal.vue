@@ -176,8 +176,6 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
 
-/**
- */
 const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
   const metadata = partInstanceMetadata.value
   if (!metadata || Object.keys(metadata).length === 0) {

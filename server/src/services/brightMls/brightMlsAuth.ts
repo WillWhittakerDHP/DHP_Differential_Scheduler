@@ -1,20 +1,8 @@
-/**
- * Bright MLS Authentication
- *
- *
- * Env vars:
- * - BRIGHT_MLS_ACCESS_TOKEN: Direct Bearer token (if provided)
- * - BRIGHT_MLS_CLIENT_ID, BRIGHT_MLS_CLIENT_SECRET: OAuth client credentials
- * - BRIGHT_MLS_TOKEN_URL: OAuth token endpoint (vendor-specific)
- */
 
 import { createLogger } from '../../utils/logger.js';
 
 const logger = createLogger('BrightMlsAuth');
 
-/**
- * Check if Bright MLS is configured with any auth method
- */
 export function isBrightMlsConfigured(): boolean {
   const token = process.env.BRIGHT_MLS_ACCESS_TOKEN;
   const clientId = process.env.BRIGHT_MLS_CLIENT_ID;
@@ -23,12 +11,6 @@ export function isBrightMlsConfigured(): boolean {
   return !!(token?.trim() || (clientId?.trim() && clientSecret?.trim()));
 }
 
-/**
- * Get access token for Bright MLS API
- * Prefers direct BRIGHT_MLS_ACCESS_TOKEN; falls back to OAuth client credentials
- *
- * @returns Access token string, or null if not configured
- */
 export async function getAccessToken(): Promise<string | null> {
   const directToken = process.env.BRIGHT_MLS_ACCESS_TOKEN?.trim();
   if (directToken) {

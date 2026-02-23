@@ -62,7 +62,6 @@ export function useConfirmationStepData(
   })
 
   /**
-   * WHY: /**
 
 
 FIX: Explicitly access value to ensure reactivity tracking

@@ -31,7 +31,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   }
 
   /**
-   * WHY: /**
 LEARNING: Watch progress and fallback state
 WHY: Adjusts progress wh...
    */
@@ -53,7 +52,6 @@ WHY: Adjusts progress wh...
   }
 
   /**
-   * WHY: /**
 WHY: Hides loading indicator and resets progress state
 PATTERN: Set ...
    */

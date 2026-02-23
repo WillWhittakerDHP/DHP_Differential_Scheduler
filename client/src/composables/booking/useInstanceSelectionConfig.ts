@@ -43,7 +43,6 @@ export function useInstanceSelectionConfig(
   } = options
 
   /**
-   * WHY: /**
 Create wizard state plugin for the selection
 LEARNING: Plugin enable...
    */

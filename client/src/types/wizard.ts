@@ -1,5 +1,4 @@
 /**
- * WHY: Wizard State Types
 
 LEARNING: TypeScript types for booking wizard state
 ...
@@ -27,10 +26,6 @@ export interface WizardState {
   isQuoteMode: boolean
 }
 
-/**
- * WHY: Wizard Selection Methods Interface
-LEARNING: Defines methods for updatin...
- */
 export interface WizardSelectionMethods {
   /** Select user type and clear dependent selections */
   selectUserTypeBlock: (block: BookingBlockInstance | null) => void
@@ -46,9 +41,6 @@ export interface WizardSelectionMethods {
   batchUpdate: (fn: () => void) => void
 }
 
-/**
- * Wizard Computed Properties Interface
- */
 export interface WizardComputedProperties {
   /** Available user types (all visible user types) */
   availableUserTypeBlocks: ComputedRef<BookingBlockInstance[]>
@@ -72,10 +64,6 @@ export interface WizardComputedProperties {
   accAvailability: ComputedRef<BookingBlockInstance[]>
 }
 
-/**
- * WHY: Use Booking Wizard Return Type
-LEARNING: Complete return type for useBoo...
- */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
@@ -87,9 +75,6 @@ export type UseBookingWizardReturn = {
   bookingData: ComputedRef<BookingData | null>
 }
 
-/**
- * Availability Step Data Interface
- */
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { AvailabilityStepData } from '@/types/wizardStepData'
 
@@ -102,9 +87,6 @@ export type { AvailabilityStepData }
  */
 export type PropertyDetailsStepData = PropertyDetailsData
 
-/**
- * Contacts Step Data Interface
- */
 export interface ContactsStepData {
   clientInfo: { firstName: string; lastName: string; email: string }
   agentInfo: { firstName: string; lastName: string; email: string }
@@ -117,18 +99,12 @@ export interface ContactsStepData {
 }
 
 /**
- * WHY: Confirmation Step Data Interface
 WHY: Enables useWizardStepSync pattern ...
  */
 export interface ConfirmationStepData {
   acknowledged?: boolean
 }
 
-/**
- * WHY: Wizard Step Data and Validation Refs
-
-LEARNING: Shared interface for wiz...
- */
 export interface WizardStepDataAndValidationRefs {
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
   contactsStepData: Ref<ContactsStepData | null>

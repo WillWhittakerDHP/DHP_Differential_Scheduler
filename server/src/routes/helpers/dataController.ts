@@ -5,15 +5,6 @@ import { createLogger } from "../../utils/logger.js";
 
 const logger = createLogger('DataController');
 
-/**
- * Type helper for creating where clauses by ID
- * 
- * API Best Practice: Use proper type extraction instead of type assertions
- * This ensures type safety while working with Sequelize's generic model types
- * 
- * Note: When querying by ID, the ID is always defined (string), even though
- * the attribute type is CreationOptional<string> (string | undefined)
- */
 type WhereById<T extends Model> = {
   id: NonNullable<T["_attributes"]["id"]>;
 };
@@ -155,8 +146,6 @@ const bulkPatch = async <T extends Model>(
   let updatedCount = 0;
 
   for (const { id, ...data } of updates) {
-/**
- */
     const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
     const [count] = await Entity.update(data as Partial<Attributes<T>>, {
       where: whereClause as WhereOptions<T["_attributes"]>,

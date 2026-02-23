@@ -32,9 +32,6 @@ export type WizardStateField = 'userTypeBlock' | 'services' | 'propertyTypeBlock
  */
 export interface WizardFieldConfig {
   isArray: boolean
-  /**
-   *      even though they're stored as arrays
-   */
   singleSelectUI: boolean
   getSelectedArray: (wizard: WizardInstance) => BookingBlockInstance[]
   getSelectedValue: (wizard: WizardInstance) => BookingBlockInstance | null

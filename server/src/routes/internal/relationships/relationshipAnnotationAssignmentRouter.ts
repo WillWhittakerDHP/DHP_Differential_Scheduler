@@ -1,7 +1,3 @@
-/**
- * Relationship Annotation Assignment Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { AnnotationAssignment } from '../../../config/app.js'
@@ -15,12 +11,6 @@ const logger = createLogger('RelationshipRouter')
 
 const router = Router()
 
-/**
- * PATCH /relationships/annotationAssignments/:blockInstanceId/:annotationId
- * Update an annotation assignment
- * 
- * NOTE: This endpoint is specific to annotationAssignments for parent/child ID-based updates
- */
 router.patch('/:blockInstanceId/:annotationId', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { blockInstanceId, annotationId } = req.params
   const { userTypeBlockInstanceId } = req.body

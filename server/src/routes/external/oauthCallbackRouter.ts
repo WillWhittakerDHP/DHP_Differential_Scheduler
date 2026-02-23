@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express'
+import Joi from 'joi'
 import { getTokens, setCredentials, saveTokensToFile } from '../../config/googleOAuth.js'
 import { createLogger } from '../../utils/logger.js'
 import {
@@ -6,6 +7,12 @@ import {
   OAUTH_SUCCESS_MESSAGES,
   ROUTE_PATHS,
 } from '../../constants/appConstants.js'
+
+const callbackQuerySchema = Joi.object({
+  code: Joi.string().optional(),
+  error: Joi.string().optional(),
+  error_description: Joi.string().optional(),
+}).unknown(true)
 
 /**
  * OAuth Callback Router
@@ -17,16 +24,6 @@ import {
 const logger = createLogger('oauthCallback')
 const router = Router()
 
-/**
- * GET /oauth2callback
- * Handle OAuth callback - exchanges authorization code for tokens
- * 
- * 
- * Query parameters:
- * - code: Authorization code from Google
- * - error: Error code if authorization failed
- * - error_description: Description of authorization error
- */
 router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
   logger.debug('Callback route hit')
   logger.debug('Query params:', JSON.stringify(req.query))
@@ -35,7 +32,16 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
   logger.debug('Raw query string:', req.url.split('?')[1] || 'none')
 
   try {
-    const { code, error, error_description } = req.query
+    const validation = callbackQuerySchema.validate(req.query, { abortEarly: false })
+    if (validation.error) {
+      res.status(400).json({
+        error: OAUTH_ERROR_MESSAGES.INVALID_REQUEST,
+        message: validation.error.message,
+        received_params: Object.keys(req.query),
+      })
+      return
+    }
+    const { code, error, error_description } = validation.value
 
     if (error) {
       logger.error('OAuth error:', error)
@@ -48,7 +54,6 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
       return
     }
 
-    // Validate authorization code
     if (!code || typeof code !== 'string') {
       logger.warn('No authorization code received')
       logger.debug('Query keys:', Object.keys(req.query))
@@ -66,15 +71,12 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
 
     setCredentials(tokens)
 
-    // Save tokens to file for persistence across restarts
-    // SESSION: 2.1.3b - Persist tokens across server restarts
     saveTokensToFile(tokens)
 
     logger.info('OAuth authentication successful')
     logger.debug('Has access token:', !!tokens.access_token)
     logger.debug('Has refresh token:', !!tokens.refresh_token)
 
-    // Return success response
     res.json({
       success: true,
       message: OAUTH_SUCCESS_MESSAGES.TOKENS_SAVED,

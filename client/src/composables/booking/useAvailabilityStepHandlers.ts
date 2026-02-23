@@ -39,14 +39,12 @@ export interface UseAvailabilityStepHandlersReturn {
   handleMoveableConfirm: () => void
   
   /**
-   * WHY: /**
 Handler for moveable modal cancel
 WHY: Resets state when canceling
    */
   handleMoveableCancel: () => void
   
   /**
-   * WHY: /**
 Handler for Time Basis Graph time basis change event
 WHY: Maps UI la...
    */

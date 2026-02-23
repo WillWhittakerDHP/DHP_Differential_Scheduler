@@ -129,15 +129,6 @@
 </template>
 
 <script setup lang="ts">
-/**
- * 
- * - Type selects: All entities of candidateChildKey type (no filtering)
- * - Valid child selects: Filtered by filterOptions function from config
- * - Active child selects: Filtered by parent's type's valid children
- * 
- * 
- *             once adminConfig is ported. For now, accepts config as props.
- */
 
 import { computed, inject } from 'vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'

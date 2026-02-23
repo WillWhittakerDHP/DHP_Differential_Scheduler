@@ -43,9 +43,6 @@ const RELATIONSHIP_KEYS = [
   'instanceComponents',
 ] as const
 
-/**
- * Build relationship data for an entity (immutable).
- */
 function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
   entityId: GlobalEntityId,
   _entityKey: GE,
@@ -80,9 +77,6 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
   )
 }
 
-/**
- * Transform a single GlobalEntity to AdminObject.
- */
 function transformSingleEntity<GE extends GlobalEntityKey>(
   globalEntity: GlobalEntity<GE>,
   entityKey: GE,

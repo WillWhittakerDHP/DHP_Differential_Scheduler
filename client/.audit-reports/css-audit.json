@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T17:33:26.654Z",
+  "generatedAt": "2026-02-23T18:12:50.034Z",
   "scope": {
     "included": [
       "client/src/**/*.vue",
@@ -16,12 +16,13 @@
   },
   "totalScanned": 107,
   "exceptionSummary": {
-    "totalAllowed": 60,
-    "totalRequiresReview": 34,
+    "totalAllowed": 59,
+    "totalRequiresReview": 37,
     "bySource": {
       "inline": 0,
       "pattern": 9,
-      "specific": 51
+      "specific": 50,
+      "linePattern": 0
     }
   },
   "ruleset": [
@@ -73,6 +74,40 @@
   ],
   "files": [
     {
+      "id": "client__src__layouts__default.vue",
+      "repoPath": "client/src/layouts/default.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/layouts/default.vue",
+      "counts": {
+        "large-style-block": 0,
+        "empty-style-block": 0,
+        "unscoped-style": 1,
+        "inline-style-static": 0,
+        "inline-style-dynamic": 0,
+        "important-override": 0,
+        "deep-selector": 0,
+        "magic-color": 0,
+        "css-in-ts": 0
+      },
+      "matches": [
+        {
+          "ruleId": "unscoped-style",
+          "lineNumber": 47,
+          "line": "<style lang=\"scss\">"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unscoped-style",
+          "lineNumber": 47,
+          "line": "<style lang=\"scss\">",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__components__admin__generic__fields__SelectInputs.vue",
       "repoPath": "client/src/components/admin/generic/fields/SelectInputs.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/fields/SelectInputs.vue",
@@ -90,27 +125,27 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 379,
+          "lineNumber": 363,
           "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 383,
+          "lineNumber": 367,
           "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 394,
+          "lineNumber": 375,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 408,
+          "lineNumber": 386,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 414,
+          "lineNumber": 392,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {"
         }
       ],
@@ -118,28 +153,33 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 379,
-          "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {"
+          "lineNumber": 363,
+          "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 383,
-          "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {"
+          "lineNumber": 367,
+          "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 394,
-          "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {"
+          "lineNumber": 375,
+          "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 408,
-          "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {"
+          "lineNumber": 386,
+          "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 414,
-          "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {"
+          "lineNumber": 392,
+          "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 5,
@@ -163,22 +203,22 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 664,
+          "lineNumber": 649,
           "line": ":deep(*) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 668,
+          "lineNumber": 653,
           "line": ":deep(.v-card-text),"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 669,
+          "lineNumber": 654,
           "line": ":deep(.v-window-item) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 682,
+          "lineNumber": 666,
           "line": ":deep(.flexible-tabs) {"
         }
       ],
@@ -186,23 +226,27 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 664,
-          "line": ":deep(*) {"
+          "lineNumber": 649,
+          "line": ":deep(*) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 668,
-          "line": ":deep(.v-card-text),"
+          "lineNumber": 653,
+          "line": ":deep(.v-card-text),",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 669,
-          "line": ":deep(.v-window-item) {"
+          "lineNumber": 654,
+          "line": ":deep(.v-window-item) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 682,
-          "line": ":deep(.flexible-tabs) {"
+          "lineNumber": 666,
+          "line": ":deep(.flexible-tabs) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 4,
@@ -245,17 +289,20 @@
         {
           "ruleId": "deep-selector",
           "lineNumber": 164,
-          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]) {"
+          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
           "lineNumber": 168,
-          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-outer-spin-button),"
+          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-outer-spin-button),",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
           "lineNumber": 169,
-          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-inner-spin-button) {"
+          "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-inner-spin-button) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -279,17 +326,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 191,
+          "lineNumber": 184,
           "line": ".icon-input-field :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 198,
+          "lineNumber": 188,
           "line": ".icon-input-field :deep(input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 203,
+          "lineNumber": 193,
           "line": ".icon-input-field :deep(input::placeholder) {"
         }
       ],
@@ -297,18 +344,21 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 191,
-          "line": ".icon-input-field :deep(.v-field__input) {"
+          "lineNumber": 184,
+          "line": ".icon-input-field :deep(.v-field__input) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 198,
-          "line": ".icon-input-field :deep(input) {"
+          "lineNumber": 188,
+          "line": ".icon-input-field :deep(input) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 203,
-          "line": ".icon-input-field :deep(input::placeholder) {"
+          "lineNumber": 193,
+          "line": ".icon-input-field :deep(input::placeholder) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -332,17 +382,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 868,
+          "lineNumber": 1068,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 872,
+          "lineNumber": 1072,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 876,
+          "lineNumber": 1076,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],
@@ -350,18 +400,21 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 868,
-          "line": ".instances-tabs-container :deep(.v-tab) {"
+          "lineNumber": 1068,
+          "line": ".instances-tabs-container :deep(.v-tab) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 872,
-          "line": ".instances-tabs-container :deep(.v-tabs) {"
+          "lineNumber": 1072,
+          "line": ".instances-tabs-container :deep(.v-tabs) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 876,
-          "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
+          "lineNumber": 1076,
+          "line": ".instances-tabs-container :deep(.v-slide-group__content) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -385,12 +438,12 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 106,
+          "lineNumber": 97,
           "line": ":deep(.title-row-field) .field-wrapper {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 110,
+          "lineNumber": 101,
           "line": ":deep(.title-row-field) .field-content {"
         }
       ],
@@ -398,13 +451,15 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 106,
-          "line": ":deep(.title-row-field) .field-wrapper {"
+          "lineNumber": 97,
+          "line": ":deep(.title-row-field) .field-wrapper {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 110,
-          "line": ":deep(.title-row-field) .field-content {"
+          "lineNumber": 101,
+          "line": ":deep(.title-row-field) .field-content {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 2,
@@ -428,12 +483,12 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 204,
+          "lineNumber": 184,
           "line": ":deep(.title-row-field) .text-input-field {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 238,
+          "lineNumber": 208,
           "line": ":deep(.title-row-field) .readonly-text {"
         }
       ],
@@ -441,13 +496,83 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 204,
-          "line": ":deep(.title-row-field) .text-input-field {"
+          "lineNumber": 184,
+          "line": ":deep(.title-row-field) .text-input-field {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 238,
-          "line": ":deep(.title-row-field) .readonly-text {"
+          "lineNumber": 208,
+          "line": ":deep(.title-row-field) .readonly-text {",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__AppNotification.vue",
+      "repoPath": "client/src/components/AppNotification.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/AppNotification.vue",
+      "counts": {
+        "large-style-block": 0,
+        "empty-style-block": 1,
+        "unscoped-style": 0,
+        "inline-style-static": 0,
+        "inline-style-dynamic": 0,
+        "important-override": 0,
+        "deep-selector": 0,
+        "magic-color": 0,
+        "css-in-ts": 0
+      },
+      "matches": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 53,
+          "line": "<style> block is empty; remove or add styles"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 53,
+          "line": "<style> block is empty; remove or add styles",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__common__AddressAutocomplete.vue",
+      "repoPath": "client/src/components/common/AddressAutocomplete.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/common/AddressAutocomplete.vue",
+      "counts": {
+        "large-style-block": 0,
+        "empty-style-block": 1,
+        "unscoped-style": 0,
+        "inline-style-static": 0,
+        "inline-style-dynamic": 0,
+        "important-override": 0,
+        "deep-selector": 0,
+        "magic-color": 0,
+        "css-in-ts": 0
+      },
+      "matches": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 307,
+          "line": "<style> block is empty; remove or add styles"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 307,
+          "line": "<style> block is empty; remove or add styles",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 2,
@@ -471,12 +596,12 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 998,
+          "lineNumber": 903,
           "line": ".title-field-input :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1003,
+          "lineNumber": 908,
           "line": ".title-field-input :deep(.v-field) {"
         }
       ],
@@ -484,13 +609,15 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 998,
-          "line": ".title-field-input :deep(.v-field__input) {"
+          "lineNumber": 903,
+          "line": ".title-field-input :deep(.v-field__input) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1003,
-          "line": ".title-field-input :deep(.v-field) {"
+          "lineNumber": 908,
+          "line": ".title-field-input :deep(.v-field) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 2,
@@ -514,12 +641,12 @@
       "matches": [
         {
           "ruleId": "unscoped-style",
-          "lineNumber": 130,
+          "lineNumber": 114,
           "line": "<style>"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 151,
+          "lineNumber": 133,
           "line": ":deep(.v-btn__content) {"
         },
         {
@@ -536,31 +663,35 @@
       "allowed": [
         {
           "ruleId": "unscoped-style",
-          "lineNumber": 130,
+          "lineNumber": 114,
           "line": "<style>",
           "reason": "App root and wizard dev panel require global selectors.",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         },
         {
           "ruleId": "inline-style-static",
           "lineNumber": 10,
           "line": "<VApp :style=\"`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`\">",
           "reason": "Runtime theme primary injection for VApp.",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         },
         {
           "ruleId": "inline-style-dynamic",
           "lineNumber": 10,
           "line": "<VApp :style=\"`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`\">",
           "reason": "Runtime theme primary injection for VApp.",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 151,
-          "line": ":deep(.v-btn__content) {"
+          "lineNumber": 133,
+          "line": ":deep(.v-btn__content) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -584,7 +715,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 185,
+          "lineNumber": 166,
           "line": ".create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -592,8 +723,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 185,
-          "line": ".create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
+          "lineNumber": 166,
+          "line": ".create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -617,7 +749,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 210,
+          "lineNumber": 196,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -625,8 +757,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 210,
-          "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
+          "lineNumber": 196,
+          "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -650,7 +783,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 239,
+          "lineNumber": 225,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -658,8 +791,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 239,
-          "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
+          "lineNumber": 225,
+          "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -692,7 +826,8 @@
         {
           "ruleId": "deep-selector",
           "lineNumber": 240,
-          "line": ".cursor-pointer :deep(tbody tr) {"
+          "line": ".cursor-pointer :deep(tbody tr) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -716,7 +851,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 105,
+          "lineNumber": 86,
           "line": ":deep(.v-checkbox) {"
         }
       ],
@@ -724,8 +859,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 105,
-          "line": ":deep(.v-checkbox) {"
+          "lineNumber": 86,
+          "line": ":deep(.v-checkbox) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -749,7 +885,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 66,
+          "lineNumber": 59,
           "line": ":deep(.v-btn__content) {"
         }
       ],
@@ -757,8 +893,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 66,
-          "line": ":deep(.v-btn__content) {"
+          "lineNumber": 59,
+          "line": ":deep(.v-btn__content) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -782,41 +919,44 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 211,
+          "lineNumber": 191,
           "line": ":deep(.v-selection-control__wrapper) {"
         },
         {
           "ruleId": "inline-style-static",
-          "lineNumber": 135,
+          "lineNumber": 120,
           "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\""
         },
         {
           "ruleId": "inline-style-dynamic",
-          "lineNumber": 135,
+          "lineNumber": 120,
           "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\""
         }
       ],
       "allowed": [
         {
           "ruleId": "inline-style-static",
-          "lineNumber": 135,
+          "lineNumber": 120,
           "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\"",
           "reason": "Config-driven minHeight from mergedConfig.appearance.",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         },
         {
           "ruleId": "inline-style-dynamic",
-          "lineNumber": 135,
+          "lineNumber": 120,
           "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\"",
           "reason": "Config-driven minHeight from mergedConfig.appearance.",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 211,
-          "line": ":deep(.v-selection-control__wrapper) {"
+          "lineNumber": 191,
+          "line": ":deep(.v-selection-control__wrapper) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -840,7 +980,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 320,
+          "lineNumber": 305,
           "line": ":deep(.v-col) {"
         }
       ],
@@ -848,8 +988,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 320,
-          "line": ":deep(.v-col) {"
+          "lineNumber": 305,
+          "line": ":deep(.v-col) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,
@@ -873,7 +1014,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 251,
+          "lineNumber": 247,
           "line": ":deep(.summary-table) {"
         }
       ],
@@ -881,8 +1022,9 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 251,
-          "line": ":deep(.summary-table) {"
+          "lineNumber": 247,
+          "line": ":deep(.summary-table) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 1,

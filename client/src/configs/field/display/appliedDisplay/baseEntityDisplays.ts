@@ -1,5 +1,3 @@
-/**
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 /**
- * PATTERN: ServiceSelectCards Component
 
 PATTERN: Wrapper component that connects w...
  */

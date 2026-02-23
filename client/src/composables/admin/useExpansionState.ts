@@ -22,8 +22,6 @@ export function useExpansionState(): UseExpansionStateReturn {
    */
   const expandedEntities = ref<string[]>([])
 
-  /**
-   */
   const isPanelExpanded = (entityId: string): boolean => {
     return expandedEntities.value.includes(entityId)
   }

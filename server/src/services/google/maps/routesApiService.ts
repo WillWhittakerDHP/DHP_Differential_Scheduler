@@ -1,7 +1,3 @@
-/**
- * Google Routes API Service
- * 
- */
 
 import { createLogger } from '../../../utils/logger.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
@@ -49,15 +45,6 @@ function toDriveTimeResult(durationSeconds: number, distanceMeters: number, sour
   }
 }
 
-/**
- * Calculate route matrix using Google Routes API
- * 
- * 
- * @param origins - Array of origin locations
- * @param destinations - Array of destination locations
- * @param useTraffic - Whether to use real-time traffic (default: true, triggers Pro SKU)
- * @returns Array of route results for each origin-destination pair
- */
 export async function calculateRouteMatrix(
   origins: RouteLocation[],
   destinations: RouteLocation[],
@@ -122,7 +109,6 @@ export async function calculateRouteMatrix(
       
       const data = await response.json()
       
-      // Routes API returns an array of results
       if (!Array.isArray(data)) {
         logger.error('Unexpected response format', { data })
         throw new MapsApiError('invalid', 'Unexpected response format from Routes API')
@@ -152,18 +138,6 @@ export async function calculateRouteMatrix(
   })
 }
 
-/**
- * Calculate drive time between two locations (convenience function)
- * 
- * 
- * Session 2.2.3: Added fallback support and retry logic
- * 
- * @param origin - Origin location
- * @param destination - Destination location
- * @param useTraffic - Whether to use real-time traffic
- * @param fallbackMinutes - Optional fallback minutes to use if API fails or location missing
- * @returns Drive time result with source metadata, or null if route not found and no fallback
- */
 export async function calculateDriveTime(
   origin: RouteLocation,
   destination: RouteLocation,
@@ -185,7 +159,6 @@ export async function calculateDriveTime(
   const cached = getCachedDriveTime(origin, destination)
   if (cached) return toDriveTimeResult(cached.durationSeconds, cached.distanceMeters, 'cached')
   
-  // Attempt API call with retry for transient errors
   try {
     const results = await withRetry(
       () => calculateRouteMatrix([origin], [destination], useTraffic),

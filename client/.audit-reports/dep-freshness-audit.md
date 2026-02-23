@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-23T17:05:22.478Z
+Generated at: 2026-02-23T18:06:39.875Z
 
 ## Summary
 
-- Total outdated: **2**
-- Major behind: **1** | Minor: **0** | Patch: **1**
+- Total outdated: **5**
+- Major behind: **1** | Minor: **0** | Patch: **4**
 
 ## Major behind (top 20)
 

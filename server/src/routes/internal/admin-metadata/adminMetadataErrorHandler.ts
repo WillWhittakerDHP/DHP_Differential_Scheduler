@@ -1,6 +1,3 @@
-/**
- * Admin Metadata Router Error Handler
- */
 export {
   handleSequelizeValidationError,
   handleGeneralError,

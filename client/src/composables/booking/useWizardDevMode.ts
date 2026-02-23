@@ -52,8 +52,6 @@ export function useWizardDevMode(
   const resetMocksSignal = ref(0)
   provide('resetMocksSignal', resetMocksSignal)
 
-  /**
-   */
   const handleResetMocks = (): void => {
     resetMocksSignal.value++
   }

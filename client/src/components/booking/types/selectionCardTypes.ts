@@ -1,5 +1,4 @@
 /**
- * WHY: Centralized type definitions for SelectionCard component system
 WHY: Ens...
  */
 export interface ComponentItem {
@@ -33,21 +32,18 @@ LEARNING: Pluggable state management for Selectio...
 export interface StatePlugin {
   name: string
   /**
-   * WHY: /**
 Get the current value for an item
 WHY: Allows plugin to determine se...
    */
   getValue: (item: SelectionCardItem) => boolean | string | null
   
   /**
-   * WHY: /**
 Set the value for an item
 WHY: Allows plugin to update state in its ...
    */
   setValue: (item: SelectionCardItem, value: boolean | string | null) => void
   
   /**
-   * WHY: /**
 Reactive source to watch for changes
 WHY: Enables SelectionCard to r...
    */
@@ -55,7 +51,6 @@ WHY: Enables SelectionCard to r...
 }
 
 /**
- * WHY: Selection card configuration interface
 WHY: Configuration-first approach...
  */
 export interface SelectionCardConfig {
@@ -64,14 +59,12 @@ export interface SelectionCardConfig {
   selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
   
   /**
-   * WHY: /**
 State source type
 LEARNING: Where selection state is stored (wizard,...
    */
   stateSource?: 'wizard' | 'local' | 'custom'
   
   /**
-   * WHY: /**
 State plugins for reactive updates
 LEARNING: Array of plugins that m...
    */

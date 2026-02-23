@@ -1,5 +1,4 @@
 /**
- * WHY: Local State Plugin
 
 LEARNING: State plugin for local ref-based state man...
  */
@@ -29,7 +28,6 @@ export function createLocalStatePlugin(
     },
     
     /**
-     * WHY: /**
 Watch source for reactivity
 WHY: Enables SelectionCard to react to e...
      */

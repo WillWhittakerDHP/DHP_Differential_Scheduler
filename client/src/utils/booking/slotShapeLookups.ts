@@ -1,19 +1,8 @@
-/**
- * SlotShape Lookups
- *
- */
 
 import type { TimeRange } from '@/types/appointment'
 import type { SlotShape, EventFinal } from '@/types/appointment'
 import { createTimeRange } from './slotTimeUtils'
 
-/**
- * Find EventFinal by event shape name
- *
- * @param slotShape - SlotShape with eventFinals array
- * @param name - Event shape name (e.g. Major, Minor, Moveable)
- * @returns EventFinal if found, undefined otherwise
- */
 export function findEventFinalByName(
   slotShape: SlotShape,
   name: string
@@ -21,13 +10,6 @@ export function findEventFinalByName(
   return slotShape.eventFinals.find(ef => ef.eventShape.name === name)
 }
 
-/**
- * Convert SlotShape + startTime to TimeRange objects
- *
- * @param slotShape - SlotShape with eventFinals array
- * @param startTime - Base start time (ISO string)
- * @returns Object with precomputed TimeRanges including eventTimeRanges Record
- */
 export function createTimeRangesFromSlotShape(
   slotShape: SlotShape,
   startTime: string

@@ -47,9 +47,6 @@ export function useAvailabilitySettings(
     }
   })
 
-  /**
-   * Refresh settings manually
-   */
   const refresh = async (): Promise<void> => {
     try {
       isLoading.value = true

@@ -1,9 +1,3 @@
-/**
- * PATTERN: Extract shared handler logic into composable
-
-Used by:
-- NumberInput.vue...
- */
 import { computed } from 'vue'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -23,8 +17,6 @@ export interface UseFieldInputHandlersParams {
   fieldType?: FieldKeyboardGuardType
 }
 
-/**
- */
 export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const {
     fieldContext,

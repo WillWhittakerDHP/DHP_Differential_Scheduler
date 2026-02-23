@@ -1,7 +1,3 @@
-/**
- * Entity Config Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { ENTITY_KEYS_ARRAY } from './entityConstants.js'
@@ -10,11 +6,6 @@ import { handleRouteError } from './entityErrorHandler.js'
 
 const router = Router()
 
-/**
- * GET /entities/config
- * Get entity configuration
- * 
- */
 router.get('/config', async (req: Request, res: Response): Promise<void> => {
   try {
     res.json({

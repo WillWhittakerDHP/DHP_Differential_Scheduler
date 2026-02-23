@@ -3,9 +3,6 @@
  */
 export type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
 
-/**
- * Summary data for confirmation step display.
- */
 export interface SummaryData {
   serviceType: string
   propertyType: string
@@ -13,9 +10,6 @@ export interface SummaryData {
   squareFootage: string
 }
 
-/**
- * Price data structure for confirmation step.
- */
 export interface PriceData {
   totalFee: number
   currency: string

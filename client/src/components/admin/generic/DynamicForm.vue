@@ -69,9 +69,6 @@ interface Props {
   entityKey: GlobalEntityKey
   entityId?: GlobalEntityId
   form: FormContext
-  /**
-   *      In card views, titleField is rendered in the card title, not as a form field
-   */
   modalMode?: boolean
 }
 
@@ -86,8 +83,6 @@ const formRef = ref<InstanceType<typeof VForm> | null>(null)
 const adminConfig = useAdminConfig()
 const adminComp = useAdmin()
 
-/**
- */
 const formRefForComposable = computed<FormContext>(() => props.form)
 
 /**

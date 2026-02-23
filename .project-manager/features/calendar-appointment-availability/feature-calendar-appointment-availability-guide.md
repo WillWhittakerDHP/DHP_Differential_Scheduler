@@ -10,7 +10,7 @@
 
 **Feature Name:** calendar-appointment-availability
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
-**Status:** Reopened
+**Status:** Complete
 
 **Duration:** ~12 months (built alongside Features 2, 4, 5)
 **Started:** 2025-02-01

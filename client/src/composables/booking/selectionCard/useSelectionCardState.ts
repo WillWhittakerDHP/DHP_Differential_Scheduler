@@ -64,7 +64,6 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   })
 
   /**
-   * WHY: /**
 LEARNING: Explicit selection state management
 WHY: Replaces VRadioGr...
    */
@@ -89,7 +88,6 @@ WHY: Replaces VRadioGr...
   })
 
   /**
-   * WHY: /**
 LEARNING: Watch state plugin source for reactivity
 PATTERN: Watch th...
    */

@@ -1,12 +1,3 @@
-/**
- * Field Component Dispatcher
- * 
- * 
- * This utility handles:
- * - Component type determination (icon, primitive, relationshipCollection, annotations, select)
- * - RenderAs-based type checking (iconSelect, text, number, statusButton, select, multiselect, reference, relationshipCollection)
- * - Special case handling (annotations field)
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -22,19 +13,6 @@ export type FieldComponent =
   | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' } // Renders SelectInputs component
   | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' } // Unknown/invalid field
 
-/**
- * Field Component Dispatcher
- * 
- * 
- * Logic Flow:
- * 1. Check for missing metadata → unknown
- * 2. Check for annotations field → annotations component
- * 3. Check renderAs for iconSelect → icon component
- * 4. Check renderAs for text/number/statusButton → primitive component
- * 5. Check renderAs for relationshipCollection → relationshipCollection component
- * 6. Check renderAs for select/multiselect/reference → select component (with enum select exception)
- * 7. Unknown renderAs → unknown component
- */
 export function getFieldComponent<GE extends GlobalEntityKey>(
   entityKey: GE,
   fieldKey: GlobalFieldKey<GE>,

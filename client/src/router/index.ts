@@ -1,7 +1,3 @@
-/**
- * Vue Router Configuration
- * 
- */
 
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
@@ -12,9 +8,6 @@ import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 
 const logger = createLogger('Router Guard')
 
-/**
- * Route definitions
- */
 const routes: RouteRecordRaw[] = [
   {
     path: '/',

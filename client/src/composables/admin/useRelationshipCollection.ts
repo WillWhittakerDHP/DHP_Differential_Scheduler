@@ -23,7 +23,6 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useRelationshipCollection')
 
 /**
- * WHY: Name generation function type
 WHY: Different collection types may have d...
  */
 export type NameGenerator = (
@@ -68,7 +67,6 @@ export interface UseRelationshipCollectionOptions {
 }
 
 /**
- * WHY: useRelationshipCollection
 LEARNING: Generic collection-level composable ...
  */
 export function useRelationshipCollection(
@@ -141,7 +139,6 @@ export function useRelationshipCollection(
   const expandedPlaceholders = ref<string[]>([])
   
   /**
-   * PATTERN: /**
 
 PATTERN: Set shape reference property explicitly, matching usePartI...
    */

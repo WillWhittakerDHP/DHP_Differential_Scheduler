@@ -198,7 +198,6 @@ export function useWizardAppointmentManagement(
   }
 
   /**
-   * WHY: /**
 WHY: Clears all wizard state and loaded appointment tracking
 PATTERN...
    */

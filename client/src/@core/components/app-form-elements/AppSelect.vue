@@ -13,8 +13,6 @@ const elementId = computed (() => {
   return _elementIdToken ? `app-select-${_elementIdToken}` : _id
 })
 
-/**
- */
 const menuProps = computed(() => {
   const defaultContentClass = [
     'app-inner-list',

@@ -47,7 +47,6 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
   const { required, zipCode: zipCodeValidator, min, max, minLength } = useFormValidation()
 
   /**
-   * PATTERN: /**
 PATTERN: Computed object with field names as keys and arrays of Vali...
    */
   const validationRules = computed<Record<string, ValidationRule[]>>(() => {

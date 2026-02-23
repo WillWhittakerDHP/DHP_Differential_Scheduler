@@ -256,8 +256,6 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(PropertyVersionType, { foreignKey: 'block_instance_id', as: 'propertyVersionTypes' });
   PropertyVersionType.belongsTo(BlockInstance, { foreignKey: 'block_instance_id', as: 'blockInstance' });
   
-  // NOTE: Property model and table have been removed - use Address, PropertyVersion, PropertyDetails instead
-  // NOTE: client_id, agent_id, additional_contacts columns removed - use appointment_attendees table (Session 2.1.3b)
 
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });

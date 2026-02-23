@@ -1,16 +1,6 @@
-/**
- * Admin Metadata Router Constants
- * 
- */
 
-/**
- * Sentinel UUIDs for global configuration metadata
- */
 export { GLOBAL_CONFIG_IDS } from '../../../../../shared/constants/globalConfigIds.js'
 
-/**
- * Valid entity types for admin metadata
- */
 export const VALID_ENTITY_TYPES = [
   'blockShape',
   'partShape',
@@ -22,9 +12,6 @@ export const VALID_ENTITY_TYPES = [
   'annotationInstance',
 ] as const
 
-/**
- * Error messages for admin metadata operations
- */
 export const ERROR_MESSAGES = {
   FETCH_BATCH_METADATA: 'Failed to fetch batch metadata',
   FETCH_METADATA: 'Failed to fetch metadata',
@@ -38,19 +25,10 @@ export const ERROR_MESSAGES = {
   METADATA_NOT_FOUND: 'Metadata not found',
 } as const
 
-/**
- * Shared required field list for admin metadata (fieldKey-based)
- */
 export const METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['fieldKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const
 
-/**
- * WHY: Shared required field list for admin relationship metadata (relationship...
- */
 export const RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE = ['relationshipKey', 'dataType', 'label', 'visibility', 'layout', 'displayOrder'] as const
 
-/**
- * Factory for REQUIRED_FIELDS shape (single structure definition for audit)
- */
 export function createRequiredFields<T extends readonly string[]>(createUpdate: T): { readonly CREATE_UPDATE: T } {
   return { CREATE_UPDATE: createUpdate }
 }
@@ -58,9 +36,6 @@ export function createRequiredFields<T extends readonly string[]>(createUpdate: 
 /** Required fields for metadata creation/update */
 export const REQUIRED_FIELDS = createRequiredFields(METADATA_REQUIRED_FIELDS_CREATE_UPDATE)
 
-/**
- * RenderAs values that require inputConfig
- */
 export const RENDER_AS_REQUIRING_INPUT_CONFIG = [
   'select',
   'multiselect',

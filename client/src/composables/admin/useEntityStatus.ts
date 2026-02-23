@@ -55,8 +55,6 @@ export function useEntityStatus(
     canBeComposed: () => false
   }
 
-  /**
-   */
   const isComposer = computed(() => {
     if (entityKey !== 'blockInstance' || !componentEntityComposable) return false
     const components = getComponents(entity.value.id)
@@ -79,16 +77,12 @@ export function useEntityStatus(
     return canBeComposed(entity.value.id) && !isComposer.value && !isComponent.value
   })
 
-  /**
-   */
   const componentCount = computed(() => {
     if (entityKey !== 'blockInstance' || !componentEntityComposable) return 0
     const components = getComponents(entity.value.id)
     return components.length
   })
 
-  /**
-   */
   const composerName = computed(() => {
     if (entityKey !== 'blockInstance' || !isComponent.value || !componentEntityComposable) return null
     

@@ -1,10 +1,3 @@
-/**
- * PATTERN: Extract shared setup logic into composable
-
-Used by:
-- DateInput.vue
-- T...
- */
 import { inject } from 'vue'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -19,20 +12,13 @@ export interface UseFieldInputSetupOptions {
   fieldType?: FieldKeyboardGuardType
 }
 
-/**
- */
 export function useFieldInputSetup(
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>,
   options: UseFieldInputSetupOptions = {}
 ) {
   const { fieldType } = options
-  /**
-   *      not just save the individual field
-   */
   const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-  /**
-   */
   const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
   // LEARNING: Use unified field value composable

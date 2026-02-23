@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T17:01:41.546Z",
+  "generatedAt": "2026-02-23T18:12:50.674Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 793,
+  "totalScanned": 4,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 2,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -24,7 +24,38 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__fixtures__audits__type-escape__as-any__tp__has-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 3,
+          "line": "const y = x as any",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "id": "client__fixtures__audits__type-escape__as-any__tp__unnecessary-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "as-any",
+          "lineNumber": 3,
+          "line": "const y = x as any",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "empty-catch",

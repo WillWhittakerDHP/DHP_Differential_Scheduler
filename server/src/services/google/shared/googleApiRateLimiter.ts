@@ -1,16 +1,9 @@
-/**
- * Google API Rate Limiter Wrapper
- * 
- */
 
 import { checkRateLimit, recordRequest, waitForRateLimit } from '../../rateLimiter.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('GoogleApiRateLimiter')
 
-/**
- * API name type for rate limiting
- */
 export type GoogleApiName = 'google-calendar' | 'google-maps'
 
 /**
@@ -31,7 +24,6 @@ export async function withRateLimit<T>(
     await waitForRateLimit(apiName)
   }
   
-  // Record request for rate limiting
   recordRequest(apiName)
   
   return await operation()

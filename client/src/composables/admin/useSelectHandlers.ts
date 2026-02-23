@@ -29,11 +29,6 @@ export interface UseSelectHandlersOptions {
   
   disableAutoSave?: boolean
   
-  /**
-   * WHY: /**
-Whether this is an AnnotationAssignmentSelect field
-LEARNING: Annota...
-   */
   isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
 
@@ -69,13 +64,8 @@ export function useSelectHandlers(
     disableAutoSave = false
   } = options
 
-  /**
-   *      which can trigger @update:model-value again, causing infinite loop
-   */
   const isUpdatingProgrammatically = ref(false)
 
-  /**
-   */
   const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
     const currentValue = rawFieldValue.value
     const currentArray = Array.isArray(currentValue) 
@@ -101,9 +91,6 @@ export function useSelectHandlers(
     fieldContext.setValue(finalValue)
   }
 
-  /**
-   * 
-   */
   const handleChange = async (value: string | string[] | null): Promise<void> => {
     // PATTERN: Check flag before processing update
     if (isUpdatingProgrammatically.value) {
@@ -170,8 +157,6 @@ export function useSelectHandlers(
     fieldContext.setFocus(true)
   }
 
-  /**
-   */
   const handleBlur = async (): Promise<void> => {
     fieldContext.setFocus(false)
     

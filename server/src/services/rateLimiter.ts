@@ -1,5 +1,4 @@
 /**
- * PATTERN: Rate Limiter Service
 
 PATTERN: Per-API rate limit tracking with sliding ...
  */
@@ -15,9 +14,6 @@ interface RequestRecord {
   timestamp: number;
 }
 
-/**
- * Rate limit configuration per API
- */
 const rateLimitConfigs: Record<ApiName, RateLimitConfig> = {
   'google-calendar': {
     requestsPerMinute: parseInt(process.env.GOOGLE_CALENDAR_RATE_LIMIT_PER_MINUTE || '60', 10)
@@ -30,14 +26,8 @@ const rateLimitConfigs: Record<ApiName, RateLimitConfig> = {
   }
 };
 
-/**
- * Request timestamp storage per API
- */
 const requestTimestamps: Map<ApiName, RequestRecord[]> = new Map();
 
-/**
- * Initialize request timestamp storage for API if not exists
- */
 function initializeApiStorage(apiName: ApiName): void {
   if (!requestTimestamps.has(apiName)) {
     requestTimestamps.set(apiName, []);
@@ -56,9 +46,6 @@ function cleanOldTimestamps(apiName: ApiName): void {
   requestTimestamps.set(apiName, filtered);
 }
 
-/**
- * Rate limit status
- */
 type RateLimitStatus = 'available' | 'throttled' | 'exceeded';
 
 interface RateLimitResult {
@@ -67,11 +54,6 @@ interface RateLimitResult {
   resetTime: number; // Milliseconds until window resets
 }
 
-/**
- * Check if API call is allowed based on rate limit
- * @param apiName API name to check rate limit for
- * @returns Rate limit result with status and remaining requests
- */
 export function checkRateLimit(apiName: ApiName): RateLimitResult {
   initializeApiStorage(apiName);
   cleanOldTimestamps(apiName);
@@ -112,10 +94,6 @@ export function checkRateLimit(apiName: ApiName): RateLimitResult {
   };
 }
 
-/**
- * Record an API request
- * @param apiName API name that made the request
- */
 export function recordRequest(apiName: ApiName): void {
   initializeApiStorage(apiName);
   const timestamps = asEmptyArray(requestTimestamps.get(apiName));
@@ -149,11 +127,6 @@ export async function waitForRateLimit(
   throw new Error(`Rate limit wait timeout for ${apiName}`);
 }
 
-/**
- * Get rate limit statistics for an API
- * @param apiName API name to get stats for
- * @returns Current rate limit statistics
- */
 export function getRateLimitStats(apiName: ApiName) {
   initializeApiStorage(apiName);
   cleanOldTimestamps(apiName);

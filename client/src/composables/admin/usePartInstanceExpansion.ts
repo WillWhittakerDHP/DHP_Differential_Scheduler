@@ -12,17 +12,11 @@ export interface UsePartInstanceExpansionReturn {
   togglePartInstanceExpansion: (instanceId: string) => void
 }
 
-/**
- * Composable for managing part instance expansion
- */
 export function usePartInstanceExpansion(
   options: UsePartInstanceExpansionOptions
 ): UsePartInstanceExpansionReturn {
   const { expandedPartInstances } = options
 
-  /**
-   * Toggle part instance expansion
-   */
   const togglePartInstanceExpansion = (instanceId: string): void => {
     // PATTERN: Access array directly, not through .value
     const currentExpanded = expandedPartInstances.value

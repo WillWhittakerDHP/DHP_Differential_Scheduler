@@ -279,8 +279,6 @@ describe('appointmentSlotBuilder', () => {
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
-      // Note: This test may need adjustment based on actual event configuration
-      // The validation logic ensures end times match when both ranges exist
     })
 
     it('should ensure event time ranges end at same time when both major and minor exist', () => {

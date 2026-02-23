@@ -1,12 +1,3 @@
-/**
- * useApiErrorMessage Composable
- * 
- * 
- * ARCHITECTURAL DECISION: Centralizes error message extraction
- * - Handles AxiosError response data extraction
- * - Handles generic Error instances
- * - Provides fallback error messages
- */
 
 export function getApiErrorMessage(error: unknown, fallbackMessage?: string): string {
   const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'

@@ -59,14 +59,12 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
     fieldMetadata,
     
     /**
-     * WHY: /**
 Loading state from metadata cache
 LEARNING: Metadata is lazy-loaded,...
      */
     isLoading: computed(() => metadataCache.isLoading.value),
     
     /**
-     * WHY: /**
 Error from metadata cache
 WHY: Reflects actual error state from meta...
      */

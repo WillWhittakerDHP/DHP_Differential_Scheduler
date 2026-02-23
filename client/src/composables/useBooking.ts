@@ -1,5 +1,4 @@
 /**
- * WHY: Booking Composable
 
 WHY: Transforms global data into booking format with...
  */
@@ -40,13 +39,6 @@ function createBookingInstance() {
   const isLoading = false
   const error: unknown | null = null
   
-  /**
-   * Transform global data to booking data
-   * 
-   * NOTE: The transformer expects GlobalData format from React app.
-   * Vue's globalData structure should match, but relationships may need
-   * transformation if types differ (FetchedRelationship vs GlobalRelationship)
-   */
   const bookingData = computed<BookingData | null>(() => {
     const data = globalData?.value
     
@@ -74,7 +66,6 @@ function createBookingInstance() {
 }
 
 /**
- * WHY: Booking composable
 LEARNING: Transforms global data to booking-optimized...
  */
 export function useBooking() {

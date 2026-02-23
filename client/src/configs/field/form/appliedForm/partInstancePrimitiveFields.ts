@@ -1,5 +1,3 @@
-/**
- */
 
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'

@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-23T17:05:20.160Z**
+- Generated at: **2026-02-23T18:06:37.939Z**
 - Files scanned: **818**
 - Type definitions found: **665**
-- Similarity groups: **20**
+- Similarity groups: **21**
 - UNIFY candidates: **0**
 - BRAND candidates: **3**
 - EXTEND candidates: **16**
-- REVIEW candidates: **1**
+- REVIEW candidates: **2**
 
-- P0 (high): **12**, P1 (medium): **8**, P2 (low): **0**
+- P0 (high): **12**, P1 (medium): **9**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -47,6 +47,7 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `PropertyFormData`, `WizardStateData`, `PropertyDetailsStepData` | 3 | 12 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
 | P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions` | 3 | 12 | `{ appointmentDropdownItems: ComputedRef<Array<{ text: str...` |
 | P1 | BRAND | EXACT | `OptionsSelectConfig`, `OptionsSelectConfigLike` | 2 | 10 | `{ label: string }>, options: Array<{ value: string | null...` |
+| P1 | REVIEW | HIGH_OVERLAP | `UseBlockInstanceFormReturn`, `UsePartInstanceFormReturn` | 2 | 9 | `{ blockTypeOptions: Ref<Array<{ id: string, entityId: Ref...` |
 | P1 | REVIEW | HIGH_OVERLAP | `WizardState`, `WizardBlocksForBuilders` | 2 | 9 | `{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBl...` |
 | P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 | `{ contingencyPeriod: {, endDate: string | null, endTime: ...` |
 | P1 | EXTEND | SUBSET | `Props`, `TimeBasisHandlerProps` | 2 | 8 | `{ graphBars: {, isDifferentialService: boolean, major: Ti...` |
@@ -66,13 +67,13 @@ These types are structurally identical but may represent different concepts. Add
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `BusinessDataCollectionCrudConfig` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 32 | yes |
-| `BusinessDataCollectionCrudComposableReturn` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 42 | yes |
-| `BusinessDataCollectionQueryOptions` | type-alias-object | `client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts` | 19 | no |
+| `BusinessDataCollectionCrudConfig` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 23 | yes |
+| `BusinessDataCollectionCrudComposableReturn` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 33 | yes |
+| `BusinessDataCollectionQueryOptions` | type-alias-object | `client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts` | 10 | no |
 | `GlobalDataCollectionCrudConfig` | type-alias-object | `client/src/composables/globalDataCollections/types.ts` | 22 | yes |
 | `GlobalDataCollectionCrudComposableReturn` | type-alias-object | `client/src/composables/globalDataCollections/types.ts` | 31 | yes |
 | `GlobalDataCollectionQueryOptions` | type-alias-object | `client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts` | 9 | no |
-| `WithId` | type-alias-object | `client/src/utils/transformers/transformerCollections.ts` | 13 | no |
+| `WithId` | type-alias-object | `client/src/utils/transformers/transformerCollections.ts` | 9 | no |
 
 ### sim-exact-primitive:string
 
@@ -92,7 +93,7 @@ These types are structurally identical but may represent different concepts. Add
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `OptionsSelectConfig` | interface | `client/src/composables/admin/useSelectConfig.ts` | 72 | no |
+| `OptionsSelectConfig` | interface | `client/src/composables/admin/useSelectConfig.ts` | 51 | no |
 | `OptionsSelectConfigLike` | interface | `client/src/utils/admin/selectTypeResolver.ts` | 13 | yes |
 
 ## EXTEND Candidates (16)
@@ -106,29 +107,29 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 8 | yes |
-| `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 67 | yes |
-| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 14 | yes |
-| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
-| `PropertyVersionType` | interface | `client/src/types/property.ts` | 43 | yes |
-| `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 24 | no |
-| `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 28 | yes |
-| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 44 | yes |
+| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 1 | yes |
+| `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 21 | yes |
+| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 7 | yes |
+| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 25 | yes |
+| `PropertyVersionType` | interface | `client/src/types/property.ts` | 29 | yes |
+| `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 16 | no |
+| `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 24 | yes |
+| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 40 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `BlockInstanceLike` | interface | `shared/types/blockInstanceTypes.ts` | 13 | yes |
-| `PropertyResponse` | interface | `client/src/types/appointmentApi.ts` | 13 | yes |
-| `UserResponse` | interface | `client/src/types/appointmentApi.ts` | 19 | yes |
-| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 90 | yes |
-| `BetaFeedback` | interface | `client/src/types/betaFeedback.ts` | 24 | yes |
-| `FetchedInstanceComponent` | interface | `client/src/types/component.ts` | 16 | yes |
-| `PropertyResponse` | interface | `client/src/types/property.ts` | 23 | yes |
-| `ShapeFieldMetadata` | interface | `client/src/types/shapeFieldMetadata.ts` | 8 | yes |
-| `ShapeLayoutConfig` | interface | `client/src/types/shapeFieldMetadata.ts` | 24 | yes |
-| `UserResponse` | interface | `client/src/types/user.ts` | 18 | yes |
+| `PropertyResponse` | interface | `client/src/types/appointmentApi.ts` | 9 | yes |
+| `UserResponse` | interface | `client/src/types/appointmentApi.ts` | 15 | yes |
+| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 80 | yes |
+| `BetaFeedback` | interface | `client/src/types/betaFeedback.ts` | 17 | yes |
+| `FetchedInstanceComponent` | interface | `client/src/types/component.ts` | 9 | yes |
+| `PropertyResponse` | interface | `client/src/types/property.ts` | 16 | yes |
+| `ShapeFieldMetadata` | interface | `client/src/types/shapeFieldMetadata.ts` | 3 | yes |
+| `ShapeLayoutConfig` | interface | `client/src/types/shapeFieldMetadata.ts` | 19 | yes |
+| `UserResponse` | interface | `client/src/types/user.ts` | 11 | yes |
 | `PropertyFieldMappingRow` | interface | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 13 | no |
 | `PropertyFeatureMappingRow` | interface | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 26 | no |
-| `BetaFeedbackFiltersBase` | interface | `client/src/types/betaFeedback.ts` | 70 | yes |
-| `UserRequest` | interface | `client/src/types/user.ts` | 10 | yes |
+| `BetaFeedbackFiltersBase` | interface | `client/src/types/betaFeedback.ts` | 63 | yes |
+| `UserRequest` | interface | `client/src/types/user.ts` | 2 | yes |
 | `ContactInfoBase` | interface | `shared/types/contactTypes.ts` | 13 | yes |
 
 ### sim-subset-09b1100091e4
@@ -138,7 +139,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts` | 70 | yes |
+| `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts` | 42 | yes |
 | `TimeRangeBounds` | interface | `shared/types/availabilityTypes.ts` | 71 | yes |
 | `BusyTimeRange` | interface | `shared/types/availabilityTypes.ts` | 326 | yes |
 | `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 341 | yes |
@@ -151,9 +152,9 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PropertyRequest` | interface | `client/src/types/property.ts` | 11 | yes |
+| `PropertyRequest` | interface | `client/src/types/property.ts` | 3 | yes |
 | `PropertyDetailsBase` | interface | `shared/types/propertyTypes.ts` | 25 | yes |
-| `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 78 | yes |
+| `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 50 | yes |
 
 ### sim-subset-76d9424a14ec
 
@@ -162,8 +163,8 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 74 | yes |
-| `ServerTimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 40 | no |
+| `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 53 | yes |
+| `ServerTimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 23 | no |
 | `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 409 | yes |
 
 ### sim-subset-2e38529bb213
@@ -173,7 +174,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PriceData` | interface | `client/src/types/wizardStepData.ts` | 35 | yes |
+| `PriceData` | interface | `client/src/types/wizardStepData.ts` | 12 | yes |
 | `FeeEntryBase` | interface | `shared/types/appointmentFeeTypes.ts` | 33 | yes |
 
 Overlap: **18%** shared properties
@@ -198,7 +199,7 @@ Overlap: **18%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `SlotDisplayData` | interface | `client/src/components/booking/AppointmentSlotGrid.vue` | 78 | no |
+| `SlotDisplayData` | interface | `client/src/components/booking/AppointmentSlotGrid.vue` | 61 | no |
 | `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 420 | yes |
 
 Overlap: **50%** shared properties
@@ -212,7 +213,7 @@ Overlap: **50%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/common/AddressAutocomplete.vue` | 39 | no |
+| `Props` | interface | `client/src/components/common/AddressAutocomplete.vue` | 33 | no |
 | `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 303 | yes |
 
 Overlap: **18%** shared properties
@@ -226,9 +227,9 @@ Overlap: **18%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 13 | yes |
-| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 37 | yes |
-| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 32 | no |
+| `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 7 | yes |
+| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 31 | yes |
+| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 29 | no |
 
 ### sim-subset-ef42cc8ae7b0
 
@@ -237,9 +238,9 @@ Overlap: **18%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `DevPanelButtons` | interface | `client/src/components/dev/DevPanelButtons.vue` | 13 | no |
-| `UseAppointmentDropdownReturn` | interface | `client/src/composables/booking/useAppointmentDropdown.ts` | 16 | yes |
-| `UseWizardDevModeOptions` | interface | `client/src/composables/booking/useWizardDevMode.ts` | 16 | yes |
+| `DevPanelButtons` | interface | `client/src/components/dev/DevPanelButtons.vue` | 6 | no |
+| `UseAppointmentDropdownReturn` | interface | `client/src/composables/booking/useAppointmentDropdown.ts` | 11 | yes |
+| `UseWizardDevModeOptions` | interface | `client/src/composables/booking/useWizardDevMode.ts` | 13 | yes |
 
 ### sim-subset-339c96daa549
 
@@ -249,7 +250,7 @@ Overlap: **18%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `Props` | interface | `client/src/components/booking/MoveablePartsModal.vue` | 8 | no |
-| `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts` | 11 | yes |
+| `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts` | 2 | yes |
 
 Overlap: **38%** shared properties
 - Shared: `endDate`, `endTime`, `hasContingency`
@@ -262,8 +263,8 @@ Overlap: **38%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/booking/DifferentialGraph.vue` | 21 | no |
-| `TimeBasisHandlerProps` | interface | `client/src/composables/booking/useTimeBasisHandler.ts` | 10 | yes |
+| `Props` | interface | `client/src/components/booking/DifferentialGraph.vue` | 8 | no |
+| `TimeBasisHandlerProps` | interface | `client/src/composables/booking/useTimeBasisHandler.ts` | 1 | yes |
 
 Overlap: **33%** shared properties
 - Shared: `isDifferentialService`, `startTimeType`
@@ -272,16 +273,16 @@ Overlap: **33%** shared properties
 ### sim-subset-99e5f061a37a
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>, fieldMetadata?: Record<string, FieldMetadataEntry>, readOnly?: boolean, showLabel?: boolean }`
+- Structure: `{ fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>, fieldMetadata?: Record<string, FieldMetadataEntry>, LEARNING: Optional override for readOnly state, readOnly?: boolean, showLabel?: boolean, WHY: Allows parent co... }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/admin/generic/fields/FieldRenderer.vue` | 32 | no |
-| `FieldInputProps` | interface | `client/src/components/admin/generic/fields/fieldTypes.ts` | 17 | yes |
+| `Props` | interface | `client/src/components/admin/generic/fields/FieldRenderer.vue` | 20 | no |
+| `FieldInputProps` | interface | `client/src/components/admin/generic/fields/fieldTypes.ts` | 5 | yes |
 
-Overlap: **50%** shared properties
+Overlap: **33%** shared properties
 - Shared: `fieldContext`, `showLabel`
-- Only in `Props`: `fieldMetadata`, `readOnly`
+- Only in `Props`: `fieldMetadata`, `LEARNING`, `readOnly`, `WHY`
 
 ### sim-subset-a7b7f79a0ee6
 
@@ -290,8 +291,8 @@ Overlap: **50%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseAppointmentSlotsReturn` | interface | `client/src/composables/booking/useAppointmentSlots.ts` | 37 | yes |
-| `UseMoveablePartsSchedulingParams` | interface | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 62 | no |
+| `UseAppointmentSlotsReturn` | interface | `client/src/composables/booking/useAppointmentSlots.ts` | 28 | yes |
+| `UseMoveablePartsSchedulingParams` | interface | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 58 | no |
 
 Overlap: **29%** shared properties
 - Shared: `appointmentShape`, `selectedSlot`
@@ -305,7 +306,7 @@ Overlap: **29%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `FieldsByLocation` | interface | `client/src/components/admin/generic/EntityCardContent.vue` | 13 | no |
-| `FieldsByLocation` | interface | `client/src/composables/admin/useConditionalFieldVisibility.ts` | 15 | yes |
+| `FieldsByLocation` | interface | `client/src/composables/admin/useConditionalFieldVisibility.ts` | 6 | yes |
 
 Overlap: **60%** shared properties
 - Shared: `directInline`, `directStacked`, `subPanels`
@@ -313,9 +314,24 @@ Overlap: **60%** shared properties
 
 _(1 more EXTEND groups omitted — see JSON for full data)_
 
-## REVIEW Candidates (1)
+## REVIEW Candidates (2)
 
 These types have high structural overlap. Review to determine if they should be unified, branded, or left as-is.
+
+### sim-high_overlap-76c5e2a1d396
+
+- Relationship: **HIGH_OVERLAP**, Priority: **P1**, Score: **9**
+- Structure: `{ blockTypeOptions: Ref<Array<{ id: string, entityId: Ref<string | undefined>, error: Ref<string | null>, formData: Ref<BlockInstanceFormData>, goBack: () => void, handleSubmit: () => Promise<void>, isEdit: Ref<boolean>, isSubmitting: Ref<boolean>, LEARNING: Submission loading state, loadEntity: () => Promise<void>, name: string }>>, WHY: Component needs to show load... }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseBlockInstanceFormReturn` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 26 | yes |
+| `UsePartInstanceFormReturn` | interface | `client/src/composables/admin/usePartInstanceForm.ts` | 26 | yes |
+
+Overlap: **77%** shared properties
+- Shared: `entityId`, `error`, `goBack`, `handleSubmit`, `isEdit`, `isSubmitting`, `LEARNING`, `loadEntity`, `name`, `WHY`
+- Only in `UseBlockInstanceFormReturn`: `blockTypeOptions`, `formData(Ref<BlockInstanceFormData>)`
+- Only in `UsePartInstanceFormReturn`: `formData(Ref<PartInstanceFormData>)`, `partTypeOptions`
 
 ### sim-high_overlap-99828820f350
 
@@ -324,8 +340,8 @@ These types have high structural overlap. Review to determine if they should be 
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `WizardState` | interface | `client/src/types/wizard.ts` | 20 | yes |
-| `WizardBlocksForBuilders` | interface | `client/src/utils/booking/appointmentDataBuilders.ts` | 34 | yes |
+| `WizardState` | interface | `client/src/types/wizard.ts` | 15 | yes |
+| `WizardBlocksForBuilders` | interface | `client/src/utils/booking/appointmentDataBuilders.ts` | 30 | yes |
 
 Overlap: **83%** shared properties
 - Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`

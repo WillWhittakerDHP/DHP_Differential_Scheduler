@@ -20,10 +20,6 @@ export interface UseStepValidationReturn {
   validateForm: () => boolean
 }
 
-/**
- * Pure function: collect all validation errors from rules and custom validators.
- * Single source of truth for validation logic; no mutations.
- */
 export function collectErrors(
   rules: Record<string, ValidationRule[]>,
   formDataValues: Record<string, unknown>,

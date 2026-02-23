@@ -22,13 +22,6 @@ export interface UsePartsTotalsReturn {
   totalRateOverBaseTime: ComputedRef<number>
 }
 
-/**
- * Calculate parts totals for an entity
- * 
- * @param entityKey - The entity type key
- * @param entityId - The entity ID
- * @returns Computed properties for canHaveParts flag and all totals
- */
 export function usePartsTotals(
   entityKey: GlobalEntityKey,
   entityId: string
@@ -37,8 +30,6 @@ export function usePartsTotals(
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   const { entities: partInstances } = useEntityCrud('partInstance')
 
-  /**
-   */
   const canHaveParts = computed((): boolean => {
     if (entityKey !== 'blockInstance') {
       return false
@@ -59,8 +50,6 @@ export function usePartsTotals(
     return blockShapeEntity.canHaveParts === true
   })
 
-  /**
-   */
   const partInstancesForEntity = computed((): GlobalEntity<'partInstance'>[] => {
     if (!canHaveParts.value) {
       return []

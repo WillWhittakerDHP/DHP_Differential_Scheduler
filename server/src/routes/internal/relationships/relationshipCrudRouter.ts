@@ -1,7 +1,3 @@
-/**
- * Relationship CRUD Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { BlockInstance } from '../../../config/app.js'
@@ -34,11 +30,6 @@ const router = Router()
 
 router.param('relationshipType', relationshipTypeParamHandler)
 
-/**
- * GET /relationships/:relationshipType
- * List all relationships of a specific type
- * 
- */
 router.get('/:relationshipType', async (req: Request, res: Response): Promise<void> => {
   const relationshipConfig = req.relationshipConfig
   if (!relationshipConfig) {
@@ -81,10 +72,6 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   }
 })
 
-/**
- * Handle instance-component create: validate, re-enable existing or create new, send response.
- * Exported for testability.
- */
 export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
   const relationshipConfig = req.relationshipConfig as RelationshipConfig
   const parentId = req.body.parentId ?? req.body.parent_id
@@ -162,11 +149,6 @@ export async function handleInstanceComponentCreate(req: Request, res: Response)
   sendCreated(res, created)
 }
 
-/**
- * POST /relationships/:relationshipType
- * Create a new relationship
- *
- */
 router.post(
   '/:relationshipType',
   csrfProtection,
@@ -252,11 +234,6 @@ router.post(
   }
 )
 
-/**
- * DELETE /relationships/:relationshipType/:parentId/:childId
- * Delete a relationship
- * 
- */
 router.delete(
   '/:relationshipType/:parentId/:childId',
   csrfProtection, // Security middleware: CSRF protection

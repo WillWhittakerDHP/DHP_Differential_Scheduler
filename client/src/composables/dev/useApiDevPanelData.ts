@@ -23,13 +23,6 @@ export interface DevPanelCacheEntry { key: string; expired?: boolean; data?: unk
 export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }
 export interface DevPanelCacheShape { stats?: DevPanelCacheStats; entries?: DevPanelCacheEntry[] }
 
-/**
- * Handle rate limit response from Promise.allSettled
- * 
- * @param response - Promise.allSettled response
- * @param apiType - Type of API ('calendar' | 'maps')
- * @param rateLimitStats - Reactive ref to update
- */
 function handleRateLimitResponse(
   response: PromiseSettledResult<unknown>,
   apiType: 'calendar' | 'maps',
@@ -42,13 +35,6 @@ function handleRateLimitResponse(
   }
 }
 
-/**
- * Check if both rate limit APIs failed
- * 
- * @param calendarResponse - Calendar API response
- * @param mapsResponse - Maps API response
- * @returns True if both failed
- */
 function checkBothRateLimitsFailed(
   calendarResponse: PromiseSettledResult<unknown>,
   mapsResponse: PromiseSettledResult<unknown>
@@ -56,12 +42,6 @@ function checkBothRateLimitsFailed(
   return calendarResponse.status === 'rejected' && mapsResponse.status === 'rejected'
 }
 
-/**
- * Composable for managing API dev panel data
- * 
- * @param apiBaseUrl - Base URL for API requests
- * @returns Reactive state and fetch functions
- */
 export function useApiDevPanelData(apiBaseUrl: string) {
   const oauthStatus = ref<OAuthStatusShape | null>(null)
   const eventsCache = ref<DevPanelCacheShape | null>(null)
@@ -88,9 +68,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     drivetime: null as string | null
   })
 
-  /**
-   * Fetch OAuth status
-   */
   async function fetchOAuthStatus(): Promise<void> {
     loading.value.oauth = true
     errors.value.oauth = null
@@ -106,9 +83,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     }
   }
 
-  /**
-   * Fetch events cache
-   */
   async function fetchEventsCache(): Promise<void> {
     loading.value.events = true
     errors.value.events = null
@@ -124,9 +98,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     }
   }
 
-  /**
-   * Fetch rate limit stats for both APIs
-   */
   async function fetchRateLimitStats(): Promise<void> {
     loading.value.ratelimit = true
     errors.value.ratelimit = null
@@ -151,9 +122,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     }
   }
 
-  /**
-   * Fetch drive time cache
-   */
   async function fetchDriveTimeCache(): Promise<void> {
     loading.value.drivetime = true
     errors.value.drivetime = null
@@ -169,9 +137,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     }
   }
 
-  /**
-   * Fetch aggregated dev status from backend
-   */
   async function fetchDevStatus(): Promise<void> {
     loading.value.oauth = true
     loading.value.ratelimit = true
@@ -203,9 +168,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
     }
   }
 
-  /**
-   * Fetch all data
-   */
   async function fetchAll(): Promise<void> {
     await fetchDevStatus()
   }

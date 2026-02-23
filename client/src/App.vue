@@ -44,10 +44,6 @@
 </template>
 
 <script setup lang="ts">
-/**
- * App Root Component - Vuexy Integration
- * 
- */
 
 import { useTheme } from 'vuetify'
 import { ref, provide, computed, type Ref, type ComputedRef } from 'vue'
@@ -66,8 +62,6 @@ import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 const { global } = useTheme()
 const route = useRoute()
 
-/**
- */
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 
 // WHY: Vuetify composables require Vue component context

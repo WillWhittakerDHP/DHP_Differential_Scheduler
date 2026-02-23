@@ -27,8 +27,6 @@ const {
   formatNullValue,
 } = usePropertiesTableModel()
 
-/**
- */
 const headers = [
   { title: 'Address', key: 'address', sortable: true },
   { title: 'Unit', key: 'unit', sortable: true },

@@ -10,15 +10,6 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 
 export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 
-/**
- * useBusiness composable
- * 
- * 
- * @returns businessData - Reactive business data (appointments, properties, users)
- * @returns isLoading - Loading state
- * @returns error - Error state
- * @returns refetch - Function to manually refetch business data
- */
 export function useBusiness(): {
   businessData: ComputedRef<BusinessData | undefined>
   isLoading: ComputedRef<boolean>
@@ -44,28 +35,16 @@ export function useBusiness(): {
   }
 }
 
-/**
- * useAppointments computed ref
- * 
- */
 export function useAppointments(): ComputedRef<BusinessData['appointments']> {
   const { businessData } = useBusiness()
   return computed(() => asEmptyArray(businessData.value?.appointments))
 }
 
-/**
- * useProperties computed ref
- * 
- */
 export function useProperties(): ComputedRef<BusinessData['properties']> {
   const { businessData } = useBusiness()
   return computed(() => asEmptyArray(businessData.value?.properties))
 }
 
-/**
- * useUsers computed ref
- * 
- */
 export function useUsers(): ComputedRef<BusinessData['users']> {
   const { businessData } = useBusiness()
   return computed(() => asEmptyArray(businessData.value?.users))

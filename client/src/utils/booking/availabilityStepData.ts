@@ -22,9 +22,6 @@ type BuildSelectedTimeSlotsParams = {
   selectedSlot: AppointmentSlot | null
 }
 
-/**
- * Build selected time slots from appointment slot using differentialRole lookup.
- */
 export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SelectedTimeSlot[] | null {
   if (!params.selectedSlot || !params.selectedDateStart) {
     return null

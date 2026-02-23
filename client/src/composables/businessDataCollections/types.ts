@@ -49,7 +49,6 @@ export type BusinessDataCollectionCrudComposableReturn<
   fetchAll: BusinessDataCollectionQueryResult<CollectionItem>
   fetchById: (id: string) => BusinessDataCollectionByIdQueryResult<CollectionItem>
   /**
-   * WHY: /**
 Optional domain helper hook point
    */
   extras?: Record<string, unknown>

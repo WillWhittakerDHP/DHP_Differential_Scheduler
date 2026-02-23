@@ -1,15 +1,3 @@
-/**
- * useComputedAvailability Composable
- *
- * Fetches and caches server-computed slots (slotsByDay) with three fetch strategies:
- * 1. 14-day prefetch: On mount and when placeId/duration changes, fetches today+14 days
- * 2. Month-wide prefetch: When displayed month changes to a month not in cache, fetches full month
- * 3. Per-day fallback: When user selects a date not in cache, fetches that day ±1
- *
- * All strategies merge into the same Map<string, ComputedSlot[]> cache.
- *
- * Phase 4: Server-Side Slot Computation
- */
 
 import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
@@ -168,12 +156,6 @@ export function useComputedAvailability(
     { immediate: true }
   )
 
-  /**
-   * Month-wide prefetch: when displayed month changes, fetch the full month if
-   * the end of that month is not already cached. This covers months beyond the
-   * initial 14-day window so the calendar can show slot availability indicators
-   * before the user clicks a specific date.
-   */
   watch(
     dateRange,
     (newRange) => {

@@ -24,14 +24,8 @@ export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {
 }
 
 export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
-  /**
-   * Get location for a specific field
-   */
   getFieldLocation: (fieldKey: GlobalFieldKey<GE>) => FieldLocation
   
-  /**
-   * Fields grouped by location
-   */
   fieldsByLocation: ComputedRef<{
     titleRow: GlobalFieldKey<GE>[]
     directInline: GlobalFieldKey<GE>[]
@@ -40,9 +34,6 @@ export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
     hidden: GlobalFieldKey<GE>[]
   }>
   
-  /**
-   * NOTE: Component reads metadata directly to determine rendering behavior
-   */
   titleRowFields: ComputedRef<GlobalFieldKey<GE>[]>
 }
 
@@ -56,21 +47,15 @@ export function useFieldLocation<GE extends GlobalEntityKey>(
 ): UseFieldLocationReturn<GE> {
   const { fieldKeys, fieldMetadata, isExpanded } = options
 
-  /**
-   */
   const context = computed<FieldLocationContext>(() => ({
     isExpanded: isExpanded.value
   }))
 
-  /**
-   */
   const getFieldLocationForField = (fieldKey: GlobalFieldKey<GE>): FieldLocation => {
     const metadata = fieldMetadata.value[String(fieldKey)]
     return getFieldLocation(fieldKey, metadata, context.value)
   }
 
-  /**
-   */
   const fieldsByLocation = computed(() => {
     return groupFieldsByLocation(
       fieldKeys.value,
@@ -79,9 +64,6 @@ export function useFieldLocation<GE extends GlobalEntityKey>(
     )
   })
 
-  /**
-   * NOTE: NO filtering or categorization - purely declarative
-   */
   const titleRowFields = computed(() => {
     return fieldsByLocation.value.titleRow
   })

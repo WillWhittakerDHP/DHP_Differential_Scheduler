@@ -1,6 +1,5 @@
 <script setup lang="ts">
 /**
- * PATTERN: ConfirmationStep Component
 
 PATTERN: Uses composable to aggregate wizard...
  */

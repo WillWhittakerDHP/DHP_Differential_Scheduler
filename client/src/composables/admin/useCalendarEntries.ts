@@ -35,23 +35,12 @@ export interface UseCalendarEntriesReturn {
   isValid: Ref<boolean>
 }
 
-/**
- * Composable for managing calendar entries
- * 
- * @param formData - Ref to AvailabilitySettings form data
- * @param calendarEnabled - Ref to whether calendar integration is enabled
- * @param calendarProvider - Ref to calendar provider ('google' | 'outlook' | 'none')
- * @returns Calendar entries management functions and state
- */
 export function useCalendarEntries(
   formData: Ref<AvailabilitySettings | null>,
   calendarEnabled: Ref<boolean>,
   calendarProvider: Ref<'google' | 'outlook' | 'none'>
 ): UseCalendarEntriesReturn {
   
-  /**
-   * Get current calendar entries from formData
-   */
   const entries = computed<CalendarEntry[]>({
     get: () => {
       if (!formData.value?.calendarConfig) {
@@ -72,16 +61,10 @@ export function useCalendarEntries(
     }
   })
   
-  /**
-   * Index of the calendar that is writeTo
-   */
   const writeToIndex = computed(() => {
     return entries.value.findIndex(entry => entry.writeTo)
   })
   
-  /**
-   * Ensure calendarConfig exists in formData
-   */
   const ensureCalendarConfig = (): void => {
     if (!formData.value) return
     
@@ -94,9 +77,6 @@ export function useCalendarEntries(
     }
   }
   
-  /**
-   * Add a new calendar entry
-   */
   const addEntry = (): void => {
     if (!formData.value) return
     
@@ -113,9 +93,6 @@ export function useCalendarEntries(
     entries.value.push(newEntry)
   }
   
-  /**
-   * Remove a calendar entry by index
-   */
   const removeEntry = (index: number): void => {
     if (!formData.value?.calendarConfig?.calendars || !Array.isArray(formData.value.calendarConfig.calendars)) {
       return
@@ -130,9 +107,6 @@ export function useCalendarEntries(
     }
   }
   
-  /**
-   * Update a calendar entry
-   */
   const updateEntry = (index: number, updates: Partial<CalendarEntry>): void => {
     if (!formData.value?.calendarConfig?.calendars || !Array.isArray(formData.value.calendarConfig.calendars)) {
       return
@@ -155,16 +129,10 @@ export function useCalendarEntries(
     }
   }
   
-  /**
-   * Set readFrom for a calendar entry
-   */
   const setReadFrom = (index: number, value: boolean): void => {
     updateEntry(index, { readFrom: value })
   }
   
-  /**
-   * Set writeTo for a calendar entry
-   */
   const setWriteTo = (index: number, value: boolean): void => {
     if (!formData.value?.calendarConfig?.calendars || !Array.isArray(formData.value.calendarConfig.calendars)) {
       return
@@ -179,8 +147,6 @@ export function useCalendarEntries(
         }
       })
     } else {
-      // Setting this calendar to NOT writeTo
-      // Check if this is currently the only writeTo calendar
       const isCurrentlyWriteTo = entries.value[index].writeTo
       const currentWriteToCount = entries.value.filter(e => e.writeTo).length
       
@@ -195,8 +161,6 @@ export function useCalendarEntries(
             }
           })
         } else {
-          // No other calendar available - can't unset this one
-          // Keep it as writeTo (don't change)
           return
         }
       } else {
@@ -205,9 +169,6 @@ export function useCalendarEntries(
     }
   }
   
-  /**
-   * Validation error message
-   */
   const validationError = computed<string | null>(() => {
     if (!calendarEnabled.value || calendarProvider.value === 'none') {
       return null  // No validation needed if disabled
@@ -233,9 +194,6 @@ export function useCalendarEntries(
     return null
   })
   
-  /**
-   * Whether calendar configuration is valid
-   */
   const isValid = computed(() => validationError.value === null)
   
   return {

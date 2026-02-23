@@ -14,8 +14,6 @@ export interface UseFormFieldsOptionsBase {
   entityId: Ref<GlobalEntityId>
   form: Ref<FormContext | undefined>
   fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  /**
-   */
   fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   adminConfig?: ReturnType<typeof useAdminConfig>
 }

@@ -1,9 +1,3 @@
-/**
- * Google OAuth Token Persistence
- * 
- * 
- * Extracted from googleOAuth.ts to reduce complexity and improve cohesion
- */
 
 import fs from 'fs'
 import path from 'path'
@@ -19,9 +13,6 @@ export interface TokenData {
 
 const logger = createLogger('googleOAuth')
 
-/**
- * Token file path for persisting OAuth tokens across server restarts
- */
 const TOKEN_FILE = path.join(process.cwd(), '.google-tokens.json')
 
 /**
@@ -38,11 +29,6 @@ function validateTokenFile(filePath: string): string | null {
   return filePath
 }
 
-/**
- * Parse token file and return token data
- * @param filePath Path to token file
- * @returns Parsed token data or null if parsing fails
- */
 function parseTokenFile(filePath: string): TokenData | null {
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8')
@@ -67,10 +53,6 @@ function validateTokens(tokens: TokenData): boolean {
   return true
 }
 
-/**
- * Log token status information
- * @param tokens Token data to log status for
- */
 function logTokenStatus(tokens: TokenData): void {
   logger.info('Tokens loaded from file')
   logger.debug('Has access token:', !!tokens.access_token)
@@ -81,12 +63,6 @@ function logTokenStatus(tokens: TokenData): void {
   }
 }
 
-/**
- * Save tokens to file for persistence across server restarts
- * 
- * 
- * @param tokens Token object from OAuth flow (Google Credentials type)
- */
 export function saveTokensToFile(tokens: object): void {
   try {
     fs.writeFileSync(TOKEN_FILE, JSON.stringify(tokens, null, 2))
@@ -96,19 +72,6 @@ export function saveTokensToFile(tokens: object): void {
   }
 }
 
-/**
- * Load tokens from file on server startup
- * 
- * LEARNING: Restores authentication state from previous session
- * 
- * Refactored to reduce complexity by extracting helper functions:
- * - validateTokenFile: Check file exists
- * - parseTokenFile: Read and parse JSON
- * - validateTokens: Check required fields
- * - logTokenStatus: Log status information
- * 
- * @returns Loaded token data or null if not found/invalid (caller sets credentials)
- */
 export function loadTokensFromFile(): TokenData | null {
   const filePath = validateTokenFile(TOKEN_FILE)
   if (!filePath) return null

@@ -1,14 +1,8 @@
-/**
- * WHY: User CRUD Router
-
-LEARNING: Refactored to use CRUD router factory patter...
- */
 import { User } from '../../../config/app.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { ERROR_MESSAGES } from './userConstants.js'
 
 /**
- * WHY: User CRUD Router
 
 LEARNING: Uses factory pattern to generate standardize...
  */

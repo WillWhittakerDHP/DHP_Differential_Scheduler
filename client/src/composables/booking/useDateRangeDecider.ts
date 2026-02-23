@@ -1,9 +1,3 @@
-/**
- * useDateRangeDecider Composable
- * 
- * 
- * Session 2.2.3: Created for API call timing optimization
- */
 
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -13,11 +7,6 @@ export interface DisplayedMonth {
   month: number // 0-11 (0 = January)
 }
 
-/**
- * WHY: useDateRangeDecider
-
-WHY: Single source of truth for date range used by ...
- */
 export function useDateRangeDecider(
   displayedMonth?: Ref<DisplayedMonth> | ComputedRef<DisplayedMonth>
 ): ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }> {
@@ -33,10 +22,8 @@ export function useDateRangeDecider(
     const year = monthValue.year
     const monthIndex = monthValue.month // 0-11 (0 = January)
     
-    // Start of displayed month (UTC)
     const start = new Date(Date.UTC(year, monthIndex, 1, 0, 0, 0, 0))
     
-    // End of displayed month (UTC)
     const end = new Date(Date.UTC(year, monthIndex + 1, 0, 23, 59, 59, 999))
     
     return {

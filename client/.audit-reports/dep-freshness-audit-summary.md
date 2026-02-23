@@ -7,7 +7,11 @@
 
 Generated from `client/.audit-reports/dep-freshness-audit.json`.
 
-- Major behind: **0**
-- Minor behind: **1**
-- Patch behind: **6**
-- Total scanned: **7**
+- Major behind: **1**
+- Minor behind: **0**
+- Patch behind: **4**
+- Total scanned: **5**
+
+## Major behind (first 15)
+
+- `ts-morph` (client): 24.0.0 → 27.0.2

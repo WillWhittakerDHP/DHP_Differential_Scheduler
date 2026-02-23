@@ -87,7 +87,6 @@ export function usePartsCollectionField<
   })
 
   /**
-   * WHY: /**
 Get child entity key from config - NO FALLBACKS
 LEARNING: Extract ca...
    */
@@ -106,7 +105,6 @@ LEARNING: Extract ca...
   })
 
   /**
-   * WHY: /**
 Get relationship key from config - NO FALLBACKS
 LEARNING: Extract ta...
    */
@@ -125,7 +123,6 @@ LEARNING: Extract ta...
   })
 
   /**
-   * PATTERN: /**
 Get options field key - HARDCODED for partsCollection
 PATTERN: Hardc...
    */
@@ -135,7 +132,6 @@ PATTERN: Hardc...
   })
 
   /**
-   * WHY: /**
 Get parent entity from admin store
 LEARNING: Read parent entity usin...
    */
@@ -170,7 +166,6 @@ LEARNING: Read parent entity usin...
   })
 
   /**
-   * WHY: /**
 Get parent type entity from admin store
 LEARNING: Read parent shape ...
    */

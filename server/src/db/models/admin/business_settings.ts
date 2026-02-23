@@ -24,10 +24,6 @@ import type {
 } from '../../../../../shared/types/availabilityTypes.js'
 import type { CalendarConfig, CalendarEntry, CalendarProvider } from '../../../../../shared/types/calendarTypes.js'
 
-/**
- * WHY: Business Settings Model
-LEARNING: Stores admin-configurable business log...
- */
 export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation, DurationRoundingConfig }
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
@@ -64,11 +60,6 @@ export interface AvailabilitySettingsData {
     calendarWeek?: IncomeCapacityFilter;
     rollingWeek?: RollingWeekIncomeCapacityFilter;
   };
-  /**
-   * WHY: /**
-Overlap source enforcement (optional)
-WHY: Allows admin to toggle ou...
-   */
   overlapSources?: {
     outOfOffice?: {
       enforcement: ConstraintEnforcement;

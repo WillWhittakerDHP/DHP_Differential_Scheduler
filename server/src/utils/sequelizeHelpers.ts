@@ -27,13 +27,6 @@ export function getModelAttributesExcluding<T extends Model>(
   return allAttributes.filter(attr => !exclude.includes(attr));
 }
 
-/**
- * Check if a Sequelize model uses `underscored: true` option.
- * 
- * 
- * @param ModelClass - The Sequelize model class
- * @returns True if model uses underscored: true, false otherwise
- */
 export function isModelUnderscored<T extends Model>(
   ModelClass: ModelStatic<T>
 ): boolean {

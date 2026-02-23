@@ -14,10 +14,6 @@ type UseFormFieldsStandardLayoutOptions = {
 
 export type { UseFormFieldsStandardLayoutReturn }
 
-/**
- * Query/state module: unified layout breakdown for ALL entity types.
- * 
- */
 export function useFormFieldsStandardLayout(
   options: UseFormFieldsStandardLayoutOptions
 ): UseFormFieldsStandardLayoutReturn {

@@ -42,9 +42,6 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
    */
   const isAddressExpanded = ref(false)
 
-  /**
-   * NOTE: Don't wrap in reactive() - refs are already reactive and wrapping breaks ref access
-   */
   const formData: PropertyFormData = {
     address,
     unit,

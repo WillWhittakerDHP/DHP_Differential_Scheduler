@@ -1,6 +1,3 @@
-/**
- * Property Mappings API endpoint builders
- */
 
 export function getPropertyFieldMappingsEndpoint(): string {
   return '/property-mappings/field-mappings'

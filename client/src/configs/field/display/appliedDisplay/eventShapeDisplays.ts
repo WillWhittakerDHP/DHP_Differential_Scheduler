@@ -1,8 +1,5 @@
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
-/**
- * NOTE: These are NOT entities, so they may not integrate into full display config system
- */
 
 export const eventShapeDisplays = {
   id: {

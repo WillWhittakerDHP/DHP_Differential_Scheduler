@@ -1,7 +1,3 @@
-/**
- * Appointment Router Constants
- * 
- */
 
 import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import {
@@ -12,9 +8,6 @@ import {
 
 export { AVAILABILITY_SETTINGS_KEY }
 
-/**
- * Error messages for appointment operations
- */
 export const ERROR_MESSAGES = {
   FETCH_APPOINTMENTS: 'Failed to fetch appointments',
   FETCH_APPOINTMENT: 'Error fetching appointment',
@@ -28,13 +21,7 @@ export const ERROR_MESSAGES = {
   INVALID_SNAPSHOT_IDS: 'One or more snapshot IDs are invalid',
 } as const
 
-/**
- * Default calendar email
- */
 export const DEFAULT_CALENDAR_EMAIL = 'scheduling@districthomepro.com'
 
-/**
- * Appointment statuses that trigger calendar event creation
- */
 export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const
 export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]

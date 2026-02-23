@@ -1,7 +1,3 @@
-/**
- * Shared Router Constants
- * 
- */
 
 /** Unknown error fallback (re-export from shared). */
 export { UNKNOWN_ERROR_MESSAGE } from '../../../shared/constants/errorMessages.js'
@@ -9,9 +5,6 @@ export { UNKNOWN_ERROR_MESSAGE } from '../../../shared/constants/errorMessages.j
 import { ERROR_MESSAGES as ENTITY_ERROR_MESSAGES } from '../routes/internal/entities/entityConstants.js'
 import { ERROR_MESSAGES as USER_ERROR_MESSAGES } from '../routes/internal/users/userConstants.js'
 
-/**
- * HTTP status codes
- */
 export const HTTP_STATUS_CODES = {
   OK: 200,
   CREATED: 201,
@@ -24,9 +17,6 @@ export const HTTP_STATUS_CODES = {
   INTERNAL_SERVER_ERROR: 500,
 } as const
 
-/**
- * Error message templates
- */
 export const ERROR_MESSAGE_TEMPLATES = {
   FETCH_FAILED: 'Failed to fetch {displayName}',
   FETCH_ALL_FAILED: ENTITY_ERROR_MESSAGES.FETCH_ENTITIES,
@@ -37,7 +27,4 @@ export const ERROR_MESSAGE_TEMPLATES = {
   VALIDATION_FAILED: ENTITY_ERROR_MESSAGES.VALIDATION_FAILED,
 } as const
 
-/**
- * Simple validation error message (no placeholder)
- */
 export const VALIDATION_FAILED_MESSAGE = USER_ERROR_MESSAGES.VALIDATION_FAILED

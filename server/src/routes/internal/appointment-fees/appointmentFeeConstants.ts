@@ -1,7 +1,3 @@
-/**
- * Appointment Fee Summary Router Constants
- *
- */
 
 export const FEE_ERROR_MESSAGES = {
   FETCH_ALL: 'Failed to fetch appointment fee summaries',

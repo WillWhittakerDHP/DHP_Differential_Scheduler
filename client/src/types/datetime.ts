@@ -1,12 +1,8 @@
 /**
- * WHY: DateTime Type Definitions
 WHY: Single source of truth for ISO8601Date, R...
  */
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 
-/**
- * Convert string to ISO8601Date at API boundaries.
- */
 export function toISO8601Date(value: string): ISO8601Date {
   return value as ISO8601Date
 }
@@ -39,20 +35,6 @@ export function toRFC3339DateTime(date: Date): RFC3339DateTime {
   return date.toISOString() as RFC3339DateTime
 }
 
-/**
- * Day of Week Type
- * 
- * P3-4: Added DayOfWeek type to eliminate runtime casting
- * 
- * Values:
- * - 0 = Sunday
- * - 1 = Monday
- * - 2 = Tuesday
- * - 3 = Wednesday
- * - 4 = Thursday
- * - 5 = Friday
- * - 6 = Saturday
- */
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 /**

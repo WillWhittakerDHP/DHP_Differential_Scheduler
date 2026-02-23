@@ -1,7 +1,3 @@
-/**
- * Slot Computation Service
- *
- */
 
 import type {
   ComputedSlot,
@@ -41,9 +37,6 @@ interface EventWithDrive {
   driveFromMinutes?: number
 }
 
-/**
- * Check if two time ranges overlap
- */
 function timeRangesOverlap(
   a: { start: Date; end: Date },
   b: { start: Date; end: Date }
@@ -51,9 +44,6 @@ function timeRangesOverlap(
   return a.start < b.end && a.end > b.start
 }
 
-/**
- * Generate raw slot time pairs for one day using shared primitive (pure, no mutation).
- */
 function generateSlotsForDay(
   dayStartUtc: Date,
   dayEndUtc: Date,
@@ -131,9 +121,6 @@ function checkRangeConstraints(
   return { passes: true, violations }
 }
 
-/**
- * Collect overlap violation strings and whether any is hard for one event.
- */
 function getOverlapViolationsForEvent(
   slotRange: { start: Date; end: Date },
   event: EventWithDrive
@@ -276,9 +263,6 @@ function checkCapacityConstraints(
   return { passes: true, violations }
 }
 
-/**
- * Map one calendar event to EventWithDrive or null if filtered (opaque-only).
- */
 function mapToEventWithDrive(
   event: CalendarEvent,
   source: 'event' | 'outOfOffice',
@@ -306,9 +290,6 @@ function mapToEventWithDrive(
   }
 }
 
-/**
- * Build event list with drive minutes attached (event-level context)
- */
 function attachDriveTimesToEvents(
   regularEvents: CalendarEvent[],
   outOfOfficeEvents: CalendarEvent[],
@@ -342,9 +323,6 @@ interface DayConfig {
   boundaries: { dayStartUtc: Date; dayEndUtc: Date }
 }
 
-/**
- * Build list of day configs (dayKey + boundaries) for the request range using business hours.
- */
 function getDayConfigsInRange(
   requestStart: Date,
   requestEnd: Date,
@@ -378,9 +356,6 @@ function getDayConfigsInRange(
     .filter((c): c is DayConfig => c != null)
 }
 
-/**
- * Compute computed slots for one day (raw slots filtered by min start, then constraint-checked).
- */
 function computeSlotsForOneDay(
   dayConfig: DayConfig,
   durationMinutes: number,
@@ -463,9 +438,6 @@ function computeSlotsForOneDay(
   })
 }
 
-/**
- * Compute slots for a date range with all constraints applied
- */
 export function computeSlotsForDateRange(
   dateRange: { start: string; end: string },
   durationMinutes: number,

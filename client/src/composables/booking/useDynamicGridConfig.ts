@@ -26,8 +26,6 @@ export function useDynamicGridConfig(
 ): UseDynamicGridConfigReturn {
   const { baseConfig, itemCount } = options
 
-  /**
-   */
   const dynamicConfig = computed<SelectionCardConfig>(() => {
     const base = baseConfig.value
     const count = itemCount.value

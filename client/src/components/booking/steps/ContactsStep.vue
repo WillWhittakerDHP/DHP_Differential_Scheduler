@@ -1,10 +1,4 @@
 <script setup lang="ts">
-/**
- * ContactsStep Component
- * 
- * 
- * Phase 1.2.3: Added support for loading contact data from appointments
- */
 
 import { inject, computed, type Ref } from 'vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -15,16 +9,12 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
-/**
- */
 const wizard = inject<UseBookingWizardReturn>('wizard')
 
 if (!wizard) {
   throw new Error('Wizard instance not found. Make sure BookingWizard provides wizard.')
 }
 
-/**
- */
 const requiresAgent = computed(() => {
   return wizard.selectedServiceTypeBlocks.value.some(
     selected => selected.requiresAgent === true

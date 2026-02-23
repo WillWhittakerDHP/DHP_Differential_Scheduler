@@ -1,13 +1,7 @@
-/**
- * NOTE: orderIndex is hidden (managed via drag-and-drop UI, not editable field)
- */
 
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
 
-/**
- * NOTE: These are NOT entities, so they don't use PrimitiveFormField<GlobalEntityKey>
- */
 export const eventShapeFields = {
   id: {
     primitiveType: PrimitiveTypeEnum.String,

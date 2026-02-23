@@ -229,7 +229,6 @@ export function useBufferSettings(params: UseBufferSettingsParams): {
   })
 
   /**
-   * WHY: /**
 WHY: Follows the same reactive pattern as other settings but uses a ...
    */
   const overlapSourcesOutOfOfficeEnforcement = computed<ConstraintEnforcement>({

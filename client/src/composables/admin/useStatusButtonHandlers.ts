@@ -27,7 +27,6 @@ export function useStatusButtonHandlers<GE extends GlobalEntityKey>(
   const { filteredEntities, entityKey } = options
 
   /**
-   * PATTERN: /**
 PATTERN: Map of entity ID to toggle handler composable
 FIX: Handlers...
    */

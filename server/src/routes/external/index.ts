@@ -4,10 +4,6 @@ import { GoogleOAuthRouter } from './googleOauthRoutes.js';
 import { MapsRouter } from './mapsRoutes.js';
 import { PropertyEnrichmentRouter } from './propertyEnrichmentRoutes.js';
 
-/**
- * External Routes
- * 
- */
 
 const router = Router();
 

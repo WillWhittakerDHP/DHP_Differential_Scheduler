@@ -1,68 +1,23 @@
 {
-  "generatedAt": "2026-02-20T17:33:38.215Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-23T18:12:58.425Z",
+  "totalScanned": 795,
   "totals": {
-    "totalScanned": 787,
-    "totalMarkers": 11,
-    "fresh": 2,
+    "totalScanned": 795,
+    "totalMarkers": 5,
+    "fresh": 1,
     "aging": 0,
     "stale": 0,
-    "ancient": 9,
-    "orphaned": 11
+    "ancient": 4,
+    "orphaned": 5
   },
   "files": [
-    {
-      "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-      "markers": [
-        {
-          "lineNumber": 128,
-          "marker": "TEMP",
-          "line": "* PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-      "markers": [
-        {
-          "lineNumber": 58,
-          "marker": "TEMP",
-          "line": "* PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
     {
       "repoPath": "client/src/components/admin/generic/fields/BooleanInput.vue",
       "markers": [
         {
-          "lineNumber": 166,
+          "lineNumber": 160,
           "marker": "TEMP",
           "line": "// WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "markers": [
-        {
-          "lineNumber": 137,
-          "marker": "TODO",
-          "line": "* TODO: Update to use orderIndex-based matching when AppointmentSlots are available",
           "category": "ancient",
           "days": 999,
           "orphaned": true
@@ -75,24 +30,9 @@
       "repoPath": "client/src/composables/booking/useDevPanelsComputed.ts",
       "markers": [
         {
-          "lineNumber": 115,
+          "lineNumber": 112,
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/useFormValidation.ts",
-      "markers": [
-        {
-          "lineNumber": 62,
-          "marker": "XXX",
-          "line": "* LEARNING: Validates phone number format (US format: XXX-XXX-XXXX or (XXX) XXX-XXXX)",
           "category": "ancient",
           "days": 999,
           "orphaned": true
@@ -132,44 +72,14 @@
       "priority": "P1"
     },
     {
-      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "markers": [
-        {
-          "lineNumber": 174,
-          "marker": "XXX",
-          "line": "* @returns Formatted phone number (XXX-XXX-XXXX) or null",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "markers": [
         {
-          "lineNumber": 162,
+          "lineNumber": 154,
           "marker": "TODO",
           "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
           "category": "fresh",
-          "days": 19,
-          "orphaned": true
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/composables/admin/useInputConfigEditor.ts",
-      "markers": [
-        {
-          "lineNumber": 108,
-          "marker": "TODO",
-          "line": "// TODO: handle relationshipCollection renderAs when needed",
-          "category": "fresh",
-          "days": 9,
+          "days": 22,
           "orphaned": true
         }
       ],

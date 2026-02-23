@@ -29,9 +29,6 @@ WHY: Extracts display name logic from compo...
 export function useEntityDisplay(): UseEntityDisplayReturn {
   const adminConfig = useAdminConfig()
 
-  /**
-   * NOTE: This function accesses entity properties directly, which Vue can track for reactivity
-   */
   const getEntityDisplayName = (
     entityKey: GlobalEntityKey,
     entity: GlobalEntity<GlobalEntityKey>
@@ -52,8 +49,6 @@ export function useEntityDisplay(): UseEntityDisplayReturn {
     }
   }
 
-  /**
-   */
   const getEntityName = (
     entityKey: GlobalEntityKey,
     entity: GlobalEntity<GlobalEntityKey>

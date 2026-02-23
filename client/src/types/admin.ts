@@ -1,11 +1,4 @@
-/**
- * Admin Types
- * 
- */
 
-/**
- * Display field type
- */
 export type DisplayFieldType = 
   | 'text'
   | 'number'

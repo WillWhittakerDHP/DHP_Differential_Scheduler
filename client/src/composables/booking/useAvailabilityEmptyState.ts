@@ -15,9 +15,6 @@ export interface UseAvailabilityEmptyStateParams {
 }
 
 export interface UseAvailabilityEmptyStateReturn {
-  /**
-   * Empty state message (null if slots are available)
-   */
   emptyStateMessage: ComputedRef<string | null>
 }
 

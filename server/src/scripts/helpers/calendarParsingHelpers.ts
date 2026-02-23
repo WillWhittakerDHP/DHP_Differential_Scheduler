@@ -1,5 +1,4 @@
 /**
- * WHY: Calendar Parsing Helpers
 WHY: Reduces main script file size, isolates pa...
  */
 import { createLogger } from '../../utils/logger.js'
@@ -9,9 +8,6 @@ import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/pro
 
 const logger = createLogger('calendarParsingHelpers')
 
-/**
- * Use string value or default; log when value is null/undefined so we don't mask missing calendar data.
- */
 function withDefault(value: string | null | undefined, defaultVal: string, context: string): string {
   if (value === null || value === undefined) {
     logger.warn('Calendar parse: missing value, using default', { context, defaultVal })
@@ -20,15 +16,9 @@ function withDefault(value: string | null | undefined, defaultVal: string, conte
   return value
 }
 
-/**
- * Default values for client name parsing
- */
 const DEFAULT_FIRST_NAME = 'Unknown' as const
 const DEFAULT_LAST_NAME = ATTENDEE_ROLE_CLIENT
 
-/**
- * Calendar Event interface
- */
 export interface CalendarEvent {
   id?: string;
   summary?: string;
@@ -53,16 +43,10 @@ export interface CalendarEvent {
   };
 }
 
-/**
- * Parsed client data structure
- */
 export interface ParsedClient extends ContactInfoBase {
   phone: string | null;
 }
 
-/**
- * Parsed property data structure
- */
 export interface ParsedProperty extends PropertyAddressBase, PropertyDetailsBase {
   unit: string | null;
   mlsNumber: string | null;
@@ -73,14 +57,6 @@ export interface ParsedProperty extends PropertyAddressBase, PropertyDetailsBase
   additionalUnits: number | null;
 }
 
-/**
- * Create empty property structure with default values
- * LEARNING: Helper to eliminate duplication of null-field pattern
- * WHY: Reduces parseAddress complexity, addresses deprecation patterns
- * 
- * @param address - Street address (required)
- * @returns ParsedProperty with all optional fields set to null/empty
- */
 function createEmptyProperty(address: string): ParsedProperty {
   return {
     address,
@@ -97,12 +73,6 @@ function createEmptyProperty(address: string): ParsedProperty {
   };
 }
 
-/**
- * Extract unit number from address string
- * 
- * @param address - Street address string
- * @returns Object with extracted address and unit, or original address with null unit
- */
 function extractUnitFromAddress(address: string): { address: string; unit: string | null } {
   const unitMatch = address.match(/(.+?)\s*(?:unit|apt|apartment|#|suite)\s*([^\s,]+)/i);
   if (unitMatch) {
@@ -117,12 +87,6 @@ function extractUnitFromAddress(address: string): { address: string; unit: strin
   };
 }
 
-/**
- * Parse full name into first and last name
- * 
- * @param fullName - Full name string (may be "Last, First" or "First Last")
- * @returns Object with firstName and lastName
- */
 export function parseName(fullName: string): { firstName: string; lastName: string } {
   const trimmed = fullName.trim();
   
@@ -148,10 +112,6 @@ export function parseName(fullName: string): { firstName: string; lastName: stri
   };
 }
 
-/**
- * WHY: Extract phone number from text
-LEARNING: Regex-based phone extraction wi...
- */
 function extractPhone(text: string | undefined): string | null {
   if (!text) return null;
   
@@ -160,12 +120,6 @@ function extractPhone(text: string | undefined): string | null {
   return match ? match[1].replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3') : null;
 }
 
-/**
- * Parse address string into structured property data
- * 
- * @param addressString - Address string from calendar event
- * @returns ParsedProperty or null if address is invalid/empty
- */
 export function parseAddress(addressString: string): ParsedProperty | null {
   if (!addressString || addressString.trim().length === 0) {
     return null;
@@ -197,13 +151,6 @@ export function parseAddress(addressString: string): ParsedProperty | null {
   return property
 }
 
-/**
- * Extract clients from calendar event attendees
- * 
- * @param event - Calendar event with attendees
- * @param organizerEmail - Email of the event organizer (to exclude)
- * @returns Array of parsed client data
- */
 export function extractClients(event: CalendarEvent, organizerEmail: string): ParsedClient[] {
   const clients: ParsedClient[] = [];
   
@@ -248,10 +195,6 @@ export function extractClients(event: CalendarEvent, organizerEmail: string): Pa
   return clients;
 }
 
-/**
- * WHY: Extract property from calendar event
-LEARNING: Tries location, descripti...
- */
 export function extractProperty(event: CalendarEvent): ParsedProperty | null {
   // LEARNING: Explicit fallback chain instead of `|| ''` pattern
   const addressSource = event.location 

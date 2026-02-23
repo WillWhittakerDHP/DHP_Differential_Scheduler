@@ -1,5 +1,3 @@
-/**
- */
 
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
@@ -11,7 +9,6 @@ export interface BuildMetadataEntryOptions {
 }
 
 /**
- * PATTERN: Build a full metadata entry from updates and existing metadata
 PATTERN: ...
  */
 export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<string, unknown> {

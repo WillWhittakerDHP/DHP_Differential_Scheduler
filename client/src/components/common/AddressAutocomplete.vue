@@ -87,7 +87,6 @@ const logger = createLogger('AddressAutocomplete')
 const { token: sessionToken, getToken, resetToken } = useMapsSessionToken()
 
 /**
- * WHY: Props interface
 LEARNING: Standard v-model pattern plus additional confi...
  */
 interface Props {
@@ -122,7 +121,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /**
- * WHY: Emits
 LEARNING: Standard v-model pattern with additional events
 Session ...
  */
@@ -143,19 +141,10 @@ const errorMessage = ref('')
 
 const hasInitialAddressFromProps = ref(false)
 
-/**
- * Sync initial value from prop
- * Session 2.2.2: Create synthetic item for VAutocomplete to display existing address
- * 
- * When loading an existing address, we need to create a "fake" prediction object
- * so VAutocomplete can display it properly.
- */
 watch(
   () => props.modelValue,
   (newValue, oldValue) => {
     if (newValue && !selectedAddress.value) {
-      // Create a synthetic prediction object for the existing address
-      // This allows VAutocomplete to display it properly
       const syntheticPrediction: AutocompletePrediction = {
         placeId: props.placeId || `synthetic-${Date.now()}`,
         description: newValue,
@@ -180,9 +169,6 @@ watch(
   { immediate: true }
 )
 
-/**
- * Debounced function to fetch suggestions
- */
 const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
   if (input.length < props.minInputLength) {
     suggestions.value = []
@@ -212,11 +198,6 @@ const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
   }
 }, props.debounceMs)
 
-/**
- * Handle search input changes
- * Session 2.2.2: Also clears placeId when user types new address
- * Session 2.2.5: Token is pre-fetched by parent component, but lazy-load as fallback
- */
 const handleSearchUpdate = async (value: string | null) => {
   const input = value !== undefined && value !== null && value !== '' ? value : ''
 
@@ -279,10 +260,6 @@ function handleSyntheticSelection(
   return true
 }
 
-/**
- * Handle selection from dropdown
- * Session 2.2.2: Also emits placeId for Routes API integration
- */
 const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
   if (handleNullSelection(selection, emit as (e: string, ...args: unknown[]) => void, hasInitialAddressFromProps, props.modelValue, selectedAddress)) return
   const sel = selection as AutocompletePrediction
@@ -316,9 +293,6 @@ const handleSelectionChange = async (selection: AutocompletePrediction | null) =
   }
 }
 
-/**
- * Handle blur event
- */
 const handleBlur = () => {
   suggestions.value = []
   

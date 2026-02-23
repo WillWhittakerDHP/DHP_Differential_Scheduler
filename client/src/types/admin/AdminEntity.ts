@@ -1,7 +1,3 @@
-/**
- * Admin Entity Class
- *
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
@@ -28,8 +24,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   isSelected?: boolean
   
   // PATTERN: Index signature enables type-safe property access while allowing dynamic keys
-  // Note: Methods are implemented separately and TypeScript should exclude them, but we use 'any' for the function type
-  // to avoid conflicts with specific method signatures
   [key: string]: unknown
   
   constructor(admin: GlobalEntity<GE>, displayConfig: AdminEntity<GE>['displayConfig']) {
@@ -139,9 +133,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     this.isDirty = true
   }
 
-  /**
-   * Get default value for a field
-   */
   private getDefaultValue<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey): ValidAdminValue {
     return undefined
   }
@@ -151,11 +142,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     return value !== undefined && value !== null
   }
   
-  /**
-   * Get all field names for this entity type
-   * Returns only primitive field names (not relationships)
-   * NOTE: Relationships are not part of GlobalFieldKey, so they are excluded
-   */
   getFieldNames(formFieldConfig?: Record<string, ValidAdminValue>): GlobalFieldKey<GE>[] {
     if (formFieldConfig) {
       const allKeys = Object.keys(formFieldConfig)
@@ -166,9 +152,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     return primitiveNames as GlobalFieldKey<GE>[]
   }
   
-  /**
-   * Get all relationship property names for this entity type
-   */
   getRelationshipNames(formFieldConfig?: FormFieldConfigMap[GE] | Record<string, unknown>): string[] {
     if (formFieldConfig) {
       // PATTERN: Cast to Record<string, unknown> to index, then assert to FormFieldConfig structure

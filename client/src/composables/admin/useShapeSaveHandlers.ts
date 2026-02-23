@@ -31,9 +31,6 @@ export interface UseShapeSaveHandlersReturn {
   handleExistingShapeSaved: (entity: GlobalEntity<GlobalEntityKey>) => void
 }
 
-/**
- * Composable for handling shape save events
- */
 export function useShapeSaveHandlers(
   options: UseShapeSaveHandlersOptions
 ): UseShapeSaveHandlersReturn {
@@ -99,8 +96,6 @@ export function useShapeSaveHandlers(
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
   }
 
-  /**
-   */
   const handleExistingShapeSaved = (entity: GlobalEntity<GlobalEntityKey>): void => {
     expandedShapes.value = expandedShapes.value.filter(id => id !== entity.id)
   }

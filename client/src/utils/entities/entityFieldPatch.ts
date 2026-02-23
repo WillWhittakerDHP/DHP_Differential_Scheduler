@@ -1,8 +1,3 @@
-/**
- * Entity Field Patch Utility
- *
- *      the correct object type from computed property keys without unsafe casts.
- */
 
 export function createEntityFieldPatch<
   GlobalEntityType extends Record<string, unknown>,

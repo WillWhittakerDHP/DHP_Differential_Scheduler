@@ -1,8 +1,3 @@
-/**
- * WHY: Service Component Utilities
-
-WHY: Avoids code duplication between compos...
- */
 import { getIcon } from './iconMapper'
 import type { GlobalEntity } from '@/types/entities'
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'

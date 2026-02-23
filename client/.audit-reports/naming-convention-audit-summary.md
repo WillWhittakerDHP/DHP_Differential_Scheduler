@@ -7,11 +7,13 @@
 
 Generated from `client/.audit-reports/naming-convention-audit.json`.
 
-- Requiring review: **1**
-- Allowed: **75**
+- Requiring review: **3**
+- Allowed: **76**
 
-## Top 1 files
+## Top 3 files
 
 | File | Violations | Priority |
 | --- | ---: | --- |
 | `client/src/layouts/blank.vue` | 0 | P2 |
+| `client/src/layouts/default.vue` | 0 | P2 |
+| `client/src/types/admin/AdminEntity.ts` | 0 | P2 |

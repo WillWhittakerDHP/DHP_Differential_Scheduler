@@ -1,5 +1,4 @@
 /**
- * PATTERN: Minimal slot generator for moveable parts scheduling
 PATTERN: Pure slot ...
  */
 import type { TimeSlot } from '@/types/appointment'
@@ -101,9 +100,6 @@ function generateSlotsForDay(
   )
 }
 
-/**
- * Generate time slots in a range (no overlap/capacity checking)
- */
 export function generateSlotsInRange(params: MinimalSlotParams): TimeSlot[] {
   validateSlotGenerationParams({
     duration: params.duration,

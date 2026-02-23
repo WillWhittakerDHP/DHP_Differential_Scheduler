@@ -28,10 +28,6 @@ const createCacheKey = (entityKey: string, fieldKey?: string): string => {
   return fieldKey ? `${entityKey}:${fieldKey}` : entityKey
 }
 
-/**
- * WHY: Clear all caches (for testing)
-LEARNING: Module-level caches persist acr...
- */
 export function _clearCache(): void {
   formFieldConfigCache.clear()
   displayFieldConfigCache.clear()
@@ -68,14 +64,10 @@ export function useAdminConfig() {
     return cachedConfig!
   }
 
-  /**
-   */
   const rebuildConfig = (): void => {
     rebuildAdminConfig()
   }
 
-  /**
-   */
   const getFormFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     entityKey: GE,
     fieldKey: FieldKey
@@ -87,8 +79,6 @@ export function useAdminConfig() {
     )
   }
 
-  /**
-   */
   const getEntityFormFieldConfig = <GE extends GlobalEntityKey>(
     entityKey: GE
   ): ComputedRef<FormFieldConfigMap[GE]> => {
@@ -99,8 +89,6 @@ export function useAdminConfig() {
     )
   }
 
-  /**
-   */
   const getDisplayFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     entityKey: GE,
     fieldKey: FieldKey
@@ -120,8 +108,6 @@ export function useAdminConfig() {
     return computedRef
   }
 
-  /**
-   */
   const getEntityDisplayFieldConfig = <GE extends GlobalEntityKey>(
     entityKey: GE
   ): ComputedRef<Record<string, unknown>> => {
@@ -146,8 +132,6 @@ export function useAdminConfig() {
     return computedRef
   }
 
-  /**
-   */
   const getInstanceConfig = <GE extends GlobalEntityKey>(
     entityKey: GE
   ): ComputedRef<InstanceConfig[GE]> => {

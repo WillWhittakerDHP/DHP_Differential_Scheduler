@@ -1,8 +1,4 @@
 
-/**
- * WHY: Type definitions for Vite's import.meta.env
-WHY: Provides TypeScript sup...
- */
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
   readonly VITE_INCLUDE_DEV_FLAGS?: string
@@ -19,7 +15,6 @@ interface ImportMeta {
 }
 
 /**
- * WHY: Vue SFC Module Declaration
 LEARNING: Declares .vue files as valid module...
  */
 declare module '*.vue' {
@@ -29,7 +24,6 @@ declare module '*.vue' {
 }
 
 /**
- * WHY: SVG Module Declaration
 LEARNING: Declares .svg files as valid modules fo...
  */
 declare module '*.svg' {
@@ -37,19 +31,11 @@ declare module '*.svg' {
   export default content
 }
 
-/**
- * WHY: SVG Module Declaration (with ?raw query)
-LEARNING: Declares .svg?raw fil...
- */
 declare module '*.svg?raw' {
   const content: string
   export default content
 }
 
-/**
- * WHY: Image Module Declarations
-LEARNING: Declares image files (.png, .jpg, .j...
- */
 declare module '*.png' {
   const content: string
   export default content
@@ -75,9 +61,6 @@ declare module '*.webp' {
   export default content
 }
 
-/**
- * Third-party Module Declarations
- */
 declare module 'shepherd.js' {
   export class Shepherd {
     static activeTour?: {
@@ -100,10 +83,6 @@ declare module 'shiki' {
   }>
 }
 
-/**
- * Vuetify Internal Module Declarations
- * NOTE: These are internal APIs and may change in Vuetify updates
- */
 declare module 'vuetify/lib/components/VField/VField' {
   import type { Component } from 'vue'
   export const VField: Component & {

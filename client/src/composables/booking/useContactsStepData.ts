@@ -10,9 +10,6 @@ import type { ContactInfoBase } from '@shared/types/contactTypes'
 
 const logger = createLogger('useContactsStepData')
 
-/**
- * Use contact field value or empty string; log when value is unexpectedly null/undefined.
- */
 function contactField(value: string | null | undefined, context: string): string {
   if (value === null || value === undefined) {
     logger.warn('Contact field missing', { context })
@@ -101,8 +98,6 @@ export function useContactsStepData(
   const showTransactionManager = ref(false)
   const showSeller = ref(false)
 
-  /**
-   */
   const toggleSection = (
     section: 'anotherClient' | 'transactionManager' | 'seller',
     show: boolean
@@ -186,8 +181,6 @@ export function useContactsStepData(
     }, { immediate: true })
   }
 
-  /**
-   */
   const stepData = computed(() => ({
     clientInfo: clientInfo.value,
     agentInfo: agentInfo.value,

@@ -1,10 +1,3 @@
-/**
- * User Type Mapping Utility
- * 
- *      the UserTypeBlock system uses admin-configurable BlockInstances
- * 
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
 
 import { BlockInstance, BlockShape } from '../config/app.js';
 import { Op } from 'sequelize';
@@ -13,10 +6,6 @@ import { USER_ROLE_CLIENT, USER_ROLE_AGENT, ATTENDEE_ROLE_AGENT } from '../const
 
 const logger = createLogger('UserTypeMapping');
 
-/**
- * Mapping from hardcoded user roles to expected UserTypeBlock names
- *           use business-friendly names like 'Buyer', ATTENDEE_ROLE_AGENT
- */
 const ROLE_TO_BLOCK_NAME: Record<string, string> = {
   [USER_ROLE_CLIENT]: 'Buyer',           // Primary client = Buyer in real estate context
   [USER_ROLE_AGENT]: ATTENDEE_ROLE_AGENT, // Real estate agent
@@ -25,19 +14,10 @@ const ROLE_TO_BLOCK_NAME: Record<string, string> = {
   'inspector': 'Inspector',    // The service provider/technician
 };
 
-/**
- * Cache for UserTypeBlock lookups (avoids repeated DB queries)
- */
 let userTypeBlockCache: Map<string, string> | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-/**
- * Get UserTypeBlock ID for a given user role
- * 
- * @param role - Hardcoded role from Users table (USER_ROLE_CLIENT, USER_ROLE_AGENT, etc.)
- * @returns UserTypeBlock ID or null if not found
- */
 export async function getUserTypeBlockIdForRole(role: string): Promise<string | null> {
   const blockName = ROLE_TO_BLOCK_NAME[role];
   if (!blockName) {
@@ -74,9 +54,6 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
   }
 }
 
-/**
- * Find UserTypeBlock by name
- */
 async function findUserTypeBlockByName(name: string): Promise<{ id: string; name: string } | null> {
   const stateControlShapes = await BlockShape.findAll({
     where: { isStateControl: true },

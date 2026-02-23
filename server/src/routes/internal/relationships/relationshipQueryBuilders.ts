@@ -1,5 +1,4 @@
 /**
- * PATTERN: Shared relationship query builders
 PATTERN: Pure functions with explicit...
  */
 import type { Includeable } from 'sequelize'
@@ -65,9 +64,6 @@ interface BuildWhereClauseParams {
   logWarn: (msg: string) => void
 }
 
-/**
- * Build Sequelize where clause for relationship list queries
- */
 export function buildRelationshipWhereClause(params: BuildWhereClauseParams): Record<string, unknown> {
   const { relationshipType, relationshipConfig, query, logWarn } = params
   const parentId = query.parentId ?? query.parent_id
@@ -102,9 +98,6 @@ interface BuildQueryOptionsParams {
   whereClause: Record<string, unknown>
 }
 
-/**
- * Build Sequelize query options (where, order, include, attributes) for relationship queries
- */
 export function buildRelationshipQueryOptions(
   params: BuildQueryOptionsParams
 ): { where: Record<string, unknown>; order?: [string, string][]; include?: Includeable[]; attributes?: string[] } {

@@ -1,5 +1,4 @@
 /**
- * WHY: Constraint validation helpers for tests
 WHY: Validators are only used in...
  */
 import type {

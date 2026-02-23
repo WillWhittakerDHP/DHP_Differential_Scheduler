@@ -1,19 +1,7 @@
-/**
- * Admin Primitive Metadata Router Helper Functions
- * 
- */
 
 import type { FieldMetadataEntry } from '../../../utils/adminPrimitiveMetadataComposer.js';
 import { mapMetaFieldsToPayload } from '../../../utils/adminMetadataPayload.js';
 
-/**
- * Auto-compute renderAs based on dataType and inputConfig
- * 
- * @param dataType - Data type of the field
- * @param inputConfig - Input configuration object
- * @param fieldKey - Field key (special case for 'icon')
- * @returns Computed renderAs value
- */
 export function computeRenderAs(
   dataType: string | undefined,
   inputConfig: Record<string, unknown> | null | undefined,

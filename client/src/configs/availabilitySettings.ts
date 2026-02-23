@@ -1,5 +1,4 @@
 /**
- * WHY: Client-side settings for time slot generation and business hours
 WHY: Ce...
  */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
@@ -106,7 +105,6 @@ export interface AvailabilitySettings {
   }
 
   /**
-   * WHY: /**
 Maximum income capacity filters (optional)
 LEARNING: Income caps per...
    */
@@ -117,7 +115,6 @@ LEARNING: Income caps per...
   }
   
   /**
-   * WHY: /**
 Overlap source enforcement (optional)
 WHY: Allows admin to toggle ou...
    */
@@ -128,7 +125,6 @@ WHY: Allows admin to toggle ou...
   }
   
   /**
-   * WHY: /**
 IANA timezone string (optional)
 LEARNING: Timezone used for all avai...
    */

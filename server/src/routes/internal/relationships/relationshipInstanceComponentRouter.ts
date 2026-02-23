@@ -1,7 +1,3 @@
-/**
- * Relationship Instance Component Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { InstanceComponent } from '../../../config/app.js'
@@ -17,11 +13,6 @@ const logger = createLogger('RelationshipRouter')
 
 const router = Router()
 
-/**
- * PATCH /relationships/instanceComponents/:id
- * Update an instance component
- * 
- */
 router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const id = paramString(req, 'id')
   const orderIndex = req.body.orderIndex ?? req.body.order_index
@@ -55,13 +46,6 @@ router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promis
   }
 })
 
-/**
- * DELETE /relationships/instanceComponents/:id
- * Delete an instance component (soft delete)
- * 
- * LEARNING: Soft deletes instance component and restores active state if needed
- * WHY: Enables instance component deletion via API with active state management
- */
 router.delete('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const id = paramString(req, 'id')
   

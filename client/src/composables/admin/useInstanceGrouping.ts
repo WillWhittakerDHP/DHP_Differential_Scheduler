@@ -78,7 +78,6 @@ export function useInstanceGrouping(
   })
 
   /**
-   * WHY: /**
 LEARNING: Computed property for BlockShape composable flags
 WHY: Cac...
    */
@@ -94,7 +93,6 @@ WHY: Cac...
   })
 
   /**
-   * WHY: /**
 LEARNING: Computed property for BlockShape state control flags
 WHY: ...
    */

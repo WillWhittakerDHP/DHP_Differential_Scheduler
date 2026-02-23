@@ -1,8 +1,3 @@
-/**
- * WHY: Business Rules CRUD Router
-
-LEARNING: Refactored to use CRUD router fact...
- */
 import { Request, Response } from 'express'
 import { BusinessRule } from '../../config/app.js'
 import { createCrudRouter } from '../helpers/createCrudRouter.js'
@@ -77,11 +72,6 @@ const router = createCrudRouter({
   },
 })
 
-/**
- * GET /business-rules
- * List all business rules with optional filtering
- * 
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { blockInstanceId, ruleType, active } = req.query
@@ -102,11 +92,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /business-rules/block/:blockInstanceId
- * Get all active business rules for a specific block instance
- * 
- */
 router.get('/block/:blockInstanceId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { blockInstanceId } = req.params

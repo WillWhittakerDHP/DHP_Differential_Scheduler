@@ -7,9 +7,6 @@ import {
 } from '@/utils/booking/bookingWizardStepValidators'
 
 export interface BookingWizardStepValidators {
-  /**
-   * Map of stepIndex -> validator(stepIndex)
-   */
   stepValidators: ComputedRef<Record<number, StepValidator | null>>
 }
 

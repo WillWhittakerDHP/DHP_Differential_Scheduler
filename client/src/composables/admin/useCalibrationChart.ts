@@ -43,9 +43,6 @@ export interface UseCalibrationChartReturn {
   hasData: ComputedRef<boolean>
 }
 
-/**
- * Get service-type block instances with resolved part totals for fee calculation
- */
 function getServiceFeeTotals(
   blockInstances: GlobalEntity<'blockInstance'>[],
   blockShapes: GlobalEntity<'blockShape'>[],
@@ -75,7 +72,6 @@ function getServiceFeeTotals(
 }
 
 /**
- * WHY: useCalibrationChart
 WHY: Single composable for the calibration panel; re...
  */
 export function useCalibrationChart(): UseCalibrationChartReturn {

@@ -1,17 +1,7 @@
-/**
- * PartFinal: Aggregated part instance representing all parts of a given shape
- * 
- * 
- * This eliminates the need for categorization - parts are grouped by their actual
- * part shape, and boolean flags determine how they're used in calculations.
- */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'
 
-/**
- * PartFinal: Aggregated part instance representing all parts of a given shape
- */
 export interface PartFinal {
   partShape: string  // Part shape name (e.g., "Client Presentation")
   
@@ -38,13 +28,6 @@ const PART_FINAL_DEFAULT_MAJOR = 'false' as const
 const PART_FINAL_DEFAULT_MINOR = 'false' as const
 const PART_FINAL_DEFAULT_MOVEABLE = false
 
-/**
- * Create PartFinal from grouped part instances
- *
- * @param partShape - Part shape name
- * @param parts - Array of BookingPartInstance objects with same partShape
- * @returns PartFinal with raw baseTime (no rounding)
- */
 export function createPartFinal(
   partShape: string,
   parts: BookingPartInstance[]

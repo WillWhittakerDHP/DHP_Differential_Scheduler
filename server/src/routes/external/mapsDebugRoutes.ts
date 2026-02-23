@@ -1,7 +1,3 @@
-/**
- * Maps Debug Routes
- *
- */
 
 import { Router, Request, Response } from 'express'
 import { csrfProtection } from '../../middlewares/security.js'

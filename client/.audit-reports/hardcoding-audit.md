@@ -46,9 +46,9 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **32**
-- **Requiring review: 51**
-- Allowed (with justification): 543 (inline: 0, pattern: 485, specific: 26, linePattern: 32)
+- Total files scanned: **38**
+- **Requiring review: 64**
+- Allowed (with justification): 576 (inline: 0, pattern: 517, specific: 26, linePattern: 33)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -56,13 +56,18 @@ When extracting literals to constants, prefer these constant files (from constan
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/utils/booking/appointmentDataBuilders.ts` | 15 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 |
 | `client/src/utils/booking/durationRounding.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `server/src/services/invites/inviteOrchestrationService.ts` | 12 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
 | `server/src/services/propertyFeatureMatcher.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | 12 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `server/src/scripts/importCalendarData.ts` | 8 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 1 | 0 |
 | `client/src/components/admin/generic/StatusButton.vue` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useFieldKeyboardGuard.ts` | 6 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/composables/booking/useTimeSlotCalculations.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/perspectiveResolver.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `client/src/utils/differentialScheduling.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 | `server/src/services/computedAvailabilityService.ts` | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 1 |
+| `server/src/services/google/calendar/eventCreationService.ts` | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 1 |
 | `server/src/scripts/helpers/calendarImportHelpers.ts` | 5 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 |
 | `client/src/components/booking/dev/DevPanelToggle.vue` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/IndependentSelectCard.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -71,19 +76,14 @@ When extracting literals to constants, prefer these constant files (from constan
 | `client/src/layouts/components/NavSearchBar.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/services/mapsApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/services/propertyEnrichmentApiService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/utils/appointmentFieldFormatters.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/availabilityStepData.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/utils/booking/partFinalizer.ts` | 3 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 |
 | `client/src/utils/collections/resolveByIds.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `client/src/utils/transformers/globalToAdminTransformer.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `server/src/api/api.controller.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/availabilityRouter.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | 3 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 |
 | `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `server/src/services/appointmentCalendarService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/services/constraintExtractor.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/services/rateLimiter.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `server/src/services/slotComputationService.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 |
-| `client/src/types/googleCalendar.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
-| `client/src/utils/api/index.ts` | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -92,10 +92,12 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 217 | linePattern | Metadata/context object; not API/DB field mapping |
-| `client/src/components/booking/SelectionCard.vue` | fieldMapping | 159 | linePattern | Metadata/context object; not API/DB field mapping |
-| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | fieldMapping | 79 | linePattern | Metadata/context object; not API/DB field mapping |
-| `server/src/services/slotComputationService.ts` | switchTypeLike | 89 | linePattern | Exhaustive dispatch on discriminated union (.type); not c... |
+| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 181 | linePattern | Metadata/context object; not API/DB field mapping |
+| `server/src/services/google/calendar/eventCreationService.ts` | fieldMapping | 141 | linePattern | Logger metadata object; not API/DB field mapping |
+| `client/src/components/booking/SelectionCard.vue` | fieldMapping | 145 | linePattern | Metadata/context object; not API/DB field mapping |
+| `client/src/utils/booking/partFinalizer.ts` | fieldMapping | 20 | linePattern | Logger metadata object; not API/DB field mapping |
+| `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | fieldMapping | 75 | linePattern | Metadata/context object; not API/DB field mapping |
+| `server/src/services/slotComputationService.ts` | switchTypeLike | 76 | linePattern | Exhaustive dispatch on discriminated union (.type); not c... |
 
 
 ## Per-file suggestions
@@ -105,6 +107,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 ### `client/src/utils/booking/appointmentDataBuilders.ts`
 
 - score: **15**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/services/invites/inviteOrchestrationService.ts`
+
+- score: **12**
 
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
@@ -126,6 +134,24 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
 - **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
 
+### `client/src/composables/booking/useTimeSlotCalculations.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/utils/booking/perspectiveResolver.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/utils/differentialScheduling.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
 
 - score: **6**
@@ -133,6 +159,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 - **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
 
 ### `server/src/services/computedAvailabilityService.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/services/google/calendar/eventCreationService.ts`
 
 - score: **6**
 
@@ -154,11 +186,11 @@ Legend: `ruleId@lineNumber: line`
 - requiring review: 5, allowed: 0
 
 ```
-fieldMapping@103: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
-fieldMapping@104: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-fieldMapping@105: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-fieldMapping@106: { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-fieldMapping@107: { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },
+fieldMapping@99: { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+fieldMapping@100: { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
+fieldMapping@101: { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
+fieldMapping@102: { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
+fieldMapping@103: { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },
 ```
 
 ### `client/src/utils/booking/durationRounding.ts`
@@ -167,9 +199,21 @@ fieldMapping@107: { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.
 - requiring review: 3, allowed: 0
 
 ```
-caseString@93: case 'roundUp':
-caseString@95: case 'roundDown':
-caseString@97: case 'roundNearest':
+caseString@37: case 'roundUp':
+caseString@39: case 'roundDown':
+caseString@41: case 'roundNearest':
+```
+
+### `server/src/services/invites/inviteOrchestrationService.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=4, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 4, allowed: 0
+
+```
+fieldMapping@379: { where: { id: attendee.id } }
+fieldMapping@421: { where: { id: attendee.id } }
+fieldMapping@509: { googleEventId: createdEvent.id, invitationStatus: 'sent' },
+fieldMapping@510: { where: { id: attendee.id } }
 ```
 
 ### `server/src/services/propertyFeatureMatcher.ts`
@@ -178,10 +222,10 @@ caseString@97: case 'roundNearest':
 - requiring review: 4, allowed: 0
 
 ```
-switchTypeLike@53: switch (matchType) {
-caseString@54: case 'exists':
-caseString@56: case 'contains':
-caseString@59: case 'equals':
+switchTypeLike@46: switch (matchType) {
+caseString@47: case 'exists':
+caseString@49: case 'contains':
+caseString@52: case 'equals':
 ```
 
 ### `server/src/utils/availabilities/availabiltiesDbUtils.ts`
@@ -190,9 +234,9 @@ caseString@59: case 'equals':
 - requiring review: 3, allowed: 0
 
 ```
-caseString@237: case 'past':
-caseString@242: case 'centered':
-caseString@247: case 'future':
+caseString@218: case 'past':
+caseString@223: case 'centered':
+caseString@228: case 'future':
 ```
 
 ### `server/src/scripts/importCalendarData.ts`
@@ -201,9 +245,9 @@ caseString@247: case 'future':
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@59: where: { email: client.email },
-fieldMapping@128: const existingUser = await User.findOne({ where: { email: client.email } });
-inlineLabelMap@247: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+fieldMapping@38: where: { email: client.email },
+fieldMapping@93: const existingUser = await User.findOne({ where: { email: client.email } });
+inlineLabelMap@190: logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/components/admin/generic/StatusButton.vue`
@@ -212,8 +256,8 @@ inlineLabelMap@247: logger.info('  1. Pipe JSON events: echo \'[{"summary":"..."
 - requiring review: 2, allowed: 0
 
 ```
-fieldEqualsString@111: const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
-fieldEqualsString@112: const isEnter = event.key === 'Enter' || event.keyCode === 13
+fieldEqualsString@101: const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
+fieldEqualsString@102: const isEnter = event.key === 'Enter' || event.keyCode === 13
 ```
 
 ### `client/src/composables/admin/useFieldKeyboardGuard.ts`
@@ -222,8 +266,38 @@ fieldEqualsString@112: const isEnter = event.key === 'Enter' || event.keyCode ==
 - requiring review: 2, allowed: 0
 
 ```
-fieldEqualsString@54: const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32
-fieldEqualsString@56: const isTab = key === 'Tab' || event.keyCode === 9
+fieldEqualsString@47: const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32
+fieldEqualsString@49: const isTab = key === 'Tab' || event.keyCode === 9
+```
+
+### `client/src/composables/booking/useTimeSlotCalculations.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@93: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+fieldMapping@109: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+```
+
+### `client/src/utils/booking/perspectiveResolver.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@27: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+fieldMapping@34: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+```
+
+### `client/src/utils/differentialScheduling.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@46: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+fieldMapping@53: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
 ```
 
 ### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
@@ -242,8 +316,18 @@ fieldMapping@175: :style="{ backgroundColor: item.color }"
 - requiring review: 2, allowed: 1
 
 ```
-fieldMapping@117: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
-fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+fieldMapping@81: ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+fieldMapping@84: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+```
+
+### `server/src/services/google/calendar/eventCreationService.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 1
+
+```
+fieldMapping@47: start: { dateTime: startDate.toISOString() },
+fieldMapping@48: end: { dateTime: endDate.toISOString() }
 ```
 
 ### `server/src/scripts/helpers/calendarImportHelpers.ts`
@@ -252,8 +336,8 @@ fieldMapping@120: ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds /
 - requiring review: 2, allowed: 0
 
 ```
-fieldMapping@63: await existingAddress.update({ unit: addressData.unit });
-inlineLabelMap@165: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+fieldMapping@50: await existingAddress.update({ unit: addressData.unit });
+inlineLabelMap@140: logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
@@ -262,7 +346,7 @@ inlineLabelMap@165: logger.info('💡 Usage: echo \'[{"summary":"...","location"
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
+fieldEqualsString@15: if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
 ```
 
 ### `client/src/components/booking/IndependentSelectCard.vue`
@@ -271,7 +355,7 @@ fieldEqualsString@22: if ((event.ctrlKey || event.metaKey) && event.shiftKey && 
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
+fieldMapping@120: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 ```
 
 ### `client/src/components/booking/SelectionCard.vue`
@@ -280,7 +364,7 @@ fieldMapping@135: :style="{ minHeight: mergedConfig.appearance.minHeight }"
 - requiring review: 1, allowed: 1
 
 ```
-fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+fieldMapping@157: :style="{ minHeight: configWithDefaults.appearance.minHeight }"
 ```
 
 ### `client/src/composables/booking/useComputedAvailability.ts`
@@ -289,7 +373,7 @@ fieldMapping@174: :style="{ minHeight: configWithDefaults.appearance.minHeight }
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@115: dateRange: { start: range.start, end: range.end },
+fieldMapping@103: dateRange: { start: range.start, end: range.end },
 ```
 
 ### `client/src/layouts/components/NavSearchBar.vue`
@@ -307,7 +391,7 @@ fieldMapping@105: const response = await api.get<SearchResults[]>(withQuery('/ap
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@104: const params = new URLSearchParams({ input: input.trim() })
+fieldMapping@70: const params = new URLSearchParams({ input: input.trim() })
 ```
 
 ### `client/src/services/propertyEnrichmentApiService.ts`
@@ -316,16 +400,25 @@ fieldMapping@104: const params = new URLSearchParams({ input: input.trim() })
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@38: const params = new URLSearchParams({ address: address.trim() })
+fieldMapping@25: const params = new URLSearchParams({ address: address.trim() })
 ```
 
-### `client/src/utils/appointmentFieldFormatters.ts`
+### `client/src/utils/booking/availabilityStepData.ts`
 
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@117: * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
+fieldMapping@39: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+```
+
+### `client/src/utils/booking/partFinalizer.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 1
+
+```
+fieldMapping@170: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
 ```
 
 ### `client/src/utils/collections/resolveByIds.ts`
@@ -343,7 +436,7 @@ fieldMapping@18: : { resolved: acc.resolved, missingIds: [...acc.missingIds, id]
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@82: rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
+fieldMapping@69: rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
 ```
 
 ### `server/src/api/api.controller.ts`
@@ -361,7 +454,7 @@ fieldMapping@13: res.status(200).json({ msg: req.body });
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@33: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
+fieldMapping@16: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
 ```
 
 ### `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts`
@@ -370,7 +463,7 @@ fieldMapping@33: res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validat
 - requiring review: 1, allowed: 1
 
 ```
-fieldMapping@80: ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
+fieldMapping@76: ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
 ```
 
 ### `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts`
@@ -379,7 +472,7 @@ fieldMapping@80: ...(body.resolutionNotes !== undefined && { resolutionNotes: bo
 - requiring review: 1, allowed: 0
 
 ```
-fieldEqualsString@35: if (key && typeof key === 'string') {
+fieldEqualsString@20: if (key && typeof key === 'string') {
 ```
 
 ### `server/src/services/appointmentCalendarService.ts`
@@ -388,7 +481,7 @@ fieldEqualsString@35: if (key && typeof key === 'string') {
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@139: { where: { id: attendee.id } }
+fieldMapping@102: { where: { id: attendee.id } }
 ```
 
 ### `server/src/services/constraintExtractor.ts`
@@ -397,7 +490,7 @@ fieldMapping@139: { where: { id: attendee.id } }
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@54: ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
+fieldMapping@39: ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
 ```
 
 ### `server/src/services/rateLimiter.ts`
@@ -406,7 +499,7 @@ fieldMapping@54: ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHou
 - requiring review: 1, allowed: 0
 
 ```
-fieldMapping@137: timestamps.push({ timestamp: Date.now() });
+fieldMapping@101: timestamps.push({ timestamp: Date.now() });
 ```
 
 ### `server/src/services/slotComputationService.ts`
@@ -415,16 +508,7 @@ fieldMapping@137: timestamps.push({ timestamp: Date.now() });
 - requiring review: 1, allowed: 1
 
 ```
-fieldMapping@145: if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
-```
-
-### `client/src/types/googleCalendar.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
-- requiring review: 1, allowed: 0
-
-```
-inlineLabelMap@48: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
+fieldMapping@129: if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
 ```
 
 ### `client/src/utils/api/index.ts`
@@ -433,7 +517,16 @@ inlineLabelMap@48: *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-
 - requiring review: 1, allowed: 0
 
 ```
-inlineLabelMap@13: headers: { 'Content-Type': 'application/json' },
+inlineLabelMap@9: headers: { 'Content-Type': 'application/json' },
+```
+
+### `server/src/db/models/booking/event_instance.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=1
+- requiring review: 1, allowed: 0
+
+```
+inlineLabelMap@161: comment: 'JSON array of reminder overrides, e.g. [{"method":"popup","minutes":10}]',
 ```
 
 ### `client/src/composables/admin/useBusinessRuleForm.ts`
@@ -442,8 +535,8 @@ inlineLabelMap@13: headers: { 'Content-Type': 'application/json' },
 - requiring review: 2, allowed: 0
 
 ```
-switchTypeLike@76: switch (newType) {
-switchTypeLike@134: switch (rule.ruleType) {
+switchTypeLike@75: switch (newType) {
+switchTypeLike@133: switch (rule.ruleType) {
 ```
 
 ### `server/src/routes/internal/properties/propertyValidators.ts`
@@ -452,5 +545,5 @@ switchTypeLike@134: switch (rule.ruleType) {
 - requiring review: 1, allowed: 0
 
 ```
-switchTypeLike@208: switch (key) {
+switchTypeLike@174: switch (key) {
 ```

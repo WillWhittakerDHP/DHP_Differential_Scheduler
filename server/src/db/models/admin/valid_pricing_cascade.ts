@@ -8,14 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidPricingCascade Model
- *
- * Represents valid pricing cascade relationships between part shapes.
- * Shape-level validation: which part shapes can pricing-cascade into which others
- * (e.g. "HVAC Equipment" partShape can cascade into "Mechanical Inspection" partShape).
- *
- */
 export class ValidPricingCascade extends Model<
   InferAttributes<ValidPricingCascade>,
   InferCreationAttributes<ValidPricingCascade>

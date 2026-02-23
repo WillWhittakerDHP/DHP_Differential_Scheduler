@@ -1,15 +1,3 @@
-/**
- * Computed Availability Service
- * 
- * 
- * Phase 4: Server-Side Computed Availability Data Refactor
- * - Fetches settings from database
- * - Extracts constraints server-side
- * - Fetches calendar events (Events API only - derives busy periods from events)
- * - Calculates drive times
- * - Pre-computes capacity hours
- * - Returns ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
- */
 
 import type {
   ComputedSlotAvailabilityData,
@@ -44,12 +32,6 @@ const logger = createLogger('ComputedAvailabilityService')
 const CACHE_STATUS_HIT = 'hit' as const
 const CACHE_STATUS_MISS = 'miss' as const
 
-/**
- * Extract calendar emails configured for reading (readFrom: true)
- * 
- * @param calendarConfig - CalendarConfig object (optional)
- * @returns Array of calendar email strings where readFrom is true
- */
 function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calendarConfig']): string[] {
   if (!calendarConfig || !calendarConfig.enabled || !Array.isArray(calendarConfig.calendars)) {
     return []
@@ -60,13 +42,6 @@ function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calenda
     .map(entry => entry.email.trim())
 }
 
-/**
- * Calculate drive times for all unique placeIds in events
- *
- * @param calendarEvents - Regular calendar events (with placeId)
- * @param candidatePlaceId - Candidate/customer placeId - if not provided, skips all drive time calculations (lazy loading)
- * @returns Record mapping event placeId strings to drive time minutes (empty if no candidate placeId)
- */
 async function calculateDriveTimesForPlaceIds(
   calendarEvents: CalendarEvent[],
   candidatePlaceId: string | undefined
@@ -328,17 +303,6 @@ function buildComputedAvailabilityResponse(
   }
 }
 
-/**
- * Compute availability data for a date range
- *
- * dataSource controls which external APIs are called:
- * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity computation
- * - 'mock': Settings + constraints only — no Google API calls; useful for dev without credentials
- * - 'none': Minimal response — settings metadata only, empty slots/events
- *
- * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
- * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
- */
 export async function computeAvailabilityData(
   request: ComputedAvailabilityRequest
 ): Promise<ComputedSlotAvailabilityData> {

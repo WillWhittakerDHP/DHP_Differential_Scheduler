@@ -1,13 +1,6 @@
-/**
- * Google Calendar API Types
- * 
- */
 
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
 
-/**
- * Calendar events response with fallback metadata
- */
 export interface CalendarEventsResponseWithMeta {
   events: CachedCalendarEvent[]
   _meta?: {
@@ -16,18 +9,12 @@ export interface CalendarEventsResponseWithMeta {
   }
 }
 
-/**
- * Event attendee structure for invitations
- */
 export interface EventAttendee {
   email: string
   displayName?: string
   optional?: boolean  // Whether attendance is optional
 }
 
-/**
- * Input parameters for creating a calendar event
- */
 export interface ReminderOverride {
   method: 'email' | 'popup'
   minutes: number
@@ -53,9 +40,6 @@ export interface CreateEventParams {
   reminderOverrides?: ReminderOverride[] | null
 }
 
-/**
- * Response from event creation
- */
 export interface CreatedEventResponse {
   id: string                 // Google Calendar event ID
   htmlLink: string           // Link to view event in Google Calendar

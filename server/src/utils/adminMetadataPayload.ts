@@ -1,7 +1,3 @@
-/**
- * Shared metadata payload mapping (DUPLICATION P0 extraction).
- *      adminPrimitiveMetadataComposer, adminRelationshipMetadataComposer, and route helpers.
- */
 
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
@@ -33,10 +29,6 @@ export type MetaPayload = Omit<MetaDisplayFields, 'inputConfig' | 'panel'> & {
   inputConfig: Record<string, unknown> | null;
 };
 
-/**
- * Maps common metadata display fields to a normalized payload (inputConfig → null when undefined).
- * Return type uses AdminMetadataPanel so result is assignable to FieldMetadataEntry / RelationshipMetadataEntry.
- */
 export function mapMetaFieldsToPayload(meta: MetaDisplayFields): MetaPayload {
   return {
     dataType: meta.dataType,

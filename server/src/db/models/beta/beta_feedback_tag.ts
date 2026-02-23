@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Tag Model
- *
- */
 
 import {
   Model,

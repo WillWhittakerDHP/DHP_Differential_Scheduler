@@ -1,9 +1,4 @@
 <script setup lang="ts">
-/**
- * AvailabilityStep – Third step for appointment date and time selection.
- * Uses useAvailabilityOrchestrator for all logic; template delegates to AvailabilityCalendarSection,
- * AppointmentSlotGrid, AvailabilityOptionsSection, and MoveablePartsModal.
- */
 
 import { inject, type Ref } from 'vue'
 import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'

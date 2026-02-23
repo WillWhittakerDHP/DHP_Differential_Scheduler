@@ -1,7 +1,3 @@
-/**
- * Relationship Type Parameter Middleware
- * 
- */
 
 import { Request, Response, NextFunction } from 'express'
 import { RELATIONSHIP_REGISTRY } from './relationshipConstants.js'
@@ -9,7 +5,6 @@ import { isValidRelationshipKind, normalizeRelationshipKind } from './relationsh
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 /**
- * PATTERN: Relationship type parameter handler
 PATTERN: Express param middleware th...
  */
 export function relationshipTypeParamHandler(

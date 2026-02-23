@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Router - Main orchestrator
- *
- */
 
 import { Router, Request, Response } from 'express';
 import { BetaFeedback } from '../../../config/app.js';

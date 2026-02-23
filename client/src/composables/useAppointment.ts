@@ -71,10 +71,6 @@ export function useAppointment(): UseAppointmentReturn {
     error: computed(() => error.value),
   }
 
-  /**
-   * Fetch random appointment
-   * 
-   */
   const fetchRandom = async (): Promise<AppointmentResponse | null> => {
     try {
       if (isLoading.value) {

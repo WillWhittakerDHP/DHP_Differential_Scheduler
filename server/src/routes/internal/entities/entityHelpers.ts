@@ -1,7 +1,3 @@
-/**
- * Entity Router Helper Functions
- * 
- */
 
 import { Op, ModelStatic, Model, Order, Includeable } from 'sequelize'
 import { BlockInstance, PartInstance, PartAssignment } from '../../../config/app.js'
@@ -13,11 +9,6 @@ import { ERROR_MESSAGES } from './entityConstants.js'
 
 const logger = createLogger('EntityRouter')
 
-/**
- * Ensure block instance versions exist before bulk update (captures old state for versioning).
- *
- * @param updates - Array of update objects with id (block instance IDs)
- */
 export async function ensureBlockInstanceVersionsBeforeBulkUpdate(
   updates: Array<{ id: string }>
 ): Promise<void> {
@@ -29,14 +20,6 @@ export async function ensureBlockInstanceVersionsBeforeBulkUpdate(
   )
 }
 
-/**
- * Handle block instance versioning before update/delete
- * WHY: Reusable versioning logic, ensures old state is captured before changes
- * 
- * @param blockInstanceId - Block instance ID
- * @param includeParts - Whether to include part instances in the fetch (default: true)
- * @returns Old block instance with associations, or null if not found
- */
 export async function handleBlockInstanceVersioning(
   blockInstanceId: string,
   includeParts: boolean = true
@@ -65,11 +48,6 @@ export async function handleBlockInstanceVersioning(
   return oldInstance
 }
 
-/**
- * Handle part instance cleanup after update
- * 
- * @param partInstanceId - Part instance ID
- */
 export async function handlePartInstanceCleanup(
   partInstanceId: string
 ): Promise<void> {
@@ -115,16 +93,9 @@ export async function handlePartInstanceCleanup(
     )
   } catch (error) {
     logger.error(ERROR_MESSAGES.PART_ASSIGNMENT_CLEANUP_ERROR, error)
-    // Don't throw - cleanup errors shouldn't fail the update
   }
 }
 
-/**
- * Build fetch options for entity queries
- * 
- * @param model - Sequelize model class
- * @returns Options object for Sequelize findAll/findByPk
- */
 export function buildFetchOptions(model: ModelStatic<Model>): {
   attributes?: string[]
   order?: Order

@@ -1,5 +1,3 @@
-/**
- */
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 import { useConfirmationStepData } from '../useConfirmationStepData'

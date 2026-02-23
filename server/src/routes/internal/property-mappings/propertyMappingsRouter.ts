@@ -1,7 +1,3 @@
-/**
- * Property Mappings Router
- *
- */
 
 import { Router } from 'express';
 import {

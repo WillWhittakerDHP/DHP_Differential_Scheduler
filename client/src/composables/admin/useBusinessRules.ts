@@ -71,7 +71,6 @@ export interface BusinessRule extends BusinessRuleCore {
 }
 
 /**
- * WHY: Business Rule Form Data
 WHY: Separates form state from API response data
  */
 export type BusinessRuleFormData = BusinessRuleCore
@@ -88,7 +87,6 @@ export function useBusinessRules() {
   const success: Ref<string | null> = ref(null)
   
   /**
-   * PATTERN: /**
 Fetch all business rules (with optional filters)
 PATTERN: Async func...
    */
@@ -117,7 +115,6 @@ PATTERN: Async func...
   }
   
   /**
-   * PATTERN: /**
 Fetch business rules for specific block instance
 PATTERN: Async func...
    */
@@ -140,7 +137,6 @@ PATTERN: Async func...
   }
   
   /**
-   * PATTERN: /**
 Create new business rule
 PATTERN: Async function with saving state, ...
    */
@@ -166,7 +162,6 @@ PATTERN: Async function with saving state, ...
   }
   
   /**
-   * PATTERN: /**
 Update existing business rule
 PATTERN: Async function with saving st...
    */
@@ -198,7 +193,6 @@ PATTERN: Async function with saving st...
   }
   
   /**
-   * PATTERN: /**
 Delete business rule
 PATTERN: Async function with saving state, succ...
    */

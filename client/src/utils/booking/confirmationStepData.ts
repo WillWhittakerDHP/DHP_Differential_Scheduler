@@ -1,6 +1,3 @@
-/**
- * Confirmation step data and fee calculation helpers.
- */
 import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
@@ -43,25 +40,6 @@ type PropertyDetailsStepData = {
 /** Extends shared FeeEntryBase for single source of truth. */
 type BlockInstanceFeeResult = FeeEntryBase
 
-/**
- * Calculate base fee and overage fee from all partInstances in a blockInstance.
- * 
- * Fee calculation:
- * - Base fee: sum of all baseFee values from all parts in the block
- * - Overage fee: sum of (rateOverBaseFee * squareFootage) for each part in the block
- * - Total fee: base fee + overage fee
- * 
- * Multiplier precedence (for allowMultiple services):
- * 1. Appointment quantities (from appointment.serviceQuantities/propertyQuantities)
- * 2. aduCount (from propertyDetails.additionalUnits)
- * 3. 1 (no multiplier)
- * 
- * @param blockInstance - Block instance with part instances
- * @param squareFootage - Property square footage for overage fee calculation
- * @param aduCount - Optional ADU count multiplier for allowMultiple blocks
- * @param allPartInstances - Optional; when provided, pricing cascade is applied (service parts can pull in cascaded property parts)
- * @returns Object with baseFee, overageFee, and totalFee
- */
 function calculateBlockInstanceFee(
   blockInstance: BookingBlockInstance,
   squareFootage: number | null,
@@ -220,14 +198,6 @@ export function buildAppointmentFeeBreakdown(
   return { summary, entries }
 }
 
-/**
- * Build confirmation price data from wizard selections
- *
- * @param wizard - Wizard selection state with selected block instances
- * @param squareFootage - Property square footage for overage fee calculation
- * @param aduCount - Optional ADU count multiplier for allowMultiple blocks
- * @returns Price data with total fees and breakdown
- */
 export function buildConfirmationPriceData(
   wizard: WizardSelectionState,
   squareFootage: number | null,

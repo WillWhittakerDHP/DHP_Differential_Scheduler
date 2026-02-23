@@ -1,8 +1,3 @@
-/**
- * Vue Query Plugin - Integration with Vuexy plugin system
- * 
- * NOTE: QueryClient will be created in main.ts and passed here
- */
 
 import type { App } from 'vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'

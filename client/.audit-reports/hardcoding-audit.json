@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T18:44:38.396Z",
+  "generatedAt": "2026-02-23T18:12:58.001Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,15 +13,15 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 766,
+  "totalScanned": 768,
   "exceptionSummary": {
-    "totalAllowed": 543,
-    "totalRequiresReview": 51,
+    "totalAllowed": 576,
+    "totalRequiresReview": 64,
     "bySource": {
       "inline": 0,
-      "pattern": 485,
+      "pattern": 517,
       "specific": 26,
-      "linePattern": 32
+      "linePattern": 33
     }
   },
   "entityKeys": [],
@@ -82,27 +82,27 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 103,
+          "lineNumber": 99,
           "line": "{ info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 104,
+          "lineNumber": 100,
           "line": "{ info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 105,
+          "lineNumber": 101,
           "line": "{ info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 106,
+          "lineNumber": 102,
           "line": "{ info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 107,
+          "lineNumber": 103,
           "line": "{ info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },"
         }
       ],
@@ -110,28 +110,33 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
+          "lineNumber": 99,
+          "line": "{ info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 100,
+          "line": "{ info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 101,
+          "line": "{ info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 102,
+          "line": "{ info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
           "lineNumber": 103,
-          "line": "{ info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 104,
-          "line": "{ info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 105,
-          "line": "{ info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 106,
-          "line": "{ info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 107,
-          "line": "{ info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },"
+          "line": "{ info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 15,
@@ -174,17 +179,17 @@
       "matches": [
         {
           "ruleId": "caseString",
-          "lineNumber": 93,
+          "lineNumber": 37,
           "line": "case 'roundUp':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 95,
+          "lineNumber": 39,
           "line": "case 'roundDown':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 97,
+          "lineNumber": 41,
           "line": "case 'roundNearest':"
         }
       ],
@@ -192,23 +197,147 @@
       "requiresReview": [
         {
           "ruleId": "caseString",
-          "lineNumber": 93,
-          "line": "case 'roundUp':"
+          "lineNumber": 37,
+          "line": "case 'roundUp':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 95,
-          "line": "case 'roundDown':"
+          "lineNumber": 39,
+          "line": "case 'roundDown':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 97,
-          "line": "case 'roundNearest':"
+          "lineNumber": 41,
+          "line": "case 'roundNearest':",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 12,
       "priority": "P1",
       "suggestions": []
+    },
+    {
+      "id": "server__src__services__invites__inviteOrchestrationService.ts",
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/invites/inviteOrchestrationService.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 4,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 7
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 4,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 269,
+          "line": "error instanceof Error ? error.message : 'Unknown error'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 276,
+          "line": "error: error instanceof Error ? error.message : 'Unknown error',"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 379,
+          "line": "{ where: { id: attendee.id } }"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 421,
+          "line": "{ where: { id: attendee.id } }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 456,
+          "line": "return address ? `Inspection: ${address.streetAddress}` : 'Inspection Appointment'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 461,
+          "line": "'Home Inspection Appointment',"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 509,
+          "line": "{ googleEventId: createdEvent.id, invitationStatus: 'sent' },"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 510,
+          "line": "{ where: { id: attendee.id } }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 525,
+          "line": "eventInstanceName: 'Legacy fallback event',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 542,
+          "line": "eventInstanceName: 'Legacy fallback event',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 544,
+          "line": "error: error instanceof Error ? error.message : 'Unknown error',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 379,
+          "line": "{ where: { id: attendee.id } }",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 421,
+          "line": "{ where: { id: attendee.id } }",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 509,
+          "line": "{ googleEventId: createdEvent.id, invitationStatus: 'sent' },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 510,
+          "line": "{ where: { id: attendee.id } }",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
     },
     {
       "id": "server__src__services__propertyFeatureMatcher.ts",
@@ -240,22 +369,22 @@
       "matches": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 53,
+          "lineNumber": 46,
           "line": "switch (matchType) {"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 54,
+          "lineNumber": 47,
           "line": "case 'exists':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 56,
+          "lineNumber": 49,
           "line": "case 'contains':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 59,
+          "lineNumber": 52,
           "line": "case 'equals':"
         }
       ],
@@ -263,23 +392,27 @@
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 53,
-          "line": "switch (matchType) {"
+          "lineNumber": 46,
+          "line": "switch (matchType) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 54,
-          "line": "case 'exists':"
+          "lineNumber": 47,
+          "line": "case 'exists':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 56,
-          "line": "case 'contains':"
+          "lineNumber": 49,
+          "line": "case 'contains':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 59,
-          "line": "case 'equals':"
+          "lineNumber": 52,
+          "line": "case 'equals':",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 12,
@@ -316,17 +449,17 @@
       "matches": [
         {
           "ruleId": "caseString",
-          "lineNumber": 237,
+          "lineNumber": 218,
           "line": "case 'past':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 242,
+          "lineNumber": 223,
           "line": "case 'centered':"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 247,
+          "lineNumber": 228,
           "line": "case 'future':"
         }
       ],
@@ -334,18 +467,21 @@
       "requiresReview": [
         {
           "ruleId": "caseString",
-          "lineNumber": 237,
-          "line": "case 'past':"
+          "lineNumber": 218,
+          "line": "case 'past':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 242,
-          "line": "case 'centered':"
+          "lineNumber": 223,
+          "line": "case 'centered':",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "caseString",
-          "lineNumber": 247,
-          "line": "case 'future':"
+          "lineNumber": 228,
+          "line": "case 'future':",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 12,
@@ -382,17 +518,17 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 59,
+          "lineNumber": 38,
           "line": "where: { email: client.email },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 128,
+          "lineNumber": 93,
           "line": "const existingUser = await User.findOne({ where: { email: client.email } });"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 247,
+          "lineNumber": 190,
           "line": "logger.info('  1. Pipe JSON events: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
         }
       ],
@@ -400,18 +536,21 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 59,
-          "line": "where: { email: client.email },"
+          "lineNumber": 38,
+          "line": "where: { email: client.email },",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 128,
-          "line": "const existingUser = await User.findOne({ where: { email: client.email } });"
+          "lineNumber": 93,
+          "line": "const existingUser = await User.findOne({ where: { email: client.email } });",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 247,
-          "line": "logger.info('  1. Pipe JSON events: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
+          "lineNumber": 190,
+          "line": "logger.info('  1. Pipe JSON events: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 8,
@@ -454,17 +593,17 @@
       "matches": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 111,
+          "lineNumber": 101,
           "line": "const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 111,
+          "lineNumber": 101,
           "line": "const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32"
         },
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 112,
+          "lineNumber": 102,
           "line": "const isEnter = event.key === 'Enter' || event.keyCode === 13"
         }
       ],
@@ -472,13 +611,15 @@
       "requiresReview": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 111,
-          "line": "const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32"
+          "lineNumber": 101,
+          "line": "const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 112,
-          "line": "const isEnter = event.key === 'Enter' || event.keyCode === 13"
+          "lineNumber": 102,
+          "line": "const isEnter = event.key === 'Enter' || event.keyCode === 13",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 6,
@@ -521,17 +662,17 @@
       "matches": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 54,
+          "lineNumber": 47,
           "line": "const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 54,
+          "lineNumber": 47,
           "line": "const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32"
         },
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 56,
+          "lineNumber": 49,
           "line": "const isTab = key === 'Tab' || event.keyCode === 9"
         }
       ],
@@ -539,13 +680,15 @@
       "requiresReview": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 54,
-          "line": "const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32"
+          "lineNumber": 47,
+          "line": "const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 56,
-          "line": "const isTab = key === 'Tab' || event.keyCode === 9"
+          "lineNumber": 49,
+          "line": "const isTab = key === 'Tab' || event.keyCode === 9",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 6,
@@ -555,6 +698,208 @@
           "priority": "P1",
           "kind": "dynamic_fields",
           "message": "Repeated `field === \"...\"` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map."
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__useTimeSlotCalculations.ts",
+      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useTimeSlotCalculations.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 2
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 72,
+          "line": "return 'Inspector'"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 80,
+          "line": "return 'Client Formal Presentation'"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 93,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 109,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 93,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 109,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__booking__perspectiveResolver.ts",
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/perspectiveResolver.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 27,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 34,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 27,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 34,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__differentialScheduling.ts",
+      "repoPath": "client/src/utils/differentialScheduling.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/differentialScheduling.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 46,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 53,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 46,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 53,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
         }
       ]
     },
@@ -607,12 +952,14 @@
         {
           "ruleId": "fieldMapping",
           "lineNumber": 45,
-          "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))"
+          "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
           "lineNumber": 175,
-          "line": ":style=\"{ backgroundColor: item.color }\""
+          "line": ":style=\"{ backgroundColor: item.color }\"",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 6,
@@ -655,54 +1002,150 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 117,
+          "lineNumber": 81,
           "line": "? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 120,
+          "lineNumber": 84,
           "line": "? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 132,
+          "lineNumber": 96,
           "line": "logger.debug('Drive time cache check', {"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 181,
+          "lineNumber": 145,
           "line": "logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 217,
+          "lineNumber": 181,
           "line": "{ status: result.status, condition: result.condition }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 224,
+          "lineNumber": 188,
           "line": "logger.error('Failed to batch calculate driveFromCandidate', {"
         }
       ],
       "allowed": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 217,
+          "lineNumber": 181,
           "line": "{ status: result.status, condition: result.condition }",
           "reason": "Metadata/context object; not API/DB field mapping",
-          "source": "linePattern"
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 117,
-          "line": "? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }"
+          "lineNumber": 81,
+          "line": "? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 120,
-          "line": "? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }"
+          "lineNumber": 84,
+          "line": "? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "server__src__services__google__calendar__eventCreationService.ts",
+      "repoPath": "server/src/services/google/calendar/eventCreationService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/google/calendar/eventCreationService.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 3,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 3
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 47,
+          "line": "start: { dateTime: startDate.toISOString() },"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 48,
+          "line": "end: { dateTime: endDate.toISOString() }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 114,
+          "line": "logger.debug('Creating event', {"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 139,
+          "line": "logger.debug('Invalidating caches after event creation', { calendarId })"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 141,
+          "line": "logger.debug('Successfully created event', { eventId: createdEvent.id })"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 141,
+          "line": "logger.debug('Successfully created event', { eventId: createdEvent.id })"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 141,
+          "line": "logger.debug('Successfully created event', { eventId: createdEvent.id })",
+          "reason": "Logger metadata object; not API/DB field mapping",
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 47,
+          "line": "start: { dateTime: startDate.toISOString() },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 48,
+          "line": "end: { dateTime: endDate.toISOString() }",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 6,
@@ -745,12 +1188,12 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 63,
+          "lineNumber": 50,
           "line": "await existingAddress.update({ unit: addressData.unit });"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 165,
+          "lineNumber": 140,
           "line": "logger.info('💡 Usage: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
         }
       ],
@@ -758,13 +1201,15 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 63,
-          "line": "await existingAddress.update({ unit: addressData.unit });"
+          "lineNumber": 50,
+          "line": "await existingAddress.update({ unit: addressData.unit });",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 165,
-          "line": "logger.info('💡 Usage: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');"
+          "lineNumber": 140,
+          "line": "logger.info('💡 Usage: echo \\'[{\"summary\":\"...\",\"location\":\"...\"}]\\' | npm run import:calendar');",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 5,
@@ -801,7 +1246,7 @@
       "matches": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 22,
+          "lineNumber": 15,
           "line": "if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {"
         }
       ],
@@ -809,8 +1254,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 22,
-          "line": "if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {"
+          "lineNumber": 15,
+          "line": "if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -847,12 +1293,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 47,
+          "lineNumber": 32,
           "line": "selectionComponent: 'VCheckbox',"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 135,
+          "lineNumber": 120,
           "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\""
         }
       ],
@@ -860,8 +1306,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 135,
-          "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\""
+          "lineNumber": 120,
+          "line": ":style=\"{ minHeight: mergedConfig.appearance.minHeight }\"",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -898,34 +1345,36 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 159,
+          "lineNumber": 145,
           "line": "emit('update:number', { itemId: props.item.id, number: finalValue })"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 174,
+          "lineNumber": 157,
           "line": ":style=\"{ minHeight: configWithDefaults.appearance.minHeight }\""
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 226,
+          "lineNumber": 209,
           "line": "label=\"Quantity\""
         }
       ],
       "allowed": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 159,
+          "lineNumber": 145,
           "line": "emit('update:number', { itemId: props.item.id, number: finalValue })",
           "reason": "Metadata/context object; not API/DB field mapping",
-          "source": "linePattern"
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 174,
-          "line": ":style=\"{ minHeight: configWithDefaults.appearance.minHeight }\""
+          "lineNumber": 157,
+          "line": ":style=\"{ minHeight: configWithDefaults.appearance.minHeight }\"",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -962,7 +1411,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 115,
+          "lineNumber": 103,
           "line": "dateRange: { start: range.start, end: range.end },"
         }
       ],
@@ -970,8 +1419,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 115,
-          "line": "dateRange: { start: range.start, end: range.end },"
+          "lineNumber": 103,
+          "line": "dateRange: { start: range.start, end: range.end },",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1072,7 +1522,8 @@
         {
           "ruleId": "fieldMapping",
           "lineNumber": 105,
-          "line": "const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))"
+          "line": "const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1115,37 +1566,37 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 45,
+          "lineNumber": 32,
           "line": "this.name = 'MapsApiError'"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 104,
+          "lineNumber": 70,
           "line": "const params = new URLSearchParams({ input: input.trim() })"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 192,
+          "lineNumber": 138,
           "line": "axiosError.response.data.error ?? 'API error',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 143,
           "line": "return new MapsApiError('rate_limit', 'API rate limit exceeded', true)"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 200,
+          "lineNumber": 146,
           "line": "return new MapsApiError('auth', 'API key invalid or not configured')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 203,
+          "lineNumber": 149,
           "line": "return new MapsApiError('not_found', 'Place not found')"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 209,
+          "lineNumber": 155,
           "line": "const message = rawError !== undefined && rawError !== null ? rawError : 'Invalid response from server'"
         }
       ],
@@ -1153,8 +1604,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 104,
-          "line": "const params = new URLSearchParams({ input: input.trim() })"
+          "lineNumber": 70,
+          "line": "const params = new URLSearchParams({ input: input.trim() })",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1191,7 +1643,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 38,
+          "lineNumber": 25,
           "line": "const params = new URLSearchParams({ address: address.trim() })"
         }
       ],
@@ -1199,8 +1651,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 38,
-          "line": "const params = new URLSearchParams({ address: address.trim() })"
+          "lineNumber": 25,
+          "line": "const params = new URLSearchParams({ address: address.trim() })",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1208,15 +1661,15 @@
       "suggestions": []
     },
     {
-      "id": "client__src__utils__appointmentFieldFormatters.ts",
-      "repoPath": "client/src/utils/appointmentFieldFormatters.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/appointmentFieldFormatters.ts",
+      "id": "client__src__utils__booking__availabilityStepData.ts",
+      "repoPath": "client/src/utils/booking/availabilityStepData.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/availabilityStepData.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
-        "fieldEqualsString": 1,
-        "fieldMapping": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
@@ -1226,8 +1679,8 @@
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
-        "fieldEqualsString": 1,
-        "fieldMapping": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
@@ -1236,17 +1689,84 @@
       },
       "matches": [
         {
-          "ruleId": "fieldEqualsString",
-          "lineNumber": 117,
-          "line": "* WHY: Eliminates repeated field === \"...\" checks, makes formatters extensible"
+          "ruleId": "fieldMapping",
+          "lineNumber": 39,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "fieldEqualsString",
-          "lineNumber": 117,
-          "line": "* WHY: Eliminates repeated field === \"...\" checks, makes formatters extensible"
+          "ruleId": "fieldMapping",
+          "lineNumber": 39,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 3,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__utils__booking__partFinalizer.ts",
+      "repoPath": "client/src/utils/booking/partFinalizer.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/partFinalizer.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 2,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 20,
+          "line": "logger.debug('groupPartsByShape: partShape missing', { partId: part.id })"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 95,
+          "line": "logger.error('Cannot determine ternary value for event shape - ternaryDefault is null', {"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 170,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
+        }
+      ],
+      "allowed": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 20,
+          "line": "logger.debug('groupPartsByShape: partShape missing', { partId: part.id })",
+          "reason": "Logger metadata object; not API/DB field mapping",
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 170,
+          "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1292,7 +1812,8 @@
         {
           "ruleId": "fieldMapping",
           "lineNumber": 18,
-          "line": ": { resolved: acc.resolved, missingIds: [...acc.missingIds, id] }"
+          "line": ": { resolved: acc.resolved, missingIds: [...acc.missingIds, id] }",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1329,7 +1850,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 82,
+          "lineNumber": 69,
           "line": "rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))"
         }
       ],
@@ -1337,8 +1858,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 82,
-          "line": "rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))"
+          "lineNumber": 69,
+          "line": "rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1394,7 +1916,8 @@
         {
           "ruleId": "fieldMapping",
           "lineNumber": 13,
-          "line": "res.status(200).json({ msg: req.body });"
+          "line": "res.status(200).json({ msg: req.body });",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1431,7 +1954,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 33,
+          "lineNumber": 16,
           "line": "res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })"
         }
       ],
@@ -1439,8 +1962,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 33,
-          "line": "res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })"
+          "lineNumber": 16,
+          "line": "res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1477,29 +2001,31 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 79,
+          "lineNumber": 75,
           "line": "...(body.status !== undefined && { status: body.status }),"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 80,
+          "lineNumber": 76,
           "line": "...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),"
         }
       ],
       "allowed": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 79,
+          "lineNumber": 75,
           "line": "...(body.status !== undefined && { status: body.status }),",
           "reason": "Metadata/context object; not API/DB field mapping",
-          "source": "linePattern"
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 80,
-          "line": "...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),"
+          "lineNumber": 76,
+          "line": "...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1536,7 +2062,7 @@
       "matches": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 35,
+          "lineNumber": 20,
           "line": "if (key && typeof key === 'string') {"
         }
       ],
@@ -1544,8 +2070,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldEqualsString",
-          "lineNumber": 35,
-          "line": "if (key && typeof key === 'string') {"
+          "lineNumber": 20,
+          "line": "if (key && typeof key === 'string') {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1582,22 +2109,22 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 44,
+          "lineNumber": 27,
           "line": "readonly __brand?: 'ServerTimeSlot'"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 139,
+          "lineNumber": 102,
           "line": "{ where: { id: attendee.id } }"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 159,
+          "lineNumber": 122,
           "line": "error: createError instanceof Error ? createError.message : 'Failed to create calendar event',"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 245,
+          "lineNumber": 189,
           "line": "'Home Inspection Appointment',"
         }
       ],
@@ -1605,8 +2132,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 139,
-          "line": "{ where: { id: attendee.id } }"
+          "lineNumber": 102,
+          "line": "{ where: { id: attendee.id } }",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1643,7 +2171,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 54,
+          "lineNumber": 39,
           "line": "? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const"
         }
       ],
@@ -1651,8 +2179,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 54,
-          "line": "? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const"
+          "lineNumber": 39,
+          "line": "? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1689,7 +2218,7 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 137,
+          "lineNumber": 101,
           "line": "timestamps.push({ timestamp: Date.now() });"
         }
       ],
@@ -1697,8 +2226,9 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 137,
-          "line": "timestamps.push({ timestamp: Date.now() });"
+          "lineNumber": 101,
+          "line": "timestamps.push({ timestamp: Date.now() });",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
@@ -1735,83 +2265,34 @@
       "matches": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 89,
+          "lineNumber": 76,
           "line": "switch (constraint.type) {"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 145,
+          "lineNumber": 129,
           "line": "if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {"
         }
       ],
       "allowed": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 89,
+          "lineNumber": 76,
           "line": "switch (constraint.type) {",
           "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching",
-          "source": "linePattern"
+          "source": "linePattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 145,
-          "line": "if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {"
+          "lineNumber": 129,
+          "line": "if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__types__googleCalendar.ts",
-      "repoPath": "client/src/types/googleCalendar.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/googleCalendar.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 1,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 1
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 0,
-        "inlineLabelMap": 1,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 11,
-          "line": "export type GoogleCalendarBusyPeriod = TimeRangeBounds & { readonly __brand: 'GoogleCalendarBusyPeriod' }"
-        },
-        {
-          "ruleId": "inlineLabelMap",
-          "lineNumber": 48,
-          "line": "*         { \"start\": \"2026-01-15T10:00:00Z\", \"end\": \"2026-01-15T11:00:00Z\" }"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "inlineLabelMap",
-          "lineNumber": 48,
-          "line": "*         { \"start\": \"2026-01-15T10:00:00Z\", \"end\": \"2026-01-15T11:00:00Z\" }"
-        }
-      ],
-      "score": 2,
       "priority": "P2",
       "suggestions": []
     },
@@ -1845,12 +2326,12 @@
       "matches": [
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 13,
+          "lineNumber": 9,
           "line": "headers: { 'Content-Type': 'application/json' },"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 13,
+          "lineNumber": 9,
           "line": "headers: { 'Content-Type': 'application/json' },"
         }
       ],
@@ -1858,8 +2339,81 @@
       "requiresReview": [
         {
           "ruleId": "inlineLabelMap",
-          "lineNumber": 13,
-          "line": "headers: { 'Content-Type': 'application/json' },"
+          "lineNumber": 9,
+          "line": "headers: { 'Content-Type': 'application/json' },",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "server__src__db__models__booking__event_instance.ts",
+      "repoPath": "server/src/db/models/booking/event_instance.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/event_instance.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 1,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 5
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 1,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 113,
+          "line": "comment: 'Whether attendees can edit the event',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 120,
+          "line": "comment: 'Whether attendees can invite other people',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 127,
+          "line": "comment: 'Whether attendees can see the guest list',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 134,
+          "line": "comment: 'Whether to auto-attach a Google Meet link',"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 161,
+          "line": "comment: 'JSON array of reminder overrides, e.g. [{\"method\":\"popup\",\"minutes\":10}]',"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 167,
+          "line": "comment: 'Order index for UI drag-and-drop ordering',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 161,
+          "line": "comment: 'JSON array of reminder overrides, e.g. [{\"method\":\"popup\",\"minutes\":10}]',",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 2,
@@ -1896,12 +2450,12 @@
       "matches": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 76,
+          "lineNumber": 75,
           "line": "switch (newType) {"
         },
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 134,
+          "lineNumber": 133,
           "line": "switch (rule.ruleType) {"
         }
       ],
@@ -1909,13 +2463,15 @@
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 76,
-          "line": "switch (newType) {"
+          "lineNumber": 75,
+          "line": "switch (newType) {",
+          "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 134,
-          "line": "switch (rule.ruleType) {"
+          "lineNumber": 133,
+          "line": "switch (rule.ruleType) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 0,
@@ -1952,12 +2508,12 @@
       "matches": [
         {
           "ruleId": "magicLabel",
-          "lineNumber": 197,
+          "lineNumber": 163,
           "line": "details: { reason: 'Body must be a plain object' }"
         },
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 208,
+          "lineNumber": 174,
           "line": "switch (key) {"
         }
       ],
@@ -1965,8 +2521,9 @@
       "requiresReview": [
         {
           "ruleId": "switchTypeLike",
-          "lineNumber": 208,
-          "line": "switch (key) {"
+          "lineNumber": 174,
+          "line": "switch (key) {",
+          "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 0,

@@ -64,7 +64,6 @@ export function transformApiRelationships(
 }
 
 /**
- * WHY: Find relationships where entity is parent
 
 LEARNING: Common pattern for ...
  */
@@ -83,8 +82,6 @@ export function extractChildIds(relationships: GlobalRelationship[]): string[] {
   )
 }
 
-/**
- */
 export function getComponentsRecursive(
   composerId: string,
   entityKind: GlobalEntityKey,
@@ -126,11 +123,6 @@ export function getComponentsRecursive(
 }
 
 
-/**
- * WHY: Compose properties from components using relationships
-
-LEARNING: Comput...
- */
 function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
@@ -205,16 +197,6 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   return composedEntity
 }
 
-/**
- * Compose part instances from composed block instances
- * 
- * 
- * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
- * 
- * @param composedBlockIds - Array of composed block instance IDs
- * @param relationships - GlobalRelationship[] for partAssignments
- * @returns Array of part instance IDs
- */
 export function composePartInstances(
   composedBlockIds: string[],
   relationships: GlobalRelationship[]

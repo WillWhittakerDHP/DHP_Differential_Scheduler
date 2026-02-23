@@ -1,9 +1,3 @@
-/**
- * Date Range Validation Utility
- * 
- * 
- * P2-3: Created to consolidate date range validation from multiple locations
- */
 
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
@@ -41,12 +35,6 @@ export function validateDateRange(
   }
 }
 
-/**
- * Check if date range is valid (basic structure check)
- * 
- * @param dateRange - Date range to check
- * @returns true if dateRange has valid structure, false otherwise
- */
 export function hasValidDateRangeStructure(
   dateRange: { start: string | null; end: string | null } | null
 ): boolean {

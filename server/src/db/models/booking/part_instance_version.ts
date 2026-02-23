@@ -8,11 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * WHY: PartInstanceVersion Model
-
-WHY: Preserves historical part instance data ...
- */
 export class PartInstanceVersion extends Model<
   InferAttributes<PartInstanceVersion>,
   InferCreationAttributes<PartInstanceVersion>

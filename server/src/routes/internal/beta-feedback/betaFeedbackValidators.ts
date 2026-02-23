@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Validators
- *
- */
 
 import type { ValidationResult } from '../../helpers/routerValidators.js';
 import {

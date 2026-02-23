@@ -1,5 +1,4 @@
 /**
- * WHY: Wizard State Plugin
 
 LEARNING: State plugin for wizard composable state ...
  */
@@ -102,7 +101,6 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
     },
     
     /**
-     * WHY: /**
 Watch source for reactivity
 WHY: Enables SelectionCard to react to w...
      */

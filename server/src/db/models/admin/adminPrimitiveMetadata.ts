@@ -1,7 +1,3 @@
-/**
- *      Aligns with entity data pattern: primitives + relationships
- *          Matches displayConfig.primitives pattern from regular entity data
- */
 
 import {
   Model,

@@ -1,7 +1,3 @@
-/**
- * Update mutation factory for useEntityCrudMutations.
- * WHY: Isolates update mutation logic to reduce main file size and function complexity.
- */
 
 import type { UseMutationOptions } from '@tanstack/vue-query'
 import apiClient, { getEntityByIdEndpoint } from '@/utils/api'

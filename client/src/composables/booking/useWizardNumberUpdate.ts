@@ -25,7 +25,6 @@ export function useWizardNumberUpdate() {
   const wizard = inject<WizardInstance | undefined>('wizard')
   
   /**
-   * WHY: /**
 Update number field for a block instance
 WHY: Wizard state stores ar...
    */

@@ -1,14 +1,4 @@
 <script setup lang="ts">
-/**
- * DifferentialGraph Component
- * 
- * 
- * Features:
- * - Differential service: Two stacked bars (major full width, minor right-justified half width)
- * - Non-differential services: Not shown (component only renders for differential services)
- * - Bar states: Selected/Active based on time basis selector
- * - Responsive design with touch-friendly sizing
- */
 
 import { computed } from 'vue'
 import type { TimeRange } from '@/types/appointment'

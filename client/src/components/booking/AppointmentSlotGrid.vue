@@ -1,16 +1,4 @@
 <script setup lang="ts">
-/**
- * AppointmentSlotGrid Component
- * 
- * 
- * Features:
- * - Dynamic column calculation based on available width
- * - ResizeObserver for responsive behavior
- * - Touch-friendly button sizing
- * - Configurable min/max columns and button sizing
- * - Support for AppointmentSlots with dual-time display (major/minor perspectives)
- * - Emits orderIndex along with TimeSlot for proper selection tracking
- */
 
 import { computed, ref } from 'vue'
 import type { TimeRange, AppointmentSlots } from '@/types/appointment'

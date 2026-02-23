@@ -1,11 +1,4 @@
-/**
- * Admin Primitive Metadata Router Constants
- *
- */
 
-/**
- * Valid entity types for admin primitive metadata
- */
 export const VALID_ENTITY_TYPES = [
   'blockShape',
   'partShape',
@@ -13,9 +6,6 @@ export const VALID_ENTITY_TYPES = [
   'partInstance',
 ] as const
 
-/**
- * Error messages for admin primitive metadata operations
- */
 export const ERROR_MESSAGES = {
   FETCH_METADATA: 'Failed to fetch primitive metadata',
   CREATE_UPDATE_METADATA: 'Failed to create/update primitive metadata',
@@ -31,9 +21,6 @@ export const ERROR_MESSAGES = {
 /** Required fields for metadata creation/update (re-export from admin metadata). */
 export { REQUIRED_FIELDS } from '../admin-metadata/adminMetadataConstants.js'
 
-/**
- * RenderAs values that require inputConfig
- */
 export const RENDER_AS_REQUIRING_INPUT_CONFIG = [
   'select',
   'multiselect',

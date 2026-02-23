@@ -1,8 +1,3 @@
-/**
- * WHY: Relationship Type Constants
-
-LEARNING: Constants for relationship type s...
- */
 export const RELATIONSHIP_TYPES = {
   ANNOTATION_ASSIGNMENTS: 'annotationAssignments',
   ATTENDEE_ASSIGNMENTS: 'attendeeAssignments',
@@ -20,7 +15,6 @@ export const RELATIONSHIP_TYPES = {
 } as const
 
 /**
- * PATTERN: Relationship type type
 PATTERN: typeof pattern for type extraction
  */
 export type RelationshipType = typeof RELATIONSHIP_TYPES[keyof typeof RELATIONSHIP_TYPES]

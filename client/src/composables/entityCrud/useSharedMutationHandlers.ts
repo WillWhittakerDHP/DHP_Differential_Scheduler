@@ -1,13 +1,6 @@
-/**
- * WHY: useSharedMutationHandlers Utility
-
-LEARNING: Shared mutation handlers fo...
- */
 import type { QueryClient } from '@tanstack/vue-query'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 
-/**
- */
 export function createRefetchGlobalDataHandler(queryClient: QueryClient) {
   return async (): Promise<void> => {
     await queryClient.refetchQueries({ queryKey: ['globalData'] })
@@ -41,8 +34,6 @@ export async function invalidateEntityQueries(
   }
 }
 
-/**
- */
 export function createRefetchQueriesHandler(
   queryClient: QueryClient,
   queryKeys: readonly (readonly unknown[])[]
@@ -54,8 +45,6 @@ export function createRefetchQueriesHandler(
   }
 }
 
-/**
- */
 export async function cancelQueriesBeforeMutate(
   queryClient: QueryClient,
   queryKeys: readonly (readonly unknown[])[]
@@ -88,8 +77,6 @@ export function createRestorePreviousDataHandler(
   }
 }
 
-/**
- */
 export interface MutationContextWithPreviousData {
   previousGlobalData?: GlobalData
   [key: string]: unknown

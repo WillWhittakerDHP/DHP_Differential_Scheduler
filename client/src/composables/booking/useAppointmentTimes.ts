@@ -63,8 +63,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   // PATTERN: Get settings for rounding configuration
   const { settings } = useAvailabilitySettings()
 
-  /**
-   */
   const appointmentSlots = computed(() => {
     const instances = blockInstancesRef.value
     const startTime = baseStartTimeRef.value
@@ -114,15 +112,12 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     return slots.map(appointmentSlot => {
       const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime)
       // PATTERN: Use eventTimeRanges keys instead of hardcoded 'Minor'
-      // Get first available event time range, or fall back to totalTimeRange
       const eventTimeRanges = transformed.eventTimeRanges !== undefined && transformed.eventTimeRanges !== null ? transformed.eventTimeRanges : {}
       const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null
       return firstEventTimeRange || transformed.totalTimeRange || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
-  /**
-   */
   const getMajorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
@@ -136,8 +131,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     return transformed.totalTimeRange || null
   }
 
-  /**
-   */
   const getMinorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value

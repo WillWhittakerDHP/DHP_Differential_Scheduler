@@ -37,27 +37,19 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
   
   const entity = 'value' in entityOption ? entityOption : computed(() => entityOption)
   
-  /**
-   */
   const canSave = computed(() => {
     return form.meta.value.valid && form.meta.value.dirty
   })
   
-  /**
-   */
   const hasChanges = computed(() => {
     return form.meta.value.dirty
   })
   
-  /**
-   */
   const validate = async (): Promise<boolean> => {
     const { valid } = await form.validate()
     return valid
   }
   
-  /**
-   */
   const save = async (): Promise<void> => {
     const isValid = await validate()
     if (!isValid) {
@@ -65,8 +57,6 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
     }
   }
   
-  /**
-   */
   const reset = (): void => {
     const val = entity.value
     form.resetForm({

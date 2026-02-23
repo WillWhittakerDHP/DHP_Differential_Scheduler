@@ -1,20 +1,10 @@
-/**
- * Property Router Constants
- * 
- */
 
 import { DEFAULT_PROPERTY_SOURCE } from '../../../../../shared/constants/propertyConstants.js'
 
-/**
- * Block shape names used in property validation
- */
 export const BLOCK_SHAPE_NAMES = {
   PROPERTIES: 'Properties',
 } as const
 
-/**
- * Error messages for property operations
- */
 export const ERROR_MESSAGES = {
   FETCH_PROPERTIES: 'Failed to fetch properties',
   FETCH_PROPERTY: 'Error fetching property',
@@ -42,17 +32,11 @@ export const ERROR_MESSAGES = {
   BLOCK_INSTANCES_NOT_FOUND: 'Some block instances not found',
 } as const
 
-/**
- * Required field names for property operations
- */
 export const REQUIRED_FIELDS = {
   ADDRESS: ['address', 'city', 'state', 'zipCode'] as const,
   PROPERTY_TYPE: ['blockInstanceId'] as const,
 } as const
 
-/**
- * Allowed fields for PATCH property details (mass-assignment safety)
- */
 export const PATCH_PROPERTY_DETAILS_FIELDS = [
   'mlsNumber',
   'squareFootage',
@@ -63,10 +47,6 @@ export const PATCH_PROPERTY_DETAILS_FIELDS = [
   'source',
 ] as const
 
-/**
- * WHY: PATCH field key constants for switch/case (hardcoding audit)
-LEARNING: U...
- */
 export const PATCH_PROPERTY_FIELD_KEY = {
   MLS_NUMBER: 'mlsNumber',
   SQUARE_FOOTAGE: 'squareFootage',
@@ -77,25 +57,13 @@ export const PATCH_PROPERTY_FIELD_KEY = {
   SOURCE: 'source',
 } as const
 
-/**
- * Valid foundationAccess enum values for PropertyDetails
- */
 export const FOUNDATION_ACCESS_VALUES = ['basement', 'crawlspace', 'slab'] as const
 
-/**
- * Valid source enum values for PropertyDetails (api, manual, client)
- */
 export const PROPERTY_SOURCE_VALUES = ['api', 'manual', DEFAULT_PROPERTY_SOURCE] as const
 
-/**
- * Default values for property operations
- */
 export const DEFAULT_VALUES = {
   SOURCE: DEFAULT_PROPERTY_SOURCE,
   ORDER_INDEX: 0 as const,
 } as const
 
-/**
- * Unknown error fallback message
- */
 export { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'

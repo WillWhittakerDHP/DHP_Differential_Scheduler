@@ -15,31 +15,18 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useFieldComponent')
 
 export interface UseFieldComponentOptions {
-  /**
-   */
   entityKey: Ref<GlobalEntityKey | undefined> | ComputedRef<GlobalEntityKey | undefined> | GlobalEntityKey | undefined
   
-  /**
-   */
   fieldKey: Ref<GlobalFieldKey<GlobalEntityKey> | undefined> | ComputedRef<GlobalFieldKey<GlobalEntityKey> | undefined> | GlobalFieldKey<GlobalEntityKey> | undefined
 
-  /**
-   */
   entity?: Ref<GlobalEntity<GlobalEntityKey> | null> | ComputedRef<GlobalEntity<GlobalEntityKey> | null> | GlobalEntity<GlobalEntityKey> | null
 
-  /**
-   */
   fieldMetadata?: ComputedRef<Record<string, FieldMetadataEntry>> | Ref<Record<string, FieldMetadataEntry>>
 }
 
 export interface UseFieldComponentReturn {
-  /**
-   * 
-   */
   componentType: ComputedRef<FieldComponent>
   
-  /**
-   */
   fieldMetadataEntry: ComputedRef<FieldMetadataEntry | undefined>
 }
 
@@ -53,8 +40,6 @@ export function useFieldComponent(
 ): UseFieldComponentReturn {
   const { entityKey, fieldKey, entity: providedEntity, fieldMetadata: providedFieldMetadata } = options
   
-  /**
-   */
   const entityKeyRef = computed(() => {
     return entityKey instanceof Object && 'value' in entityKey ? entityKey.value : entityKey
   })
@@ -63,8 +48,6 @@ export function useFieldComponent(
     return fieldKey instanceof Object && 'value' in fieldKey ? fieldKey.value : fieldKey
   })
 
-  /**
-   */
   const entity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
     if (!providedEntity) {
       return null
@@ -91,8 +74,6 @@ export function useFieldComponent(
     return fetchedFieldMetadata.fieldMetadata.value
   })
 
-  /**
-   */
   const fieldMetadataEntry = computed<FieldMetadataEntry | undefined>(() => {
     if (!fieldKeyRef.value || !fieldMetadata.value) {
       return undefined
@@ -100,8 +81,6 @@ export function useFieldComponent(
     return fieldMetadata.value[String(fieldKeyRef.value)]
   })
 
-  /**
-   */
   const componentType = computed(() => {
     if (!fieldKeyRef.value) {
       const result = { type: 'unknown' as const, reason: 'notConfigured' as const }

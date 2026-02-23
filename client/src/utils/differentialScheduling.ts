@@ -64,13 +64,6 @@ function resolveMajorMinorEventFinals(
   return { majorEventFinal, minorEventFinal }
 }
 
-/**
- * Calculate major start time from minor start time
- * 
- * @param minorStartTime - Minor start time as ISO date string
- * @param majorTotal - Total minutes major needs before minor arrives
- * @returns Major start time as ISO date string
- */
 function calculateMajorStartTime(minorStartTime: string, majorTotal: number): string {
   const minorStart = new Date(minorStartTime)
   const majorStart = new Date(minorStart)
@@ -90,13 +83,6 @@ function calculateMajorStartTime(minorStartTime: string, majorTotal: number): st
   return majorStart.toISOString()
 }
 
-/**
- * Calculate minor start time from major start time
- * 
- * @param majorStartTime - Major start time as ISO date string
- * @param majorTotal - Total minutes major needs before minor arrives
- * @returns Minor start time as ISO date string
- */
 function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: number): string {
   const majorStart = new Date(majorStartTime)
   const minorStart = new Date(majorStart)
@@ -156,13 +142,6 @@ export function transformToMajorPerspective(
   }
 }
 
-/**
- * Transform AppointmentSlot to minor perspective
- * 
- * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
- * @param minorStartTime - Minor start time as ISO date string
- * @returns AppointmentSlot with TimeSlot objects calculated from minor start time
- */
 export function transformToMinorPerspective(
   appointmentSlot: AppointmentSlot,
   minorStartTime: string,

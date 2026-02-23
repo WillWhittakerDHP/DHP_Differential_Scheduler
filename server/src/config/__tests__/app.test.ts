@@ -1,8 +1,3 @@
-/**
- * Contract test for config/app.ts.
- * Asserts that key config exports exist (envConfig). May require test DB for full app load.
- * Dependencies: jest.
- */
 
 import { envConfig } from '../app'
 

@@ -1,10 +1,3 @@
-/**
- * Event Attendee Utilities
- * 
- * 
- * NOTE: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
- * They are referenced by BlockInstance ID in the event_shape_attendees relationship table
- */
 
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
@@ -26,9 +19,6 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
   return stateControlBlockInstances.map(instance => instance.id)
 }
 
-/**
- * Check if an event shape has a specific attendee (UserTypeBlock).
- */
 function hasAttendee(
   eventShape: EventShapeEntity,
   userTypeBlockId: GlobalEntityId
@@ -39,10 +29,6 @@ function hasAttendee(
   return eventShape.attendees.includes(userTypeBlockId)
 }
 
-/**
- * Find event shape by its differentialRole field.
- * Primary resolution method — direct field lookup, no attendee matching needed.
- */
 export function getEventShapeByRole(
   eventShapes: EventShapeEntity[],
   role: 'major' | 'minor' | 'moveable'

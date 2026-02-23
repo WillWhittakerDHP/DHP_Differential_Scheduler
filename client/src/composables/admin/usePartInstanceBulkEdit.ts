@@ -63,7 +63,6 @@ export function usePartInstanceBulkEdit(
   )
 
   /**
-   * WHY: /**
 LEARNING: Bulk edit mode state for PartInstances
 PATTERN: ref for re...
    */
@@ -154,7 +153,6 @@ PATTERN: ref for re...
   }
 
   /**
-   * PATTERN: /**
 PATTERN: Method handler for modal @confirm event, properly accesses ...
    */
   const handleBulkEditConfirm = (data: PartInstanceBulkEditData): void => {

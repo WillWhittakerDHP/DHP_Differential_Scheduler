@@ -1,8 +1,3 @@
-/**
- * WHY: ESLint Configuration for Server (Express + TypeScript)
-
-LEARNING: ESLint...
- */
 import js from '@eslint/js'
 import tseslintParser from '@typescript-eslint/parser'
 import tseslintPlugin from '@typescript-eslint/eslint-plugin'

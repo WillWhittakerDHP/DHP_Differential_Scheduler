@@ -21,8 +21,6 @@ export function useShapeDisplayNames(): UseShapeDisplayNamesReturn {
   const { getGlobalEntities } = useGlobal()
   const { getEntityDisplayName } = useEntityDisplay()
 
-  /**
-   */
   const blockShapeDisplayNames = computed(() => {
     const blockShapes = getGlobalEntities('blockShape')
     const map = new Map<string, string>()

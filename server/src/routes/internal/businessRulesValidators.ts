@@ -1,7 +1,3 @@
-/**
- * Business Rules Router Validation Utilities
- * 
- */
 
 import type { ValidationResult } from '../helpers/routerValidators.js'
 import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_RULE_TYPES } from './businessRulesConstants.js'

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * API Dev Panel Status Tab Component
- * 
- */
 
 import { formatTimestamp, getApiStatusColor, getApiStatusLabel } from '@/utils/dev/formatDevPanelData'
 import type { ApiStatusValue } from '@/constants/apiStatus'

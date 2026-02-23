@@ -1,7 +1,3 @@
-/**
- * Attendee Role Constants
- *
- */
 
 export {
   USER_ROLE_CLIENT,

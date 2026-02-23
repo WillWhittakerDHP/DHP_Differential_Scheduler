@@ -38,22 +38,14 @@ export function useInstanceDragAndDrop(
 ): UseInstanceDragAndDropReturn {
   const { mainInstancesByShape, patchBlockInstanceOrderIndex } = options
 
-  /**
-   */
   const blockInstancesLists = ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>(new Map())
   const blockInstanceIdsMap = ref<Map<string, Ref<string[]>>>(new Map())
 
-  /**
-   */
   const groupContainers = ref<Map<string, HTMLElement | null>>(new Map())
   const groupPanelsContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
 
-  /**
-   */
   const groupDragHandlers = ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>(new Map())
 
-  /**
-   */
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
   const isMounted = ref(false)
 
@@ -164,14 +156,10 @@ export function useInstanceDragAndDrop(
     })
   }, { immediate: true, deep: true })
 
-  /**
-   */
   onMounted(() => {
     isMounted.value = true
   })
 
-  /**
-   */
   onBeforeUnmount(() => {
     isMounted.value = false
     groupDragInstances.value.forEach(_instance => {
@@ -179,8 +167,6 @@ export function useInstanceDragAndDrop(
     groupDragInstances.value.clear()
   })
 
-  /**
-   */
   onUnmounted(() => {
     groupContainers.value.clear()
     groupPanelsContainers.value.clear()

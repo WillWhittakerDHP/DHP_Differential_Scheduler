@@ -1,5 +1,4 @@
 /**
- * PATTERN: Drive Time Cache Service
 
 PATTERN: Memory-efficient cache with TTL-based...
  */
@@ -8,45 +7,28 @@ import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('DriveTimeCache');
 
-/**
- * Cached drive time entry
- */
 export interface DriveTimeCacheEntry {
   durationSeconds: number;
   distanceMeters: number;
   timestamp: number;
 }
 
-/**
- * Cache storage
- */
 const cache: Map<string, DriveTimeCacheEntry> = new Map();
 
 /**
- * WHY: Default TTL: 24 hours
 WHY: Traffic patterns change, but basic route stru...
  */
 const _DEFAULT_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds (reserved for future use)
 
-/**
- * Configuration from environment
- */
 const CACHE_TTL_HOURS = parseInt(process.env.DRIVE_TIME_CACHE_TTL_HOURS || '24', 10);
 const TTL = CACHE_TTL_HOURS * 60 * 60 * 1000;
 
-/**
- * WHY: Generate location key for cache
-
-LEARNING: Normalize location to consist...
- */
 function locationToKey(location: RouteLocation): string {
   if (location.placeId) {
     return `pid:${location.placeId}`;
   }
   
   if (location.coordinates) {
-    // Round coordinates to 4 decimal places (~11m precision)
-    // This allows nearby points to share cache entries
     const lat = location.coordinates.lat.toFixed(4);
     const lng = location.coordinates.lng.toFixed(4);
     return `coord:${lat},${lng}`;
@@ -63,14 +45,6 @@ function locationToKey(location: RouteLocation): string {
   return 'unknown';
 }
 
-/**
- * Generate cache key from origin and destination
- * 
- * 
- * @param origin Origin location
- * @param destination Destination location
- * @returns Cache key string
- */
 export function generateCacheKey(
   origin: RouteLocation,
   destination: RouteLocation
@@ -80,9 +54,6 @@ export function generateCacheKey(
   return `${originKey}|${destKey}`;
 }
 
-/**
- * Clean expired cache entries
- */
 function cleanExpiredEntries(): void {
   const now = Date.now();
   for (const [key, entry] of cache.entries()) {
@@ -93,14 +64,6 @@ function cleanExpiredEntries(): void {
   }
 }
 
-/**
- * Get cached drive time for origin-destination pair
- * 
- * 
- * @param origin Origin location
- * @param destination Destination location
- * @returns Cached entry if available and not expired, null otherwise
- */
 export function getCachedDriveTime(
   origin: RouteLocation,
   destination: RouteLocation
@@ -126,15 +89,6 @@ export function getCachedDriveTime(
   return entry;
 }
 
-/**
- * Cache drive time for origin-destination pair
- * 
- * 
- * @param origin Origin location
- * @param destination Destination location
- * @param durationSeconds Drive time in seconds
- * @param distanceMeters Distance in meters
- */
 export function cacheDriveTime(
   origin: RouteLocation,
   destination: RouteLocation,
@@ -156,18 +110,11 @@ export function cacheDriveTime(
   }
 }
 
-/**
- * Invalidate all cache entries
- */
 export function clearDriveTimeCache(): void {
   cache.clear();
   logger.info('Cache cleared');
 }
 
-/**
- * Get cache statistics
- * @returns Cache statistics
- */
 export function getDriveTimeCacheStats(): {
   totalEntries: number;
   oldestEntryAge: number | null;
@@ -193,10 +140,6 @@ export function getDriveTimeCacheStats(): {
   };
 }
 
-/**
- * Get all cached entries (for debugging)
- * @returns Map of cache keys to entries
- */
 export function getAllCachedDriveTimes(): Map<string, DriveTimeCacheEntry> {
   cleanExpiredEntries();
   return new Map(cache);

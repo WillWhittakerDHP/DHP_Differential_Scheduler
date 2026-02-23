@@ -27,8 +27,6 @@ const {
   formatNullValue,
 } = useUsersTableModel()
 
-/**
- */
 const headers = [
   { title: 'First Name', key: 'firstName', sortable: true },
   { title: 'Last Name', key: 'lastName', sortable: true },

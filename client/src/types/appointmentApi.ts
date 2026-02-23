@@ -1,6 +1,3 @@
-/**
- * Appointment API request/response types.
- */
 
 import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
 import type { ContactInfoBase } from '@shared/types/contactTypes'
@@ -26,10 +23,6 @@ export interface UserResponse extends ContactInfoBase {
 
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
-/**
- * Attendee response from API
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
 export interface AttendeeResponse {
   id: string
   appointmentId: string

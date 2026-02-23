@@ -8,13 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * PartAssignment Model
- * 
- * Represents part assignment relationships between block instances and part instances.
- * Part relationships are Block → Part relationships (math dimension).
- * 
- */
 export class PartAssignment extends Model<
   InferAttributes<PartAssignment>,
   InferCreationAttributes<PartAssignment>

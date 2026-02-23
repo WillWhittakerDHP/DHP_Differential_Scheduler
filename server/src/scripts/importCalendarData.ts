@@ -1,5 +1,4 @@
 /**
- * PATTERN: Calendar Data Import Script
 
 PATTERN: Orchestrator pattern with focused ...
  */
@@ -27,24 +26,12 @@ import {
 
 const logger = createLogger('CalendarImport');
 
-/**
- * Default organizer email fallback
- */
 const DEFAULT_ORGANIZER_EMAIL = 'will@districthomepro.com';
 
-/**
- * Interface for Address with eager-loaded propertyVersions
- */
 interface AddressWithVersions extends InstanceType<typeof Address> {
   propertyVersions?: InstanceType<typeof PropertyVersion>[];
 }
 
-/**
- * Upsert user from parsed client data
- * 
- * @param client - Parsed client data
- * @returns User ID
- */
 async function upsertUser(client: ParsedClient): Promise<string> {
   const [user, created] = await User.findOrCreate({
     where: { email: client.email },
@@ -69,10 +56,6 @@ async function upsertUser(client: ParsedClient): Promise<string> {
   return user.id;
 }
 
-/**
- * Upsert property using normalized structure (Address → PropertyVersion → PropertyDetails).
- * Delegates to calendarImportHelpers for each step to keep nesting and length low.
- */
 async function upsertProperty(property: ParsedProperty): Promise<string> {
   return await PropertyVersion.sequelize!.transaction(async (transaction) => {
     const addressRecord = await findOrCreateAddress({
@@ -93,14 +76,6 @@ async function upsertProperty(property: ParsedProperty): Promise<string> {
   });
 }
 
-/**
- * Process clients from a single event
- * 
- * @param event - Calendar event
- * @param organizerEmail - Organizer email to exclude
- * @param processedClients - Set of already processed client emails
- * @param stats - Statistics object to update
- */
 async function processEventClients(
   event: CalendarEvent,
   organizerEmail: string,
@@ -127,13 +102,6 @@ async function processEventClients(
   }
 }
 
-/**
- * Process property from a single event
- * 
- * @param event - Calendar event
- * @param processedProperties - Set of already processed property keys
- * @param stats - Statistics object to update
- */
 async function processEventProperty(
   event: CalendarEvent,
   processedProperties: Set<string>,
@@ -180,13 +148,6 @@ async function processEventProperty(
   processedProperties.add(propertyKey);
 }
 
-/**
- * Process all calendar events and import clients/properties
- * 
- * @param events - Array of calendar events
- * @param organizerEmail - Organizer email to exclude from clients
- * @returns Statistics object with import/update counts
- */
 async function processEvents(events: CalendarEvent[], organizerEmail: string): Promise<{
   clientsImported: number;
   propertiesImported: number;
@@ -211,9 +172,6 @@ async function processEvents(events: CalendarEvent[], organizerEmail: string): P
   return stats;
 }
 
-/**
- * Main calendar import function (thin orchestrator).
- */
 async function importCalendarData(events?: CalendarEvent[]): Promise<void> {
   try {
     logger.info('📅 Starting calendar data import...');

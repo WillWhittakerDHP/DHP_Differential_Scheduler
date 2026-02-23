@@ -1,7 +1,3 @@
-/**
- * Entity Bulk Operations Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { bulkPatch } from '../../helpers/dataController.js'
@@ -18,11 +14,6 @@ const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
 
-/**
- * PATCH /entities/:entityType/order_index
- * Bulk update order indices for entities
- * 
- */
 router.patch('/:entityType/order_index', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -40,15 +31,6 @@ router.patch('/:entityType/order_index', csrfProtection, async (req: Request, re
   }
 })
 
-/**
- * PATCH /entities/:entityType/bulk
- * Bulk update multiple entities with partial field updates
- * 
- * 
- * Request body: Array of { id: string, ...fields } objects
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.patch('/:entityType/bulk', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {

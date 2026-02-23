@@ -1,9 +1,3 @@
-/**
- * useAvailabilityOrchestrator
- *
- * Encapsulates all availability step logic: circular dependency resolution, watchers, and child composables.
- * AvailabilityStep injects refs, calls this once, and uses the return in template + useWizardStepSync.
- */
 
 import { computed, ref, watch, type Ref, type ComputedRef } from 'vue'
 import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'

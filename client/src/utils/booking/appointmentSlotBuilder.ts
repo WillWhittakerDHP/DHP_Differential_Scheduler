@@ -1,5 +1,4 @@
 /**
- * PATTERN: Appointment Slot Builder
 PATTERN: Pure functions, no side effects, no re...
  */
 import { createLogger } from '@/utils/logger'
@@ -28,16 +27,6 @@ export { createTimeRange } from './slotTimeUtils'
 export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShapeLookups'
 export { derivePerspective } from './perspectiveResolver'
 
-/**
- * Look up EventInstance[] for a partShape by name
- * 
- * @param partShapeName - Part shape name (e.g., "Client Presentation")
- * @param partShapeById - Map of partShape ID → partShape entity
- * @param eventAssignmentsRelationships - Array of eventAssignments relationships (PartInstance → EventInstance)
- * @param eventInstances - Array of all EventInstance objects
- * @param blockInstances - Array of block instances containing PartInstances
- * @returns Array of EventInstance objects for this partShape (aggregated from all PartInstances with this partShape)
- */
 function lookupEventsForPartShape(
   partShapeName: string,
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
@@ -72,9 +61,6 @@ function lookupEventsForPartShape(
     .filter((ei): ei is EventInstance => ei !== undefined)
 }
 
-/**
- * Build eventAssignmentsByPartShape from nonZeroedParts and relationships.
- */
 function buildEventAssignmentsByPartShape(
   nonZeroedParts: { partShape: string }[],
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
@@ -98,20 +84,6 @@ function buildEventAssignmentsByPartShape(
   return Object.fromEntries(entries)
 }
 
-/**
- * Build AppointmentShape from block instances
- * 
- * Calculates durations and stores finalized parts (no times).
- * This is calculated once and reused for each available start time.
- * 
- * 
- * @param blockInstances - Array of block instances to build shape from
- * @param settings - Optional availability settings for rounding configuration
- * @param eventInstances - Array of EventInstance objects
- * @param eventShapes - Array of EventShape objects
- * @param eventAssignmentsRelationships - Array of eventAssignments relationships
- * @param partShapeById - Map of partShape ID → partShape entity
- */
 export function buildAppointmentShape(
   blockInstances: BookingBlockInstance[],
   settings?: AvailabilitySettings | null,

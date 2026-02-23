@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-20T17:33:39.042Z",
+  "generatedAt": "2026-02-23T18:12:59.290Z",
   "summary": {
-    "totalSourceFiles": 787,
+    "totalSourceFiles": 795,
     "totalTestFiles": 0,
-    "untestedSourceFiles": 787,
+    "untestedSourceFiles": 795,
     "orphanedTestFiles": 0,
     "coveragePercentage": 0
   },
@@ -63,8 +63,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
+        "cognitiveLoad": 1,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -78,8 +78,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -153,8 +153,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -168,8 +168,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -183,8 +183,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
+        "cognitiveLoad": 2,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -213,8 +213,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.8,
+        "cognitiveLoad": 1,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -241,10 +241,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 1,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.5,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -286,10 +286,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -301,10 +301,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 3,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.9,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -375,11 +375,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -420,11 +420,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -480,11 +480,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -510,11 +510,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -525,11 +525,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -540,11 +540,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1,
+        "overall": 1.3,
         "bucket": "P2"
       }
     },
@@ -616,10 +616,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -660,12 +660,12 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 2,
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4,
-        "bucket": "P1"
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -675,11 +675,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 1,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -690,11 +690,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -723,8 +723,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -765,11 +765,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.9,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -877,8 +877,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -922,8 +922,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 3.5,
+        "cognitiveLoad": 3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -1191,6 +1191,25 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useAdmin.ts",
+      "functions": [
+        "useAdmin"
+      ],
+      "classes": [],
+      "composables": [
+        "useAdmin"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 1,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useAdminMetadataMutations.ts",
       "functions": [
         "useAdminMetadataMutations"
@@ -1259,10 +1278,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 9,
-        "independence": 5,
+        "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.1,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -1373,11 +1392,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 6.9,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -1412,10 +1431,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6,
+        "cognitiveLoad": 3,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -1452,8 +1471,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.9,
+        "cognitiveLoad": 1,
+        "overall": 6,
         "bucket": "P1"
       }
     },
@@ -1486,8 +1505,8 @@
         "reliability": 9,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6.6,
+        "cognitiveLoad": 3,
+        "overall": 6.8,
         "bucket": "P1"
       }
     },
@@ -1660,10 +1679,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -1678,11 +1697,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -1694,11 +1713,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -1713,10 +1732,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -1727,11 +1746,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
-        "independence": 8,
+        "reliability": 5,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -1826,10 +1845,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -1878,11 +1897,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -1913,11 +1932,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 4,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -1984,11 +2003,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -2042,10 +2061,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -2080,10 +2099,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
@@ -2099,10 +2118,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -2133,10 +2152,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -2154,8 +2173,8 @@
         "reliability": 5,
         "independence": 5,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7,
+        "cognitiveLoad": 1,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -2170,11 +2189,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
+        "reliability": 6,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -2266,11 +2285,11 @@
       ],
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 5,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.7,
+        "cognitiveLoad": 0,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -2281,11 +2300,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -2322,8 +2341,8 @@
         "reliability": 5,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 5.2,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -2360,8 +2379,8 @@
         "reliability": 7,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 5.8,
+        "cognitiveLoad": 0,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -2376,11 +2395,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.1,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -2396,10 +2415,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -2451,8 +2470,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 3.7,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -2489,8 +2508,8 @@
         "reliability": 5,
         "independence": 3,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.3,
+        "cognitiveLoad": 1,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -2523,8 +2542,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 3.7,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -2540,10 +2559,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 4,
+        "independence": 3,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.6,
+        "overall": 4.4,
         "bucket": "P1"
       }
     },
@@ -2558,11 +2577,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.7,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -2596,11 +2615,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
+        "reliability": 6,
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 6.3,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -2815,8 +2834,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 3.6,
+        "cognitiveLoad": 1,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -2882,12 +2901,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
-        "bucket": "P1"
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -3112,12 +3131,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3170,10 +3189,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 6,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -3188,11 +3207,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 7.6,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
         "bucket": "P0"
       }
     },
@@ -3207,11 +3226,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 7.6,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
         "bucket": "P0"
       }
     },
@@ -3267,10 +3286,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 4,
+        "independence": 6,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.2,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -3288,8 +3307,8 @@
         "reliability": 10,
         "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 7.2,
+        "cognitiveLoad": 5,
+        "overall": 7.4,
         "bucket": "P0"
       }
     },
@@ -3323,12 +3342,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 3,
+        "reliability": 9,
+        "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7,
-        "bucket": "P1"
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -3361,11 +3380,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 8.1,
+        "overall": 7.7,
         "bucket": "P0"
       }
     },
@@ -3380,12 +3399,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3424,6 +3443,25 @@
         "cognitiveLoad": 0,
         "overall": 6.5,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBookingWizard.ts",
+      "functions": [
+        "useBookingWizard"
+      ],
+      "classes": [],
+      "composables": [
+        "useBookingWizard"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 7,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -3475,8 +3513,8 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 2,
+        "reliability": 9,
+        "independence": 4,
         "roi": 7,
         "cognitiveLoad": 1,
         "overall": 6.6,
@@ -3535,8 +3573,8 @@
         "reliability": 7,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.3,
+        "cognitiveLoad": 1,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -3608,12 +3646,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3760,12 +3798,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -3790,19 +3828,20 @@
     {
       "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
       "functions": [
+        "computeMoveableSlots",
         "useMoveablePartsScheduling"
       ],
       "classes": [],
       "composables": [
         "useMoveablePartsScheduling"
       ],
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
         "reliability": 10,
         "independence": 6,
-        "roi": 7,
+        "roi": 8,
         "cognitiveLoad": 2,
-        "overall": 7.5,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -3877,8 +3916,8 @@
         "reliability": 7,
         "independence": 3,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 5.8,
+        "cognitiveLoad": 2,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -4171,9 +4210,9 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 6,
+        "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 2,
+        "cognitiveLoad": 0,
         "overall": 7.5,
         "bucket": "P0"
       }
@@ -4208,11 +4247,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -4230,8 +4269,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 6.6,
+        "cognitiveLoad": 0,
+        "overall": 6.5,
         "bucket": "P1"
       }
     },
@@ -4265,12 +4304,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.4,
-        "bucket": "P0"
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
@@ -4285,10 +4324,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -4424,11 +4463,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -4440,10 +4479,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -4523,10 +4562,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -4544,8 +4583,8 @@
         "reliability": 4,
         "independence": 5,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.3,
+        "cognitiveLoad": 1,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -4623,8 +4662,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -4668,8 +4707,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -4699,12 +4738,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -4743,18 +4782,19 @@
         "cancelQueriesBeforeMutate",
         "createRefetchGlobalDataHandler",
         "createRefetchQueriesHandler",
-        "createRestorePreviousDataHandler"
+        "createRestorePreviousDataHandler",
+        "invalidateEntityQueries"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
-        "reliability": 2,
+        "reliability": 3,
         "independence": 5,
-        "roi": 6,
+        "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -4809,11 +4849,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 3,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 3,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -4840,10 +4880,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 6,
+        "independence": 9,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -4897,10 +4937,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -4942,10 +4982,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -4965,25 +5005,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/useAdmin.ts",
-      "functions": [
-        "useAdmin"
-      ],
-      "classes": [],
-      "composables": [
-        "useAdmin"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 4,
-        "independence": 2,
-        "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 3.6,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "client/src/composables/useAdminConfig.ts",
       "functions": [
         "_clearCache",
@@ -4995,11 +5016,11 @@
       ],
       "exportCount": 3,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.9,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -5078,25 +5099,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/useBookingWizard.ts",
-      "functions": [
-        "useBookingWizard"
-      ],
-      "classes": [],
-      "composables": [
-        "useBookingWizard"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 4,
-        "independence": 7,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.5,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/composables/useBusiness.ts",
       "functions": [
         "useAppointments",
@@ -5113,12 +5115,12 @@
       ],
       "exportCount": 8,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -5150,8 +5152,8 @@
         "reliability": 4,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7,
+        "cognitiveLoad": 1,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -5163,10 +5165,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 3.4,
         "bucket": "P2"
       }
     },
@@ -5230,11 +5232,11 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.9,
+        "overall": 4.1,
         "bucket": "P1"
       }
     },
@@ -5250,10 +5252,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 3,
+        "independence": 2,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.7,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -5312,8 +5314,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 4.6,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -5328,12 +5330,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -5347,12 +5349,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -5419,27 +5421,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 4.9,
+        "overall": 4.1,
         "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/useSelectionCard.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
       }
     },
     {
@@ -5453,12 +5440,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -5530,11 +5517,11 @@
       "composables": [],
       "exportCount": 4,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 4,
         "roi": 4,
         "cognitiveLoad": 3,
-        "overall": 5.1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -5548,8 +5535,8 @@
         "reliability": 6,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -5590,11 +5577,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -5605,11 +5592,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -5665,11 +5652,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -5742,11 +5729,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 2.9,
+        "cognitiveLoad": 1,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -5762,8 +5749,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 2.4,
+        "cognitiveLoad": 3,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -5852,8 +5839,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -5864,11 +5851,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -6135,10 +6122,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -6210,10 +6197,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -6224,11 +6211,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -6244,21 +6231,6 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "client/src/layouts/Default.vue",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -6398,6 +6370,21 @@
       }
     },
     {
+      "repoPath": "client/src/layouts/default.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/main.ts",
       "functions": [],
       "classes": [],
@@ -6407,8 +6394,8 @@
         "reliability": 2,
         "independence": 0,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1,
+        "cognitiveLoad": 1,
+        "overall": 0.9,
         "bucket": "P2"
       }
     },
@@ -6481,11 +6468,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -6498,11 +6485,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.1,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -6516,11 +6503,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -6650,8 +6637,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 3.8,
+        "cognitiveLoad": 2,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -6692,7 +6679,7 @@
       }
     },
     {
-      "repoPath": "client/src/types/admin/adminEntity.ts",
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
       "functions": [],
       "classes": [
         "AdminEntity"
@@ -6700,11 +6687,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.9,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -6730,11 +6717,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -6745,11 +6732,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 2,
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.8,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -6790,11 +6777,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -6835,11 +6822,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -6851,10 +6838,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -6966,10 +6953,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -6995,11 +6982,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -7055,11 +7042,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -7116,10 +7103,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -7175,11 +7162,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -7218,6 +7205,26 @@
         "roi": 8,
         "cognitiveLoad": 0,
         "overall": 5.2,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/selectTypeResolver.ts",
+      "functions": [
+        "getSelectConfigFromUnwrapped",
+        "resolveOptionEntityKey",
+        "resolveSelectMultiple",
+        "unwrapInputConfig"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 4,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -7456,6 +7463,21 @@
       }
     },
     {
+      "repoPath": "client/src/utils/async/withAsyncOperation.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/utils/autocomplete.ts",
       "functions": [],
       "classes": [],
@@ -7482,10 +7504,10 @@
       "exportCount": 3,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 5.7,
+        "cognitiveLoad": 2,
+        "overall": 6.3,
         "bucket": "P1"
       }
     },
@@ -7556,11 +7578,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
-        "independence": 3,
+        "reliability": 4,
+        "independence": 6,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 6.3,
+        "overall": 5.3,
         "bucket": "P1"
       }
     },
@@ -7575,11 +7597,11 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 7,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 6.9,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -7594,10 +7616,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 6,
-        "independence": 7,
+        "independence": 9,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.2,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -7644,10 +7666,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -7662,12 +7684,12 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
-        "independence": 8,
+        "reliability": 5,
+        "independence": 10,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -7751,11 +7773,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 6.2,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -7786,12 +7808,12 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 7.4,
-        "bucket": "P0"
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
@@ -7806,11 +7828,11 @@
       "composables": [],
       "exportCount": 4,
       "priority": {
-        "reliability": 9,
-        "independence": 5,
+        "reliability": 7,
+        "independence": 8,
         "roi": 9,
-        "cognitiveLoad": 4,
-        "overall": 7.7,
+        "cognitiveLoad": 2,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -7842,10 +7864,10 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 6,
-        "independence": 6,
+        "reliability": 4,
+        "independence": 9,
         "roi": 9,
-        "cognitiveLoad": 1,
+        "cognitiveLoad": 3,
         "overall": 6.4,
         "bucket": "P1"
       }
@@ -7860,11 +7882,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -7937,8 +7959,8 @@
         "reliability": 3,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 0,
-        "overall": 5.9,
+        "cognitiveLoad": 1,
+        "overall": 6,
         "bucket": "P1"
       }
     },
@@ -8080,11 +8102,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
-        "independence": 8,
+        "reliability": 2,
+        "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -8098,11 +8120,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -8118,8 +8140,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.3,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -8188,6 +8210,21 @@
       }
     },
     {
+      "repoPath": "client/src/utils/collections/arrayDiff.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/utils/collections/findById.ts",
       "functions": [],
       "classes": [],
@@ -8210,10 +8247,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -8314,11 +8351,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
-        "independence": 6,
+        "reliability": 5,
+        "independence": 10,
         "roi": 6,
-        "cognitiveLoad": 2,
-        "overall": 6,
+        "cognitiveLoad": 1,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -8365,10 +8402,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -8384,8 +8421,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 1,
-        "overall": 4.1,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -8445,19 +8482,20 @@
       "repoPath": "client/src/utils/eventAttendeeUtils.ts",
       "functions": [
         "getAllUserTypeBlockIds",
+        "getEventShapeByRole",
         "getMajorEventShape",
         "getMinorEventShape"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
-        "reliability": 2,
-        "independence": 5,
+        "reliability": 4,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -8487,9 +8525,9 @@
         "reliability": 2,
         "independence": 9,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 1,
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -8504,8 +8542,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 4,
-        "cognitiveLoad": 1,
-        "overall": 3.7,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -8550,12 +8588,12 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -8638,11 +8676,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -8670,11 +8708,28 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/safeDefaults.ts",
+      "functions": [
+        "asEmptyString"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -8688,8 +8743,8 @@
         "reliability": 4,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 1,
-        "overall": 4.2,
+        "cognitiveLoad": 3,
+        "overall": 4.4,
         "bucket": "P1"
       }
     },
@@ -8704,11 +8759,11 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.7,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -8750,8 +8805,8 @@
         "reliability": 10,
         "independence": 9,
         "roi": 10,
-        "cognitiveLoad": 4,
-        "overall": 9.2,
+        "cognitiveLoad": 3,
+        "overall": 9.1,
         "bucket": "P0"
       }
     },
@@ -8767,8 +8822,8 @@
         "reliability": 10,
         "independence": 6,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 7.7,
+        "cognitiveLoad": 0,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -8829,11 +8884,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 10,
+        "reliability": 8,
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 7.8,
+        "overall": 7,
         "bucket": "P0"
       }
     },
@@ -8867,8 +8922,8 @@
         "reliability": 10,
         "independence": 8,
         "roi": 10,
-        "cognitiveLoad": 1,
-        "overall": 8.7,
+        "cognitiveLoad": 3,
+        "overall": 8.9,
         "bucket": "P0"
       }
     },
@@ -8992,10 +9047,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -9039,8 +9094,8 @@
         "reliability": 0,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.4,
+        "cognitiveLoad": 1,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -9054,8 +9109,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -9231,11 +9286,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 4,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9384,8 +9439,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -9414,8 +9469,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -9508,11 +9563,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -9576,10 +9631,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -9630,11 +9685,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -9676,10 +9731,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -9706,10 +9761,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -9774,8 +9829,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9793,8 +9848,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9812,8 +9867,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9850,8 +9905,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9867,11 +9922,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 10,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 1,
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -9907,8 +9962,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9926,8 +9981,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9945,8 +10000,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9964,8 +10019,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -9983,8 +10038,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -10078,8 +10133,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -10094,12 +10149,12 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.3,
-        "bucket": "P1"
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -10230,9 +10285,9 @@
         "reliability": 2,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 1,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -10287,8 +10342,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -10360,12 +10415,12 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.5,
-        "bucket": "P2"
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -10401,8 +10456,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -10420,8 +10475,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -10589,8 +10644,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -10623,8 +10678,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -10722,10 +10777,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -10769,8 +10824,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 1.7,
+        "cognitiveLoad": 3,
+        "overall": 1.9,
         "bucket": "P2"
       }
     },
@@ -10799,8 +10854,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
+        "cognitiveLoad": 1,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -10826,11 +10881,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -10874,8 +10929,8 @@
         "reliability": 2,
         "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
+        "cognitiveLoad": 1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -10904,8 +10959,8 @@
         "reliability": 2,
         "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
+        "cognitiveLoad": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -10935,28 +10990,30 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 9,
+        "reliability": 0,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
     {
       "repoPath": "server/src/routes/helpers/crudHandlerHelpers.ts",
       "functions": [
+        "executeOptionalHook",
+        "handleValidationResult",
         "runMutationValidation"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 0,
-        "independence": 7,
-        "roi": 1,
+        "independence": 6,
+        "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 1.7,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -10970,8 +11027,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.5,
+        "cognitiveLoad": 5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -10998,10 +11055,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.3,
+        "cognitiveLoad": 2,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -11033,12 +11090,12 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -11117,11 +11174,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.1,
+        "cognitiveLoad": 4,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -11157,8 +11214,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 3.3,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -11219,11 +11276,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -11317,11 +11374,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 4,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.8,
+        "cognitiveLoad": 3,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -11428,11 +11485,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -11461,8 +11518,8 @@
         "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -11501,10 +11558,10 @@
       "exportCount": 7,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 9,
         "roi": 5,
         "cognitiveLoad": 5,
-        "overall": 5.4,
+        "overall": 5.8,
         "bucket": "P1"
       }
     },
@@ -11515,11 +11572,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -11642,12 +11699,12 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 3,
+        "reliability": 1,
         "independence": 10,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "cognitiveLoad": 2,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -11672,11 +11729,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -11706,11 +11763,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -11754,11 +11811,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 3,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -11792,12 +11849,12 @@
       "composables": [],
       "exportCount": 3,
       "priority": {
-        "reliability": 3,
+        "reliability": 1,
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4,
-        "bucket": "P1"
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -11827,11 +11884,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -11872,11 +11929,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -11887,11 +11944,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -11920,8 +11977,8 @@
         "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 2.3,
+        "cognitiveLoad": 4,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -11958,10 +12015,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 2.1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -11989,11 +12046,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -12121,8 +12178,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.5,
+        "cognitiveLoad": 5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -12163,10 +12220,10 @@
       "exportCount": 8,
       "priority": {
         "reliability": 0,
-        "independence": 7,
+        "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 3.2,
+        "cognitiveLoad": 2,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -12177,11 +12234,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -12192,11 +12249,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 3,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.8,
+        "cognitiveLoad": 5,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -12290,11 +12347,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 4,
-        "overall": 2.1,
+        "cognitiveLoad": 5,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -12312,8 +12369,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
+        "cognitiveLoad": 2,
+        "overall": 3,
         "bucket": "P2"
       }
     },
@@ -12338,8 +12395,8 @@
         "reliability": 1,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 6,
-        "overall": 4.4,
+        "cognitiveLoad": 5,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -12400,11 +12457,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -12421,10 +12478,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 1,
-        "independence": 8,
+        "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -12484,11 +12541,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -12510,8 +12567,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 3.9,
+        "cognitiveLoad": 3,
+        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -12527,12 +12584,12 @@
       "composables": [],
       "exportCount": 4,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 3,
-        "overall": 4.3,
-        "bucket": "P1"
+        "cognitiveLoad": 2,
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -12542,11 +12599,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 3.5,
+        "cognitiveLoad": 4,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -12578,12 +12635,12 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 4.1,
-        "bucket": "P1"
+        "cognitiveLoad": 1,
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -12615,8 +12672,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 2.7,
+        "cognitiveLoad": 3,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -12631,10 +12688,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 7,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 1.9,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -12670,8 +12727,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
         "bucket": "P1"
       }
     },
@@ -12692,8 +12749,8 @@
         "reliability": 5,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 5.7,
+        "cognitiveLoad": 1,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
@@ -12706,11 +12763,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 7,
+        "reliability": 2,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -12726,8 +12783,8 @@
         "reliability": 4,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 5,
-        "overall": 3,
+        "cognitiveLoad": 7,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -12765,8 +12822,8 @@
         "reliability": 3,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.9,
+        "cognitiveLoad": 1,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -12811,11 +12868,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 3,
-        "independence": 7,
+        "reliability": 1,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.9,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -12843,11 +12900,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 3.8,
+        "cognitiveLoad": 4,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -12860,11 +12917,11 @@
       "composables": [],
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 6,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -12875,11 +12932,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -12920,8 +12977,8 @@
         "reliability": 3,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 4.3,
+        "cognitiveLoad": 3,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -12954,8 +13011,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 2.9,
+        "cognitiveLoad": 5,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -12972,8 +13029,8 @@
         "reliability": 3,
         "independence": 4,
         "roi": 1,
-        "cognitiveLoad": 3,
-        "overall": 2.6,
+        "cognitiveLoad": 4,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -13016,11 +13073,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -13035,10 +13092,63 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 5,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 3,
+        "overall": 4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "functions": [
+        "buildInviteContext"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "functions": [
+        "createInvitesForAppointment"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 1,
+        "cognitiveLoad": 8,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/templateResolver.ts",
+      "functions": [
+        "extractTemplateVariables",
+        "resolveEventTemplates",
+        "resolveTemplate"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -13073,8 +13183,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 2.3,
+        "cognitiveLoad": 2,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -13207,10 +13317,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -13241,11 +13351,11 @@
       "exportCount": 1,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -13266,6 +13376,21 @@
       }
     },
     {
+      "repoPath": "server/src/utils/arrayNormalize.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/utils/availabilities/availabilityPrimitives.ts",
       "functions": [
         "formatDayKey",
@@ -13278,10 +13403,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -13334,11 +13459,11 @@
       "composables": [],
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -13356,6 +13481,23 @@
         "roi": 4,
         "cognitiveLoad": 0,
         "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/utils/safeDefaults.ts",
+      "functions": [
+        "asEmptyString"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -13386,8 +13528,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
         "bucket": "P1"
       }
     }
@@ -13516,9 +13658,9 @@
     },
     {
       "directory": "client/src/composables/admin",
-      "sourceCount": 92,
+      "sourceCount": 93,
       "testCount": 0,
-      "untestedCount": 92
+      "untestedCount": 93
     },
     {
       "directory": "client/src/composables/admin/utils",
@@ -13546,9 +13688,9 @@
     },
     {
       "directory": "client/src/composables/booking",
-      "sourceCount": 73,
+      "sourceCount": 74,
       "testCount": 0,
-      "untestedCount": 73
+      "untestedCount": 74
     },
     {
       "directory": "client/src/composables/businessDataCollections",
@@ -13600,9 +13742,9 @@
     },
     {
       "directory": "client/src/composables",
-      "sourceCount": 29,
+      "sourceCount": 26,
       "testCount": 0,
-      "untestedCount": 29
+      "untestedCount": 26
     },
     {
       "directory": "client/src/configs",
@@ -13720,21 +13862,27 @@
     },
     {
       "directory": "client/src/utils/admin",
-      "sourceCount": 2,
+      "sourceCount": 3,
       "testCount": 0,
-      "untestedCount": 2
+      "untestedCount": 3
     },
     {
       "directory": "client/src/utils",
-      "sourceCount": 14,
+      "sourceCount": 15,
       "testCount": 0,
-      "untestedCount": 14
+      "untestedCount": 15
     },
     {
       "directory": "client/src/utils/api",
       "sourceCount": 11,
       "testCount": 0,
       "untestedCount": 11
+    },
+    {
+      "directory": "client/src/utils/async",
+      "sourceCount": 1,
+      "testCount": 0,
+      "untestedCount": 1
     },
     {
       "directory": "client/src/utils/booking",
@@ -13744,9 +13892,9 @@
     },
     {
       "directory": "client/src/utils/collections",
-      "sourceCount": 4,
+      "sourceCount": 5,
       "testCount": 0,
-      "untestedCount": 4
+      "untestedCount": 5
     },
     {
       "directory": "client/src/utils/colors",
@@ -14073,6 +14221,12 @@
       "untestedCount": 3
     },
     {
+      "directory": "server/src/services/invites",
+      "sourceCount": 3,
+      "testCount": 0,
+      "untestedCount": 3
+    },
+    {
       "directory": "server/src/test/setup",
       "sourceCount": 2,
       "testCount": 0,
@@ -14086,9 +14240,9 @@
     },
     {
       "directory": "server/src/utils",
-      "sourceCount": 9,
+      "sourceCount": 11,
       "testCount": 0,
-      "untestedCount": 9
+      "untestedCount": 11
     },
     {
       "directory": "server/src/utils/availabilities",
@@ -14169,8 +14323,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.2,
+        "cognitiveLoad": 1,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -14188,8 +14342,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 0,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -14283,8 +14437,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
+        "cognitiveLoad": 1,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -14302,8 +14456,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -14321,8 +14475,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.4,
+        "cognitiveLoad": 2,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -14359,8 +14513,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.8,
+        "cognitiveLoad": 1,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -14395,10 +14549,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 1,
+        "independence": 4,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.5,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -14452,10 +14606,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -14471,10 +14625,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 3,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 0.9,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -14565,11 +14719,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -14622,11 +14776,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -14698,11 +14852,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -14736,11 +14890,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8,
+        "overall": 1,
         "bucket": "P2"
       }
     },
@@ -14755,11 +14909,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -14774,11 +14928,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.1,
+        "overall": 1.3,
         "bucket": "P2"
       }
     },
@@ -14870,10 +15024,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -14926,12 +15080,12 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 2,
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4,
-        "bucket": "P1"
+        "overall": 2.4,
+        "bucket": "P2"
       }
     },
     {
@@ -14945,11 +15099,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 1,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -14964,11 +15118,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -15005,8 +15159,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 2.3,
+        "cognitiveLoad": 2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -15059,11 +15213,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 7,
         "roi": 2,
         "cognitiveLoad": 1,
-        "overall": 2.9,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -15199,8 +15353,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -15256,8 +15410,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 3.5,
+        "cognitiveLoad": 3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -15589,6 +15743,29 @@
       }
     },
     {
+      "repoPath": "client/src/composables/admin/useAdmin.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdmin.ts",
+      "functions": [
+        "useAdmin"
+      ],
+      "classes": [],
+      "composables": [
+        "useAdmin"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 7,
+        "independence": 1,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/composables/admin/useAdminMetadataMutations.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAdminMetadataMutations.ts",
       "functions": [
@@ -15673,10 +15850,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 9,
-        "independence": 5,
+        "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.1,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -15811,11 +15988,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 6.9,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -15858,10 +16035,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6,
+        "cognitiveLoad": 3,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -15906,8 +16083,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.9,
+        "cognitiveLoad": 1,
+        "overall": 6,
         "bucket": "P1"
       }
     },
@@ -15948,8 +16125,8 @@
         "reliability": 9,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6.6,
+        "cognitiveLoad": 3,
+        "overall": 6.8,
         "bucket": "P1"
       }
     },
@@ -16162,10 +16339,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 4.2,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -16184,11 +16361,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.9,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -16204,11 +16381,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "overall": 4.2,
+        "bucket": "P1"
       }
     },
     {
@@ -16227,10 +16404,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -16245,11 +16422,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
-        "independence": 8,
+        "reliability": 5,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -16368,10 +16545,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -16432,11 +16609,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 4,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -16475,11 +16652,11 @@
       "exportCount": 0,
       "priority": {
         "reliability": 5,
-        "independence": 4,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -16562,11 +16739,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -16632,10 +16809,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -16678,10 +16855,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 1,
-        "overall": 5.2,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
@@ -16701,10 +16878,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.1,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -16743,10 +16920,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -16768,8 +16945,8 @@
         "reliability": 5,
         "independence": 5,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7,
+        "cognitiveLoad": 1,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -16788,11 +16965,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
+        "reliability": 6,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.3,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -16904,11 +17081,11 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 5,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.7,
+        "cognitiveLoad": 0,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -16923,11 +17100,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 8,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -16972,8 +17149,8 @@
         "reliability": 5,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 5.2,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
         "bucket": "P1"
       }
     },
@@ -17018,8 +17195,8 @@
         "reliability": 7,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 5.8,
+        "cognitiveLoad": 0,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -17038,11 +17215,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 3,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 6.1,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -17062,10 +17239,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 5,
+        "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -17129,8 +17306,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 3.7,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -17175,8 +17352,8 @@
         "reliability": 5,
         "independence": 3,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.3,
+        "cognitiveLoad": 1,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -17217,8 +17394,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 3.7,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -17238,10 +17415,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 5,
-        "independence": 4,
+        "independence": 3,
         "roi": 5,
         "cognitiveLoad": 3,
-        "overall": 4.6,
+        "overall": 4.4,
         "bucket": "P1"
       }
     },
@@ -17260,11 +17437,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 5.7,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -17306,11 +17483,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
+        "reliability": 6,
         "independence": 6,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 6.3,
+        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -17573,8 +17750,8 @@
         "reliability": 5,
         "independence": 4,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 3.6,
+        "cognitiveLoad": 1,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -17656,12 +17833,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.5,
-        "bucket": "P1"
+        "overall": 3.7,
+        "bucket": "P2"
       }
     },
     {
@@ -17934,12 +18111,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -18004,10 +18181,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 6,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
+        "overall": 7.5,
         "bucket": "P0"
       }
     },
@@ -18026,11 +18203,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 7.6,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
         "bucket": "P0"
       }
     },
@@ -18049,11 +18226,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 7.6,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
         "bucket": "P0"
       }
     },
@@ -18121,10 +18298,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 4,
+        "independence": 6,
         "roi": 7,
         "cognitiveLoad": 3,
-        "overall": 7.2,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -18146,8 +18323,8 @@
         "reliability": 10,
         "independence": 4,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 7.2,
+        "cognitiveLoad": 5,
+        "overall": 7.4,
         "bucket": "P0"
       }
     },
@@ -18189,12 +18366,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 3,
+        "reliability": 9,
+        "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7,
-        "bucket": "P1"
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -18235,11 +18412,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
+        "reliability": 9,
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 8.1,
+        "overall": 7.7,
         "bucket": "P0"
       }
     },
@@ -18258,12 +18435,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -18310,6 +18487,29 @@
         "cognitiveLoad": 0,
         "overall": 6.5,
         "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBookingWizard.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useBookingWizard.ts",
+      "functions": [
+        "useBookingWizard"
+      ],
+      "classes": [],
+      "composables": [
+        "useBookingWizard"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 9,
+        "independence": 7,
+        "roi": 7,
+        "cognitiveLoad": 0,
+        "overall": 7.1,
+        "bucket": "P0"
       }
     },
     {
@@ -18373,8 +18573,8 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 10,
-        "independence": 2,
+        "reliability": 9,
+        "independence": 4,
         "roi": 7,
         "cognitiveLoad": 1,
         "overall": 6.6,
@@ -18445,8 +18645,8 @@
         "reliability": 7,
         "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.3,
+        "cognitiveLoad": 1,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -18534,12 +18734,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -18718,12 +18918,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.5,
+        "bucket": "P1"
       }
     },
     {
@@ -18753,6 +18953,7 @@
       "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useMoveablePartsScheduling.ts",
       "functions": [
+        "computeMoveableSlots",
         "useMoveablePartsScheduling"
       ],
       "classes": [],
@@ -18762,13 +18963,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 2,
+      "exportCount": 3,
       "priority": {
         "reliability": 10,
         "independence": 6,
-        "roi": 7,
+        "roi": 8,
         "cognitiveLoad": 2,
-        "overall": 7.5,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -18859,8 +19060,8 @@
         "reliability": 7,
         "independence": 3,
         "roi": 7,
-        "cognitiveLoad": 3,
-        "overall": 5.8,
+        "cognitiveLoad": 2,
+        "overall": 5.7,
         "bucket": "P1"
       }
     },
@@ -19221,9 +19422,9 @@
       "exportCount": 2,
       "priority": {
         "reliability": 10,
-        "independence": 6,
+        "independence": 7,
         "roi": 7,
-        "cognitiveLoad": 2,
+        "cognitiveLoad": 0,
         "overall": 7.5,
         "bucket": "P0"
       }
@@ -19266,11 +19467,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.7,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -19292,8 +19493,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 6.6,
+        "cognitiveLoad": 0,
+        "overall": 6.5,
         "bucket": "P1"
       }
     },
@@ -19335,12 +19536,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 1,
-        "overall": 7.4,
-        "bucket": "P0"
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
@@ -19359,10 +19560,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -19530,11 +19731,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -19550,10 +19751,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -19653,10 +19854,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 4,
         "roi": 2,
         "cognitiveLoad": 2,
-        "overall": 2.6,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -19678,8 +19879,8 @@
         "reliability": 4,
         "independence": 5,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.3,
+        "cognitiveLoad": 1,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -19777,8 +19978,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -19834,8 +20035,8 @@
         "reliability": 4,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -19873,12 +20074,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -19926,21 +20127,22 @@
         "cancelQueriesBeforeMutate",
         "createRefetchGlobalDataHandler",
         "createRefetchQueriesHandler",
-        "createRestorePreviousDataHandler"
+        "createRestorePreviousDataHandler",
+        "invalidateEntityQueries"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 5,
       "priority": {
-        "reliability": 2,
+        "reliability": 3,
         "independence": 5,
-        "roi": 6,
+        "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 3.6,
-        "bucket": "P2"
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -20011,11 +20213,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 3,
         "roi": 2,
-        "cognitiveLoad": 2,
-        "overall": 3,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -20050,10 +20252,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 6,
+        "independence": 9,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -20119,10 +20321,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 7,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.9,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -20176,10 +20378,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 7,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -20203,29 +20405,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/useAdmin.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAdmin.ts",
-      "functions": [
-        "useAdmin"
-      ],
-      "classes": [],
-      "composables": [
-        "useAdmin"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 4,
-        "independence": 2,
-        "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 3.6,
-        "bucket": "P2"
-      }
-    },
-    {
       "repoPath": "client/src/composables/useAdminConfig.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAdminConfig.ts",
       "functions": [
@@ -20241,11 +20420,11 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.9,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -20340,29 +20519,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/useBookingWizard.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBookingWizard.ts",
-      "functions": [
-        "useBookingWizard"
-      ],
-      "classes": [],
-      "composables": [
-        "useBookingWizard"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 4,
-        "independence": 7,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 4.5,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/composables/useBusiness.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useBusiness.ts",
       "functions": [
@@ -20383,12 +20539,12 @@
       "testFile": null,
       "exportCount": 8,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -20428,8 +20584,8 @@
         "reliability": 4,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.7,
+        "cognitiveLoad": 1,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -20445,10 +20601,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 3.4,
         "bucket": "P2"
       }
     },
@@ -20528,11 +20684,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 2,
-        "overall": 4.9,
+        "overall": 4.1,
         "bucket": "P1"
       }
     },
@@ -20552,10 +20708,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 3,
+        "independence": 2,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.7,
+        "overall": 3.5,
         "bucket": "P2"
       }
     },
@@ -20626,8 +20782,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 1,
-        "overall": 4.6,
+        "cognitiveLoad": 0,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -20646,12 +20802,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -20669,12 +20825,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -20757,31 +20913,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 7,
         "roi": 5,
         "cognitiveLoad": 4,
-        "overall": 4.9,
+        "overall": 4.1,
         "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/useSelectionCard.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useSelectionCard.ts",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 2,
-        "independence": 10,
-        "roi": 2,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
       }
     },
     {
@@ -20799,12 +20936,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.7,
-        "bucket": "P1"
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -20892,11 +21029,11 @@
       "testFile": null,
       "exportCount": 4,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 4,
         "roi": 4,
         "cognitiveLoad": 3,
-        "overall": 5.1,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -20914,8 +21051,8 @@
         "reliability": 6,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 3.4,
+        "cognitiveLoad": 2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -20968,11 +21105,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -20987,11 +21124,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -21063,11 +21200,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -21160,11 +21297,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 2.9,
+        "cognitiveLoad": 1,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -21184,8 +21321,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 2.4,
+        "cognitiveLoad": 3,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -21298,8 +21435,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -21314,11 +21451,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -21657,10 +21794,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -21752,10 +21889,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -21770,11 +21907,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 2,
         "cognitiveLoad": 0,
-        "overall": 3.4,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -21794,25 +21931,6 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2.8,
-        "bucket": "P2"
-      }
-    },
-    {
-      "repoPath": "client/src/layouts/Default.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/layouts/Default.vue",
-      "functions": [],
-      "classes": [],
-      "composables": [],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 0,
-      "priority": {
-        "reliability": 0,
-        "independence": 8,
-        "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -21988,6 +22106,25 @@
       }
     },
     {
+      "repoPath": "client/src/layouts/default.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/layouts/default.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 0,
+        "cognitiveLoad": 0,
+        "overall": 1.6,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/main.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/main.ts",
       "functions": [],
@@ -22001,8 +22138,8 @@
         "reliability": 2,
         "independence": 0,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1,
+        "cognitiveLoad": 1,
+        "overall": 0.9,
         "bucket": "P2"
       }
     },
@@ -22095,11 +22232,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -22116,11 +22253,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.1,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -22138,11 +22275,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.7,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -22323,8 +22460,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 3.8,
+        "cognitiveLoad": 2,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -22373,8 +22510,8 @@
       }
     },
     {
-      "repoPath": "client/src/types/admin/adminEntity.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts",
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts",
       "functions": [],
       "classes": [
         "AdminEntity"
@@ -22396,11 +22533,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.9,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -22434,11 +22571,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -22453,11 +22590,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 6,
+        "reliability": 2,
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.8,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -22510,11 +22647,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -22567,11 +22704,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -22587,10 +22724,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -22730,10 +22867,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -22767,11 +22904,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -22843,11 +22980,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -22920,10 +23057,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -22995,11 +23132,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.6,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -23046,6 +23183,30 @@
         "roi": 8,
         "cognitiveLoad": 0,
         "overall": 5.2,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/selectTypeResolver.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/selectTypeResolver.ts",
+      "functions": [
+        "getSelectConfigFromUnwrapped",
+        "resolveOptionEntityKey",
+        "resolveSelectMultiple",
+        "unwrapInputConfig"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 4,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 7,
+        "cognitiveLoad": 1,
+        "overall": 5,
         "bucket": "P1"
       }
     },
@@ -23336,6 +23497,25 @@
       }
     },
     {
+      "repoPath": "client/src/utils/async/withAsyncOperation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/async/withAsyncOperation.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.3,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/utils/autocomplete.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/autocomplete.ts",
       "functions": [],
@@ -23370,10 +23550,10 @@
       "exportCount": 3,
       "priority": {
         "reliability": 5,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 5.7,
+        "cognitiveLoad": 2,
+        "overall": 6.3,
         "bucket": "P1"
       }
     },
@@ -23460,11 +23640,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 8,
-        "independence": 3,
+        "reliability": 4,
+        "independence": 6,
         "roi": 8,
         "cognitiveLoad": 1,
-        "overall": 6.3,
+        "overall": 5.3,
         "bucket": "P1"
       }
     },
@@ -23483,11 +23663,11 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
+        "reliability": 5,
         "independence": 7,
         "roi": 9,
         "cognitiveLoad": 0,
-        "overall": 6.9,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -23506,10 +23686,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 6,
-        "independence": 7,
+        "independence": 9,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6.2,
+        "overall": 6.6,
         "bucket": "P1"
       }
     },
@@ -23568,10 +23748,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 5,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -23590,12 +23770,12 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 7,
-        "independence": 8,
+        "reliability": 5,
+        "independence": 10,
         "roi": 9,
         "cognitiveLoad": 2,
-        "overall": 7.3,
-        "bucket": "P0"
+        "overall": 6.9,
+        "bucket": "P1"
       }
     },
     {
@@ -23699,11 +23879,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 6,
+        "reliability": 4,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 6.2,
+        "overall": 5.4,
         "bucket": "P1"
       }
     },
@@ -23742,12 +23922,12 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 9,
+        "reliability": 7,
         "independence": 10,
         "roi": 6,
         "cognitiveLoad": 0,
-        "overall": 7.4,
-        "bucket": "P0"
+        "overall": 6.6,
+        "bucket": "P1"
       }
     },
     {
@@ -23766,11 +23946,11 @@
       "testFile": null,
       "exportCount": 4,
       "priority": {
-        "reliability": 9,
-        "independence": 5,
+        "reliability": 7,
+        "independence": 8,
         "roi": 9,
-        "cognitiveLoad": 4,
-        "overall": 7.7,
+        "cognitiveLoad": 2,
+        "overall": 7.3,
         "bucket": "P0"
       }
     },
@@ -23810,10 +23990,10 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 6,
-        "independence": 6,
+        "reliability": 4,
+        "independence": 9,
         "roi": 9,
-        "cognitiveLoad": 1,
+        "cognitiveLoad": 3,
         "overall": 6.4,
         "bucket": "P1"
       }
@@ -23832,11 +24012,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -23925,8 +24105,8 @@
         "reliability": 3,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 0,
-        "overall": 5.9,
+        "cognitiveLoad": 1,
+        "overall": 6,
         "bucket": "P1"
       }
     },
@@ -24100,11 +24280,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
-        "independence": 8,
+        "reliability": 2,
+        "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 5.6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -24122,11 +24302,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 6,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -24146,8 +24326,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 4.3,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -24232,6 +24412,25 @@
       }
     },
     {
+      "repoPath": "client/src/utils/collections/arrayDiff.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/collections/arrayDiff.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/utils/collections/findById.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/collections/findById.ts",
       "functions": [],
@@ -24262,10 +24461,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.1,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -24390,11 +24589,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
-        "independence": 6,
+        "reliability": 5,
+        "independence": 10,
         "roi": 6,
-        "cognitiveLoad": 2,
-        "overall": 6,
+        "cognitiveLoad": 1,
+        "overall": 5.9,
         "bucket": "P1"
       }
     },
@@ -24453,10 +24652,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -24476,8 +24675,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 1,
-        "overall": 4.1,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -24550,6 +24749,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/eventAttendeeUtils.ts",
       "functions": [
         "getAllUserTypeBlockIds",
+        "getEventShapeByRole",
         "getMajorEventShape",
         "getMinorEventShape"
       ],
@@ -24558,14 +24758,14 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
-        "reliability": 2,
-        "independence": 5,
+        "reliability": 4,
+        "independence": 7,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "overall": 5.1,
+        "bucket": "P1"
       }
     },
     {
@@ -24603,9 +24803,9 @@
         "reliability": 2,
         "independence": 9,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4,
-        "bucket": "P1"
+        "cognitiveLoad": 1,
+        "overall": 3.9,
+        "bucket": "P2"
       }
     },
     {
@@ -24624,8 +24824,8 @@
         "reliability": 2,
         "independence": 8,
         "roi": 4,
-        "cognitiveLoad": 1,
-        "overall": 3.7,
+        "cognitiveLoad": 0,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -24682,12 +24882,12 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -24790,11 +24990,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -24830,11 +25030,32 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4,
+        "overall": 3.6,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/safeDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/safeDefaults.ts",
+      "functions": [
+        "asEmptyString"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -24852,8 +25073,8 @@
         "reliability": 4,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 1,
-        "overall": 4.2,
+        "cognitiveLoad": 3,
+        "overall": 4.4,
         "bucket": "P1"
       }
     },
@@ -24872,11 +25093,11 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 5.7,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -24926,8 +25147,8 @@
         "reliability": 10,
         "independence": 9,
         "roi": 10,
-        "cognitiveLoad": 4,
-        "overall": 9.2,
+        "cognitiveLoad": 3,
+        "overall": 9.1,
         "bucket": "P0"
       }
     },
@@ -24947,8 +25168,8 @@
         "reliability": 10,
         "independence": 6,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 7.7,
+        "cognitiveLoad": 0,
+        "overall": 7.6,
         "bucket": "P0"
       }
     },
@@ -25030,11 +25251,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 10,
+        "reliability": 8,
         "independence": 7,
         "roi": 8,
         "cognitiveLoad": 0,
-        "overall": 7.8,
+        "overall": 7,
         "bucket": "P0"
       }
     },
@@ -25090,8 +25311,8 @@
         "reliability": 10,
         "independence": 8,
         "roi": 10,
-        "cognitiveLoad": 1,
-        "overall": 8.7,
+        "cognitiveLoad": 3,
+        "overall": 8.9,
         "bucket": "P0"
       }
     },
@@ -25243,10 +25464,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 0.8,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -25302,8 +25523,8 @@
         "reliability": 0,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.4,
+        "cognitiveLoad": 1,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -25321,8 +25542,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2,
+        "cognitiveLoad": 1,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -25546,11 +25767,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 4,
         "independence": 4,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 1.8,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -25739,8 +25960,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -25777,8 +25998,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 3,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -25905,11 +26126,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -25989,10 +26210,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 2,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -26055,11 +26276,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 8,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -26113,10 +26334,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -26151,10 +26372,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -26239,8 +26460,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26266,8 +26487,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26293,8 +26514,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26349,8 +26570,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26374,11 +26595,11 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 7,
+        "independence": 10,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 1,
+        "overall": 4.6,
+        "bucket": "P1"
       }
     },
     {
@@ -26432,8 +26653,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26461,8 +26682,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26490,8 +26711,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26519,8 +26740,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26548,8 +26769,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -26685,8 +26906,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -26709,12 +26930,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 4.3,
-        "bucket": "P1"
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -26905,9 +27126,9 @@
         "reliability": 2,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 1,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -26988,8 +27209,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -27097,12 +27318,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 0,
+        "reliability": 2,
         "independence": 10,
         "roi": 5,
         "cognitiveLoad": 0,
-        "overall": 3.5,
-        "bucket": "P2"
+        "overall": 4.3,
+        "bucket": "P1"
       }
     },
     {
@@ -27156,8 +27377,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -27185,8 +27406,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -27424,8 +27645,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 2.5,
+        "cognitiveLoad": 1,
+        "overall": 2.6,
         "bucket": "P2"
       }
     },
@@ -27470,8 +27691,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -27597,10 +27818,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 2.5,
+        "overall": 2.9,
         "bucket": "P2"
       }
     },
@@ -27656,8 +27877,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 1.7,
+        "cognitiveLoad": 3,
+        "overall": 1.9,
         "bucket": "P2"
       }
     },
@@ -27694,8 +27915,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 1.6,
+        "cognitiveLoad": 1,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -27729,11 +27950,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -27789,8 +28010,8 @@
         "reliability": 2,
         "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
+        "cognitiveLoad": 1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -27827,8 +28048,8 @@
         "reliability": 2,
         "independence": 9,
         "roi": 0,
-        "cognitiveLoad": 0,
-        "overall": 2.6,
+        "cognitiveLoad": 2,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -27866,11 +28087,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
-        "independence": 9,
+        "reliability": 0,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -27878,6 +28099,8 @@
       "repoPath": "server/src/routes/helpers/crudHandlerHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/helpers/crudHandlerHelpers.ts",
       "functions": [
+        "executeOptionalHook",
+        "handleValidationResult",
         "runMutationValidation"
       ],
       "classes": [],
@@ -27885,13 +28108,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 0,
-        "independence": 7,
-        "roi": 1,
+        "independence": 6,
+        "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 1.7,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -27909,8 +28132,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.5,
+        "cognitiveLoad": 5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -27945,10 +28168,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.3,
+        "cognitiveLoad": 2,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -27988,12 +28211,12 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 4.1,
-        "bucket": "P1"
+        "overall": 3.3,
+        "bucket": "P2"
       }
     },
     {
@@ -28092,11 +28315,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 2.1,
+        "cognitiveLoad": 4,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -28140,8 +28363,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 3.3,
+        "cognitiveLoad": 1,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -28218,11 +28441,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -28340,11 +28563,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 4,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.8,
+        "cognitiveLoad": 3,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -28479,11 +28702,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -28520,8 +28743,8 @@
         "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2,
+        "cognitiveLoad": 3,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -28568,10 +28791,10 @@
       "exportCount": 7,
       "priority": {
         "reliability": 5,
-        "independence": 7,
+        "independence": 9,
         "roi": 5,
         "cognitiveLoad": 5,
-        "overall": 5.4,
+        "overall": 5.8,
         "bucket": "P1"
       }
     },
@@ -28586,11 +28809,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -28745,12 +28968,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 3,
+        "reliability": 1,
         "independence": 10,
         "roi": 3,
-        "cognitiveLoad": 0,
-        "overall": 4.1,
-        "bucket": "P1"
+        "cognitiveLoad": 2,
+        "overall": 3.5,
+        "bucket": "P2"
       }
     },
     {
@@ -28783,11 +29006,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 2.2,
+        "cognitiveLoad": 4,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -28825,11 +29048,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -28885,11 +29108,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 5,
         "roi": 0,
         "cognitiveLoad": 4,
-        "overall": 3,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -28931,12 +29154,12 @@
       "testFile": null,
       "exportCount": 3,
       "priority": {
-        "reliability": 3,
+        "reliability": 1,
         "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 4.4,
-        "bucket": "P1"
+        "overall": 3.6,
+        "bucket": "P2"
       }
     },
     {
@@ -28974,11 +29197,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29031,11 +29254,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 9,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.6,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -29050,11 +29273,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 7,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.2,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -29091,8 +29314,8 @@
         "reliability": 2,
         "independence": 5,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 2.3,
+        "cognitiveLoad": 4,
+        "overall": 2.2,
         "bucket": "P2"
       }
     },
@@ -29137,10 +29360,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 0,
-        "independence": 4,
+        "independence": 7,
         "roi": 4,
         "cognitiveLoad": 1,
-        "overall": 2.1,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -29176,11 +29399,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29340,8 +29563,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 3,
-        "overall": 1.5,
+        "cognitiveLoad": 5,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -29390,10 +29613,10 @@
       "exportCount": 8,
       "priority": {
         "reliability": 0,
-        "independence": 7,
+        "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 3,
-        "overall": 3.2,
+        "cognitiveLoad": 2,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -29408,11 +29631,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29427,11 +29650,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 3,
         "roi": 0,
-        "cognitiveLoad": 4,
-        "overall": 1.8,
+        "cognitiveLoad": 5,
+        "overall": 1.1,
         "bucket": "P2"
       }
     },
@@ -29549,11 +29772,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 4,
-        "overall": 2.1,
+        "cognitiveLoad": 5,
+        "overall": 1.4,
         "bucket": "P2"
       }
     },
@@ -29575,8 +29798,8 @@
         "reliability": 0,
         "independence": 8,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 2.8,
+        "cognitiveLoad": 2,
+        "overall": 3,
         "bucket": "P2"
       }
     },
@@ -29605,8 +29828,8 @@
         "reliability": 1,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 6,
-        "overall": 4.4,
+        "cognitiveLoad": 5,
+        "overall": 4.3,
         "bucket": "P1"
       }
     },
@@ -29683,11 +29906,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29708,10 +29931,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 1,
-        "independence": 8,
+        "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -29787,11 +30010,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29817,8 +30040,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 3.9,
+        "cognitiveLoad": 3,
+        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -29838,12 +30061,12 @@
       "testFile": null,
       "exportCount": 4,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 3,
-        "overall": 4.3,
-        "bucket": "P1"
+        "cognitiveLoad": 2,
+        "overall": 3.4,
+        "bucket": "P2"
       }
     },
     {
@@ -29857,11 +30080,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 7,
         "roi": 0,
-        "cognitiveLoad": 5,
-        "overall": 3.5,
+        "cognitiveLoad": 4,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -29901,12 +30124,12 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 4.1,
-        "bucket": "P1"
+        "cognitiveLoad": 1,
+        "overall": 3.2,
+        "bucket": "P2"
       }
     },
     {
@@ -29946,8 +30169,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 2.7,
+        "cognitiveLoad": 3,
+        "overall": 2.8,
         "bucket": "P2"
       }
     },
@@ -29966,10 +30189,10 @@
       "exportCount": 2,
       "priority": {
         "reliability": 0,
-        "independence": 5,
+        "independence": 7,
         "roi": 3,
         "cognitiveLoad": 0,
-        "overall": 1.9,
+        "overall": 2.3,
         "bucket": "P2"
       }
     },
@@ -30024,8 +30247,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
         "bucket": "P1"
       }
     },
@@ -30050,8 +30273,8 @@
         "reliability": 5,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 5.7,
+        "cognitiveLoad": 1,
+        "overall": 5.6,
         "bucket": "P1"
       }
     },
@@ -30068,11 +30291,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
-        "independence": 7,
+        "reliability": 2,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 3.3,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -30092,8 +30315,8 @@
         "reliability": 4,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 5,
-        "overall": 3,
+        "cognitiveLoad": 7,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -30139,8 +30362,8 @@
         "reliability": 3,
         "independence": 10,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 4.9,
+        "cognitiveLoad": 1,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -30197,11 +30420,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 3,
-        "independence": 7,
+        "reliability": 1,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 2.9,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -30237,11 +30460,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 9,
         "roi": 1,
-        "cognitiveLoad": 1,
-        "overall": 3.8,
+        "cognitiveLoad": 4,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -30258,11 +30481,11 @@
       "testFile": null,
       "exportCount": 1,
       "priority": {
-        "reliability": 4,
+        "reliability": 0,
         "independence": 6,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 3.1,
+        "cognitiveLoad": 1,
+        "overall": 1.6,
         "bucket": "P2"
       }
     },
@@ -30277,11 +30500,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -30334,8 +30557,8 @@
         "reliability": 3,
         "independence": 6,
         "roi": 5,
-        "cognitiveLoad": 4,
-        "overall": 4.3,
+        "cognitiveLoad": 3,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -30376,8 +30599,8 @@
         "reliability": 2,
         "independence": 6,
         "roi": 2,
-        "cognitiveLoad": 3,
-        "overall": 2.9,
+        "cognitiveLoad": 5,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -30398,8 +30621,8 @@
         "reliability": 3,
         "independence": 4,
         "roi": 1,
-        "cognitiveLoad": 3,
-        "overall": 2.6,
+        "cognitiveLoad": 4,
+        "overall": 2.7,
         "bucket": "P2"
       }
     },
@@ -30454,11 +30677,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 2,
+        "reliability": 0,
         "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 2.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -30477,10 +30700,75 @@
       "exportCount": 2,
       "priority": {
         "reliability": 4,
-        "independence": 5,
+        "independence": 10,
         "roi": 1,
         "cognitiveLoad": 1,
-        "overall": 3,
+        "overall": 4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/invites/inviteContextBuilder.ts",
+      "functions": [
+        "buildInviteContext"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 2.3,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/invites/inviteOrchestrationService.ts",
+      "functions": [
+        "createInvitesForAppointment"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 1,
+        "cognitiveLoad": 8,
+        "overall": 3.1,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/services/invites/templateResolver.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/invites/templateResolver.ts",
+      "functions": [
+        "extractTemplateVariables",
+        "resolveEventTemplates",
+        "resolveTemplate"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 0,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 3.2,
         "bucket": "P2"
       }
     },
@@ -30523,8 +30811,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 1,
-        "cognitiveLoad": 0,
-        "overall": 2.3,
+        "cognitiveLoad": 2,
+        "overall": 2.5,
         "bucket": "P2"
       }
     },
@@ -30689,10 +30977,10 @@
       "exportCount": 1,
       "priority": {
         "reliability": 2,
-        "independence": 5,
+        "independence": 8,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3,
+        "overall": 3.6,
         "bucket": "P2"
       }
     },
@@ -30731,11 +31019,11 @@
       "exportCount": 1,
       "priority": {
         "reliability": 2,
-        "independence": 7,
+        "independence": 10,
         "roi": 4,
         "cognitiveLoad": 0,
-        "overall": 3.4,
-        "bucket": "P2"
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -30760,6 +31048,25 @@
       }
     },
     {
+      "repoPath": "server/src/utils/arrayNormalize.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/arrayNormalize.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 3,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "server/src/utils/availabilities/availabilityPrimitives.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/availabilities/availabilityPrimitives.ts",
       "functions": [
@@ -30776,10 +31083,10 @@
       "exportCount": 4,
       "priority": {
         "reliability": 7,
-        "independence": 8,
+        "independence": 10,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -30844,11 +31151,11 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.5,
         "bucket": "P1"
       }
     },
@@ -30870,6 +31177,27 @@
         "roi": 4,
         "cognitiveLoad": 0,
         "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "server/src/utils/safeDefaults.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/utils/safeDefaults.ts",
+      "functions": [
+        "asEmptyString"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 4,
+        "cognitiveLoad": 0,
+        "overall": 4,
         "bucket": "P1"
       }
     },
@@ -30908,8 +31236,8 @@
         "reliability": 2,
         "independence": 10,
         "roi": 4,
-        "cognitiveLoad": 0,
-        "overall": 4,
+        "cognitiveLoad": 1,
+        "overall": 4.1,
         "bucket": "P1"
       }
     }

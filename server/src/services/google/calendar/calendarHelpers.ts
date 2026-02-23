@@ -1,7 +1,3 @@
-/**
- * Google Calendar API Helper Functions
- * 
- */
 
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
 import { geocodeAddressToPlaceId } from '../maps/placesApiService.js'
@@ -28,7 +24,6 @@ export async function transformEventsWithGeocoding(
   const eventsWithLocations = googleEvents
     .filter(event => event.start && event.end) // Filter out events without start/end
     .map(event => {
-      // Extract start time (handle both dateTime and date formats)
       const startTime = event.start?.dateTime || event.start?.date
       const endTime = event.end?.dateTime || event.end?.date
       
@@ -49,7 +44,6 @@ export async function transformEventsWithGeocoding(
     })
     .filter((event): event is NonNullable<typeof event> => event !== null)
   
-  // Geocode addresses to placeIds
   // PATTERN: Process geocoding in parallel for all events with locations
   const events = await Promise.all(
     eventsWithLocations.map(async (event) => {
@@ -66,7 +60,6 @@ export async function transformEventsWithGeocoding(
             transparency: event.transparency
           }
         } catch (error) {
-          // Log warning but continue - geocoding failure shouldn't break event fetching
           logger.warn('Failed to geocode location', {
             location: event.location,
             eventId: event.id,

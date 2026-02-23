@@ -31,8 +31,6 @@ export function useSelectLabelResolution(
   const { fieldContext, currentEntity } = options
   const adminComp = useAdmin()
 
-  /**
-   */
   const resolvedLabel = computed(() => {
     const labelVal = fieldContext.displayConfig.label
     const rawLabel = labelVal !== undefined && labelVal !== null && labelVal !== '' ? labelVal : ''

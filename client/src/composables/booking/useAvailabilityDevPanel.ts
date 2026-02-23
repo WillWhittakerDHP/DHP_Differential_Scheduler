@@ -88,10 +88,6 @@ export function useAvailabilityDevPanel(
   }
 }
 
-/**
- * useDevPanelData composable - gets dev panel data
- * 
- */
 export function useDevPanelData() {
   return sharedDevPanelData
 }

@@ -1,8 +1,3 @@
-/**
- * WHY: Server-Side Constraint Extractor
-
-WHY: Server orchestrator needs to extr...
- */
 import type {
   RangeConstraint,
   OverlapConstraint,
@@ -85,10 +80,6 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
   return RANGE_CONVERTER_MAP[dbConstraint.type](dbConstraint)
 }
 
-/**
- * PATTERN: Extract range constraints from availability settings
-PATTERN: Pure funct...
- */
 function extractRangeConstraints(
   settings: AvailabilitySettingsData
 ): RangeConstraint[] {
@@ -108,10 +99,6 @@ function extractRangeConstraints(
     .map(convertRangeConstraint)
 }
 
-/**
- * PATTERN: Extract overlap constraints (buffers) from availability settings
-PATTERN...
- */
 function extractDriveTimeConstraint(
   settings: AvailabilitySettingsData,
   type: 'driveToCandidate' | 'driveFromCandidate',

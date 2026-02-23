@@ -1,6 +1,3 @@
-/**
- * Entity API endpoint builders
- */
 
 export function getEntityEndpoint(entityKey: string): string {
   return `/entities/${entityKey}`

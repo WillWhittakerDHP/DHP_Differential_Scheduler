@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * AvailabilityCalendarSection – calendar picker and differential graph.
- * Used by AvailabilityStep; receives date state and graph data as props, emits date changes.
- */
 
 import type { TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'

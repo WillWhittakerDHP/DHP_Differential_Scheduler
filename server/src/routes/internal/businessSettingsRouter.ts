@@ -1,7 +1,3 @@
-/**
- * Business Settings Router - Main Orchestrator
- * 
- */
 
 import { Router } from 'express'
 import { BusinessSettingsCrudRouter } from './businessSettings/businessSettingsCrudRouter.js'

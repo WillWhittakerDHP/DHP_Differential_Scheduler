@@ -1,10 +1,4 @@
 <script setup lang="ts">
-/**
- * PropertyDetailsStep Component
- * 
- * 
- * Phase 1.2: Removed hardcoded data - all form values initialize empty, ready for API integration
- */
 
 import { ref, inject, computed, onMounted, type Ref } from 'vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -29,9 +23,6 @@ const logger = createLogger('PropertyDetailsStep')
 
 const { prefetchToken } = useMapsSessionToken()
 
-/**
- * Pre-fetch session token when component mounts (Step 2 becomes active)
- */
 onMounted(() => {
   prefetchToken().catch(error => {
     logger.warn('[onMounted] Failed to pre-fetch session token:', error)

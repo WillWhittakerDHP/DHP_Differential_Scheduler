@@ -34,12 +34,6 @@ export const CONSTRAINT_COLORS: Record<string, string> = {
   'range.businessHours': '#E91E63'     // Pink
 }
 
-/**
- * Get color for violation type, handling buffer:minutes format
- * 
- * @param violationType - Violation type string (e.g., 'overlap.event.direct' or 'overlap.driveToCandidate.buffer:20')
- * @returns Hex color string or default gray
- */
 export function getColorForViolation(violationType: string): string {
   if (CONSTRAINT_COLORS[violationType]) {
     return CONSTRAINT_COLORS[violationType]
@@ -53,15 +47,6 @@ export function getColorForViolation(violationType: string): string {
   return '#757575'
 }
 
-/**
- * Format constraint violation to human-readable tooltip text
- * LEARNING: Parses violation type and formats friendly message
- * PATTERN: Parse constraint type and format human-readable message
- * Format: 'overlap.{constraintType}.{direct|buffer}' or 'overlap.{constraintType}.buffer:{minutes}'
- * 
- * @param violationType - Violation type string (e.g., 'overlap.event.direct' or 'capacity.daily')
- * @returns Human-readable tooltip text
- */
 export function formatViolationTooltip(violationType: string): string {
   const parts = violationType.split('.')
   
@@ -69,7 +54,6 @@ export function formatViolationTooltip(violationType: string): string {
     const constraintName = parts[1] // e.g., 'appointment', 'driveToCandidate', 'event'
     const reasonPart = parts[2] // 'direct' or 'buffer' or 'buffer:20'
     
-    // Parse buffer minutes if present (format: 'buffer:20')
     let reason = reasonPart
     let bufferMinutes: number | null = null
     if (reasonPart.includes(':')) {

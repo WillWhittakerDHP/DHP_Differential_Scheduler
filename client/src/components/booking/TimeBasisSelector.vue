@@ -1,14 +1,4 @@
 <script setup lang="ts">
-/**
- * TimeBasisSelector Component
- * 
- * 
- * Features:
- * - Major/Minor toggle buttons for differential services
- * - Conditional rendering based on isDifferentialService
- * - Toggle logic: clicking selected button switches to other, clicking active selects it
- * - Responsive layout with mobile-first design
- */
 
 
 import { computed } from 'vue'

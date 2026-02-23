@@ -1,5 +1,4 @@
 /**
- * PATTERN: Admin Composable
 PATTERN: Composable that transforms GlobalData to Admin...
  */
 import { computed } from 'vue'
@@ -69,9 +68,6 @@ function createAdminInstance() {
     return adminTransformer.transformGlobalToAdmin(data)
   })
 
-  /**
-   * Get entity by key and ID from transformed entities
-   */
   function getEntity<GE extends GlobalEntityKey>(
     entityKey: GE,
     entityId: GlobalEntityId
@@ -80,9 +76,6 @@ function createAdminInstance() {
     return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined
   }
 
-  /**
-   * Get all entities of a type from transformed entities
-   */
   function getEntities<GE extends GlobalEntityKey>(entityKey: GE): AdminObject<GE>[] {
     const entities = transformedEntities.value[entityKey] as AdminObject<GE>[] | undefined
     // WHY: Prevents undefined errors when accessing entities that haven't been loaded yet
@@ -90,16 +83,10 @@ function createAdminInstance() {
     return asEmptyArray(entities)
   }
 
-  /**
-   * Get entities by key (alias for getEntities)
-   */
   function getEntitiesByKey<GE extends GlobalEntityKey>(entityKey: GE): AdminObject<GE>[] {
     return getEntities(entityKey)
   }
 
-  /**
-   * Get entity map for O(1) lookups
-   */
   function getEntityMap<GE extends GlobalEntityKey>(entityKey: GE): Map<GlobalEntityId, AdminObject<GE>> {
     const entities = getEntities(entityKey)
     const entityMap = new Map<GlobalEntityId, AdminObject<GE>>()
@@ -112,9 +99,6 @@ function createAdminInstance() {
     return entityMap
   }
 
-  /**
-   * Collect all admin entities for logging
-   */
   const adminData = computed(() => {
     return {
       blockInstance: getEntities('blockInstance'),
@@ -128,13 +112,6 @@ function createAdminInstance() {
     }
   })
 
-  /**
-   * Get metadata for an entity (from lazy-loaded metadata cache)
-   *
-   * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
-   * @param entity - Entity object (GlobalEntity or AdminObject, used to determine blockShapeRef for blockInstance)
-   * @returns Record<fieldKey, FieldMetadataEntry> - combined primitive + relationship metadata
-   */
   function getMetadata<GE extends GlobalEntityKey>(
     entityKey: GE,
     entity: AdminObject<GE> | GlobalEntity<GE>
@@ -164,11 +141,6 @@ function createAdminInstance() {
     metadataCache.ensureMetadataLoaded()
   }
 
-  /**
-   * WHY: /**
-Check if metadata is loaded
-LEARNING: Reactive property for metadata...
-   */
   const isMetadataLoaded = metadataCache.isLoaded
 
   return {
@@ -184,7 +156,6 @@ LEARNING: Reactive property for metadata...
 }
 
 /**
- * PATTERN: Admin composable
 PATTERN: Singleton pattern - creates instance on first ...
  */
 export function useAdmin() {

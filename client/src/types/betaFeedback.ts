@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Types
- *
- */
 
 export type FeedbackCategory =
   | 'bug'

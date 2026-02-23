@@ -22,9 +22,6 @@ export function buildSelectionCardGridColumnProps(config: SelectionCardConfig): 
   return result
 }
 
-/**
- * Calculate grid columns based on item count
- */
 export function calculateGridColumnsForItemCount(itemCount: number): GridColumns {
   if (itemCount < 5) {
     const colsPerCard = Math.floor(12 / itemCount)

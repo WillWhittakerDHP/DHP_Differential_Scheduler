@@ -1,12 +1,4 @@
 <script setup lang="ts">
-/**
- * ServiceSelectionStep Component
- * 
- * 
- * NOTE: Additional services functionality was removed - will be merged into base services in future work
- * 
- * Session 6.2: Integrated with useBookingWizard for cascading selection logic
- */
 
 import { computed, inject, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'

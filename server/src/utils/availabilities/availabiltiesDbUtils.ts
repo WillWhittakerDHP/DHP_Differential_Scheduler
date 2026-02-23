@@ -45,10 +45,6 @@ import { Appointment, AppointmentFeeSummary } from '../../config/app.js';
 
 const logger = createLogger('AvailabilitiesDbUtils');
 
-/**
- * Pure helper: sum all slot durations across appointments (minutes).
- * Accepts any array of objects with optional selectedTimeSlots (array of { duration?: number } or record).
- */
 function sumDurationsFromAppointments(
   appointments: Array<{ selectedTimeSlots?: Array<{ duration?: number } | Record<string, unknown>> | null }>
 ): number {
@@ -154,9 +150,6 @@ async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise
   }
 }
 
-/**
- * Get Monday 00:00 and Sunday 23:59:59 UTC for the calendar week containing the date.
- */
 function getCalendarWeekRange(date: Date): { start: Date; end: Date } {
   const dayOfWeek = date.getUTCDay();
   const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -213,9 +206,6 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
 
 import type { RollingWeekDirection } from '../../../../shared/types/availabilityTypes.js'
 
-/**
- * Get start and end dates for a rolling 7-day window (UTC).
- */
 function getRollingWeekRange(
   date: Date,
   direction: RollingWeekDirection
@@ -335,9 +325,6 @@ async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<nu
   }
 }
 
-/**
- * Sum income for the calendar week (Monday–Sunday) containing the date.
- */
 export async function sumIncomeForCalendarWeek(date: Date): Promise<number> {
   try {
     const { start, end } = getCalendarWeekRange(date);
@@ -350,9 +337,6 @@ export async function sumIncomeForCalendarWeek(date: Date): Promise<number> {
   }
 }
 
-/**
- * Sum income for the rolling 7-day window (direction: past | centered | future).
- */
 export async function sumIncomeForRollingWeek(date: Date, direction: RollingWeekDirection): Promise<number> {
   try {
     const { start, end } = getRollingWeekRange(date, direction);

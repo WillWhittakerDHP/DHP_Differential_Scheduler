@@ -1,7 +1,5 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- */
 const ENTITY_TYPE_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'BlockShape',
   partShape: 'PartShape',
@@ -13,8 +11,6 @@ const ENTITY_TYPE_NAMES: Record<GlobalEntityKey, string> = {
   annotationInstance: 'AnnotationInstance',
 }
 
-/**
- */
 const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shapes',
   partShape: 'Part Shapes',

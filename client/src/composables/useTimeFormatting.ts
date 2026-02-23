@@ -1,8 +1,3 @@
-/**
- * useTimeFormatting (shim)
- *
- * This composable remains as a stable import point for existing call sites.
- */
 
 import type { TimeRange, TimeSlot } from '@/types/appointment'
 import {

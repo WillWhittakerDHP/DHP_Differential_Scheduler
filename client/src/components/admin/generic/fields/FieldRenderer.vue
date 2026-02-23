@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 /**
- * WHY: Component type is determined from fieldComponentDispatcher, parallel to ...
  */
 import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
@@ -65,7 +64,6 @@ interface Props {
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /**
-   * WHY: /**
 LEARNING: Optional override for readOnly state
 WHY: Allows parent co...
    */

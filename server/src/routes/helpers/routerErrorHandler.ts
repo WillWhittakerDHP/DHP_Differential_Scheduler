@@ -1,7 +1,3 @@
-/**
- * Shared Router Error Handler
- * 
- */
 
 import { Response } from 'express'
 import { createLogger } from '../../utils/logger.js'
@@ -23,16 +19,6 @@ interface ErrorResponseBody {
   id?: string
 }
 
-/**
- * Handle Sequelize validation errors
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param displayName - Optional display name for entity-specific messages (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -105,16 +91,6 @@ export function handleSequelizeValidationError(
   return false
 }
 
-/**
- * Handle general errors with logging
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param context - Additional context for logging (e.g., operation name)
- * @param displayName - Optional display name (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -141,17 +117,6 @@ export function handleGeneralError(
   res.status(500).json(response)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param context - Additional context for logging (e.g., operation name)
- * @param displayName - Optional display name (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- * @param constraintHandler - Optional domain-specific constraint handler function
- */
 export function handleRouteError(
   error: unknown,
   res: Response,

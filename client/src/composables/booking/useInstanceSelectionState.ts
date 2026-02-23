@@ -9,10 +9,6 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-/**
- * WHY: Generic wizard instance interface
-LEARNING: Subset of wizard methods nee...
- */
 export interface GenericWizardInstance {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   availableUserTypeBlocks: Ref<BookingBlockInstance[]>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 /**
- * PATTERN: UserTypeBlockSelectCards Component
 
 PATTERN: Wrapper component that conn...
  */

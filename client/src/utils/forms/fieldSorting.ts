@@ -1,24 +1,8 @@
-/**
- * Field Sorting Utility
- * 
- * 
- * This utility handles:
- * - Sorting by displayOrder (ascending)
- * - Fallback to alphabetical sorting when displayOrder is equal
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
-/**
- * Sort fields by displayOrder
- * 
- * 
- * @param fields - Array of field keys to sort
- * @param metadata - Field metadata containing displayOrder values
- * @returns New sorted array of field keys
- */
 export function sortFieldsByDisplayOrder<GE extends GlobalEntityKey>(
   fields: GlobalFieldKey<GE>[],
   metadata: Record<string, FieldMetadataEntry>

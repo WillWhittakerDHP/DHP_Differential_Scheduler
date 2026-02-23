@@ -1,7 +1,3 @@
-/**
- * User Router - Main Orchestrator
- * 
- */
 
 import { Router } from 'express'
 import { UserCrudRouter } from './userCrudRouter.js'

@@ -1,7 +1,3 @@
-/**
- * User and attendee role constants (server re-export from shared)
- *
- */
 
 export {
   USER_ROLE_CLIENT,

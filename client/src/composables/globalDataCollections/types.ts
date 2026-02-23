@@ -41,7 +41,6 @@ export type GlobalDataCollectionCrudComposableReturn<
   fetchAll: GlobalDataCollectionQueryResult<CollectionItem>
   fetchById: (id: string) => GlobalDataCollectionByIdQueryResult<CollectionItem>
   /**
-   * WHY: /**
 Optional domain helper hook point
    */
   extras?: Record<string, unknown>

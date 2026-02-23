@@ -16,9 +16,6 @@ export interface UseEntityCardStoreSyncOptions<GE extends GlobalEntityKey> {
   
   isNew: boolean
   
-  /**
-   * Function to get store entity
-   */
   getStoreEntity: () => GlobalEntity<GE> | undefined
   
   initialEntity: GlobalEntity<GE>
@@ -52,11 +49,6 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
     return getStoreEntity()
   })
 
-  /**
-   * NOTE: Only sync for existing entities (not new ones), and only if form wasn't provided by parent
-   *      but we only want to reset form when entity ID changes or entity is actually updated
-   *      Prevents resetting form when modal opens/closes or store refetches with same data
-   */
   if (!isNew) {
     let lastEntityId = String(entityId.value)
     

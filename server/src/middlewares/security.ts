@@ -1,5 +1,4 @@
 /**
- * WHY: Security Middleware
 LEARNING: Security middleware stubs for CSRF protect...
  */
 import { Request, Response, NextFunction } from 'express'

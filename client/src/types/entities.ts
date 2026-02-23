@@ -1,6 +1,3 @@
-/**
- * Canonical GlobalEntityId from shared; conversion helpers at boundaries.
- */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 export function toGlobalEntityId(value: string): GlobalEntityId {

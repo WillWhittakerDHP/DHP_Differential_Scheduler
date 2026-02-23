@@ -1,8 +1,3 @@
-/**
- * WHY: Property CRUD Router
-
-LEARNING: Refactored to use response helpers and s...
- */
 import { Router, Request, Response } from 'express'
 import { PropertyVersion, PropertyDetails, Address } from '../../../config/app.js'
 import { transformPropertyVersion } from '../../../utils/propertyTransformers.js'
@@ -16,12 +11,6 @@ import { csrfProtection, checkOwnership } from '../../../middlewares/security.js
 
 const router = Router()
 
-/**
- * GET /properties
- * List all properties
- * 
- * PATTERN: Sequelize findAll with includes, transform to API format
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersions = await PropertyVersion.findAll({
@@ -38,12 +27,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /properties/:id
- * Get single property by ID
- * 
- * PATTERN: Sequelize findByPk with includes, transform to API format
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
@@ -60,11 +43,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * POST /properties
- * Create a new property (Address → PropertyVersion → PropertyDetails)
- * 
- */
 router.post(
   '/',
   csrfProtection, // Security middleware: CSRF protection
@@ -135,11 +113,6 @@ router.post(
   }
 )
 
-/**
- * PUT /properties/:id
- * Update a property (full update)
- * 
- */
 router.put(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -192,11 +165,6 @@ router.put(
   }
 )
 
-/**
- * PATCH /properties/:id
- * Partial update a property
- * 
- */
 router.patch(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -238,11 +206,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /properties/:id
- * Delete a property
- * 
- */
 router.delete(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection

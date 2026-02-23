@@ -1,7 +1,3 @@
-/**
- * useAvailabilityValidation Composable
- * 
- */
 
 import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
@@ -14,10 +10,6 @@ export type UseAvailabilityValidationParams = AvailabilityStepParamsBase
 
 export type UseAvailabilityValidationReturn = UseStepValidationReturn
 
-/**
- * useAvailabilityValidation composable
- * 
- */
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams
 ): UseAvailabilityValidationReturn {

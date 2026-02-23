@@ -1,7 +1,3 @@
-/**
- * Entity Batch Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { fetchAll } from '../../helpers/dataController.js'
@@ -17,12 +13,6 @@ const logger = createLogger('EntityBatchRouter')
 
 const router = Router()
 
-/**
- * GET /entities/batch
- * Get all entities of all types in batch format
- * 
- * LEARNING: Batch endpoint that returns all entity types in structured format
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /entities/batch')

@@ -23,11 +23,6 @@ export interface UseSelectFieldValueOptions {
   
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   
-  /**
-   * WHY: /**
-Whether this is an AnnotationAssignmentSelect field
-LEARNING: Annota...
-   */
   isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
 
@@ -50,11 +45,6 @@ export function useSelectFieldValue(
     fieldContext
   } = options
 
-  /**
-   * WHY: /**
-     Need to filter out invalid values that don't exist in options
- ...
-   */
   const fieldValue = computed(() => {
     const value = rawFieldValue.value
     
@@ -76,7 +66,6 @@ export function useSelectFieldValue(
         
         // PATTERN: Check if missing entities actually exist before warning
         if (isDevModeEnabled() && normalized.length !== validValues.length) {
-          // no-op: Dev-only, could log missing entity ids here
         }
         
         return validValues

@@ -1,6 +1,3 @@
-/**
- * Shared types for data collection composables (business and global).
- */
 
 import type { ComputedRef } from 'vue'
 

@@ -1,6 +1,3 @@
-/**
- *
- */
 
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PartFinal } from '@/utils/booking/PartFinal'
@@ -26,21 +23,12 @@ export interface TimeSlot extends TimeRange {
 
 export type PerspectiveKey = 'major' | 'minor' | 'nonDifferential'
 
-/**
- * WHY: EventFinal: Aggregated event duration for a given event shape
-LEARNING: ...
- */
 export interface EventFinal {
   eventShape: EventShape  // The event shape definition (e.g., major event, minor event, Moveable)
   rawDuration: number     // Sum of raw baseTime from parts assigned to this event
   roundedDuration: number // Event duration rounded once from sum of raw part baseTimes
 }
 
-/**
- * WHY: SlotShape: Durations needed to create AppointmentSlot time ranges
-
-Sessi...
- */
 export interface SlotShape {
   rawDuration: number           // Sum of all finalizedParts.baseTime (raw)
   roundedDuration: number        // Authoritative slot span: duration from slot start to latest event end, rounded once
@@ -49,16 +37,6 @@ export interface SlotShape {
   roundedDifferentialOffset: number  // Rounded duration offset: major.roundedDuration - minor.roundedDuration
 }
 
-/**
- * AppointmentShape: Time-independent structure (durations + finalized blocks/parts)
- * Calculated once from block instances, then applied to each available start time
- * 
- * This is the "what does this appointment look like?" answer
- * 
- * 
- * BlockFinal Refactor: Added finalizedBlocks as source of truth
- *
- */
 export interface AppointmentShape {
   finalizedBlocks: BlockFinal[]  // New: source of truth - finalized blocks
   finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility
@@ -69,13 +47,6 @@ export interface AppointmentShape {
   eventAssignmentsByPartShape: Record<string, EventInstance[]>
 }
 
-/**
- * AppointmentSlot: Shape applied to a specific start time
- * Contains actual TimeRanges with start/end times
- * 
- * This is the "when does this appointment happen?" answer
- * 
- */
 export interface AppointmentSlot {
   buttonIndex: number  // UI grid position (0-based)
   isAvailable: boolean  // true = available, false = busy/unavailable
@@ -93,9 +64,6 @@ export interface AppointmentSlot {
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange
 }
 
-/**
- * AppointmentSlots type - array of AppointmentSlot objects
- */
 export type AppointmentSlots = AppointmentSlot[]
 
 export type {

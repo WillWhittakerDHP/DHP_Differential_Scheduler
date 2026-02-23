@@ -1,12 +1,10 @@
 /**
- * WHY: Debug Window Utility
 
 LEARNING: Isolates DOM access for debug window att...
  */
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
- * WHY: Attach a debug object to the window for debugging purposes
 LEARNING: Iso...
  */
 export function attachDebugToWindow(

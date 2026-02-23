@@ -7,16 +7,6 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
-/**
- * InstanceComponent Model
- * 
- * Represents component relationships between block instances.
- * Component relationships define which block instances are used as components of other block instances.
- * 
- * 
- * NOTE: Renamed from ServiceComponent to InstanceComponent for generalized terminology (2026-01-07)
- * The component pattern applies to any composable block instance, not just "services".
- */
 export class InstanceComponent extends Model<
   InferAttributes<InstanceComponent>,
   InferCreationAttributes<InstanceComponent>

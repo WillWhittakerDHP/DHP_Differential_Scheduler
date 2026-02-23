@@ -31,8 +31,6 @@ export function useInstanceDisplay(
     instances
   } = options
 
-  /**
-   */
   const instancesWithDisplay = computed(() => {
     return mapSelectionCardItemsWithIconAndDescription({
       items: instances.value,

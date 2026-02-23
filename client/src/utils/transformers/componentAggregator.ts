@@ -1,6 +1,3 @@
-/**
- * Component Transformer — composes properties from components to create computed entities.
- */
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
 import type { InstanceComponent } from '@/types/component'
@@ -13,9 +10,6 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('componentAggregator')
 
-/**
- * Convert GlobalRelationship[] to InstanceComponent[] format.
- */
 function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
   entityKind: GE,
   globalData: GlobalData
@@ -75,10 +69,6 @@ export function getComponentsRecursive(
 }
 
 
-/**
- * Compose part instances from composed block instances
- * 
- */
 export function composePartInstances(
   composedBlockIds: string[],
   globalData: GlobalData
@@ -105,7 +95,6 @@ export function composePartInstances(
 }
 
 /**
- * WHY: Compose properties from components
 
 LEARNING: Computed view pattern - al...
  */

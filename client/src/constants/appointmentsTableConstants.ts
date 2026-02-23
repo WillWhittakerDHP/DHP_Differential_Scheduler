@@ -1,6 +1,3 @@
-/**
- * Appointments table client constants (headers, copy).
- */
 
 export const APPOINTMENTS_TABLE_HEADERS = [
   { title: 'Property', key: 'propertyVersionId', sortable: true },

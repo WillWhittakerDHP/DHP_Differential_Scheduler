@@ -25,8 +25,6 @@ useAdmin()
  */
 const currentTab = ref('instances')
 
-/**
- */
 provide('adminCurrentTab', currentTab)
 </script>
 

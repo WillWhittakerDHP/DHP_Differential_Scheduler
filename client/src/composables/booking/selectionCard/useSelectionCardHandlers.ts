@@ -68,8 +68,6 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
     )
   }
 
-  /**
-   */
   const handleNestedChildUpdate = (childId: string, selected: boolean): void => {
     const raw = nestedChildSelections.value
     const current = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
@@ -83,8 +81,6 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
     )
   }
 
-  /**
-   */
   const handleParentClick = (e: Event): void => {
     if (isNestedComponentsClick(e.target)) {
       e.stopPropagation()

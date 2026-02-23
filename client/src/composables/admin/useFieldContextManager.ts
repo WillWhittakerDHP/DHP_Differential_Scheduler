@@ -42,8 +42,6 @@ export function useFieldContextManager(
 
   const { warning: showWarning } = useNotification()
 
-  /**
-   */
   function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
     const context = originalGetFieldContext(fieldKey)
 
@@ -59,8 +57,6 @@ export function useFieldContextManager(
     return context
   }
 
-  /**
-   */
   const fieldsMissingContexts = computed(() => {
     const locations = fieldsByLocation.value
     const allCategorizedFields = [

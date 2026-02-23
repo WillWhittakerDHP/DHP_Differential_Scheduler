@@ -12,6 +12,8 @@ import {
   parseChangedOnlyFlag,
   runTwoPhaseFilter,
   createSuppressionHitTracker,
+  enrichFinding,
+  CONFIDENCE_LEVELS,
 } from './shared-audit-utils.mjs'
 import {
   createSourceFileFromContent,
@@ -216,30 +218,51 @@ function checkConsoleWithoutLogger(content, repoPath) {
   if (repoPath === 'server/src/config/app.ts') {
     return null
   }
-  
+
+  // Phase B: Drop when file is under server/src/scripts/ or is CLI entry (no default export + process.argv)
+  const normalizedPath = repoPath.replace(/\\/g, '/')
+  if (normalizedPath.includes('server/src/scripts/')) {
+    return null
+  }
+  const noDefaultExport = !/export\s+default\b/.test(content)
+  const hasProcessArgv = /\bprocess\.argv\b/.test(content)
+  if (noDefaultExport && hasProcessArgv) {
+    return null
+  }
+
   // Check if file uses console.*
   const hasConsoleUsage = /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(content)
   if (!hasConsoleUsage) {
     return null
   }
-  
+
   // Check if file imports createLogger
-  // Pattern matches: import { createLogger } from '...' or import { createLogger } from "..."
-  // Also matches: import createLogger from '...' or const { createLogger } = require('...')
   const hasLoggerImport = /import\s+(?:\{[^}]*createLogger[^}]*\}|\*\s+as\s+createLogger|createLogger)\s+from/.test(content) ||
                           /import\s+createLogger\s+from/.test(content) ||
                           /const\s+\{\s*createLogger\s*\}\s*=\s*require/.test(content) ||
                           /require\s*\([^)]*['"]logger['"]/.test(content)
-  
+
   if (!hasLoggerImport) {
-    return {
-      ruleId: 'console-no-logger',
-      lineNumber: 1, // File-level finding, use line 1 as placeholder
-      line: 'Raw console.* used without logger utility -- use createLogger() from utils/logger instead.',
-    }
+    return enrichFinding(
+      {
+        ruleId: 'console-no-logger',
+        lineNumber: 1,
+        line: 'Raw console.* used without logger utility -- use createLogger() from utils/logger instead.',
+      },
+      { confidence: CONFIDENCE_LEVELS.MEDIUM }
+    )
   }
-  
+
   return null
+}
+
+/** Phase B: confidence for console-general — high if logger imported and used elsewhere, else medium */
+function getConsoleGeneralConfidence(content) {
+  const hasLoggerImport = /import\s+(?:\{[^}]*createLogger[^}]*\}|createLogger)\s+from/.test(content) ||
+    /import\s+createLogger\s+from/.test(content) ||
+    /\buseLogger\b/.test(content)
+  const hasLoggerUsage = /\blogger\.(log|warn|error|debug|info)\s*\(/.test(content) || /\bcreateLogger\s*\(/.test(content)
+  return hasLoggerImport && hasLoggerUsage ? CONFIDENCE_LEVELS.HIGH : CONFIDENCE_LEVELS.MEDIUM
 }
 
 function toRepoPath(absPath, projectRoot) {
@@ -271,21 +294,53 @@ function stripComments(text) {
 }
 
 /**
+ * Phase B: Return true if catch-without-logger finding should be dropped (rethrow, handleError(err), or return error).
+ * @param {object} kind - SyntaxKind enum (sk.SyntaxKind from loadTsMorph)
+ */
+function shouldDropCatchWithoutLoggerFinding(block, catchClause, kind) {
+  const catchParamName = catchClause.getVariableDeclaration?.()?.getName?.() ?? catchClause.getVariableDeclaration?.()?.getText?.() ?? null
+  let hasRethrow = false
+  let hasErrorHandlerCall = false
+  let hasReturnError = false
+  forEachDescendant(block, (desc) => {
+    if (desc.getKind() === kind.ThrowStatement) {
+      hasRethrow = true
+      return false
+    }
+    if (desc.getKind() === kind.CallExpression) {
+      const args = desc.getArguments?.() ?? []
+      const firstArg = args[0]
+      if (firstArg && catchParamName && firstArg.getText?.()?.trim() === catchParamName) {
+        hasErrorHandlerCall = true
+        return false
+      }
+    }
+    if (desc.getKind() === kind.ReturnStatement) {
+      const expr = desc.getExpression?.()
+      if (expr && expr.getKind() === kind.ObjectLiteralExpression) {
+        const props = expr.getProperties?.() ?? []
+        const hasErrorProp = props.some((p) => p.getName?.() === 'error' || p.getText?.().startsWith('error'))
+        if (hasErrorProp) {
+          hasReturnError = true
+          return false
+        }
+      }
+    }
+  })
+  return hasRethrow || hasErrorHandlerCall || hasReturnError
+}
+
+/**
  * AST: find TryStatement/CatchClause and evaluate catch block (empty, comment-only, console, alert, logger).
  * Returns matches with ruleId, lineNumber, line for: empty-catch, catch-comment-only, console-in-catch, alert-in-catch, catch-without-logger.
- *
- * @param {import('ts-morph').SourceFile} sourceFile
- * @param {(node: import('ts-morph').Node) => number} getLine
- * @param {(lineNum: number) => string} getLineText
- * @param {{ SyntaxKind: object }} sk
- * @returns {Promise<Array<{ ruleId: string, lineNumber: number, line: string }>>}
+ * Phase B: Drops catch-without-logger when block rethrows, calls handleError(err), or returns { error }.
  */
 async function collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk) {
-  const SyntaxKind = sk
+  const kind = sk.SyntaxKind
   const findings = []
 
   for (const node of sourceFile.getDescendants?.() ?? []) {
-    if (node.getKind() !== SyntaxKind.TryStatement) continue
+    if (node.getKind() !== kind.TryStatement) continue
     const catchClause = node.getCatchClause?.()
     if (!catchClause) continue
 
@@ -312,17 +367,17 @@ async function collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk)
     let hasAlert = false
     let hasLogger = false
     forEachDescendant(block, (desc) => {
-      if (desc.getKind() !== SyntaxKind.CallExpression) return
+      if (desc.getKind() !== kind.CallExpression) return
       const expr = desc.getExpression?.()
       if (!expr) return
-      if (expr.getKind() === SyntaxKind.PropertyAccessExpression) {
+      if (expr.getKind() === kind.PropertyAccessExpression) {
         const name = expr.getName?.()
         const obj = expr.getExpression?.()
         const objText = obj?.getText?.() ?? ''
         if (objText === 'console' && ['log', 'warn', 'error', 'debug', 'info'].includes(name)) hasConsole = true
         if (objText === 'logger' && ['error', 'warn', 'info', 'debug'].includes(name)) hasLogger = true
       }
-      if (expr.getKind() === SyntaxKind.Identifier && expr.getText?.() === 'alert') hasAlert = true
+      if (expr.getKind() === kind.Identifier && expr.getText?.() === 'alert') hasAlert = true
     })
     if (hasConsole) {
       findings.push({ ruleId: 'console-in-catch', lineNumber: getLine(block), line: catchLineText.trim().slice(0, 120) })
@@ -331,7 +386,12 @@ async function collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk)
       findings.push({ ruleId: 'alert-in-catch', lineNumber: getLine(block), line: catchLineText.trim().slice(0, 120) })
     }
     if (!hasLogger && !onlyBracesOrEmpty) {
-      findings.push({ ruleId: 'catch-without-logger', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) })
+      if (!shouldDropCatchWithoutLoggerFinding(block, catchClause, kind)) {
+        findings.push(enrichFinding(
+          { ruleId: 'catch-without-logger', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) },
+          { confidence: CONFIDENCE_LEVELS.HIGH }
+        ))
+      }
     }
   }
 
@@ -604,14 +664,20 @@ async function main() {
     if (matches.length === 0) continue
 
     const { allowed, requiresReview } = categorizeMatches(matches, repoPath, content, AUDIT_TYPE, configAllowlist, suppressionHitTracker)
-    const fileScore = calculateScore(requiresReview)
+    const enrichedReview = requiresReview.map((m) => {
+      if (m.ruleId === 'console-general') {
+        return enrichFinding(m, { confidence: getConsoleGeneralConfidence(content) })
+      }
+      return m
+    })
+    const fileScore = calculateScore(enrichedReview)
     const filePriority = assignPriority(fileScore, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
       repoPath,
       allowed,
-      requiresReview,
+      requiresReview: enrichedReview,
       score: fileScore,
       priority: filePriority,
     })

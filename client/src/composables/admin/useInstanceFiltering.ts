@@ -1,6 +1,3 @@
-/**
- * Composable for instance filtering and grouping logic
- */
 
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
@@ -9,9 +6,6 @@ import { useGlobal } from '@/composables/useGlobal'
 
 const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
 
-/**
- * Check if instance is a component child
- */
 function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChildIds: Set<string>): boolean {
   return componentChildIds.has(instance.id)
 }
@@ -27,9 +21,6 @@ export interface UseInstanceFilteringReturn {
   groupedPanelValue: (blockShapeId: string) => string
 }
 
-/**
- * Composable for filtering instances into main vs grouped
- */
 export function useInstanceFiltering(
   options: UseInstanceFilteringOptions
 ): UseInstanceFilteringReturn {
@@ -53,10 +44,6 @@ export function useInstanceFiltering(
     }, new Set<string>())
   })
 
-  /**
-   * Split instances into main vs grouped (components/addOn)
-   *           Grouped instances include addOn OR component children (preserves orderIndex order from useInstanceGrouping)
-   */
   const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
     const result = new Map<string, GlobalEntity<'blockInstance'>[]>()
 

@@ -7,13 +7,37 @@
 
 Generated from `client/.audit-reports/error-handling-audit.json`.
 
-- Requiring review: **0**
-- Allowed exceptions: **45**
+- Requiring review: **2**
+- Allowed exceptions: **0**
 
-## Top 0 files (ranked by score)
+## Delta (vs previous run)
+
+| Baseline state | Count |
+| --- | ---: |
+| New | 2 |
+| Regressed | 0 |
+| Unchanged | 0 |
+| Resolved | 0 |
+
+### By rule
+
+| Rule | New | Unchanged | Resolved | Regressed |
+| --- | ---: | ---: | ---: | ---: |
+| as-any | 2 | 0 | 0 | 0 |
+
+### New findings
+
+| File | Line | Rule | Snippet |
+| --- | ---: | --- | --- |
+| `client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts` | 3 | as-any | const y = x as any |
+| `client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts` | 3 | as-any | const y = x as any |
+
+## Top 2 files (ranked by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts` | P1 | 5 | 0 | 1 | 0 |
+| `client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts` | P1 | 5 | 0 | 1 | 0 |
 
 ## Notes
 

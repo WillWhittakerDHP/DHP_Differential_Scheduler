@@ -1,7 +1,3 @@
-/**
- * Admin Relationship Metadata Router Validation Utilities
- * 
- */
 
 import {
   validateRequiredFields as validateRequiredFieldsShared,

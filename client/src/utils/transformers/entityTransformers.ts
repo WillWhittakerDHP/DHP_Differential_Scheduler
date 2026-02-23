@@ -1,18 +1,10 @@
 /**
- * PATTERN: Entity Transformers
 
 PATTERN: Utility functions for entity transformatio...
  */
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 
-/**
- * Transform API response to frontend format
- *
- * @param rawEntity - Raw entity from API (camelCase)
- * @param entityKey - Entity type key
- * @returns Transformed entity (camelCase)
- */
 export function transformApiEntity<GE extends GlobalEntityKey>(
   rawEntity: Record<string, unknown>,
   entityKey: GE

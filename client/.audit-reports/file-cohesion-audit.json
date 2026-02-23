@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-20T17:33:24.612Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-23T18:12:48.062Z",
+  "totalScanned": 795,
   "tierModel": "tier1",
   "tier1Rules": [
     "oversized",
@@ -20,16 +20,16 @@
     {
       "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
       "category": "components",
-      "lineCount": 724,
+      "lineCount": 706,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 724,
+          "value": 706,
           "threshold": 500,
-          "detail": "724 lines (components max: 500)",
+          "detail": "706 lines (components max: 500)",
           "tier": 1
         }
       ],
@@ -39,16 +39,16 @@
     {
       "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
       "category": "general",
-      "lineCount": 497,
+      "lineCount": 490,
       "exportCount": 2,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 497,
+          "value": 490,
           "threshold": 350,
-          "detail": "497 lines (general max: 350)",
+          "detail": "490 lines (general max: 350)",
           "tier": 1
         }
       ],
@@ -58,7 +58,7 @@
     {
       "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
       "category": "utils",
-      "lineCount": 205,
+      "lineCount": 201,
       "exportCount": 13,
       "mixedConcerns": false,
       "hasExports": true,
@@ -75,18 +75,18 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "category": "utils",
-      "lineCount": 404,
-      "exportCount": 4,
+      "lineCount": 405,
+      "exportCount": 6,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 404,
+          "value": 405,
           "threshold": 300,
-          "detail": "404 lines (utils max: 300)",
+          "detail": "405 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -94,18 +94,18 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "category": "utils",
-      "lineCount": 430,
-      "exportCount": 6,
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "category": "services",
+      "lineCount": 563,
+      "exportCount": 2,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 430,
-          "threshold": 300,
-          "detail": "430 lines (utils max: 300)",
+          "value": 563,
+          "threshold": 400,
+          "detail": "563 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -115,16 +115,16 @@
     {
       "repoPath": "server/src/services/slotComputationService.ts",
       "category": "services",
-      "lineCount": 537,
+      "lineCount": 505,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 537,
+          "value": 505,
           "threshold": 400,
-          "detail": "537 lines (services max: 400)",
+          "detail": "505 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -134,7 +134,7 @@
     {
       "repoPath": "client/src/constants/apiStatus.ts",
       "category": "general",
-      "lineCount": 76,
+      "lineCount": 33,
       "exportCount": 12,
       "mixedConcerns": false,
       "hasExports": true,
@@ -153,7 +153,7 @@
     {
       "repoPath": "client/src/constants/fieldMetadata.ts",
       "category": "general",
-      "lineCount": 120,
+      "lineCount": 70,
       "exportCount": 12,
       "mixedConcerns": false,
       "hasExports": true,
@@ -170,75 +170,18 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
-      "category": "composables",
-      "lineCount": 443,
-      "exportCount": 3,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 443,
-          "threshold": 400,
-          "detail": "443 lines (composables max: 400)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
       "category": "composables",
-      "lineCount": 475,
+      "lineCount": 421,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 475,
+          "value": 421,
           "threshold": 400,
-          "detail": "475 lines (composables max: 400)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityLogic.ts",
-      "category": "composables",
-      "lineCount": 430,
-      "exportCount": 3,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 430,
-          "threshold": 400,
-          "detail": "430 lines (composables max: 400)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/booking/partFinalizer.ts",
-      "category": "utils",
-      "lineCount": 319,
-      "exportCount": 4,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 319,
-          "threshold": 300,
-          "detail": "319 lines (utils max: 300)",
+          "detail": "421 lines (composables max: 400)",
           "tier": 1
         }
       ],
@@ -248,16 +191,16 @@
     {
       "repoPath": "client/src/utils/tablerIcons.ts",
       "category": "utils",
-      "lineCount": 366,
+      "lineCount": 356,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 366,
+          "value": 356,
           "threshold": 300,
-          "detail": "366 lines (utils max: 300)",
+          "detail": "356 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -265,37 +208,18 @@
       "priority": "P2"
     },
     {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
       "category": "utils",
-      "lineCount": 334,
-      "exportCount": 7,
+      "lineCount": 303,
+      "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 334,
+          "value": 303,
           "threshold": 300,
-          "detail": "334 lines (utils max: 300)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/utils/transformers/appointmentToWizardTransformer.ts",
-      "category": "utils",
-      "lineCount": 320,
-      "exportCount": 2,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 320,
-          "threshold": 300,
-          "detail": "320 lines (utils max: 300)",
+          "detail": "303 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -322,37 +246,18 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "category": "utils",
-      "lineCount": 303,
-      "exportCount": 7,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 303,
-          "threshold": 300,
-          "detail": "303 lines (utils max: 300)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "category": "services",
-      "lineCount": 458,
+      "lineCount": 411,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 458,
+          "value": 411,
           "threshold": 400,
-          "detail": "458 lines (services max: 400)",
+          "detail": "411 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -362,16 +267,16 @@
     {
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "category": "utils",
-      "lineCount": 381,
+      "lineCount": 352,
       "exportCount": 6,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 381,
+          "value": 352,
           "threshold": 300,
-          "detail": "381 lines (utils max: 300)",
+          "detail": "352 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -381,7 +286,7 @@
     {
       "repoPath": "client/src/configs/availabilitySettings.ts",
       "category": "general",
-      "lineCount": 472,
+      "lineCount": 307,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -419,7 +324,7 @@
     {
       "repoPath": "client/src/types/entities.ts",
       "category": "general",
-      "lineCount": 111,
+      "lineCount": 119,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,
@@ -438,7 +343,7 @@
     {
       "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
       "category": "utils",
-      "lineCount": 108,
+      "lineCount": 100,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

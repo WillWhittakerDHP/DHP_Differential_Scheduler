@@ -94,8 +94,6 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
     }
   }
 
-  /**
-   */
   const syncArrays = (): void => {
     entityList.value = [...filteredEntities.value] as typeof entityList.value
     entityIds.value = filteredEntities.value.map(entity => entity.id)

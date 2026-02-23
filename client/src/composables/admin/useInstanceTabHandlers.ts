@@ -22,7 +22,6 @@ export function useInstanceTabHandlers(
   const { activeTab } = options
 
   /**
-   * PATTERN: /**
 Handle tab click to switch active tab
 PATTERN: Set activeTab to clic...
    */

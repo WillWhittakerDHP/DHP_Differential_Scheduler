@@ -1,8 +1,3 @@
-/**
- * WHY: Field Location Dispatcher
-
-WHY: Consolidates scattered location logic (v...
- */
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -19,12 +14,8 @@ import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
-/**
- */
 const VALID_PANELS = new Set<SubPanelKey>(SUB_PANEL_KEYS)
 
-/**
- */
 export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelKey {
   if (fieldKey in RELATIONSHIP_KEYS) {
     // PATTERN: Use RELATIONSHIP_KEYS.frontendKey for comparison
@@ -56,23 +47,10 @@ export type FieldLocation =
   | { type: 'subPanel'; panel: SubPanelKey; reason: 'expandedPanel' }
   | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
 
-/**
- * WHY: Context for field location determination
-WHY: Location depends on compon...
- */
 export interface FieldLocationContext {
   isExpanded: boolean
 }
 
-/**
- * Field Location Dispatcher
- * 
- * 
- * Logic Flow:
- * 1. Check visibility first (titleRow → titleRow, hidden → hidden, etc.)
- * 2. For expandedDirect: Check expansion state, then layout (inline/stacked)
- * 3. For expandedPanel: Check expansion state, then panel assignment
- */
 export function getFieldLocation<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined,
@@ -149,9 +127,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
   }
 }
 
-/**
- * Group fields by location
- */
 export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   fieldKeys: GlobalFieldKey<GE>[],
   fieldMetadata: Record<string, FieldMetadataEntry>,

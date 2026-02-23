@@ -17,10 +17,6 @@ function messageFromData(d: { details?: string; error?: string; message?: string
   return undefined
 }
 
-/**
- * Extract user-facing message and details from an error (Axios or generic).
- * Flattened with early returns to keep complexity low.
- */
 export function extractAxiosErrorMessage(error: unknown): ExtractedErrorMessage {
   const fallback = error instanceof Error ? error.message : String(error)
   if (!error || typeof error !== 'object') return { message: fallback }

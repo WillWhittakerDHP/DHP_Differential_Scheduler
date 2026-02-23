@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import {
   loadCentralAllowlist,
   listAuditFiles,
@@ -13,10 +14,14 @@ import {
 } from './shared-audit-utils.mjs'
 import {
   createSourceFileFromContent,
+  createTypedProject,
   extractVueScriptWithLineOffset,
   forEachDescendant,
+  getTypeFromTypeNode,
+  getTypeOfNode,
   loadTsMorph,
 } from './shared-ast-facade.mjs'
+import { enrichFinding, CONFIDENCE_LEVELS } from './shared-audit-utils.mjs'
 
 /**
  * Type-Escape Audit Script
@@ -167,6 +172,85 @@ async function collectAstFunctionTypeFindings(sourceFile, getLine, repoPath, get
   return findings
 }
 
+/**
+ * Phase B: find an AsExpression node at the given line in the typed project's source file.
+ * @param {import('ts-morph').Project} typedProject
+ * @param {string} fileAbsPath - Absolute path to the file (use same path as addSourceFileAtPath)
+ * @param {number} lineNumber
+ * @param {object} SyntaxKind
+ * @returns {{ expression: import('ts-morph').Node, asExpression: import('ts-morph').Node } | null}
+ */
+function getAsExpressionAtLine(typedProject, fileAbsPath, lineNumber, SyntaxKind) {
+  if (!typedProject) return null
+  const canonical = path.resolve(fileAbsPath)
+  let sf = typedProject.getSourceFile(canonical)
+  if (!sf) sf = typedProject.getSourceFile(fileAbsPath)
+  if (!sf) return null
+  let found = null
+  forEachDescendant(sf, (node) => {
+    if (node.getKind() !== SyntaxKind.AsExpression) return
+    const lineCol = sf.getLineAndColumnAtPos(node.getStart())
+    if (lineCol && lineCol.line === lineNumber) {
+      const expr = node.getExpression?.()
+      if (expr) found = { expression: expr, asExpression: node }
+      return false
+    }
+  })
+  return found
+}
+
+/** Get the innermost expression from a chain of AsExpressions (e.g. (x as unknown) as Y -> x). */
+function getInnermostExpression(expr, SyntaxKind) {
+  let cur = expr
+  while (cur && cur.getKind?.() === SyntaxKind.AsExpression) {
+    cur = cur.getExpression?.()
+  }
+  return cur || expr
+}
+
+/**
+ * Phase B: semantic filter for a finding. Returns { keep, confidence, whyFlagged? }.
+ * as-any: drop when expression is already any; else high confidence.
+ * as-unknown-as: high confidence when source/target compatible (unnecessary); else medium + whyFlagged.
+ * @param {string} fileAbsPath - Absolute path of the file (same as addSourceFileAtPath)
+ */
+function applySemanticFilter(finding, typedProject, typeChecker, fileAbsPath, SyntaxKind) {
+  if (!typedProject || !typeChecker) {
+    return { keep: true, confidence: CONFIDENCE_LEVELS.LOW }
+  }
+  if (finding.ruleId === 'as-any') {
+    const atLine = getAsExpressionAtLine(typedProject, fileAbsPath, finding.lineNumber, SyntaxKind)
+    if (atLine) {
+      const typeStr = getTypeOfNode(atLine.expression, typeChecker)
+      const normalized = typeStr.trim().toLowerCase()
+      if (normalized === 'any') return { keep: false, confidence: undefined }
+      return { keep: true, confidence: CONFIDENCE_LEVELS.HIGH }
+    }
+  }
+  if (finding.ruleId === 'as-unknown-as') {
+    const atLine = getAsExpressionAtLine(typedProject, fileAbsPath, finding.lineNumber, SyntaxKind)
+    if (atLine) {
+      const inner = getInnermostExpression(atLine.expression, SyntaxKind)
+      const sourceType = getTypeOfNode(inner, typeChecker)
+      const typeNode = atLine.asExpression.getType?.()
+      const targetType = typeNode ? getTypeFromTypeNode(typeNode, typeChecker) : 'unknown'
+      const compatible = sourceType === targetType || sourceType === 'unknown'
+      if (compatible) {
+        return { keep: true, confidence: CONFIDENCE_LEVELS.HIGH, whyFlagged: 'unnecessary double assertion' }
+      }
+      return {
+        keep: true,
+        confidence: CONFIDENCE_LEVELS.MEDIUM,
+        whyFlagged: `incompatible types: ${sourceType} -> unknown -> ${targetType}`,
+      }
+    }
+  }
+  if (finding.ruleId === 'function-type') {
+    return { keep: true, confidence: CONFIDENCE_LEVELS.MEDIUM }
+  }
+  return { keep: true, confidence: CONFIDENCE_LEVELS.LOW }
+}
+
 function scanFile(content, repoPath, absPath, configAllowlist) {
   const scriptContent = extractScriptContent(content, absPath)
   const lines = scriptContent.split('\n')
@@ -177,6 +261,7 @@ function scanFile(content, repoPath, absPath, configAllowlist) {
     const lineNum = i + 1
 
     for (const rule of RULES) {
+      if (rule.pattern.global) rule.pattern.lastIndex = 0
       const matches = line.matchAll(rule.pattern)
       for (const _ of matches) {
         const result = checkConfigAllowlist(repoPath, rule.ruleId, lineNum, configAllowlist)
@@ -304,8 +389,33 @@ async function main() {
   let config = {}
   try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
+  const { SyntaxKind } = await loadTsMorph()
+
   const scanDirs = getAuditScanDirs('type-escape', paths)
   const allFiles = listAuditFiles('type-escape', scanDirs)
+
+  let typedProject = null
+  let typeChecker = null
+  try {
+    const clientTsconfig = path.join(paths.clientRoot, 'tsconfig.json')
+    if (fs.existsSync(clientTsconfig)) {
+      const typed = await createTypedProject(clientTsconfig)
+      typedProject = typed.project
+      typeChecker = typed.typeChecker
+      if (process.env.AUDIT_FIXTURE_DIRS && typedProject) {
+        for (const abs of allFiles) {
+          if (abs.endsWith('.ts') || abs.endsWith('.tsx')) {
+            try {
+              if (!typedProject.getSourceFile(abs)) typedProject.addSourceFileAtPath(abs)
+            } catch (_) { /* ignore */ }
+          }
+        }
+        typeChecker = typedProject.getTypeChecker()
+      }
+    }
+  } catch (_err) {
+    // Proceed without TypeChecker
+  }
 
   const allFindings = []
   const fileScores = new Map()
@@ -346,7 +456,13 @@ async function main() {
     const merged = [...nonFunctionType, ...functionTypeFindings]
 
     for (const f of merged) {
-      allFindings.push(f)
+      const { keep, confidence, whyFlagged } = applySemanticFilter(f, typedProject, typeChecker, abs, SyntaxKind)
+      if (!keep) continue
+      const meta = {}
+      if (confidence) meta.confidence = confidence
+      if (whyFlagged) meta.whyFlagged = whyFlagged
+      const enriched = enrichFinding(f, meta)
+      allFindings.push(enriched)
       const score = (fileScores.get(repoPath) || 0) + (RULE_WEIGHTS[f.ruleId] ?? 1)
       fileScores.set(repoPath, score)
     }

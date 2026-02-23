@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * BookingWizard Component
- * 
- */
 
 import { computed, provide, ref } from 'vue'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
@@ -211,7 +207,6 @@ const dateRange = useDateRangeDecider(displayedMonth)
 const appointmentDurationRef = ref<number | null>(null)
 provide('appointmentDuration', appointmentDurationRef)
 
-// Selected date (YYYY-MM-DD) for per-day slot fallback fetch; derived from step data updated by AvailabilityStep
 const selectedDateForSlots = computed(() => {
   const start = stepDataRefs.availabilityStepData.value?.candidateDate?.start
   return start ? (start.includes('T') ? start.split('T')[0] : start) : null

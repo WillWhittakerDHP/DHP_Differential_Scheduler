@@ -1,9 +1,3 @@
-/**
- * Appointment Calendar Service
- * 
- * 
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
 
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
@@ -13,9 +7,6 @@ import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('AppointmentCalendarService');
 
-/**
- * Result of calendar event creation
- */
 interface CalendarEventResult {
   success: boolean;
   eventId?: string;
@@ -25,7 +16,6 @@ interface CalendarEventResult {
 }
 
 /**
- * WHY: Time slot structure from appointment
 
 LEARNING: Requires RFC3339 format ...
  */
@@ -36,9 +26,6 @@ interface ServerTimeSlot {
   readonly __brand?: 'ServerTimeSlot'
 }
 
-/**
- * Appointment data needed for calendar event creation
- */
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
@@ -65,16 +52,6 @@ interface AppointmentWithDetails {
   }>;
 }
 
-/**
- * Create a Google Calendar event for an appointment
- * 
- * LEARNING: Transforms appointment data into Google Calendar event format
- * WHY: Calendar events need specific format with attendees, times, location
- * 
- * @param appointmentId - The appointment ID to create event for
- * @param calendarId - The calendar to create the event on (default: primary)
- * @returns Result with event details or error
- */
 export async function createCalendarEventForAppointment(
   appointmentId: string,
   calendarId: string = 'primary'
@@ -156,11 +133,6 @@ export async function createCalendarEventForAppointment(
   }
 }
 
-/**
- * WHY: Build event parameters from appointment data
-
-LEARNING: Transforms appoi...
- */
 function buildEventParams(appointment: AppointmentWithDetails, calendarId: string): CreateEventParams {
   const summary = buildEventSummary(appointment);
   
@@ -184,9 +156,6 @@ function buildEventParams(appointment: AppointmentWithDetails, calendarId: strin
   };
 }
 
-/**
- * Build event summary (title)
- */
 function buildEventSummary(appointment: AppointmentWithDetails): string {
   const address = appointment.propertyVersion?.address;
   
@@ -197,9 +166,6 @@ function buildEventSummary(appointment: AppointmentWithDetails): string {
   return `Inspection Appointment`;
 }
 
-/**
- * Build event location string
- */
 function buildEventLocation(appointment: AppointmentWithDetails): string | undefined {
   const address = appointment.propertyVersion?.address;
   
@@ -217,9 +183,6 @@ function buildEventLocation(appointment: AppointmentWithDetails): string | undef
   return parts.join(', ');
 }
 
-/**
- * Build event description
- */
 function buildEventDescription(appointment: AppointmentWithDetails): string {
   const lines: string[] = [
     'Home Inspection Appointment',
@@ -233,7 +196,6 @@ function buildEventDescription(appointment: AppointmentWithDetails): string {
 }
 
 /**
- * WHY: Calculate event start and end times
 
 LEARNING: Extracts RFC3339 times fr...
  */
@@ -273,11 +235,6 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
   };
 }
 
-/**
- * WHY: Build attendees list for calendar event
-
-WHY: Some attendees may not nee...
- */
 function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[] {
   const attendees: EventAttendee[] = [];
   
@@ -286,7 +243,6 @@ function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[
   }
   
   for (const attendee of appointment.attendees) {
-    // Skip if shouldn't receive invitation
     if (!attendee.shouldReceiveInvitation) {
       continue;
     }

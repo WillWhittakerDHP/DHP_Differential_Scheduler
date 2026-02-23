@@ -8,15 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * BookingCascade Model
- * 
- * Represents booking cascade relationships between block instances.
- * Cascade relationships are vertical hierarchy relationships (different shapes, e.g., user_instance → service_instance).
- * 
- * 
- * NOTE: Renamed from ActiveCascade to BookingCascade for clearer domain terminology (2026-01-08)
- */
 export class BookingCascade extends Model<
   InferAttributes<BookingCascade>,
   InferCreationAttributes<BookingCascade>

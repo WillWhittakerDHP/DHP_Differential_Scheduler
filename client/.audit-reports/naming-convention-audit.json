@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T16:14:04.534Z",
+  "generatedAt": "2026-02-23T18:12:56.717Z",
   "totalScanned": 795,
   "exceptionSummary": {
     "totalAllowed": 76,
@@ -37,38 +37,43 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 22,
+          "lineNumber": 18,
           "line": "export function attendeesFromClientAndAgent(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 35,
+          "lineNumber": 31,
           "line": "export function getClientIdFromAttendees(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 40,
+          "lineNumber": 36,
           "line": "export function getAgentIdFromAttendees(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 41,
+          "line": "export function getClientAttendee(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
           "lineNumber": 45,
-          "line": "export function getClientAttendee(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 49,
           "line": "export function getAgentAttendee(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -78,17 +83,19 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 13,
+          "lineNumber": 1,
           "line": "export function getStatusColor(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 33,
+          "lineNumber": 15,
           "line": "export function getRoleColor(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -98,10 +105,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 17,
+          "lineNumber": 11,
           "line": "export function formatNullValue(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -111,10 +119,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 37,
+          "lineNumber": 25,
           "line": "export function calculateMaxBusinessHours(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -124,38 +133,43 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 8,
+          "lineNumber": 3,
           "line": "export function getPanelsElement(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 46,
+          "lineNumber": 30,
           "line": "export function countDraggableNodes(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 56,
+          "lineNumber": 41,
           "line": "export function createSingleClassDraggableChecker(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 63,
+          "lineNumber": 48,
           "line": "export function createMultiClassDraggableChecker(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 79,
+          "lineNumber": 55,
           "line": "export function createExpansionPanelDraggableChecker(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -165,10 +179,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 170,
+          "lineNumber": 122,
           "line": "export function resetMetadataCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -181,7 +196,8 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: nestedComputedFactory.ts",
           "reason": "Composable utility; factory name is intentional",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -191,10 +207,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 38,
+          "lineNumber": 34,
           "line": "export function computeMoveableSlots(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -204,10 +221,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 31,
+          "lineNumber": 22,
           "line": "export function collectErrors(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -220,7 +238,8 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -230,24 +249,27 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 17,
+          "lineNumber": 3,
           "line": "export function createRefetchGlobalDataHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 55,
+          "lineNumber": 36,
           "line": "export function createRefetchQueriesHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 85,
+          "lineNumber": 60,
           "line": "export function createRestorePreviousDataHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -260,7 +282,8 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -273,7 +296,8 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -286,7 +310,8 @@
           "lineNumber": 1,
           "line": "Composable file should be use[Name].ts: types.ts",
           "reason": "Barrel/composable package; types file is conventional",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -296,10 +321,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 43,
+          "lineNumber": 30,
           "line": "export function _clearCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -309,10 +335,11 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 13,
+          "lineNumber": 1,
           "line": "export function getApiErrorMessage(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -322,24 +349,27 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 50,
+          "lineNumber": 21,
           "line": "export function rfc3339ToLocalHHmm(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 232,
+          "lineNumber": 158,
           "line": "export function extractBusinessHoursMinutes(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 261,
+          "lineNumber": 172,
           "line": "export function rfc3339ToLocalMinutesFromMidnight(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -351,7 +381,8 @@
         {
           "ruleId": "componentFileName",
           "lineNumber": 1,
-          "line": "Component file should be PascalCase: blank.vue"
+          "line": "Component file should be PascalCase: blank.vue",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -362,7 +393,8 @@
         {
           "ruleId": "componentFileName",
           "lineNumber": 1,
-          "line": "Component file should be PascalCase: default.vue"
+          "line": "Component file should be PascalCase: default.vue",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -373,7 +405,8 @@
         {
           "ruleId": "typesFileName",
           "lineNumber": 1,
-          "line": "Types file should be camelCase: AdminEntity.ts"
+          "line": "Types file should be camelCase: AdminEntity.ts",
+          "suppressionStatus": "unsuppressed"
         }
       ]
     },
@@ -382,10 +415,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 43,
+          "lineNumber": 35,
           "line": "export function AdminMetadataFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -395,10 +429,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 44,
+          "lineNumber": 37,
           "line": "export function AdminPrimitiveMetadataFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -408,10 +443,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 42,
+          "lineNumber": 37,
           "line": "export function AdminRelationshipMetadataFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -424,7 +460,8 @@
           "lineNumber": 32,
           "line": "export function BlockShapeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -434,10 +471,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 63,
+          "lineNumber": 43,
           "line": "export function BusinessRuleFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -447,10 +485,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 108,
+          "lineNumber": 93,
           "line": "export function BusinessSettingsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -463,7 +502,8 @@
           "lineNumber": 21,
           "line": "export function PartShapeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -473,10 +513,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function ValidAnnotationFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -486,10 +527,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function ValidCascadeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -499,10 +541,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function ValidEventFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -512,10 +555,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function ValidPartFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -525,10 +569,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 34,
+          "lineNumber": 25,
           "line": "export function ValidPricingCascadeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -538,10 +583,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 54,
+          "lineNumber": 50,
           "line": "export function BetaFeedbackFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -551,10 +597,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 27,
+          "lineNumber": 20,
           "line": "export function BetaFeedbackTagFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -564,10 +611,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 49,
+          "lineNumber": 47,
           "line": "export function AnnotationAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -577,10 +625,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 53,
+          "lineNumber": 51,
           "line": "export function EventAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -590,10 +639,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function PartAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -603,10 +653,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 33,
+          "lineNumber": 26,
           "line": "export function AddressFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -616,10 +667,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 49,
+          "lineNumber": 47,
           "line": "export function AnnotationAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -629,10 +681,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 46,
+          "lineNumber": 43,
           "line": "export function AnnotationInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -642,10 +695,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 39,
+          "lineNumber": 36,
           "line": "export function AnnotationShapeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -655,10 +709,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 57,
+          "lineNumber": 56,
           "line": "export function AppointmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -668,10 +723,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 53,
+          "lineNumber": 50,
           "line": "export function AppointmentAttendeeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -681,10 +737,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 37,
+          "lineNumber": 33,
           "line": "export function AppointmentFeeEntryFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -694,10 +751,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 36,
+          "lineNumber": 28,
           "line": "export function AppointmentFeeSummaryFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -710,7 +768,8 @@
           "lineNumber": 39,
           "line": "export function BlockInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -720,10 +779,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 36,
+          "lineNumber": 32,
           "line": "export function BlockInstanceVersionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -733,10 +793,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 37,
+          "lineNumber": 25,
           "line": "export function BookingCascadeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -746,10 +807,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 41,
+          "lineNumber": 39,
           "line": "export function DependentInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -759,10 +821,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 47,
+          "lineNumber": 45,
           "line": "export function EventAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -772,10 +835,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 56,
+          "lineNumber": 53,
           "line": "export function EventInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -785,10 +849,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 42,
+          "lineNumber": 39,
           "line": "export function EventShapeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -798,10 +863,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 47,
+          "lineNumber": 45,
           "line": "export function EventShapeAttendeeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -811,10 +877,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 38,
+          "lineNumber": 25,
           "line": "export function InstanceComponentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -824,10 +891,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 25,
           "line": "export function PartAssignmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -840,7 +908,8 @@
           "lineNumber": 32,
           "line": "export function PartInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -850,10 +919,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 38,
+          "lineNumber": 28,
           "line": "export function PartInstanceVersionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -863,10 +933,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 34,
           "line": "export function PricingCascadeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -876,10 +947,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 35,
+          "lineNumber": 33,
           "line": "export function PropertyDetailsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -889,10 +961,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 27,
+          "lineNumber": 20,
           "line": "export function PropertyVersionFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -902,10 +975,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 36,
+          "lineNumber": 35,
           "line": "export function PropertyVersionTypeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -918,7 +992,8 @@
           "lineNumber": 25,
           "line": "export function RelationshipFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -928,10 +1003,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 37,
+          "lineNumber": 30,
           "line": "export function PropertyFeatureMappingFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -941,10 +1017,11 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 33,
+          "lineNumber": 26,
           "line": "export function PropertyFieldMappingFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -957,7 +1034,8 @@
           "lineNumber": 27,
           "line": "export function UserFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern"
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
         }
       ],
       "requiresReview": []
@@ -970,7 +1048,8 @@
           "lineNumber": 1,
           "line": "Types file should be camelCase: express.d.ts",
           "reason": "Express type augmentation; standard filename for declaration merging",
-          "source": "specific"
+          "source": "specific",
+          "suppressionStatus": "suppressedBySpecific"
         }
       ],
       "requiresReview": []

@@ -42,8 +42,6 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
 
   const nestedSelections = ref<Record<string, string[]>>({})
 
-  /**
-   */
   const internalValue = computed(() => {
     return modelValue.value
   })
@@ -59,14 +57,10 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
     }, {})
   })
 
-  /**
-   */
   const handleNestedSelection = (itemId: string, componentIds: string[]): void => {
     nestedSelections.value[itemId] = componentIds
   }
 
-  /**
-   */
   const toggleCardExpansion = (itemId: string, recentlyAutoExpanded: Ref<Set<string>>): void => {
     // PATTERN: Ignore manual toggle if card was auto-expanded within last 100ms
     if (recentlyAutoExpanded.value.has(itemId)) {

@@ -56,7 +56,6 @@ function createMetadataCacheInstance() {
   })
   
   /**
-   * PATTERN: /**
 Ensure metadata is loaded
 PATTERN: Enable query synchronously, Vue Q...
    */
@@ -106,7 +105,6 @@ PATTERN: Enable query synchronously, Vue Q...
   }
   
   /**
-   * WHY: /**
 Check if metadata is loaded
 LEARNING: Computed property for reactive...
    */
@@ -147,7 +145,6 @@ export function useMetadataCache() {
 }
 
 /**
- * WHY: Reset metadata cache (for testing)
 LEARNING: Allows resetting singleton ...
  */
 export function resetMetadataCache(): void {

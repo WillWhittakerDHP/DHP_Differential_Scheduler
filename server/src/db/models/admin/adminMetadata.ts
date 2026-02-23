@@ -1,6 +1,3 @@
-/**
- * WHY: Single model for both primitive and relationship metadata (follows entit...
- */
 import {
   Model,
   DataTypes,

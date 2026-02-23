@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * Dev Panel Toggle Component
- * 
- */
 
 import { onMounted, onUnmounted } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'

@@ -25,9 +25,6 @@ const logger = createLogger('fetchToGlobalTransformer')
 
 const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
 
-/**
- * Apply name fallback for annotationInstance: use text as name when name is missing.
- */
 function applyAnnotationInstanceNameFallback(
   entities: GlobalEntity<'annotationInstance'>[]
 ): GlobalEntity<'annotationInstance'>[] {
@@ -38,9 +35,6 @@ function applyAnnotationInstanceNameFallback(
   })
 }
 
-/**
- * Transform batch entities response to expected structure
- */
 function transformBatchEntities(
   batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
 ): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
@@ -65,9 +59,6 @@ function transformBatchEntities(
   ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
 }
 
-/**
- * Transform batch relationships response to flat array
- */
 function transformBatchRelationships(
   batchResponse: Record<GlobalRelationshipKey, Record<string, unknown>[]>
 ): FetchedRelationship[] {
@@ -79,7 +70,6 @@ function transformBatchRelationships(
 }
 
 /**
- * WHY: GlobalRelationship type matching React's structure
 WHY: Matches format e...
  */
 export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
@@ -88,20 +78,12 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
   children: GlobalEntity<GE>[]
 }
 
-/**
- * PATTERN: GlobalData type - matches React's structure
-
-ARCHITECTURAL CHANGE: insta...
- */
 export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
   relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
 }
 
 
-/**
- * Resolve parent/child ID fields from raw API response by relationship kind.
- */
 function resolveRelationshipIds(
   raw: Record<string, unknown>,
   relationshipKey: GlobalRelationshipKey
@@ -208,11 +190,6 @@ function attachLegacyInstanceComponents(
 LEARNING: Transforms API responses to GlobalDat...
  */
 export class GlobalTransformer {
-  /**
-   * WHY: /**
-Stage entities, relationships, and annotations for hydration
-WHY: Pr...
-   */
   async stageForHydration(): Promise<{
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
@@ -252,12 +229,6 @@ WHY: Pr...
     }
   }
 
-  /**
-   * Hydrate staged data into final GlobalData format
-   * NOTE: attachLegacyInstanceComponents remains until consumers (serviceSelectionConfigBuilders,
-   * selectionCardChildren, usePropertyTypeBlockConfig, globalToAdminTransformer tests) no longer
-   * read entity.instanceComponents; they currently depend on it for composite block display.
-   */
   hydrate(staged: {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
@@ -285,13 +256,6 @@ WHY: Pr...
     }
   }
 
-  /**
-   * Dehydrate entity: Transform frontend field names to backend field names
-   * 
-   * 
-   * @param entity - Entity with frontend field names (camelCase), must include entityKey property
-   * @returns Entity with camelCase properties (Sequelize converts to snake_case internally)
-   */
   dehydrateEntity<GE extends GlobalEntityKey>(
     entity: Partial<GlobalEntity<GE>> & { entityKey?: GE }
   ): Record<string, unknown> {

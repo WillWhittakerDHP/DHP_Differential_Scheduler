@@ -1,6 +1,3 @@
-/**
- * DOM helpers for drag-and-drop
- */
 
 import type { ComponentPublicInstance, Ref } from 'vue'
 
@@ -31,14 +28,6 @@ export function getPanelsElement(
   }
 }
 
-/**
- * Count draggable DOM nodes matching the specified criteria
- *      when drag-and-drop initializes before DOM nodes are rendered
- * 
- * @param panelsEl - The panels container element
- * @param isDraggable - Function that returns true if a node should be counted as draggable
- * @returns The count of enabled draggable nodes
- */
 export function countDraggableNodes(
   panelsEl: HTMLElement,
   isDraggable: (node: Element) => boolean
@@ -64,11 +53,6 @@ export function createMultiClassDraggableChecker(draggableClasses: string[]): (n
   }
 }
 
-/**
- * 
- * @param isDraggableChecker - Function to check if a panel element is draggable
- * @returns Function that checks if a child element's panel is draggable
- */
 export function createExpansionPanelDraggableChecker(
   isDraggableChecker: (element: HTMLElement) => boolean
 ): (child: unknown) => boolean {

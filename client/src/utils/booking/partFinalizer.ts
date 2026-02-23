@@ -1,7 +1,3 @@
-/**
- * Part Finalizer
- * 
- */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PartFinal } from './PartFinal'
@@ -18,12 +14,6 @@ import { roundDuration } from '@/utils/booking/durationRounding'
 
 const logger = createLogger('partFinalizer')
 
-/**
- * Group parts by part shape
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Map of part shape name to array of parts with that shape
- */
 function partShapeKey(part: BookingPartInstance): string {
   const raw = part.partShape
   if (raw === undefined || raw === null || raw === '') {
@@ -46,12 +36,6 @@ function groupPartsByShape(
   }, new Map<string, BookingPartInstance[]>())
 }
 
-/**
- * Create PartFinal instances from part instances
- * 
- * @param parts - Array of BookingPartInstance objects
- * @returns Array of PartFinal instances
- */
 export function createPartFinals(
   parts: BookingPartInstance[]
 ): PartFinal[] {
@@ -62,21 +46,12 @@ export function createPartFinals(
   )
 }
 
-/**
- * Filter out PartFinal instances that should be zeroed out
- * 
- * @param partFinals - Array of PartFinal instances
- * @returns Array of PartFinal instances excluding zeroed parts
- */
 export function filterZeroedParts(
   partFinals: PartFinal[]
 ): PartFinal[] {
   return partFinals.filter(part => !part.zeroOutPart)
 }
 
-/**
- * WHY: Calculate SlotShape from BlockFinal instances (single-pass optimization)...
- */
 export function calculateSlotShape(
   blockFinals: BlockFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
@@ -93,7 +68,6 @@ export function calculateSlotShape(
   const eventShapeEntities = eventShapes as EventShapeEntity[]
   
   // PATTERN: Use reduce to accumulate raw durations only
-  // NOTE: Rounding happens AFTER accumulation, once per event total
   const { totalRawDuration, eventRawDurations } = blockFinals.reduce(
     (blockAcc, blockFinal) => {
       // PATTERN: Accumulate from all finalized parts within this block
@@ -187,7 +161,6 @@ export function calculateSlotShape(
   
   // LEARNING: Calculate differentialOffset as the difference between major and minor event durations
   // PATTERN: Calculate offset from final event durations after all parts have been processed and rounded
-  // DUAL-TRACK: Calculate both raw and rounded differential offsets
   let rawDifferentialOffset = 0
   let roundedDifferentialOffset = 0
   const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
@@ -221,12 +194,6 @@ export function calculateSlotShape(
   return result
 }
 
-/**
- * Calculate total duration for a group of PartFinal instances
- * 
- * @param parts - Array of PartFinal instances
- * @returns Total duration in minutes
- */
 export function sumPartFinalsDuration(parts: PartFinal[]): number {
   return parts.reduce((sum, part) => sum + part.baseTime, 0)
 }

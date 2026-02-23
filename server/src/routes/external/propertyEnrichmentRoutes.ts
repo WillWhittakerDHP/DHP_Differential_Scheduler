@@ -1,9 +1,5 @@
-/**
- * Property Enrichment Routes
- *
- */
-
 import { Router, Request, Response } from 'express';
+import Joi from 'joi';
 import { createLogger } from '../../utils/logger.js';
 import { isBrightMlsConfigured } from '../../services/brightMls/brightMlsAuth.js';
 import { searchPropertyByAddress } from '../../services/brightMls/brightMlsApiClient.js';
@@ -20,10 +16,13 @@ const logger = createLogger('PropertyEnrichmentRoutes');
 
 const router = Router();
 
-/**
- * Parse address string into components (simple US format)
- * Handles "123 Main St, City, ST 12345" or "123 Main St, City, ST 12345-6789"
- */
+const propertyEnrichmentQuerySchema = Joi.object({
+  address: Joi.string().trim().required(),
+  city: Joi.string().trim().optional(),
+  state: Joi.string().trim().optional(),
+  zipCode: Joi.string().trim().optional(),
+}).unknown(true);
+
 function parseAddressComponents(address: string): {
   street: string;
   city: string;
@@ -54,16 +53,15 @@ router.get(
   '/property-enrichment',
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const addressParam = req.query.address;
-      const address = typeof addressParam === 'string' ? addressParam.trim() : '';
-
-      if (!address) {
+      const validation = propertyEnrichmentQuerySchema.validate(req.query, { abortEarly: false });
+      if (validation.error) {
         res.status(400).json({
           error: 'Missing address query parameter',
           type: 'invalid',
         });
         return;
       }
+      const { address, city: cityOverride, state: stateOverride, zipCode: zipOverride } = validation.value;
 
       if (!isBrightMlsConfigured()) {
         res.status(503).json({

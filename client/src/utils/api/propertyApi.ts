@@ -1,6 +1,3 @@
-/**
- * Property API endpoint builders
- */
 
 export function getPropertyEndpoint(): string {
   return '/properties'

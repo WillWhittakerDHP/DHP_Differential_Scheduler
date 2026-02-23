@@ -1,7 +1,3 @@
-/**
- * Wizard Dev Options Types
- *
- */
 
 import type { Ref } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'

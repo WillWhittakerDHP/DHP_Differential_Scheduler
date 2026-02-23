@@ -50,8 +50,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
    */
   const isMounted = ref(false)
 
-  /**
-   */
   const watcherStop = ref<(() => void) | null>(null)
 
   onMounted(() => {
@@ -108,8 +106,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     }, { immediate: true })
   })
 
-  /**
-   */
   onBeforeUnmount(() => {
     // Mark as unmounted immediately to prevent any watcher callbacks from running
     isMounted.value = false
@@ -117,8 +113,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     watcherStop.value?.()
   })
 
-  /**
-   */
   onUnmounted(() => {
     containerRef.value = null
     panelsContainerRef.value = null

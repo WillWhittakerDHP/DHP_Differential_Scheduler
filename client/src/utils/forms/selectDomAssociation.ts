@@ -1,5 +1,4 @@
 /**
- * PATTERN: Select DOM Association Utilities
 PATTERN: Keep DOM access here (utilitie...
  */
 import { patchFormElements } from '@/utils/patchFormElements'

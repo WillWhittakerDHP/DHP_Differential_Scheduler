@@ -1,10 +1,3 @@
-/**
- * 
- * 
- * 
- * NOTE: This is a curated list of commonly used Tabler icons. Can be expanded as needed.
- *       Full list available at https://tablericons.com/
- */
 
 export const tablerIcons = [
   'tabler-home',

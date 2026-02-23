@@ -1,6 +1,3 @@
-/**
- * Shared helpers for CRUD route handlers.
- */
 
 import type { Request, Response } from 'express'
 import type { Model } from 'sequelize'
@@ -24,9 +21,6 @@ export async function executeOptionalHook(
   return !res.headersSent
 }
 
-/**
- * If validation is invalid, send bad request and return false; otherwise return true.
- */
 export function handleValidationResult(
   validation: ValidationResult,
   res: Response,
@@ -41,9 +35,6 @@ export function handleValidationResult(
   return false
 }
 
-/**
- * Apply optional transform or return value unchanged.
- */
 export function applyOptionalTransform<T, R = T>(
   value: T,
   transform?: (value: T) => R

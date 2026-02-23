@@ -17,20 +17,11 @@ import {
 const logger = createLogger('app')
 const app = express()
 
-/**
- * Initialize Database and OAuth tokens
- * 
- * 
- * NOTE: This function is called immediately on line 27, so it's not unused.
- * The audit flagging it as unused is a false positive.
- */
 const startServer = async (): Promise<void> => {
   try {
     await initializeDatabase()
     logger.info('Database initialized successfully')
 
-    // Load saved OAuth tokens from file (if they exist)
-    // SESSION: 2.1.3b - Persist tokens across server restarts
     loadTokensFromFile()
   } catch (error) {
     logger.error('Failed to initialize database:', error)
@@ -57,9 +48,6 @@ app.use(ROUTE_PATHS.API, routes)
  */
 app.use('/', OAuthCallbackRouter)
 
-/**
- * Root route handler
- */
 app.get('/', (_req, res) => {
   res.json({
     message: API_MESSAGES.SERVER_NAME,

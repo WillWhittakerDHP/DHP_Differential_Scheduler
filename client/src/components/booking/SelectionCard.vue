@@ -1,6 +1,5 @@
 <script setup lang="ts">
 /**
- * WHY: SelectionCard Component
 
 WHY: Simplified architecture - dependent option...
  */

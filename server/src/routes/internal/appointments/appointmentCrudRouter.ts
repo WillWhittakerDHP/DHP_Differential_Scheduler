@@ -1,8 +1,3 @@
-/**
- * WHY: Appointment CRUD Router
-
-LEARNING: Refactored to use CRUD router factory...
- */
 import { Request, Response } from 'express'
 import { Appointment, AppointmentAttendee } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
@@ -72,8 +67,6 @@ const router = createCrudRouter({
     }
   },
   sanitizeInput: (data: unknown): unknown => {
-    // Remove attendees and feeBreakdown from appointmentData before creating appointment
-    // (attendees in separate table; fee summary + entries created in afterCreate)
     const appointmentData = data as {
       attendees?: AttendeeRequest[]
       feeBreakdown?: unknown
@@ -130,7 +123,6 @@ const router = createCrudRouter({
 
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
 
-    // Create calendar invites if status requires it
     if (shouldCreateCalendarEvent(record.status)) {
       try {
         logger.debug(`Creating calendar invites for appointment ${record.id}`)
@@ -162,16 +154,13 @@ const router = createCrudRouter({
       logger.debug(`Skipping calendar invites - status is '${record.status}' (not submitted/confirmed)`)
     }
     
-    // Fetch appointment with relationships for response
     const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,
     })
     
-    // Send response with full appointment data (override factory's default response)
     res.status(HTTP_STATUS_CODES.CREATED).json(appointmentWithRelations)
   },
   afterUpdate: async (record, req, res) => {
-    // Check if status transitioned to one that requires calendar invites
     const newStatus = req.body?.status as string | undefined
     if (newStatus && shouldCreateCalendarEvent(newStatus)) {
       const existingInvites = await AppointmentAttendee.count({
@@ -204,7 +193,6 @@ const router = createCrudRouter({
       }
     }
 
-    // Fetch appointment with relationships for response
     const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,
     })
@@ -214,17 +202,10 @@ const router = createCrudRouter({
       return
     }
     
-    // Send response with full appointment data (override factory's default response)
     res.json(appointmentWithRelations)
   },
 })
 
-/**
- * GET /appointments/:id/versions
- * Get appointment versions (snapshots)
- * 
- * IDOR: Same ownership middleware as GET /:id (user can only read own org's appointments when auth is implemented).
- */
 router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Request, res: Response): Promise<void> => {
   try {
     const id = paramString(req, 'id')

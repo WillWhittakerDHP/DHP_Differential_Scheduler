@@ -27,14 +27,10 @@ export function useInstanceDescriptions(
 ): UseInstanceDescriptionsReturn {
   const { instances, selectedUserTypeBlock } = options
 
-  /**
-   */
   const getFilteredDescription = (instance: BookingBlockInstance, userTypeBlockName: string | null): string => {
     return getFilteredServiceDescription(instance, userTypeBlockName)
   }
 
-  /**
-   */
   const instancesWithDescriptions = computed(() => {
     const selectedUserTypeBlockName = selectedUserTypeBlock?.value?.name.toLowerCase() ?? null
 

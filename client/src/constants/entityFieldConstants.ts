@@ -1,7 +1,3 @@
-/**
- * WHY: Entity Field Constants (client mirror of server entityConstants)
-WHY: Si...
- */
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',

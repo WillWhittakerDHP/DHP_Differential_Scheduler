@@ -1,10 +1,3 @@
-/**
-
-WHY: Provides admin configuration built dynamically from field configs
-     Ensures all property keys are included, not just hardcoded ones
-
-PATTERN: Uses dynamic builders to merge primitive + selectable configs
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { SubPanelKey } from '@/constants/fieldMetadata'
@@ -21,10 +14,6 @@ type SubPanelType = 'none' | SubPanelKey
 type FieldLayout = 'inline' | 'stacked'
 type FieldRenderAs = 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect'
 
-/**
- * NOTE: This is used for shape-level fields (BlockShape/PartShape cards)
- *       Instance fields use FieldMetadataEntry from entityMetadata.ts
- */
 export interface FieldMetadata {
   visibility: FieldVisibility
   
@@ -39,20 +28,7 @@ export interface FieldMetadata {
   panel: SubPanelType
 }
 
-/**
- * Instance config - defines field layout
- * 
- * NOTE: inlineFields/stackedFields are layout hints for expandedDirect fields
- */
-/**
- * NOTE: inlineFields/stackedFields are layout hints for expandedDirect fields
- * NOTE: Internal function only - not exported as it's only used by buildAdminConfig
- */
 function buildInstanceConfig() {
-  /**
-   * NOTE: categorizeFieldsBySection uses metadata panel and layout properties
-   * 
-   */
   
   return {
     blockInstance: {
@@ -90,8 +66,6 @@ function buildInstanceConfig() {
   }
 }
 
-/**
- */
 function buildFormFieldConfig(): FormFieldConfigMap {
   return {
     blockInstance: {},
@@ -105,19 +79,10 @@ function buildFormFieldConfig(): FormFieldConfigMap {
   }
 }
 
-/**
- * Display field config - defines labels, placeholders, etc.
- */
 export function buildDisplayFieldConfig() {
   return buildDynamicDisplayFieldConfig()
 }
 
-/**
- * Instance config type - defines field layout per entity
- * NOTE: controlFields removed - was redundant with inlineFields
- * NOTE: omitFields removed - field visibility controlled by metadata only
- * 
- */
 export type InstanceConfig = {
   [GE in GlobalEntityKey]: {
     titleField: string

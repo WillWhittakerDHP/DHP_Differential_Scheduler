@@ -10,7 +10,6 @@ import {
 import { DEFAULT_VALUES } from '../../../routes/internal/properties/propertyConstants.js';
 
 /**
- * PATTERN: PropertyDetails Model
 
 PATTERN: Versioned data structure with source tra...
  */

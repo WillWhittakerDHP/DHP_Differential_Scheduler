@@ -1,7 +1,3 @@
-/**
- * Google Maps API Helper Functions
- * 
- */
 
 import { createLogger } from '../../../utils/logger.js'
 import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
@@ -94,9 +90,6 @@ export function validateGoogleApiResponse(
   }
 }
 
-/**
- * Build Places Autocomplete API URL
- */
 export function buildAutocompleteUrl(input: string, apiKey: string, sessionToken?: string): string {
   const params = new URLSearchParams({
     input: input.trim(),
@@ -108,9 +101,6 @@ export function buildAutocompleteUrl(input: string, apiKey: string, sessionToken
   return `${GOOGLE_MAPS_API_BASE}/place/autocomplete/json?${params.toString()}`
 }
 
-/**
- * Transform raw Google Autocomplete predictions to our format
- */
 function optionalText(value: string | undefined | null): string {
   return value !== undefined && value !== null && value !== '' ? value : ''
 }
@@ -130,9 +120,6 @@ export function transformPredictions(
   })
 }
 
-/**
- * Build Place Details API URL
- */
 export function buildPlaceDetailsUrl(
   placeId: string,
   apiKey: string,
@@ -147,9 +134,6 @@ export function buildPlaceDetailsUrl(
   return `${GOOGLE_MAPS_API_BASE}/place/details/json?${params.toString()}`
 }
 
-/**
- * Transform raw Place Details result to PlaceDetails
- */
 export function transformPlaceResult(
   result: RawPlaceDetailsResult,
   placeId: string
@@ -176,9 +160,6 @@ export function transformPlaceResult(
   }
 }
 
-/**
- * Build Find Place from Text API URL
- */
 function buildFindPlaceUrl(address: string, apiKey: string): string {
   const params = new URLSearchParams({
     input: address.trim(),
@@ -191,10 +172,6 @@ function buildFindPlaceUrl(address: string, apiKey: string): string {
 
 const geocodeLogger = createLogger('PlacesGeocode')
 
-/**
- * Execute Find Place API call and extract placeId
- * Returns null on any error (network, auth, not found) - does not throw
- */
 export async function executeGeocodeApiCall(address: string): Promise<string | null> {
   try {
     const apiKey = getGoogleMapsApiKey()
@@ -224,10 +201,6 @@ export async function executeGeocodeApiCall(address: string): Promise<string | n
   }
 }
 
-/**
- * WHY: Parse address components from Google Places API response
-LEARNING: Maps ...
- */
 function parseAddressComponents(components: Array<{
   types: string[]
   long_name: string
@@ -268,7 +241,6 @@ export function toRoutesWaypoint(location: RouteLocation): object {
   }
   
   if (location.address) {
-    // Fallback - requires geocoding
     return { address: location.address }
   }
   

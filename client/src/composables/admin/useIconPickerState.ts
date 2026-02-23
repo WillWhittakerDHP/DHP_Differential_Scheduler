@@ -54,7 +54,6 @@ export function useIconPickerState(
   }
   
   /**
-   * WHY: /**
 LEARNING: Reset state when dialog closes
 PATTERN: Function that rese...
    */
@@ -67,7 +66,6 @@ PATTERN: Function that rese...
   }
   
   /**
-   * WHY: /**
 LEARNING: Watch dialog open state and reset when dialog closes
 PATTE...
    */

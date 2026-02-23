@@ -1,5 +1,3 @@
-/**
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'

@@ -1,7 +1,3 @@
-/**
- * Business Settings Router Validation Utilities
- * 
- */
 
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'

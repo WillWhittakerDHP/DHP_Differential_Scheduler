@@ -1,7 +1,3 @@
-/**
- * Admin Metadata CRUD Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
@@ -29,12 +25,6 @@ const logger = createLogger('AdminMetadataRouter')
 
 const router = Router()
 
-/**
- * GET /admin-metadata/batch
- * Get all metadata in batch format
- * 
- * LEARNING: Batch endpoint that returns all metadata in structured format
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /admin-metadata/batch')
@@ -53,11 +43,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /admin-metadata/:entityType/:entityId
- * Get metadata for a specific entity
- * 
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -88,10 +73,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 })
 
-/**
- * WHY: POST /admin-metadata/:entityType/:entityId
-Create or update metadata for...
- */
 router.post(
   '/:entityType/:entityId',
   csrfProtection, // Security middleware: CSRF protection
@@ -223,11 +204,6 @@ router.post(
   }
 )
 
-/**
- * DELETE /admin-metadata/:entityType/:entityId/:fieldKey
- * Delete metadata for an entity
- * 
- */
 router.delete(
   '/:entityType/:entityId/:fieldKey',
   csrfProtection, // Security middleware: CSRF protection

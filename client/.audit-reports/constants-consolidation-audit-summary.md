@@ -9,16 +9,19 @@ Generated from `client/.audit-reports/constants-consolidation-audit.json`.
 
 - Constants files: **24**
 - Exports scanned: **71**
-- Consolidation groups: **7**
-- Requiring review: **17** | Allowed: **0**
+- Consolidation groups: **10**
+- Requiring review: **27** | Allowed: **0**
 
-## Top 7 Consolidation Groups
+## Top 10 Consolidation Groups
 
 | Classification | Priority | Score | Description | Locations |
 | --- | --- | ---: | --- | ---: |
+| HOIST | P0 | 28 | Create shared constant in server/src/con... | 5 |
+| HOIST | P0 | 20 | Create shared constant in server/src/con... | 3 |
 | HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
 | HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
 | HOIST | P1 | 16 | Replace inline usage with imported const... | 3 |
+| HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
 | HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
 | HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |
 | HOIST | P1 | 12 | Replace inline usage with imported const... | 2 |

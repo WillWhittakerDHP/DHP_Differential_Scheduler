@@ -1,5 +1,4 @@
 /**
- * WHY: useUser Composable
 
 LEARNING: Vue composable for user CRUD operations
 
@@ -19,7 +18,6 @@ type UpdateByIdPayload = {
 }
 
 /**
- * WHY: useUser composable
 
 WHY: Centralizes user API logic with reactive state ...
  */

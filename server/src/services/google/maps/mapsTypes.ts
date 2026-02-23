@@ -1,7 +1,3 @@
-/**
- * Google Maps API Types
- *
- */
 
 import type {
   AddressComponents,
@@ -25,17 +21,11 @@ export type {
   RouteMatrixResult
 }
 
-/**
- * Autocomplete response structure (server-only)
- */
 export interface AutocompleteResponse {
   predictions: AutocompletePrediction[]
   status: string
 }
 
-/**
- * Drive time calculation result
- */
 export interface DriveTimeResult {
   durationMinutes: number
   durationSeconds: number

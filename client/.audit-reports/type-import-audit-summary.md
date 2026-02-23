@@ -11,37 +11,15 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 2 |
+| Files scanned | 4 |
 | value-import-from-type-only-file | 0 |
-| type-used-as-value | 1 |
-| Files with findings | 1 |
+| type-used-as-value | 0 |
+| Files with findings | 0 |
 
-## Delta (vs previous run)
-
-| Baseline state | Count |
-| --- | ---: |
-| New | 1 |
-| Regressed | 0 |
-| Unchanged | 0 |
-| Resolved | 0 |
-
-### By rule
-
-| Rule | New | Unchanged | Resolved | Regressed |
-| --- | ---: | ---: | ---: | ---: |
-| type-used-as-value | 1 | 0 | 0 | 0 |
-
-### New findings
-
-| File | Line | Rule | Snippet |
-| --- | ---: | --- | --- |
-| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 3 | type-used-as-value | Foo |
-
-## Top 1 files (by score)
+## Top 0 files (by score)
 
 | File | Score |
 | --- | ---: |
-| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 2 |
 
 ## Notes
 

@@ -1,55 +1,22 @@
 /**
- * WHY: Router Response Helpers
 
 LEARNING: Standardized response formatting util...
  */
 import { Response } from 'express'
 import { HTTP_STATUS_CODES } from '../../constants/router.js'
 
-/**
- * Send a successful response with data
- * LEARNING: Standardized success response format
- * 
- * @param res - Express response object
- * @param data - Data to send in response body
- * @param statusCode - HTTP status code (defaults to 200 OK)
- */
 export function sendSuccess(res: Response, data: unknown, statusCode: number = HTTP_STATUS_CODES.OK): void {
   res.status(statusCode).json(data)
 }
 
-/**
- * Send a created response (201)
- * LEARNING: Standardized created response format
- * 
- * @param res - Express response object
- * @param data - Created resource data to send in response body
- */
 export function sendCreated(res: Response, data: unknown): void {
   res.status(HTTP_STATUS_CODES.CREATED).json(data)
 }
 
-/**
- * Send a no content response (204)
- * LEARNING: Standardized no content response format
- * WHY: Consistent response structure for DELETE operations (HTTP-correct approach)
- * 
- * @param res - Express response object
- */
 export function sendNoContent(res: Response): void {
   res.status(HTTP_STATUS_CODES.NO_CONTENT).send()
 }
 
-/**
- * Send an error response
- * LEARNING: Standardized error response format
- * 
- * @param res - Express response object
- * @param message - Error message
- * @param statusCode - HTTP status code (defaults to 500)
- * @param details - Optional additional error details
- * @param id - Optional resource ID for error context
- */
 export function sendError(
   res: Response,
   message: string,
@@ -70,27 +37,10 @@ export function sendError(
   res.status(statusCode).json(response)
 }
 
-/**
- * Send a not found response (404)
- * LEARNING: Standardized not found response format
- * 
- * @param res - Express response object
- * @param message - Error message
- * @param id - Optional resource ID for error context
- */
 export function sendNotFound(res: Response, message: string, id?: string): void {
   sendError(res, message, HTTP_STATUS_CODES.NOT_FOUND, undefined, id)
 }
 
-/**
- * Send a bad request response (400)
- * LEARNING: Standardized bad request response format
- * 
- * @param res - Express response object
- * @param message - Error message
- * @param details - Optional validation error details
- * @param id - Optional resource ID for error context
- */
 export function sendBadRequest(res: Response, message: string, details?: string, id?: string): void {
   sendError(res, message, HTTP_STATUS_CODES.BAD_REQUEST, details, id)
 }

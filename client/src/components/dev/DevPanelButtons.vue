@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * Shared Dev Panel Buttons Component
- * 
- */
 
 import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'

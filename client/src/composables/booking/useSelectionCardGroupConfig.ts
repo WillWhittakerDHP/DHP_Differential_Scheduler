@@ -30,14 +30,10 @@ WHY: Extracts group config logic...
 export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigParams): UseSelectionCardGroupConfigReturn {
   const { configWithDefaults } = useSelectionCardConfig(params)
 
-  /**
-   */
   const useGroupWrapper = computed(() => {
     return shouldUseSelectionGroupWrapper(configWithDefaults.value)
   })
 
-  /**
-   */
   const groupComponentName = computed(() => {
     return getSelectionGroupComponentName(configWithDefaults.value)
   })

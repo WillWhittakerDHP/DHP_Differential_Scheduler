@@ -1,15 +1,6 @@
-/**
- * Wizard Step Configuration
- *
- *
- * Component-Composable Alignment: Extracted from BookingWizard.vue
- */
 
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
-/**
- * Wizard Step Configuration Interface
- */
 export interface WizardStepConfig {
   /** Icon name (Tabler icon) */
   icon: string
@@ -19,9 +10,6 @@ export interface WizardStepConfig {
   subtitle: string
 }
 
-/**
- * Wizard Steps Configuration
- */
 export const WIZARD_STEPS: WizardStepConfig[] = [
   {
     icon: 'tabler-users',

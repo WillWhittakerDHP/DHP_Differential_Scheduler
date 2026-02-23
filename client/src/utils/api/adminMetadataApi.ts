@@ -1,6 +1,3 @@
-/**
- * Admin metadata API endpoint builders
- */
 
 export function getAdminMetadataEndpoint(entityType: string, entityId: string): string {
   return `/admin-metadata/${entityType}/${entityId}`

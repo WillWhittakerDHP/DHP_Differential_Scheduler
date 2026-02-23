@@ -1,9 +1,4 @@
 <script setup lang="ts">
-/**
- * WHY: DependentInstanceCheckboxList Component
-
-LEARNING: Renders dependent ins...
- */
 import type { SelectionCardItem } from './types/selectionCardTypes'
 
 interface Props {
@@ -79,8 +74,6 @@ function handleToggle(optionId: string, selected: boolean): void {
 </template>
 
 <style scoped lang="scss">
-/**
- */
 .dependent-instance-checkbox-list {
   margin-top: 1rem;
   padding-top: 1rem;

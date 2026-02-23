@@ -1,6 +1,3 @@
-/**
- * Composable for status button value extraction
- */
 
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

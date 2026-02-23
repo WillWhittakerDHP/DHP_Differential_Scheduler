@@ -151,7 +151,7 @@ export async function seedAppointmentTestData() {
     selectedOptionIds: null,
     selectedDate: new Date('2026-01-15'),
     selectedDateRangeEnd: null,
-    selectedTimeSlots: [{ time: '10:00', duration: 120 }],
+    selectedTimeSlots: [{ startTime: '2026-01-15T15:00:00.000Z', endTime: '2026-01-15T17:00:00.000Z', duration: 120 }],
     isQuoteMode: false,
     quotePdfUrl: null,
     status: 'draft',

@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Router Constants
- *
- */
 
 import type { FeedbackCategory, FeedbackSeverity, FeedbackStatus } from '../../../db/models/beta/beta_feedback.js';
 

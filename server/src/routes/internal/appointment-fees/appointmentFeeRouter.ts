@@ -1,7 +1,3 @@
-/**
- * Appointment Fee Summary Router
- *
- */
 
 import { Router } from 'express'
 import { AppointmentFeeCrudRouter } from './appointmentFeeCrudRouter.js'

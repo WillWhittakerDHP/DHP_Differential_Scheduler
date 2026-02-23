@@ -44,7 +44,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
   }
 
   /**
-   * WHY: /**
 Select user type and clear dependent selections
 LEARNING: Cascading ...
    */
@@ -58,7 +57,6 @@ LEARNING: Cascading ...
   }
 
   /**
-   * WHY: /**
 Toggle service type block selection (single-select UI, array storage...
    */
   const toggleServiceTypeBlock = (block: BookingBlockInstance): void => {
@@ -74,7 +72,6 @@ Toggle service type block selection (single-select UI, array storage...
   }
 
   /**
-   * WHY: /**
 Toggle property type block selection (single-select UI, array storag...
    */
   const togglePropertyTypeBlock = (block: BookingBlockInstance): void => {
@@ -87,7 +84,6 @@ Toggle property type block selection (single-select UI, array storag...
   }
 
   /**
-   * WHY: /**
 Toggle availability option selection
 LEARNING: Multi-select pattern ...
    */
@@ -101,7 +97,6 @@ LEARNING: Multi-select pattern ...
   }
 
   /**
-   * WHY: /**
 Toggle line item block selection
 LEARNING: Multi-select pattern usin...
    */

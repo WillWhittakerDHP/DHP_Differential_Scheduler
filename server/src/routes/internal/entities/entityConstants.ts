@@ -1,13 +1,6 @@
-/**
- * Entity Router Constants
- * 
- */
 
 import { ENTITY_KEYS_ARRAY } from '../../../constants/entities.js'
 
-/**
- * Error messages for entity operations
- */
 export const ERROR_MESSAGES = {
   FETCH_CONFIG: 'Failed to fetch entity configuration',
   CONFIGURATION_ERROR: 'Entity configuration error',
@@ -38,9 +31,6 @@ export const ERROR_MESSAGES = {
   PART_ASSIGNMENT_CLEANUP_ERROR: 'Error disabling old partAssignments relationships',
 } as const
 
-/**
- * Default values for entity operations
- */
 export const DEFAULT_VALUES = {
   BOOKING_MODE: 'standalone' as const,
   CONFIG_VERSION: '1.0.0' as const,
@@ -55,9 +45,6 @@ export const TEMPORARY_ID_PATTERNS = {
   NULL_UUID: '00000000-0000-0000-0000-000000000000',
 } as const
 
-/**
- * Field names used in entity operations
- */
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',
@@ -68,35 +55,19 @@ export const FIELD_NAMES = {
   ENTITY_KEY: 'entityKey',
 } as const
 
-/**
- * Database constraint names
- */
 export const CONSTRAINT_NAMES = {
   STATE_CONTROL_MUTUAL_EXCLUSIVITY: 'check_state_control_mutual_exclusivity',
 } as const
 
-/**
- * Database error codes
- */
 export const ERROR_CODES = {
   CHECK_VIOLATION: '23514',
 } as const
 
-/**
- * Sort order directions
- */
 export const SORT_ORDERS = {
   ASC: 'ASC',
   DESC: 'DESC',
 } as const
 
-/**
- * WHY: Unknown error fallback message
-WHY: Single source of truth; avoids circu...
- */
 export { UNKNOWN_ERROR_MESSAGE } from '../../../../../shared/constants/errorMessages.js'
 
-/**
- * Entity keys array for config endpoint
- */
 export { ENTITY_KEYS_ARRAY }

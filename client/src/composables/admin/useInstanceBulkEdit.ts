@@ -46,12 +46,8 @@ export function useInstanceBulkEdit(
    */
   const bulkEditMode = ref<Map<string, boolean>>(new Map())
 
-  /**
-   */
   const bulkEditData = ref<Map<string, { baseSqFt?: number }>>(new Map())
 
-  /**
-   */
   const bulkEditBaseSqFtComputeds = ref<Map<string, ComputedRef<number | undefined>>>(new Map())
 
   /**
@@ -63,9 +59,6 @@ export function useInstanceBulkEdit(
     return bulkEditBaseSqFtComputeds.value.get(blockShapeId)!
   }
 
-  /**
-   * NOTE: For template usage, use bulkEditDataMap computed instead
-   */
   const getBulkEditData = (blockShapeId: string): { baseSqFt?: number } => {
     if (!bulkEditData.value.has(blockShapeId)) {
       bulkEditData.value.set(blockShapeId, {})
@@ -73,15 +66,11 @@ export function useInstanceBulkEdit(
     return bulkEditData.value.get(blockShapeId)!
   }
 
-  /**
-   */
   const toggleBulkEditMode = (blockShapeId: string): void => {
     const current = bulkEditMode.value.get(blockShapeId) || false
     bulkEditMode.value.set(blockShapeId, !current)
   }
 
-  /**
-   */
   const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
     try {
       const instances = asEmptyArray(blockInstancesByShape.value.get(blockShapeId))
@@ -111,8 +100,6 @@ export function useInstanceBulkEdit(
     }
   }
 
-  /**
-   */
   watch(blockInstancesByShape, (map) => {
     map.forEach((_instances, blockShapeId) => {
       if (!bulkEditBaseSqFtComputeds.value.has(blockShapeId)) {

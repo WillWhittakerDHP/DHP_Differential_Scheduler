@@ -17,11 +17,6 @@ import type {
 } from '../../../../../shared/types/businessRulesTypes.js'
 import { RULE_TYPE_VALUES } from '../../../../../shared/constants/businessRulesConstants.js'
 
-/**
- * WHY: Business Rule Model
-
-LEARNING: Stores admin-configurable validation rule...
- */
 export type RuleType = (typeof RULE_TYPE_VALUES)[keyof typeof RULE_TYPE_VALUES]
 
 export type {
@@ -32,9 +27,6 @@ export type {
   ValidationMessageRuleConfig,
 }
 
-/**
- * Business Rule Model Class
- */
 export class BusinessRule extends Model<
   InferAttributes<BusinessRule>,
   InferCreationAttributes<BusinessRule>

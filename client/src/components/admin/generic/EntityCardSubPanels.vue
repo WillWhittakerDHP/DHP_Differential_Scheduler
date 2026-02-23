@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * 
- * Panel Title Format: "Parts: PartName1, PartName2 +X more" or "Parts" if empty
- */
 import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
@@ -26,15 +22,11 @@ interface Props extends EntityCardSharedProps {
   getFieldContext: (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
   ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  /**
-   */
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
 const props = defineProps<Props>()
 
-/**
- */
 const { entities: blockInstances } = useEntityCrud('blockInstance')
 const { entities: partInstances } = useEntityCrud('partInstance')
 const { entities: blockShapes } = useEntityCrud('blockShape')
@@ -47,8 +39,6 @@ const blockShapeName = computed((): string => {
   return name !== undefined && name !== null && name !== '' ? name : 'Block'
 })
 
-/**
- */
 const MAX_DISPLAY_ITEMS = 2
 
 /**
@@ -80,9 +70,6 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
     .filter((name): name is string => name !== null)
 }
 
-/**
- * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
- */
 const partsSummary = computed((): string => {
   if (props.entityKey !== 'blockInstance') return ''
   
@@ -157,8 +144,6 @@ watch(partsBulkEditMode, (isEnabled) => {
   }
 })
 
-/**
- */
 const relationshipsSummary = computed((): string => {
   const formValues = props.form.values
   const relationshipTypes: string[] = []

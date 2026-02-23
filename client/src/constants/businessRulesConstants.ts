@@ -1,6 +1,3 @@
-/**
- * Business Rules client constants
- */
 
 import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'
 

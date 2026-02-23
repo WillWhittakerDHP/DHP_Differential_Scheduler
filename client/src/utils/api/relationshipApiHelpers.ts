@@ -1,8 +1,3 @@
-/**
- * WHY: Relationship API Helpers
-
-WHY: Eliminates duplication of error handling ...
- */
 import type { AxiosError } from 'axios'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'

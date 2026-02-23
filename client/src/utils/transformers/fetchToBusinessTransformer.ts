@@ -15,11 +15,6 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('fetchToBusinessTransformer')
 
-/**
- * WHY: BusinessData type - unified cache for business entities
-
-LEARNING: Mirro...
- */
 export type BusinessData = {
   appointments: AppointmentResponse[]
   properties: PropertyResponse[]
@@ -32,10 +27,6 @@ export type BusinessData = {
 PATTERN: Class-based transformer matching Gl...
  */
 export class BusinessTransformer {
-  /**
-   * Fetch all business entities
-   * 
-   */
   async fetchAll(): Promise<BusinessData> {
     try {
       const [appointmentsResponse, propertiesResponse, usersResponse] = await Promise.all([

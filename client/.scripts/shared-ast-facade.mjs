@@ -2,12 +2,13 @@
  * Shared AST Facade for audit scripts.
  *
  * Provides ts-morph–based parsing, Vue <script> extraction with line mapping,
- * and traversal helpers.
+ * traversal helpers, and (Phase B) TypeChecker-backed semantic analysis.
  *
  * Used by: type-escape, type-import, loop-mutation, error-handling, naming-convention audits.
  */
 
 import path from 'node:path'
+import fs from 'node:fs'
 import crypto from 'node:crypto'
 
 let _Project = null
@@ -19,6 +20,154 @@ async function loadTsMorph() {
   _Project = tsMorph.Project
   _SyntaxKind = tsMorph.SyntaxKind ?? (await import('typescript')).SyntaxKind
   return { Project: _Project, SyntaxKind: _SyntaxKind }
+}
+
+// ─── Phase B: Typed project and TypeChecker (cached per tsconfig path) ─────
+let _typedProjectCache = null
+let _typedProjectKey = null
+
+/**
+ * Create a project that loads tsconfig and exposes TypeChecker. Cached per process per tsConfigPath.
+ * Use for semantic validation; keep createSourceFileFromContent() for fast parsing (fixtures, golden runner).
+ *
+ * @param {string} [tsConfigPath] - Path to tsconfig.json (default: resolve client/tsconfig.json from cwd)
+ * @returns {Promise<{ project: import('ts-morph').Project, typeChecker: import('typescript').TypeChecker }>}
+ */
+export async function createTypedProject(tsConfigPath) {
+  const cwd = process.cwd()
+  const resolved = tsConfigPath
+    ? path.resolve(cwd, tsConfigPath)
+    : path.join(cwd, 'tsconfig.json')
+  const key = resolved
+  if (_typedProjectCache && _typedProjectKey === key) {
+    const prog = _typedProjectCache.getProgram()
+    return { project: _typedProjectCache, typeChecker: prog.getTypeChecker() }
+  }
+  if (!fs.existsSync(resolved)) {
+    throw new Error(`createTypedProject: tsconfig not found: ${resolved}`)
+  }
+  const { Project } = await loadTsMorph()
+  const project = new Project({ tsConfigFilePath: resolved })
+  const program = project.getProgram()
+  const typeChecker = program.getTypeChecker()
+  _typedProjectCache = project
+  _typedProjectKey = key
+  return { project, typeChecker }
+}
+
+/**
+ * Get the resolved type string for an AST node. Node must be from a source file in a typed project.
+ *
+ * @param {import('ts-morph').Node} node - ts-morph Node (must have .compilerNode)
+ * @param {import('typescript').TypeChecker} typeChecker - From createTypedProject()
+ * @returns {string} Type string (e.g. "string", "number", "any")
+ */
+export function getTypeOfNode(node, typeChecker) {
+  if (!node || !typeChecker) return 'unknown'
+  const compilerNode = node.compilerNode
+  if (!compilerNode) return 'unknown'
+  try {
+    const type = typeChecker.getTypeAtLocation(compilerNode)
+    return type ? typeChecker.typeToString(type) : 'unknown'
+  } catch {
+    return 'unknown'
+  }
+}
+
+/**
+ * Get the type string for a type node (e.g. the right-hand side of an AsExpression). Node must be from a typed project.
+ *
+ * @param {import('ts-morph').Node} typeNode - Type node (e.g. node.getType() from AsExpression)
+ * @param {import('typescript').TypeChecker} typeChecker - From createTypedProject()
+ * @returns {string}
+ */
+export function getTypeFromTypeNode(typeNode, typeChecker) {
+  if (!typeNode || !typeChecker) return 'unknown'
+  const compilerNode = typeNode.compilerNode
+  if (!compilerNode) return 'unknown'
+  try {
+    const type = typeChecker.getTypeFromTypeNode(compilerNode)
+    return type ? typeChecker.typeToString(type) : 'unknown'
+  } catch {
+    return 'unknown'
+  }
+}
+
+/**
+ * Get the symbol for an AST node (identifier, etc.). Node must be from a typed project (createTypedProject).
+ *
+ * @param {import('ts-morph').Node} node - ts-morph Node (from a project with type checking)
+ * @param {import('typescript').TypeChecker} [_typeChecker] - Optional; node.getSymbol() is used when node is from typed project
+ * @returns {import('ts-morph').Symbol | undefined}
+ */
+export function getSymbolAtNode(node, _typeChecker) {
+  if (!node) return undefined
+  try {
+    return typeof node.getSymbol === 'function' ? node.getSymbol() : undefined
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * Return true if the symbol's declarations are all type-only (interface, type alias, or import type).
+ * Used to distinguish type-only imports from value-capable symbols (e.g. enum, class). Enums are
+ * always value-capable (including const enum) so they return false.
+ *
+ * @param {import('ts-morph').Symbol} symbol - From getSymbolAtNode()
+ * @param {{ SyntaxKind: object }} sk - From loadTsMorph().SyntaxKind
+ * @returns {boolean}
+ */
+export function isTypeOnlySymbol(symbol, sk) {
+  if (!symbol) return false
+  const decls = symbol.getDeclarations()
+  if (!decls || decls.length === 0) return false
+  for (const decl of decls) {
+    const kind = decl.getKind()
+    if (kind === sk.InterfaceDeclaration) continue
+    if (kind === sk.TypeAliasDeclaration) continue
+    if (kind === sk.EnumDeclaration) return false
+    if (kind === sk.ClassDeclaration) return false
+    if (kind === sk.FunctionDeclaration) return false
+    if (kind === sk.VariableDeclaration) return false
+    if (kind === sk.ImportSpecifier) {
+      const importClause = decl.getParent()
+      const importDecl = importClause?.getParent?.()
+      if (importDecl?.isTypeOnly?.()) continue
+      return false
+    }
+    return false
+  }
+  return true
+}
+
+/**
+ * Get the return type string of a function/method declaration. Node must be from a typed project.
+ *
+ * @param {import('ts-morph').Node} node - FunctionDeclaration, MethodDeclaration, ArrowFunction, etc.
+ * @param {import('typescript').TypeChecker} typeChecker - From createTypedProject()
+ * @returns {string}
+ */
+export function getReturnType(funcNode, typeChecker) {
+  if (!funcNode || !typeChecker) return 'unknown'
+  const compilerNode = funcNode.compilerNode
+  if (!compilerNode) return 'unknown'
+  try {
+    const sig = typeChecker.getSignatureFromDeclaration(compilerNode)
+    if (!sig) return 'unknown'
+    const type = typeChecker.getReturnTypeOfSignature(sig)
+    return type ? typeChecker.typeToString(type) : 'unknown'
+  } catch {
+    return 'unknown'
+  }
+}
+
+/**
+ * Clear the typed project cache (e.g. for tests or when tsconfig changes).
+ */
+export function clearTypedProjectCache() {
+  _typedProjectCache = null
+  _typedProjectKey = null
 }
 
 const parseCache = new Map()

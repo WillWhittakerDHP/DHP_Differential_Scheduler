@@ -157,8 +157,6 @@ const createPartShape = () => {
   expandedShapes.value = ['new-partShape', ...expandedShapes.value]
 }
 
-/**
- */
 const startCreatingAnnotationShape = () => {
   newAnnotationShapeName.value = ''
   isCreatingAnnotationShape.value = true
@@ -205,8 +203,6 @@ const handleAnnotationShapeCancelled = () => {
   expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
 }
 
-/**
- */
 const startCreatingEventShape = () => {
   newEventShapeName.value = ''
   isCreatingEventShape.value = true
@@ -251,8 +247,6 @@ const blockShapesContainer = ref<HTMLElement | null>(null)
 const annotationShapesContainer = ref<HTMLElement | null>(null)
 void annotationShapesContainer.value // ref used by template
 
-/**
- */
 const partShapesPanelsContainer = ref<HTMLElement | null>(null)
 const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
@@ -264,8 +258,6 @@ void annotationShapesPanelsContainer.value // ref used by template
 const partShapesList = ref<GlobalEntity<'partShape'>[]>([])
 const blockShapesList = ref<GlobalEntity<'blockShape'>[]>([])
 
-/**
- */
 const partShapeIds = ref<string[]>([])
 const blockShapeIds = ref<string[]>([])
 
@@ -323,20 +315,12 @@ const { isMounted: _blockShapesMounted } = useDragAndDrop({
   draggableClass: 'draggable-block-shape'
 })
 
-/**
- * WHY: EntityCard already handles deletion internally, this is just a notificat...
- */
 function handleDeletePartShape(_id: string) {
 }
 
-/**
- * NOTE: EntityCard emits 'delete' event after successful deletion for parent awareness
- */
 function handleDeleteBlockShape(_id: string) {
 }
 
-/**
- */
 const filteredAnnotationShapes = computed(() => {
   // PATTERN: Check that annotationShapes is an array before spreading
   if (!Array.isArray(annotationShapes.value)) {
@@ -346,8 +330,6 @@ const filteredAnnotationShapes = computed(() => {
   return [...annotationShapes.value]
 })
 
-/**
- */
 const safeEventShapes = computed(() => {
   // PATTERN: Check that eventShapes is an array before accessing
   if (!Array.isArray(eventShapes.value)) {
@@ -357,8 +339,6 @@ const safeEventShapes = computed(() => {
   return eventShapes.value
 })
 
-/**
- */
 const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
 const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
 const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)
@@ -370,8 +350,6 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
 function handleDeleteAnnotationShape(_id: string) {
 }
 
-/**
- */
 function handleDeleteEventShape(_id: string) {
 }
 

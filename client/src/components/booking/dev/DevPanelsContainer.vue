@@ -1,9 +1,4 @@
 <script setup lang="ts">
-/**
- * Slot Dev Panel Component (formerly DevPanelsContainer)
- * 
- * NOTE: Renamed from DevPanelsContainer to distinguish from ApiDevPanel
- */
 
 import { ref, inject, computed, type Ref, type ComputedRef } from 'vue'
 import { onClickOutside } from '@vueuse/core'
@@ -256,8 +251,6 @@ const eventShapes = computed<EventShape[]>(() => {
   return getGlobalEntities('eventShape') as EventShape[]
 })
 
-/**
- */
 const isSelectedServiceDifferential = computed(() => {
   const data = devPanelData.value
   const isEffectivelyDifferentialRef = data.isEffectivelyDifferential

@@ -1,19 +1,9 @@
-/**
- * PATTERN: BlockFinal: Aggregated block instance representing a finalized block
-PAT...
- */
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockFinal } from './bookingFinalTypes'
 import { createPartFinals } from './partFinalizer'
 
 export type { BlockFinal } from './bookingFinalTypes'
 
-/**
- * Create BlockFinal from a single block instance
- * 
- * @param blockInstance - Block instance to finalize
- * @returns BlockFinal with finalized parts and block totals
- */
 export function createBlockFinal(
   blockInstance: BookingBlockInstance
 ): BlockFinal {

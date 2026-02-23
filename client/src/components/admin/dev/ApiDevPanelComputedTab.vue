@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * API Dev Panel Computed Tab Component
- * 
- */
 
 import { computed } from 'vue'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'

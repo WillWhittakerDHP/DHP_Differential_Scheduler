@@ -1,7 +1,3 @@
-/**
- * Calendar Error Handler
- *
- */
 
 import { createLogger } from '../utils/logger.js'
 import { withRetry as sharedWithRetry, type RetryConfig } from './google/shared/googleApiRetry.js'
@@ -17,14 +13,8 @@ import {
 
 const logger = createLogger('CalendarErrorHandler')
 
-/**
- * Calendar API error types
- */
 export type CalendarErrorType = keyof typeof CALENDAR_ERROR_MESSAGES
 
-/**
- * Calendar API Error Class
- */
 export class CalendarApiError extends Error {
   public readonly type: CalendarErrorType
   public readonly statusCode?: number
@@ -52,41 +42,24 @@ export class CalendarApiError extends Error {
     }
   }
 
-  /**
-   * WHY: /**
-Create user-friendly error message
-LEARNING: Record lookup (matches ...
-   */
   getUserMessage(): string {
     return CALENDAR_ERROR_MESSAGES[this.type]
   }
 
-  /**
-   * Get HTTP status code for this error type
-   */
   getStatusCode(): number {
     return CALENDAR_ERROR_TO_STATUS[this.type] ?? 500
   }
 }
 
-/**
- * Map CalendarErrorType to HTTP status code
- */
 function _getStatusCodeForError(errorType: CalendarErrorType): number {
   return CALENDAR_ERROR_TO_STATUS[errorType] ?? 500
 }
 
-/**
- * Check if 403 error message indicates rate limit (vs permission denied)
- */
 function isRateLimitError(message: string): boolean {
   const lower = message.toLowerCase()
   return RATE_LIMIT_KEYWORDS.some((kw) => lower.includes(kw))
 }
 
-/**
- * Classify error from Google API response
- */
 function toHttpStatus(value: unknown): number | undefined {
   if (typeof value === 'number' && !Number.isNaN(value)) return value
   if (typeof value === 'string') {
@@ -99,7 +72,6 @@ function toHttpStatus(value: unknown): number | undefined {
 export function classifyError(error: unknown): CalendarApiError {
   const err = error as { code?: string; message?: string; status?: number; response?: { status?: number } }
 
-  // Network errors (no HTTP response)
   if (err.code && NETWORK_ERROR_CODES.has(err.code)) {
     return new CalendarApiError('network', CALENDAR_INTERNAL_MESSAGES.NETWORK_ERROR(err.code), {
       retryable: true,
@@ -154,9 +126,6 @@ export function classifyError(error: unknown): CalendarApiError {
 /** Re-export for consumers that pass retry config */
 export type { RetryConfig }
 
-/**
- * Execute function with exponential backoff retry
- */
 export async function withRetry<T>(
   operation: () => Promise<T>,
   config: Partial<RetryConfig> = {}
@@ -178,18 +147,12 @@ export async function withRetry<T>(
   }
 }
 
-/**
- * Result type for operations with cache degradation
- */
 interface FallbackResult<T> {
   data: T
   source: 'fresh' | 'cache' | 'empty'
   error?: CalendarApiError
 }
 
-/**
- * Execute operation with cache degradation
- */
 export async function withFallback<T>(
   operation: () => Promise<T>,
   getCached: () => T | null,
@@ -214,7 +177,6 @@ export async function withFallback<T>(
 }
 
 /**
- * WHY: Log error with context
 LEARNING: Consistent error logging format
  */
 export function logCalendarError(

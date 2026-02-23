@@ -1,7 +1,3 @@
-/**
- * Calendar Debug Routes
- *
- */
 
 import { Router, Request, Response } from 'express';
 import { getEventsCacheStats, getAllCachedEntries as getAllEventsEntries } from '../../services/calendarEventsCache.js';

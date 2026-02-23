@@ -1,15 +1,6 @@
-/**
- * WHY: Entity Router Data Sanitization Utilities
-
-WHY: Improves code reusabilit...
- */
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
-/**
- * WHY: Sanitize booking mode fields (both camelCase and snake_case)
-WHY: Preven...
- */
 export function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
   
@@ -25,7 +16,6 @@ export function sanitizeBookingModeFields(data: Record<string, unknown>): Record
 }
 
 /**
- * WHY: Sanitize entity data for create operations
 WHY: Prevents database errors...
  */
 export function sanitizeEntityDataForCreate(
@@ -43,7 +33,6 @@ export function sanitizeEntityDataForCreate(
 }
 
 /**
- * WHY: Sanitize entity data for update operations
 WHY: Prevents database errors...
  */
 export function sanitizeEntityDataForUpdate(

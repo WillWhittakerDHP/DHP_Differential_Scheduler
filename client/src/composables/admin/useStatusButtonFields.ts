@@ -18,9 +18,6 @@ export interface UseStatusButtonFieldsReturn<GE extends GlobalEntityKey> {
   statusButtonFields: ComputedRef<Array<Omit<StatusButtonField, 'key'> & { key: GlobalFieldKey<GE> }>>
 }
 
-/**
- * Composable for computing status button fields
- */
 export function useStatusButtonFields<GE extends GlobalEntityKey>(
   options: UseStatusButtonFieldsOptions<GE>
 ): UseStatusButtonFieldsReturn<GE> {

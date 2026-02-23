@@ -27,7 +27,6 @@ export function useLayoutLoading(
   const isFallbackStateActive = ref(false)
 
   /**
-   * WHY: /**
 LEARNING: Watch fallback state and loading indicator ref
 WHY: Calls ...
    */

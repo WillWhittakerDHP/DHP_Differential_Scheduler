@@ -7,29 +7,24 @@
 
 Generated from `client/.audit-reports/file-cohesion-audit.json`.
 
-- Files with violations: **23**
+- Files with violations: **18**
 
-## Top 23 files
+## Top 18 files
 
 | File | Category | Priority | Score | Lines | Exports | Violations |
 | --- | --- | --- | ---: | ---: | ---: | --- |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | components | P1 | 9 | 0 | 0 | oversized |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 0 | 0 | oversized |
 | `client/src/utils/booking/appointmentDataBuilders.ts` | utils | P1 | 6 | 0 | 0 | high-exports |
-| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | utils | P1 | 6 | 0 | 0 | oversized |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | utils | P1 | 6 | 0 | 0 | oversized |
+| `server/src/services/invites/inviteOrchestrationService.ts` | services | P1 | 6 | 0 | 0 | oversized |
 | `server/src/services/slotComputationService.ts` | services | P1 | 6 | 0 | 0 | oversized |
 | `client/src/constants/apiStatus.ts` | general | P1 | 4 | 0 | 0 | high-exports |
 | `client/src/constants/fieldMetadata.ts` | general | P1 | 4 | 0 | 0 | high-exports |
-| `client/src/composables/admin/useSelectConfig.ts` | composables | P2 | 3 | 0 | 0 | oversized |
 | `client/src/composables/admin/useSelectFiltering.ts` | composables | P2 | 3 | 0 | 0 | oversized |
-| `client/src/composables/booking/useAvailabilityLogic.ts` | composables | P2 | 3 | 0 | 0 | oversized |
-| `client/src/utils/booking/partFinalizer.ts` | utils | P2 | 3 | 0 | 0 | oversized |
 | `client/src/utils/tablerIcons.ts` | utils | P2 | 3 | 0 | 0 | oversized |
-| `client/src/utils/transformers/appointmentToWizardHelpers.ts` | utils | P2 | 3 | 0 | 0 | oversized |
-| `client/src/utils/transformers/appointmentToWizardTransformer.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/utils/transformers/fetchToGlobalTransformer.ts` | utils | P2 | 3 | 0 | 0 | oversized |
 | `client/src/views/admin/tabs/components/AppointmentsTable.vue` | components | P2 | 3 | 0 | 0 | oversized |
-| `server/src/scripts/helpers/calendarParsingHelpers.ts` | utils | P2 | 3 | 0 | 0 | oversized |
 | `server/src/services/computedAvailabilityService.ts` | services | P2 | 3 | 0 | 0 | oversized |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 0 | 0 | oversized |
 | `client/src/configs/availabilitySettings.ts` | general | P2 | 2 | 0 | 0 | high-exports |

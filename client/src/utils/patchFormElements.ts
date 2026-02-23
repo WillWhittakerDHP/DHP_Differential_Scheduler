@@ -13,8 +13,6 @@ export function patchFormElements(formElement: HTMLFormElement): void {
       el.setAttribute('autocomplete', AUTCOMPLETE_OFF)
     })
 
-    /**
-     */
     const formElements = Array.from(formElement.elements).filter((el): el is HTMLElement => el != null)
     for (const el of formElements) {
       const hasControl = 'control' in el && (el as { control?: unknown }).control

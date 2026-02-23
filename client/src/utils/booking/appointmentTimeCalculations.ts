@@ -1,7 +1,3 @@
-/**
- * Appointment Slot Calculations
- * 
- */
 
 import type { AppointmentSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -11,19 +7,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
 
-/**
- * Calculate AppointmentSlots from block instances
- * 
- * 
- * @param blockInstances - Array of BookingBlockInstance objects (service, property type block, availability options)
- * @param baseStartTime - Optional base start time (ISO date string) - if provided, calculates TimeRange objects
- * @param eventInstances - Optional array of EventInstance objects
- * @param eventShapes - Optional array of EventShape objects
- * @param eventAssignmentsRelationships - Optional array of eventAssignments relationships
- * @param partShapeById - Optional map of partShape ID → partShape entity
- * @param settings - Optional availability settings for rounding configuration
- * @returns Array of AppointmentSlot objects with orderIndex 0
- */
 export function calculateAppointmentSlots(
   blockInstances: BookingBlockInstance[],
   baseStartTime?: string | null,
@@ -68,12 +51,6 @@ export function calculateAppointmentSlots(
   return [appointmentSlot]
 }
 
-/**
- * Normalize time slots by orderIndex
- * 
- * @param appointmentSlots - Array of AppointmentSlot objects
- * @returns Array of AppointmentSlot objects with normalized orderIndex values
- */
 export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: AppointmentSlots): AppointmentSlots {
   if (!appointmentSlots || appointmentSlots.length === 0) {
     return []
@@ -94,13 +71,6 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
   }))
 }
 
-/**
- * Calculate total duration from AppointmentSlots
- * DUAL-TRACK: Uses roundedDuration for display (totalTimeRange already uses rounded)
- * 
- * @param appointmentSlots - Array of AppointmentSlot objects
- * @returns Total rounded duration in minutes
- */
 export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: AppointmentSlots): number {
   return appointmentSlots.reduce((sum, appointmentSlot) => {
     return sum + (appointmentSlot.totalTimeRange?.duration || appointmentSlot.shape.slotShape.roundedDuration || 0)

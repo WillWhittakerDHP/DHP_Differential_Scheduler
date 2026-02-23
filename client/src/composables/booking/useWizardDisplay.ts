@@ -34,9 +34,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     loadedWizardState
   } = params
 
-  /**
-   * Session 1.3.9.5: Updated to show first service name or count for multiple selections
-   */
   const stepSubtitles = computed(() => {
     const baseSubtitles = steps.map(step => step.subtitle)
     
@@ -52,9 +49,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     return baseSubtitles
   })
 
-  /**
-   * Session 1.3.9.5: Updated to use array - show first service name or count
-   */
   const loadedServiceName = computed(() => {
     const loadedServices = loadedWizardState?.value?.services
     if (loadedServices && loadedServices.length > 0) {
@@ -72,8 +66,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     return null
   })
 
-  /**
-   */
   const loadedPropertyAddress = computed(() => {
     if (!loadedWizardState?.value?.propertyDetails) return null
     

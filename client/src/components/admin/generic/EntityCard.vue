@@ -40,30 +40,14 @@ defineOptions({
   inheritAttrs: false
 })
 
-/**
- */
 interface Props<GE extends GlobalEntityKey> {
   entityKey: GE
-  /**
-   */
   entity: GlobalEntity<GE>
-  /**
-   */
   expanded?: boolean
-  /**
-   */
   useExpansionPanel?: boolean
-  /**
-   */
   form?: FormContext
-  /**
-   */
   isNew?: boolean
-  /**
-   */
   disableAutoSave?: boolean
-  /**
-   */
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
@@ -74,8 +58,6 @@ const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   useExpansionPanel: true
 })
 
-/**
- */
 interface Emits {
   (e: 'delete', id: string): void
   (e: 'saved', entity: GlobalEntity<GlobalEntityKey>): void
@@ -93,8 +75,6 @@ const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
 
-/**
- */
 function handleTitleKeydown(event: KeyboardEvent): void {
   if (!event.isTrusted) {
     return
@@ -164,8 +144,6 @@ void useEntityStatus({
 const adminConfig = useAdminConfig()
 const admin = useAdmin()
 
-/**
- */
 const logger = createLogger('EntityCard')
 
 /**
@@ -243,8 +221,6 @@ watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
 
 const isFormReady = computed(() => formFields.isFormReady.value)
 
-/**
- */
 const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   getFieldContext: formFields.getFieldContext,
   fieldsByLocation: fieldLocation.fieldsByLocation,
@@ -253,9 +229,6 @@ const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   fieldsNeedingContexts: formFields.fieldsNeedingContexts,
 })
 
-/**
- * WHY: Some fields should only show under certain conditions (e.g., composite w...
- */
 const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   fieldsByLocation: fieldLocation.fieldsByLocation,
   entityKey: props.entityKey,

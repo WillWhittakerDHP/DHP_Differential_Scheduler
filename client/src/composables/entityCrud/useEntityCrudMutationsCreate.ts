@@ -1,7 +1,3 @@
-/**
- * Create mutation factory for useEntityCrudMutations.
- * WHY: Isolates create mutation logic to reduce main file size and function complexity.
- */
 
 import type { UseMutationOptions } from '@tanstack/vue-query'
 import apiClient, { getEntityEndpoint } from '@/utils/api'

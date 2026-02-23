@@ -1,7 +1,3 @@
-/**
- * Business Settings Router Helper Functions
- * 
- */
 
 import { AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js'
 
@@ -22,13 +18,6 @@ export function transformSettingToResponse(setting: BusinessSettingRecord): { se
   }
 }
 
-/**
- * Get setting with default fallback for availability settings
- *
- * @param setting - BusinessSettings model instance or null
- * @param key - Setting key
- * @returns Setting response or default for availability settings, or null
- */
 export function getSettingWithDefault(
   setting: BusinessSettingRecord | null,
   key: string
@@ -46,13 +35,6 @@ export function getSettingWithDefault(
   return transformSettingToResponse(setting)
 }
 
-/**
- * Merge setting values for PATCH operation
- *
- * @param existingValue - Existing setting value
- * @param newValue - New setting value to merge
- * @returns Merged setting value
- */
 export function mergeSettingValues(existingValue: unknown, newValue: unknown): unknown {
   const existing = (typeof existingValue === 'object' && existingValue !== null ? existingValue : {}) as Record<string, unknown>
   const next = (typeof newValue === 'object' && newValue !== null ? newValue : {}) as Record<string, unknown>

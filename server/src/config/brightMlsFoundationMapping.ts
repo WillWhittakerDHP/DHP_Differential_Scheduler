@@ -1,14 +1,6 @@
-/**
- * Bright MLS Foundation Mapping
- *
- */
 
 type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;
 
-/**
- * RESO FoundationDetails keywords to app foundation types
- * Extend per MLS-specific terminology
- */
 const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
   basement: 'basement',
   crawl: 'crawlspace',
@@ -18,12 +10,6 @@ const FOUNDATION_MAPPING: Record<string, FoundationAccessType> = {
   pilings: null,
 };
 
-/**
- * Map RESO FoundationDetails array or string to foundationAccess
- *
- * @param foundationDetails - Array of strings or single string from RESO
- * @returns 'basement' | 'crawlspace' | 'slab' | null
- */
 export function mapFoundationType(
   foundationDetails: string[] | string | null | undefined
 ): FoundationAccessType {

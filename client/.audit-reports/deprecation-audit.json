@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-02-20T18:49:55.572Z",
+  "generatedAt": "2026-02-23T18:12:50.962Z",
   "check": "Deprecation",
-  "totalScanned": 793,
+  "totalScanned": 795,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 10,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,7 +25,215 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "server__src__services__invites__inviteOrchestrationService.ts",
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 62,
+          "line": "logger.info('No EventInstances found for appointment — using fallback')",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 146,
+          "line": "...(appointment.selectedServiceIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 147,
+          "line": "...(appointment.selectedPropertyIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 148,
+          "line": "...(appointment.selectedOptionIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 301,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 317,
+          "line": "const attendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 362,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 404,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 503,
+          "line": "const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 524,
+          "line": "eventInstanceId: 'fallback',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 525,
+          "line": "eventInstanceName: 'Legacy fallback event',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 534,
+          "line": "logger.error('Fallback event creation failed:', error)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 541,
+          "line": "eventInstanceId: 'fallback',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 542,
+          "line": "eventInstanceName: 'Legacy fallback event',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 62,
+          "line": "logger.info('No EventInstances found for appointment — using fallback')",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 146,
+          "line": "...(appointment.selectedServiceIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 147,
+          "line": "...(appointment.selectedPropertyIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 148,
+          "line": "...(appointment.selectedOptionIds ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 301,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 317,
+          "line": "const attendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 362,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 404,
+          "line": "const appointmentAttendees = appointment.attendees ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 503,
+          "line": "const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 524,
+          "line": "eventInstanceId: 'fallback',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 525,
+          "line": "eventInstanceName: 'Legacy fallback event',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 534,
+          "line": "logger.error('Fallback event creation failed:', error)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fallback-keyword",
+          "lineNumber": 541,
+          "line": "eventInstanceId: 'fallback',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 542,
+          "line": "eventInstanceName: 'Legacy fallback event',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 36,
+      "priority": "P0"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "jsdoc-deprecated",

@@ -13,42 +13,24 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useEntityList')
 
 export interface UseEntityListOptions {
-  /**
-   */
   entityKey: GlobalEntityKey
   
-  /**
-   */
   routes?: {
-    /**
-     */
     create?: string
     
-    /**
-     */
     edit?: string
   }
   
-  /**
-   */
   deleteConfirmation?: string | ((entityId: GlobalEntityId) => string)
   
-  /**
-   */
   deleteErrorMessage?: string | ((error: unknown) => string)
 }
 
 export interface UseEntityListReturn {
-  /**
-   */
   goToCreate: () => void
   
-  /**
-   */
   goToEdit: (id: GlobalEntityId) => void
   
-  /**
-   */
   handleDelete: (id: GlobalEntityId) => Promise<void>
 }
 
@@ -81,20 +63,14 @@ export function useEntityList(
    */
   const editRouteName = routes.edit || `${entityKey}-edit`
   
-  /**
-   */
   const goToCreate = (): void => {
     router.push({ name: createRouteName })
   }
   
-  /**
-   */
   const goToEdit = (id: GlobalEntityId): void => {
     router.push({ name: editRouteName, params: { id: String(id) } })
   }
   
-  /**
-   */
   const getDeleteConfirmation = (entityId: GlobalEntityId): string => {
     if (typeof deleteConfirmation === 'function') {
       return deleteConfirmation(entityId)
@@ -102,8 +78,6 @@ export function useEntityList(
     return deleteConfirmation
   }
   
-  /**
-   */
   const getDeleteErrorMessage = (error: unknown): string => {
     if (typeof deleteErrorMessage === 'function') {
       return deleteErrorMessage(error)
@@ -111,8 +85,6 @@ export function useEntityList(
     return deleteErrorMessage
   }
   
-  /**
-   */
   const handleDelete = async (id: GlobalEntityId): Promise<void> => {
     const confirmation = getDeleteConfirmation(id)
     

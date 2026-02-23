@@ -1,6 +1,3 @@
-/**
- * Constants for availability settings UI
- */
 
 export const DAY_NAMES = [
   'Sunday',

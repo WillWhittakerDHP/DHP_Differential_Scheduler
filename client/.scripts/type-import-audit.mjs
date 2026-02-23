@@ -16,10 +16,14 @@ import {
 } from './shared-audit-utils.mjs'
 import {
   createSourceFileFromContent,
+  createTypedProject,
   extractVueScriptWithLineOffset,
   forEachDescendant,
+  getSymbolAtNode,
+  isTypeOnlySymbol,
   loadTsMorph,
 } from './shared-ast-facade.mjs'
+import { enrichFinding, CONFIDENCE_LEVELS } from './shared-audit-utils.mjs'
 
 /**
  * Type-Import Audit Script
@@ -69,8 +73,8 @@ function resolveSpecifierToAbs(specifier, importerAbs, importerClientSrc) {
   return null
 }
 
-/** Heuristic: does this file export only types (no export const/function/class/default value)? */
-function isTypeOnlyFile(absPath) {
+/** Heuristic: does this file export only types (no export const/function/class/default value)? Fallback when typed project not used. */
+function isTypeOnlyFileRegex(absPath) {
   if (!fs.existsSync(absPath)) return false
   const raw = fs.readFileSync(absPath, 'utf-8')
   const content = absPath.endsWith('.vue')
@@ -78,11 +82,34 @@ function isTypeOnlyFile(absPath) {
     : raw
   const hasValueExport = /\bexport\s+(async\s+)?(const|let|var|function|class|default\s+)\b/.test(content) ||
     /\bexport\s+default\s+/.test(content) ||
-    // Value re-export (export { X } from '...' but not export type { X } from '...')
     /\bexport\s+(?!type\s)\s*\{[^}]*\}\s*from\s+['"]/.test(content)
   if (hasValueExport) return false
   const hasTypeExport = /\bexport\s+type\b/.test(content) || /\bexport\s+interface\b/.test(content)
   return hasTypeExport
+}
+
+/** Phase B: use TypeChecker to decide if file exports only types. Returns null if semantic check not available. */
+function isTypeOnlyFileSemantic(typedProject, absPath, SyntaxKind) {
+  if (!typedProject) return null
+  const normalized = path.isAbsolute(absPath) ? absPath : path.join(process.cwd(), absPath)
+  const sf = typedProject.getSourceFile(normalized)
+  if (!sf) return null
+  const exported = sf.getExportedDeclarations()
+  if (exported.size === 0) return false
+  const typeOnlyKinds = new Set([SyntaxKind.InterfaceDeclaration, SyntaxKind.TypeAliasDeclaration])
+  for (const [, decls] of exported) {
+    for (const decl of decls) {
+      const kind = decl.getKind()
+      if (!typeOnlyKinds.has(kind)) return false
+    }
+  }
+  return true
+}
+
+function isTypeOnlyFile(absPath, typedProject, SyntaxKind) {
+  const semantic = isTypeOnlyFileSemantic(typedProject, absPath, SyntaxKind)
+  if (semantic !== null) return semantic
+  return isTypeOnlyFileRegex(absPath)
 }
 
 /**
@@ -151,6 +178,34 @@ function collectTypeUsedAsValueFromAst(sourceFile, typeOnlyNames, getLine, Synta
   return findings
 }
 
+/**
+ * Phase B: validate type-used-as-value with TypeChecker. Returns true to keep finding (symbol is type-only), false to drop.
+ * When typedProject is null, returns true (keep all). For .vue we skip semantic validation (line mapping differs).
+ */
+function validateTypeUsedAsValueCandidate(candidate, absPath, typedProject, typeChecker, sk) {
+  if (!typedProject || !typeChecker) return true
+  if (absPath.endsWith('.vue')) return true
+  const normalized = path.isAbsolute(absPath) ? absPath : path.join(process.cwd(), absPath)
+  const sf = typedProject.getSourceFile(normalized)
+  if (!sf) return true
+  const targetLine = candidate.lineNumber
+  const targetName = candidate.symbol
+  let found = null
+  forEachDescendant(sf, (node) => {
+    if (node.getKind() !== sk.Identifier) return
+    if (node.getText() !== targetName) return
+    const lineCol = sf.getLineAndColumnAtPos(node.getStart())
+    if (lineCol && lineCol.line === targetLine) {
+      found = node
+      return false
+    }
+  })
+  if (!found) return true
+  const symbol = getSymbolAtNode(found, typeChecker)
+  if (!symbol) return true
+  return isTypeOnlySymbol(symbol, sk)
+}
+
 async function main() {
   const paths = resolveAuditPaths('type-import')
 
@@ -158,6 +213,20 @@ async function main() {
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
   const { SyntaxKind } = await loadTsMorph()
+  let typedProject = null
+  let typeChecker = null
+  if (!process.env.AUDIT_FIXTURE_DIRS) {
+    try {
+      const clientTsconfig = path.join(paths.clientRoot, 'tsconfig.json')
+      if (fs.existsSync(clientTsconfig)) {
+        const typed = await createTypedProject(clientTsconfig)
+        typedProject = typed.project
+        typeChecker = typed.typeChecker
+      }
+    } catch (_err) {
+      // Proceed without TypeChecker
+    }
+  }
 
   const scanDirs = getAuditScanDirs('type-import', paths)
   const allFiles = listAuditFiles('type-import', scanDirs)
@@ -201,7 +270,7 @@ async function main() {
       const targetRepo = toRepoPath(targetAbs, paths.projectRoot)
       if (!targetRepo.startsWith('client/src') && !targetRepo.startsWith('server/src')) continue
       if (targetRepo.endsWith('.d.ts')) continue
-      if (!isTypeOnlyFile(targetAbs)) continue
+      if (!isTypeOnlyFile(targetAbs, typedProject, SyntaxKind)) continue
       for (const sym of imp.symbols) {
         const result = checkConfigAllowlist(repoPath, 'value-import-from-type-only-file', imp.lineNumber, configAllowlist)
         if (result.allowed) {
@@ -222,18 +291,24 @@ async function main() {
     const typeOnlyNames = collectTypeOnlyImportNamesFromAst(sourceFile)
     if (typeOnlyNames.size > 0) {
       const detectorCandidates = collectTypeUsedAsValueFromAst(sourceFile, typeOnlyNames, getLine, SyntaxKind)
-      const { passed: validatorFindings } = runTwoPhaseFilter(detectorCandidates, () => true)
+      const validate = (c) => validateTypeUsedAsValueCandidate(c, abs, typedProject, typeChecker, { SyntaxKind })
+      const { passed: validatorFindings } = runTwoPhaseFilter(detectorCandidates, validate)
       for (const u of validatorFindings) {
         const result = checkConfigAllowlist(repoPath, 'type-used-as-value', u.lineNumber, configAllowlist)
         if (result.allowed) {
           if (result.entryKey) suppressionHitTracker.add(result.entryKey, 'type-used-as-value')
         } else {
-          typeUsedAsValue.push({
+          const finding = {
             file: repoPath,
             lineNumber: u.lineNumber,
             symbol: u.symbol,
             detectionStage: u.detectionStage,
-          })
+          }
+          typeUsedAsValue.push(
+            enrichFinding(finding, {
+              confidence: typedProject && typeChecker ? CONFIDENCE_LEVELS.HIGH : undefined,
+            })
+          )
           fileScores.set(repoPath, (fileScores.get(repoPath) || 0) + 2)
         }
       }

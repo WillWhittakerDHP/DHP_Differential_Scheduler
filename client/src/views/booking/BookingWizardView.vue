@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * BookingWizardView Component
- *
- */
 
 import BookingWizard from '@/components/booking/BookingWizard.vue'
 import BetaFeedbackWidget from '@/components/beta/BetaFeedbackWidget.vue'

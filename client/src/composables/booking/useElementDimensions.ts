@@ -6,14 +6,10 @@ LEARNING: Isolates DOM access for element...
 import { ref, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
 
 export interface UseElementDimensionsOptions {
-  /**
-   */
   elementRef: Ref<HTMLElement | null>
 }
 
 export interface UseElementDimensionsReturn {
-  /**
-   */
   contentWidth: Ref<number>
 }
 
@@ -27,16 +23,10 @@ export function useElementDimensions(
 ): UseElementDimensionsReturn {
   const { elementRef } = options
 
-  /**
-   */
   const contentWidth = ref<number>(0)
 
-  /**
-   */
   let resizeObserver: ResizeObserver | null = null
 
-  /**
-   */
   const measureWidth = (): void => {
     // PATTERN: Check typeof window before accessing it
     if (typeof window === 'undefined') {
@@ -59,9 +49,6 @@ export function useElementDimensions(
     }
   }
 
-  /**
-   * NOTE: Use nextTick to ensure ref is available after DOM is mounted
-   */
   onMounted(async () => {
     // PATTERN: Check typeof window before accessing ResizeObserver
     if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') {
@@ -104,8 +91,6 @@ export function useElementDimensions(
     })
   })
 
-  /**
-   */
   onUnmounted(() => {
     if (resizeObserver) {
       resizeObserver.disconnect()

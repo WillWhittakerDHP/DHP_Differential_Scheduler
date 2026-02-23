@@ -1,7 +1,3 @@
-/**
- * WHY: Appointment Fee Summary CRUD Router (read-only)
-LEARNING: Fee summaries ...
- */
 import { AppointmentFeeSummary, AppointmentFeeEntry } from '../../../config/app.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { FEE_ERROR_MESSAGES } from './appointmentFeeConstants.js'

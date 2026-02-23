@@ -1,7 +1,3 @@
-/**
- * Google Places API Service
- *
- */
 
 import { createLogger } from '../../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
@@ -27,9 +23,6 @@ const logger = createLogger('PlacesApiService')
 // In-flight deduplication: reuse pending promises for the same address
 const inflightGeocoding = new Map<string, Promise<string | null>>()
 
-/**
- * Get address autocomplete suggestions
- */
 export async function getAutocompleteSuggestions(
   input: string,
   sessionToken?: string
@@ -74,9 +67,6 @@ export async function getAutocompleteSuggestions(
   })
 }
 
-/**
- * Get place details including coordinates
- */
 export async function getPlaceDetails(
   placeId: string,
   sessionToken?: string
@@ -114,9 +104,6 @@ export async function getPlaceDetails(
   })
 }
 
-/**
- * Geocode address string to placeId using Places API Find Place
- */
 export async function geocodeAddressToPlaceId(address: string): Promise<string | null> {
   if (!address || typeof address !== 'string' || address.trim().length === 0) return null
 

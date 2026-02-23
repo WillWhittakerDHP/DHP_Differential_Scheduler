@@ -42,8 +42,6 @@ export function useWizardSubmission(
     success
   } = params
 
-  /**
-   */
   const handleSubmit = async (): Promise<void> => {
     try {
       const appointmentData = await collectAppointmentData()

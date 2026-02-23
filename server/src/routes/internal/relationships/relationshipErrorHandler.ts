@@ -1,7 +1,3 @@
-/**
- * Relationship Router Error Handler
- * 
- */
 
 import { Response } from 'express'
 import {
@@ -12,17 +8,6 @@ import {
 import { SEQUELIZE_ERROR_CODES, ERROR_MESSAGES } from './relationshipConstants.js'
 import { VALIDATION_FAILED_MESSAGE } from '../../../constants/router.js'
 
-/**
- * Handle Sequelize unique constraint errors
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param displayName - Display name of the relationship type
- * @param relationshipType - Relationship type
- * @param parentId - Parent ID
- * @param childId - Child ID
- * @returns true if error was handled, false otherwise
- */
 function handleUniqueConstraintError(
   error: unknown,
   res: Response,
@@ -50,16 +35,6 @@ function handleUniqueConstraintError(
   return false
 }
 
-/**
- * Handle Sequelize foreign key constraint errors
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param relationshipType - Relationship type
- * @param parentId - Parent ID
- * @param childId - Child ID
- * @returns true if error was handled, false otherwise
- */
 function handleForeignKeyConstraintError(
   error: unknown,
   res: Response,
@@ -86,13 +61,6 @@ function handleForeignKeyConstraintError(
   return false
 }
 
-/**
- * Handle Sequelize validation errors
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response
@@ -104,14 +72,6 @@ export function handleSequelizeValidationError(
   )
 }
 
-/**
- * Handle general errors with logging
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -121,18 +81,6 @@ export function handleGeneralError(
   sharedHandleGeneralError(error, res, errorMessage, context)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- * @param displayName - Display name of the relationship type
- * @param relationshipType - Relationship type
- * @param parentId - Parent ID (optional)
- * @param childId - Child ID (optional)
- */
 export function handleRouteError(
   error: unknown,
   res: Response,

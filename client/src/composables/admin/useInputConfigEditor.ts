@@ -62,8 +62,6 @@ export function useInputConfigEditor(
     }
   }
 
-  /**
-   */
   function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
     if (formData.options !== null) {
       return {
@@ -75,8 +73,6 @@ export function useInputConfigEditor(
       return null
     }
 
-    // Simple enum selects have selectMode but no targetMode — preserve as minimal config
-    // so computeRenderAs sees a truthy inputConfig and keeps render_as as 'select'
     if (!formData.targetMode) {
       return { selectMode: formData.selectMode }
     }
@@ -102,7 +98,6 @@ export function useInputConfigEditor(
       
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
       if (renderAs === 'relationshipCollection') {
-        // no-op: TODO handle relationshipCollection renderAs when needed
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
@@ -116,8 +111,6 @@ export function useInputConfigEditor(
     return baseConfig
   }
 
-  /**
-   */
   function updateInputConfigField(fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown): void {
     const currentData = getInputConfigData(fieldKey)
     const updatedData = { ...currentData, [fieldName]: value }

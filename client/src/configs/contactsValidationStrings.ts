@@ -1,7 +1,3 @@
-/**
- * Contacts Validation UI Strings Configuration
- * 
- */
 export const CONTACTS_VALIDATION_STRINGS = {
   firstName: {
     required: 'First name is required'

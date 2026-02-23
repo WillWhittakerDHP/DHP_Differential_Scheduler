@@ -27,16 +27,10 @@ const sharedApiStatus = ref<ApiCallStatusState>({
 PATTERN: Composable with shared module-leve...
  */
 export function useApiCallStatus() {
-  /**
-   * Record an API call result
-   */
   const recordApiCall = (api: 'events' | 'routes' | 'places' | 'computedData', status: 'hit' | 'error'): void => {
     sharedApiStatus.value[api] = status
   }
 
-  /**
-   * Reset API status (for testing/debugging)
-   */
   const resetApiStatus = (): void => {
     sharedApiStatus.value = {
       events: 'not_called',

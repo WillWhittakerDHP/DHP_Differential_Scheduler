@@ -1,5 +1,3 @@
-/**
- */
 
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'

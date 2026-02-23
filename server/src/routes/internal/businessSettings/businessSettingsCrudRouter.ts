@@ -1,7 +1,3 @@
-/**
- * Business Settings CRUD Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { BusinessSettings } from '../../../config/app.js'
@@ -17,11 +13,6 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 
-/**
- * GET /business-settings
- * List all settings or get setting by query key
- * 
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.query
@@ -47,11 +38,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /business-settings/:key
- * Get single setting by key
- * 
- */
 router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
     const key = paramString(req, 'key')
@@ -72,11 +58,6 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * POST /business-settings
- * Create a new setting
- * 
- */
 router.post(
   '/',
   csrfProtection, // Security middleware: CSRF protection
@@ -124,11 +105,6 @@ router.post(
   }
 )
 
-/**
- * PUT /business-settings/:key
- * Update a setting (full update or create if not exists)
- * 
- */
 router.put(
   '/:key',
   csrfProtection, // Security middleware: CSRF protection
@@ -174,11 +150,6 @@ router.put(
   }
 )
 
-/**
- * PATCH /business-settings/:key
- * Partially update a setting
- * 
- */
 router.patch(
   '/:key',
   csrfProtection, // Security middleware: CSRF protection
@@ -227,11 +198,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /business-settings/:key
- * Delete a setting
- * 
- */
 router.delete(
   '/:key',
   csrfProtection, // Security middleware: CSRF protection

@@ -1,7 +1,3 @@
-/**
- * Property Validation UI Strings Configuration
- * 
- */
 export const PROPERTY_VALIDATION_STRINGS = {
   address: {
     required: 'Address is required',

@@ -1,7 +1,3 @@
-/**
- * Beta Feedback Router Error Handler
- *
- */
 
 import { Response } from 'express';
 import {

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Beta Feedback Model
 PATTERN: Factory pattern, snake_case DB columns, UUI...
  */
 import {

@@ -1,8 +1,3 @@
-/**
- * Contract tests for constants/router.ts.
- * Asserts route/HTTP constants and error message structure.
- * Dependencies: jest.
- */
 
 import {
   HTTP_STATUS_CODES,

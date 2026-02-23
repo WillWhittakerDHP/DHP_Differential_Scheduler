@@ -1,14 +1,9 @@
-/**
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 
-/**
- * System fields that should be excluded from field rendering
- */
 const SYSTEM_FIELDS = [
   FIELD_NAMES.ID,
   FIELD_NAMES.ENTITY_KEY,

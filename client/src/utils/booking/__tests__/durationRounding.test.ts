@@ -1,7 +1,3 @@
-/**
- * Unit tests for durationRounding utility
- * 
- */
 
 import { describe, it, expect } from 'vitest'
 import { roundDuration, type DurationRoundingConfig } from '../durationRounding'

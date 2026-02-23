@@ -1,18 +1,8 @@
-/**
- * Google Maps API Constants
- * 
- */
 
 import { DEFAULT_RETRY_CONFIG, type RetryConfig } from '../shared/googleApiRetry.js'
 
-/**
- * Default retry configuration for Maps API operations
- */
 export const MAPS_RETRY_CONFIG: RetryConfig = DEFAULT_RETRY_CONFIG
 
-/**
- * Google Places/Find Place API status strings
- */
 export const GOOGLE_API_STATUS = {
   OK: 'OK',
   REQUEST_DENIED: 'REQUEST_DENIED',
@@ -22,9 +12,6 @@ export const GOOGLE_API_STATUS = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-/**
- * Error messages for Maps API operations
- */
 export const ERROR_MESSAGES = {
   AUTH: 'Address lookup service is not configured.',
   RATE_LIMIT: 'Too many requests. Please try again in a moment.',

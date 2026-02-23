@@ -1,7 +1,3 @@
-/**
- * Google Calendar Events Service
- * 
- */
 
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
@@ -15,15 +11,6 @@ import { MAX_EVENTS_RESULTS } from './calendarConstants.js'
 
 const logger = createLogger('EventsService')
 
-/**
- * Get full calendar events with locations
- * 
- * 
- * @param calendarEmail - Calendar email address
- * @param timeMin - Start time for event query
- * @param timeMax - End time for event query
- * @returns Array of calendar events with locations (may be from cache if API fails)
- */
 export async function getCalendarEvents(
   calendarEmail: string,
   timeMin: Date | string,
@@ -35,13 +22,11 @@ export async function getCalendarEvents(
   const now = new Date()
   const effectiveTimeMin = timeMinDate < now ? now : timeMinDate
   
-  // Check cache first (using original date range for stable cache key)
   const cachedData = getCachedEvents(calendarEmail, timeMinDate, timeMaxDate)
   if (cachedData) {
     return { events: cachedData, _meta: { source: 'cache' } }
   }
   
-  // Define the API operation
   const fetchFromApi = async () => {
     return await withRateLimit('google-calendar', async () => {
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client })

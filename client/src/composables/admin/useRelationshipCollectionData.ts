@@ -102,15 +102,11 @@ export function useRelationshipCollectionData(
   const { relationships: relationshipsRef } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   
-  /**
-   */
   const parentTypeEntity = computed(() => {
     if (!parentTypeRef.value) return null
     return adminComp.getEntity(parentTypeEntityKey.value, toGlobalEntityId(parentTypeRef.value)) || null
   })
   
-  /**
-   */
   const validShapes = computed((): GlobalEntity<GlobalEntityKey>[] => {
     if (!parentTypeEntity.value) return []
     
@@ -129,8 +125,6 @@ export function useRelationshipCollectionData(
     })
   })
   
-  /**
-   */
   const existingChildren = computed((): GlobalEntity<GlobalEntityKey>[] => {
     if (!relationshipsRef.value) return []
     
@@ -148,8 +142,6 @@ export function useRelationshipCollectionData(
     })
   })
   
-  /**
-   */
   const getChildForShape = (shapeId: string): GlobalEntity<GlobalEntityKey> | undefined => {
     return existingChildren.value.find(child => {
       const shapeRef = getEntityFieldValue(child, shapeRefProperty)
@@ -157,8 +149,6 @@ export function useRelationshipCollectionData(
     })
   }
   
-  /**
-   */
   const getShapeName = (shapeId: string): string => {
     const shape = getGlobalEntityById(shapeEntityKey.value, shapeId)
     const name = shape?.name

@@ -29,16 +29,11 @@ export function useShapeEditModal(
    */
   const shapeEditModalOpen = ref<Map<string, boolean>>(new Map())
 
-  /**
-   */
   const toggleShapeEditModal = (blockShapeId: string): void => {
     const current = shapeEditModalOpen.value.get(blockShapeId) || false
     shapeEditModalOpen.value.set(blockShapeId, !current)
   }
 
-  /**
-   * NOTE: MetadataEditModal emits 'saved' with no parameters, so we create a wrapper that captures shapeId
-   */
   const handleExistingBlockShapeSaved = (shapeId: string): void => {
     shapeEditModalOpen.value.set(shapeId, false)
     // Also collapse the card if it was expanded (for backward compatibility)

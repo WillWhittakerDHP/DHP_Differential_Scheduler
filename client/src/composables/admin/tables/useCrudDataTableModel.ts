@@ -1,9 +1,5 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 
-/**
- * WHY: useCrudDataTableModel
-LEARNING: Extracts the repeated "editable CRUD tab...
- */
 export interface CrudDataTableModelOptions<
   TableItem extends { id: string },
   CreatePayload extends object,

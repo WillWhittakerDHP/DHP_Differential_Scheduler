@@ -1,7 +1,3 @@
-/**
- * Appointment Router Helper Functions
- * 
- */
 
 import { Op } from 'sequelize'
 import type { AppointmentFeeBreakdownPayload, AppointmentFeeEntryCreate } from '../../../../../shared/types/appointmentFeeTypes.js'
@@ -24,11 +20,6 @@ import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_C
 
 const logger = createLogger('AppointmentRouter')
 
-/**
- * Get the writeTo calendar email from business settings
- * 
- * @returns Calendar email string where writeTo is true, or undefined if not configured
- */
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {
     const setting = await BusinessSettings.findOne({
@@ -80,10 +71,6 @@ export async function getWriteToCalendarFromSettings(): Promise<string | undefin
   }
 }
 
-/**
- * Standard includes for appointment queries
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
 export const appointmentIncludes = [
   {
     model: PropertyVersion,
@@ -108,13 +95,6 @@ export const appointmentIncludes = [
   },
 ]
 
-/**
- * Create snapshots for appointment block instances
- * WHY: Preserves state of block instances at appointment creation time
- * 
- * @param blockInstanceIds - Array of block instance IDs to create snapshots for
- * @returns Array of snapshot version IDs
- */
 export async function createSnapshotsForAppointment(
   blockInstanceIds: string[]
 ): Promise<string[]> {
@@ -154,13 +134,6 @@ export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> 
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 export type { AttendeeRequest }
 
-/**
- * Create attendee records for an appointment
- * 
- * @param appointmentId - Appointment ID
- * @param attendeesData - Array of attendee request data
- * @returns Promise that resolves when all attendees are created
- */
 export async function createAttendeeRecords(
   appointmentId: string,
   attendeesData: AttendeeRequest[]
@@ -190,14 +163,6 @@ export async function createAttendeeRecords(
   logger.debug(`Created attendee records for appointment ${appointmentId}`)
 }
 
-/**
- * Create fee summary and fee entry records for an appointment
- * PATTERN: Same as createAttendeeRecords — create parent (summary) then children (entries) using payload from client
- *
- * @param appointmentId - Appointment ID
- * @param feeData - Fee breakdown payload (summary + entries) from client buildAppointmentFeeBreakdown
- * @returns Promise that resolves when summary and entries are created (no-op if feeData missing)
- */
 export async function createFeeRecordsForAppointment(
   appointmentId: string,
   feeData: AppointmentFeeBreakdownPayload | null | undefined
@@ -238,21 +203,10 @@ export async function createFeeRecordsForAppointment(
   logger.debug(`Created fee summary and ${entries.length} fee entries for appointment ${appointmentId}`)
 }
 
-/**
- * Check if appointment status requires calendar event creation
- * 
- * @param status - Appointment status
- * @returns true if calendar event should be created
- */
 export function shouldCreateCalendarEvent(status: string): boolean {
   return (STATUSES_REQUIRING_CALENDAR_EVENT as readonly string[]).includes(status)
 }
 
-/**
- * Get calendar ID for appointment creation
- * 
- * @returns Calendar email to use for appointment creation
- */
 export async function getCalendarIdForAppointment(): Promise<string> {
   const writeToCalendar = await getWriteToCalendarFromSettings()
   const calendarId = writeToCalendar || DEFAULT_CALENDAR_EMAIL

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * API Dev Panel DriveTime Tab Component
- * 
- */
 
 import { formatTTL } from '@/utils/dev/formatDevPanelData'
 import type { DevPanelCacheShape, DevPanelCacheEntry } from '@/composables/dev/useApiDevPanelData'

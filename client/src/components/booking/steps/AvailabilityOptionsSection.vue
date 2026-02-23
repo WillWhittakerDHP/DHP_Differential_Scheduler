@@ -1,8 +1,4 @@
 <script setup lang="ts">
-/**
- * AvailabilityOptionsSection – availability options cascade error, empty state, and SelectionCardGroup.
- * Used by AvailabilityStep; receives wizard-derived data as props.
- */
 
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'

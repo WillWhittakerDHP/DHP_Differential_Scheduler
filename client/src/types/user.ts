@@ -1,9 +1,5 @@
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 
-/**
- * WHY: TypeScript interfaces for user API data
-WHY: Ensures type safety when wo...
- */
 export interface UserRequest {
   firstName: string;
   lastName: string;

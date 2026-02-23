@@ -1,9 +1,3 @@
-/**
- * PATTERN: Extract shared handler logic into composable
-
-Used by:
-- TimeBasisButton...
- */
 export interface TimeBasisHandlerProps {
   isDifferentialService: boolean
   startTimeType: 'major' | 'minor' | 'nonDifferential'

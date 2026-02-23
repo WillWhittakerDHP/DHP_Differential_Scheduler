@@ -33,14 +33,6 @@ function createGlobalInstance() {
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
   
   
-  /**
-   * NOTE: This query will automatically refetch when ['globalData'] is invalidated
-   * ARCHITECTURAL REFACTOR: globalData now only contains static configuration data
-   * Business entities (appointments, properties, users) use separate cache keys
-   */
-  /**
-   *      null-checks everywhere and triggers TS18047 ("possibly null").
-   */
   const globalDataQuery = useQuery<GlobalData>({
     queryKey: ['globalData'],
     queryFn: async () => {
@@ -57,20 +49,12 @@ function createGlobalInstance() {
   })
   const globalData = globalDataQuery.data
   
-  /**
-   * WHY: /**
-Get entities by type from cache
-LEARNING: Reads from globalData.enti...
-   */
   function getGlobalEntities<GE extends GlobalEntityKey>(entityKey: GE): GlobalEntity<GE>[] {
     const data = globalData.value
     if (!data || !data.entities) return []
     return asEmptyArray(data.entities[entityKey]) as GlobalEntity<GE>[]
   }
   
-  /**
-   * Get entity by ID from cache
-   */
   function getGlobalEntityById<GE extends GlobalEntityKey>(
     entityKey: GE,
     id: string
@@ -79,9 +63,6 @@ LEARNING: Reads from globalData.enti...
     return entities.find((e) => e.id === id)
   }
   
-  /**
-   * Get global data value
-   */
   function getGlobalData(): GlobalData | null {
     return globalData.value || null
   }

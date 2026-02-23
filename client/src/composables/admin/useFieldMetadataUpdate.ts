@@ -1,9 +1,3 @@
-/**
- * PATTERN: Extract shared logic into composable
-
-Used by:
-- MetadataEditModal.vue
- */
 import type { Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 

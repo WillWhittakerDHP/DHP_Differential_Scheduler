@@ -28,7 +28,6 @@ export function useInstanceComponentsList(options: UseInstanceComponentsListOpti
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
 
   /**
-   * WHY: /**
 Helper function to get components for a service
 WHY: Avoids code dup...
    */
@@ -44,7 +43,6 @@ WHY: Avoids code dup...
   }
 
   /**
-   * WHY: /**
 Enhance services with component data for composable blocks
 LEARNING:...
    */

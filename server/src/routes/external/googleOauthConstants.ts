@@ -1,7 +1,3 @@
-/**
- * Google OAuth Route Constants
- *
- */
 
 export const GOOGLE_OAUTH_MESSAGES = {
   AUTH_URL_GENERATE_FAILED: 'Failed to generate authorization URL',

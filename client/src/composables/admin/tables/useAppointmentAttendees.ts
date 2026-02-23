@@ -1,6 +1,3 @@
-/**
- * Pure helpers for appointment attendees (client/agent).
- */
 
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentResponse, AttendeeResponse } from '@/types/appointment'

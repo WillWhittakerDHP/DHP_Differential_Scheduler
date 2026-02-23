@@ -1,5 +1,4 @@
 /**
- * WHY: Beta Feedback CRUD Router
 WHY: Consistent patterns with other internal r...
  */
 import { Request, Response } from 'express';

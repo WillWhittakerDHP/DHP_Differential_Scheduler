@@ -24,7 +24,6 @@ interface Props {
   type: ButtonType
   
   /**
-   * WHY: /**
 LEARNING: Expansion state for expansion type buttons
 WHY: Expansion ...
    */

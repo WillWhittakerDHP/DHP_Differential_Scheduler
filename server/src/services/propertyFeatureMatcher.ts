@@ -1,7 +1,3 @@
-/**
- * Property Feature Matcher
- *
- */
 
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
 import type { PropertyFeatureMapping } from '../db/models/mappings/property_feature_mapping.js'
@@ -61,9 +57,6 @@ function matches(
   }
 }
 
-/**
- * Match RESO features to block instances using DB mappings
- */
 export function matchFeaturesToBlocks(
   response: BrightMlsPropertyResponse,
   mappingRows: PropertyFeatureMapping[]

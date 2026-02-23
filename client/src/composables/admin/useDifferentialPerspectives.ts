@@ -1,6 +1,3 @@
-/**
- * Composable for differential perspectives (major/minor attendees and labels)
- */
 import { computed, type ComputedRef, type WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'

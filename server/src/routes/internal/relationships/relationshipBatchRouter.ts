@@ -1,7 +1,3 @@
-/**
- * Relationship Batch Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { RELATIONSHIP_REGISTRY, type RelationshipKind } from './relationshipConstants.js'
@@ -22,12 +18,6 @@ function buildBatchWhereClause(
   return 'disabled' in modelAttributes ? { disabled: false } : {}
 }
 
-/**
- * GET /relationships/batch
- * Get all relationships of all types in batch format
- * 
- * LEARNING: Batch endpoint that returns all relationship types in structured format
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /relationships/batch')

@@ -1,62 +1,12 @@
 # API Versioning Audit (Generated)
 
-Generated at: 2026-02-20T17:33:38.381Z
-Baseline: 2026-02-10T23:28:43.713Z
+Generated at: 2026-02-23T18:23:50.336Z
+Baseline: 2026-02-23T18:23:38.453Z
 
 ## Summary
 
-- Breaking: **47**
+- Breaking: **0**
 - Non-breaking (added): **0**
-- Unchanged: **0**
-
-## Breaking changes
-
-- **endpoint-removed**: `GET /events-cache`
-- **endpoint-removed**: `GET /rate-limit`
-- **endpoint-removed**: `POST /events`
-- **endpoint-removed**: `GET /`
-- **endpoint-removed**: `GET /callback`
-- **endpoint-removed**: `GET /status`
-- **endpoint-removed**: `GET /test-url`
-- **endpoint-removed**: `GET /drive-time-cache`
-- **endpoint-removed**: `POST /clear-drive-time-cache`
-- **endpoint-removed**: `GET /autocomplete`
-- **endpoint-removed**: `GET /place-details`
-- **endpoint-removed**: `GET /session-token`
-- **endpoint-removed**: `POST /`
-- **endpoint-removed**: `GET /batch`
-- **endpoint-removed**: `GET /:entityType/:entityId`
-- **endpoint-removed**: `POST /:entityType/:entityId`
-- **endpoint-removed**: `DELETE /:entityType/:entityId/:fieldKey`
-- **endpoint-removed**: `DELETE /:entityType/:entityId/:relationshipKey`
-- **endpoint-removed**: `GET /:id/versions`
-- **endpoint-removed**: `POST /computed-data`
-- **endpoint-removed**: `GET /block/:blockInstanceId`
-- **endpoint-removed**: `GET /:key`
-- **endpoint-removed**: `PUT /:key`
-- **endpoint-removed**: `PATCH /:key`
-- **endpoint-removed**: `DELETE /:key`
-- **endpoint-removed**: `PATCH /:entityType/order_index`
-- **endpoint-removed**: `PATCH /:entityType/bulk`
-- **endpoint-removed**: `GET /config`
-- **endpoint-removed**: `GET /:entityType`
-- **endpoint-removed**: `GET /:entityType/:id`
-- **endpoint-removed**: `POST /:entityType`
-- **endpoint-removed**: `PUT /:entityType/:id`
-- **endpoint-removed**: `PATCH /:entityType/:id`
-- **endpoint-removed**: `DELETE /:entityType/:id`
-- **endpoint-removed**: `GET /:id`
-- **endpoint-removed**: `PUT /:id`
-- **endpoint-removed**: `PATCH /:id`
-- **endpoint-removed**: `DELETE /:id`
-- **endpoint-removed**: `GET /:id/types`
-- **endpoint-removed**: `POST /:id/types`
-- **endpoint-removed**: `PATCH /:id/types/:typeId`
-- **endpoint-removed**: `DELETE /:id/types/:typeId`
-- **endpoint-removed**: `PUT /:id/types`
-- **endpoint-removed**: `PATCH /:blockInstanceId/:annotationId`
-- **endpoint-removed**: `GET /:relationshipType`
-- **endpoint-removed**: `POST /:relationshipType`
-- **endpoint-removed**: `DELETE /:relationshipType/:parentId/:childId`
+- Unchanged: **49**
 
 Run with `--accept` to update the baseline.

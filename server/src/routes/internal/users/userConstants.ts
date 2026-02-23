@@ -1,11 +1,4 @@
-/**
- * User Router Constants
- * 
- */
 
-/**
- * Error messages for user operations
- */
 export const ERROR_MESSAGES = {
   FETCH_USERS: 'Failed to fetch users',
   FETCH_USER: 'Error fetching user',

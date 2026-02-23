@@ -1,7 +1,3 @@
-/**
- * Property Router Validation Utilities
- * 
- */
 
 import {
   BLOCK_SHAPE_NAMES,
@@ -14,10 +10,6 @@ import {
 } from './propertyConstants.js'
 import { isBlockInstanceWithShape } from './propertyHelpers.js'
 
-/**
- * WHY: Validation result type
-WHY: Enables type-safe validation results with cl...
- */
 export type ValidationResult = 
   | { valid: true }
   | { valid: false; error: string; details?: Record<string, unknown> }
@@ -153,9 +145,6 @@ export function validateRequiredField(
   return { valid: true }
 }
 
-/**
- * Result type for PATCH property details validation
- */
 export type PatchPropertyDetailsResult =
   | { valid: true; data: Record<string, unknown> }
   | { valid: false; error: string; details?: Record<string, unknown> }

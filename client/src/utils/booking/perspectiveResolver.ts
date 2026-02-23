@@ -1,7 +1,3 @@
-/**
- * Perspective Resolver
- *
- */
 
 import type { TimeRange, AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
@@ -20,10 +16,6 @@ export interface ResolvedEventShapes {
   minorEventName: string | null
 }
 
-/**
- * Resolve major and minor event shapes using differentialRole.
- * Logs an error if no event shape has the expected role.
- */
 export function resolveEventShapes(
   eventFinals: SlotShape['eventFinals']
 ): ResolvedEventShapes {
@@ -51,9 +43,6 @@ export function resolveEventShapes(
   }
 }
 
-/**
- * Adjust minor time range to end at major end time using roundedDifferentialOffset.
- */
 export function adjustMinorTimeRange(
   startTime: string,
   eventTimeRanges: Record<string, TimeRange | null>,
@@ -91,9 +80,6 @@ export function adjustMinorTimeRange(
   }
 }
 
-/**
- * Derive the display TimeRange for a slot given a perspective (major / minor / nonDifferential).
- */
 export function derivePerspective(
   slot: AppointmentSlot,
   perspective: 'major' | 'minor' | 'nonDifferential',

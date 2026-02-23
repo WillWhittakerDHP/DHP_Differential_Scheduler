@@ -1,7 +1,3 @@
-/**
- * Business Controls Tab UI Strings Configuration
- * 
- */
 export const BUSINESS_CONTROLS_TAB_STRINGS = {
   loading: 'Loading settings...',
   panels: {

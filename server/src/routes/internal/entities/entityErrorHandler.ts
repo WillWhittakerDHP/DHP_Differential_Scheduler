@@ -1,7 +1,3 @@
-/**
- * Entity Router Error Handler
- * 
- */
 
 import { Response } from 'express'
 import {
@@ -11,15 +7,6 @@ import {
 } from '../../helpers/routerErrorHandler.js'
 import { ERROR_MESSAGES, CONSTRAINT_NAMES, ERROR_CODES } from './entityConstants.js'
 
-/**
- * Handle Sequelize validation errors
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @param displayName - Display name of the entity type
- * @param entityId - Optional entity ID for error context
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -35,14 +22,6 @@ export function handleSequelizeValidationError(
   )
 }
 
-/**
- * Handle database constraint violations
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param entityId - Entity ID for error context
- * @returns true if error was handled, false otherwise
- */
 export function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
@@ -79,16 +58,6 @@ export function handleDatabaseConstraintError(
   return false
 }
 
-/**
- * Handle general errors with logging
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (with {displayName} placeholder)
- * @param displayName - Display name of the entity type
- * @param context - Additional context for logging (e.g., operation name)
- * @param entityId - Optional entity ID for error context
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -100,16 +69,6 @@ export function handleGeneralError(
   sharedHandleGeneralError(error, res, errorMessage, context, displayName, entityId)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (with {displayName} placeholder)
- * @param displayName - Display name of the entity type
- * @param context - Additional context for logging (e.g., operation name)
- * @param entityId - Optional entity ID for error context
- */
 export function handleRouteError(
   error: unknown,
   res: Response,

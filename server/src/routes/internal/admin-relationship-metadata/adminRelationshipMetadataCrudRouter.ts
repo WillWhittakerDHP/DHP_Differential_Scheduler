@@ -1,7 +1,3 @@
-/**
- * Admin Relationship Metadata CRUD Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { AdminRelationshipMetadata } from '../../../db/models/admin/adminRelationshipMetadata.js'
@@ -18,11 +14,6 @@ import { csrfProtection } from '../../../middlewares/security.js'
 
 const router = Router()
 
-/**
- * GET /admin-relationship-metadata/:entityType/:entityId
- * Get relationship metadata for a specific entity
- * 
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -47,11 +38,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 })
 
-/**
- * POST /admin-relationship-metadata/:entityType/:entityId
- * Create or update relationship metadata for an entity
- * 
- */
 router.post(
   '/:entityType/:entityId',
   csrfProtection, // Security middleware: CSRF protection
@@ -150,11 +136,6 @@ router.post(
   }
 )
 
-/**
- * DELETE /admin-relationship-metadata/:entityType/:entityId/:relationshipKey
- * Delete relationship metadata for an entity
- * 
- */
 router.delete(
   '/:entityType/:entityId/:relationshipKey',
   csrfProtection, // Security middleware: CSRF protection

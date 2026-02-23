@@ -14,10 +14,6 @@ import type { Logger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
 
-/**
- * WHY: Version data structure from API
-LEARNING: Matches server-side version fo...
- */
 interface VersionBlockInstance {
   id: string // blockInstanceId
   name: string
@@ -44,9 +40,6 @@ export interface AppointmentVersionsResponse {
   lineItems?: VersionBlockInstance[]
 }
 
-/**
- * Find block instance by ID in scheduler data
- */
 export function findBlockInstanceById(
   bookingData: BookingData,
   id: string | null | undefined
@@ -55,9 +48,6 @@ export function findBlockInstanceById(
   return findById(bookingData.blockInstances, id)
 }
 
-/**
- * Find multiple block instances by IDs
- */
 function findBlockInstancesByIds(
   bookingData: BookingData,
   ids: string[] | null | undefined
@@ -66,9 +56,6 @@ function findBlockInstancesByIds(
   return findByIds(bookingData.blockInstances, ids)
 }
 
-/**
- * Transform version data to BookingBlockInstance format
- */
 function transformVersionToBookingInstance(
   version: VersionBlockInstance,
   currentInstance: BookingBlockInstance | null,
@@ -160,10 +147,6 @@ function logMissingAndWrongShapeIds(
   }
 }
 
-/**
- * WHY: Resolve block category (services, properties, options, or line items)
-WH...
- */
 export function resolveBlockCategory(params: {
   ids: string[]
   bookingData: BookingData
@@ -224,9 +207,6 @@ export function resolveBlockCategory(params: {
 
 const PROPERTY_DETAILS_CONTEXT = 'propertyDetails'
 
-/**
- * Extract foundation access value with type guard
- */
 export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
   if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
     return value
@@ -234,9 +214,6 @@ export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspac
   return null
 }
 
-/**
- * Extract address fields from address object
- */
 export function extractAddressFields(address: unknown): {
   address: string
   unit: string
@@ -247,7 +224,8 @@ export function extractAddressFields(address: unknown): {
   const addr = address != null && typeof address === 'object' ? address as Record<string, unknown> : undefined
   return {
     address: extractOptionalString(addr?.address, `${PROPERTY_DETAILS_CONTEXT}.address`),
-    unit: extractOptionalString(addr?.unit, `${PROPERTY_DETAILS_CONTEXT}.unit`),
+    // WHY: unit is a known-optional DB field (allowNull: true) — null is the expected "no value" state, not a data quality issue
+    unit: typeof addr?.unit === 'string' ? addr.unit : '',
     city: extractOptionalString(addr?.city, `${PROPERTY_DETAILS_CONTEXT}.city`),
     state: extractOptionalString(addr?.state, `${PROPERTY_DETAILS_CONTEXT}.state`),
     zipCode: extractOptionalString(addr?.zipCode, `${PROPERTY_DETAILS_CONTEXT}.zipCode`),
@@ -264,9 +242,6 @@ function isAddressWithGeo(v: unknown): v is AddressWithGeo {
   return v != null && typeof v === 'object'
 }
 
-/**
- * Extract location data (placeId, coordinates) from address object
- */
 export function extractLocationData(address: unknown): {
   candidatePlaceId: string | undefined
   candidateCoordinates: { lat: number; lng: number } | undefined
@@ -281,9 +256,6 @@ export function extractLocationData(address: unknown): {
   return { candidatePlaceId, candidateCoordinates }
 }
 
-/**
- * Extract property details fields from property details record
- */
 export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
   propertySize: number | null
   numberOfUnits: number | null
@@ -300,7 +272,7 @@ export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
   return {
     propertySize: rec?.squareFootage != null ? Number(rec.squareFootage) : null,
     numberOfUnits: rec?.additionalUnits != null ? Number(rec.additionalUnits) : null,
-    mlsNumber: extractOptionalString(rec?.mlsNumber, `${PROPERTY_DETAILS_CONTEXT}.mlsNumber`),
+    mlsNumber: typeof rec?.mlsNumber === 'string' ? rec.mlsNumber : '',
     squareFootage: rec?.squareFootage != null ? Number(rec.squareFootage) : null,
     bedrooms: rec?.bedrooms != null ? Number(rec.bedrooms) : null,
     bathrooms: rec?.bathrooms != null ? Number(rec.bathrooms) : null,

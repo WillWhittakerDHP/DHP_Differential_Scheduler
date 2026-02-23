@@ -46,22 +46,16 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   const adminComp = useAdmin()
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   
-  /**
-   */
   const blockInstance = computed(() => {
     return getGlobalEntityById('blockInstance', blockInstanceIdRef.value)
   })
   
-  /**
-   */
   const blockShape = computed(() => {
     if (!blockInstance.value) return null
     const blockInstanceEntity = blockInstance.value as BlockInstanceEntity
     return getGlobalEntityById('blockShape', blockInstanceEntity.blockShapeRef) || null
   })
   
-  /**
-   */
   const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {
     if (!blockShape.value) return []
     
@@ -76,8 +70,6 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
   })
   
-  /**
-   */
   const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {
     if (!partAssignments.value) return []
     
@@ -91,22 +83,16 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
     return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
   })
   
-  /**
-   */
   const getPartInstanceForShape = (partShapeId: string): GlobalEntity<'partInstance'> | undefined => {
     return existingPartInstances.value.find(pi => pi.partShapeRef === partShapeId)
   }
   
-  /**
-   */
   const getPartShapeName = (partShapeId: string): string => {
     const partShape = getGlobalEntityById('partShape', partShapeId)
     const name = partShape?.name
     return name !== undefined && name !== null && name !== '' ? name : `PartShape ${partShapeId.slice(0, 8)}`
   }
   
-  /**
-   */
   const generatePartInstanceName = (
     blockInstanceName: string,
     partShapeName: string,

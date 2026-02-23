@@ -1,77 +1,44 @@
-/**
- * WHY: Responsive Grid Composable
-
-WHY: Components should be thin UI wrappers -...
- */
 import { computed, type Ref } from 'vue'
 import { useElementDimensions } from './useElementDimensions'
 
 export interface UseResponsiveGridOptions {
-  /**
-   */
   gridRef: Ref<HTMLElement | null>
   
-  /**
-   */
   minColumns?: number
   
-  /**
-   */
   maxColumns?: number
   
-  /**
-   */
   buttonMinWidth?: number
   
-  /**
-   */
   gap?: number
   
-  /**
-   */
   padding?: number
 }
 
 export interface UseResponsiveGridReturn {
-  /**
-   */
   containerWidth: Ref<number>
   
-  /**
-   */
   buttonGridColumns: Ref<number>
   
-  /**
-   */
   isSingleColumn: Ref<boolean>
 }
 
-/**
- * WHY: Responsive Grid Composable
-
-WHY: Moves layout calculations out of compon...
- */
 export function useResponsiveGrid(
   options: UseResponsiveGridOptions
 ): UseResponsiveGridReturn {
   const {
     gridRef,
+    minColumns = 1,
     maxColumns = 8,
     buttonMinWidth = 80,
     gap = 10,
+    padding: _padding = 20,
   } = options
   
-  /**
-   * WHY: /**
-LEARNING: Use element dimensions composable for DOM access isolation...
-   */
   const { contentWidth: containerWidth } = useElementDimensions({
     elementRef: gridRef,
   })
   
-  /**
-   * NOTE: Relies on ResizeObserver to measure actual container width from Vuetify grid
-   */
   const buttonGridColumns = computed(() => {
     if (containerWidth.value === 0) {
       return minColumns
@@ -96,8 +63,6 @@ LEARNING: Use element dimensions composable for DOM access isolation...
     return result
   })
   
-  /**
-   */
   const isSingleColumn = computed(() => {
     // LEARNING: Use element dimensions composable's viewport check helper
     // WHY: Isolates viewport access for better testability

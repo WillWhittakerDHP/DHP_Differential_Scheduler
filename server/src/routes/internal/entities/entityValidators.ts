@@ -1,20 +1,11 @@
-/**
- * Entity Router Validation Utilities
- * 
- */
 
 import { ERROR_MESSAGES, TEMPORARY_ID_PATTERNS } from './entityConstants.js'
 
-/**
- * WHY: Validation result type
-WHY: Enables type-safe validation results with cl...
- */
 export type ValidationResult = 
   | { valid: true }
   | { valid: false; error: string; details?: Record<string, unknown> }
 
 /**
- * PATTERN: Validate entity ID is not a temporary ID
 PATTERN: Check ID against tempo...
  */
 export function validateEntityId(

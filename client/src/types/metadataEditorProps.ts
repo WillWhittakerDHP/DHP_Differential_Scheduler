@@ -1,7 +1,3 @@
-/**
- * Metadata editor props base (P3 type-similarity)
- *
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'

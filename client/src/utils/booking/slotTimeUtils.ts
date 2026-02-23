@@ -1,7 +1,3 @@
-/**
- * Slot Time Utilities
- *
- */
 
 import type { TimeRange } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -21,7 +17,6 @@ export function createTimeRange(startTime: string, duration: number): TimeRange 
 }
 
 /**
- * WHY: Add minutes to a start time
 LEARNING: Helper to add minutes to an ISO st...
  */
 export function addMinutes(startTime: string, minutes: number): string {

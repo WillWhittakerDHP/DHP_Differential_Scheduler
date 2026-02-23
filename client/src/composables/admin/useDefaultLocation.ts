@@ -1,6 +1,3 @@
-/**
- * Composable for default location (address, label, coordinates, placeId)
- */
 import { computed, type WritableComputedRef } from 'vue'
 import type { Coordinates } from '@/configs/availabilitySettings'
 import type { UseDefaultLocationParams } from '@/types/availabilitySettingsParams'

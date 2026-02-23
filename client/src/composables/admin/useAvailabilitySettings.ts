@@ -23,12 +23,6 @@ const logger = createLogger('useAvailabilitySettings')
 /** Valid business hours day indices (0=Sunday .. 6=Saturday). */
 type BusinessHoursDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
-/**
- * Calculate maximum business hours across all days
- * 
- * @param businessHours - Business hours configuration
- * @returns Maximum hours across all days (as number)
- */
 export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['businessHours']): number {
   const { rfc3339ToBusinessHoursHHmm } = useLocalTime()
   return Math.max(
@@ -80,9 +74,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
     return 'hours' in config
   }
 
-  /**
-   * Load settings from API
-   */
   const loadSettings = async (): Promise<void> => {
     loading.value = true
     error.value = null
@@ -173,9 +164,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
     return true
   }
 
-  /**
-   * Save settings to API
-   */
   const saveSettings = async (): Promise<void> => {
     error.value = null
     success.value = null
@@ -312,8 +300,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
     }
   }
 
-  /**
-   */
   const enabled = options?.enabled
   if (enabled) {
     // LEARNING: Watch enabled state and load when tab becomes active

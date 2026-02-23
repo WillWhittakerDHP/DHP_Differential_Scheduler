@@ -1,7 +1,3 @@
-/**
- * CRUD Route Handler Factories
- *
- */
 
 import type { Request, Response } from 'express'
 import type { Model } from 'sequelize'
@@ -51,9 +47,6 @@ function buildFetchAllOptions<T extends Model>(context: CrudHandlerContext<T>): 
   return options
 }
 
-/**
- * GET / - List all resources
- */
 export function createGetAllHandler<T extends Model>(
   context: CrudHandlerContext<T>
 ): (req: Request, res: Response) => Promise<void> {
@@ -78,9 +71,6 @@ export function createGetAllHandler<T extends Model>(
   }
 }
 
-/**
- * GET /:id - Get single resource by ID
- */
 export function createGetByIdHandler<T extends Model>(
   context: CrudHandlerContext<T>
 ): (req: Request, res: Response) => Promise<void> {
@@ -110,9 +100,6 @@ export function createGetByIdHandler<T extends Model>(
   }
 }
 
-/**
- * POST / - Create new resource
- */
 export function createPostHandler<T extends Model>(
   context: CrudHandlerContext<T>
 ): (req: Request, res: Response) => Promise<void> {
@@ -166,9 +153,6 @@ export function createPostHandler<T extends Model>(
   }
 }
 
-/**
- * PUT /:id and PATCH /:id - Full or partial update (unified handler)
- */
 export function createMutationHandler<T extends Model>(
   context: CrudHandlerContext<T>,
   method: MutationMethod
@@ -237,9 +221,6 @@ export function createMutationHandler<T extends Model>(
   }
 }
 
-/**
- * DELETE /:id - Delete resource
- */
 export function createDeleteHandler<T extends Model>(
   context: CrudHandlerContext<T>
 ): (req: Request, res: Response) => Promise<void> {

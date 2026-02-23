@@ -103,8 +103,6 @@ export function useEntityCardActions(
     save: _saveForm
   } = entityFormComposable
   
-  /**
-   */
   const handleSave = async (): Promise<void> => {
     try {
       // Use composable validate method
@@ -139,8 +137,6 @@ export function useEntityCardActions(
     }
   }
   
-  /**
-   */
   const handleUndo = (): void => {
     resetForm()
   }
@@ -152,8 +148,6 @@ export function useEntityCardActions(
     showDeleteDialog.value = true
   }
   
-  /**
-   */
   const handleDelete = async (): Promise<void> => {
     try {
       const entityVal = entity.value as { id: string }
@@ -176,8 +170,6 @@ export function useEntityCardActions(
     showDeleteDialog.value = false
   }
   
-  /**
-   */
   const handleCancel = (): void => {
     onCancelled?.()
   }

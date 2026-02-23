@@ -1,7 +1,3 @@
-/**
- * Property Router Error Handler
- * 
- */
 
 import { Response } from 'express'
 import {
@@ -11,14 +7,6 @@ import {
 } from '../../helpers/routerErrorHandler.js'
 import { ERROR_MESSAGES } from './propertyConstants.js'
 
-/**
- * Handle Sequelize validation errors
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @param defaultMessage - Default error message if error type cannot be determined
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -27,14 +15,6 @@ export function handleSequelizeValidationError(
   return sharedHandleSequelizeValidationError(error, res, defaultMessage)
 }
 
-/**
- * Handle database constraint violations
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param entityId - Optional entity ID (not used for properties, but matches shared handler signature)
- * @returns true if error was handled, false otherwise
- */
 export function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
@@ -64,14 +44,6 @@ export function handleDatabaseConstraintError(
   return false
 }
 
-/**
- * Handle general errors with logging
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -81,14 +53,6 @@ export function handleGeneralError(
   sharedHandleGeneralError(error, res, errorMessage, context)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- */
 export function handleRouteError(
   error: unknown,
   res: Response,

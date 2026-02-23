@@ -1,8 +1,3 @@
-/**
- * Bright MLS API Client
- *
- *
- */
 
 import { createLogger } from '../../utils/logger.js';
 import {
@@ -13,9 +8,6 @@ import { getAccessToken } from './brightMlsAuth.js';
 
 const logger = createLogger('BrightMlsApiClient');
 
-/**
- * Rate limit: 2 req/sec, 40K/day (configurable via env)
- */
 const RATE_LIMIT_PER_SECOND = parseInt(
   process.env.BRIGHT_MLS_RATE_LIMIT_PER_SECOND || '2',
   10
@@ -49,9 +41,6 @@ function applyRateLimit(): void {
   requestsToday += 1;
 }
 
-/**
- * Build OData $filter from address components
- */
 function buildFilter(
   streetNumber: string,
   streetName: string,
@@ -115,15 +104,6 @@ const SELECT_FIELDS = [
   'FireplaceFeatures',
 ].join(',');
 
-/**
- * Search property by address via Bright MLS RESO Web API
- *
- * @param address - Full address string (fallback if components missing)
- * @param city - City
- * @param state - State or province code
- * @param zipCode - Postal code
- * @returns First matching property or null if not found
- */
 export async function searchPropertyByAddress(
   address: string,
   city: string,
@@ -206,10 +186,6 @@ export async function searchPropertyByAddress(
   }
 }
 
-/**
- * Parse street address into number and name
- * Simple heuristic: leading digits = street number
- */
 function parseStreetAddress(address: string): {
   number: string;
   name: string;

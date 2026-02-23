@@ -1,5 +1,4 @@
 /**
- * PATTERN: Shared factory for nested writable computeds bound to formData
 PATTERN: ...
  */
 import { computed, type WritableComputedRef } from 'vue'
@@ -13,10 +12,6 @@ export interface CreateNestedComputedOptions<TValue, TParent> {
   setParent: (parent: TParent) => void
 }
 
-/**
- * Creates a writable computed that reads from optional nested state and writes via ensure/update/set.
- * Caller must pass options that close over formData (or pass formData in getCurrentParent/setParent).
- */
 export function createNestedComputed<TValue, TParent>(
   options: CreateNestedComputedOptions<TValue, TParent>
 ): WritableComputedRef<TValue> {
@@ -34,9 +29,6 @@ export function createNestedComputed<TValue, TParent>(
   })
 }
 
-/**
- * Returns a function that ensures a nested key exists on parent, creating it with createDefault() if missing.
- */
 export function createEnsureNested<TParent extends Record<string, unknown>>(
   ensureParent: (current: TParent | undefined) => TParent,
   key: string,

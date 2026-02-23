@@ -13,20 +13,10 @@ export interface UseAvailabilitySlotColorParams {
 }
 
 export interface UseAvailabilitySlotColorReturn {
-  /**
-   * Color for appointment slot grid
-   */
   slotColor: ComputedRef<'primary' | 'secondary'>
 
-  /**
-   * Function for VDatePicker's :allowed-dates prop
-   *          returns false (disabled) only for days fetched with zero available slots
-   */
   allowedDates: ComputedRef<(date: unknown) => boolean>
 
-  /**
-   * Earliest date (YYYY-MM-DD) with at least one available slot, or null if none found yet
-   */
   firstAvailableDate: ComputedRef<string | null>
 }
 
@@ -40,8 +30,6 @@ export function useAvailabilitySlotColor(
 ): UseAvailabilitySlotColorReturn {
   const { startTimeType, slotsByDay } = params
 
-  /**
-   */
   const slotColor = computed<'primary' | 'secondary'>(() => {
     if (startTimeType.value === 'minor') {
       return 'secondary'
@@ -49,12 +37,6 @@ export function useAvailabilitySlotColor(
     return 'primary'
   })
 
-  /**
-   *   - Normalize the incoming date value to a 'YYYY-MM-DD' key
-   *   - If the day has NOT been fetched yet → allow it (don't block unfetched days)
-   *   - If the day HAS been fetched but every slot is unavailable → disable it
-   *   - If the day has at least one available slot → allow it
-   */
   const allowedDates = computed(() => {
     const slotsMap = slotsByDay.value
 
@@ -72,8 +54,6 @@ export function useAvailabilitySlotColor(
     }
   })
 
-  /**
-   */
   const firstAvailableDate = computed<string | null>(() => {
     const slotsMap = slotsByDay.value
     if (slotsMap.size === 0) return null
@@ -98,10 +78,6 @@ export function useAvailabilitySlotColor(
 }
 
 
-/**
- * WHY: Normalize a VDatePicker date value to 'YYYY-MM-DD' string
-LEARNING: VDat...
- */
 function normalizeDateToKey(date: unknown): string | null {
   if (date instanceof Date) {
     // LEARNING: Use UTC methods to avoid timezone shift issues

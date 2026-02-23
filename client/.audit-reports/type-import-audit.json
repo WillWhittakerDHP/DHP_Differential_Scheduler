@@ -1,68 +1,9 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-23T17:05:27.514Z",
-  "totalScanned": 795,
-  "valueImportFromTypeOnlyFile": [
-    {
-      "file": "server/src/services/brightMls/brightMlsApiClient.ts",
-      "lineNumber": 12,
-      "specifier": "../../types/brightMls.js",
-      "symbol": "BrightMlsPropertyResponse",
-      "sourceFile": "server/src/types/brightMls.ts"
-    },
-    {
-      "file": "server/src/services/brightMls/brightMlsApiClient.ts",
-      "lineNumber": 12,
-      "specifier": "../../types/brightMls.js",
-      "symbol": "BrightMlsODataResponse",
-      "sourceFile": "server/src/types/brightMls.ts"
-    },
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "lineNumber": 14,
-      "specifier": "./mapsTypes.js",
-      "symbol": "AddressComponents",
-      "sourceFile": "server/src/services/google/maps/mapsTypes.ts"
-    },
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "lineNumber": 14,
-      "specifier": "./mapsTypes.js",
-      "symbol": "AutocompletePrediction",
-      "sourceFile": "server/src/services/google/maps/mapsTypes.ts"
-    },
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "lineNumber": 14,
-      "specifier": "./mapsTypes.js",
-      "symbol": "Coordinates",
-      "sourceFile": "server/src/services/google/maps/mapsTypes.ts"
-    },
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "lineNumber": 14,
-      "specifier": "./mapsTypes.js",
-      "symbol": "PlaceDetails",
-      "sourceFile": "server/src/services/google/maps/mapsTypes.ts"
-    },
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "lineNumber": 14,
-      "specifier": "./mapsTypes.js",
-      "symbol": "RouteLocation",
-      "sourceFile": "server/src/services/google/maps/mapsTypes.ts"
-    }
-  ],
+  "generatedAt": "2026-02-23T18:06:45.301Z",
+  "totalScanned": 4,
+  "valueImportFromTypeOnlyFile": [],
   "typeUsedAsValue": [],
-  "files": [
-    {
-      "file": "server/src/services/google/maps/mapsHelpers.ts",
-      "score": 10
-    },
-    {
-      "file": "server/src/services/brightMls/brightMlsApiClient.ts",
-      "score": 4
-    }
-  ],
+  "files": [],
   "suppressionHits": {}
 }

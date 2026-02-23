@@ -61,10 +61,6 @@
 </template>
 
 <script setup lang="ts">
-/**
- * Block Type Form Page
- * 
- */
 
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'

@@ -25,9 +25,6 @@ interface RelationshipKeyConfig {
   childEntity: GlobalEntityKey
 }
 
-/**
- * Pure helper: produce updated GlobalData with one relationship added (for optimistic create).
- */
 function addRelationshipToCache(
   old: GlobalData,
   relationshipKey: GlobalRelationshipKey,
@@ -83,9 +80,6 @@ function addRelationshipToCache(
   }
 }
 
-/**
- * Pure helper: produce updated GlobalData with one relationship removed (for optimistic delete).
- */
 function removeRelationshipFromCache(
   old: GlobalData,
   relationshipKey: GlobalRelationshipKey,
@@ -127,10 +121,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   const { globalData } = useGlobal()
   const endpoint = getRelationshipEndpoint(relationshipKey)
   
-  /**
-   * WHY: /**
-LEARNING: Transform GlobalRelationship[] to FetchedRelationship[] fo...
-   */
   function transformGlobalRelationshipsToFetched(relationships: GlobalRelationship[]): FetchedRelationship[] {
     const fetched: FetchedRelationship[] = []
     
@@ -153,9 +143,6 @@ LEARNING: Transform GlobalRelationship[] to FetchedRelationship[] fo...
     return fetched
   }
   
-  /**
-   * ARCHITECTURAL CHANGE: Removed direct useQuery, now reads from globalData
-   */
   const relationships = computed(() => {
     const data = globalData.value
     if (!data || !data.relationships || !data.relationships[relationshipKey]) {

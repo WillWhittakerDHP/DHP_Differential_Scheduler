@@ -1,13 +1,6 @@
-/**
- * Property Transformer Utilities
- *
- */
 
 import { normalizeToSingle } from './arrayNormalize.js'
 
-/**
- * Property field mappings
- */
 const PROPERTY_FIELD_MAPPINGS = {
   ADDRESS: 'address',
   UNIT: 'unit',
@@ -28,9 +21,6 @@ const PROPERTY_FIELD_MAPPINGS = {
   ADDRESS_ID: 'addressId',
 } as const
 
-/**
- * Transform PropertyVersion with relationships to flat property object
- */
 export function transformPropertyVersion(propertyVersion: unknown): Record<string, unknown> {
   const pv = propertyVersion as Record<string, unknown> & {
     id?: string

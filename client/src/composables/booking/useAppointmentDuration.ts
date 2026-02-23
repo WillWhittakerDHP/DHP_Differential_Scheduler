@@ -30,9 +30,6 @@ export function useAppointmentDuration(
     blockInstances: accumulatedBlockInstances
   })
 
-  /**
-   * NOTE: In differential services, this equals major event duration. In non-differential, equals single event duration.
-   */
   const appointmentDuration = computed<number | null>(() => {
     const shape = appointmentShape.value
     if (!shape) {

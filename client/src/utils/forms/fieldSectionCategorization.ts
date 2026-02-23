@@ -7,11 +7,7 @@ import {
 } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
-/**
- */
 
-/**
- */
 export interface StatusButtonField {
   key: GlobalFieldKey<GlobalEntityKey>
   label: string
@@ -20,8 +16,6 @@ export interface StatusButtonField {
 }
 
 interface CategorizedFields {
-  /**
-   */
   directFields: {
     inline: GlobalFieldKey<GlobalEntityKey>[]
     stacked: GlobalFieldKey<GlobalEntityKey>[]
@@ -42,9 +36,6 @@ interface CategorizeFieldsOptions {
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
-/**
- * 
- */
 export function categorizeFieldsBySection(
   fieldKeys: GlobalFieldKey<GlobalEntityKey>[],
   options?: CategorizeFieldsOptions

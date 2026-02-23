@@ -25,10 +25,6 @@ interface UseBlockInstanceSelectionReturnMultiple {
   selectedBlockIds: ComputedRef<string[]>
 }
 
-/**
- * Generic block instance selection composable
- *
- */
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }
 ): UseBlockInstanceSelectionReturnSingle

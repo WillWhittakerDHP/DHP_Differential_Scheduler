@@ -23,8 +23,6 @@ export function useMetadataFieldUpdates(
 ): UseMetadataFieldUpdatesReturn {
   const { getEffectiveFieldMetadata, pendingChanges } = options
 
-  /**
-   */
   function computeRenderAs(
     dataType: string | undefined,
     inputConfig: Record<string, unknown> | null | undefined,
@@ -64,8 +62,6 @@ export function useMetadataFieldUpdates(
     return 'text'
   }
 
-  /**
-   */
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {
     // PATTERN: Compute renderAs if inputConfig is being updated
     const effectiveMeta = getEffectiveFieldMetadata(fieldKey)

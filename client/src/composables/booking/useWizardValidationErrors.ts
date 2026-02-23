@@ -24,8 +24,6 @@ export interface UseWizardValidationErrorsReturn {
   handleNext: () => Promise<void>
 }
 
-/**
- */
 export function useWizardValidationErrors(
   options: UseWizardValidationErrorsOptions
 ): UseWizardValidationErrorsReturn {

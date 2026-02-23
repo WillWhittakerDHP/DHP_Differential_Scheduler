@@ -82,9 +82,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     return label
   })
 
-  /**
-   * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
-   */
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape || shape.slotShape.eventFinals.length === 0) return 0
@@ -101,9 +98,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     return majorEventFinal?.roundedDuration ?? 0
   })
 
-  /**
-   * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
-   */
   const minorDuration = computed(() => {
     const shape = appointmentShape.value
     if (!shape || shape.slotShape.eventFinals.length === 0) return 0
@@ -120,9 +114,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     return minorEventFinal?.roundedDuration ?? 0
   })
 
-  /**
-   * NOTE: Inspector and the client column label are UI labels for differential scheduling roles (see APPOINTMENTS_TABLE_UI.CLIENT_LABEL)
-   */
   const differentialTimeBlocks = computed(() => {
     if (!majorTimeSlot.value) {
       // PATTERN: Return rounded durations when no time selected (rounding computed at event level)

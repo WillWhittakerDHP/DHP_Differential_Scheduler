@@ -1,7 +1,3 @@
-/**
- * Property Types Router
- * 
- */
 
 import { Router, Request, Response } from 'express'
 import { Op } from 'sequelize'
@@ -18,11 +14,6 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
 
-/**
- * GET /properties/:id/types
- * List all property types for a property version
- * 
- */
 router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = paramString(req, 'id')
@@ -41,15 +32,6 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * POST /properties/:id/types
- * Add a property type to a property version
- * 
- * Request body:
- * - blockInstanceId: UUID of the block_instance (must be BLOCK_SHAPE_NAMES.PROPERTIES block_shape)
- * - orderIndex (optional): Order position
- *
- */
 router.post(
   '/:id/types',
   csrfProtection, // Security middleware: CSRF protection
@@ -111,11 +93,6 @@ router.post(
   }
 )
 
-/**
- * PATCH /properties/:id/types/:typeId
- * Update property type order
- * 
- */
 router.patch(
   '/:id/types/:typeId',
   csrfProtection, // Security middleware: CSRF protection
@@ -145,11 +122,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /properties/:id/types/:typeId
- * Remove property type from property version
- * 
- */
 router.delete(
   '/:id/types/:typeId',
   csrfProtection, // Security middleware: CSRF protection
@@ -174,16 +146,6 @@ router.delete(
   }
 )
 
-/**
- * PUT /properties/:id/types
- * Replace all property types for a property version
- * 
- * Request body:
- * - blockInstanceIds: Array of block_instance UUIDs
- * 
- * 
- * NOTE: Complexity reduction will extract validation and bulk creation logic
- */
 router.put(
   '/:id/types',
   csrfProtection, // Security middleware: CSRF protection

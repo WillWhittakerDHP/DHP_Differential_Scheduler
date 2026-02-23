@@ -1,7 +1,3 @@
-/**
- * WHY: Validation result type
-WHY: Enables type-safe validation results with cl...
- */
 export type ValidationResult =
   | { valid: true }
   | { valid: false; error: string; details?: Record<string, unknown> }

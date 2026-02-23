@@ -87,9 +87,6 @@ function normalizePropertyDetails(propertyDetails: unknown): unknown {
   return propertyDetails ?? null
 }
 
-/**
- * Extract property details from appointment property version
- */
 function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVersion']) {
   const address = propertyVersion?.address
   const details = normalizePropertyDetails(propertyVersion?.propertyDetails)
@@ -100,10 +97,6 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
   }
 }
 
-/**
- * WHY: Extract contacts from appointment attendees
-WHY: Separates contact extra...
- */
 function extractContacts(attendees: AppointmentResponse['attendees']) {
   const attendeesList = safeArray(attendees)
   const clientAttendee = attendeesList.find(
@@ -151,10 +144,6 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
   }
 }
 
-/**
- * WHY: Extract availability from appointment
-WHY: Separates availability extrac...
- */
 function extractAvailability(appointment: AppointmentResponse) {
   const candidateDate = {
     start: appointment.selectedDate ?? null,

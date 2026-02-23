@@ -1,6 +1,3 @@
-/**
- * Composable for capacity settings (max work hours per day, calendar week, rolling week)
- */
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import {

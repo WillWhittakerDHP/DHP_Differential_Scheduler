@@ -1,13 +1,8 @@
-/**
- * Google Maps API Error Handler
- * 
- */
 
 import type { MapsApiErrorType } from './mapsTypes.js'
 import { ERROR_MESSAGES } from './mapsConstants.js'
 
 /**
- * PATTERN: Maps API error class
 PATTERN: Matches CalendarApiError pattern
  */
 export class MapsApiError extends Error {
@@ -20,9 +15,6 @@ export class MapsApiError extends Error {
     this.name = 'MapsApiError'
   }
 
-  /**
-   * Get user-friendly error message
-   */
   getUserMessage(): string {
     const messages: Record<MapsApiErrorType, string> = {
       auth: ERROR_MESSAGES.AUTH,

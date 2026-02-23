@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **0**
-- Requiring review (Tier 1): **0**
+- Files with findings: **1**
+- Requiring review (Tier 1): **10**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **0**
-- Tier 1 findings: 0 (annotations: 0, legacy-keyword: 0, unhelpful-default: 0)
+- Runtime legacy accommodation: **14**
+- Tier 1 findings: 10 (annotations: 0, legacy-keyword: 2, unhelpful-default: 8)
 
 ## Rules
 
@@ -83,8 +83,28 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
+| `server/src/services/invites/inviteOrchestrationService.ts` | P0 | 36 | 0 | 14 |
 
 ## Per-file findings
+
+### `server/src/services/invites/inviteOrchestrationService.ts` [P0] (score: 36)
+
+```
+[LEGACY] fallback-keyword@62: logger.info('No EventInstances found for appointment — using fallback')
+[LEGACY] unhelpful-default-nullish@146: ...(appointment.selectedServiceIds ?? []),
+[LEGACY] unhelpful-default-nullish@147: ...(appointment.selectedPropertyIds ?? []),
+[LEGACY] unhelpful-default-nullish@148: ...(appointment.selectedOptionIds ?? []),
+[LEGACY] unhelpful-default-nullish@301: const appointmentAttendees = appointment.attendees ?? []
+[LEGACY] unhelpful-default-nullish@317: const attendees = appointment.attendees ?? []
+[LEGACY] unhelpful-default-nullish@362: const appointmentAttendees = appointment.attendees ?? []
+[LEGACY] unhelpful-default-nullish@404: const appointmentAttendees = appointment.attendees ?? []
+[LEGACY] unhelpful-default-nullish@503: const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []
+[LEGACY] fallback-keyword@524: eventInstanceId: 'fallback',
+[LEGACY] legacy-keyword@525: eventInstanceName: 'Legacy fallback event',
+[LEGACY] fallback-keyword@534: logger.error('Fallback event creation failed:', error)
+[LEGACY] fallback-keyword@541: eventInstanceId: 'fallback',
+[LEGACY] legacy-keyword@542: eventInstanceName: 'Legacy fallback event',
+```
 
 ## Notes
 

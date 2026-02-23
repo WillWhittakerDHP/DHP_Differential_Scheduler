@@ -1,11 +1,4 @@
-/**
- * Event Perspective Labels Configuration
- * 
- */
 
-/**
- * Event perspective keys (logic values)
- */
 export const EVENT_PERSPECTIVE_KEYS = {
   MAJOR: 'major',
   MINOR: 'minor',

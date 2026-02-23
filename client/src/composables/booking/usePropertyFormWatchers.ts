@@ -45,7 +45,6 @@ export function usePropertyFormWatchers(
   }, { immediate: true })
 
   /**
-   * WHY: /**
 LEARNING: Watch loaded wizard state and populate property details fo...
    */
   if (loadedWizardState) {

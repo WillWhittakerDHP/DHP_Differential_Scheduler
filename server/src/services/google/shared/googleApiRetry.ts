@@ -1,15 +1,8 @@
-/**
- * Google API Retry Utilities
- * 
- */
 
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('GoogleApiRetry')
 
-/**
- * Retry configuration
- */
 export interface RetryConfig {
   maxRetries: number
   initialDelayMs: number
@@ -17,9 +10,6 @@ export interface RetryConfig {
   backoffMultiplier: number
 }
 
-/**
- * Default retry configuration
- */
 export const DEFAULT_RETRY_CONFIG: RetryConfig = {
   maxRetries: 3,
   initialDelayMs: 1000,      // Start with 1 second
@@ -27,22 +17,12 @@ export const DEFAULT_RETRY_CONFIG: RetryConfig = {
   backoffMultiplier: 2,      // Double each time
 }
 
-/**
- * Error type that indicates if an error is retryable
- */
 interface RetryableError {
   retryable: boolean
   type?: string
   message: string
 }
 
-/**
- * Calculate delay for exponential backoff with jitter
- * 
- * @param attempt - Current retry attempt (0-based)
- * @param config - Retry configuration
- * @returns Delay in milliseconds
- */
 function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
   const baseDelay = Math.min(
     config.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),
@@ -103,6 +83,5 @@ export async function withRetry<T>(
     }
   }
   
-  // Should never reach here, but TypeScript needs this
   throw lastError || new Error('Retry failed')
 }

@@ -8,13 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidCascade Model
- * 
- * Represents valid cascade relationships between block shapes.
- * Cascade relationships are vertical hierarchy relationships (different shapes, e.g., user_shape → service).
- * 
- */
 export class ValidCascade extends Model<
   InferAttributes<ValidCascade>,
   InferCreationAttributes<ValidCascade>

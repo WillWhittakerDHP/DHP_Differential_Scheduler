@@ -36,9 +36,6 @@ function resolveEditable(isEditable: ComputedRef<boolean> | boolean): boolean {
   return typeof isEditable === 'boolean' ? isEditable : isEditable.value
 }
 
-/**
- *      must not trigger those. Tab is intentionally not stopped so focus can move.
- */
 export function useFieldKeyboardGuard(
   options: UseFieldKeyboardGuardOptions
 ): UseFieldKeyboardGuardReturn {

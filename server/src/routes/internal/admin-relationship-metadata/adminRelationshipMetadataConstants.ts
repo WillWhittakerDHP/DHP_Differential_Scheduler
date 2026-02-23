@@ -1,16 +1,9 @@
-/**
- * Admin Relationship Metadata Router Constants
- *
- */
 
 import {
   createRequiredFields,
   RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE,
 } from '../admin-metadata/adminMetadataConstants.js'
 
-/**
- * Valid entity types for admin relationship metadata
- */
 export const VALID_ENTITY_TYPES = [
   'blockShape',
   'partShape',
@@ -18,9 +11,6 @@ export const VALID_ENTITY_TYPES = [
   'partInstance',
 ] as const
 
-/**
- * Error messages for admin relationship metadata operations
- */
 export const ERROR_MESSAGES = {
   FETCH_METADATA: 'Failed to fetch relationship metadata',
   CREATE_UPDATE_METADATA: 'Failed to create/update relationship metadata',
@@ -35,9 +25,6 @@ export const ERROR_MESSAGES = {
 /** Required fields for metadata creation/update (same shape as admin metadata, relationshipKey-based) */
 export const REQUIRED_FIELDS = createRequiredFields(RELATIONSHIP_METADATA_REQUIRED_FIELDS_CREATE_UPDATE)
 
-/**
- * RenderAs values that require inputConfig
- */
 export const RENDER_AS_REQUIRING_INPUT_CONFIG = [
   'select',
   'multiselect',

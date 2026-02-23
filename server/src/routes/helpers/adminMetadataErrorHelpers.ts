@@ -1,7 +1,3 @@
-/**
- * Shared admin metadata error handling
- *
- */
 
 import type { Response } from 'express'
 import {

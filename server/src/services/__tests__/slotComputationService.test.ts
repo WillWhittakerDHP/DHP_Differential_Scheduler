@@ -83,9 +83,6 @@ describe('slotComputationService', () => {
     })
 
     it('drive-from buffer is anchored at event end, not at OOO end', () => {
-      /**
-       * // Event 10:00–12:00 UTC, driveFrom 20 min → buffer 12:00–12:20 UTC
-       */
       const dateRange = { start: '2026-02-10T00:00:00.000Z', end: '2026-02-11T00:00:00.000Z' }
       const hours = businessHoursAllDays()
       const constraints: Constraint[] = [

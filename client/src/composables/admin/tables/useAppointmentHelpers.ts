@@ -1,10 +1,4 @@
-/**
- * Helper functions for appointment table display
- */
 
-/**
- * Status color mapping function
- */
 export function getStatusColor(status: string): string {
   const colorMap: Record<string, string> = {
     started: 'blue',
@@ -19,9 +13,6 @@ export function getStatusColor(status: string): string {
   return colorMap[status] || 'default'
 }
 
-/**
- * User role color mapping function
- */
 export function getRoleColor(role: string | undefined): string {
   if (!role) return 'default'
   const colorMap: Record<string, string> = {

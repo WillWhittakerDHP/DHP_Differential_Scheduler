@@ -1,13 +1,6 @@
-/**
- * Business Rules Router Constants
- * 
- */
 
 import type { RuleType } from '../../db/models/admin/business_rule.js'
 
-/**
- * Error messages for business rules operations
- */
 export const ERROR_MESSAGES = {
   FETCH_BUSINESS_RULES: 'Failed to fetch business rules',
   FETCH_BUSINESS_RULE: 'Failed to fetch business rule',
@@ -21,16 +14,10 @@ export const ERROR_MESSAGES = {
   INVALID_RULE_TYPE: 'Invalid ruleType',
 } as const
 
-/**
- * Required fields for business rules
- */
 export const REQUIRED_FIELDS = {
   CREATE: ['blockInstanceId', 'ruleType', 'ruleConfig'] as const,
 } as const
 
-/**
- * Valid rule types
- */
 export const VALID_RULE_TYPES: RuleType[] = [
   'required_fields',
   'requires_agent',

@@ -1,5 +1,3 @@
-/**
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'

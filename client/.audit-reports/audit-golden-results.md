@@ -5,19 +5,21 @@
 
 # Audit Golden Sample Results
 
-Generated: 2026-02-23T16:50:13.622Z
+Generated: 2026-02-23T18:03:16.400Z
 
 ## Summary
 
 | Passed | Failed | Skipped |
 | ---: | ---: | ---: |
-| 3 | 1 | 0 |
+| 5 | 1 | 0 |
 
 ## Per rule
 
 | Audit | Rule | Status | TP det | TP total | FP det | Precision | Recall |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| error-handling | empty-catch | failed | 0 | 1 | 0 | 1 | 0 |
-| type-escape | as-any | passed | 1 | 1 | 0 | 1 | 1 |
-| type-escape | ts-ignore | passed | 1 | 1 | 0 | 1 | 1 |
+| error-handling | catch-without-logger | passed | 1 | 1 | 0 | 1 | 1 |
+| error-handling | empty-catch | passed | 1 | 1 | 0 | 1 | 1 |
+| type-escape | as-any | passed | 2 | 2 | 0 | 1 | 1 |
+| type-escape | as-unknown-as | passed | 1 | 1 | 0 | 1 | 1 |
+| type-escape | ts-ignore | failed | 0 | 1 | 0 | 1 | 0 |
 | type-import | type-used-as-value | passed | 1 | 1 | 0 | 1 | 1 |

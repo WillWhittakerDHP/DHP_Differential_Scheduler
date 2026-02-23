@@ -9,9 +9,6 @@ import type { EntityCardSharedProps } from '@/components/admin/generic/entityCar
 /** Extends EntityCardSharedProps for single source of truth (TYPE_SIMILARITY 1.10). */
 export interface UseEntityCardSaveStateOptions extends EntityCardSharedProps {
   form: FormContext
-  /**
-   * Function to get current entity values for reset
-   */
   getEntityValues: () => Record<string, unknown>
 }
 
@@ -72,8 +69,6 @@ export function useEntityCardSaveState(
     statusButtonChanges.value.clear()
   }
   
-  /**
-   */
   const isStatusButtonChanged = (fieldKey: string): boolean => {
     return statusButtonChanges.value.has(fieldKey)
   }

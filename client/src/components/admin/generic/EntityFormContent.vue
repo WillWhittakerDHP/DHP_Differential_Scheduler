@@ -25,7 +25,6 @@ interface Props {
   entityId?: GlobalEntityId
   form: FormContext<Record<string, unknown>>
   /**
-   * WHY: /**
 WHY: In dialogs, titleField should be rendered as a form field (moda...
    */
   modalMode?: boolean

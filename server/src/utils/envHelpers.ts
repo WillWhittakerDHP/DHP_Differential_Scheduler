@@ -1,7 +1,3 @@
-/**
- * Environment helper utilities
- *
- */
 
 import { NODE_ENV } from '../constants/appConstants.js'
 

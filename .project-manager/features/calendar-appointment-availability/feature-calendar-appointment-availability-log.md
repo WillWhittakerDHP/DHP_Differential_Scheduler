@@ -9,7 +9,7 @@
 ## Feature Status
 
 **Feature:** calendar-appointment-availability
-**Status:** Reopened (Phases 3.1–3.5)
+**Status:** Complete
 **Started:** 2025-02-01
 **Completed:** 2026-02-21
 
@@ -171,6 +171,85 @@
 - Future enhancement: status transition calendar event updates (reschedule, cancel existing events)
 
 ---
+
+## Feature Completion Summary
+
+**Feature:** calendar-appointment-availability
+**Completed:** 2026-02-23
+
+### Completed Phases
+
+## Completed Phases
+
+### Phase 3.1: Server-Side Slot Computation ✅
+**Completed:** ~2026-01 (built alongside Feature 2)
+**Key Accomplishments:**
+- `computedAvailabilityService.ts` — Main orchestrator (419 lines)
+- `slotComputationService.ts` — Slot generation with constraint checking
+- `capacityComputer.ts` — Pre-computes scheduled hours
+- `constraintExtractor.ts` — Extracts constraints from DB settings
+- `availabilityRouter.ts` — API endpoint
+- Shared types in `shared/types/availabilityTypes.ts`
+
+**Decisions Made:**
+- Violation key system: `range.leadTime`, `overlap.event.direct`, `capacity.daily`, etc.
+- Three capacity types: daily, calendar week, rolling week
+
+### Phase 3.2: Client-Side Calendar UI ✅
+**Completed:** ~2026-01 (built alongside Feature 2)
+**Key Accomplishments:**
+- Vuetify date picker with differential graph bars
+- 14-day prefetch with per-day fallback
+- Orchestrator pattern coordinating 10+ composables
+- Slot color coding and constraint visualization
+- Admin-configurable settings (capacity, buffers, availability rules)
+
+**Decisions Made:**
+- Orchestrator composable pattern over monolithic composable
+- 14-day prefetch balances UX with API efficiency
+
+### Phase 3.3: Differential Scheduling & Slot Selection ✅
+**Completed:** ~2026-01 (built alongside Feature 2)
+**Key Accomplishments:**
+- Appointment shape applied to available slots
+- Major/minor perspective differential scheduling
+- Graph bar visualization
+- Slot selection integrated with wizard state
+
+### Phase 3.4: Wizard Integration & End-to-End Flow ✅
+**Completed:** ~2026-01 (built alongside Feature 2)
+**Key Accomplishments:**
+- Complete end-to-end flow from property selection to slot selection
+- Validation and navigation working
+- Selected time slots available in confirmation step
+
+---
+
+
+### Key Decisions
+
+## Key Decisions
+
+### Decision: Server-Side Computation
+**Context:** Whether to compute availability slots on server or client
+**Decision:** Server-side computation
+**Rationale:** Security (constraints not exposed to client), consistency (single source of truth), reduced client bundle size
+**Impact:** All slot computation happens in `computedAvailabilityService.ts`; client receives pre-computed slots
+
+### Decision: Violation Key System
+**Context:** How to represent why a slot is blocked
+**Decision:** String-based violation keys (e.g. `range.leadTime`, `capacity.daily`)
+**Rationale:** Extensible, human-readable, can be stored in DB for override tracking
+**Impact:** Reused by Feature 6.7 (Force-Create) for constraint override records
+
+### Decision: 14-Day Prefetch
+**Context:** How much availability data to fetch upfront
+**Decision:** 14-day sliding window with per-day fallback
+**Rationale:** Balances smooth UX (no loading on date change) with API efficiency
+**Impact:** `useComputedAvailability.ts` watches placeId/duration changes and auto-fetches
+
+---
+
 
 ## Related Documents
 

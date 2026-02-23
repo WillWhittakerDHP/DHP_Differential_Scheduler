@@ -1,6 +1,3 @@
-/**
- * WHY: Encapsulates business logic for filtering fields based on conditions (co...
- */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

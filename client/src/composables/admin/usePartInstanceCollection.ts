@@ -40,7 +40,6 @@ export interface PartInstanceCollectionModel {
 }
 
 /**
- * WHY: usePartInstanceCollection
 LEARNING: Collection-level composable for Part...
  */
 export function usePartInstanceCollection(
@@ -78,7 +77,6 @@ export function usePartInstanceCollection(
   })
 
   /**
-   * WHY: /**
 LEARNING: Inline creation state for placeholder cards
 PATTERN: Separ...
    */

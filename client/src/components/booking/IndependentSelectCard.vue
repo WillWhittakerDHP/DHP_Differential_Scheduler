@@ -1,9 +1,4 @@
 <script setup lang="ts">
-/**
- * WHY: IndependentSelectCard Component
-
-WHY: Simpler than nested rendering - in...
- */
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectionCardItem, SelectionCardConfig } from './types/selectionCardTypes'
@@ -172,8 +167,6 @@ const contentClasses = computed(() => {
 </template>
 
 <style scoped lang="scss">
-/**
- */
 .independent-select-card {
   transition: all 0.2s ease-in-out;
   

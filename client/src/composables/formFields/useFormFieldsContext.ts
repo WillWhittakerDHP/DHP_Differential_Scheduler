@@ -96,13 +96,6 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
     return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))
   })
 
-  /**
-   */
-  /**
-   *      fieldType is purely about the data type (text, number, boolean, date, textarea)
-   * NOTE: Component dispatcher determines if PrimitiveInputs renders BooleanInput vs TextInput
-   *       based on renderAs. fieldType here is just about the underlying data type.
-   */
   const getFieldTypeFromMetadata = (meta: FieldMetadataEntry): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['displayConfig']['fieldType'] => {
     // PATTERN: Base fieldType on dataType only
     

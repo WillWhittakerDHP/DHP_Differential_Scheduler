@@ -1,5 +1,3 @@
-/**
- */
 
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 

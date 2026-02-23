@@ -24,8 +24,6 @@ WHY: Extracts config merging logic fr...
 export function useSelectionCardConfig(params: UseSelectionCardConfigParams): UseSelectionCardConfigReturn {
   const { config } = params
 
-  /**
-   */
   const configWithDefaults = computed<SelectionCardConfig>(() => {
     return mergeSelectionCardConfigWithDefaults(unref(config))
   })

@@ -30,8 +30,6 @@ export function useEntityTabState<EntityKey extends GlobalEntityKey>(
     dragHandlers
   } = options
   
-  /**
-   */
   watch(filteredEntities, () => {
     dragHandlers.syncArrays()
   }, { immediate: true })

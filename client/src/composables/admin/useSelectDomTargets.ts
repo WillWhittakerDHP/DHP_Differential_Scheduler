@@ -34,8 +34,6 @@ export function useSelectDomTargets(
 ): UseSelectDomTargetsReturn {
   const { fieldContext, shouldUseMultipleSelects, groupedByKey } = options
 
-  /**
-   */
   const selectDomTargets = computed(() => {
     const fieldKeyString = String(fieldContext.fieldKey)
 

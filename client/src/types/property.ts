@@ -1,10 +1,6 @@
 import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
-/**
- * WHY: TypeScript interfaces for property API data with three-table structure
-W...
- */
 export interface PropertyRequest extends PropertyAddressBase {
   placeId?: string | null
   latitude?: number | null
@@ -31,9 +27,6 @@ export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBa
   propertyTypes?: PropertyVersionType[]
 }
 
-/**
- * PropertyVersionType interface
- */
 export interface PropertyVersionType {
   id: string;
   propertyVersionId: string;

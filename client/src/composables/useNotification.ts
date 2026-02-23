@@ -27,7 +27,6 @@ PATTERN: Composable that returns shared reactive...
  */
 export function useNotification() {
   /**
-   * WHY: /**
 WHY: Sets notification state and shows snackbar
 PATTERN: Function th...
    */
@@ -71,7 +70,6 @@ PATTERN: Function th...
   }
 
   /**
-   * WHY: /**
 LEARNING: Reset notification state immediately (for testing)
 WHY: Cl...
    */

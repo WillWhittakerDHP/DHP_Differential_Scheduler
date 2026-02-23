@@ -1,7 +1,3 @@
-/**
- * Relationship Router Helper Functions
- * 
- */
 
 import {
   BlockInstance,
@@ -16,9 +12,6 @@ import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind, ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
-/**
- * Map annotation assignment API fields to model-specific field names
- */
 export function mapAnnotationAssignmentsFields(
   parentId: string,
   childId: string
@@ -29,9 +22,6 @@ export function mapAnnotationAssignmentsFields(
   }
 }
 
-/**
- * Map attendee assignment API fields to model-specific field names
- */
 export function mapAttendeeAssignmentsFields(
   parentId: string,
   childId: string
@@ -42,9 +32,6 @@ export function mapAttendeeAssignmentsFields(
   }
 }
 
-/**
- * Map event assignment API fields; resolves parent kind (partInstance vs blockInstance)
- */
 async function mapEventAssignmentsFields(
   parentId: string,
   childId: string
@@ -60,15 +47,6 @@ async function mapEventAssignmentsFields(
   throw new Error(`Parent ID ${parentId} is not a valid PartInstance or BlockInstance for eventAssignments`)
 }
 
-/**
- * Helper function to map generic parent_id/child_id to model-specific field names
- *
- *
- * @param relationshipKind - Relationship kind
- * @param parentId - Parent ID
- * @param childId - Child ID
- * @returns Record with model-specific field names
- */
 export async function mapRelationshipFields(
   relationshipKind: RelationshipKind,
   parentId: string,
@@ -86,9 +64,6 @@ export async function mapRelationshipFields(
   }
 }
 
-/**
- * Get child instance IDs for a given parent in the component graph
- */
 async function getComponentChildIds(instanceId: string): Promise<string[]> {
   const parents = await InstanceComponent.findAll({
     attributes: getModelAttributes(InstanceComponent),
@@ -100,14 +75,6 @@ async function getComponentChildIds(instanceId: string): Promise<string[]> {
   return parents.map(parent => parent.childId)
 }
 
-/**
- * Helper function to check for circular references in component relationships
- *
- *
- * @param parentId - Parent ID to check
- * @param childId - Child ID to check
- * @returns true if circular reference would be created
- */
 export async function hasCircularReference(
   parentId: string,
   childId: string
@@ -273,12 +240,6 @@ export async function validateAttendeeAssignmentEntities(
   }
 }
 
-/**
- * Update block instance active state for component relationships
- * 
- * @param parentId - Parent block instance ID
- * @param childId - Child block instance ID
- */
 export async function updateComponentActiveStates(
   parentId: string,
   childId: string

@@ -98,7 +98,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
   }
   
   /**
-   * WHY: /**
 LEARNING: Watch distribution strategy and initialize manual values w...
    */
   watch(distributionStrategy, (newStrategy) => {
@@ -123,7 +122,6 @@ LEARNING: Watch distribution strategy and initialize manual values w...
   })
   
   /**
-   * WHY: /**
 LEARNING: Watch modal open state and reset when modal opens
 PATTERN:...
    */

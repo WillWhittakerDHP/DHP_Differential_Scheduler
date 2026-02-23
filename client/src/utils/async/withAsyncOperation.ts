@@ -1,6 +1,3 @@
-/**
- * WHY: Wrapper for async operations with loading, error, and optional success s...
- */
 import type { Ref } from 'vue'
 import type { Logger } from '@/utils/logger'
 

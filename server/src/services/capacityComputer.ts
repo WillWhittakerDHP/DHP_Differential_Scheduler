@@ -1,12 +1,3 @@
-/**
- * Capacity Computer Service
- * 
- * 
- * Phase 3: Server-Side Computed Availability Data Refactor
- * - Pre-computes capacity hours for all dates in requested range
- * - Returns Record<string, number> keyed by capacity key string
- * - Reuses existing availabilitiesDbUtils functions
- */
 
 import type { CapacityConstraint } from '../../../shared/types/availabilityTypes.js'
 import { TIME_BASIS_TYPES } from '../../../shared/constants/constraintConstants.js'
@@ -30,9 +21,6 @@ export interface ScheduledCapacityResult {
   scheduledIncomeByKey: Record<string, number>
 }
 
-/**
- * WHY: Pre-compute scheduled hours and income for all capacity constraints in a...
- */
 export async function computeScheduledHoursForRange(
   dateRange: { start: string; end: string },
   capacityConstraints: CapacityConstraint[]

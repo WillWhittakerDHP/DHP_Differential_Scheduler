@@ -1,5 +1,4 @@
 /**
- * PATTERN: Property Enrichment Cache
 PATTERN: Same pattern as driveTimeCache.ts
  */
 import type { PropertyEnrichmentResponse } from '../types/brightMls.js';
@@ -20,9 +19,6 @@ const CACHE_TTL_MINUTES = parseInt(
 );
 const TTL = CACHE_TTL_MINUTES * 60 * 1000;
 
-/**
- * Normalize address for cache key
- */
 export function normalizeAddressForCache(address: string): string {
   return address
     .toLowerCase()

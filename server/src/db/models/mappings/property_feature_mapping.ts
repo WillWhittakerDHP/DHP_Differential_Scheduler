@@ -1,7 +1,3 @@
-/**
- * Property Feature Mapping Model
- *
- */
 
 import {
   Model,

@@ -14,8 +14,8 @@ Generated from `client/.audit-reports/component-logic-audit.json`.
 | `client/src/views/admin/tabs/BusinessRulesTab.vue` | P1 | 10 | 1 | 3 | 4 | 2 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/beta/BetaFeedbackModal.vue` | P1 | 8 | 1 | 1 | 2 | 0 | 0 | 4 | 0 | 0 | 0 |
 | `client/src/components/common/AddressAutocomplete.vue` | P1 | 8 | 1 | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/views/admin/tabs/InstancesTab.vue` | P1 | 8 | 1 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1 |
 | `client/src/components/admin/generic/EntityCard.vue` | P2 | 6 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/tabs/InstancesTab.vue` | P2 | 6 | 1 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 1 |
 | `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P2 | 5 | 0 | 2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P2 | 4 | 0 | 1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 4 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 |

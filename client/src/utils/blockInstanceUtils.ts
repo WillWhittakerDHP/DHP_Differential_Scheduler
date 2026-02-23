@@ -1,7 +1,3 @@
-/**
- * Block Instance Utilities
- * 
- */
 
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
@@ -74,13 +70,6 @@ export function getBlockShapeIdByType(
   return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
 }
 
-/**
- * 
- * @param currentName - Current name of the source entity
- * @param blockShapeRef - BlockShape ID to filter instances
- * @param getEntitiesByKey - Function to get all block instances
- * @returns Incremented name like "Name 1", "Name 2", etc.
- */
 export function generateIncrementedName(
   currentName: string,
   blockShapeRef: string,

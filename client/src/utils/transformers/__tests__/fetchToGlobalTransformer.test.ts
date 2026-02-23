@@ -1,8 +1,3 @@
-/**
- * Tests for fetchToGlobalTransformer: stageForHydration, hydrate, dehydrateEntity.
- * Covers: API batch response shape, empty/error handling, entity orderIndex sort, relationship hydration.
- * Dependencies: vitest, mocked api (batch endpoints).
- */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GlobalTransformer } from '../fetchToGlobalTransformer'

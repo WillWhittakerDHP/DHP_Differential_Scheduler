@@ -10,12 +10,8 @@ import {
 export type UseFormElementPatchingOptions = FormElementPatchingOptionsBase
 
 export interface UseFormElementPatchingReturn {
-  /**
-   */
   tryPatchFormImmediately: () => boolean
   
-  /**
-   */
   patchFormFromRef: () => void
 }
 
@@ -29,14 +25,10 @@ export function useFormElementPatching(
   } = options
   let cleanupObserver: (() => void) | null = null
   
-  /**
-   */
   const tryPatchFormImmediately = (): boolean => {
     return tryPatchFormImmediatelyBySelector(formSelector)
   }
   
-  /**
-   */
   const patchFormFromRef = (): void => {
     void patchFormFromVFormRef(formRef, formSelector)
   }

@@ -1,7 +1,3 @@
-/**
- *      Follows entity pattern: single composer for unified metadata
- * NOTE: Returns merged metadata as single Record (primitives + relationships together)
- */
 
 import { AdminMetadata } from '../db/models/admin/adminMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
@@ -102,10 +98,6 @@ export async function getAdminMetadata(
 }
 
 
-/**
- * WHY: Build metadata record from array of metadata entries
-LEARNING: Convert a...
- */
 function buildMetadataRecord(
   metadata: Array<{
     fieldKey: string;

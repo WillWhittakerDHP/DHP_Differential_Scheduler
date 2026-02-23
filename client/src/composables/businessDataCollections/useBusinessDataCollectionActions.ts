@@ -1,12 +1,3 @@
-/**
- * Business Data Collection Actions Composable
- * 
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- * ARCHITECTURAL DECISION: Optimistic + refetchQueries pattern
- * - Optimistic: Update cache immediately for instant UI feedback
- * - RefetchQueries: Ensure cache consistency with server
- */
 
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'

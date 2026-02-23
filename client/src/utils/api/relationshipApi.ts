@@ -1,6 +1,3 @@
-/**
- * Relationship API endpoint builders
- */
 
 export function getRelationshipEndpoint(relationshipKey: string): string {
   return `/relationships/${relationshipKey}`

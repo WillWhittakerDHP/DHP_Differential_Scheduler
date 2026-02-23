@@ -102,7 +102,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   })
 
   /**
-   * WHY: /**
 LEARNING: Helper function to check if a block instance is composable...
    */
   const isComposableBlock = (blockInstance: BookingBlockInstance | null): boolean => {

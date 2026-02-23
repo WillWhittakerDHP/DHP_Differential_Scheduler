@@ -1,7 +1,3 @@
-/**
- * Main Application Entry Point
- * 
- */
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -77,8 +73,6 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
-  /**
-   */
   const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
     if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
       patchFormElements(element as HTMLFormElement)
@@ -152,10 +146,8 @@ app.use(VueQueryPlugin, {
   queryClient: queryClient,
 })
 
-// 3. Layouts (requires Pinia, so must come after)
 app.use(createLayouts(layoutConfig as PartialDeep<typeof layoutConfig, NonNullable<unknown>>))
 
-// 4. Vuetify (requires layouts for cookieRef, so must come after layouts)
 const cookieThemeValues = {
   defaultTheme: resolveVuetifyTheme(themeConfig.app.theme),
   themes: {

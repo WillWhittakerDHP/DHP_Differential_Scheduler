@@ -93,8 +93,6 @@ const admin = useAdmin()
 
 const tempEntityId = ref<string>(`new-${Date.now()}`)
 
-/**
- */
 const modalTitle = computed(() => {
   return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
 })
@@ -103,9 +101,6 @@ const createButtonText = computed(() => {
   return props.sourceEntity ? 'Duplicate' : 'Create'
 })
 
-/**
- * NOTE: Uses stable tempEntityId ref to avoid regenerating ID on every computed evaluation
- */
 const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   if (props.sourceEntity) {
     const sourceName = props.sourceEntity.name
@@ -136,8 +131,6 @@ watch(() => props.modelValue, (isOpen) => {
   }
 })
 
-/**
- */
 const canSave = computed(() => {
   if (!entityCardRef.value?.form) {
     return false

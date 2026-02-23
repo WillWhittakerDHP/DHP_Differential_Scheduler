@@ -1,7 +1,3 @@
-/**
- * Property Field Mapper
- *
- */
 
 import type { PropertyDetailsBase } from '../../../shared/types/propertyTypes.js'
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
@@ -12,9 +8,6 @@ import { asEmptyString } from '../utils/safeDefaults.js'
 /** TYPE_SIMILARITY: Extend shared PropertyDetailsBase as single source of truth. */
 export type PartialPropertyDetails = PropertyDetailsBase
 
-/**
- * Map RESO response to Partial<PropertyDetails> using DB mappings and built-in defaults
- */
 export function mapFieldsToModel(
   response: BrightMlsPropertyResponse,
   mappings: PropertyFieldMapping[]

@@ -1,7 +1,3 @@
-/**
- * Google Calendar Event Creation Service
- * 
- */
 
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
@@ -14,14 +10,6 @@ import { DEFAULT_SEND_UPDATES } from './calendarConstants.js'
 
 const logger = createLogger('EventCreationService')
 
-/**
- * Create a calendar event with optional invitations
- * 
- * 
- * @param params - Event creation parameters
- * @returns Created event details
- * @throws CalendarApiError if creation fails after retries
- */
 export async function createEvent(params: CreateEventParams): Promise<CreatedEventResponse> {
   const {
     calendarId,
@@ -136,7 +124,6 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
         sendUpdates
       }
 
-      // conferenceDataVersion is required when creating Meet links
       if (addConferenceLink) {
         insertParams.conferenceDataVersion = 1
       }

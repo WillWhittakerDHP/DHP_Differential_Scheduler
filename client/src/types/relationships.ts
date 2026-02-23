@@ -1,7 +1,3 @@
-/**
- * Relationship Types
- * 
- */
 
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from './entities'
@@ -37,16 +33,10 @@ export type GlobalRelationship<
   children: GlobalEntity<C>[]
 }
 
-/**
- * Base for relationship payload and instance component (P2 type-similarity).
- */
 export interface CreateRelationshipPayloadBase {
   parentId: GlobalEntityId
   childId: GlobalEntityId
 }
 
-/**
- * Relationship creation payload
- */
 export type CreateRelationshipPayload = CreateRelationshipPayloadBase
 

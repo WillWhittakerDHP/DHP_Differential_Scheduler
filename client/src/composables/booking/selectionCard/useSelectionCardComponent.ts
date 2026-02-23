@@ -32,14 +32,10 @@ export function useSelectionCardComponent(params: UseSelectionCardComponentParam
     controlClasses
   } = params
 
-  /**
-   */
   const selectionComponentName = computed(() => {
     return getSelectionComponentName(configWithDefaults.value)
   })
 
-  /**
-   */
   const selectionComponentProps = computed(() => {
     return buildSelectionComponentProps({
       itemId: item.value.id,

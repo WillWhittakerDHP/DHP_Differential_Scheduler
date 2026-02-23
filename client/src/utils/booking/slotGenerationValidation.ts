@@ -1,9 +1,3 @@
-/**
- * Slot Generation Validation Utility
- * 
- * 
- * P2-5: Created to consolidate slot generation validation from multiple locations
- */
 
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'

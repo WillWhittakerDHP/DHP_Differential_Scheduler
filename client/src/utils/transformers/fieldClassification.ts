@@ -1,7 +1,3 @@
-/**
- * Field Classification for Dehydrate
- *
- */
 
 import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
@@ -27,9 +23,6 @@ function isReferenceField(
   )
 }
 
-/**
- * Build field classification sets for dehydrateEntity from entity type and metadata.
- */
 export function buildFieldClassificationSets(
   entityType: string,
   metadata: Record<string, FieldMetadataEntry>
@@ -87,9 +80,6 @@ export function buildFieldClassificationSets(
   }
 }
 
-/**
- * Transform a single field entry for dehydrate (frontend → API).
- */
 export function transformFieldForDehydrate(
   [frontendKey, value]: [string, unknown],
   fieldSets: DehydrateFieldSets,

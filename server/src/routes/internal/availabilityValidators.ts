@@ -1,7 +1,3 @@
-/**
- * Availability Router Validation Utilities
- * 
- */
 
 import type { ValidationResult } from '../helpers/routerValidators.js'
 import { ERROR_MESSAGES } from './availabilityConstants.js'

@@ -44,8 +44,6 @@ export function useSelectInputsAsync(
       .filter((id): id is string => id !== '' && id !== '__NULL__')
   })
 
-  /**
-   */
   const handleQuickSelectMajor = async (): Promise<void> => {
     const majorIds = quickSelect.selectMajor(validOptionIds.value)
     if (majorIds.length > 0) {
@@ -53,8 +51,6 @@ export function useSelectInputsAsync(
     }
   }
 
-  /**
-   */
   const handleQuickSelectMinor = async (): Promise<void> => {
     const minorIds = quickSelect.selectMinor(validOptionIds.value)
     if (minorIds.length > 0) {
@@ -62,8 +58,6 @@ export function useSelectInputsAsync(
     }
   }
 
-  /**
-   */
   const handleQuickSelectAll = async (): Promise<void> => {
     const allIds = quickSelect.selectAll(validOptionIds.value)
     if (allIds.length > 0) {

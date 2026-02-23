@@ -1,1 +1,1 @@
-const x = bad
+const x: number = 'bad'

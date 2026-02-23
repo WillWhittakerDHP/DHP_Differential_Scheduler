@@ -48,8 +48,6 @@ export function useEntityCardLayout(
     formContentRef
   } = options
   
-  /**
-   */
   const fields = computed<FieldsByLayout>(() => {
     if (!formContentRef.value) {
       return { inline: [], stacked: [] }
@@ -61,8 +59,6 @@ export function useEntityCardLayout(
     }
   })
   
-  /**
-   */
   const getFieldContext = (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
   ): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined => {
@@ -70,8 +66,6 @@ export function useEntityCardLayout(
     return formContentRef.value.getFieldContext?.(fieldKey)
   }
   
-  /**
-   */
   const shouldRenderFields = computed(() => {
     const fieldData = fields.value
     return fieldData.inline.length > 0 || fieldData.stacked.length > 0

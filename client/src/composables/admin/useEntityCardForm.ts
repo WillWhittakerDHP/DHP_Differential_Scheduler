@@ -26,10 +26,6 @@ export interface UseEntityCardFormReturn {
   form: Ref<FormContext | undefined>
 }
 
-/**
- * Owns form for entity-card flow: create + setValues + store sync when no form provided.
- * Returns a ref so useFormFields and useEntityCardActions receive stable form reference.
- */
 export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
   options: UseEntityCardFormOptions<GE>
 ): UseEntityCardFormReturn {

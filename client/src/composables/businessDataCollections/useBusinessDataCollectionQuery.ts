@@ -1,9 +1,3 @@
-/**
- * Business Data Collection Query Composable
- * 
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- */
 
 import { computed, type ComputedRef } from 'vue'
 import { useBusiness } from '@/composables/useBusiness'
